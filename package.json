@@ -1,0 +1,8 @@
+{
+  "name": "testWeb",
+  "version": "1.0.0",
+  "description": "project test web",
+  "main": "src/server.ts",
+  "author": "Doan Phan",
+  "license": "MIT"
+}
