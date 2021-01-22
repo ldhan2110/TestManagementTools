@@ -1,3 +1,4 @@
+import IPagination from './pagination.interface';
 import Route from './routes.interface';
 
-export { Route }; // sẽ export tập trung ở đây
+export { Route, IPagination };
