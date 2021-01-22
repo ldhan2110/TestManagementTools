@@ -1,11 +1,12 @@
-import { Route } from 'core/interfaces';
+import { Route } from '@core/interfaces';
 import express from 'express';
 import mongoose from 'mongoose';
 import hpp from 'hpp';
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
-import { Logger } from '../utils';
+import { Logger } from '@core/utils';
+import { errorMiddleware } from '@core/middleware';
 
 class App{
     public app: express.Application;
@@ -16,10 +17,11 @@ class App{
         this.app = express();
         this.port = process.env.PORT || 5000;
         this.production = process.env.NODE_ENV == 'production' ? true : false; 
-
-        this.initializeRoutes(routes);
+  
         this.connectToDatabase();
         this.initializeMiddleware();
+        this.initializeRoutes(routes);
+        this.initializeErrorMiddleware();
     }
 
     public listen(){
@@ -44,8 +46,13 @@ class App{
         } else {
             this.app.use(morgan('dev'));
             this.app.use(cors({ origin: true, credentials: true}));
-        }
+        }      
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
     }
+    private initializeErrorMiddleware() {
+        this.app.use(errorMiddleware);
+      }
     private connectToDatabase(){
             const connectString = process.env.MONGODB_URI;
             if (!connectString) {
