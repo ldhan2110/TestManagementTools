@@ -1,6 +1,6 @@
 import { IUser, TokenData } from '@modules/auth';
 
-import { DataStoredInToken } from './auth.interface';
+import { DataStoredInToken } from './../auth/auth.interface';
 import { HttpException } from '@core/exceptions';
 import LoginDto from './auth.dto';
 import { UserSchema } from '@modules/users';
@@ -28,6 +28,14 @@ class AuthService {
       throw new HttpException(400, 'Credential is not valid');
 
     return this.createToken(user);
+  }
+
+  public async getCurrentLoginUser(userId: string): Promise<IUser> {
+    const user = await this.userSchema.findById(userId);
+    if (!user) {
+      throw new HttpException(404, `User is not exists`);
+    }
+    return user;
   }
 
   private createToken(user: IUser): TokenData {
