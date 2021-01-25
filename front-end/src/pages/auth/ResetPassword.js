@@ -29,8 +29,9 @@ function ResetPassword() {
   return (
     <Wrapper>
       <Helmet title="Reset Password" />
+      <img src="/img/logo.jpg" align="center"/>
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Reset Password
+        Forgot Password
       </Typography>
       <Typography component="h2" variant="body1" align="center">
         Enter your email to reset your password

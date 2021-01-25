@@ -1,7 +1,6 @@
 import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import Header from './Header/index';
-import Footer from './Footer/index';
+
 import { CssBaseline } from "@material-ui/core";
 
 const GlobalStyle = createGlobalStyle`
@@ -18,28 +17,20 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Root = styled.div`
-  ${'' /* max-width: 520px;
-
-  margin: 0 auto;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  min-height: 100%; */}
   max-width: 100%;
   margin: 0 auto;
   min-height: 100%;
 `;
 
 function Layout({ children }) {
-  return (
-    <Root>
-      <CssBaseline />
-      <GlobalStyle />
-      <Header/>
-      {children}
-      <Footer/>
-    </Root>
-  );
-}
-
-export default Layout;
+  console.log(children);
+    return (
+      <Root>
+        <CssBaseline />
+        <GlobalStyle />
+        {children}
+      </Root>
+    );
+  }
+  
+  export default Layout;

@@ -116,6 +116,7 @@ function Dashboard({ theme }) {
         <Grid item xs={12} lg={4}>
           <DoughnutChart />
         </Grid>
+        
       </Grid>
     </React.Fragment>
   )
