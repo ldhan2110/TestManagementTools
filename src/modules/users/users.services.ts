@@ -1,4 +1,5 @@
 import { DataStoredInToken } from './../auth/auth.interface';
+import { Http } from 'winston/lib/winston/transports';
 import { HttpException } from '@core/exceptions';
 import { IPagination } from '@core/interfaces';
 import IUser from './users.interface';
@@ -50,34 +51,52 @@ class UserService {
     if (!user) {
       throw new HttpException(400, `User id is not exist`);
     }
+
     let avatar = user.avatar;
     if (user.email === model.email) {
       throw new HttpException(400, 'You must using the difference email');
-    } else {
-      avatar = gravatar.url(model.email!, {
-        size: '200',
-        rating: 'g',
-        default: 'mm',
-      });
     }
+
+    const checkEmailExist = await this.userSchema
+      .find({
+        $and: [{ email: { $eq: model.email } }, { _id: { $ne: userId } }],
+      })
+      .exec();
+    if (checkEmailExist.length !== 0) {
+      throw new HttpException(400, 'Your email has been used by another user');
+    }
+
+    avatar = gravatar.url(model.email!, {
+      size: '200',
+      rating: 'g',
+      default: 'mm',
+    });
 
     let updateUserById;
     if (model.password) {
       const salt = await bcryptjs.genSalt(10);
       const hashedPassword = await bcryptjs.hash(model.password, salt);
       updateUserById = await this.userSchema
-        .findByIdAndUpdate(userId, {
-          ...model,
-          avatar: avatar,
-          password: hashedPassword,
-        })
+        .findByIdAndUpdate(
+          userId,
+          {
+            ...model,
+            avatar: avatar,
+            password: hashedPassword,
+          },
+          { new: true }
+        )
         .exec();
     } else {
       updateUserById = await this.userSchema
-        .findByIdAndUpdate(userId, {
-          ...model,
-          avatar: avatar,
-        })
+        .findByIdAndUpdate(
+          userId,
+          {
+            ...model,
+            avatar: avatar,
+          },
+          { new: true }
+        )
         .exec();
     }
 
@@ -105,27 +124,24 @@ class UserService {
   ): Promise<IPagination<IUser>> {
     const pageSize: number = Number(process.env.PAGE_SIZE || 10);
 
-    let query;
+    let query = {};
     if (keyword) {
-      query = this.userSchema
-        .find({
-          $or: [
-            { email: keyword },
-            { first_name: keyword },
-            { last_name: keyword },
-          ],
-        })
-        .sort({ date: -1 });
-    } else {
-      query = this.userSchema.find().sort({ date: -1 });
+      query = {
+        $or: [
+          { email: keyword },
+          { first_name: keyword },
+          { last_name: keyword },
+        ],
+      };
     }
 
-    const users = await query
+    const users = await this.userSchema
+      .find(query)
       .skip((page - 1) * pageSize)
       .limit(pageSize)
       .exec();
 
-    const rowCount = await query.countDocuments().exec();
+    const rowCount = await this.userSchema.find(query).countDocuments().exec();
 
     return {
       total: rowCount,
@@ -133,6 +149,12 @@ class UserService {
       pageSize: pageSize,
       items: users,
     } as IPagination<IUser>;
+  }
+
+  public async deleteUser(userId: string): Promise<IUser> {
+    const deletedUser = await this.userSchema.findByIdAndDelete(userId).exec();
+    if (!deletedUser) throw new HttpException(409, 'Your id is invalid');
+    return deletedUser;
   }
 
   private createToken(user: IUser): TokenData {
