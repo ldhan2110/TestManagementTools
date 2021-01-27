@@ -1,7 +1,7 @@
 import React from 'react';
 import useStyles from './styles';
 import Divider from '@material-ui/core/Divider';
-import styled, { withTheme } from "styled-components";
+import styled from "styled-components";
 import UserMenu from './UserMenu';
 import SearchInput from '../../components/SearchInput';
 import {

@@ -5,5 +5,11 @@ export default makeStyles((theme) => ({
         paddingLeft: theme.spacing(45),
         paddingRight: theme.spacing(30),
         paddingTop: theme.spacing(5),
-    }
+    },
+
+    item: {
+       maxWidth: 345
+    },
+
+    
 }))

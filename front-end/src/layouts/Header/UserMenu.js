@@ -4,7 +4,6 @@ import styled from "styled-components";
 import {
     Menu,
     MenuItem,
-    AppBar as MuiAppBar,
     IconButton as MuiIconButton,
     Avatar,
   } from "@material-ui/core";
