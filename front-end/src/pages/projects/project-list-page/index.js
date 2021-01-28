@@ -1,20 +1,15 @@
-import React, {useState} from "react";
-import Button from '@material-ui/core/Button';
-import useStyles from './styles';
-import styled from "styled-components";
+import React, {useState, useEffect} from "react";
+import styles from './styles';
+import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
-import { spacing } from "@material-ui/system";
-
+import ProjectItem from './ProjectItem';
+import IconButton from '@material-ui/core/IconButton';
 import {
-    Paper,
-    Button as MuiButton,
+    Button,
     Grid,
-    Card,
-    CardActions,
-    CardContent,
     Divider,
     Typography,
-    CardActionArea
+    Hidden,
   } from "@material-ui/core";
 
 import {
@@ -23,53 +18,28 @@ import {
 
 
 const ListProjectData = [
+    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances tokerearafsanfjudflasnds", status: "Finished"},
+    {projectName: "Lizard", descriptions: "The project helps owner to manage their household appliances DBSAHDSAKDHSAFHSAODASDSADSADASDSADSADSADSASADASDSb", status: "In progress"},
+    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliancesfdsafdsafsadfsdafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafsfdsafdsafdsafdsafdasfsa", status: "Finished"},
     {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Finished"},
-    {projectName: "Lizard", descriptions: "The project helps owner to manage their household appliances", status: "In progress"},
-    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Finished"},
-    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Finished"},
-    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Finished"},
+    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
+    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
+    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
+    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliancesssssssss", status: "Pending"},
 ];
 
-const ProjectItem = (props) => {
-
-    const classes = useStyles();
-
-    const {name, descriptions, status} = props;
-
-    return (
-        <Card className={classes.item}>
-        <CardActionArea>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {name}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {descriptions}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
-        </CardActions>
-      </Card>
-    );
-}
 
 const ProjectList = (props)=>{
-    const classes = useStyles();
+    const {classes} = props;
 
     return(
         <React.Fragment>
             <Helmet title="Projects" />
-            <div className={classes.root}>
+            <Hidden only={["sm", "xs"]}>
+              <div className={classes.headerLarge} >
             <Grid
                 justify="space-between"
-                container 
+                container
             >
                 <Grid item>
                     <Typography variant="h3" gutterBottom display="inline">
@@ -86,8 +56,8 @@ const ProjectList = (props)=>{
                 </Grid>
             </Grid>
             <Divider my={6}/>
-            <div>
-                <Grid container justify= "space-evenly">
+            <Grid container 
+                spacing={3}>
                     {ListProjectData.map((item,index)=>{
                         return (
                         <Grid item>
@@ -98,14 +68,47 @@ const ProjectList = (props)=>{
                             /> 
                         </Grid>
                     )})}
-                    
                 </Grid>
-            
             </div>
-            </div>
-            
+            </Hidden>
+
+            <Hidden only={["md", "lg","xl"]}>
+              <div className={classes.headerSmall} >
+            <Grid
+                justify="space-between"
+                container
+            >
+                <Grid item>
+                    <Typography variant="h3" gutterBottom display="inline">
+                        Projects
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <div>
+                      <IconButton aria-label="primary"  color="primary">
+                        <AddIcon />
+                      </IconButton>
+                    </div>
+                </Grid>
+                </Grid>
+                <Divider my={6}/>
+                <Grid container 
+                spacing={3}>
+                    {ListProjectData.map((item,index)=>{
+                        return (
+                        <Grid item>
+                           <ProjectItem
+                             name={item.projectName}
+                             descriptions={item.descriptions}
+                             status={item.status}
+                            /> 
+                        </Grid>
+                    )})}
+                </Grid>
+                </div>
+            </Hidden>
         </React.Fragment>
     );
 }
 
-export default (ProjectList);
+export default withStyles(styles)(ProjectList);

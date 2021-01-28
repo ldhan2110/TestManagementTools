@@ -1,6 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
-
-export default makeStyles((themes)=>({
+const styles = {
     header: {
         backgroundColor: 'white',
         "& > *": {
@@ -11,6 +9,6 @@ export default makeStyles((themes)=>({
     loginHeader:{
         backgroundColor: 'white',
     }
+};
 
-
-}));
+export default styles;
