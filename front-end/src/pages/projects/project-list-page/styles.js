@@ -45,6 +45,13 @@ const styles = {
         float: "right"
     },
 
+    paging:{
+        marginTop: "30vh",
+        width: '100%',
+        display: "flex",
+        justifyContent: "flex-end",
+        
+    },
   };
 
 export default styles;

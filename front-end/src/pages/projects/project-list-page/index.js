@@ -3,6 +3,7 @@ import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import ProjectItem from './ProjectItem';
+import Pagination from '../../../components/Pagination/index';
 import IconButton from '@material-ui/core/IconButton';
 import {
     Button,
@@ -24,8 +25,16 @@ const ListProjectData = [
     {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Finished"},
     {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
     {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
-    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
-    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliancesssssssss", status: "Pending"},
+    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
+    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliancesssssssss", status: "Pending"},
+    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances tokerearafsanfjudflasnds", status: "Finished"},
+    // {projectName: "Lizard", descriptions: "The project helps owner to manage their household appliances DBSAHDSAKDHSAFHSAODASDSADSADASDSADSADSADSASADASDSb", status: "In progress"},
+    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliancesfdsafdsafsadfsdafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafsfdsafdsafdsafdsafdasfsa", status: "Finished"},
+    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Finished"},
+    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
+    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
+    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
+   
 ];
 
 
@@ -69,6 +78,9 @@ const ProjectList = (props)=>{
                         </Grid>
                     )})}
                 </Grid>
+                <div className={classes.paging}>
+                    <Pagination totalPage={5}/>
+                </div>
             </div>
             </Hidden>
 
@@ -105,6 +117,10 @@ const ProjectList = (props)=>{
                         </Grid>
                     )})}
                 </Grid>
+                <div className={classes.paging}>
+                    <Pagination totalPage={5}/>
+                </div>
+                
                 </div>
             </Hidden>
         </React.Fragment>
