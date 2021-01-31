@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { setTheme } from "../redux/actions/themeActions";
+import { setTheme } from '../redux/theme/themeActions';
 
 import {
   Drawer,

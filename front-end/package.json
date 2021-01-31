@@ -56,6 +56,7 @@
     "react-syntax-highlighter": "13.5.0",
     "read-more-react": "^1.0.10",
     "redux": "4.0.5",
+    "redux-observable": "^1.2.0",
     "styled-components": "5.1.1"
   }
 }
