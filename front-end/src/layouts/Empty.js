@@ -23,7 +23,6 @@ const Root = styled.div`
 `;
 
 function Layout({ children }) {
-  console.log(children);
     return (
       <Root>
         <CssBaseline />

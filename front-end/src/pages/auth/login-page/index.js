@@ -1,4 +1,6 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import { connect } from 'react-redux';
+import {LOGIN_REQ} from '../../../redux/account/constants';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
@@ -17,22 +19,37 @@ import useStyles from './styles';
 import RegisterPage from '../register-page/index';
 
 
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { accountInfo: state.account.accountInfo }
+}
+
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    // dispatching plain actions
+    loginReq: () => dispatch({ type: LOGIN_REQ }),
+  }
+}
+
 const LoginPage = (props) => {
 
     const classes = useStyles();
 
-    const [values, setValues] = useState({
-      username: '',
-      password: '',
-      isLogin: false,
-      showPassword: false,
-  });
+    const {accountInfo, loginReq} = props;
+
+    const [values, setValues] = useState(accountInfo);
+
+    useEffect(()=>{
+      setValues(accountInfo);
+    }, [accountInfo])
 
     //OPEN REGISTER POPUP STATE
     const [isOpenRegister, openRegister] = useState(false);
 
     //CHANGE CHECKBOX
-    const handleChange = (event) => {
+    const handleChange = (prop) => (event) => {
+      setValues({ ...values, [prop]: event.target.value });
     };
 
     //CHANGE PASSWORD
@@ -49,6 +66,11 @@ const LoginPage = (props) => {
       openRegister(!isOpenRegister);
     }
 
+    //HANDLE LOGIN REQUEST BUTTON
+    const handleClickLogin = (event) => {
+      loginReq();
+    }
+
     return(
     <div className={classes.root}>
     <RegisterPage isOpen = {isOpenRegister} setOpenState = {openRegister}/>
@@ -59,14 +81,14 @@ const LoginPage = (props) => {
         <Grid item xs={5}>
             <form className = {classes.formLogin}>
               <div>
-                <img className={classes.logo} src="/img/logo.jpg"/>
+                <img className={classes.logo} src="/img/logo.jpg" alt = "logo-banner"/>
               </div>
               <FormControl fullWidth variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-username"
                     value={values.username}
-                    //onChange={handleChange('username')}
+                    onChange={handleChange('username')}
                     labelWidth={60}
                     required={true}
                 />
@@ -101,8 +123,8 @@ const LoginPage = (props) => {
         <FormControlLabel
         control={
           <Checkbox
-            checked={values.isLogin}
-            //onChange={handleChange}
+            // checked={values.isLogin}
+            onChange={handleChange('isLogin')}
             name="isLogin"
             color="primary"
           />
@@ -110,7 +132,7 @@ const LoginPage = (props) => {
         label="Keep me sign in"
       />
         <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={handleClickLogin}>
             Sign In
           </Button>
           <Button variant="contained" onClick={handleOpenRegister}>
@@ -127,4 +149,4 @@ const LoginPage = (props) => {
     );
 }
 
-export default (LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
