@@ -16,8 +16,18 @@ export default function reducer(state = initialState, actions) {
     case types.LOGIN_REQ:
       return {
         ...state,
-        currentTheme: actions.payload
+        accountInfo: actions.payload
       }
+    case types.LOGIN_SUCESS:{
+      return {
+        ...state,
+        accountInfo:{
+          username: actions.payload.username,
+          password: actions.payload.password,
+          ...state.accountInfo
+        }
+      }
+    }
 
     default:
       return state
