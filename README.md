@@ -1,11 +1,11 @@
 # Test Control
 
 # Members
-1753027 - Le Dang Hoang An
-1753064 - Chu Bach Khoa
-1753035 - Nguyen Le Cuong
-1753039 - Phan Truong Thien Doan
-Instructor: Ho Tuan Thanh
+- 1753027 - Le Dang Hoang An
+- 1753064 - Chu Bach Khoa
+- 1753035 - Nguyen Le Cuong
+- 1753039 - Phan Truong Thien Doan
+- Instructor: Ho Tuan Thanh
 
 # Descriptions
 Test Cases Management Websites.
