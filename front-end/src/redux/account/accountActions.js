@@ -6,3 +6,10 @@ export function loginReq(value) {
     payload: value
   }
 }
+
+export function logoutReq(value){
+  return {
+    type: types.LOGOUT_REQ,
+    payload: value
+  }
+}

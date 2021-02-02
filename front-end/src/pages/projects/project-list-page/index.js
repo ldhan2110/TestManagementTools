@@ -18,6 +18,8 @@ import {
 } from "@material-ui/icons";
 
 
+
+
 const ListProjectData = [
     {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances tokerearafsanfjudflasnds", status: "Finished"},
     {projectName: "Lizard", descriptions: "The project helps owner to manage their household appliances DBSAHDSAKDHSAFHSAODASDSADSADASDSADSADSADSASADASDSb", status: "In progress"},
@@ -69,7 +71,7 @@ const ProjectList = (props)=>{
                 spacing={3}>
                     {ListProjectData.map((item,index)=>{
                         return (
-                        <Grid item>
+                        <Grid item  key = {index}>
                            <ProjectItem
                              name={item.projectName}
                              descriptions={item.descriptions}
@@ -90,12 +92,12 @@ const ProjectList = (props)=>{
                 justify="space-between"
                 container
             >
-                <Grid item>
+                <Grid item key="header-sm">
                     <Typography variant="h3" gutterBottom display="inline">
                         Projects
                     </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item key="add-sm">
                     <div>
                       <IconButton aria-label="primary"  color="primary">
                         <AddIcon />
@@ -108,7 +110,7 @@ const ProjectList = (props)=>{
                 spacing={3}>
                     {ListProjectData.map((item,index)=>{
                         return (
-                        <Grid item>
+                        <Grid item key = {index}>
                            <ProjectItem
                              name={item.projectName}
                              descriptions={item.descriptions}

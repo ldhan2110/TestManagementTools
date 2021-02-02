@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { connect } from 'react-redux';
+import { useHistory } from "react-router-dom";
 import {LOGIN_REQ} from '../../../redux/account/constants';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -34,6 +35,8 @@ const mapDispatchToProps = dispatch => {
 
 const LoginPage = (props) => {
 
+    const history = useHistory();
+
     const classes = useStyles();
 
     const {accountInfo, loginReq} = props;
@@ -42,7 +45,11 @@ const LoginPage = (props) => {
 
     useEffect(()=>{
       setValues(accountInfo);
-    }, [accountInfo])
+      if (accountInfo.isLogin){
+        history.push("/projects");
+      }
+      console.log(accountInfo);
+    }, [accountInfo, history])
 
     //OPEN REGISTER POPUP STATE
     const [isOpenRegister, openRegister] = useState(false);
@@ -123,7 +130,6 @@ const LoginPage = (props) => {
         <FormControlLabel
         control={
           <Checkbox
-            // checked={values.isLogin}
             onChange={handleChange('isLogin')}
             name="isLogin"
             color="primary"

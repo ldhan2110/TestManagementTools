@@ -54,7 +54,7 @@ const ProjectItem = (props) => {
           </div>
           
           <div style={{overflow: "hidden", textOverflow: "ellipsis", width: "15rem", marginTop: "10px"}}> 
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textSecondary" component={'div'}>
             <ReadMore
               min={MIN_LENGTH}
               max={MAX_LENGTH}

@@ -20,10 +20,22 @@ const temp_account = {
 //   )
 // ));
 
+//LOGIN EPIC
  export const loginReqEpic = (action$, state$) => action$.pipe(
   ofType(actions.LOGIN_REQ),
   map(()=>({
       type: actions.LOGIN_SUCESS,
       payload: temp_account
+    }))
+ );
+
+ //LOGOUT EPIC
+ export const logoutReqEpic = (action$, state$) => action$.pipe(
+  ofType(actions.LOGOUT_REQ),
+  map(()=>({
+      type: actions.LOGOUT_SUCESS,
+      payload: {
+        isLogin: false
+      }
     }))
  );

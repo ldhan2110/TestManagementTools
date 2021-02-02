@@ -134,6 +134,7 @@ const loginRoute = {
 const ProjectListRoute = {
   path: "/projects",
   name: "Projects",
+  restrict: true,
   component: ProjectList
 }
 
@@ -174,3 +175,10 @@ export const emptyRoutes = [
   loginRoute,
   error500Route,
 ];
+
+export const publicRoutes = [
+  loginRoute.path,
+  forgotPasswordRoute.path
+]
+  
+

@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
+import {connect} from 'react-redux';
+import {useHistory} from 'react-router-dom';
+import {LOGOUT_REQ} from '../../redux/account/constants';
 
 import {
     Menu,
@@ -17,9 +20,20 @@ const IconButton = styled(MuiIconButton)`
   }
 `;
 
+const mapDispatchToProps = dispatch => {
+  return {
+    logoutReq: () => dispatch({ type: LOGOUT_REQ }),
+  }
+};
+
 const UserMenu = (props) => {
+    const history = useHistory();
+
     const [anchorMenu, setAnchorMenu] = useState(null);
-  
+
+    const {logoutReq} = props;
+
+
     const toggleMenu = event => {
       setAnchorMenu(event.currentTarget);
     };
@@ -27,6 +41,13 @@ const UserMenu = (props) => {
     const closeMenu = () => {
       setAnchorMenu(null);
     };
+
+    const handleLogOut = () => {
+      history.entries = [];
+      history.index = -1;
+      history.push(`/login`);
+      logoutReq();
+    }
   
     return (
       <React.Fragment>
@@ -47,7 +68,7 @@ const UserMenu = (props) => {
           <MenuItem onClick={closeMenu}>
             Profile
           </MenuItem>
-          <MenuItem onClick={closeMenu}>
+          <MenuItem onClick={handleLogOut}>
             Sign out
           </MenuItem>
         </Menu>
@@ -55,4 +76,4 @@ const UserMenu = (props) => {
     );
   }
 
-  export default (UserMenu);
+  export default connect(null,mapDispatchToProps)(UserMenu);

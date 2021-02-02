@@ -1,14 +1,20 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { primaryLayoutRoutes, freeLayoutRoutes, emptyRoutes } from "./index";
-
+import { connect } from 'react-redux';
 import PrimaryLayout from "../layouts/Primary";
 import FreeLayout from "../layouts/Free";
 import Page404 from "../pages/error/Page404";
 import EmptyLayout from "../layouts/Empty";
 
-const childRoutes = (Layout, routes) =>
-  routes.map(({ children, path, component: Component }, index) =>
+
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { accountInfo: state.account.accountInfo }
+}
+
+const childRoutes = (Layout, routes, isLogin) =>
+  routes.map(({ children, path, restrict, component: Component }, index) =>
     children ? (
       // Route item with children
       children.map(({ path, component: Component }, index) => (
@@ -30,24 +36,45 @@ const childRoutes = (Layout, routes) =>
           path={path}
           exact
           render={props => (
-            <Layout>
+            !restrict ? 
+            (<Layout>
               <Component {...props} />
             </Layout>
+            )
+            : 
+            (
+              isLogin ?
+              <Layout>
+                <Component {...props} />
+              </Layout>
+              :
+              <Redirect to={{pathname: "/login"}}/>
+            )
           )}
         />
       )
   );
 
-const Routes = () => (
+const Routes = (props) => {
+
+  const {isLogin} = props.accountInfo;
+
+  const [currentLogin,setLogin] = useState(isLogin);
+
+  useEffect(()=>{
+    setLogin(isLogin);
+  },[isLogin]);
+
+  return(
   <Router>
     <Switch>
-      {childRoutes(PrimaryLayout, primaryLayoutRoutes)}
-      {childRoutes(FreeLayout, freeLayoutRoutes)}
-      {childRoutes(EmptyLayout,emptyRoutes)}
+      {childRoutes(PrimaryLayout, primaryLayoutRoutes,currentLogin)}
+      {childRoutes(FreeLayout, freeLayoutRoutes,currentLogin)}
+      {childRoutes(EmptyLayout,emptyRoutes,currentLogin)}
       <Route path="/" exact>
         <Redirect
           to={{
-            pathname: "/dashboard"
+            pathname: "/login"
           }}
         />
       </Route>
@@ -61,5 +88,6 @@ const Routes = () => (
     </Switch>
   </Router>
 );
+        }
 
-export default Routes;
+export default connect(mapStateToProps)(Routes);
