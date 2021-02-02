@@ -48,7 +48,6 @@ const LoginPage = (props) => {
       if (accountInfo.isLogin){
         history.push("/projects");
       }
-      console.log(accountInfo);
     }, [accountInfo, history])
 
     //OPEN REGISTER POPUP STATE

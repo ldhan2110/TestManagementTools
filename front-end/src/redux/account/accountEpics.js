@@ -1,4 +1,3 @@
-import { ajax } from 'rxjs/ajax';
 import * as actions from './constants';
 import { ofType} from 'redux-observable';
 import {mergeMap, map, filter} from 'rxjs/operators'

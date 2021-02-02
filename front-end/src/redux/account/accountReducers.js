@@ -9,7 +9,7 @@ var initialState = {
     password:"",
     isKeepedLogin: false,
     showPassword: false,
-    isLogin: false
+    isLogin: true
   }
 }
 

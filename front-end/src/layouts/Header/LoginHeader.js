@@ -9,9 +9,6 @@ import {
     Grid,
     AppBar,
     IconButton as MuiIconButton,
-    Hidden,
-
-
   } from "@material-ui/core";
 
 import {
@@ -36,7 +33,7 @@ const Indicator = styled(Badge)`
 `;
 
 const LoginHeader = (props) => {
-  const {onDrawerToggle, classes} = props;
+  const { classes} = props;
 
   return (
       <React.Fragment>

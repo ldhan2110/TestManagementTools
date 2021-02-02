@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import ProjectItem from './ProjectItem';
 import Pagination from '../../../components/Pagination/index';
 import IconButton from '@material-ui/core/IconButton';
+import NewProjectPopup from '../new-project-popup/index';
 import {
     Button,
     Grid,
@@ -43,8 +44,15 @@ const ListProjectData = [
 const ProjectList = (props)=>{
     const {classes} = props;
 
+    const [openNewProject,setOpenNewProject] = useState(false);
+
+    const handleOpenNewProjectPopup = ()=>{
+        setOpenNewProject(true);
+    }
+
     return(
         <React.Fragment>
+            <NewProjectPopup isOpen={openNewProject} setOpen={setOpenNewProject}/>
             <Helmet title="Projects" />
             <Hidden only={["sm", "xs"]}>
               <div className={classes.headerLarge} >
@@ -59,7 +67,7 @@ const ProjectList = (props)=>{
                 </Grid>
                 <Grid item>
                     <div>
-                        <Button variant="contained" color="primary">
+                        <Button variant="contained" color="primary" onClick={handleOpenNewProjectPopup}>
                             <AddIcon />
                             New Project
                         </Button>
