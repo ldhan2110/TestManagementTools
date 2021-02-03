@@ -1,20 +1,27 @@
 import * as types from './constants';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer } from 'redux-persist';
 
 var initialState = {
   success:"",
   error: "",
   errorMsg:"",
   accountInfo: {
-    username:"",
-    password:"",
+    username:  "",
+    password: localStorage.getItem("password") || "",
     isKeepedLogin: false,
     showPassword: false,
-    isLogin: true
+    isLogin: localStorage.getItem("isLogin") ? true : false
   }
 }
 
+const persistConfig = {
+  key: 'account',
+  storage: storage,
+};
 
-export default function reducer(state = initialState, actions) {
+
+const reducer = (state = initialState, actions) => {
 
   const {payload} = actions;
 
@@ -31,8 +38,8 @@ export default function reducer(state = initialState, actions) {
       return {
         ...state,
         accountInfo:{
-          username:"My Name is An",
-          password:"dsadsadasd",
+          username:"hayateazuma23",
+          password:"fdsa",
           isKeepedLogin: false,
           showPassword: false,
           isLogin: true
@@ -70,3 +77,5 @@ export default function reducer(state = initialState, actions) {
       return state
   }
 }
+
+export default persistReducer(persistConfig, reducer);
