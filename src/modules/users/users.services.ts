@@ -191,7 +191,7 @@ class UserService {
     })
     const options = {
       from: adminEmail, 
-      to: 'thiendoan011@gmail.com',
+      to: email,
       subject: 'hello',
       html: `
               <h2>Please click on link below</h2>

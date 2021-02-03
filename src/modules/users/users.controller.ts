@@ -92,7 +92,6 @@ export default class UsersController {
     next: NextFunction
   ) => {
     try {
-      console.log('hello');
       const {email} = req.body;
       const link = await this.userService.sendEmail(email);
       res.send('your email has been sent successfully')   
@@ -108,9 +107,8 @@ export default class UsersController {
   ) => {
     try {
       const {new_password} = req.body;
-      console.log(new_password);
       const link = await this.userService.newPassword(req.params.id, new_password);
-      res.send('your email has been sent successfully')   
+      res.send('reset password successfully')   
     } catch (error) {
       next(error);
     }
