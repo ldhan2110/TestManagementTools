@@ -10,7 +10,13 @@ import bcryptjs from 'bcryptjs';
 import gravatar from 'gravatar';
 import { isEmptyObject } from '@core/utils';
 import jwt from 'jsonwebtoken';
+import { errorMiddleware } from '@core/middleware';
 
+const nodeMailer = require('nodemailer')
+const adminEmail = 'hung08596@gmail.com'
+const adminPassword = '3982158sS@'
+const mailHost = 'smtp.gmail.com'
+const mailPort = 587
 class UserService {
   public userSchema = UserSchema;
 
@@ -165,5 +171,65 @@ class UserService {
       token: jwt.sign(dataInToken, secret, { expiresIn: expiresIn }),
     };
   }
+
+  public async sendEmail(email: string): Promise<string> {
+    const user = await this.userSchema.findOne({ email: email }).exec();
+    if (!user) throw new HttpException(409, 'Your email is invalid');
+
+    const secretkey: string = process.env.JWT_TOKEN_FORGOTPASSWORD!;
+    const token = jwt.sign({_id: user._id}, secretkey, {expiresIn: '10m'});
+    let verificationLink = `http://localhost:5000/forgotpassword/${token}`;
+
+    const transporter = nodeMailer.createTransport({
+      host: mailHost,
+      port: mailPort,
+      secure: false, 
+      auth: {
+        user: adminEmail,
+        pass: adminPassword
+      }
+    })
+    const options = {
+      from: adminEmail, 
+      to: 'thiendoan011@gmail.com',
+      subject: 'hello',
+      html: `
+              <h2>Please click on link below</h2>
+               <p> ${verificationLink} </p>
+             `
+    }
+    transporter.sendMail(options)
+    return 'Send mail successfully' ;
+    
+  }
+
+  public async newPassword(userId: string, newPassword: string): Promise<IUser> {
+
+    const user = await this.userSchema.findById(userId).exec();
+    if (!user) {
+      throw new HttpException(400, `User id is not exist`);
+    }
+
+    let updateUserById;
+    console.log(user.password);
+    if (user.password) {
+      
+      const salt = await bcryptjs.genSalt(10);
+      const hashedPassword = await bcryptjs.hash(newPassword, salt);
+      updateUserById = await this.userSchema
+        .findByIdAndUpdate(
+          userId,
+          {
+            password: hashedPassword,
+          },
+          { new: true }
+        )
+        .exec();
+    } 
+    if (!updateUserById) throw new HttpException(409, 'You are not an user');
+
+    return updateUserById;
+  }
+
 }
 export default UserService;

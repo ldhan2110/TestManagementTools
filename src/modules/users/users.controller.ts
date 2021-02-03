@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import RegisterDto from './dtos/register.dto';
 import { TokenData } from '@modules/auth';
 import UserService from './users.services';
+import { transports } from 'winston';
 
 export default class UsersController {
   private userService = new UserService();
@@ -84,4 +85,35 @@ export default class UsersController {
       next(error);
     }
   };
+
+  public forgotPassword = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      console.log('hello');
+      const {email} = req.body;
+      const link = await this.userService.sendEmail(email);
+      res.send('your email has been sent successfully')   
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public updatePassword = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const {new_password} = req.body;
+      console.log(new_password);
+      const link = await this.userService.newPassword(req.params.id, new_password);
+      res.send('your email has been sent successfully')   
+    } catch (error) {
+      next(error);
+    }
+  };
+
 }

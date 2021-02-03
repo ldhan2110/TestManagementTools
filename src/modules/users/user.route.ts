@@ -2,7 +2,7 @@ import RegisterDto from './dtos/register.dto';
 import { Route } from '@core/interfaces';
 import { Router } from 'express';
 import UsersController from './users.controller';
-import { authMiddleware } from '@core/middleware';
+import { authMiddleware, resetMiddleware } from '@core/middleware';
 import validationMiddleware from '@core/middleware/validation.middleware';
 
 export default class UsersRoute implements Route {
@@ -41,6 +41,17 @@ export default class UsersRoute implements Route {
       this.path + '/:id',
       authMiddleware,
       this.usersController.deleteUser
+    );
+
+    this.router.post(
+      this.path + '/forgotpassword',
+      this.usersController.forgotPassword
+    );
+
+    this.router.put(
+      this.path + '/reset/:id',
+      resetMiddleware,
+      this.usersController.updatePassword
     );
   }
 }
