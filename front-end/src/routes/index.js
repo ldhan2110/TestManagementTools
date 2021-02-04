@@ -19,6 +19,7 @@ const Page500 = async(() => import("../pages/error/Page500"));
 const ServiceList = async(()=> import("../pages/service-management/index"));
 const LoginPage = async(()=> import("../pages/auth/login-page/index"));
 const ForgotPassword = async(()=> import("../pages/auth/forgot-password-page"));
+const ProfilePage = async(()=>import("../pages/auth/profile-page"));
 
 // Dashboards components
 const Dashboard = async(() => import("../pages/dashboard"));
@@ -131,7 +132,13 @@ const loginRoute = {
   component: LoginPage
 };
 
-const ProjectListRoute = {
+const profileRoute = {
+  path: "/profile",
+  name: "profile",
+  component: ProfilePage
+};
+
+const projectListRoute = {
   path: "/projects",
   name: "Projects",
   restrict: true,
@@ -156,7 +163,8 @@ export const freeLayoutRoutes = [
   signUpRoute,
   resetPasswordRoute,
   forgotPasswordRoute,
-  ProjectListRoute,
+  projectListRoute,
+  profileRoute,
 ];
 
 // Routes visible in the sidebar
