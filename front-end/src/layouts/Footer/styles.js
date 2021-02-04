@@ -1,6 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
-
-export default makeStyles((theme) => ({
+const style = {
 footer:{
     backgroundColor: "blue",
     display: "flex",
@@ -11,5 +9,18 @@ footer:{
     "& > *":{
         color: "white"
     }
+},
+
+smallFooter:{
+    marginTop: "100px",
+    backgroundColor: "blue",
+    display: "flex",
+    justifyContent: "center",
+    width: "100vw",
+    "& > *":{
+        color: "white"
+    }
 }
-}));
+}
+
+export default style;

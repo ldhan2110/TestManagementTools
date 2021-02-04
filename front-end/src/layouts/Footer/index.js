@@ -1,15 +1,26 @@
-import React, {useState} from "react";
-import useStyles from './styles';
-
+import React from "react";
+import styles from './styles';
+import { withStyles } from '@material-ui/core/styles';
+import { Hidden } from "@material-ui/core";
 
 const Footer = (props) => {
-    const classes = useStyles();
+    const {classes} = props;
 
     return(
-        <div className={classes.footer}>
+        <React.Fragment>
+        <Hidden lgDown>
+            <div className={classes.footer}>
                 <p>2020 KHTN</p>
-        </div>
+            </div>
+        </Hidden>
+        <Hidden only={['lg','xl']}>
+            <div className={classes.smallFooter}>
+                <p>2020 KHTN</p>
+            </div>
+        </Hidden>
+        </React.Fragment>
+        
     );
 }
 
-export default (Footer);
+export default withStyles(styles)(Footer);

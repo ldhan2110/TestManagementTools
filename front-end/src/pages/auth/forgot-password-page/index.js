@@ -5,10 +5,8 @@ import Button from '@material-ui/core/Button';
 import useStyles from './styles';
 import {
     FormControl,
-    Input,
     InputLabel,
     Button as MuiButton,
-    Paper,
     Typography
   } from "@material-ui/core";
 

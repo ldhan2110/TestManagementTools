@@ -23,6 +23,9 @@ const ForgotPassword = async(()=> import("../pages/auth/forgot-password-page"));
 // Dashboards components
 const Dashboard = async(() => import("../pages/dashboard"));
 
+//Projects components
+const ProjectList = async(()=>import('../pages/projects/project-list-page/index'));
+
 const dashboardRoute = {
   id: "Thống kê",
   path: "/dashboard",
@@ -128,6 +131,13 @@ const loginRoute = {
   component: LoginPage
 };
 
+const ProjectListRoute = {
+  path: "/projects",
+  name: "Projects",
+  restrict: true,
+  component: ProjectList
+}
+
 // Routes using the Dashboard layout
 export const primaryLayoutRoutes = [
   dashboardRoute,
@@ -146,6 +156,7 @@ export const freeLayoutRoutes = [
   signUpRoute,
   resetPasswordRoute,
   forgotPasswordRoute,
+  ProjectListRoute,
 ];
 
 // Routes visible in the sidebar
@@ -164,3 +175,10 @@ export const emptyRoutes = [
   loginRoute,
   error500Route,
 ];
+
+export const publicRoutes = [
+  loginRoute.path,
+  forgotPasswordRoute.path
+]
+  
+

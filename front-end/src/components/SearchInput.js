@@ -30,21 +30,23 @@ const SearchIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
 
+
   svg {
     width: 22px;
-    height: 22px;
+    height: 22px; 
+    color: ${props => props.theme.palette.common.black};
   }
 `;
 
 const Search = styled.div`
   border-radius: 2px;
-  background-color: ${props => darken(0.05, props.theme.header.background)};
+  background-color: ${props => darken(0.2, props.theme.header.background)};
   display: none;
   position: relative;
   width: 100%;
 
   &:hover {
-    background-color: ${props => darken(0.1, props.theme.header.background)};
+    background-color: ${props => darken(0.3, props.theme.header.background)};
   }
 
   ${props => props.theme.breakpoints.up("md")} {
