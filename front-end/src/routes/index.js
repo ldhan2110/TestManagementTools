@@ -135,6 +135,7 @@ const loginRoute = {
 const profileRoute = {
   path: "/profile",
   name: "profile",
+  restrict: true,
   component: ProfilePage
 };
 
