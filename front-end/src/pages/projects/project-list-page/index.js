@@ -107,7 +107,7 @@ const ProjectList = (props)=>{
                 </Grid>
                 <Grid item key="add-sm">
                     <div>
-                      <IconButton aria-label="primary"  color="primary">
+                      <IconButton aria-label="primary"  color="primary" onClick={handleOpenNewProjectPopup}>
                         <AddIcon />
                       </IconButton>
                     </div>

@@ -2,6 +2,7 @@ import React from "react";
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import ReadMore from 'read-more-react';
+import { useHistory } from "react-router-dom";
 
 import {
     Chip,
@@ -16,14 +17,22 @@ import {
 
   const MAX_LENGTH = 200;
 
-  const MIN_LENGTH = 20;
+  const IDEAL_LENGTH = 60;
+
+  const MIN_LENGTH = 10;
 
 
 const ProjectItem = (props) => {
 
+  const history = useHistory();
+
   const {classes} = props;
 
   const {name, descriptions, status} = props;
+
+  const handleOpenProject = () => {
+    history.push("/dashboard");
+  }
   
 
   const renderStatus = (status) => {
@@ -58,6 +67,7 @@ const ProjectItem = (props) => {
             <ReadMore
               min={MIN_LENGTH}
               max={MAX_LENGTH}
+              ideal={IDEAL_LENGTH}
               text={descriptions}
               readMoreText="More..."
             />
@@ -66,10 +76,7 @@ const ProjectItem = (props) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={handleOpenProject}>
           View Detail
         </Button>
       </CardActions>

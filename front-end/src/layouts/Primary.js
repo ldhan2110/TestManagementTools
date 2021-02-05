@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 
 import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
+//import Header from "../components/Header";
+import Header from "../layouts/Header/index";
 import Footer from "../components/Footer";
 import Settings from "../components/Settings";
 
@@ -11,7 +12,7 @@ import {
   Hidden,
   CssBaseline,
   Paper as MuiPaper,
-  withWidth
+  withWidth,
 } from "@material-ui/core";
 
 import { isWidthUp } from "@material-ui/core/withWidth";
@@ -81,7 +82,7 @@ const Layout = ({ children, routes, width }) => {
       <CssBaseline />
       <GlobalStyle />
       <Drawer>
-        <Hidden mdUp implementation="js">
+      <Hidden mdUp implementation="js">
           <Sidebar
             routes={routes}
             PaperProps={{ style: { width: drawerWidth } }}
@@ -96,8 +97,8 @@ const Layout = ({ children, routes, width }) => {
             PaperProps={{ style: { width: drawerWidth } }}
           />
         </Hidden>
-      </Drawer>
-      <AppContent>
+        </Drawer>
+      <AppContent>   
         <Header onDrawerToggle={handleDrawerToggle} />
         <MainContent p={isWidthUp("lg", width) ? 10 : 5}>
           {children}

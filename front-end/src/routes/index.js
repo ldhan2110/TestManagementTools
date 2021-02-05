@@ -12,9 +12,6 @@ import {
 import async from "../components/Async";
 
 // Auth components
-const SignIn = async(() => import("../pages/auth/SignIn"));
-const SignUp = async(() => import("../pages/auth/SignUp"));
-const ResetPassword = async(() => import("../pages/auth/ResetPassword"));
 const Page500 = async(() => import("../pages/error/Page500"));
 const ServiceList = async(()=> import("../pages/service-management/index"));
 const LoginPage = async(()=> import("../pages/auth/login-page/index"));
@@ -96,23 +93,6 @@ const residentRoute = {
   component: Dashboard
 };
 
-const signInRoute = {
-  path: "/auth/sign-in",
-  name: "Sign In",
-  component: SignIn
-};
-
-const signUpRoute = {
-  path: "/auth/sign-up",
-  name: "Sign Up",
-  component: SignUp
-};
-
-const resetPasswordRoute = {
-  path: "/auth/reset-password",
-  name: "Reset Password",
-  component: ResetPassword
-};
 
 const forgotPasswordRoute = {
   path: "/auth/forgot-password",
@@ -160,9 +140,6 @@ export const primaryLayoutRoutes = [
 
 // Routes using the Auth layout
 export const freeLayoutRoutes = [
-  signInRoute,
-  signUpRoute,
-  resetPasswordRoute,
   forgotPasswordRoute,
   projectListRoute,
   profileRoute,

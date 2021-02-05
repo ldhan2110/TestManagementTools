@@ -8,8 +8,11 @@ import {
     Badge,
     Grid,
     AppBar,
+    Hidden,
     IconButton as MuiIconButton,
   } from "@material-ui/core";
+
+import { Menu as MenuIcon } from "@material-ui/icons";
 
 import {
     Bell,
@@ -33,12 +36,23 @@ const Indicator = styled(Badge)`
 `;
 
 const LoginHeader = (props) => {
-  const { classes} = props;
+  const { onDrawerToggle,classes} = props;
 
   return (
       <React.Fragment>
       <AppBar position="static">
       <Grid container alignItems="center" className={classes.loginHeader}>
+         <Hidden mdUp>
+         <Grid item>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={onDrawerToggle}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Grid>
+          </Hidden>
           <Grid item xs = {9}>
               <img src ="/img/logo.jpg" alt="logo"/>
           </Grid>
