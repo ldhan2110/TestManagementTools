@@ -7,7 +7,8 @@ import {
   CreditCard,
   Layers,
   Home,
-  TrendingUp
+  TrendingUp,
+  Trello
 } from "react-feather";
 import async from "../components/Async";
 
@@ -23,6 +24,9 @@ const Dashboard = async(() => import("../pages/dashboard"));
 
 //Projects components
 const ProjectList = async(()=>import('../pages/projects/project-list-page/index'));
+
+//TestPlans components
+const TestPlanList = async(()=>import('../pages/testplans/test-plans-list-page/index'));
 
 const dashboardRoute = {
   id: "Thống kê",
@@ -126,6 +130,15 @@ const projectListRoute = {
   component: ProjectList
 }
 
+const testPlanListRoute = {
+  id: "Test Plans",
+  path: "/projects/testplans",
+  icon: <Trello/>,
+  name: "Test Plans",
+  restrict: true,
+  component: TestPlanList
+}
+
 // Routes using the Dashboard layout
 export const primaryLayoutRoutes = [
   dashboardRoute,
@@ -135,7 +148,8 @@ export const primaryLayoutRoutes = [
   paymentRoute,
   contractsRoute,
   customersRoute,
-  residentRoute
+  residentRoute,
+  testPlanListRoute
 ];
 
 // Routes using the Auth layout
@@ -154,7 +168,8 @@ export const sidebarRoutes = [
   paymentRoute,
   contractsRoute,
   customersRoute,
-  residentRoute
+  residentRoute,
+  testPlanListRoute
 ];
 
 export const emptyRoutes = [

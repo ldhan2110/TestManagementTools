@@ -4,6 +4,8 @@ import styled from "styled-components";
 import UserMenu from './UserMenu';
 import SearchInput from '../../components/SearchInput';
 import { withStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
+import { Menu as MenuIcon } from "@material-ui/icons";
 import {
     Badge,
     Grid,
@@ -12,11 +14,10 @@ import {
     IconButton as MuiIconButton,
   } from "@material-ui/core";
 
-import { Menu as MenuIcon } from "@material-ui/icons";
-
 import {
     Bell,
   } from "react-feather";  
+
 
 
 const IconButton = styled(MuiIconButton)`
@@ -36,7 +37,14 @@ const Indicator = styled(Badge)`
 `;
 
 const LoginHeader = (props) => {
+
+  const history = useHistory();
+
   const { onDrawerToggle,classes} = props;
+
+  const handleLogoClick = () => {
+    history.push("/");
+  }
 
   return (
       <React.Fragment>
@@ -54,7 +62,9 @@ const LoginHeader = (props) => {
             </Grid>
           </Hidden>
           <Grid item xs = {9}>
-              <img src ="/img/logo.jpg" alt="logo"/>
+              <IconButton onClick={handleLogoClick}>
+                <img src ="/img/logo.jpg" alt="logo"/>
+              </IconButton>
           </Grid>
       
           <Grid item>

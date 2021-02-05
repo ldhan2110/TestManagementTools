@@ -1,8 +1,7 @@
-import React, {useState} from "react";
+import React from "react";
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import {
-  FormControlLabel,
   TextField,
   Button,
   Typography,
