@@ -31,7 +31,7 @@ const ProjectItem = (props) => {
   const {name, descriptions, status} = props;
 
   const handleOpenProject = () => {
-    history.push("/dashboard");
+    history.push("/projects/"+name);
   }
   
 

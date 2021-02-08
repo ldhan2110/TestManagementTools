@@ -7,21 +7,20 @@ import FreeLayout from "../layouts/Free";
 import Page404 from "../pages/error/Page404";
 import EmptyLayout from "../layouts/Empty";
 
-
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { accountInfo: state.account.accountInfo }
 }
 
 const childRoutes = (Layout, routes, isLogin) =>
-  routes.map(({ children, path, restrict, component: Component }, index) =>
+  routes.map(({ children, path, restrict, component: Component, exact }, index) =>
     children ? (
       // Route item with children
       children.map(({ path, component: Component }, index) => (
         <Route
           key={index}
           path={path}
-          exact
+          
           render={props => (
             <Layout>
               <Component {...props} />
@@ -34,7 +33,7 @@ const childRoutes = (Layout, routes, isLogin) =>
         <Route
           key={index}
           path={path}
-          exact
+          exact={exact}
           render={props => (
             !restrict ? 
             (<Layout>

@@ -17,8 +17,8 @@ function App({ theme }) {
   return (
     <React.Fragment>
       <Helmet
-        titleTemplate="%s | Allium"
-        defaultTitle="Allium"
+        titleTemplate="%s | Test Control"
+        defaultTitle="Test Control"
       />
       
       <StylesProvider injectFirst>

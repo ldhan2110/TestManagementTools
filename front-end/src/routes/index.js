@@ -30,8 +30,9 @@ const TestPlanList = async(()=>import('../pages/testplans/test-plans-list-page/i
 
 const dashboardRoute = {
   id: "Thống kê",
-  path: "/dashboard",
+  path: "/projects/:projectName",
   icon: <PieChart />,
+  exact: true,
   containsHome: true,
   component: Dashboard
 };
@@ -127,6 +128,7 @@ const projectListRoute = {
   path: "/projects",
   name: "Projects",
   restrict: true,
+  exact: true,
   component: ProjectList
 }
 
