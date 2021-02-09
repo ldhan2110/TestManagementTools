@@ -5,6 +5,7 @@ import { NavLink as RouterNavLink, Link  } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import { spacing } from "@material-ui/system";
+import {TEST_PLAN_HEADERS} from '../../../components/Table/DefineHeader';
 import {
   Grid,
   Typography,
@@ -22,30 +23,34 @@ import {
 //   <RouterNavLink innerRef={ref} {...props} />
 // ));
 
-function createData(customer, customerEmail, customerAvatar, status, amount, id, date) {
-  return { customer, customerEmail, customerAvatar, status, amount, id, date };
+function createData(id, name, description, status, date) {
+  return { id, name, description, status, date };
 }
 
 const rows = [
-  createData('Anna Walley', 'anna@walley.com', 'A', 0, '$530,00', "000112", '2020-01-02'),
-  createData('Doris Fritz', 'doris@fritz.com', 'D', 1, '$209,00', "000114", '2020-02-13'),
-  createData('Edward Adkins', 'edward@adkins.com', 'E', 2, '$535,00', "000117", '2020-03-04'),
-  createData('Edwin Baker', 'edwin@baker.com', 'E', 2, '$678,00', "000115", '2020-02-17'),
-  createData('Gordon Workman', 'gordan@workman.com', 'G', 0, '$314,00', "000119", '2020-03-28'),
-  createData('Jo Avery', 'jo@avery.com', 'J', 0, '$864,00', "000113", '2020-01-23'),
-  createData('Leigha Hyden', 'leigha@hyden.com', 'L', 2, '$341,00', "000118", '2020-03-14'),
-  createData('Maureen Gagnon', 'maureen@gagnon.com', 'M', 1, '$781,00', "000116", '2020-02-22'),
-  createData('Maxine Thompson', 'maxine@thompson.com', 'M', 0, '$273,00', "000121", '2020-05-31'),
-  createData('Shawn Waddell', 'shawn@waddell.com', 'S', 0, '$713,00', "000120", '2020-04-25')
+  createData('#1001', 'Test Plan Zero', 'Adsadsadasdsa', 0,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsadsadas', 1,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsadas', 1,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsdada', 0,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsadas', 1,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsada', 1,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsada', 0,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsad', 1,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsa', 0,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsa', 1,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsa', 0,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsa', 1,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsa', 1,   '2020-01-02'),
+
 ];
 
 const headCells = [
+  { id: 'id', alignment: 'left', label: 'ID' },
+  { id: 'name', alignment: 'left', label: 'Name' },
+  { id: 'description', alignment: 'left', label: 'Description' },
   { id: 'status', alignment: 'left', label: 'Status' },
-  { id: 'customer', alignment: 'left', label: 'Customer' },
-  { id: 'id', alignment: 'right', label: 'ID' },
-  { id: 'amount', alignment: 'right', label: 'Amount' },
-  { id: 'date', alignment: 'left', label: 'Issue Date' },
-  { id: 'actions', alignment: 'right', label: 'Actions' },
+  { id: 'date', alignment: 'left', label: 'Create Date' },
+  { id: 'actions', alignment: 'left', label: 'Actions' },
 ];
 
 
@@ -63,7 +68,7 @@ const TestPlanListPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Services
+            Test Plan List
           </Typography>
 
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
@@ -80,7 +85,7 @@ const TestPlanListPage = (props) => {
           <div>
             <Button variant="contained" color="primary">
               <AddIcon />
-              New Service
+              New Test Plan
             </Button>
           </div>
         </Grid>
@@ -92,7 +97,7 @@ const TestPlanListPage = (props) => {
         <Grid item xs={12}>
           <EnhancedTable
             rows={rows}
-            headerList = {headCells}
+            headerList = {TEST_PLAN_HEADERS}
           />
         </Grid>
       </Grid>

@@ -3,10 +3,9 @@ import styled from "styled-components";
 import { Link as RouterLink } from "react-router-dom";
 import EnhancedTableHead from './TableHead';
 import EnhancedTableToolbar from './TableToolbar';
-import {getComparator,stableSort,descendingComparator} from './utils';
+import {getComparator,stableSort} from './utils';
 import {
   Avatar as MuiAvatar,
-  Box,
   Checkbox,
   Chip as MuiChip,
   IconButton,
@@ -34,9 +33,9 @@ const Paper = styled(MuiPaper)(spacing);
 const Chip = styled(MuiChip)`
   ${spacing};
 
-  background: ${props => props.paid && green[500]};
+  background: ${props => props.active && green[500]};
   background: ${props => props.sent && orange[700]};
-  color: ${props => (props.paid || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.active || props.sent) && props.theme.palette.common.white};
 `
 
 
@@ -124,7 +123,7 @@ const EnhancedTable = (props) => {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-              headCells = {headerList}
+              headers = {headerList}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
@@ -132,6 +131,7 @@ const EnhancedTable = (props) => {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
+                  console.log(row);
                   return (
                     <TableRow
                       hover
@@ -141,41 +141,37 @@ const EnhancedTable = (props) => {
                       key={`${row.id}-${index}`}
                       selected={isItemSelected}
                       >
+                      {headerList.hasCheckbox &&
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
                           inputProps={{ 'aria-labelledby': labelId }}
                           onClick={(event) => handleClick(event, row.id)}
                         />
+                      </TableCell>}
+                      <TableCell component="th" id={labelId} scope="row">
+                        {row.id}
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row">
-                        <Customer>
-                          <Avatar>
-                            {row.customerAvatar}
-                          </Avatar>
-                          <Box ml={3}>
-                            {row.customer}
-                            <br />
-                            {row.customerEmail}
-                          </Box>
-                        </Customer>
+                        {row.name}
                       </TableCell>
-                      <TableCell>
-                        {row.status === 0 && <Chip size="small" mr={1} mb={1} label="Sent" sent />}
-                        {row.status === 1 && <Chip size="small" mr={1} mb={1} label="Void" />}
-                        {row.status === 2 && <Chip size="small" mr={1} mb={1} label="Paid" paid />}
+                      <TableCell component="th" id={labelId} scope="row" align="left">
+                        {row.description}
                       </TableCell>
-                      <TableCell align="right">#{row.id}</TableCell>
-                      <TableCell align="right">{row.amount}</TableCell>
-                      <TableCell>{row.date}</TableCell>
-                      <TableCell align="right">
+                      <TableCell align="left">
+                        {row.status === 0 && <Chip size="small" mr={1} mb={1} label="Active" active={1}/>}
+                        {row.status === 1 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
+                      </TableCell>
+                      <TableCell align="left">{row.date}</TableCell>
+                      {headerList.hasActions &&
+                      <TableCell align="left">
                         <IconButton aria-label="delete">
                           <ArchiveIcon />
                         </IconButton>  
                         <IconButton aria-label="details" component={RouterLink} to="/invoices/detail">
                           <RemoveRedEyeIcon />
                         </IconButton>  
-                      </TableCell>
+                      </TableCell>}
                     </TableRow>
                   );
                 })}

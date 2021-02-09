@@ -9,7 +9,10 @@ import {
 
 
 const EnhancedTableHead = (props) => {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headers } = props;
+
+  const {hasCheckbox, hasActions, headerCells} = headers;
+
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -17,6 +20,7 @@ const EnhancedTableHead = (props) => {
   return (
     <TableHead>
       <TableRow>
+        {hasCheckbox && 
         <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -24,8 +28,8 @@ const EnhancedTableHead = (props) => {
             onChange={onSelectAllClick}
             inputProps={{ 'aria-label': 'select all' }}
           />
-        </TableCell>
-        {headCells.map((headCell) => (
+        </TableCell>}
+        {headerCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.alignment}
@@ -41,6 +45,7 @@ const EnhancedTableHead = (props) => {
             </TableSortLabel>
           </TableCell>
         ))}
+        {hasActions && (<TableCell>Actions</TableCell>)}
       </TableRow>
     </TableHead>
   );

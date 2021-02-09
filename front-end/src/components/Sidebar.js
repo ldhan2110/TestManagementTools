@@ -257,7 +257,7 @@ const  mapStateToProps = (state) => {
 }
 
 
-function Sidebar({ classes, staticContext, location, currentSelectedProject, ...rest }) {
+function Sidebar({ classes, staticContext, location, currentSelectedProject, dispatch, ...rest }) {
   const initOpenRoutes = () => {
     /* Open collapse element that matches current url */
     const pathName = location.pathname;
@@ -294,7 +294,7 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject, ...
 
 
   return (
-    <Drawer variant="permanent" {...rest}>
+    <Drawer variant="permanent"  { ...rest}>
       <Brand>
         <Box ml={2}>Allium <BrandChip label="DEV" /></Box>
       </Brand>
