@@ -7,18 +7,17 @@ import {
   CreditCard,
   Layers,
   Home,
-  TrendingUp
+  TrendingUp,
+  Trello
 } from "react-feather";
 import async from "../components/Async";
 
 // Auth components
-const SignIn = async(() => import("../pages/auth/SignIn"));
-const SignUp = async(() => import("../pages/auth/SignUp"));
-const ResetPassword = async(() => import("../pages/auth/ResetPassword"));
 const Page500 = async(() => import("../pages/error/Page500"));
 const ServiceList = async(()=> import("../pages/service-management/index"));
 const LoginPage = async(()=> import("../pages/auth/login-page/index"));
 const ForgotPassword = async(()=> import("../pages/auth/forgot-password-page"));
+const ProfilePage = async(()=>import("../pages/auth/profile-page"));
 
 // Dashboards components
 const Dashboard = async(() => import("../pages/dashboard"));
@@ -26,10 +25,18 @@ const Dashboard = async(() => import("../pages/dashboard"));
 //Projects components
 const ProjectList = async(()=>import('../pages/projects/project-list-page/index'));
 
+//TestPlans components
+const TestPlanList = async(()=>import('../pages/testplans/test-plans-list-page/index'));
+
+const currentURL = window.location.pathname;
+
+console.log(currentURL);
+
 const dashboardRoute = {
   id: "Thống kê",
-  path: "/dashboard",
+  path: "/projects/:projectName",
   icon: <PieChart />,
+  exact: true,
   containsHome: true,
   component: Dashboard
 };
@@ -95,23 +102,6 @@ const residentRoute = {
   component: Dashboard
 };
 
-const signInRoute = {
-  path: "/auth/sign-in",
-  name: "Sign In",
-  component: SignIn
-};
-
-const signUpRoute = {
-  path: "/auth/sign-up",
-  name: "Sign Up",
-  component: SignUp
-};
-
-const resetPasswordRoute = {
-  path: "/auth/reset-password",
-  name: "Reset Password",
-  component: ResetPassword
-};
 
 const forgotPasswordRoute = {
   path: "/auth/forgot-password",
@@ -131,11 +121,29 @@ const loginRoute = {
   component: LoginPage
 };
 
-const ProjectListRoute = {
+const profileRoute = {
+  path: "/profile",
+  name: "profile",
+  restrict: true,
+  component: ProfilePage
+};
+
+const projectListRoute = {
   path: "/projects",
   name: "Projects",
   restrict: true,
+  exact: true,
   component: ProjectList
+}
+
+const testPlanListRoute = {
+  id: "Test Plans",
+  path: "/projects/:projectName/test-plans",
+  icon: <Trello/>,
+  name: "Test Plans",
+  restrict: true,
+  exact:true,
+  component: TestPlanList
 }
 
 // Routes using the Dashboard layout
@@ -147,16 +155,15 @@ export const primaryLayoutRoutes = [
   paymentRoute,
   contractsRoute,
   customersRoute,
-  residentRoute
+  residentRoute,
+  testPlanListRoute
 ];
 
 // Routes using the Auth layout
 export const freeLayoutRoutes = [
-  signInRoute,
-  signUpRoute,
-  resetPasswordRoute,
   forgotPasswordRoute,
-  ProjectListRoute,
+  projectListRoute,
+  profileRoute,
 ];
 
 // Routes visible in the sidebar
@@ -168,7 +175,8 @@ export const sidebarRoutes = [
   paymentRoute,
   contractsRoute,
   customersRoute,
-  residentRoute
+  residentRoute,
+  testPlanListRoute
 ];
 
 export const emptyRoutes = [

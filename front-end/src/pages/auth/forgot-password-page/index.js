@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
@@ -6,12 +6,11 @@ import useStyles from './styles';
 import {
     FormControl,
     InputLabel,
-    Button as MuiButton,
     Typography
   } from "@material-ui/core";
 
 
-const ForgotPassword = (props) => {
+const ForgotPassword = () => {
     const classes = useStyles();
 
     return(

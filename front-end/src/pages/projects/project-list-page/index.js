@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
@@ -107,7 +107,7 @@ const ProjectList = (props)=>{
                 </Grid>
                 <Grid item key="add-sm">
                     <div>
-                      <IconButton aria-label="primary"  color="primary">
+                      <IconButton aria-label="primary"  color="primary" onClick={handleOpenNewProjectPopup}>
                         <AddIcon />
                       </IconButton>
                     </div>

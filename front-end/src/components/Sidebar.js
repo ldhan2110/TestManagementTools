@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { rgba } from "polished";
-
+import { connect } from 'react-redux';
 import { NavLink as RouterNavLink, withRouter } from "react-router-dom";
 import { darken } from "polished";
 
@@ -200,10 +200,6 @@ const SidebarSection = styled(Typography)`
   display: block;
 `;
 
-
-
-
-
 function SidebarCategory({
   name,
   icon,
@@ -245,12 +241,29 @@ function SidebarLink({ name, to, badge }) {
   );
 }
 
-function Sidebar({ classes, staticContext, location, ...rest }) {
+function getRoute(path) {
+  console.log(path);
+  let args = Array.prototype.slice.call(arguments, 1);
+  let count = -1;
+  return path.replace(/:[a-zA-Z?]+/g, function (match) {
+      count += 1;
+      return args[count] !== undefined ? args[count] : match;
+  });
+};
+
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { currentSelectedProject: state.project.currentSelectedProject }
+}
+
+
+function Sidebar({ classes, staticContext, location, currentSelectedProject, dispatch, ...rest }) {
   const initOpenRoutes = () => {
     /* Open collapse element that matches current url */
     const pathName = location.pathname;
 
     let _routes = {};
+
 
     routes.forEach((route, index) => {
       const isActive = pathName.indexOf(route.path) === 0;
@@ -262,6 +275,10 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
 
     return _routes;
   };
+
+  useEffect(()=>{
+    console.log(currentSelectedProject);
+  },[currentSelectedProject])
 
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes());
 
@@ -277,7 +294,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
 
 
   return (
-    <Drawer variant="permanent" {...rest}>
+    <Drawer variant="permanent"  { ...rest}>
       <Brand>
         <Box ml={2}>Allium <BrandChip label="DEV" /></Box>
       </Brand>
@@ -321,7 +338,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
                     <SidebarCategory
                       isCollapsable={false}
                       name={category.id}
-                      to={category.path}
+                      to={getRoute(category.path,currentSelectedProject)}
                       activeClassName="active"
                       component={NavLink}
                       icon={category.icon}
@@ -338,4 +355,4 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
   );
 }
 
-export default withRouter(Sidebar);
+export default connect(mapStateToProps)(withRouter(Sidebar));

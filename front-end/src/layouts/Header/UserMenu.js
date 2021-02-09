@@ -42,6 +42,10 @@ const UserMenu = (props) => {
       setAnchorMenu(null);
     };
 
+    const handleProfileClick = () => {
+      history.push("/profile");
+    }
+
     const handleLogOut = () => {
       history.entries = [];
       history.index = -1;
@@ -65,7 +69,7 @@ const UserMenu = (props) => {
           open={Boolean(anchorMenu)}
           onClose={closeMenu}
         >
-          <MenuItem onClick={closeMenu}>
+          <MenuItem onClick={handleProfileClick}>
             Profile
           </MenuItem>
           <MenuItem onClick={handleLogOut}>

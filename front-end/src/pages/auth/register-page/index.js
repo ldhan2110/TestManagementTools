@@ -25,8 +25,6 @@ const RegisterPage = (props) => {
 
     const [open,setOpen] = useState(isOpen);
     
-    const [isShowPassword,setShowPassword] = useState(false);
-
     const classes = useStyles();
     
     const [values, setValues] = React.useState({

@@ -12,7 +12,7 @@ const  mapStateToProps = (state) => {
 
 const Header = (props) => {
 
-    const {accountInfo, classes} = props;
+    const {onDrawerToggle, accountInfo, classes} = props;
 
     const {isLogin} = accountInfo;
 
@@ -24,7 +24,7 @@ const Header = (props) => {
                     <img src ="/img/logo.jpg" alt= 'logo'/>
                 </div>
                 :
-                <LoginHeader/>
+                <LoginHeader onDrawerToggle={onDrawerToggle}/>
             }
             <Divider/>
         </React.Fragment>
