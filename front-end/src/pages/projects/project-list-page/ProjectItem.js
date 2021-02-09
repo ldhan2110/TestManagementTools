@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './styles';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import ReadMore from 'read-more-react';
 import { useHistory } from "react-router-dom";
@@ -13,6 +14,7 @@ import {
     Typography,
     CardActionArea
   } from "@material-ui/core";
+import { SELECT_PROJECT } from "../../../redux/projects/constants";
 
 
   const MAX_LENGTH = 200;
@@ -21,6 +23,13 @@ import {
 
   const MIN_LENGTH = 10;
 
+  const mapDispatchToProps = dispatch => {
+    return {
+      // dispatching plain actions
+      selectProject: (value) => dispatch({ type: SELECT_PROJECT, value }),
+    }
+  }
+
 
 const ProjectItem = (props) => {
 
@@ -28,9 +37,10 @@ const ProjectItem = (props) => {
 
   const {classes} = props;
 
-  const {name, descriptions, status} = props;
+  const {name, descriptions, status, selectProject} = props;
 
   const handleOpenProject = () => {
+    selectProject(name);
     history.push("/projects/"+name);
   }
   
@@ -84,4 +94,4 @@ const ProjectItem = (props) => {
   );
 }
 
-export default withStyles(styles)(ProjectItem);
+export default connect (null,mapDispatchToProps) (withStyles(styles)(ProjectItem));

@@ -28,6 +28,10 @@ const ProjectList = async(()=>import('../pages/projects/project-list-page/index'
 //TestPlans components
 const TestPlanList = async(()=>import('../pages/testplans/test-plans-list-page/index'));
 
+const currentURL = window.location.pathname;
+
+console.log(currentURL);
+
 const dashboardRoute = {
   id: "Thống kê",
   path: "/projects/:projectName",
@@ -134,10 +138,11 @@ const projectListRoute = {
 
 const testPlanListRoute = {
   id: "Test Plans",
-  path: "/projects/testplans",
+  path: "/projects/:projectName/test-plans",
   icon: <Trello/>,
   name: "Test Plans",
   restrict: true,
+  exact:true,
   component: TestPlanList
 }
 
