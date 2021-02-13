@@ -1,5 +1,6 @@
 import { authMiddleware, validationMiddleware } from '@core/middleware';
 
+import AddEducationDto from './dtos/add_education.dto';
 import AddExperienceDto from './dtos/add_experience.dto';
 import CreateProfileDto from './dtos/create_profile.dto';
 import ProfileController from './profile.controller';
@@ -49,6 +50,48 @@ class ProfileRoute implements Route {
       `${this.path}/experience/:exp_id`,
       authMiddleware,
       this.profileController.deleteExperience
+    );
+
+    this.router.put(
+      `${this.path}/education`,
+      authMiddleware,
+      validationMiddleware(AddEducationDto),
+      this.profileController.createEducation
+    );
+    this.router.delete(
+      `${this.path}/education/:edu_id`,
+      authMiddleware,
+      this.profileController.deleteEducation
+    );
+
+    this.router.post(
+      `${this.path}/following/:id`,
+      authMiddleware,
+      this.profileController.follow
+    );
+
+    this.router.delete(
+      `${this.path}/following/:id`,
+      authMiddleware,
+      this.profileController.unFollow
+    );
+
+    this.router.post(
+      `${this.path}/friends/:id`,
+      authMiddleware,
+      this.profileController.addFriend
+    );
+
+    this.router.delete(
+      `${this.path}/friends/:id`,
+      authMiddleware,
+      this.profileController.unFriend
+    );
+
+    this.router.put(
+      `${this.path}/friends/:id`,
+      authMiddleware,
+      this.profileController.acceptFriendRequest
     );
   }
 }

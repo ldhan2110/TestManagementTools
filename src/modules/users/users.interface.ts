@@ -1,3 +1,5 @@
+import { IProject } from "@modules/project";
+
 export default interface IUser {
     _id: string;
     first_name: string;
@@ -5,5 +7,6 @@ export default interface IUser {
     email: string;
     password: string;
     avatar: string;
+    members: IProject[];
     date: Date;
   }

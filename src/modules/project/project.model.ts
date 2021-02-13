@@ -15,37 +15,82 @@ const ProjectSchema = new mongoose.Schema({
   active: {
     type: Boolean,
   },
-  option_reqs: {
-    type: String,
-  },
-  option_priority: {
-    type: String,
-  },
-  options: {
-    type: String,
-  },
-  prefix: {
-    type: String,
-  },
-  tc_counter: {
-    type: Number,
-  },
   is_public: {
     type: Boolean,
   },
-  create_date: {
+  members: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+      },
+      role: {
+        type: String,
+        enum: ['projectmanager', 'tester'],
+        default: 'tester',
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+  projectrequirement: [
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+    },
+  ], 
+  testplan: [
+    {
+      note: {
+        type: String
+      },
+      active: {
+        type: Boolean,
+        default: true,
+      },
+      is_open: {
+        type: Boolean,
+        default: true,
+      },
+      is_public: {
+        type: Boolean,
+        default: false,
+      },
+      created_date: {
+        type: Date,
+        default: Date.now,
+      },
+      updated_date: {
+        type: Date,
+        default: Date.now,
+      },
+      created_user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+      },
+      updated_user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+      },
+    },
+  ], 
+  created_date: {
     type: Date,
     default: Date.now,
   },
-  update_date: {
+  updated_date: {
     type: Date,
     default: Date.now,
   },
-  create_user: {
-    type: String,
+  created_user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
   },
-  update_userid: {
-    type: String,
+  updated_user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
   },
 });
 

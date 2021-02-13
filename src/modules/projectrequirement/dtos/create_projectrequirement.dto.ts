@@ -1,14 +1,16 @@
 import { deserialize } from 'class-transformer';
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
-export default class ProjectDto {
+export default class CreateProjectRequirementDto {
   constructor(
     name: string,
     description: string,
-    active: boolean
+    scope: string,
+    type: string
   ) {
     this.name = name;
     this.description = description;
-    this.active = active;
+    this.scope = scope;
+    this.type = type;
   }
   @IsNotEmpty()
   public name: string;
@@ -17,5 +19,9 @@ export default class ProjectDto {
   public description: string;
 
   @IsNotEmpty()
-  public active: boolean;
+  public scope: string;
+
+  @IsNotEmpty()
+  public type: string;
+
 }
