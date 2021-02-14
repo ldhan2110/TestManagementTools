@@ -36,7 +36,8 @@ class ProjectRequirementService {
     return project;
   }
 
-  public async removeRequirement(projectId: string, projectrequirementId: string): Promise<IProject> {
+  public async removeRequirement(projectId: string, projectrequirementId: string): Promise<IProject> 
+  {
     const project = await ProjectSchema.findById(projectId).exec();
     if (!project) throw new HttpException(400, 'Project id is not exist');
 
@@ -62,6 +63,43 @@ class ProjectRequirementService {
       }).exec();
       if (!deletedProjectRequirement) throw new HttpException(400, 'Delete Requirement is not success');
     return project;
+  }
+
+  public async updateRequirement(
+    createrequirementDto: CreateProjectRequirementDto,
+    projectrequirementId: string): Promise<IProjectRequirement> 
+  {
+    const projectrequirement = await ProjectRequirementSchema.findById(projectrequirementId).exec();
+    if (!projectrequirement) throw new HttpException(400, 'Requirement id is not exist');
+
+    const existingProjectRequirement = await ProjectRequirementSchema.find(
+        { name: createrequirementDto.name } 
+    ).exec();
+
+    if (existingProjectRequirement.length > 0)
+      throw new HttpException(400, 'Name existed');
+
+
+    const updatedProjectRequirement = await ProjectRequirementSchema.findOneAndUpdate(
+      { _id: projectrequirementId },
+      {$set: {         
+        name: createrequirementDto.name,
+        description: createrequirementDto.description,
+        scope: createrequirementDto.scope,
+        type: createrequirementDto.type      
+       }},
+      { new: true}
+    ).exec();
+    if (!updatedProjectRequirement) throw new HttpException(400, 'Update Requirement is not success');
+
+    return updatedProjectRequirement;
+  }
+
+  public async getAllRequirementOfProject(projectId: string): Promise<Partial<IProjectRequirement>[]> {
+    const requirements = ProjectSchema.find({ _id: projectId })
+    .populate('projectrequirement', ['name', 'description', 'scope'])
+    .exec();
+    return requirements;
   }
   
 

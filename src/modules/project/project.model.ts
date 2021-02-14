@@ -38,42 +38,13 @@ const ProjectSchema = new mongoose.Schema({
   projectrequirement: [
     {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'projectrequirement',
     },
   ], 
   testplan: [
     {
-      note: {
-        type: String
-      },
-      active: {
-        type: Boolean,
-        default: true,
-      },
-      is_open: {
-        type: Boolean,
-        default: true,
-      },
-      is_public: {
-        type: Boolean,
-        default: false,
-      },
-      created_date: {
-        type: Date,
-        default: Date.now,
-      },
-      updated_date: {
-        type: Date,
-        default: Date.now,
-      },
-      created_user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
-      },
-      updated_user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'testplan',      
     },
   ], 
   created_date: {

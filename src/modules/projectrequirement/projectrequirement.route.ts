@@ -29,5 +29,18 @@ export default class ProjectRequirementRoute implements Route {
         authMiddleware,
         this.projectrequirementController.removeRequirement
       );
+
+      this.router.put(
+        this.path + '/:id',
+        authMiddleware,
+        validationMiddleware(CreateProjectRequirementDto, true),
+        this.projectrequirementController.updateProjectRequirement
+      );
+
+      this.router.get(
+        this.path + '/getallrequirement/:project_id',
+        authMiddleware,
+        this.projectrequirementController.getAllRequirement
+      );
     }
 }

@@ -8,6 +8,7 @@ import UsersRoute from '@modules/users/user.route';
 import { validateEnv } from '@core/utils';
 import { ProjectRoute } from '@modules/project';
 import { ProjectRequirementRoute } from '@modules/projectrequirement';
+import TestPlanRoute from '@modules/testplan/testplan.route';
 
 validateEnv();
 
@@ -17,7 +18,8 @@ const routes = [
   new AuthRoute(),
   new ProfileRoute(),
   new ProjectRoute(),
-  new ProjectRequirementRoute()
+  new ProjectRequirementRoute(),
+  new TestPlanRoute()
 ];
 
 const app = new App(routes);

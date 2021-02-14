@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 import { IProjectRequirement } from './projectrequirement.interface';
 
 const ProjectRequirementSchema = new mongoose.Schema({
-  name:{
-    type: String
-    },
+      name:{
+      type: String
+      },
       description:{
       type: String
       },
-    scope: {
+      scope: {
         type: String
       },
       type: {
