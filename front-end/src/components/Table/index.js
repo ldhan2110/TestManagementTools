@@ -26,8 +26,6 @@ import {
 
 import { spacing } from "@material-ui/system";
 
-
-
 const Paper = styled(MuiPaper)(spacing);
 
 const Chip = styled(MuiChip)`
@@ -37,8 +35,6 @@ const Chip = styled(MuiChip)`
   background: ${props => props.sent && orange[700]};
   color: ${props => (props.active || props.sent) && props.theme.palette.common.white};
 `
-
-
 
 const Avatar = styled(MuiAvatar)`
   background: ${props => props.theme.palette.primary.main};
@@ -51,7 +47,7 @@ const Customer = styled.div`
 
 
 const EnhancedTable = (props) => {
-  const {rows, headerList} = props;
+  const {rows, headerList, viewAction} = props;
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('customer');
   const [selected, setSelected] = useState([]);
@@ -102,6 +98,12 @@ const EnhancedTable = (props) => {
     setPage(0);
   };
 
+  const handleDefaultViewAction = (event,row) => {
+      if (viewAction){
+        viewAction(row.name);
+      }
+  };
+
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -131,7 +133,6 @@ const EnhancedTable = (props) => {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
-                  console.log(row);
                   return (
                     <TableRow
                       hover
@@ -149,26 +150,30 @@ const EnhancedTable = (props) => {
                           onClick={(event) => handleClick(event, row.id)}
                         />
                       </TableCell>}
-                      <TableCell component="th" id={labelId} scope="row">
-                        {row.id}
-                      </TableCell>
-                      <TableCell component="th" id={labelId} scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" align="left">
-                        {row.description}
-                      </TableCell>
-                      <TableCell align="left">
-                        {row.status === 0 && <Chip size="small" mr={1} mb={1} label="Active" active={1}/>}
-                        {row.status === 1 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
-                      </TableCell>
-                      <TableCell align="left">{row.date}</TableCell>
+                      {Object.values(row).map((item,index)=>{
+                        console.log(item);
+                          switch(headerList.headerCells[index].type){
+                            case 'text':
+                              return (<TableCell component="th" id={labelId} scope="row">
+                                      {item}
+                                  </TableCell>)
+                            break;
+
+                            case 'label':
+                              return (<TableCell align="left">
+                                        {item === 0 && <Chip size="small" mr={1} mb={1} label="Active" active={1}/>}
+                                        {item === 1 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
+                                  </TableCell>)
+                            break;
+                          }
+                      })}
+
                       {headerList.hasActions &&
                       <TableCell align="left">
                         <IconButton aria-label="delete">
                           <ArchiveIcon />
                         </IconButton>  
-                        <IconButton aria-label="details" component={RouterLink} to="/invoices/detail">
+                        <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
                           <RemoveRedEyeIcon />
                         </IconButton>  
                       </TableCell>}

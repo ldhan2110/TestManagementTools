@@ -58,6 +58,10 @@ const LoginPage = (props) => {
       setValues({ ...values, [prop]: event.target.value });
     };
 
+    const showError= () =>{
+      return (<FormHelperText error>Error</FormHelperText>);
+    }
+
     //CHANGE PASSWORD
     const handleClickShowPassword = () => {
       setValues({ ...values, showPassword: !values.showPassword });
@@ -98,7 +102,6 @@ const LoginPage = (props) => {
                     labelWidth={60}
                     required={true}
                 />
-                <FormHelperText></FormHelperText>
               </FormControl>
 
         <FormControl fullWidth variant="outlined">

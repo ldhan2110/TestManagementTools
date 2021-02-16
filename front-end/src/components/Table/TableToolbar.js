@@ -40,7 +40,6 @@ const EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Invoices
           </Typography>
         )}
       </ToolbarTitle>

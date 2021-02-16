@@ -10,6 +10,7 @@ import {
   TrendingUp,
   Trello
 } from "react-feather";
+import build from "react-jvectormap";
 import async from "../components/Async";
 
 // Auth components
@@ -27,6 +28,11 @@ const ProjectList = async(()=>import('../pages/projects/project-list-page/index'
 
 //TestPlans components
 const TestPlanList = async(()=>import('../pages/testplans/test-plans-list-page/index'));
+const NewTestPlanPage = async(()=>import('../pages/testplans/new-test-plan-page/index'));
+const TestPlanDetailPage = async(()=>import('../pages/testplans/test-plan-detail-page/index'));
+
+//Build-Release components
+const BuildList = async(()=>import('../pages/builds/builds-list-page/index'));
 
 const currentURL = window.location.pathname;
 
@@ -128,6 +134,7 @@ const profileRoute = {
   component: ProfilePage
 };
 
+//PROJECT
 const projectListRoute = {
   path: "/projects",
   name: "Projects",
@@ -136,6 +143,7 @@ const projectListRoute = {
   component: ProjectList
 }
 
+//TEST PLAN
 const testPlanListRoute = {
   id: "Test Plans",
   path: "/projects/:projectName/test-plans",
@@ -144,6 +152,35 @@ const testPlanListRoute = {
   restrict: true,
   exact:true,
   component: TestPlanList
+}
+
+const newTestPlanRoute = {
+  id: "New Test Plan",
+  path: "/projects/:projectName/test-plans/create-test-plan",
+  name: "New Test Plan",
+  restrict: true,
+  exact: true,
+  component: NewTestPlanPage
+}
+
+const testPlanDetailRoute = {
+  id: "Test Plan Detail",
+  path: "/projects/:projectName/test-plans/:testPlanName",
+  name: "Test Plan Detail",
+  restrict: true,
+  exact: true,
+  component: TestPlanDetailPage
+}
+
+//BUILD-RELEASE
+const buildListRoute = {
+  id: "Build/Release",
+  path: "/projects/:projectName/builds",
+  name: "Build/Release",
+  icon: <Layers />,
+  restrict: true,
+  exact: true,
+  component: BuildList,
 }
 
 // Routes using the Dashboard layout
@@ -156,7 +193,10 @@ export const primaryLayoutRoutes = [
   contractsRoute,
   customersRoute,
   residentRoute,
-  testPlanListRoute
+  testPlanListRoute,
+  newTestPlanRoute,
+  testPlanDetailRoute,
+  buildListRoute
 ];
 
 // Routes using the Auth layout
@@ -176,7 +216,8 @@ export const sidebarRoutes = [
   contractsRoute,
   customersRoute,
   residentRoute,
-  testPlanListRoute
+  testPlanListRoute,
+  buildListRoute,
 ];
 
 export const emptyRoutes = [

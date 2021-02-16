@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
-import {TEST_PLAN_HEADERS} from '../../../components/Table/DefineHeader';
+import {BUILDS_HEADERS} from '../../../components/Table/DefineHeader';
 import {
   Grid,
   Typography,
@@ -21,24 +21,24 @@ import {
 //   <RouterNavLink innerRef={ref} {...props} />
 // ));
 
-function createData(id, name, description, status, date) {
-  return { id, name, description, status, date };
+function createData(id, name, description, status, open, date) {
+  return { id, name, description, status, open, date };
 }
 
 const rows = [
-  createData('#1001', 'Test Plan Zero', 'Adsadsadasdsa', 0,   '2020-01-02'),
-  createData('#1002', 'Test Plan Zero', 'Adsadsadas', 1,   '2020-01-02'),
-  createData('#1003', 'Test Plan Zero', 'Adsadas', 1,   '2020-01-02'),
-  createData('#1004', 'Test Plan Zero', 'Adsdada', 0,   '2020-01-02'),
-  createData('#1005', 'Test Plan Zero', 'Adsadas', 1,   '2020-01-02'),
-  createData('#1006', 'Test Plan Zero', 'Adsada', 1,   '2020-01-02'),
-  createData('#1007', 'Test Plan Zero', 'Adsada', 0,   '2020-01-02'),
-  createData('#1008', 'Test Plan Zero', 'Adsad', 1,   '2020-01-02'),
-  createData('#1009', 'Test Plan Zero', 'Adsa', 0,   '2020-01-02'),
-  createData('#1010', 'Test Plan Zero', 'Adsa', 1,   '2020-01-02'),
-  createData('#1011', 'Test Plan Zero', 'Adsa', 0,   '2020-01-02'),
-  createData('#1012', 'Test Plan Zero', 'Adsa', 1,   '2020-01-02'),
-  createData('#1013', 'Test Plan Zero', 'Adsa', 1,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsadsadasdsa', 0,  'Open', '2020-01-02'),
+  createData('#1002', 'Test Plan Zero', 'Adsadsadas', 1,  'Open', '2020-01-02'),
+  createData('#1003', 'Test Plan Zero', 'Adsadas', 1,  'Open', '2020-01-02'),
+  createData('#1004', 'Test Plan Zero', 'Adsdada', 0,  'Open', '2020-01-02'),
+  createData('#1005', 'Test Plan Zero', 'Adsadas', 1,  'Open', '2020-01-02'),
+  createData('#1006', 'Test Plan Zero', 'Adsada', 1,  'Open', '2020-01-02'),
+  createData('#1007', 'Test Plan Zero', 'Adsada', 0,  'Open', '2020-01-02'),
+  createData('#1008', 'Test Plan Zero', 'Adsad', 1,  'Open', '2020-01-02'),
+  createData('#1009', 'Test Plan Zero', 'Adsa', 0,  'Open', '2020-01-02'),
+  createData('#1010', 'Test Plan Zero', 'Adsa', 1,  'Open', '2020-01-02'),
+  createData('#1011', 'Test Plan Zero', 'Adsa', 0,  'Open', '2020-01-02'),
+  createData('#1012', 'Test Plan Zero', 'Adsa', 1,  'Open', '2020-01-02'),
+  createData('#1013', 'Test Plan Zero', 'Adsa', 1,   'Open','2020-01-02'),
 
 ];
 
@@ -52,7 +52,7 @@ const headCells = [
 ];
 
 
-const TestPlanListPage = (props) => {
+const BuildListPage = (props) => {
   const {classes} = props;
 
   const history = useHistory();
@@ -69,7 +69,7 @@ const TestPlanListPage = (props) => {
   return(
     <div>
 
-      <Helmet title="Service Management" />
+      <Helmet title="Build/Release Management" />
 
       <Grid
         justify="space-between"
@@ -77,7 +77,7 @@ const TestPlanListPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Test Plan List
+            Build/Release List
           </Typography>
 
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
@@ -94,7 +94,7 @@ const TestPlanListPage = (props) => {
           <div>
             <Button variant="contained" color="primary" onClick={handleClickNewTestPlan}>
               <AddIcon />
-              New Test Plan
+              New Build
             </Button>
           </div>
         </Grid>
@@ -106,7 +106,7 @@ const TestPlanListPage = (props) => {
         <Grid item xs={12}>
           <EnhancedTable
             rows={rows}
-            headerList = {TEST_PLAN_HEADERS}
+            headerList = {BUILDS_HEADERS}
             viewAction={navigateToDetailPage}
           />
         </Grid>
@@ -115,4 +115,4 @@ const TestPlanListPage = (props) => {
   );
 }
 
-export default withStyles(styles)(TestPlanListPage);
+export default withStyles(styles)(BuildListPage);
