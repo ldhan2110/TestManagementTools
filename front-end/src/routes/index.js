@@ -15,7 +15,6 @@ import async from "../components/Async";
 
 // Auth components
 const Page500 = async(() => import("../pages/error/Page500"));
-const ServiceList = async(()=> import("../pages/service-management/index"));
 const LoginPage = async(()=> import("../pages/auth/login-page/index"));
 const ForgotPassword = async(()=> import("../pages/auth/forgot-password-page"));
 const ProfilePage = async(()=>import("../pages/auth/profile-page"));
@@ -49,13 +48,6 @@ const dashboardRoute = {
   component: Dashboard
 };
 
-const financeRoute = {
-  id: "Tài chính",
-  path: "/finance",
-  icon: <TrendingUp />,
-  component: Dashboard
-};
-
 const assetRoutes = {
   id: "Tài sản",
   path: "/asset",
@@ -75,40 +67,8 @@ const assetRoutes = {
   ]
 };
 
-const servicesRoute = {
-  id: "Dịch vụ",
-  path: "/services",
-  icon: <Grid />,
-  component: ServiceList
-};
 
-const paymentRoute = {
-  id: "Thanh toán",
-  path: "/payment",
-  icon: <CreditCard />,
-  component: Dashboard
-};
 
-const customersRoute = {
-  id: "Khách hàng",
-  path: "/customers",
-  icon: <Users />,
-  component: Dashboard
-};
-
-const contractsRoute = {
-  id: "Hợp đồng",
-  path: "/contracts",
-  icon: <Layers />,
-  component: Dashboard
-};
-
-const residentRoute = {
-  id: "Lưu trú",
-  path: "/resident",
-  icon: <Home />,
-  component: Dashboard
-};
 
 
 const forgotPasswordRoute = {
@@ -206,13 +166,7 @@ const buildDetailRoute = {
 // Routes using the Dashboard layout
 export const primaryLayoutRoutes = [
   dashboardRoute,
-  financeRoute,
   assetRoutes,
-  servicesRoute,
-  paymentRoute,
-  contractsRoute,
-  customersRoute,
-  residentRoute,
   testPlanListRoute,
   newTestPlanRoute,
   testPlanDetailRoute,
@@ -231,13 +185,7 @@ export const freeLayoutRoutes = [
 // Routes visible in the sidebar
 export const sidebarRoutes = [
   dashboardRoute,
-  financeRoute,
   assetRoutes,
-  servicesRoute,
-  paymentRoute,
-  contractsRoute,
-  customersRoute,
-  residentRoute,
   testPlanListRoute,
   buildListRoute,
 ];
