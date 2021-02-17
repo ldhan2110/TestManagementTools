@@ -17,8 +17,8 @@ import {
 } from '@material-ui/core';
 
 
-const NewBuildPage = (props) => {
-    const {classes, listTestPlans} = props;
+const BuildDetailPage = (props) => {
+    const {classes, name} = props;
     
     const history = useHistory();
 
@@ -35,7 +35,7 @@ const NewBuildPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            New Build/Release
+            Build/Release - {props.match.params.buildName}
           </Typography>
 
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
@@ -57,14 +57,6 @@ const NewBuildPage = (props) => {
         <form className={classes.content}>
           <TextField id="buildName" label="Name" variant="outlined"  fullWidth required/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}/>
-          <Grid container fullWidth>
-              <Grid item xs={2}>
-                <p>Create from existing build ?</p>
-              </Grid>
-              <Grid item xs={10}>
-                <SelectBox labelTitle="Create from existing build ?" listItems={listTestPlans ? listTestPlans : null} />
-              </Grid>
-          </Grid>
             
           <div>
              <FormControlLabel
@@ -100,7 +92,7 @@ const NewBuildPage = (props) => {
           
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleClose}>
-            Create
+            Save
           </Button>
           <Button variant="contained" onClick={handleClose}>
             Cancel
@@ -113,4 +105,4 @@ const NewBuildPage = (props) => {
     );
   }
   
-  export default withStyles(styles)(NewBuildPage);
+  export default withStyles(styles)(BuildDetailPage);

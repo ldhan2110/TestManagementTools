@@ -57,8 +57,8 @@ const BuildListPage = (props) => {
 
   const history = useHistory();
 
-  const handleClickNewTestPlan = () => {
-    history.push(window.location.pathname+"/create-test-plan");
+  const handleClickNewBuild = () => {
+    history.push(window.location.pathname+"/new-build");
   }
 
   const navigateToDetailPage = (params) => {
@@ -92,7 +92,7 @@ const BuildListPage = (props) => {
         </Grid>
         <Grid item>
           <div>
-            <Button variant="contained" color="primary" onClick={handleClickNewTestPlan}>
+            <Button variant="contained" color="primary" onClick={handleClickNewBuild}>
               <AddIcon />
               New Build
             </Button>

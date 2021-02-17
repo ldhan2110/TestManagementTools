@@ -33,6 +33,8 @@ const TestPlanDetailPage = async(()=>import('../pages/testplans/test-plan-detail
 
 //Build-Release components
 const BuildList = async(()=>import('../pages/builds/builds-list-page/index'));
+const NewBuildPage = async(()=>import('../pages/builds/new-build-page/index'));
+const DetailBuildPage = async(()=>import('../pages/builds/build-detail-page/index'));
 
 const currentURL = window.location.pathname;
 
@@ -183,6 +185,24 @@ const buildListRoute = {
   component: BuildList,
 }
 
+const newBuildRoute = {
+  id: "New Build/Release",
+  path: "/projects/:projectName/builds/new-build",
+  name: "New Build/Release",
+  restrict: true,
+  exact: true,
+  component: NewBuildPage,
+}
+
+const buildDetailRoute = {
+  id: "Detail Build/Release",
+  path: "/projects/:projectName/builds/:buildName",
+  name: "Detail Build/Release",
+  restrict: true,
+  exact: true,
+  component: DetailBuildPage,
+}
+
 // Routes using the Dashboard layout
 export const primaryLayoutRoutes = [
   dashboardRoute,
@@ -196,7 +216,9 @@ export const primaryLayoutRoutes = [
   testPlanListRoute,
   newTestPlanRoute,
   testPlanDetailRoute,
-  buildListRoute
+  buildListRoute,
+  newBuildRoute,
+  buildDetailRoute
 ];
 
 // Routes using the Auth layout
