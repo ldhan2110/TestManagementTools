@@ -24,7 +24,7 @@ export default class TestPlanRoute implements Route {
       );
   
       this.router.delete(
-        this.path + '/:project_id/:requirement_id',
+        this.path + '/:project_id/:testplan_id',
         authMiddleware,
         this.testplanController.removeTestPlan
       );
@@ -37,7 +37,7 @@ export default class TestPlanRoute implements Route {
       );
 
       this.router.get(
-        this.path + '/getallrequirement/:project_id',
+        this.path + '/getalltestplan/:project_id',
         authMiddleware,
         this.testplanController.getAllTestPlanOfProject
       );

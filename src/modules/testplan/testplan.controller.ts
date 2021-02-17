@@ -1,7 +1,7 @@
 import CreateTestPlanDto from "./dtos/create_testplan.dto";
 import TestPlanService from "./testplan.services";
 import { NextFunction, Request, Response } from 'express';
-import { ITestPlan } from ".";
+import { ITestPlan } from "@modules/testplan";
 
 
 export default class TestPlanController {
@@ -13,7 +13,6 @@ export default class TestPlanController {
         next: NextFunction
       ) => {
         try {
-          console.log('hello');
           const projectId = req.params.id;
           const model: CreateTestPlanDto = req.body;
           const project = await this.testplanService.CreateTestPlan(model, projectId);
@@ -30,9 +29,9 @@ export default class TestPlanController {
       ) => {
         try {
           const projectId = req.params.project_id;
-          const userId = req.params.requirement_id;
-          const group = await this.testplanService.removeTestPlan(projectId, userId);
-          res.status(200).json(group);
+          const testplanId = req.params.testplan_id;
+          const project = await this.testplanService.removeTestPlan(projectId, testplanId);
+          res.status(200).json(project);
         } catch (error) {
           next(error);
         }

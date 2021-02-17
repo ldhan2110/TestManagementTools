@@ -17,7 +17,6 @@ class TestPlanService {
         { name: createtestplantDto.name}).exec();
       if (existingTestPlan)
         throw new HttpException(400, 'Name TestPlan existed');
-        console.log(existingTestPlan);
   
       const newTestPlan = new TestPlanSchema({
         ...createtestplantDto

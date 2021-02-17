@@ -8,7 +8,8 @@ import UsersRoute from '@modules/users/user.route';
 import { validateEnv } from '@core/utils';
 import { ProjectRoute } from '@modules/project';
 import { ProjectRequirementRoute } from '@modules/projectrequirement';
-import TestPlanRoute from '@modules/testplan/testplan.route';
+import { TestPlanRoute } from '@modules/testplan';
+import { MilestoneRoute } from '@modules/milestone';
 
 validateEnv();
 
@@ -19,7 +20,8 @@ const routes = [
   new ProfileRoute(),
   new ProjectRoute(),
   new ProjectRequirementRoute(),
-  new TestPlanRoute()
+  new TestPlanRoute(),
+  new MilestoneRoute()
 ];
 
 const app = new App(routes);

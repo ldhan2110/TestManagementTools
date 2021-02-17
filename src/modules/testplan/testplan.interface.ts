@@ -1,3 +1,5 @@
+import { IMilestone } from "@modules/milestone";
+
 export interface ITestPlan {
     _id: string;
     note: string;
@@ -11,17 +13,6 @@ export interface ITestPlan {
     updated_date?: Date | Number;
     created_user: string;
     updated_user: string;
-  }
-
-  export interface IMilestone{
-    _id: string;
-    target_date: string;
-    start_date: string;
-    name: string;
-    created_date?: Date | Number;
-    updated_date?: Date | Number;
-    created_user: string;
-    updated_userid: string;
   }
 
   export interface ITestSuite{

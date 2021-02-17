@@ -16,6 +16,12 @@ const TestPlanSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  milestone: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'milestone',      
+    },
+  ],  
   created_date: {
     type: Date,
     default: Date.now,
