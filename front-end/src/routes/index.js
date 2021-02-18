@@ -35,12 +35,8 @@ const BuildList = async(()=>import('../pages/builds/builds-list-page/index'));
 const NewBuildPage = async(()=>import('../pages/builds/new-build-page/index'));
 const DetailBuildPage = async(()=>import('../pages/builds/build-detail-page/index'));
 
-const currentURL = window.location.pathname;
-
-console.log(currentURL);
-
 const dashboardRoute = {
-  id: "Thống kê",
+  id: "Dashboard",
   path: "/projects/:projectName",
   icon: <PieChart />,
   exact: true,

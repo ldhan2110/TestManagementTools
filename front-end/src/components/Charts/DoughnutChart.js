@@ -1,7 +1,9 @@
 import React from "react";
 import styled, { withTheme } from "styled-components";
 
-import { blue, green, red, orange } from "@material-ui/core/colors";
+import {green, red, yellow } from "@material-ui/core/colors";
+
+import {PASSED, BLOCKED, FAILED, NOT_EXECUTE} from './Constants';
 
 import {
   Card as MuiCard,
@@ -69,16 +71,22 @@ const RedText = styled.span`
   font-weight: ${props => props.theme.typography.fontWeightMedium};
 `;
 
+const YellowText =  styled.span`
+  color: ${() => yellow[800]};
+  font-weight: ${props => props.theme.typography.fontWeightMedium};
+`;
+
 const PieChart = ({ theme }) => {
   const data = {
-    labels: ["Social", "Search Engines", "Direct", "Other"],
+    labels: ["Passed", "Failed", "Blocked", "Not Executed"],
     datasets: [
       {
-        data: [260, 125, 164],
+        data: [260, 125, 164,549],
         backgroundColor: [
-          blue[500],
-          red[500],
-          orange[500],
+          PASSED,
+          FAILED,
+          BLOCKED,
+          NOT_EXECUTE
         ],
         borderWidth: 5
       }
@@ -101,29 +109,29 @@ const PieChart = ({ theme }) => {
             <MoreVertical />
           </IconButton>
         }
-        title="Source / Medium"
+        title="Test Execution Overview"
       />
 
       <CardContent>
         <ChartWrapper>
           <DoughnutInner variant="h4">
             <Typography variant="h4">+23%</Typography>
-            <Typography variant="caption">new visitors</Typography>
+            <Typography variant="caption">new test executed</Typography>
           </DoughnutInner>
           <Doughnut data={data} options={options} />
         </ChartWrapper>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Source</TableCell>
-              <TableCell align="right">Revenue</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell align="right">Number</TableCell>
               <TableCell align="right">Value</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
               <TableCell component="th" scope="row">
-                Social
+                Pass
               </TableCell>
               <TableCell align="right">260</TableCell>
               <TableCell align="right">
@@ -132,20 +140,20 @@ const PieChart = ({ theme }) => {
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row">
-                Search Engines
+                Fail
               </TableCell>
               <TableCell align="right">125</TableCell>
               <TableCell align="right">
-                <RedText>-12%</RedText>
+                <RedText>+12%</RedText>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row">
-                Direct
+                Blocked
               </TableCell>
               <TableCell align="right">164</TableCell>
               <TableCell align="right">
-                <GreenText>+46%</GreenText>
+                <YellowText>+46%</YellowText>
               </TableCell>
             </TableRow>
           </TableBody>

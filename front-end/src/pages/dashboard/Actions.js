@@ -35,11 +35,15 @@ class Actions extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  handleReset = (event) => {
+    window.location.reload();
+  }
+
   render() {
     const { anchorEl } = this.state;
     return (
       <React.Fragment>
-        <SmallButton size="small" mr={2}>
+        <SmallButton size="small" mr={2} onClick={this.handleReset}>
           <LoopIcon />
         </SmallButton>
         <SmallButton size="small" mr={2}>

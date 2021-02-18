@@ -242,7 +242,6 @@ function SidebarLink({ name, to, badge }) {
 }
 
 function getRoute(path) {
-  console.log(path);
   let args = Array.prototype.slice.call(arguments, 1);
   let count = -1;
   return path.replace(/:[a-zA-Z?]+/g, function (match) {
@@ -276,9 +275,6 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject, dis
     return _routes;
   };
 
-  useEffect(()=>{
-    console.log(currentSelectedProject);
-  },[currentSelectedProject])
 
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes());
 

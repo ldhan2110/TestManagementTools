@@ -15,7 +15,9 @@ import {
   TableRow
 } from '@material-ui/core'
 
-import { red, green, blue } from '@material-ui/core/colors'
+import { red, green, blue, yellow } from '@material-ui/core/colors'
+
+import {PASSED, FAILED, BLOCKED} from './Constants';
 
 import { spacing } from '@material-ui/system'
 
@@ -38,52 +40,52 @@ const TableWrapper = styled.div`
 
 // Data
 let id = 0
-function createData(source, users, sessions, bounce, avg) {
+function createData(source, users, date, bounce, avg) {
   id += 1
-  return { id, source, users, sessions, bounce, avg }
+  return { id, source, users, date, bounce, avg }
 }
 
 const rows = [
   createData(
-    'Google',
-    '1023',
-    '1265',
-    <Chip label="30%" rgbcolor={green[500]} />,
+    'TCR-1055',
+    'Lucy',
+    '2020-12-21',
+    <Chip label="Pass" rgbcolor={PASSED} />,
     '00:06:25'
   ),
   createData(
-    'Direct',
-    '872',
-    '1077',
-    <Chip label="63%" rgbcolor={red[500]} />,
+    'TCR-1075',
+    'Lucky',
+    '2020-12-21',
+    <Chip label="Fail" rgbcolor={FAILED} />,
     '00:09:18'
   ),
   createData(
-    'Twitter',
-    '812',
-    '1003',
-    <Chip label="28%" rgbcolor={green[500]} />,
+    'TCR-1066',
+    'Doan Phan',
+    '2020-12-21',
+    <Chip label="Pass" rgbcolor={PASSED} />,
     '00:05:56'
   ),
   createData(
-    'GitHub',
-    '713',
-    '881',
-    <Chip label="22%" rgbcolor={green[500]} />,
+    'TCR-10945',
+    'An Le',
+    '2020-12-21',
+    <Chip label="Pass" rgbcolor={PASSED} />,
     '00:06:19'
   ),
   createData(
-    'DuckDuckGo',
-    '693',
-    '856',
-    <Chip label="56%" rgbcolor={red[500]} />,
+    'TCR-1045',
+    'Du Kha',
+    '2020-12-21',
+    <Chip label="Fail" rgbcolor={FAILED} />,
     '00:09:12'
   ),
   createData(
-    'Facebook',
-    '623',
-    '770',
-    <Chip label="20%" rgbcolor={green[500]} />,
+    'TCR-1065',
+    'Lee Moon Shin',
+    '2020-12-21',
+    <Chip label="Block" rgbcolor={BLOCKED} />,
     '00:04:42'
   )
 ]
@@ -93,13 +95,13 @@ const UnpaidTable = () => (
     <CardHeader
       action={
         <Box>
-          <Chip label="Tháng này" rgbcolor={blue[500]} />
-          <IconButton aria-label="settings">
+          <Chip label="This month" rgbcolor={blue[500]} />
+          {/* <IconButton aria-label="settings">
             <MoreVertical />
-          </IconButton>
+          </IconButton> */}
         </Box>
       }
-      title="Chưa thánh toán"
+      title="Test Execution"
     />
 
     <Paper>
@@ -107,11 +109,11 @@ const UnpaidTable = () => (
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Khách hàng</TableCell>
-              <TableCell align="right">Users</TableCell>
-              <TableCell align="right">Sessions</TableCell>
-              <TableCell align="right">Bounce Rate</TableCell>
-              <TableCell align="right">Avg. Session Duration</TableCell>
+              <TableCell>Test Case ID</TableCell>
+              <TableCell align="left">Tester</TableCell>
+              <TableCell align="left">Status</TableCell>
+              <TableCell align="left">Test Execution Time</TableCell>
+              <TableCell align="left">Test Execution Date</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -120,10 +122,10 @@ const UnpaidTable = () => (
                 <TableCell component="th" scope="row">
                   {row.source}
                 </TableCell>
-                <TableCell align="right">{row.users}</TableCell>
-                <TableCell align="right">{row.sessions}</TableCell>
-                <TableCell align="right">{row.bounce}</TableCell>
-                <TableCell align="right">{row.avg}</TableCell>
+                <TableCell align="left">{row.users}</TableCell>
+                <TableCell align="left">{row.bounce}</TableCell>
+                <TableCell align="left">{row.avg}</TableCell>
+                <TableCell align="left">{row.date}</TableCell>
               </TableRow>
             ))}
           </TableBody>

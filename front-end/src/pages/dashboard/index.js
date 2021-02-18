@@ -9,25 +9,31 @@ import {
   Typography as MuiTypography
 } from '@material-ui/core'
 
-import { green, red } from '@material-ui/core/colors'
 
 import { spacing } from '@material-ui/system'
 
 import Actions from './Actions'
-import YearlyRevenue from './YearlyRevenue'
-import DoughnutChart from './DoughnutChart'
-import LanguagesTable from './LanguagesTable'
-import Stats from './Stats'
-import UnpaidTable from './UnpaidTable'
-import WorldMap from './WorldMap'
-import MonthlyRevenue from './MonthlyRevenue'
-
+import DoughnutChart from '../../components/Charts/DoughnutChart'
+import UnpaidTable from '../../components/Charts/UnpaidTable'
+import MultiChart from '../../components/Charts/MultiChart';
+import HorizontalBarChart from '../../components/Charts/HorizontalChart';
 const Divider = styled(MuiDivider)(spacing)
 
 const Typography = styled(MuiTypography)(spacing)
 
-function Spacer() {
-  return <div className></div>
+
+Date.prototype.getDayOfWeek = function(){   
+  return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][ this.getDay() ];
+};
+
+function getCurrentDate() {
+  const d = new Date();
+  const ye = d.getFullYear();
+  const mo = d.toLocaleString('default', { month: 'short' })
+  const da =d.getDate();
+  const dy = d.getDayOfWeek();
+  return (`${dy}, ${da} ${mo} ${ye}`);
+
 }
 
 function Dashboard({ theme }) {
@@ -40,7 +46,7 @@ function Dashboard({ theme }) {
             Welcome back, Lucy
           </Typography>
           <Typography variant="body2" ml={2} display="inline">
-            {`Monday, 29 April ${new Date().getFullYear()}`}
+            {`${getCurrentDate()}`}
           </Typography>
         </Grid>
 
@@ -53,70 +59,20 @@ function Dashboard({ theme }) {
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-          {/* <MonthlyRevenue /> */}
-          <Grid container spacing={6}>
-            <Grid item xs={12} lg={6}>
-              <Stats
-                title="Doanh thu"
-                amount="500000000"
-                chip="Tháng này"
-                percentageText="+14%"
-                hintText={'So với tháng trước'}
-                percentagecolor={green[500]}
-              />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <Stats
-                title="Chi phí"
-                amount="150000000"
-                chip="Tháng này"
-                percentageText="-4%"
-                hintText={'So với tháng trước'}
-                percentagecolor={red[500]}
-              />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <Stats
-                title="Đã thu"
-                amount="450000000"
-                chip="Tháng này"
-                percentageText="95%"
-                percentagecolor={green[500]}
-              />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <Stats
-                title="Còn nợ"
-                amount="50000000"
-                chip="Tháng này"
-                percentageText="5%"
-                percentagecolor={red[500]}
-              />
-            </Grid>
-          </Grid>
+           <MultiChart/>
         </Grid>
         <Grid item xs={12} lg={6}>
-          <YearlyRevenue />
+          <DoughnutChart />
         </Grid>
       </Grid>
 
       <Grid container spacing={6}>
-        <Grid item xs={12} lg={8}>
+        <Grid item xs={12} lg={6}>
           <UnpaidTable />
         </Grid>
-        <Grid item xs={12} lg={4}>
-          <DoughnutChart />
+        <Grid item xs={12} lg={6}>
+          <HorizontalBarChart/>
         </Grid>
-      </Grid>
-
-      <Grid container spacing={6}>
-        <Grid item xs={12} lg={8}>
-          <WorldMap />
-        </Grid>
-        <Grid item xs={12} lg={4}>
-          <DoughnutChart />
-        </Grid>
-        
       </Grid>
     </React.Fragment>
   )

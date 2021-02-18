@@ -157,14 +157,12 @@ const EnhancedTable = (props) => {
                               return (<TableCell component="th" id={labelId} scope="row">
                                       {item}
                                   </TableCell>)
-                            break;
 
                             case 'label':
                               return (<TableCell align="left">
                                         {item === 0 && <Chip size="small" mr={1} mb={1} label="Active" active={1}/>}
                                         {item === 1 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
                                   </TableCell>)
-                            break;
                           }
                       })}
 

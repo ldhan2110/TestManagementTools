@@ -18,7 +18,7 @@ const persistConfig = {
 const reducer = (state = initialState, actions) => {
 
   const {payload} = actions;
-  console.log(actions);
+
   switch (actions.type) {
     //LOGIN
     case types.GET_ALL_PROJECTS_REQ:
