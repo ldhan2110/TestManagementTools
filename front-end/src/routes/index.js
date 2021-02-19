@@ -4,13 +4,11 @@ import {
   Users,
   PieChart,
   Package,
-  CreditCard,
   Layers,
   Home,
-  TrendingUp,
+  Settings,
   Trello
 } from "react-feather";
-import build from "react-jvectormap";
 import async from "../components/Async";
 
 // Auth components
@@ -35,6 +33,9 @@ const BuildList = async(()=>import('../pages/builds/builds-list-page/index'));
 const NewBuildPage = async(()=>import('../pages/builds/new-build-page/index'));
 const DetailBuildPage = async(()=>import('../pages/builds/build-detail-page/index'));
 
+//Setting components
+const MemberListPage = async(()=>import('../pages/settings/members/index'));
+
 const dashboardRoute = {
   id: "Dashboard",
   path: "/projects/:projectName",
@@ -44,27 +45,27 @@ const dashboardRoute = {
   component: Dashboard
 };
 
-const assetRoutes = {
-  id: "Tài sản",
-  path: "/asset",
-  icon: <Package />,
+const projectSettingRoutes = {
+  id: "Project Settings",
+  path: "/projects/:projectName",
+  icon: <Settings />,
   component: null,
   children: [
     {
-      path: "/asset/real-estate",
-      name: "Bất động sản",
+      id: "Settings",
+      path: "/projects/:projectName/settings",
+      name: "Settings",
       component: Dashboard
     },
     {
-      path: "/asset/equipment",
-      name: "Trang thiết bị",
-      component: Dashboard
+      id: "Members",
+      path: "/projects/:projectName/members",
+      name: "Members",
+      icon: <Users/>,
+      component: MemberListPage
     },
   ]
 };
-
-
-
 
 
 const forgotPasswordRoute = {
@@ -162,13 +163,13 @@ const buildDetailRoute = {
 // Routes using the Dashboard layout
 export const primaryLayoutRoutes = [
   dashboardRoute,
-  assetRoutes,
   testPlanListRoute,
   newTestPlanRoute,
   testPlanDetailRoute,
   buildListRoute,
   newBuildRoute,
-  buildDetailRoute
+  buildDetailRoute,
+  projectSettingRoutes,
 ];
 
 // Routes using the Auth layout
@@ -181,9 +182,9 @@ export const freeLayoutRoutes = [
 // Routes visible in the sidebar
 export const sidebarRoutes = [
   dashboardRoute,
-  assetRoutes,
   testPlanListRoute,
   buildListRoute,
+  projectSettingRoutes,
 ];
 
 export const emptyRoutes = [

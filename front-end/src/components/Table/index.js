@@ -25,6 +25,7 @@ import {
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
+import { retinaImage } from "polished";
 
 const Paper = styled(MuiPaper)(spacing);
 
@@ -151,23 +152,27 @@ const EnhancedTable = (props) => {
                         />
                       </TableCell>}
                       {Object.values(row).map((item,index)=>{
-                        console.log(item);
+                        if (!headerList.headerCells[index].hidden){
                           switch(headerList.headerCells[index].type){
                             case 'text':
-                              return (<TableCell component="th" id={labelId} scope="row">
+                              return (<TableCell component="th" id={labelId} scope="row" key={index} align={headerList.headerCells[index].alignment}>
                                       {item}
                                   </TableCell>)
 
                             case 'label':
-                              return (<TableCell align="left">
+                              return (<TableCell align={headerList.headerCells[index].alignment} key={index}>
                                         {item === 0 && <Chip size="small" mr={1} mb={1} label="Active" active={1}/>}
                                         {item === 1 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
                                   </TableCell>)
+                            
+                            default:
+                              break
                           }
+                        }
                       })}
 
                       {headerList.hasActions &&
-                      <TableCell align="left">
+                      <TableCell>
                         <IconButton aria-label="delete">
                           <ArchiveIcon />
                         </IconButton>  

@@ -1,14 +1,14 @@
 import React from 'react'
 import styled, { withTheme } from 'styled-components'
-
 import Helmet from 'react-helmet'
-
+import {generateColor} from '../../utils/index';
 import {
   Grid,
   Divider as MuiDivider,
   Typography as MuiTypography
 } from '@material-ui/core'
-
+import {PASSED, FAILED, BLOCKED, BUGS} from '../../components/Charts/Constants';
+import {rand} from '../../utils/index';
 
 import { spacing } from '@material-ui/system'
 
@@ -36,6 +36,59 @@ function getCurrentDate() {
 
 }
 
+const dataHorizontalChart = {
+  labels: ['An Le', 'Kha Dang', 'Doan Phan', 'Tuc Tran', 'Bach Khoa', 'Cuong Nguyen'],
+  datasets: [
+    {
+      label: 'Efforts',
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: [
+        generateColor(),
+        generateColor(),
+        generateColor(),
+        generateColor(),
+        generateColor(),
+        generateColor(),
+      ],
+    },
+  ],
+}
+
+
+const dataMultiChart =  {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  datasets: [
+    {
+      type: 'line',
+      label: 'Bugs',
+      borderColor: BUGS,
+      borderWidth: 2,
+      fill: false,
+      data: [rand(), rand(), rand(), rand(), rand(), rand()],
+    },
+    {
+      type: 'bar',
+      label: 'Test Failed',
+      backgroundColor: FAILED,
+      data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
+      borderColor: 'white',
+      borderWidth: 2,
+    },
+    {
+      type: 'bar',
+      label: 'Test Passed',
+      backgroundColor: PASSED,
+      data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
+    },
+    {
+      type: 'bar',
+      label: 'Test Blocked',
+      backgroundColor: BLOCKED,
+      data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
+    },
+  ],
+}
+
 function Dashboard({ theme }) {
   return (
     <React.Fragment>
@@ -59,7 +112,7 @@ function Dashboard({ theme }) {
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-           <MultiChart/>
+           <MultiChart datasets={dataMultiChart}/>
         </Grid>
         <Grid item xs={12} lg={6}>
           <DoughnutChart />
@@ -71,7 +124,7 @@ function Dashboard({ theme }) {
           <UnpaidTable />
         </Grid>
         <Grid item xs={12} lg={6}>
-          <HorizontalBarChart/>
+          <HorizontalBarChart datasets={dataHorizontalChart}/>
         </Grid>
       </Grid>
     </React.Fragment>

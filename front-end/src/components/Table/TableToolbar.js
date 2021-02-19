@@ -6,13 +6,12 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
-  Typography
+  Typography,
+  Grid
 } from "@material-ui/core";
+import SearchInput from '../SearchInput';
 
-
-import {
-  Archive as ArchiveIcon,
-  FilterList as FilterListIcon} from "@material-ui/icons";
+import {Archive as ArchiveIcon} from "@material-ui/icons";
 
 
 
@@ -22,7 +21,7 @@ const Spacer = styled.div`
 `;
 
 const ToolbarTitle = styled.div`
-  min-width: 150px;
+  min-width: "";
 `;
 
 
@@ -34,29 +33,16 @@ const EnhancedTableToolbar = props => {
   return (
     <Toolbar>
       <ToolbarTitle>
-        {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography variant="h6" id="tableTitle">
-          </Typography>
-        )}
+        <SearchInput/>
       </ToolbarTitle>
       <Spacer />
       <div>
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <ArchiveIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
+        {numSelected > 0 && (
+              <Tooltip title="Delete">
+                  <IconButton aria-label="Delete">
+                      <ArchiveIcon />
+                  </IconButton>
+              </Tooltip>
         )}
       </div>
     </Toolbar>

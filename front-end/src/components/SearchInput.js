@@ -62,7 +62,7 @@ const SearchInput = (props) => {
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <Input placeholder="Tìm kiếm" />
+              <Input placeholder="Search" />
             </Search>
         </React.Fragment>
     )

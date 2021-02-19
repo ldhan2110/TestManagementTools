@@ -51,7 +51,7 @@ const LoginHeader = (props) => {
       <AppBar position="static">
       <Grid container alignItems="center" className={classes.loginHeader}>
          <Hidden mdUp>
-         <Grid item>
+         <Grid item xs = {7}>
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
@@ -61,15 +61,14 @@ const LoginHeader = (props) => {
               </IconButton>
             </Grid>
           </Hidden>
-          <Grid item xs = {9}>
+          <Hidden mdDown>
+             <Grid item xs = {10}>
               <IconButton onClick={handleLogoClick}>
                 <img src ="/img/logo.jpg" alt="logo"/>
               </IconButton>
           </Grid>
-      
-          <Grid item>
-              <SearchInput/>
-          </Grid>
+          </Hidden>
+         
           
           <Grid item>
               <IconButton color="inherit">

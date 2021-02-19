@@ -323,7 +323,7 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject, dis
                         <SidebarLink
                           key={index}
                           name={route.name}
-                          to={route.path}
+                          to={getRoute(route.path,currentSelectedProject)}
                           icon={route.icon}
                           badge={route.badge}
                         />

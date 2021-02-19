@@ -29,7 +29,7 @@ const EnhancedTableHead = (props) => {
             inputProps={{ 'aria-label': 'select all' }}
           />
         </TableCell>}
-        {headerCells.map((headCell) => (
+        {headerCells.map((headCell) => !headCell.hidden && (
           <TableCell
             key={headCell.id}
             align={headCell.alignment}
