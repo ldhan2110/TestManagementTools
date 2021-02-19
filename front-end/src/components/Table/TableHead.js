@@ -45,7 +45,7 @@ const EnhancedTableHead = (props) => {
             </TableSortLabel>
           </TableCell>
         ))}
-        {hasActions && (<TableCell>Actions</TableCell>)}
+        {hasActions && (<TableCell align="right">Actions</TableCell>)}
       </TableRow>
     </TableHead>
   );

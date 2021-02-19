@@ -1,7 +1,7 @@
 import React from "react";
 import styled  from "styled-components";
 import { darken } from "polished";
-import {InputBase} from '@material-ui/core';
+import {Button, InputBase} from '@material-ui/core';
 import {
     Search as SearchIcon
   } from "react-feather";
@@ -16,7 +16,7 @@ const Input = styled(InputBase)`
     padding-right: ${props => props.theme.spacing(2.5)}px;
     padding-bottom: ${props => props.theme.spacing(2.5)}px;
     padding-left: ${props => props.theme.spacing(12)}px;
-    width: 160px;
+    width: 100%;
   }
 `;
 
@@ -40,13 +40,13 @@ const SearchIconWrapper = styled.div`
 
 const Search = styled.div`
   border-radius: 2px;
-  background-color: ${props => darken(0.2, props.theme.header.background)};
+  background-color: ${props => darken(0.1, props.theme.header.background)};
   display: none;
   position: relative;
   width: 100%;
 
   &:hover {
-    background-color: ${props => darken(0.3, props.theme.header.background)};
+    background-color: ${props => darken(0.25, props.theme.header.background)};
   }
 
   ${props => props.theme.breakpoints.up("md")} {
@@ -56,14 +56,31 @@ const Search = styled.div`
 
 
 const SearchInput = (props) => {
+
+  const {inputMethod, searchMethod} = props;
+
+  const handleChange = (event) => {
+    if (inputMethod)
+      inputMethod(event.target.value);
+  }
+
+  const handleSearch = (event) => {
+    if (searchMethod)
+      searchMethod();
+  }
+
+
     return(
         <React.Fragment>
-            <Search>
+          <div style={{display: "flex", flexDirection: "row", justifyItems: "space-between"}}>
+             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
-              </SearchIconWrapper>
-              <Input placeholder="Search" />
+              </SearchIconWrapper>    
+              <Input placeholder="Search" onChange={handleChange}/>
             </Search>
+            <Button variant="contained" color="primary" onClick={handleSearch}>Search</Button>
+          </div>
         </React.Fragment>
     )
 }

@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {MEMBERS_HEADERS} from '../../../components/Table/DefineHeader';
+import NewMemberDialog from './InviteNewMember';
 import {
   Grid,
   Typography,
@@ -35,10 +36,12 @@ const rows = [
 const MemberListPage = (props) => {
   const {classes} = props;
 
+  const [openDialog,setOpenDialog] = useState(false);
+
   const history = useHistory();
 
-  const handleClickNewTestPlan = () => {
-    history.push(window.location.pathname+"/create-test-plan");
+  const handleClickNewMemberDialog = () => {
+    setOpenDialog(true);
   }
 
   const navigateToDetailPage = (params) => {
@@ -50,7 +53,7 @@ const MemberListPage = (props) => {
     <div>
 
       <Helmet title="Service Management" />
-
+      <NewMemberDialog isOpen={openDialog} openMethod={setOpenDialog}/>
       <Grid
         justify="space-between"
         container 
@@ -72,7 +75,7 @@ const MemberListPage = (props) => {
         </Grid>
         <Grid item>
           <div>
-            <Button variant="contained" color="primary" onClick={handleClickNewTestPlan}>
+            <Button variant="contained" color="primary" onClick={handleClickNewMemberDialog}>
               <AddIcon />
               Invite collaborator
             </Button>

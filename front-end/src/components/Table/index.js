@@ -172,7 +172,7 @@ const EnhancedTable = (props) => {
                       })}
 
                       {headerList.hasActions &&
-                      <TableCell>
+                      <TableCell align="right">
                         <IconButton aria-label="delete">
                           <ArchiveIcon />
                         </IconButton>  
