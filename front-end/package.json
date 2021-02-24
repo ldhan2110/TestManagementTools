@@ -47,6 +47,7 @@
     "react-feather": "2.0.8",
     "react-helmet": "5.2.1",
     "react-jvectormap": "0.0.16",
+    "react-milestone": "^2.0.2",
     "react-number-format": "^4.4.1",
     "react-perfect-scrollbar": "1.5.8",
     "react-quill": "1.3.5",

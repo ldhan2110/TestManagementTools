@@ -2,6 +2,7 @@ import React from "react";
 import {
   Grid,
   Users,
+  Flag,
   PieChart,
   Package,
   Layers,
@@ -35,6 +36,9 @@ const DetailBuildPage = async(()=>import('../pages/builds/build-detail-page/inde
 
 //Setting components
 const MemberListPage = async(()=>import('../pages/settings/members/index'));
+
+//Milestone components
+const MileStonePage = async(()=>import('../pages/milstones/milestone-overview-page/index'));
 
 const dashboardRoute = {
   id: "Dashboard",
@@ -160,6 +164,16 @@ const buildDetailRoute = {
   component: DetailBuildPage,
 }
 
+const milestoneRoute = {
+  id: "Milestones",
+  path: "/projects/:projectName/milestones",
+  name: "Milestones",
+  icon: <Flag/>,
+  restrict: true,
+  exact: true,
+  component: MileStonePage,
+}
+
 // Routes using the Dashboard layout
 export const primaryLayoutRoutes = [
   dashboardRoute,
@@ -170,6 +184,7 @@ export const primaryLayoutRoutes = [
   newBuildRoute,
   buildDetailRoute,
   projectSettingRoutes,
+  milestoneRoute,
 ];
 
 // Routes using the Auth layout
@@ -185,6 +200,7 @@ export const sidebarRoutes = [
   testPlanListRoute,
   buildListRoute,
   projectSettingRoutes,
+  milestoneRoute
 ];
 
 export const emptyRoutes = [

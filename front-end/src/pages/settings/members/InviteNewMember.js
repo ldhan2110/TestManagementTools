@@ -95,7 +95,7 @@ const InviteNewMemberDialog = (props) => {
                     </IconButton>
                   </ListItemSecondaryAction>
               </ListItem>
-          )):<ListItem><ListItemText primary={"No Result"}/></ListItem>}
+          )):<ListItem><ListItemText secondary={"No Result"}/></ListItem>}
           </List>
         </DialogContent>
         <DialogActions>
