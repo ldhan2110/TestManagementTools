@@ -12,6 +12,9 @@ import LaptopMacIcon from '@material-ui/icons/LaptopMac';
 import HotelIcon from '@material-ui/icons/Hotel';
 import RepeatIcon from '@material-ui/icons/Repeat';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import DoneIcon from '@material-ui/icons/Done';
+import FlagIcon from '@material-ui/icons/Flag';
+import ClearIcon from '@material-ui/icons/Clear';
 import {
   Paper,
   Typography
@@ -24,8 +27,10 @@ const useStyles = makeStyles((theme) => ({
     padding: '6px 16px',
   },
   secondaryTail: {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "red"
   },
+
+  
 }));
 
 
@@ -34,7 +39,7 @@ const Compeleted = (props) => {
   return (
     <TimelineSeparator>
       <TimelineDot color="primary" >
-        <CheckCircleIcon />
+        <DoneIcon />
       </TimelineDot>
       <TimelineConnector />
     </TimelineSeparator>
@@ -45,7 +50,7 @@ const InProgress = (props) => {
   return (
     <TimelineSeparator>
       <TimelineDot  >
-        <CheckCircleIcon />
+        <FlagIcon />
       </TimelineDot>
       <TimelineConnector />
     </TimelineSeparator>
@@ -53,10 +58,13 @@ const InProgress = (props) => {
 }
 
 const Failed = (props) => {
+
+  const classes = useStyles();
+
   return (
     <TimelineSeparator>
-    <TimelineDot color="secondary" >
-      <CheckCircleIcon />
+    <TimelineDot classes={{root:classes.secondaryTail}} >
+      <ClearIcon />
     </TimelineDot>
     <TimelineConnector />
   </TimelineSeparator>
