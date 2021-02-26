@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Timeline from '@material-ui/lab/Timeline';
 import TimelineItem from '@material-ui/lab/TimelineItem';
@@ -36,28 +36,35 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Compeleted = (props) => {
+
+  const {final} = props;
+
   return (
     <TimelineSeparator>
       <TimelineDot color="primary" >
         <DoneIcon />
       </TimelineDot>
-      <TimelineConnector />
+      {!final && <TimelineConnector />}
     </TimelineSeparator>
   );
 }
 
 const InProgress = (props) => {
+  const {final} = props;
+
   return (
     <TimelineSeparator>
       <TimelineDot  >
         <FlagIcon />
       </TimelineDot>
-      <TimelineConnector />
+      {!final && <TimelineConnector />}
     </TimelineSeparator>
   );
 }
 
 const Failed = (props) => {
+
+  const {final} = props;
 
   const classes = useStyles();
 
@@ -66,7 +73,7 @@ const Failed = (props) => {
     <TimelineDot classes={{root:classes.secondaryTail}} >
       <ClearIcon />
     </TimelineDot>
-    <TimelineConnector />
+    {!final && <TimelineConnector />}
   </TimelineSeparator>
   );
 }
@@ -76,14 +83,18 @@ const Milestone = (props) => {
 
   const classes = useStyles();
 
-  const {status, title, descriptions} = props;
+  const {status, title, descriptions, isFinal} = props;
+
+  useEffect(()=>{
+    console.log(isFinal);
+  })
 
     return (
-      <TimelineItem>
+      <TimelineItem >
 
-      {status === "completed" && <Compeleted/>}
-      {status === "inprogress" && <InProgress/>}
-      {status === "failed" && <Failed/>}
+      {status === "completed" && <Compeleted final={isFinal}/>}
+      {status === "inprogress" && <InProgress final={isFinal}/>}
+      {status === "failed" && <Failed final={isFinal}/>}
 
       <TimelineContent>
         <Paper elevation={3}  className={classes.paper}>

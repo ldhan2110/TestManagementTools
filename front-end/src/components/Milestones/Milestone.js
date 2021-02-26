@@ -37,16 +37,28 @@ const MilestoneLine = (props) => {
 
   return (
     <Timeline align="alternate">
-    {listData ? listData.listMilestone.map((item,index) => 
-        <Milestone 
+    {listData ? listData.listMilestone.map((item,index) => {
+        console.log(listData.listMilestone.length-1);
+        if (index !== listData.listMilestone.length-1){
+          return(
+            <Milestone key={index}
+            status = {item.status}
+            title = {item.title}
+            descriptions = {item.descriptions}
+            isFinal={false} />
+          );
+        } else return(
+          <Milestone   key={index}
           status = {item.status}
           title = {item.title}
-          descriptions = {item.descriptions} />):
-    
-    <div>
-      
-      
-    </div>}
+          descriptions = {item.descriptions}
+          isFinal={true} />
+        );
+      } 
+      )
+      :
+      <div></div>
+    }
   </Timeline>
 
   )
