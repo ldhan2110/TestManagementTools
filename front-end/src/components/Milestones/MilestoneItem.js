@@ -1,36 +1,31 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Timeline from '@material-ui/lab/Timeline';
 import TimelineItem from '@material-ui/lab/TimelineItem';
 import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
 import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
-import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
-import FastfoodIcon from '@material-ui/icons/Fastfood';
-import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import HotelIcon from '@material-ui/icons/Hotel';
-import RepeatIcon from '@material-ui/icons/Repeat';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import DoneIcon from '@material-ui/icons/Done';
 import FlagIcon from '@material-ui/icons/Flag';
 import ClearIcon from '@material-ui/icons/Clear';
 import {
-  Paper,
-  Typography
+  Card,
+  CardContent,
+  Typography,
+  CardActionArea
 } from '@material-ui/core';
 
 
 
+
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: '6px 16px',
-  },
   secondaryTail: {
     backgroundColor: "red"
-  },
+  }, 
 
-  
+  cardRoot: {
+    maxWidth: "300px"
+  }
 }));
 
 
@@ -79,15 +74,36 @@ const Failed = (props) => {
 }
 
 
+const MilestoneCard = (props)=>{
+  const {title, descriptions} = props;
+
+  const classes = useStyles();
+
+  return(
+    <Card variant="outlined" className={{root: classes.cardRoot}} elevation={3}>
+      <CardActionArea>
+        <CardContent>
+          <div>
+          <Typography gutterBottom variant="h5" component="h2">
+            {title}
+          </Typography>
+          </div>
+          <Typography variant="body2" color="textSecondary" component={'div'}>
+            {descriptions}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
+}
+
+
 const Milestone = (props) => {
 
   const classes = useStyles();
 
   const {status, title, descriptions, isFinal} = props;
 
-  useEffect(()=>{
-    console.log(isFinal);
-  })
 
     return (
       <TimelineItem >
@@ -97,15 +113,12 @@ const Milestone = (props) => {
       {status === "failed" && <Failed final={isFinal}/>}
 
       <TimelineContent>
-        <Paper elevation={3}  className={classes.paper}>
-          <Typography variant="h6" component="h1">
-            {title}
-          </Typography>
-          <Typography>{descriptions}</Typography>
-        </Paper>
+        <MilestoneCard title={title} descriptions={descriptions}/>
       </TimelineContent>
     </TimelineItem>
     )
 };
+
+
 
 export default Milestone;

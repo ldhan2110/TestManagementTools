@@ -1,9 +1,10 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { makeStyles } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
 import {
   Grid,
-  Paper,
+  Button,
   Typography
 } from '@material-ui/core';
 
@@ -42,18 +43,24 @@ export default function CustomizedTimeline() {
       <Grid
         justify="space-between"
         container 
-        direction="column"
       > 
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Test Plan List
+            Milestone Overview
           </Typography>
         </Grid>
 
         <Grid item>
-        <Milestone listData = {sampleData}/>
+          <div>
+            <Button variant="contained" color="primary" >
+              <AddIcon />
+              New Milestone
+            </Button>
+          </div>
         </Grid>
       </Grid>
+      
+        <Milestone />
     </React.Fragment>
 
     
