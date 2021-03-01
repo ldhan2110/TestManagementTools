@@ -74,9 +74,7 @@ const MessagePopup = (props) => {
 
     <DialogContent dividers>
       <DialogContentText id="alert-dialog-description">
-        <Typography gutterBottom>
-            {content}
-        </Typography>
+        {content}
       </DialogContentText>
     </DialogContent>
     <DialogActions>
