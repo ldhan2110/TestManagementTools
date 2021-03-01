@@ -15,6 +15,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 import useStyles from './styles';
+import MessagePopup from '../../../components/MessageBox';
 
 //IMPORT REGISTER
 import RegisterPage from '../register-page/index';
@@ -42,6 +43,8 @@ const LoginPage = (props) => {
     const {accountInfo, loginReq} = props;
 
     const [values, setValues] = useState(accountInfo);
+
+    const [openMsg, setOpenMsg] = useState(false);
 
     useEffect(()=>{
       setValues(accountInfo);
@@ -78,11 +81,13 @@ const LoginPage = (props) => {
 
     //HANDLE LOGIN REQUEST BUTTON
     const handleClickLogin = (event) => {
-      loginReq();
+      // loginReq();
+      setOpenMsg(true);
     }
 
     return(
     <div className={classes.root}>
+    <MessagePopup open={openMsg} openMethod={setOpenMsg} type="E" content="Invalid Messaged"/>
     <RegisterPage isOpen = {isOpenRegister} setOpenState = {openRegister}/>
         <Grid container>
         <Grid item xs={7} style={{backgroundColor: 'red', height: '100vh'}}>

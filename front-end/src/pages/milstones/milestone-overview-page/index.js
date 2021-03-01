@@ -60,7 +60,7 @@ export default function CustomizedTimeline() {
         </Grid>
       </Grid>
       
-        <Milestone />
+        <Milestone listData={sampleData}/>
     </React.Fragment>
 
     

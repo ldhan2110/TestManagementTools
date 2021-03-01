@@ -25,6 +25,8 @@ const reducer = (state = initialState, actions) => {
 
   const {payload} = actions;
 
+  console.log(payload);
+
   switch (actions.type) {
 
     //LOGIN

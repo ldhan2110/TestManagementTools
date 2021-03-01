@@ -5,7 +5,8 @@ import {mergeMap, map, filter} from 'rxjs/operators'
 
 const temp_account = {
   username: "hayateazuma23",
-  password: "I am an idiot"
+  password: "I am an idiot",
+  isLogin: "true"
 };
 
 
