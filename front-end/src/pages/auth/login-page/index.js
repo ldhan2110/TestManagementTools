@@ -30,7 +30,7 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     // dispatching plain actions
-    loginReq: () => dispatch({ type: LOGIN_REQ }),
+    loginReq: (payload) => dispatch({ type: LOGIN_REQ, payload }),
   }
 }
 
@@ -48,6 +48,7 @@ const LoginPage = (props) => {
 
     useEffect(()=>{
       setValues(accountInfo);
+      console.log(accountInfo);
       if (accountInfo.isLogin){
         history.push("/projects");
       }
@@ -81,8 +82,12 @@ const LoginPage = (props) => {
 
     //HANDLE LOGIN REQUEST BUTTON
     const handleClickLogin = (event) => {
-      // loginReq();
-      setOpenMsg(true);
+      const reqData = {
+        email: "thiendoan002@gmail.com",
+        password: "123456S$"
+      }
+      loginReq(reqData);
+
     }
 
     return(
@@ -102,7 +107,7 @@ const LoginPage = (props) => {
                 <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-username"
-                    value={values.username}
+                    value={values.username || ''}
                     onChange={handleChange('username')}
                     labelWidth={60}
                     required={true}

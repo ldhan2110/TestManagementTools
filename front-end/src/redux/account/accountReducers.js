@@ -1,11 +1,13 @@
 import * as types from './constants';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
+import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
 
-var initialState = {
+const initialState = {
   success:"",
   error: "",
   errorMsg:"",
+  action: "",
   accountInfo: {
     username:  "",
     password: localStorage.getItem("password") || "",
@@ -18,6 +20,7 @@ var initialState = {
 const persistConfig = {
   key: 'account',
   storage: storage,
+  stateReconciler: autoMergeLevel1 ,
 };
 
 
@@ -25,7 +28,6 @@ const reducer = (state = initialState, actions) => {
 
   const {payload} = actions;
 
-  console.log(payload);
 
   switch (actions.type) {
 
@@ -52,11 +54,9 @@ const reducer = (state = initialState, actions) => {
       return {
         ...state,
         accountInfo: {
-          username:"My Name is An",
-          password:"dsadsadasd",
-          isKeepedLogin: false,
-          showPassword: false,
-          isLogin: false
+          ...state.accountInfo,
+          username:"",
+          password:"",
         }
       }
 
@@ -81,3 +81,4 @@ const reducer = (state = initialState, actions) => {
 }
 
 export default persistReducer(persistConfig, reducer);
+

@@ -7,5 +7,5 @@ import projectReducers from '../projects/projectReducers';
 export default combineReducers({
 	themeReducer,
 	account: accountReducer,
-	project: projectReducers
+  project: projectReducers
 });

@@ -1,6 +1,7 @@
 import * as types from './constants';
 
 export function loginReq(value) {
+  console.log(value);
   return {
     type: types.LOGIN_REQ,
     payload: value

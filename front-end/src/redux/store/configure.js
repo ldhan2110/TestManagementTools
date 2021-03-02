@@ -4,6 +4,7 @@ import rootReducer from '../reducers/index';
 import rootEpic from '../reducers/epics';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 
 //Epic middleware
@@ -18,9 +19,9 @@ export default function configureStore(preloadedState) {
   const enhancers = [middlewareEnhancer]
   const composedEnhancers = compose(...enhancers)
 
-  const persistedReducer = persistReducer({key: 'root', storage}, rootReducer);
+  const persistedReducer = persistReducer({key: 'root', storage, timeout: null, stateReconciler: autoMergeLevel1}, rootReducer);
 
-  const store = createStore(persistedReducer, preloadedState, composedEnhancers);
+  const store = createStore(persistedReducer,preloadedState,composedEnhancers);
 
   const persistor = persistStore(store);
 

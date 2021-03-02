@@ -1,6 +1,7 @@
 import * as types from './constants';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
+import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
 
 var initialState = {
   success:"",
@@ -13,6 +14,8 @@ var initialState = {
 const persistConfig = {
   key: 'project',
   storage: storage,
+  timeout: null,
+  stateReconciler: autoMergeLevel1 ,
 };
 
 const reducer = (state = initialState, actions) => {

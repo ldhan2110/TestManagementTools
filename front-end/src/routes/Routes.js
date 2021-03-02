@@ -58,7 +58,8 @@ const Routes = (props) => {
 
   const {isLogin} = props.accountInfo;
 
-  const [currentLogin,setLogin] = useState(isLogin);
+
+  const [currentLogin,setLogin] = useState(false);
 
   useEffect(()=>{
     setLogin(isLogin);
