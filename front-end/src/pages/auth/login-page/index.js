@@ -23,7 +23,7 @@ import RegisterPage from '../register-page/index';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return { accountInfo: state.account.accountInfo }
+  return { account: state.account }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -40,15 +40,25 @@ const LoginPage = (props) => {
 
     const classes = useStyles();
 
-    const {accountInfo, loginReq} = props;
+    const {account, loginReq} = props;
 
-    const [values, setValues] = useState(accountInfo);
+    const {accountInfo} = account;
+
+    const [values, setValues] = useState({
+      username: "",
+      password: "",
+      isKeepedLogin: false,
+      showPassword: false,
+    });
 
     const [openMsg, setOpenMsg] = useState(false);
 
     useEffect(()=>{
-      setValues(accountInfo);
-      console.log(accountInfo);
+      console.log(account);
+    }, [account])
+
+
+    useEffect(()=>{
       if (accountInfo.isLogin){
         history.push("/projects");
       }
@@ -71,6 +81,11 @@ const LoginPage = (props) => {
       setValues({ ...values, showPassword: !values.showPassword });
     };
 
+
+    const handleClickKeepSignIn = () => {
+      setValues({ ...values, isKeepedLogin: !values.isKeepedLogin });
+    }
+
     const handleMouseDownPassword = (event) => {
       event.preventDefault();
     };
@@ -82,12 +97,7 @@ const LoginPage = (props) => {
 
     //HANDLE LOGIN REQUEST BUTTON
     const handleClickLogin = (event) => {
-      const reqData = {
-        email: "thiendoan002@gmail.com",
-        password: "123456S$"
-      }
-      loginReq(reqData);
-
+      loginReq({email: values.username, password: values.password});
     }
 
     return(
@@ -142,7 +152,7 @@ const LoginPage = (props) => {
         <FormControlLabel
         control={
           <Checkbox
-            onChange={handleChange('isLogin')}
+            onChange={handleClickKeepSignIn}
             name="isLogin"
             color="primary"
           />

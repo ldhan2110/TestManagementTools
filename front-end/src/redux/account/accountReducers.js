@@ -7,13 +7,11 @@ const initialState = {
   success:"",
   error: "",
   errorMsg:"",
-  action: "",
   accountInfo: {
     username:  "",
-    password: localStorage.getItem("password") || "",
-    isKeepedLogin: false,
-    showPassword: false,
-    isLogin: localStorage.getItem("isLogin") ? true : false
+    fullName: "",
+    email: "",
+    isLogin: false
   }
 }
 
@@ -34,29 +32,42 @@ const reducer = (state = initialState, actions) => {
     //LOGIN
     case types.LOGIN_REQ:
       return {
-        ...state,
-        accountInfo: actions.payload
+        success: false,
+        error: false,
+        errorMsg: "",
+        accountInfo: {
+          username:  payload.username,
+          password:  "",
+          fullName: "",
+          email: "",
+          isLogin: false
+        }
       }
 
     case types.LOGIN_SUCESS:
       return {
-        ...state,
-        accountInfo:{
-          username:"hayateazuma23",
-          password:"fdsa",
-          isKeepedLogin: false,
-          showPassword: false,
+        success: true,
+        error: "",
+        errorMsg: "",
+        accountInfo: {
+          username:  payload.username,
+          fullName: payload.fullName,
+          email: payload.email,
           isLogin: true
         }
       }
     
     case types.LOGIN_FAILED:
+      console.log(payload);
       return {
-        ...state,
+        success:"",
+        error: true,
+        errorMsg: payload,
         accountInfo: {
-          ...state.accountInfo,
-          username:"",
-          password:"",
+          username:  "",
+          fullName: "",
+          email: "",
+          isLogin: false
         }
       }
 
@@ -67,10 +78,14 @@ const reducer = (state = initialState, actions) => {
 
     case types.LOGOUT_SUCESS:
       return{
-        ...state,
-        accountInfo:{
-          ...state.accountInfo,
-          isLogin: payload.isLogin,
+        success:"",
+        error: "",
+        errorMsg:"",
+        accountInfo: {
+          username:  "",
+          fullName: "",
+          email: "",
+          isLogin: false
         }
       }
     

@@ -18,11 +18,21 @@ const temp_account = {
   ofType(actions.LOGIN_REQ),
   mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/api/auth',payload)).pipe(
     map(response => {
-      return ({
-        type: actions.LOGOUT_SUCESS,
-        payload: temp_account
-      })}),
-      catchError (error => console.log(error))
+      const {data} = response;
+      if (data.success) {
+        return ({
+          type: actions.LOGIN_SUCESS,
+          payload: temp_account
+        })
+      } else {
+        return ({
+          type: actions.LOGIN_FAILED,
+          payload: data.errMsg
+        })
+      }
+    
+    }),
+    catchError (error => console.log(error))
   )
   ))
   
