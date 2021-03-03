@@ -58,7 +58,6 @@ const reducer = (state = initialState, actions) => {
       }
     
     case types.LOGIN_FAILED:
-      console.log(payload);
       return {
         success:"",
         error: true,
@@ -71,6 +70,48 @@ const reducer = (state = initialState, actions) => {
         }
       }
 
+
+    case types.REGISTER_REQ:
+      return {
+        success: "",
+        error: "",
+        errorMsg: "",
+        accountInfo: {
+          username:  "",
+          fullName: "",
+          email: "",
+          isLogin: false
+        }
+      }
+
+    case types.REGISTER_SUCCESS:
+      return {
+        success: true,
+        error: "",
+        errorMsg: "",
+        accountInfo: {
+          username:  "",
+          fullName: "",
+          email: "",
+          isLogin: false
+        }
+      }
+
+    case types.REGISTER_FAILED:
+      return {
+        success:"",
+        error: true,
+        errorMsg: payload,
+        accountInfo: {
+          username:  "",
+          fullName: "",
+          email: "",
+          isLogin: false
+        }
+      }
+    
+    
+    //LOGOUT
     case types.LOGOUT_REQ:
       return {
         ...state

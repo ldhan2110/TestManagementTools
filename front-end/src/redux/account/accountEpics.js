@@ -10,9 +10,6 @@ const temp_account = {
   password: "I am an idiot",
   isLogin: "true"
 };
-//axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-
-
 
  export  const loginReqEpic = (action$, state$) => action$.pipe(
   ofType(actions.LOGIN_REQ),
@@ -35,17 +32,7 @@ const temp_account = {
     catchError (error => console.log(error))
   )
   ))
-  
-  
 
-//LOGIN EPIC
-//  export const loginReqEpic = (action$, state$) => action$.pipe(
-//   ofType(actions.LOGIN_REQ),
-//   map(()=>({
-//       type: actions.LOGIN_SUCESS,
-//       payload: temp_account
-//     }))
-//  );
 
  //LOGOUT EPIC
  export const logoutReqEpic = (action$, state$) => action$.pipe(

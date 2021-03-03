@@ -14,3 +14,10 @@ export function logoutReq(value){
     payload: value
   }
 }
+
+export function registerReq (value){
+  return{
+    type: types.REGISTER_REQ,
+    payload: value
+  }
+}
