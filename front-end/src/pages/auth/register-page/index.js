@@ -15,23 +15,36 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import useStyles from './styles';
+import {REGISTER_REQ} from '../../../redux/account/constants';
+import { connect } from 'react-redux';
 
+const  mapStateToProps = (state) => {
+  return { account: state.account }
+}
 
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    registerReq: (payload) => dispatch({ type: REGISTER_REQ, payload }),
+  }
+}
 
 const RegisterPage = (props) => {
 
     //SET STATES
     const {isOpen, setOpenState} = props;
 
+    const {account, registerReq} = props;
+
     const [open,setOpen] = useState(isOpen);
     
     const classes = useStyles();
     
     const [values, setValues] = React.useState({
-        amount: '',
+        fullname: '',
+        username: '',
         password: '',
-        weight: '',
-        weightRange: '',
+        email: '',
         showPassword: false,
     });
 
@@ -58,6 +71,9 @@ const RegisterPage = (props) => {
     event.preventDefault();
   };
 
+  const handleRegister = (event) => {
+    registerReq(values);
+  }
 
   //RENDER
     return(
@@ -74,7 +90,7 @@ const RegisterPage = (props) => {
           <OutlinedInput
             id="outlined-adornment-fullname"
             value={values.amount}
-            onChange={handleChange('username')}
+            onChange={handleChange('fullname')}
             labelWidth={60}
             required={true}
           />
@@ -127,7 +143,7 @@ const RegisterPage = (props) => {
             id="outlined-adornment-email"
             error
             value={values.amount}
-            onChange={handleChange('username')}
+            onChange={handleChange('email')}
             labelWidth={60}
             required={true}
             type="email"
@@ -141,7 +157,7 @@ const RegisterPage = (props) => {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleRegister} color="primary">
             Register
           </Button>
         </DialogActions>
@@ -149,4 +165,4 @@ const RegisterPage = (props) => {
     );
 }
 
-export default (RegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

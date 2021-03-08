@@ -1,7 +1,7 @@
 import * as actions from './constants';
 import { ofType} from 'redux-observable';
-import {mergeMap, map, filter,catchError} from 'rxjs/operators';
-import { Observable, from } from 'rxjs';
+import {mergeMap, map, filter,catchError, } from 'rxjs/operators';
+import { Observable, from, throwError} from 'rxjs';
 import axios from 'axios';
 import {API_ADDR} from '../constants';
 
@@ -11,7 +11,9 @@ const temp_account = {
   isLogin: "true"
 };
 
- export  const loginReqEpic = (action$, state$) => action$.pipe(
+
+//LOGIN
+export  const loginReqEpic = (action$, state$) => action$.pipe(
   ofType(actions.LOGIN_REQ),
   mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/login',payload)).pipe(
     map(response => {
@@ -31,9 +33,36 @@ const temp_account = {
       }
     
     }),
-    catchError (error => console.log(error))
+    catchError (error =>  console.log(error.response))
   )
   ))
+
+
+  //REGISTER
+  export  const registerReqEpic = (action$, state$) => action$.pipe(
+    ofType(actions.REGISTER_REQ),
+    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/users',payload)).pipe(
+      map(response => {
+        const {data} = response;
+        const {token} = data.result;
+        localStorage.setItem("token",token);
+        if (data.success) {
+          return ({
+            type: actions.REGISTER_SUCCESS,
+            payload: temp_account
+          })
+        } else {
+          return ({
+            type: actions.REGISTER_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error =>  console.log(error.response))
+    )
+    ))
+    
 
 
  //LOGOUT EPIC

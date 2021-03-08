@@ -4,5 +4,6 @@ import * as projectEpics from '../projects/projectEpics';
 export default combineEpics(
    accountEpics.loginReqEpic,
    accountEpics.logoutReqEpic,
+   accountEpics.registerReqEpic,
    projectEpics.getAllProjectEpic
 );

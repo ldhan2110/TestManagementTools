@@ -17,7 +17,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
     })).pipe(
     map(response => {
       const {data} = response;
-      console.log(data);
+      
       if (data.success) {
         return ({
           type: actions.GET_ALL_PROJECTS_SUCESS,
