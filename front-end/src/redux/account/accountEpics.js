@@ -13,9 +13,11 @@ const temp_account = {
 
  export  const loginReqEpic = (action$, state$) => action$.pipe(
   ofType(actions.LOGIN_REQ),
-  mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/api/auth',payload)).pipe(
+  mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/login',payload)).pipe(
     map(response => {
       const {data} = response;
+      const {token} = data.result;
+      localStorage.setItem("token",token);
       if (data.success) {
         return ({
           type: actions.LOGIN_SUCESS,

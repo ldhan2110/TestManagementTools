@@ -1,7 +1,9 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
+import {GET_ALL_PROJECTS_REQ} from '../../../redux/projects/constants';
+import { connect } from 'react-redux';
 import ProjectItem from './ProjectItem';
 import Pagination from '../../../components/Pagination/index';
 import IconButton from '@material-ui/core/IconButton';
@@ -40,15 +42,33 @@ const ListProjectData = [
    
 ];
 
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+    return { project: state.project }
+  }
+  
+  //MAP DISPATCH ACTIONS TO PROPS - REDUX
+  const mapDispatchToProps = dispatch => {
+    return {
+      getProjectReq: (payload) => dispatch({ type: GET_ALL_PROJECTS_REQ }),
+    }
+  }
 
 const ProjectList = (props)=>{
     const {classes} = props;
+
+    const {project, getProjectReq} = props;
 
     const [openNewProject,setOpenNewProject] = useState(false);
 
     const handleOpenNewProjectPopup = ()=>{
         setOpenNewProject(true);
     }
+
+    useEffect(()=>{
+        console.log(project);
+        getProjectReq();
+    },[]);
 
     return(
         <React.Fragment>
@@ -137,4 +157,4 @@ const ProjectList = (props)=>{
     );
 }
 
-export default withStyles(styles)(ProjectList);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ProjectList));

@@ -8,6 +8,12 @@ var initialState = {
   error: "",
   errorMsg:"",
   currentSelectedProject: "",
+  listProjects: {
+    originProjects: [],
+    insProjects: [],
+    delProjects: [],
+    updProjects: [],
+  }
 }
 
 
@@ -26,9 +32,31 @@ const reducer = (state = initialState, actions) => {
     //LOGIN
     case types.GET_ALL_PROJECTS_REQ:
       return {
-        ...state,
-        accountInfo: actions.payload
+        ...state
       }
+
+    case types.GET_ALL_PROJECTS_FAILED:
+      return {
+        ...state,
+        success: false,
+        error: true,
+        errorMsg: payload,
+      }
+    
+    case types.GET_ALL_PROJECTS_SUCESS:
+        return {
+          success: true,
+          error: "",
+          errorMsg:"",
+          currentSelectedProject: "",
+          listProjects: {
+            originProjects: payload,
+            insProjects: [],
+            delProjects: [],
+            updProjects: [],
+          }
+        }
+
 
     
     case types.SELECT_PROJECT: 
