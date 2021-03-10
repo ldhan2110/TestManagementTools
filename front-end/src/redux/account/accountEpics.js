@@ -20,6 +20,7 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
       const {data} = response;
       const {token} = data.result;
       localStorage.setItem("token",token);
+      console.log(localStorage.getItem("token"));
       if (data.success) {
         return ({
           type: actions.LOGIN_SUCESS,
@@ -68,10 +69,12 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
  //LOGOUT EPIC
  export const logoutReqEpic = (action$, state$) => action$.pipe(
   ofType(actions.LOGOUT_REQ),
-  map(()=>({
+  map(()=>{
+    localStorage.clear();
+    return ({
       type: actions.LOGOUT_SUCESS,
       payload: {
         isLogin: false
       }
-    }))
+    })})
  );

@@ -66,7 +66,7 @@ const ProjectList = (props)=>{
     }
 
     useEffect(()=>{
-        console.log(project);
+        console.log(localStorage.getItem('token'));
         getProjectReq();
     },[]);
 
