@@ -1,7 +1,7 @@
 import * as actions from './constants';
 import { ofType} from 'redux-observable';
 import {mergeMap, map, filter,catchError, } from 'rxjs/operators';
-import { Observable, from, throwError} from 'rxjs';
+import { Observable, from, of} from 'rxjs';
 import axios from 'axios';
 import {API_ADDR} from '../constants';
 
@@ -34,7 +34,10 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error =>  console.log(error.response))
+    catchError (error =>  of({
+      type: actions.LOGIN_FAILED,
+      payload: error.response.data
+    }))
   )
   ))
 
@@ -60,7 +63,10 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error =>  console.log(error.response))
+      catchError (error =>  of({
+        type: actions.REGISTER_FAILED,
+        payload: error.response.data
+      }))
     )
     ))
     
