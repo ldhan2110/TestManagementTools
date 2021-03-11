@@ -16,6 +16,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
     })).pipe(
     map(response => {
       const {data} = response;
+      console.log(data.result);
       if (data.success) {
         return ({
           type: actions.GET_ALL_PROJECTS_SUCESS,
@@ -38,7 +39,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
 
   export  const addNewProjectEpic = (action$, state$) => action$.pipe(
     ofType(actions.ADD_NEW_PROJECT_REQ),
-    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/project',payload,{
+    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/project/createproject',payload,{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"

@@ -9,8 +9,6 @@ import { Provider } from 'react-redux';
 import store from './redux/store/index';
 
 ReactDOM.render(
-  <Provider store={store.store}>
-    <PersistGate loading={null} persistor={store.persistor}>
+  <Provider store={store}>
         <App />
-    </PersistGate>
   </Provider>, document.getElementById('root'));

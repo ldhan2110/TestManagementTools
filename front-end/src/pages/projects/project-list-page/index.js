@@ -72,8 +72,8 @@ const ProjectList = (props)=>{
     },[]);
 
     useEffect(()=> {
-        setListProject(project.listProjects.originProjects);
-    },[project])
+        setListProject(project.listProjects);
+    },[project.listProjects])
 
     return(
         <React.Fragment>
@@ -106,8 +106,8 @@ const ProjectList = (props)=>{
                         return (
                         <Grid item  key = {index}>
                            <ProjectItem
-                             name={item.projectName}
-                             descriptions={item.descriptions}
+                             name={item.projectname}
+                             descriptions={item.description}
                              status={item.status}
                             /> 
                         </Grid>

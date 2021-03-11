@@ -53,7 +53,7 @@ const ProjectItem = (props) => {
       case "In progress":
         return (<Chip label={status} className={classes.statusInProgress}/>);
     
-      case "Pending":
+      case "pending":
         return (<Chip label={status} className={classes.statusPending}/>);
 
       default:

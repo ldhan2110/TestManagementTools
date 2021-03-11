@@ -1,27 +1,13 @@
 import * as types from './constants';
-import storage from 'redux-persist/lib/storage';
-import { persistReducer } from 'redux-persist';
-import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
 
 var initialState = {
   error: "",
   errorMsg:"",
   currentSelectedProject: "",
-  listProjects: {
-    originProjects: [],
-    insProjects: [],
-    delProjects: [],
-    updProjects: [],
-  }
+  insProjects: [],
+  listProjects: [],
 }
 
-
-const persistConfig = {
-  key: 'project',
-  storage: storage,
-  timeout: null,
-  stateReconciler: autoMergeLevel1 ,
-};
 
 const reducer = (state = initialState, actions) => {
 
@@ -46,24 +32,22 @@ const reducer = (state = initialState, actions) => {
           error: "",
           errorMsg:"",
           currentSelectedProject: "",
-          listProjects: {
-            originProjects: payload,
-            insProjects: [],
-            delProjects: [],
-            updProjects: [],
-          }
+          insProjects: [],
+          listProjects: payload,
         }
     
     case types.ADD_NEW_PROJECT_REQ:{
-      state.listProjects.insProjects.push(payload);
-      return state;
+      state.insProjects.push(payload);
+      return {
+        ...state
+      };
     }
 
     case types.ADD_NEW_PROJECT_SUCCESS:{
-      state.listProjects.insProjects.pop(payload);
+      state.insProjects.pop(payload);
       return {
         ...state,
-        error: "",
+        error: false,
         errorMsg:"",
       }
     }
@@ -82,13 +66,10 @@ const reducer = (state = initialState, actions) => {
         ...state,
         currentSelectedProject: actions.value
       }
-    
-   
-    
-    
+
     default:
       return state
   }
 }
 
-export default persistReducer(persistConfig, reducer);
+export default reducer;

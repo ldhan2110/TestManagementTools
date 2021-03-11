@@ -19,13 +19,13 @@ export default function configureStore(preloadedState) {
   const enhancers = [middlewareEnhancer]
   const composedEnhancers = compose(...enhancers)
 
-  const persistedReducer = persistReducer({key: 'root', storage, timeout: null, stateReconciler: autoMergeLevel1}, rootReducer);
+  //const persistedReducer = persistReducer({key: 'root', storage, timeout: null, stateReconciler: autoMergeLevel1}, rootReducer);
 
-  const store = createStore(persistedReducer,preloadedState,composedEnhancers);
+  const store = createStore(rootReducer,preloadedState,composedEnhancers);
 
-  const persistor = persistStore(store);
+  //const persistor = persistStore(store);
 
   epicMiddleware.run(rootEpic);
 
-  return {store, persistor};
+  return store;
 }

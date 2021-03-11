@@ -136,5 +136,5 @@ const reducer = (state = initialState, actions) => {
   }
 }
 
-export default persistReducer(persistConfig, reducer);
+export default  reducer;
 
