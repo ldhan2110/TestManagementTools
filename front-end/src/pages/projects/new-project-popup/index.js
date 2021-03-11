@@ -1,6 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
+import {ADD_NEW_PROJECT_REQ} from '../../../redux/projects/constants';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,19 +16,55 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { project: state.project }
+}
+
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    addProjectReq: (payload) => dispatch({ type: ADD_NEW_PROJECT_REQ, payload }),
+  }
+}
+
 const NewProjectPopup = (props) => {
 
   const {isOpen, setOpen, classes} = props;
 
+  const {project, addProjectReq} = props;
+
   const [open, setOpenPopup] = React.useState(isOpen);
+
+  const [projectInfo, setProjectInfo] = useState({
+    projectName: '',
+    description: '',
+    is_public: false,
+    active: false
+  });
 
   useEffect(()=>{
       setOpenPopup(isOpen);
   },[isOpen, open])
 
-
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCreate = () => {
+    addProjectReq(projectInfo);
+  }
+
+  const handleChange = (prop) => (event) => {
+    setProjectInfo({ ...projectInfo, [prop]: event.target.value });
+  };
+
+  const handlePublic = () =>{
+    setProjectInfo({ ...projectInfo, is_public: !projectInfo.is_public });
+  };
+
+  const handleActive = () => {
+    setProjectInfo({ ...projectInfo, active: !projectInfo.active });
   };
 
   return (
@@ -42,13 +80,13 @@ const NewProjectPopup = (props) => {
           </Toolbar>
         </AppBar>
         <form className={classes.content}>
-          <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}/>
+          <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  value={projectInfo.projectName || ''} onChange={handleChange('projectName')}/>
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}  value={projectInfo.description || ''} onChange={handleChange('description')}/>
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" />}
+              control={<Checkbox color="primary"  value={projectInfo.is_public} onChange={handlePublic}/>}
               label="Public"
               labelPlacement="start"
             />
@@ -57,13 +95,13 @@ const NewProjectPopup = (props) => {
             <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" />}
+              control={<Checkbox color="primary" value={projectInfo.active}  onChange={handleActive}/>}
               label="Active"
               labelPlacement="start"
             />
           </div>
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleClose}>
+          <Button variant="contained" color="primary" onClick={handleCreate}>
             Create
           </Button>
           <Button variant="contained" onClick={handleClose}>
@@ -71,9 +109,8 @@ const NewProjectPopup = (props) => {
           </Button>
         </div>
         </form>
-        
       </Dialog>
   );
 }
 
-export default withStyles(styles)(NewProjectPopup);
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(NewProjectPopup));

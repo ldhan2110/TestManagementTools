@@ -61,14 +61,19 @@ const ProjectList = (props)=>{
 
     const [openNewProject,setOpenNewProject] = useState(false);
 
+    const [listProjects, setListProject] = useState([]);
+
     const handleOpenNewProjectPopup = ()=>{
         setOpenNewProject(true);
     }
 
     useEffect(()=>{
-        console.log(localStorage.getItem('token'));
         getProjectReq();
     },[]);
+
+    useEffect(()=> {
+        setListProject(project.listProjects.originProjects);
+    },[project])
 
     return(
         <React.Fragment>
@@ -97,7 +102,7 @@ const ProjectList = (props)=>{
             <Divider my={6}/>
             <Grid container 
                 spacing={3}>
-                    {ListProjectData.map((item,index)=>{
+                    {listProjects.map((item,index)=>{
                         return (
                         <Grid item  key = {index}>
                            <ProjectItem

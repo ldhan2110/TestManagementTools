@@ -8,7 +8,7 @@ import {API_ADDR} from '../constants';
 
 export  const getAllProjectEpic = (action$, state$) => action$.pipe(
   ofType(actions.GET_ALL_PROJECTS_REQ),
-  mergeMap(({ payload }) =>  from(axios.get(API_ADDR+'/project/inproject',{
+  mergeMap(({  }) =>  from(axios.get(API_ADDR+'/project/inproject',{
       headers: {
         "X-Auth-Token": localStorage.getItem("token"),
         "content-type": "application/json"
@@ -16,11 +16,10 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
     })).pipe(
     map(response => {
       const {data} = response;
-      
       if (data.success) {
         return ({
           type: actions.GET_ALL_PROJECTS_SUCESS,
-          payload: []
+          payload: data.result
         })
       } else {
         return ({
@@ -34,5 +33,35 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
       type: actions.GET_ALL_PROJECTS_FAILED,
       payload: error.response
     }))
-  )
-  ))
+  )))
+
+
+  export  const addNewProjectEpic = (action$, state$) => action$.pipe(
+    ofType(actions.ADD_NEW_PROJECT_REQ),
+    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/project',payload,{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          console.log(data);
+          return ({
+            type: actions.ADD_NEW_PROJECT_SUCCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.ADD_NEW_PROJECT_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.ADD_NEW_PROJECT_FAILED,
+        payload: error.response
+      }))
+    )))

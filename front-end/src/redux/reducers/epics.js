@@ -5,5 +5,6 @@ export default combineEpics(
    accountEpics.loginReqEpic,
    accountEpics.logoutReqEpic,
    accountEpics.registerReqEpic,
-   projectEpics.getAllProjectEpic
+   projectEpics.getAllProjectEpic,
+   projectEpics.addNewProjectEpic
 );
