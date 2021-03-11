@@ -14,11 +14,11 @@ import {TransitionEffect} from './TransitionEffect';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import Snackbar from '../../../components/SnackBar';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return { project: state.project }
+  return { insProjects: state.project.insProjects }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -32,9 +32,13 @@ const NewProjectPopup = (props) => {
 
   const {isOpen, setOpen, classes} = props;
 
-  const {project, addProjectReq} = props;
+  const {insProjects, addProjectReq} = props;
 
   const [open, setOpenPopup] = React.useState(isOpen);
+
+  const [isOpenSnackbar, setOpenSnackbar] = useState(false);
+
+  const [contentMsg, setContentMsg] = useState('');
 
   const [projectInfo, setProjectInfo] = useState({
     projectname: '',
@@ -70,6 +74,7 @@ const NewProjectPopup = (props) => {
 
   return (
       <Dialog fullWidth maxWidth="lg" open={open} onClose={handleClose} TransitionComponent={TransitionEffect}>
+        <Snackbar content={contentMsg} type="error" isOpen={isOpenSnackbar} openMethod = {setOpenSnackbar} />
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography variant="h3" className={classes.title}>

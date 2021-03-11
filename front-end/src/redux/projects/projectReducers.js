@@ -4,7 +4,10 @@ var initialState = {
   error: "",
   errorMsg:"",
   currentSelectedProject: "",
-  insProjects: [],
+  insProjects: {
+    sucess: null,
+    errMsg: null
+  },
   listProjects: [],
 }
 
@@ -36,10 +39,10 @@ const reducer = (state = initialState, actions) => {
           listProjects: payload,
         }
     
-    case types.ADD_NEW_PROJECT_REQ:{
-      state.insProjects.push(payload);
+    case types.ADD_NEW_PROJECT_REQ:{      
       return {
-        ...state
+        ...state,
+        insProjects: initialState.insProjects
       };
     }
 
@@ -47,16 +50,20 @@ const reducer = (state = initialState, actions) => {
       state.insProjects.pop(payload);
       return {
         ...state,
-        error: false,
-        errorMsg:"",
+        insProjects: {
+          sucess: true,
+          errMsg: null
+        }
       }
     }
 
     case types.ADD_NEW_PROJECT_FAILED: {
       return{
         ...state,
-        error: true,
-        errorMsg: payload
+        insProjects:{
+          sucess: false,
+          errMsg: payload
+        }
       }    
     }
 

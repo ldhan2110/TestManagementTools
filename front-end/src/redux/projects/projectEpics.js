@@ -16,7 +16,6 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
     })).pipe(
     map(response => {
       const {data} = response;
-      console.log(data.result);
       if (data.success) {
         return ({
           type: actions.GET_ALL_PROJECTS_SUCESS,
@@ -51,7 +50,6 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
           console.log(data);
           return ({
             type: actions.ADD_NEW_PROJECT_SUCCESS,
-            payload: data.result
           })
         } else {
           return ({
