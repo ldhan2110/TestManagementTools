@@ -51,8 +51,21 @@ const NewProjectPopup = (props) => {
       setOpenPopup(isOpen);
   },[isOpen, open])
 
+  useEffect(()=>{
+    if (insProjects.sucess === false){
+      setContentMsg(insProjects.errMsg);
+      setOpenSnackbar(true);
+    }
+  },[insProjects]);
+
 
   const handleClose = () => {
+    setProjectInfo({
+      projectname: '',
+      description: '',
+      is_public: false,
+      active: false
+    })
     setOpen(false);
   };
 

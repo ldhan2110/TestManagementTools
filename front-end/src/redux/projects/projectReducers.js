@@ -58,6 +58,7 @@ const reducer = (state = initialState, actions) => {
     }
 
     case types.ADD_NEW_PROJECT_FAILED: {
+      console.log(payload);
       return{
         ...state,
         insProjects:{
