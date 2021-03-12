@@ -113,9 +113,9 @@ const ProjectList = (props)=>{
                         </Grid>
                     )})}
                 </Grid>
-                <div className={classes.paging}>
+                {/* <div className={classes.paging}>
                     <Pagination totalPage={5}/>
-                </div>
+                </div> */}
             </div>
             </Hidden>
 

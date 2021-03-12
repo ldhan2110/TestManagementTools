@@ -2,6 +2,7 @@ import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from './Header/index';
 import Footer from './Footer/index';
+import SnackBar from '../components/SnackBar';
 import { CssBaseline } from "@material-ui/core";
 
 const GlobalStyle = createGlobalStyle`
@@ -37,6 +38,7 @@ function Layout({ children }) {
       <GlobalStyle />
       <Header/>
       {children}
+      <SnackBar/>
       <Footer/>
     </Root>
   );

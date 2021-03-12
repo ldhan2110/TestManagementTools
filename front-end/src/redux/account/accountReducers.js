@@ -11,7 +11,7 @@ const initialState = {
     username:  "",
     fullName: "",
     email: "",
-    isLogin: false
+    isLogin: localStorage.getItem('token') ? true : false
   }
 }
 

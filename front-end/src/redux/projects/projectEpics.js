@@ -50,6 +50,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
           console.log(data);
           return ({
             type: actions.ADD_NEW_PROJECT_SUCCESS,
+            payload: true
           })
         } else {
           return ({

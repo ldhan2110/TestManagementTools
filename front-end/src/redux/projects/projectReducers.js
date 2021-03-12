@@ -47,7 +47,6 @@ const reducer = (state = initialState, actions) => {
     }
 
     case types.ADD_NEW_PROJECT_SUCCESS:{
-      state.insProjects.pop(payload);
       return {
         ...state,
         insProjects: {
@@ -58,7 +57,6 @@ const reducer = (state = initialState, actions) => {
     }
 
     case types.ADD_NEW_PROJECT_FAILED: {
-      console.log(payload);
       return{
         ...state,
         insProjects:{

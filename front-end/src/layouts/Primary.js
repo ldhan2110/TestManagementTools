@@ -6,7 +6,7 @@ import Sidebar from "../components/Sidebar";
 import Header from "../layouts/Header/index";
 import Footer from "../components/Footer";
 import Settings from "../components/Settings";
-
+import SnackBar from '../components/SnackBar';
 import { spacing } from "@material-ui/system";
 import {
   Hidden,
@@ -70,8 +70,11 @@ const MainContent = styled(Paper)`
   }
 `;
 
-const Layout = ({ children, routes, width }) => {
+
+const Layout = (props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const {children, routes, width} = props;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -103,6 +106,7 @@ const Layout = ({ children, routes, width }) => {
         <MainContent p={isWidthUp("lg", width) ? 10 : 5}>
           {children}
         </MainContent>
+        <SnackBar/>
         <Footer />
       </AppContent>
       <Settings />
@@ -110,4 +114,4 @@ const Layout = ({ children, routes, width }) => {
   )
 }
 
-export default withWidth()(Layout);
+export default (withWidth()(Layout));

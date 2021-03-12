@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
-import {ADD_NEW_PROJECT_REQ} from '../../../redux/projects/constants';
+import {ADD_NEW_PROJECT_REQ, GET_ALL_PROJECTS_REQ} from '../../../redux/projects/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -25,6 +26,8 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     addProjectReq: (payload) => dispatch({ type: ADD_NEW_PROJECT_REQ, payload }),
+    getAllProjectReq: () => dispatch({ type: GET_ALL_PROJECTS_REQ}),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
   }
 }
 
@@ -32,13 +35,10 @@ const NewProjectPopup = (props) => {
 
   const {isOpen, setOpen, classes} = props;
 
-  const {insProjects, addProjectReq} = props;
+  const {insProjects, addProjectReq, displayMsg, getAllProjectReq} = props;
 
   const [open, setOpenPopup] = React.useState(isOpen);
 
-  const [isOpenSnackbar, setOpenSnackbar] = useState(false);
-
-  const [contentMsg, setContentMsg] = useState('');
 
   const [projectInfo, setProjectInfo] = useState({
     projectname: '',
@@ -53,10 +53,19 @@ const NewProjectPopup = (props) => {
 
   useEffect(()=>{
     if (insProjects.sucess === false){
-      setContentMsg(insProjects.errMsg);
-      setOpenSnackbar(true);
+      displayMsg({
+        content: insProjects.errMsg,
+        type: 'error'
+      });
+    } else if (insProjects.sucess == true) {
+      displayMsg({
+        content: "Create project successfully !",
+        type: 'success'
+      });
+      getAllProjectReq();
+      handleClose();
     }
-  },[insProjects]);
+  },[insProjects.sucess]);
 
 
   const handleClose = () => {
@@ -87,7 +96,6 @@ const NewProjectPopup = (props) => {
 
   return (
       <Dialog fullWidth maxWidth="lg" open={open} onClose={handleClose} TransitionComponent={TransitionEffect}>
-        <Snackbar content={contentMsg} type="error" isOpen={isOpenSnackbar} openMethod = {setOpenSnackbar} />
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography variant="h3" className={classes.title}>
