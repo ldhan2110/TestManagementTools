@@ -8,6 +8,7 @@ import {
   Layers,
   Home,
   Settings,
+  Briefcase,
   Trello
 } from "react-feather";
 import async from "../components/Async";
@@ -174,6 +175,17 @@ const milestoneRoute = {
   component: MileStonePage,
 }
 
+
+//Test Plan
+const testCaseRoute = {
+  id: "Test Cases",
+  path: "/projects/:projectName/test-cases",
+  name: "Test Cases",
+  icon: <Briefcase/>,
+  restrict: true,
+  exact: true,
+}
+
 // Routes using the Dashboard layout
 export const primaryLayoutRoutes = [
   dashboardRoute,
@@ -198,9 +210,10 @@ export const freeLayoutRoutes = [
 export const sidebarRoutes = [
   dashboardRoute,
   testPlanListRoute,
+  testCaseRoute,
   buildListRoute,
+  milestoneRoute,
   projectSettingRoutes,
-  milestoneRoute
 ];
 
 export const emptyRoutes = [

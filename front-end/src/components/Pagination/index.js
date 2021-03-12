@@ -25,7 +25,6 @@ export default  function BasicPagination(props) {
   },[selectedPage]);
 
   const handleChange = (event, value) => {
-    console.log(value);
     selectMethod(value);
   };
 
