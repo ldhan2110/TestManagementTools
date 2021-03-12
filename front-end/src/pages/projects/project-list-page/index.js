@@ -21,26 +21,7 @@ import {
 } from "@material-ui/icons";
 
 
-
-
-const ListProjectData = [
-    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances tokerearafsanfjudflasnds", status: "Finished"},
-    {projectName: "Lizard", descriptions: "The project helps owner to manage their household appliances DBSAHDSAKDHSAFHSAODASDSADSADASDSADSADSADSASADASDSb", status: "In progress"},
-    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliancesfdsafdsafsadfsdafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafsfdsafdsafdsafdsafdasfsa", status: "Finished"},
-    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Finished"},
-    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
-    {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
-    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
-    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliancesssssssss", status: "Pending"},
-    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances tokerearafsanfjudflasnds", status: "Finished"},
-    // {projectName: "Lizard", descriptions: "The project helps owner to manage their household appliances DBSAHDSAKDHSAFHSAODASDSADSADASDSADSADSADSASADASDSb", status: "In progress"},
-    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliancesfdsafdsafsadfsdafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafdsafsfdsafdsafdsafdsafdasfsa", status: "Finished"},
-    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Finished"},
-    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
-    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
-    // {projectName: "ALLIUM", descriptions: "The project helps owner to manage their household appliances", status: "Pending"},
-   
-];
+const MAX_PER_PAGE = 8;
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -63,6 +44,8 @@ const ProjectList = (props)=>{
 
     const [listProjects, setListProject] = useState([]);
 
+    const [selectPage, setSelectPage] = useState(1);
+
     const handleOpenNewProjectPopup = ()=>{
         setOpenNewProject(true);
     }
@@ -71,8 +54,10 @@ const ProjectList = (props)=>{
         getProjectReq();
     },[]);
 
+
     useEffect(()=> {
         setListProject(project.listProjects);
+        console.log(project.listProjects);
     },[project.listProjects])
 
     return(
@@ -102,7 +87,7 @@ const ProjectList = (props)=>{
             <Divider my={6}/>
             <Grid container 
                 spacing={3}>
-                    {listProjects.map((item,index)=>{
+                    {listProjects.slice((selectPage-1)*MAX_PER_PAGE,(selectPage-1)*MAX_PER_PAGE+MAX_PER_PAGE).map((item,index)=>{
                         return (
                         <Grid item  key = {index}>
                            <ProjectItem
@@ -113,9 +98,9 @@ const ProjectList = (props)=>{
                         </Grid>
                     )})}
                 </Grid>
-                {/* <div className={classes.paging}>
-                    <Pagination totalPage={5}/>
-                </div> */}
+                <div className={classes.paging}>
+                    <Pagination totalPage={Math.ceil(project.listProjects.length/MAX_PER_PAGE)} selectedPage={selectPage} selectMethod={setSelectPage}/>
+                </div>
             </div>
             </Hidden>
 
@@ -141,19 +126,19 @@ const ProjectList = (props)=>{
                 <Divider my={6}/>
                 <Grid container 
                 spacing={3}>
-                    {ListProjectData.map((item,index)=>{
+                    {listProjects.slice((selectPage-1)*MAX_PER_PAGE,(selectPage-1)*MAX_PER_PAGE+MAX_PER_PAGE).map((item,index)=>{
                         return (
-                        <Grid item key = {index}>
+                        <Grid item  key = {index}>
                            <ProjectItem
-                             name={item.projectName}
-                             descriptions={item.descriptions}
+                             name={item.projectname}
+                             descriptions={item.description}
                              status={item.status}
                             /> 
                         </Grid>
                     )})}
                 </Grid>
                 <div className={classes.paging}>
-                    <Pagination totalPage={5}/>
+                    <Pagination totalPage={Math.ceil(project.listProjects.length/MAX_PER_PAGE)} selectedPage={selectPage} selectMethod={setSelectPage}/>
                 </div>
                 
                 </div>

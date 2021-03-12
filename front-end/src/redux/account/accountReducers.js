@@ -118,6 +118,7 @@ const reducer = (state = initialState, actions) => {
       }
 
     case types.LOGOUT_SUCESS:
+      localStorage.clear();
       return{
         success:"",
         error: "",

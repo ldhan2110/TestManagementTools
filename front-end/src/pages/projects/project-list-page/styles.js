@@ -12,7 +12,8 @@ const styles = {
     },
 
     item: {
-       maxWidth: 345,
+       maxWidth: 300,
+       width: 300,
        height: 175,
        maxHeight: 200,
        marginTop: 20
@@ -46,7 +47,7 @@ const styles = {
     },
 
     paging:{
-        marginTop: "30vh",
+        marginTop: "20vh",
         width: '100%',
         display: "flex",
         justifyContent: "flex-end",
