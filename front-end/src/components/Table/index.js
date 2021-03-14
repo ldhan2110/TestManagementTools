@@ -17,7 +17,7 @@ import {
   TablePagination,
   TableRow} from "@material-ui/core";
 
-import { green, orange } from "@material-ui/core/colors";
+import { green, orange, red } from "@material-ui/core/colors";
 
 import {
   Archive as ArchiveIcon,
@@ -33,8 +33,14 @@ const Chip = styled(MuiChip)`
   ${spacing};
 
   background: ${props => props.active && green[500]};
+  background: ${props => props.pass && green[500]};
+  background: ${props => props.fail && red[500]};
+  background: ${props => props.block && orange[500]};
   background: ${props => props.sent && orange[700]};
   color: ${props => (props.active || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.pass || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.fail || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.block || props.sent) && props.theme.palette.common.white};
 `
 
 const Avatar = styled(MuiAvatar)`
@@ -163,6 +169,9 @@ const EnhancedTable = (props) => {
                               return (<TableCell align={headerList.headerCells[index].alignment} key={index}>
                                         {item === 0 && <Chip size="small" mr={1} mb={1} label="Active" active={1}/>}
                                         {item === 1 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
+                                        {item === 2 && <Chip size="small" mr={1} mb={1} label="Pass" pass={1}/>}
+                                        {item === 3 && <Chip size="small" mr={1} mb={1} label="Fail" fail={1}/>}
+                                        {item === 4 && <Chip size="small" mr={1} mb={1} label="Block" block={1}/>}
                                   </TableCell>)
                             
                             default:

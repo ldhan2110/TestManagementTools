@@ -9,7 +9,8 @@ import {
   Home,
   Settings,
   Briefcase,
-  Trello
+  Trello,
+  Radio
 } from "react-feather";
 import async from "../components/Async";
 
@@ -17,6 +18,7 @@ import async from "../components/Async";
 const Page500 = async(() => import("../pages/error/Page500"));
 const LoginPage = async(()=> import("../pages/auth/login-page/index"));
 const ForgotPassword = async(()=> import("../pages/auth/forgot-password-page"));
+const ResetPassword = async(()=> import("../pages/auth/reset-password-page"));
 const ProfilePage = async(()=>import("../pages/auth/profile-page"));
 
 // Dashboards components
@@ -29,6 +31,11 @@ const ProjectList = async(()=>import('../pages/projects/project-list-page/index'
 const TestPlanList = async(()=>import('../pages/testplans/test-plans-list-page/index'));
 const NewTestPlanPage = async(()=>import('../pages/testplans/new-test-plan-page/index'));
 const TestPlanDetailPage = async(()=>import('../pages/testplans/test-plan-detail-page/index'));
+
+//TestExecution components
+const TestExecutionList = async(()=>import('../pages/testexecution/test-execution-list-page/index'));
+const NewTestExecutionPage = async(()=>import('../pages/testexecution/new-test-execution-page/index'));
+const TestExecutionDetailPage = async(()=>import('../pages/testexecution/test-execution-detail-page/index'));
 
 //Build-Release components
 const BuildList = async(()=>import('../pages/builds/builds-list-page/index'));
@@ -80,6 +87,12 @@ const forgotPasswordRoute = {
   path: "/auth/forgot-password",
   name: "Forgot Password",
   component: ForgotPassword
+}
+
+const resetPasswordRoute = {
+  path: "/auth/reset-password",
+  name: "Reset Password",
+  component: ResetPassword
 }
 
 const error500Route = {
@@ -139,6 +152,35 @@ const testPlanDetailRoute = {
   component: TestPlanDetailPage
 }
 
+//TEST EXECUTION
+const testExecutionListRoute = {
+  id: "Test Execution",
+  path: "/projects/:projectName/test-execution",
+  icon: <Radio />,
+  name: "Test Execution",
+  restrict: true,
+  exact:true,
+  component: TestExecutionList
+}
+
+const newTestExecutionRoute = {
+  id: "New Test Execution",
+  path: "/projects/:projectName/test-execution/create-test-execution",
+  name: "New Test Execution",
+  restrict: true,
+  exact: true,
+  component: NewTestExecutionPage
+}
+
+const testExecutionDetailRoute = {
+  id: "Test Execution Detail",
+  path: "/projects/:projectName/test-execution/:testExecutionName",
+  name: "Test Execution Detail",
+  restrict: true,
+  exact: true,
+  component: TestExecutionDetailPage
+} 
+
 //BUILD-RELEASE
 const buildListRoute = {
   id: "Build/Release",
@@ -196,6 +238,9 @@ export const primaryLayoutRoutes = [
   testPlanListRoute,
   newTestPlanRoute,
   testPlanDetailRoute,
+  testExecutionListRoute,
+  newTestExecutionRoute,
+  testExecutionDetailRoute,
   buildListRoute,
   newBuildRoute,
   buildDetailRoute,
@@ -207,6 +252,7 @@ export const primaryLayoutRoutes = [
 // Routes using the Auth layout
 export const freeLayoutRoutes = [
   forgotPasswordRoute,
+  resetPasswordRoute,
   projectListRoute,
   profileRoute,
 ];
@@ -215,6 +261,7 @@ export const freeLayoutRoutes = [
 export const sidebarRoutes = [
   dashboardRoute,
   testPlanListRoute,
+  testExecutionListRoute,
   testCaseRoute,
   buildListRoute,
   milestoneRoute,
@@ -228,7 +275,8 @@ export const emptyRoutes = [
 
 export const publicRoutes = [
   loginRoute.path,
-  forgotPasswordRoute.path
+  forgotPasswordRoute.path,
+  resetPasswordRoute.path,
 ]
   
 
