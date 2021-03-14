@@ -41,6 +41,9 @@ const MemberListPage = async(()=>import('../pages/settings/members/index'));
 //Milestone components
 const MileStonePage = async(()=>import('../pages/milstones/milestone-overview-page/index'));
 
+//TestCase components
+const TestCasePage = async(()=>import('../pages/testcases/test-cases-list-page/index'));
+
 const dashboardRoute = {
   id: "Dashboard",
   path: "/projects/:projectName",
@@ -184,6 +187,7 @@ const testCaseRoute = {
   icon: <Briefcase/>,
   restrict: true,
   exact: true,
+  component: TestCasePage
 }
 
 // Routes using the Dashboard layout
@@ -197,6 +201,7 @@ export const primaryLayoutRoutes = [
   buildDetailRoute,
   projectSettingRoutes,
   milestoneRoute,
+  testCaseRoute
 ];
 
 // Routes using the Auth layout
