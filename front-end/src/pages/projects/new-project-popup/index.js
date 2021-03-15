@@ -107,7 +107,7 @@ const NewProjectPopup = (props) => {
           </Toolbar>
         </AppBar>
         <form className={classes.content}>
-          <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  value={projectInfo.projectname || ''} onChange={handleChange('projectname')}  />
+          <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  value={projectInfo.projectname || ''} onChange={handleChange('projectname')} inputProps={{maxLength : 16}} />
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}  value={projectInfo.description || ''} onChange={handleChange('description')}/>
           <div>
              <FormControlLabel
