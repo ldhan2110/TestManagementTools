@@ -97,7 +97,7 @@ const LoginPage = (props) => {
 
     //HANDLE LOGIN REQUEST BUTTON
     const handleClickLogin = (event) => {
-      loginReq({email: values.username, password: values.password});
+      loginReq({username: values.username, password: values.password});
     }
 
     return(

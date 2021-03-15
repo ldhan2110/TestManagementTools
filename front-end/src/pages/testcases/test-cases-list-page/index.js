@@ -3,7 +3,7 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
-import SearchInput from '../../../components/SearchInput';
+import TreeView from '../../../components/TreeView';
 import {
   Grid,
   Typography,
@@ -42,13 +42,13 @@ const TestCaseListPage = (props) => {
           <Grid item xs={12}>
             <Grid container spacing={6} className={classes.contentContainer}>
                 <Grid item xs ={3}>
-                  <Grid container spacing={3}>
+                  <Grid container spacing={6}>
                     <Grid item xs={12}>
                       <Typography variant="h4" gutterBottom display="inline">
                         Filters
                       </Typography>
                     </Grid>
-                  
+
                     <Grid item xs={12}>
                       <TextField id="testCaseName" label="Test Case Name" variant="outlined"  fullWidth required/>
                     </Grid>
@@ -73,6 +73,7 @@ const TestCaseListPage = (props) => {
                       </FormControl>
                     </Grid>
 
+
                     <Grid item xs={12}>
                       <Grid container spacing={3}>
                           <Grid item xs ={6}>
@@ -92,7 +93,6 @@ const TestCaseListPage = (props) => {
                               </Select>
                             </FormControl>
                           </Grid>
-
                           <Grid item xs ={6}>
                             <FormControl variant="outlined" className={classes.formControl} fullWidth>
                               <InputLabel id="type">Type</InputLabel>
@@ -111,21 +111,23 @@ const TestCaseListPage = (props) => {
                       </Grid>
                     </Grid>
 
-                    <Grid item xs={12}>
-                        <Button variant="contained" color="primary" fullWidth>Search</Button>
+                  <Grid item xs={12}><Button variant="contained" color="primary" fullWidth>Search</Button></Grid>
+
+                  <Grid item xs={12}>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">Test Cases</Typography></Grid>
+                      <Grid item xs={12}><TreeView/></Grid>
                     </Grid>
                   </Grid>
 
-                <Divider my={6} />
-
+                </Grid>
               </Grid>
 
+              <Divider orientation="vertical" flexItem />
 
-                <Divider orientation="vertical" flexItem />
-
-                <Grid item xs={8}>
-                    <h1>Hello Susan</h1>
-                </Grid>
+              <Grid item xs={8}>
+                  <h1>Hello Susan</h1>
+              </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12}>
