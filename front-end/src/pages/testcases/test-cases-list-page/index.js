@@ -3,7 +3,7 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
-import SearchInput from '../../../components/SearchInput';
+import TreeView from '../../../components/TreeView';
 import {
   Grid,
   Typography,
@@ -38,18 +38,17 @@ const TestCaseListPage = (props) => {
       <div>
   
         <Helmet title="Service Management" />
-        <Grid container spacing={6}>
+        <Grid container spacing={8}>
           <Grid item xs={12}>
             <Grid container spacing={6} className={classes.contentContainer}>
-
                 <Grid item xs ={3}>
-                  <Grid container spacing={3}>
+                  <Grid container spacing={6}>
                     <Grid item xs={12}>
-                      <Typography variant="h3" gutterBottom display="inline">
+                      <Typography variant="h4" gutterBottom display="inline">
                         Filters
                       </Typography>
                     </Grid>
-                  
+
                     <Grid item xs={12}>
                       <TextField id="testCaseName" label="Test Case Name" variant="outlined"  fullWidth required/>
                     </Grid>
@@ -74,6 +73,7 @@ const TestCaseListPage = (props) => {
                       </FormControl>
                     </Grid>
 
+
                     <Grid item xs={12}>
                       <Grid container spacing={3}>
                           <Grid item xs ={6}>
@@ -93,16 +93,15 @@ const TestCaseListPage = (props) => {
                               </Select>
                             </FormControl>
                           </Grid>
-
                           <Grid item xs ={6}>
                             <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                              <InputLabel id="demo-simple-select-outlined-label">Test Suite</InputLabel>
+                              <InputLabel id="type">Type</InputLabel>
                                 <Select
-                                  labelId="demo-simple-select-outlined-label"
-                                  id="demo-simple-select-outlined"
+                                  labelId="type"
+                                  id="type"
                                   //value={age}
                                   //onChange={handleChange}
-                                  label="Test Suite"
+                                  label="Type"
                                 >
                                <MenuItem value=""><em>Manual</em></MenuItem>
                                <MenuItem value={10}>Ten</MenuItem>
@@ -110,20 +109,32 @@ const TestCaseListPage = (props) => {
                             </FormControl>
                           </Grid>
                       </Grid>
-                      
                     </Grid>
 
+                  <Grid item xs={12}><Button variant="contained" color="primary" fullWidth>Search</Button></Grid>
 
+                  <Grid item xs={12}>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">Test Cases</Typography></Grid>
+                      <Grid item xs={12}><TreeView/></Grid>
+                    </Grid>
                   </Grid>
-                </Grid>
 
-                <Divider orientation="vertical" flexItem />
-
-                <Grid item xs={8}>
-                    <h1>Hello Susan</h1>
                 </Grid>
+              </Grid>
+
+              <Divider orientation="vertical" flexItem />
+
+              <Grid item xs={8}>
+                  <h1>Hello Susan</h1>
+              </Grid>
             </Grid>
           </Grid>
+          <Grid item xs={12}>
+              <Typography variant="h3" gutterBottom display="inline">
+                        Filters
+              </Typography>
+          </Grid>  
         </Grid>
       </div>
     );

@@ -98,9 +98,11 @@ const ProjectList = (props)=>{
                         </Grid>
                     )})}
                 </Grid>
+                {listProjects.length !== 0 &&
                 <div className={classes.paging}>
                     <Pagination totalPage={Math.ceil(project.listProjects.length/MAX_PER_PAGE)} selectedPage={selectPage} selectMethod={setSelectPage}/>
                 </div>
+                }
             </div>
             </Hidden>
 
@@ -137,10 +139,11 @@ const ProjectList = (props)=>{
                         </Grid>
                     )})}
                 </Grid>
+                {listProjects.length !== 0 &&
                 <div className={classes.paging}>
                     <Pagination totalPage={Math.ceil(project.listProjects.length/MAX_PER_PAGE)} selectedPage={selectPage} selectMethod={setSelectPage}/>
                 </div>
-                
+                }
                 </div>
             </Hidden>
         </React.Fragment>
