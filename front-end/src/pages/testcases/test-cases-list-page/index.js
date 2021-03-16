@@ -40,9 +40,9 @@ const TestCaseListPage = (props) => {
         <Helmet title="Service Management" />
         <Grid container spacing={8}>
           <Grid item xs={12}>
-            <Grid container spacing={6} className={classes.contentContainer}>
+            <Grid container spacing={8} className={classes.contentContainer}>
                 <Grid item xs ={3}>
-                  <Grid container spacing={6}>
+                  <Grid container spacing={3}>
                     <Grid item xs={12}>
                       <Typography variant="h4" gutterBottom display="inline">
                         Filters
@@ -113,7 +113,7 @@ const TestCaseListPage = (props) => {
 
                   <Grid item xs={12}><Button variant="contained" color="primary" fullWidth>Search</Button></Grid>
 
-                  <Grid item xs={12}>
+                  <Grid item xs={12} style={{marginTop: '5vh'}}>
                     <Grid container spacing={3}>
                       <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">Test Cases</Typography></Grid>
                       <Grid item xs={12}><TreeView/></Grid>
@@ -129,12 +129,7 @@ const TestCaseListPage = (props) => {
                   <h1>Hello Susan</h1>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-              <Typography variant="h3" gutterBottom display="inline">
-                        Filters
-              </Typography>
-          </Grid>  
+          </Grid> 
         </Grid>
       </div>
     );

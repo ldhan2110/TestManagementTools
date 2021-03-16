@@ -30,6 +30,7 @@ export default function ControlledTreeView() {
 
   const handleSelect = (event, nodeIds) => {
     setSelected(nodeIds);
+    console.log(nodeIds);
   };
 
   return (
@@ -40,10 +41,11 @@ export default function ControlledTreeView() {
       defaultExpandIcon={<FolderPlus  />}
       expanded={expanded}
       selected={selected}
+      defaultEndIcon={<Folder/>}
       onNodeToggle={handleToggle}
       onNodeSelect={handleSelect}
     >
-      <TreeItem nodeId="1" label="Applications">
+      <TreeItem nodeId="1" label="Applications" >
         <TreeItem nodeId="2" label="Calendar" icon={<FileText/>}/>
         <TreeItem nodeId="3" label="Chrome" icon={<FileText/>}/>
         <TreeItem nodeId="4" label="Webstorm" icon={<FileText/>}/>
