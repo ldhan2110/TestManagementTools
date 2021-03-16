@@ -28,6 +28,7 @@ export default  makeStyles ((theme) => ({
     },
     logo: {
       height: "100%",
-      maxWidth: "100%"
+      maxWidth: "100%",
+      marginLeft: "180px"
     }
   }));

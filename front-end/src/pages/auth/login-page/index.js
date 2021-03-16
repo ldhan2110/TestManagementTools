@@ -106,12 +106,12 @@ const LoginPage = (props) => {
     <RegisterPage isOpen = {isOpenRegister} setOpenState = {openRegister}/>
         <Grid container>
         <Grid item xs={7} style={{backgroundColor: 'red', height: '100vh'}}>
-          <img className={classes.banner} src = "/img/logo-banner.png" alt= "banner"/>
+          <img className={classes.banner} src = "../img/logo-banner.png" alt= "banner"/>
         </Grid>
         <Grid item xs={5}>
             <form className = {classes.formLogin}>
               <div>
-                <img className={classes.logo} src="/img/logo.jpg" alt = "logo-banner"/>
+                <img className={classes.logo} src="../img/Logo1zz.jpg" alt = "logo-banner"/>
               </div>
               <FormControl fullWidth variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
