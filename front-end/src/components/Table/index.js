@@ -158,7 +158,6 @@ const EnhancedTable = (props) => {
                         />
                       </TableCell>}
                       {Object.values(row).map((item,index)=>{
-                        console.log(headerList.headerCells[index]);
                         if (headerList.headerCells[index] !== undefined && !headerList.headerCells[index].hidden){
                           switch(headerList.headerCells[index].type){
                             case 'text':

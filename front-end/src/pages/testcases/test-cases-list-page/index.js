@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import TreeView from '../../../components/TreeView';
 import TestSuiteDetail from './TestSuitePage';
+import TestCaseDetail from "./TestCasePage";
 import {
   Grid,
   Typography,
@@ -20,6 +21,7 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
+
 
 const tempData = {
   id: 'root',
@@ -178,6 +180,7 @@ return null;
 
               <Grid item xs={8}>
                 {displayNode !== null && displayNode.type === 'F' && <TestSuiteDetail node={displayNode}/>}
+                {displayNode !== null && displayNode.type === 'C' && <TestCaseDetail node={displayNode}/>}
               </Grid>
             </Grid>
           </Grid> 
