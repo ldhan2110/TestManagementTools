@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import TreeView from '../../../components/TreeView';
+import TestSuiteDetail from './TestSuitePage';
 import {
   Grid,
   Typography,
@@ -20,13 +21,63 @@ import {
   Add as AddIcon,
 } from "@material-ui/icons";
 
+const tempData = {
+  id: 'root',
+  name: "Test Project",
+  type: 'F',
+  children: [
+    {id: 'TF-01', name: 'Test Suite 01', type: 'F', children:[]},
+    {id: 'TF-02', name: 'Test Suite 02', type: 'F', children:[
+      {id: 'TC-01', name: 'Test Login Page', type: 'C'},
+      {id: 'TC-02', name: 'Test Register Page', type: 'C'},
+      {id: 'TC-03', name: 'Test Forgot Password  Page', type: 'C'},
+      {id: 'TC-04', name: 'Test Login API', type: 'C'},
+    ]},
+    {id: 'TF-03', name: 'Test Suite 03', type: 'F', children:[
+      {id: 'TC-05', name: 'Test Back-end', type: 'C'},
+      {id: 'TC-06', name: 'Test UI', type: 'C'},
+      {id: 'TC-07', name: 'Test Performance', type: 'C'},
+      {id: 'TC-08', name: 'Test Responsive', type: 'C'},
+    ]},
+  ]
+}
+
 const TestCaseListPage = (props) => {
     const {classes} = props;
   
     const history = useHistory();
+
+    const[selectedNode, setSelectNode] = useState('');
+
+    const[displayNode,setDisplayNode] = useState(tempData ? tempData : {});
+
+
+    useEffect(()=>{
+      setDisplayNode(searchTree(tempData,selectedNode));
+    },[selectedNode]);
   
     const handleClickNewTestPlan = () => {
       history.push(window.location.pathname+"/create-test-plan");
+    }
+
+    const searchTree = (root,selectedNode)=>{
+      var stack = [], node, ii;
+      stack.push(root);
+
+      while (stack.length > 0) {
+        node = stack.pop();
+        if (node.id == selectedNode) {
+        // Found it!
+          return node;
+        } else if (node.children && node.children.length) {
+        for (ii = 0; ii < node.children.length; ii += 1) {
+              stack.push(node.children[ii]);
+        }
+      }
+    }
+
+// Didn't find it. Return null.
+return null;
     }
   
     const navigateToDetailPage = (params) => {
@@ -35,8 +86,7 @@ const TestCaseListPage = (props) => {
     }
   
     return(
-      <div>
-  
+      <div> 
         <Helmet title="Service Management" />
         <Grid container spacing={8}>
           <Grid item xs={12}>
@@ -47,6 +97,7 @@ const TestCaseListPage = (props) => {
                       <Typography variant="h4" gutterBottom display="inline">
                         Filters
                       </Typography>
+                      <Divider/>
                     </Grid>
 
                     <Grid item xs={12}>
@@ -115,8 +166,8 @@ const TestCaseListPage = (props) => {
 
                   <Grid item xs={12} style={{marginTop: '5vh'}}>
                     <Grid container spacing={3}>
-                      <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">Test Cases</Typography></Grid>
-                      <Grid item xs={12}><TreeView/></Grid>
+                      <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">Test Cases</Typography> <Divider /></Grid>
+                      <Grid item xs={12}><TreeView data={tempData} setSelectNode={setSelectNode}/></Grid>
                     </Grid>
                   </Grid>
 
@@ -126,7 +177,7 @@ const TestCaseListPage = (props) => {
               <Divider orientation="vertical" flexItem />
 
               <Grid item xs={8}>
-                  <h1>Hello Susan</h1>
+                {displayNode !== null && displayNode.type === 'F' && <TestSuiteDetail node={displayNode}/>}
               </Grid>
             </Grid>
           </Grid> 
