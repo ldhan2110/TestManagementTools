@@ -42,3 +42,12 @@ export const MEMBERS_HEADERS = {
     { id: 'role', alignment: 'left', label: 'Roles',type: 'text' },
   ]
 }
+
+export const TEST_SUITE_DETAIL_HEADERS = {
+  hasActions: true,
+  hasCheckbox: true,
+  headerCells: [
+    { id: 'id', alignment: 'left', label: 'ID', type: 'text', hidden: true },
+    { id: 'name', alignment: 'left', label: 'Name',type: 'text'},
+  ]
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -19,10 +19,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ControlledTreeView() {
+export default function ControlledTreeView(props) {
   const classes = useStyles();
+  const {data, setSelectNode} = props;
+  const [listData, setListData] = React.useState(data);
   const [expanded, setExpanded] = React.useState([]);
   const [selected, setSelected] = React.useState([]);
+
+  useEffect(()=>{
+    setListData(data);
+  },[data])
 
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
@@ -30,7 +36,22 @@ export default function ControlledTreeView() {
 
   const handleSelect = (event, nodeIds) => {
     setSelected(nodeIds);
+    setSelectNode(nodeIds);
   };
+
+
+  const renderTree = (nodes) => {
+    if (nodes.type === 'F')
+      return (
+      <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+        {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
+      </TreeItem>
+    )
+
+    else return (
+      <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name} icon={<FileText/>}/>
+    )
+}
 
   return (
     <TreeView
@@ -40,23 +61,11 @@ export default function ControlledTreeView() {
       defaultExpandIcon={<FolderPlus  />}
       expanded={expanded}
       selected={selected}
+      defaultEndIcon={<Folder/>}
       onNodeToggle={handleToggle}
       onNodeSelect={handleSelect}
     >
-      <TreeItem nodeId="1" label="Applications">
-        <TreeItem nodeId="2" label="Calendar" icon={<FileText/>}/>
-        <TreeItem nodeId="3" label="Chrome" icon={<FileText/>}/>
-        <TreeItem nodeId="4" label="Webstorm" icon={<FileText/>}/>
-      </TreeItem>
-      <TreeItem nodeId="5" label="Documents"> 
-        <TreeItem nodeId="6" label="Material-UI" icon={<FileText/>}>
-          <TreeItem nodeId="7" label="src" icon={<FileText/>}>
-            <TreeItem nodeId="8" label="index.js" icon={<FileText/>} />
-            <TreeItem nodeId="9" label="tree-view.js" icon={<FileText/>} />
-          </TreeItem>
-        </TreeItem>
-      </TreeItem>
-      <TreeItem nodeId="10" label="Documents"/> 
+      {renderTree(listData)}
     </TreeView>
   );
 }

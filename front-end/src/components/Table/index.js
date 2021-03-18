@@ -158,7 +158,7 @@ const EnhancedTable = (props) => {
                         />
                       </TableCell>}
                       {Object.values(row).map((item,index)=>{
-                        if (!headerList.headerCells[index].hidden){
+                        if (headerList.headerCells[index] !== undefined && !headerList.headerCells[index].hidden){
                           switch(headerList.headerCells[index].type){
                             case 'text':
                               return (<TableCell component="th" id={labelId} scope="row" key={index} align={headerList.headerCells[index].alignment}>
