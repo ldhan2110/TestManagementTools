@@ -157,7 +157,7 @@ return null;
                                   label="Type"
                                 >
                                <MenuItem value=""><em>Manual</em></MenuItem>
-                               <MenuItem value={10}>Ten</MenuItem>
+                               <MenuItem value={10}>Auto</MenuItem>
                               </Select>
                             </FormControl>
                           </Grid>

@@ -49,11 +49,47 @@ const TestCaseDetail = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testSuite.name} fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="important" label="Importance" variant="outlined"  fullWidth required/></Grid>
+            <Grid item xs={12}>
+              <Grid container spacing={3}>
+                <Grid item xs={6}>
+                    <FormControl variant="outlined"  fullWidth>
+                              <InputLabel id="Importance">Importance</InputLabel>
+                                <Select
+                                  labelId="Importance"
+                                  id="Importance"
+                                  //value={age}
+                                  //onChange={handleChange}
+                                  label="Importance"
+                                >
+                               <MenuItem value=""><em>Any</em></MenuItem>
+                               <MenuItem value={10}>Low</MenuItem>
+                               <MenuItem value={20}>Medium</MenuItem>
+                               <MenuItem value={30}>High</MenuItem>
+                              </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                <FormControl variant="outlined"  fullWidth>
+                              <InputLabel id="type">Type</InputLabel>
+                                <Select
+                                  labelId="type"
+                                  id="type"
+                                  //value={age}
+                                  //onChange={handleChange}
+                                  label="Type"
+                                >
+                               <MenuItem value=""><em>Manual</em></MenuItem>
+                               <MenuItem value={10}>Auto</MenuItem>
+                              </Select>
+                            </FormControl>
+                </Grid>
+              </Grid>
+              
+            </Grid>
           </Grid>
         </Grid>
 
-        <Grid item xs={12} style={{marginTop: '17vh'}}>
+        <Grid item xs={12} style={{marginTop: '10vh'}}>
           <Typography variant="h6" gutterBottom display="inline">
                 Steps Definition
           </Typography>
