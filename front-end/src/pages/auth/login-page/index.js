@@ -97,7 +97,7 @@ const LoginPage = (props) => {
 
     //HANDLE LOGIN REQUEST BUTTON
     const handleClickLogin = (event) => {
-      loginReq({username: values.username, password: values.password});
+      loginReq({email: values.username, password: values.password});
     }
 
     return(
@@ -106,7 +106,7 @@ const LoginPage = (props) => {
     <RegisterPage isOpen = {isOpenRegister} setOpenState = {openRegister}/>
         <Grid container>
         <Grid item xs={7} style={{backgroundColor: 'red', height: '100vh'}}>
-          <img className={classes.banner} src = "../img/logo-banner.png" alt= "banner"/>
+          <img className={classes.banner} src = "/img/logo-banner.png" alt= "banner"/>
         </Grid>
         <Grid item xs={5}>
             <form className = {classes.formLogin}>
