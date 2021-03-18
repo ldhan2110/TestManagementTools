@@ -50,6 +50,23 @@ const TestCaseDetail = (props) => {
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testSuite.name} fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
             <Grid item xs={12}>
+            <FormControl variant="outlined"  fullWidth>
+                              <InputLabel id="testSuite">Importance</InputLabel>
+                                <Select
+                                  labelId="testSuite"
+                                  id="testSuite"
+                                  //value={age}
+                                  //onChange={handleChange}
+                                  label="Test Suite"
+                                >
+                               <MenuItem value=""><em>Any</em></MenuItem>
+                               <MenuItem value={10}>Low</MenuItem>
+                               <MenuItem value={20}>Medium</MenuItem>
+                               <MenuItem value={30}>High</MenuItem>
+                              </Select>
+                    </FormControl>
+            </Grid>
+            <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                     <FormControl variant="outlined"  fullWidth>
@@ -89,7 +106,7 @@ const TestCaseDetail = (props) => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} style={{marginTop: '10vh'}}>
+        <Grid item xs={12} style={{marginTop: '3.5vh'}}>
           <Typography variant="h6" gutterBottom display="inline">
                 Steps Definition
           </Typography>
