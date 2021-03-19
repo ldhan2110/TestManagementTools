@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {TEST_PLAN_HEADERS} from '../../../components/Table/DefineHeader';
+import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import { connect } from 'react-redux';
 import {
   Grid,
   Typography,
@@ -20,6 +23,23 @@ import {
 // const NavLink = React.forwardRef((props, ref) => (
 //   <RouterNavLink innerRef={ref} {...props} />
 // ));
+
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { listTestplan: state.testplan.listTestplan, 
+                    project:state.project.currentSelectedProject }
+}
+
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    addNewTestplanReq: (payload) => dispatch({ type: ADD_NEW_TESTPLAN_REQ, payload }),
+    getAllTestplanReq: () => dispatch({ type: GET_ALL_TESTPLAN_REQ}),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+  }
+}
+
+
 
 function createData(id, name, description, status, date) {
   return { id, name, description, status, date };
@@ -55,6 +75,8 @@ const headCells = [
 const TestPlanListPage = (props) => {
   const {classes} = props;
 
+  const {listTestplan, getAllTestplanReq, project} = props;
+
   const history = useHistory();
 
   const handleClickNewTestPlan = () => {
@@ -65,6 +87,15 @@ const TestPlanListPage = (props) => {
     if (params)
       history.push(window.location.pathname+"/"+params);
   }
+
+  useEffect(()=>{
+    getAllTestplanReq(project);
+
+  },[])
+
+  useEffect(()=>{
+    console.log(listTestplan);
+  },[listTestplan])
 
   return(
     <div>
@@ -115,4 +146,4 @@ const TestPlanListPage = (props) => {
   );
 }
 
-export default withStyles(styles)(TestPlanListPage);
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(TestPlanListPage));

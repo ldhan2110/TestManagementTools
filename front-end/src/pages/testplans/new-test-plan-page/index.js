@@ -30,7 +30,8 @@ import {
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return { insTestplan: state.project.insTestplan }
+  return { insTestplan: state.testplan.insTestplan, 
+                    project:state.project.currentSelectedProject }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -46,7 +47,7 @@ const mapDispatchToProps = dispatch => {
 const NewTestPlanPage = (props) => {
   const {classes, listTestPlans} = props;
     const {isOpen, setOpen} = props;
-    const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq} = props;
+    const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project} = props;
     const [open, setOpenPopup] = React.useState(isOpen);
 
     const history = useHistory();
@@ -54,7 +55,8 @@ const NewTestPlanPage = (props) => {
     const handleClose = () =>{
       history.goBack();    
       setTestplanInfo({
-        Testplanname: '',
+        Testplanname: '', 
+        projectid: project,
         description: '',
         is_public: false,
         active: false
@@ -63,6 +65,7 @@ const NewTestPlanPage = (props) => {
 
     const [TestplanInfo, setTestplanInfo] = useState({
       Testplanname: '',
+      projectid: project,
       description: '',
       is_public: false,
       active: false
@@ -86,7 +89,9 @@ const NewTestPlanPage = (props) => {
       getAllTestplanReq();
       handleClose();
     }
-  },[insTestplan.sucess]); 
+    /*console.log(insTestplan);
+    console.log(project);*/
+  },[insTestplan]); 
 
 
     const handleCreate = () => {

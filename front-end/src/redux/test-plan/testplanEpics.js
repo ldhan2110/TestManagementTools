@@ -8,7 +8,7 @@ import {API_ADDR} from '../constants';
 
 export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
   ofType(actions.GET_ALL_TESTPLAN_REQ),
-  mergeMap(({  }) =>  from(axios.get(API_ADDR+'/testplan/intestplan',{
+  mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload+'/getalltestplanbyid',{
       headers: {
         "X-Auth-Token": localStorage.getItem("token"),
         "content-type": "application/json"
@@ -38,7 +38,12 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
 
   export  const addNewTestplanEpic = (action$, state$) => action$.pipe(
     ofType(actions.ADD_NEW_TESTPLAN_REQ),
-    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/testplan/createtestplan',payload,{
+    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/createtestplan',{
+        testplanname: payload.Testplanname,
+        description: payload.description,
+        isActive: payload.is_public,
+        isPublic: payload.active
+    } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
