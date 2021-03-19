@@ -60,16 +60,16 @@ const TestSuiteDetail = (props) => {
 
         <Grid item xs={12} style={{marginTop: '17vh'}}>
             <Grid container spacing={1}>
-              <Grid item xs={8}>
+              <Grid item xs={5}>
                 <Typography variant="h6" gutterBottom display="inline">Detail</Typography>
               </Grid>
-              <Grid item> 
+              <Grid item xs={3}> 
                 <Button variant="contained" color="primary" >
                   <AddIcon />Add Test Case
               </Button>
               </Grid>
 
-              <Grid item>
+              <Grid item xs={3}>
                  <Button variant="contained" color="secondary" >
                   <AddIcon />Add Test Suite
               </Button> 

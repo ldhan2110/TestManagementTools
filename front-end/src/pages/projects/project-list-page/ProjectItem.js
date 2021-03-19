@@ -37,10 +37,10 @@ const ProjectItem = (props) => {
 
   const {classes} = props;
 
-  const {name, descriptions, status, selectProject} = props;
+  const {id, name, descriptions, status, selectProject} = props;
 
   const handleOpenProject = () => {
-    selectProject(name);
+    selectProject(id);
     history.push("/projects/"+name);
   }
   

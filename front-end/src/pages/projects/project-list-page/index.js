@@ -91,6 +91,7 @@ const ProjectList = (props)=>{
                         return (
                         <Grid item  key = {index}>
                            <ProjectItem
+                             id = {item._id}
                              name={item.projectname}
                              descriptions={item.description}
                              status={item.status}
