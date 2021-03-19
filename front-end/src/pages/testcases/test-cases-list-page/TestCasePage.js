@@ -124,8 +124,8 @@ const TestCaseDetail = (props) => {
               <Button variant="contained" color="primary" fullWidth>Save</Button>
             </Grid>
           </Grid>
-          
         </Grid>
+        
       </Grid>
     </React.Fragment>
   )
