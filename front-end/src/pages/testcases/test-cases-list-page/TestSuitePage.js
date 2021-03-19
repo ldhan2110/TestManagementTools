@@ -17,6 +17,10 @@ import {
   InputLabel
 } from '@material-ui/core';
 
+import {
+  Add as AddIcon,
+} from "@material-ui/icons";
+
 const TestSuiteDetail = (props) => {
   const {node} = props;
   
@@ -40,11 +44,12 @@ const TestSuiteDetail = (props) => {
     <React.Fragment>
       <Grid container spacing={3} >
         <Grid item xs={12}>
-            <Typography variant="h4" gutterBottom display="inline">
+              <Typography variant="h4" gutterBottom display="inline">
                 Test Suite Detail
-            </Typography>
-            <Divider/>
-        </Grid>
+              </Typography>
+              <Divider/>
+          </Grid>
+            
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
@@ -54,10 +59,23 @@ const TestSuiteDetail = (props) => {
         </Grid>
 
         <Grid item xs={12} style={{marginTop: '17vh'}}>
-          <Typography variant="h6" gutterBottom display="inline">
-                Detail
-          </Typography>
-          <Divider/>
+            <Grid container spacing={1}>
+              <Grid item xs={8}>
+                <Typography variant="h6" gutterBottom display="inline">Detail</Typography>
+              </Grid>
+              <Grid item> 
+                <Button variant="contained" color="primary" >
+                  <AddIcon />Add Test Case
+              </Button>
+              </Grid>
+
+              <Grid item>
+                 <Button variant="contained" color="secondary" >
+                  <AddIcon />Add Test Suite
+              </Button> 
+              </Grid>
+            </Grid>
+            <Divider/>      
         </Grid>
 
         <Grid item xs={12}>
@@ -67,7 +85,7 @@ const TestSuiteDetail = (props) => {
             //viewAction={navigateToDetailPage}
           />
         </Grid>
-
+        
       </Grid>
     </React.Fragment>
   )

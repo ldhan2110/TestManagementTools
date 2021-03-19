@@ -33,7 +33,8 @@ const TestCaseDetail = (props) => {
         children: node.children
       });
     }
-  },[node])
+  },[node]);
+
 
   return(
     <React.Fragment>
@@ -51,7 +52,7 @@ const TestCaseDetail = (props) => {
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
             <Grid item xs={12}>
             <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="testSuite">Importance</InputLabel>
+                              <InputLabel id="testSuite">Test Suite</InputLabel>
                                 <Select
                                   labelId="testSuite"
                                   id="testSuite"
@@ -117,6 +118,14 @@ const TestCaseDetail = (props) => {
           <DragList/>
         </Grid>
 
+        <Grid item xs={12}>
+          <Grid container justify ='flex-end'>
+            <Grid item>
+              <Button variant="contained" color="primary" fullWidth>Save</Button>
+            </Grid>
+          </Grid>
+          
+        </Grid>
       </Grid>
     </React.Fragment>
   )

@@ -18,9 +18,6 @@ import {
   InputLabel
 } from '@material-ui/core';
 
-import {
-  Add as AddIcon,
-} from "@material-ui/icons";
 
 
 const tempData = {

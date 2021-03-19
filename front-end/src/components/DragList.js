@@ -5,6 +5,7 @@ import {
   InputLabel,
   Select,
   Menu,
+  Paper,
   MenuItem,
   Grid,
   TextField,
@@ -25,15 +26,23 @@ const DragList = (props) => {
     {id: '3', name: '789', expectResult: 'Open Google'},
   ]);
 
+  var tempArr = [];
 
-  useEffect(()=> {
+  useEffect(()=>{
+    //console.log(listData);
     console.log(listData);
   },[listData])
 
+  const handleAddStep = () => {
+    var tempArr = listData.slice();
+    tempArr.push({id: listData.length+1, name: '', expectResult: ''});
+    setListData(tempArr);
+  }
+
 
   return(
-    <React.Fragment>
-      <List >
+      <Paper style={{maxHeight: 500, overflow: 'auto'}}>
+      <List style={{maxHeight: '100%', overflow: 'auto'}}>
              <ReactSortable list={listData} setList={setListData}>
                 {listData.map((item) => (
                     <ListItem key={item.id}>
@@ -61,13 +70,12 @@ const DragList = (props) => {
               <ListItem>
                 <Grid container>
                   <Grid item xs = {10} style={{marginLeft: '1vw'}}>
-                    <Button variant="contained" fullWidth>Add step</Button>
+                    <Button variant="contained" fullWidth onClick={handleAddStep}>Add step</Button>
                   </Grid>
                 </Grid>
               </ListItem>
        </List>
-      
-    </React.Fragment>
+      </Paper>
   )
 }
 
