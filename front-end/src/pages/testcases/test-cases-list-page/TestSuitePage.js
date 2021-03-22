@@ -26,6 +26,7 @@ const TestSuiteDetail = (props) => {
   const {node} = props;
   
   const [testSuite, setTestSuite] = useState({
+    id: '',
     name: '',
     description: '',
     children: [],
@@ -39,6 +40,7 @@ const TestSuiteDetail = (props) => {
     if (node){
       setTestSuite({
         ...testSuite,
+        id: node.id,
         name: node.name,
         children: node.children
       });
@@ -92,8 +94,9 @@ const TestSuiteDetail = (props) => {
               </Grid>
 
               <Grid item xs={6}> 
-                <Grid container spacing={1}>
-                  <Grid item>
+                {testSuite.id !== 'root' ?
+                <Grid container spacing={1} justify='flex-end'>
+                   <Grid item>
                     <Button variant="contained" color="primary" >
                       <AddIcon />Add Test Case
                     </Button>
@@ -105,6 +108,15 @@ const TestSuiteDetail = (props) => {
                     </Button> 
                   </Grid>
                 </Grid>
+                :
+                <Grid container justify='flex-end'>
+                  <Grid item>
+                    <Button variant="contained" color="secondary" onClick={handleOpenTS}>
+                      <AddIcon />Add Test Suite
+                    </Button> 
+                  </Grid>
+                </Grid>
+                }
               </Grid>
 
         
