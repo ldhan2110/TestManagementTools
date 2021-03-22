@@ -41,7 +41,7 @@ const ProjectItem = (props) => {
 
   const handleOpenProject = () => {
     selectProject(id);
-    history.push("/projects/"+name);
+    history.push("/projects/"+id);
   }
   
 

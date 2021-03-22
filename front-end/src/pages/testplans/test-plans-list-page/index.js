@@ -34,15 +34,16 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     addNewTestplanReq: (payload) => dispatch({ type: ADD_NEW_TESTPLAN_REQ, payload }),
-    getAllTestplanReq: () => dispatch({ type: GET_ALL_TESTPLAN_REQ}),
+    getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
   }
 }
 
 
 
-function createData(id, name, description, status, date) {
-  return { id, name, description, status, date };
+function createData(_id, testplanname, description, status, created_date) {
+  console.log({_id, testplanname, description, status, created_date});
+  return {_id, testplanname, description, status, created_date};
 }
 
 const rows = [
@@ -63,11 +64,11 @@ const rows = [
 ];
 
 const headCells = [
-  { id: 'id', alignment: 'left', label: 'ID' },
-  { id: 'name', alignment: 'left', label: 'Name' },
+  { id: '_id', alignment: 'left', label: 'ID' },
+  { id: 'testplanname', alignment: 'left', label: 'Name' },
   { id: 'description', alignment: 'left', label: 'Description' },
   { id: 'status', alignment: 'left', label: 'Status' },
-  { id: 'date', alignment: 'left', label: 'Create Date' },
+  { id: 'created_date', alignment: 'left', label: 'Create Date' },
   { id: 'actions', alignment: 'left', label: 'Actions' },
 ];
 

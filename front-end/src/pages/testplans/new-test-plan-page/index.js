@@ -38,7 +38,7 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     addNewTestplanReq: (payload) => dispatch({ type: ADD_NEW_TESTPLAN_REQ, payload }),
-    getAllTestplanReq: () => dispatch({ type: GET_ALL_TESTPLAN_REQ}),
+    getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
   }
 }
@@ -60,8 +60,9 @@ const NewTestPlanPage = (props) => {
         description: '',
         is_public: false,
         active: false
-      }) 
-    }
+      });
+      //setOpen(false);
+    };
 
     const [TestplanInfo, setTestplanInfo] = useState({
       Testplanname: '',
@@ -91,7 +92,7 @@ const NewTestPlanPage = (props) => {
     }
     /*console.log(insTestplan);
     console.log(project);*/
-  },[insTestplan]); 
+  },[insTestplan.sucess]); 
 
 
     const handleCreate = () => {
@@ -182,6 +183,8 @@ const NewTestPlanPage = (props) => {
             Cancel
           </Button>
         </div>
+
+        
         </form>
         </Grid>
       </Grid>

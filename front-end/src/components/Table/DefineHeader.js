@@ -2,11 +2,11 @@ export const TEST_PLAN_HEADERS = {
   hasActions: true,
   hasCheckbox: true,
   headerCells: [  
-  { id: 'id', alignment: 'left', label: 'ID', type: "text" },
-  { id: 'name', alignment: 'left', label: 'Name', type: "text" },
+  { id: '_id', alignment: 'left', label: 'ID', type: "text" },
+  { id: 'testplanname', alignment: 'left', label: 'Name', type: "text" },
   { id: 'description', alignment: 'left', label: 'Description', type: "text" },
   { id: 'status', alignment: 'left', label: 'Status' , type: "label"},
-  { id: 'date', alignment: 'left', label: 'Create Date', type: 'text' },
+  { id: 'created_date', alignment: 'left', label: 'Create Date', type: 'text' },
 ]}
 
 export const TEST_EXECUTION_HEADERS = {

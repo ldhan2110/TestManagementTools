@@ -21,7 +21,7 @@ import {
 } from "@material-ui/icons";
 
 
-const MAX_PER_PAGE = 8;
+const MAX_PER_PAGE = 6;
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
