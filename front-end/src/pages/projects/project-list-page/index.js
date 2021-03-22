@@ -3,6 +3,7 @@ import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import {GET_ALL_PROJECTS_REQ} from '../../../redux/projects/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import ProjectItem from './ProjectItem';
 import Pagination from '../../../components/Pagination/index';
@@ -32,13 +33,14 @@ const  mapStateToProps = (state) => {
   const mapDispatchToProps = dispatch => {
     return {
       getProjectReq: (payload) => dispatch({ type: GET_ALL_PROJECTS_REQ }),
+      displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
     }
   }
 
 const ProjectList = (props)=>{
     const {classes} = props;
 
-    const {project, getProjectReq} = props;
+    const {project, getProjectReq, displayMsg} = props;
 
     const [openNewProject,setOpenNewProject] = useState(false);
 
@@ -53,6 +55,13 @@ const ProjectList = (props)=>{
     useEffect(()=>{
         getProjectReq();
     },[]);
+
+
+    useEffect(()=>{
+        if (project.error === true) {
+            displayMsg({content: project.errorMsg, type: 'error'});
+        }
+    },[project.error]); 
 
 
     useEffect(()=> {

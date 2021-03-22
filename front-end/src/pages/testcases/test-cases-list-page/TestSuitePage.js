@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import EnhancedTable from '../../../components/Table/index';
+import NewTestSuitePopup from '../new-test-suite-page/index';
 import {TEST_SUITE_DETAIL_HEADERS} from '../../../components/Table/DefineHeader';
 import {
   Grid,
@@ -30,6 +31,10 @@ const TestSuiteDetail = (props) => {
     children: [],
   });
 
+  const [openNewTS, setOpenTS] = useState(false);
+
+  const [openNewTC, setOpenTC] = useState(false);
+
   useEffect(()=>{
     if (node){
       setTestSuite({
@@ -40,8 +45,13 @@ const TestSuiteDetail = (props) => {
     }
   },[node])
 
+  const handleOpenTS = ()=>{
+    setOpenTS(true);
+  }
+
   return(
     <React.Fragment>
+      <NewTestSuitePopup isOpen={openNewTS} setOpen={setOpenTS}/>
       <Grid container spacing={3} >
         <Grid item xs={12}>
               <Typography variant="h4" gutterBottom display="inline">
@@ -55,25 +65,49 @@ const TestSuiteDetail = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Suite Name" variant="outlined"  value={testSuite.name} fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
+            <Grid item xs={12}>
+                  <FormControl variant="outlined"  fullWidth>
+                              <InputLabel id="testSuite">Test Suite</InputLabel>
+                                <Select
+                                  labelId="testSuite"
+                                  id="testSuite"
+                                  //value={age}
+                                  //onChange={handleChange}
+                                  label="Test Suite"
+                                >
+                               <MenuItem value=""><em>Any</em></MenuItem>
+                               <MenuItem value={10}>Low</MenuItem>
+                               <MenuItem value={20}>Medium</MenuItem>
+                               <MenuItem value={30}>High</MenuItem>
+                              </Select>
+                  </FormControl>
+            </Grid>
           </Grid>
         </Grid>
 
         <Grid item xs={12} style={{marginTop: '17vh'}}>
             <Grid container spacing={1}>
-              <Grid item xs={5}>
+              <Grid item xs={6}>
                 <Typography variant="h6" gutterBottom display="inline">Detail</Typography>
               </Grid>
-              <Grid item xs={3}> 
-                <Button variant="contained" color="primary" >
-                  <AddIcon />Add Test Case
-              </Button>
+
+              <Grid item xs={6}> 
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <Button variant="contained" color="primary" >
+                      <AddIcon />Add Test Case
+                    </Button>
+                  </Grid>
+
+                  <Grid item>
+                    <Button variant="contained" color="secondary" onClick={handleOpenTS}>
+                      <AddIcon />Add Test Suite
+                    </Button> 
+                  </Grid>
+                </Grid>
               </Grid>
 
-              <Grid item xs={3}>
-                 <Button variant="contained" color="secondary" >
-                  <AddIcon />Add Test Suite
-              </Button> 
-              </Grid>
+        
             </Grid>
             <Divider/>      
         </Grid>
@@ -86,6 +120,14 @@ const TestSuiteDetail = (props) => {
           />
         </Grid>
         
+
+        <Grid item xs={12}>
+          <Grid container justify ='flex-end'>
+            <Grid item>
+              <Button variant="contained" color="primary" fullWidth>Save</Button>
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
     </React.Fragment>
   )
