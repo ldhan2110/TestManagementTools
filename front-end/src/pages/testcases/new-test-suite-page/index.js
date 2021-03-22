@@ -1,7 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  TextField,
+  DialogTitle,
+  Button,
+  Grid
+} from '@material-ui/core'
+
 
 const NewTestSuitePopup = (props) => {
     const {isOpen, setOpen} = props;  
@@ -9,7 +18,7 @@ const NewTestSuitePopup = (props) => {
 
     const handleClose = () =>{
       setOpen(false);
-      setTestplanInfo({
+      setTestSuite({
         nam:'',
         description:''
       }) 
@@ -32,10 +41,16 @@ const NewTestSuitePopup = (props) => {
 
     return (
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">New Test Suite</DialogTitle>
+        <DialogTitle id="form-dialog-title" style={{color: 'white', background: 'blue'}}>New Test Suite</DialogTitle>
         <DialogContent dividers>
-          <TextField id="name" label="Test Suite Name" variant="outlined"  fullWidth required  value={testSuiteInfo.name || ''} onChange={handleChange('name')} inputProps={{maxLength : 16}} />
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={10}  value={testSuiteInfo.description || ''} onChange={handleChange('description')}/>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <TextField id="name" label="Test Suite Name" variant="outlined"  fullWidth required  value={testSuiteInfo.name || ''} onChange={handleChange('name')} inputProps={{maxLength : 16}} />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={10}  value={testSuiteInfo.description || ''} onChange={handleChange('description')}/>
+            </Grid>
+          </Grid>
         </DialogContent>
 
         <DialogActions>
@@ -50,5 +65,5 @@ const NewTestSuitePopup = (props) => {
     );
   }
   
-export default withStyles(styles)(NewTestSuitePopup);
+export default (NewTestSuitePopup);
   

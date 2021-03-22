@@ -31,7 +31,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
     }),
     catchError (error => of({
       type: actions.GET_ALL_PROJECTS_FAILED,
-      payload: error.response
+      payload: error.response.data.errMsg
     }))
   )))
 
