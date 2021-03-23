@@ -17,6 +17,7 @@ import {
   FormControl,
   InputLabel
 } from '@material-ui/core';
+import CheckboxTree from '../../../components/CheckboxTreeView/CheckboxTreeView';
 
 
 
@@ -176,6 +177,7 @@ return null;
               <Divider orientation="vertical" flexItem />
 
               <Grid item xs={8}>
+                <CheckboxTree/>
                 {displayNode !== null && displayNode.type === 'F' && <TestSuiteDetail node={displayNode}/>}
                 {displayNode !== null && displayNode.type === 'C' && <TestCaseDetail node={displayNode}/>}
               </Grid>

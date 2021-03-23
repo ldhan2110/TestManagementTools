@@ -66,7 +66,6 @@ const ProjectList = (props)=>{
 
     useEffect(()=> {
         setListProject(project.listProjects);
-        console.log(project.listProjects);
     },[project.listProjects])
 
     return(
