@@ -7,8 +7,6 @@ import SelectBox from '../../../components/Selectbox';
 import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
-import Slide from '@material-ui/core/Slide';
-
 
 import {
   Grid,
@@ -47,7 +45,9 @@ const mapDispatchToProps = dispatch => {
 const NewTestPlanPage = (props) => {
   const {classes, listTestPlans} = props;
     const {isOpen, setOpen} = props;
+
     const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project} = props;
+
     const [open, setOpenPopup] = React.useState(isOpen);
 
     const history = useHistory();
@@ -146,9 +146,9 @@ const NewTestPlanPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-        <TextField id="TestplanName" label="Testplan Name" variant="outlined"  fullWidth required  value={TestplanInfo.Testplanname || ''} onChange={handleChange('Testplanname')} inputProps={{maxLength : 16}} />
+          <TextField id="TestplanName" label="Testplan Name" variant="outlined"  fullWidth required  value={TestplanInfo.Testplanname || ''} onChange={handleChange('Testplanname')} inputProps={{maxLength : 16}} />
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}  value={TestplanInfo.description || ''} onChange={handleChange('description')}/>
-          <Grid container fullWidth>
+          <Grid container>
               <Grid item xs={3}>
                 <p>Create from existing test plan ?</p>
               </Grid>
@@ -156,6 +156,7 @@ const NewTestPlanPage = (props) => {
                 <SelectBox labelTitle="Create from existing test plan ?" listItems={listTestPlans ? listTestPlans : null} />
               </Grid>
           </Grid>
+
             
           <div>
              <FormControlLabel

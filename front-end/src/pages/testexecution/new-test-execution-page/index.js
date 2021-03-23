@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 import SelectBox from '../../../components/Selectbox';
-
+import SelectTestCasePopup from '../../testcases/select-test-case-page/index';
 import {
   Grid,
   Typography,
@@ -22,10 +22,16 @@ import {
 
 const NewTestExecutionPage = (props) => {
     const {classes, listTestExecution} = props;
+
+    const [open,setOpenPopup] = useState(false);
     const history = useHistory();
 
     const handleClose = () =>{
       history.goBack();      
+    }
+
+    const handleOpenSelectTC = () => {
+      setOpenPopup(true);
     }
     
     return (
@@ -68,6 +74,18 @@ const NewTestExecutionPage = (props) => {
                 <SelectBox labelTitle="Create from existing test execution ?" listItems={listTestExecution ? listTestExecution : null} />
               </Grid>
           </Grid>
+
+          <div>
+            <Grid container spacing={3}>
+              <Grid item>
+                <p>Select Test Case: 0 selected</p>
+              </Grid>
+              <Grid item>
+                <SelectTestCasePopup isOpen={open} setOpen={setOpenPopup}/>
+                <Button variant="contained" onClick={handleOpenSelectTC}>Add Test Case</Button>
+              </Grid>
+            </Grid>
+          </div>
             
           <div>
              <FormControlLabel
