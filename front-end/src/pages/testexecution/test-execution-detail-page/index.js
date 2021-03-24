@@ -134,7 +134,6 @@ const TestExecutionDetailPage = (props) => {
             />
           </div>
 
-          <Paper>
             <Grid container spacing={1}>
               <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Executed Test Cases</Typography></Grid> 
               <Grid item xs={12}>
@@ -155,7 +154,9 @@ const TestExecutionDetailPage = (props) => {
                 </Paper>
               </Grid> 
             </Grid>
-          </Paper>
+
+
+          <Typography variant="p" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography>
 
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleClose}>
