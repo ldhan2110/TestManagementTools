@@ -78,7 +78,7 @@ const NewTestExecutionPage = (props) => {
           <div>
             <Grid container spacing={3}>
               <Grid item>
-                <p>Select Test Case: 0 selected</p>
+                <p>Select Test Case: <b>0 selected</b></p>
               </Grid>
               <Grid item>
                 <SelectTestCasePopup isOpen={open} setOpen={setOpenPopup}/>

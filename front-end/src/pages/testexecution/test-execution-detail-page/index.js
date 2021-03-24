@@ -1,19 +1,55 @@
 import React, {useEffect} from "react";
 import styles from "./styles";
+import styled from "styled-components";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
-import SelectBox from '../../../components/Selectbox';
+import { green, orange, red } from "@material-ui/core/colors";
+import { spacing } from "@material-ui/system";
 import {
   Grid,
   Typography,
-  Breadcrumbs,
   Button,
   Divider,
   TextField,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  Paper,
+  List, ListItem, ListItemText, ListItemSecondaryAction,
+  Chip as MuiChip,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem
 } from '@material-ui/core';
+
+
+const tempData = [
+  {id: '01', name: 'TestCase01', status: 'Untested'},
+  {id: '02', name: 'TestCase02', status: 'Blocked'},
+  {id: '03', name: 'TestCase03', status: 'Pass'},
+  {id: '04', name: 'TestCase04', status: 'Untested'},
+  {id: '05', name: 'TestCase05', status: 'Untested'},
+  {id: '06', name: 'TestCase06', status: 'Untested'},
+  {id: '07', name: 'TestCase07', status: 'Untested'},
+  {id: '08', name: 'TestCase08', status: 'Untested'},
+  {id: '09', name: 'TestCase09', status: 'Untested'},
+]
+
+const Chip = styled(MuiChip)`
+  ${spacing};
+
+  background: ${props => props.active && green[500]};
+  background: ${props => props.pass && green[500]};
+  background: ${props => props.fail && red[500]};
+  background: ${props => props.block && orange[500]};
+  background: ${props => props.sent && orange[700]};
+  color: ${props => (props.active || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.pass || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.fail || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.block || props.sent) && props.theme.palette.common.white};
+`
+
 
 
 const TestExecutionDetailPage = (props) => {
@@ -27,6 +63,10 @@ const TestExecutionDetailPage = (props) => {
     useEffect(()=>{
         console.log(props);
     },[])
+
+    const handleClickTC =  () => {
+      console.log('Clicked');
+    }
   
     return (
     <div>
@@ -60,6 +100,20 @@ const TestExecutionDetailPage = (props) => {
         <form className={classes.content}>
           <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}/>
+          <FormControl variant="outlined" className={classes.formControl} fullWidth>
+              <InputLabel id="status">Status</InputLabel>
+                  <Select
+                    labelId="status"
+                    id="status"
+                    //value={age}
+                    //onChange={handleChange}
+                    label="status">
+                        <MenuItem value=""><em>Untested</em></MenuItem>
+                        <MenuItem value={10}>Pass</MenuItem>
+                        <MenuItem value={20}>Blocked</MenuItem>
+                        <MenuItem value={30}>Fail</MenuItem>
+                  </Select>
+          </FormControl>
 
           <div>
              <FormControlLabel
@@ -79,9 +133,33 @@ const TestExecutionDetailPage = (props) => {
               labelPlacement="start"
             />
           </div>
+
+          <Paper>
+            <Grid container spacing={1}>
+              <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Executed Test Cases</Typography></Grid> 
+              <Grid item xs={12}>
+                <Paper style={{maxHeight: 200, overflow: 'auto'}}>
+                <List>
+                  {tempData.map((item,index) => 
+                    <ListItem key={index} dense button onClick={handleClickTC}>
+                      <ListItemText id={item.id} primary={item.name} />
+                      <ListItemSecondaryAction>
+                        {item.status === 'Untested' && <Chip size="small" mr={1} mb={1} label={item.status} />}
+                        {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}
+                        {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status} block={1}/>}
+                        {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status} fail={1}/>}
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  )}
+                </List>
+                </Paper>
+              </Grid> 
+            </Grid>
+          </Paper>
+
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleClose}>
-            Save
+            Execute
           </Button>
           <Button variant="contained" onClick={handleClose}>
             Cancel
