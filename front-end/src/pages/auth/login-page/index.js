@@ -52,12 +52,7 @@ const LoginPage = (props) => {
     });
 
     const [openMsg, setOpenMsg] = useState(false);
-
-    useEffect(()=>{
-      console.log(account);
-    }, [account])
-
-
+    
     useEffect(()=>{
       if (accountInfo.isLogin){
         history.push("/projects");

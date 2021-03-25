@@ -21,6 +21,7 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
+import SelectTestCasePopup from "../select-test-case-page";
 
 const TestSuiteDetail = (props) => {
   const {node} = props;
@@ -51,9 +52,14 @@ const TestSuiteDetail = (props) => {
     setOpenTS(true);
   }
 
+  const handleOpenTC = ()=>{
+    setOpenTC(true);
+  }
+
   return(
     <React.Fragment>
       <NewTestSuitePopup isOpen={openNewTS} setOpen={setOpenTS}/>
+      <SelectTestCasePopup isOpen={openNewTC} setOpen={setOpenTC}/>
       <Grid container spacing={3} >
         <Grid item xs={12}>
               <Typography variant="h4" gutterBottom display="inline">
@@ -97,7 +103,7 @@ const TestSuiteDetail = (props) => {
                 {testSuite.id !== 'root' ?
                 <Grid container spacing={1} justify='flex-end'>
                    <Grid item>
-                    <Button variant="contained" color="primary" >
+                    <Button variant="contained" color="primary" onClick={handleOpenTC} >
                       <AddIcon />Add Test Case
                     </Button>
                   </Grid>
