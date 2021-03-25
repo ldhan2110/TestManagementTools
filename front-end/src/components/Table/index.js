@@ -162,7 +162,7 @@ const EnhancedTable = (props) => {
                           switch(headerList.headerCells[index].type){
                             case 'text':
                               return (<TableCell component="th" id={labelId} scope="row" key={index} align={headerList.headerCells[index].alignment}>
-                                      {item}
+                                      {row[headerList.headerCells[index].id]}
                                   </TableCell>)
 
                             case 'label':
