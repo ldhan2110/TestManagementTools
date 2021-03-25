@@ -167,11 +167,11 @@ const EnhancedTable = (props) => {
 
                             case 'label':
                               return (<TableCell align={headerList.headerCells[index].alignment} key={index}>
-                                        {item === 0 && <Chip size="small" mr={1} mb={1} label="Active" active={1}/>}
-                                        {item === 1 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
-                                        {item === 2 && <Chip size="small" mr={1} mb={1} label="Pass" pass={1}/>}
-                                        {item === 3 && <Chip size="small" mr={1} mb={1} label="Fail" fail={1}/>}
-                                        {item === 4 && <Chip size="small" mr={1} mb={1} label="Block" block={1}/>}
+                                        {row[headerList.headerCells[index].id] == 0 && <Chip size="small" mr={1} mb={1} label="Active" active={1}/>}
+                                        {row[headerList.headerCells[index].id] == 1 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
+                                        {row[headerList.headerCells[index].id] == 2 && <Chip size="small" mr={1} mb={1} label="Pass" pass={1}/>}
+                                        {row[headerList.headerCells[index].id] == 3 && <Chip size="small" mr={1} mb={1} label="Fail" fail={1}/>}
+                                        {row[headerList.headerCells[index].id] == 4 && <Chip size="small" mr={1} mb={1} label="Block" block={1}/>}
                                   </TableCell>)
                             
                             default:
