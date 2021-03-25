@@ -24,9 +24,9 @@ const SelectBox = (props) =>{
         //   value={age}
         //   onChange={handleChange}
         >
-          <MenuItem value=""></MenuItem>
+          <MenuItem  value=""></MenuItem>
           {listItems ? listItems.map((item, index)=>{
-              return (<MenuItem value={item.value}>{item.title}</MenuItem>)
+              return (<MenuItem key={index} value={item.value}>{item.title}</MenuItem>)
           }):<MenuItem value=""></MenuItem>}
         </Select>
        </FormControl>
