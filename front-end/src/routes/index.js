@@ -36,6 +36,7 @@ const TestPlanDetailPage = async(()=>import('../pages/testplans/test-plan-detail
 const TestExecutionList = async(()=>import('../pages/testexecution/test-execution-list-page/index'));
 const NewTestExecutionPage = async(()=>import('../pages/testexecution/new-test-execution-page/index'));
 const TestExecutionDetailPage = async(()=>import('../pages/testexecution/test-execution-detail-page/index'));
+const TestCaseExecDetailPage = async(()=> import('../pages/testexecution/test-case-execution-detail-page/index'));
 
 //Build-Release components
 const BuildList = async(()=>import('../pages/builds/builds-list-page/index'));
@@ -181,6 +182,15 @@ const testExecutionDetailRoute = {
   component: TestExecutionDetailPage
 } 
 
+const testCaseExecDetailRoute = {
+  id: "Test Case Execution Detail",
+  path: "/projects/:projectName/test-execution/:testExecutionName/test-exec/:id",
+  name: "Test Case Execution Detail",
+  restrict: true,
+  exact: true,
+  component: TestCaseExecDetailPage
+} 
+
 //BUILD-RELEASE
 const buildListRoute = {
   id: "Build/Release",
@@ -240,13 +250,14 @@ export const primaryLayoutRoutes = [
   testPlanDetailRoute,
   testExecutionListRoute,
   newTestExecutionRoute,
+  testCaseExecDetailRoute,
   testExecutionDetailRoute,
   buildListRoute,
   newBuildRoute,
   buildDetailRoute,
   projectSettingRoutes,
   milestoneRoute,
-  testCaseRoute
+  testCaseRoute,
 ];
 
 // Routes using the Auth layout

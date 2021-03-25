@@ -6,6 +6,7 @@ import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 import { green, orange, red } from "@material-ui/core/colors";
 import { spacing } from "@material-ui/system";
+import { useLocation } from 'react-router-dom';
 import {
   Grid,
   Typography,
@@ -55,18 +56,11 @@ const Chip = styled(MuiChip)`
 const TestExecutionDetailPage = (props) => {
     const {classes, listTestExecution, name, match} = props;
     const history = useHistory();
+    const location = useLocation();
 
     const handleClose=()=>{
       history.goBack();
     }  
-
-    useEffect(()=>{
-        console.log(props);
-    },[])
-
-    const handleClickTC =  () => {
-      console.log('Clicked');
-    }
   
     return (
     <div>
@@ -140,7 +134,7 @@ const TestExecutionDetailPage = (props) => {
                 <Paper style={{maxHeight: 200, overflow: 'auto'}}>
                 <List>
                   {tempData.map((item,index) => 
-                    <ListItem key={index} dense button onClick={handleClickTC}>
+                    <ListItem key={index} dense button  selected onClick={()=>{history.push(location.pathname+'/test-exec/'+item.id)}}>
                       <ListItemText id={item.id} primary={item.name} />
                       <ListItemSecondaryAction>
                         {item.status === 'Untested' && <Chip size="small" mr={1} mb={1} label={item.status} />}

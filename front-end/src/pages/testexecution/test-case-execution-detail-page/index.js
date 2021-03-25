@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
@@ -13,7 +12,7 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel
+  InputLabel,
 } from '@material-ui/core';
 
 const TestCaseExecDetail = (props) => {
