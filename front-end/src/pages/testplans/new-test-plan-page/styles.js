@@ -1,3 +1,4 @@
+
 const styles = {
     appBar: {
       position: 'relative',
@@ -5,7 +6,8 @@ const styles = {
   
     title: {
       marginLeft: 10,
-      flex: 1,
+      marginRight: "20vh",
+      flex: 1
     },
   
     content:{
@@ -27,12 +29,13 @@ const styles = {
       }
     },
 
-    selectBox: {
+    Autocomplete: {
       width: "100%",
       display: "flex",
       flexFlow: "column wrap",
+      marginRight: "15vh"
       //justifyContent: "flex-start"
-    }
+    },
   };
   
-  export default styles;
+export default styles;

@@ -77,7 +77,7 @@ const SearchInput = (props) => {
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>    
-              <Input placeholder="Search" onChange={handleChange}/>
+              <Input placeholder="Search" onChange={handleChange} />        
             </Search>
             <Button variant="contained" color="primary" onClick={handleSearch}>Search</Button>
           </div>

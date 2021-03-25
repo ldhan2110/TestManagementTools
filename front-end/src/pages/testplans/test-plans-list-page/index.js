@@ -41,36 +41,36 @@ const mapDispatchToProps = dispatch => {
 
 
 
-function createData(_id, testplanname, description, status, created_date) {
-  console.log({_id, testplanname, description, status, created_date});
-  return {_id, testplanname, description, status, created_date};
+function createData(id, testplanname, description, is_active, is_public, created_date) {
+  console.log({id, testplanname, description, is_active,is_public, created_date});
+  return {id, testplanname, description, is_active,is_public, created_date};
 }
 
 const rows = [
-  createData('#1001', 'Test Plan Zero', 'Adsadsadasdsa', 0,   '2020-01-02'),
-  createData('#1002', 'Test Plan Zero', 'Adsadsadas', 1,   '2020-01-02'),
-  createData('#1003', 'Test Plan Zero', 'Adsadas', 1,   '2020-01-02'),
-  createData('#1004', 'Test Plan Zero', 'Adsdada', 0,   '2020-01-02'),
-  createData('#1005', 'Test Plan Zero', 'Adsadas', 1,   '2020-01-02'),
-  createData('#1006', 'Test Plan Zero', 'Adsada', 1,   '2020-01-02'),
-  createData('#1007', 'Test Plan Zero', 'Adsada', 0,   '2020-01-02'),
-  createData('#1008', 'Test Plan Zero', 'Adsad', 1,   '2020-01-02'),
-  createData('#1009', 'Test Plan Zero', 'Adsa', 0,   '2020-01-02'),
-  createData('#1010', 'Test Plan Zero', 'Adsa', 1,   '2020-01-02'),
-  createData('#1011', 'Test Plan Zero', 'Adsa', 0,   '2020-01-02'),
-  createData('#1012', 'Test Plan Zero', 'Adsa', 1,   '2020-01-02'),
-  createData('#1013', 'Test Plan Zero', 'Adsa', 1,   '2020-01-02'),
+  createData('#1001', 'Test Plan Zero', 'Adsadsadasdsa', 0, 0,   '2020-01-02'),
+  createData('#1002', 'Test Plan Zero', 'Adsadsadas', 1, 0,  '2020-01-02'),
+  createData('#1003', 'Test Plan Zero', 'Adsadas', 1,0,   '2020-01-02'),
+  createData('#1004', 'Test Plan Zero', 'Adsdada', 0, 0,  '2020-01-02'),
+  createData('#1005', 'Test Plan Zero', 'Adsadas', 1, 0,  '2020-01-02'),
+  createData('#1006', 'Test Plan Zero', 'Adsada', 1, 0,  '2020-01-02'),
+  createData('#1007', 'Test Plan Zero', 'Adsada', 0,0,   '2020-01-02'),
+  createData('#1008', 'Test Plan Zero', 'Adsad', 1, 0,  '2020-01-02'),
+  createData('#1009', 'Test Plan Zero', 'Adsa', 0, 0,  '2020-01-02'),
+  createData('#1010', 'Test Plan Zero', 'Adsa', 1, 0,  '2020-01-02'),
+  createData('#1011', 'Test Plan Zero', 'Adsa', 0, 0,  '2020-01-02'),
+  createData('#1012', 'Test Plan Zero', 'Adsa', 1, 0,  '2020-01-02'),
+  createData('#1013', 'Test Plan Zero', 'Adsa', 1, 0,  '2020-01-02'),
 
 ];
 
-const headCells = [
-  { id: '_id', alignment: 'left', label: 'ID' },
+/*const headCells = [
+  { id: 'id', alignment: 'left', label: 'ID' },
   { id: 'testplanname', alignment: 'left', label: 'Name' },
   { id: 'description', alignment: 'left', label: 'Description' },
   { id: 'status', alignment: 'left', label: 'Status' },
   { id: 'created_date', alignment: 'left', label: 'Create Date' },
   { id: 'actions', alignment: 'left', label: 'Actions' },
-];
+];*/
 
 
 const TestPlanListPage = (props) => {
@@ -137,7 +137,7 @@ const TestPlanListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <EnhancedTable
-            rows={rows}
+            rows={listTestplan}
             headerList = {TEST_PLAN_HEADERS}
             viewAction={navigateToDetailPage}
           />

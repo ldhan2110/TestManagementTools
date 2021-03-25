@@ -1,3 +1,4 @@
+
 export const TEST_PLAN_HEADERS = {
   hasActions: true,
   hasCheckbox: true,
@@ -5,8 +6,8 @@ export const TEST_PLAN_HEADERS = {
   { id: '_id', alignment: 'left', label: 'ID', type: "text" },
   { id: 'testplanname', alignment: 'left', label: 'Name', type: "text" },
   { id: 'description', alignment: 'left', label: 'Description', type: "text" },
-  { id: 'status', alignment: 'left', label: 'Status' , type: "label"},
-  { id: 'created_date', alignment: 'left', label: 'Create Date', type: 'text' },
+  { id: 'is_active', alignment: 'left', label: 'Status' , type: "label"},
+  { id: 'created_date', alignment: 'left', label: 'Create Date', type: 'text'},
 ]}
 
 export const TEST_EXECUTION_HEADERS = {

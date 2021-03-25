@@ -8,6 +8,8 @@ import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ} from '../../../redux/test-pl
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import Slide from '@material-ui/core/Slide';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 
 
 import {
@@ -45,7 +47,7 @@ const mapDispatchToProps = dispatch => {
 
 
 const NewTestPlanPage = (props) => {
-  const {classes, listTestPlans} = props;
+  const {classes, listTestPlan} = props;
     const {isOpen, setOpen} = props;
     const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project} = props;
     const [open, setOpenPopup] = React.useState(isOpen);
@@ -59,7 +61,7 @@ const NewTestPlanPage = (props) => {
         projectid: project,
         description: '',
         is_public: false,
-        active: false
+        is_active: false,
       });
       //setOpen(false);
     };
@@ -69,7 +71,7 @@ const NewTestPlanPage = (props) => {
       projectid: project,
       description: '',
       is_public: false,
-      active: false
+      is_active: false,
     });
 
   useEffect(()=>{
@@ -108,11 +110,22 @@ const NewTestPlanPage = (props) => {
     };
   
     const handleActive = () => {
-      setTestplanInfo({ ...TestplanInfo, active: !TestplanInfo.active });
+      setTestplanInfo({ ...TestplanInfo, is_active: !TestplanInfo.is_active });
     };
   
+    
+     
 
+    const listtestplan = [
+      /*{ title: 'Monty Python and the Holy Grail', year: 1975 },
+      { title: 'The Shawshank Redemption', year: 1994 },
+    { title: 'The Godfather', year: 1972 },*/
+      
+    
+    ];
 
+    /*const listtestplan =[{"testplanname":"test1"},{"testplanname":"test2"}];*/
+  
 
 
 
@@ -137,7 +150,7 @@ const NewTestPlanPage = (props) => {
               Pages
             </Link>
             <Typography>Invoices</Typography>
-          </Breadcrumbs> */}
+            </Breadcrumbs> */}
         </Grid>
       </Grid>
 
@@ -148,15 +161,45 @@ const NewTestPlanPage = (props) => {
         <form className={classes.content}>
         <TextField id="TestplanName" label="Testplan Name" variant="outlined"  fullWidth required  value={TestplanInfo.Testplanname || ''} onChange={handleChange('Testplanname')} inputProps={{maxLength : 16}} />
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}  value={TestplanInfo.description || ''} onChange={handleChange('description')}/>
-          <Grid container fullWidth>
-              <Grid item xs={3}>
+          {/*<Grid container fullWidth>
+          <Grid item xs={3}>
                 <p>Create from existing test plan ?</p>
               </Grid>
               <Grid item xs={9}>
-                <SelectBox labelTitle="Create from existing test plan ?" listItems={listTestPlans ? listTestPlans : null} />
+                <SelectBox labelTitle="Create from existing test plan ?" />
+                {data.map(function(d, listTestPlan){
+                return (<li listItems={listTestPlan} >{d.testplanname}</li> ) 
+                
+              })}
+       
               </Grid>
-          </Grid>
-            
+              
+          </Grid>*/}
+
+              {/* render() {
+                const data =[{"name":"test1"},{"name":"test2"}];
+                const listItems = data.map((d) => <li key={d.name}>{d.name}</li>);
+
+                  return (
+                      <div>
+                        {listItems }
+                      </div>
+                         );
+                }*/}
+         
+
+          
+          <Autocomplete
+              id="Create from existing test plan ?"
+              options={listtestplan}
+              getOptionLabel={(option) => option.title}
+              style={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} label="Create from existing test plan ?" variant="outlined"  />}
+              
+              />
+          
+          
+          
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}
@@ -170,7 +213,7 @@ const NewTestPlanPage = (props) => {
             <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" value={TestplanInfo.active}  onChange={handleActive}/>}
+              control={<Checkbox color="primary" value={TestplanInfo.is_active}  onChange={handleActive}/>}
               label="Active"
               labelPlacement="start"
             />

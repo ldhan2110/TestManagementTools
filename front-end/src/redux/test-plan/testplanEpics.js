@@ -41,8 +41,8 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
     mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/createtestplan',{
         testplanname: payload.Testplanname,
         description: payload.description,
-        isActive: payload.is_public,
-        isPublic: payload.active
+        is_active: payload.is_active,
+        is_public: payload.is_public
     } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
