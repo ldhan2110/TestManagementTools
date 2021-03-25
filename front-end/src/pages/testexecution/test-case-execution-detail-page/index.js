@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import DragList from '../../../components/DragList';
+import Selectbox from '../../../components/Selectbox';
 import {
   Grid,
   Typography,
@@ -13,10 +14,17 @@ import {
   Select,
   FormControl,
   InputLabel,
+  List, ListItem
 } from '@material-ui/core';
 
 const TestCaseExecDetail = (props) => {
   const {node} = props;
+
+  const [listData, setListData] = useState([
+    {id: '1', name: '123', expectResult: 'Open Google'},
+    {id: '2', name: '456', expectResult: 'Open Google'},
+    {id: '3', name: '789', expectResult: 'Open Google'},
+  ]);
   
   const [testSuite, setTestSuite] = useState({
     name: '',
@@ -25,14 +33,8 @@ const TestCaseExecDetail = (props) => {
   });
 
   useEffect(()=>{
-    if (node){
-      setTestSuite({
-        ...testSuite,
-        name: node.name,
-        children: node.children
-      });
-    }
-  },[node]);
+    console.log(listData);
+  },[listData]);
 
 
   return(
@@ -49,56 +51,14 @@ const TestCaseExecDetail = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testSuite.name} fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
-            <Grid item xs={12}>
-            <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="testSuite">Test Suite</InputLabel>
-                                <Select
-                                  labelId="testSuite"
-                                  id="testSuite"
-                                  //value={age}
-                                  //onChange={handleChange}
-                                  label="Test Suite"
-                                >
-                               <MenuItem value=""><em>Any</em></MenuItem>
-                               <MenuItem value={10}>Low</MenuItem>
-                               <MenuItem value={20}>Medium</MenuItem>
-                               <MenuItem value={30}>High</MenuItem>
-                              </Select>
-                    </FormControl>
-            </Grid>
+            <Grid item xs={12}><TextField id="description" label="Test Suite" variant="outlined"  fullWidth required/></Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
-                    <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="Importance">Importance</InputLabel>
-                                <Select
-                                  labelId="Importance"
-                                  id="Importance"
-                                  //value={age}
-                                  //onChange={handleChange}
-                                  label="Importance"
-                                >
-                               <MenuItem value=""><em>Any</em></MenuItem>
-                               <MenuItem value={10}>Low</MenuItem>
-                               <MenuItem value={20}>Medium</MenuItem>
-                               <MenuItem value={30}>High</MenuItem>
-                              </Select>
-                    </FormControl>
+                  <TextField id="description" label="Importance" variant="outlined"  fullWidth required/>
                 </Grid>
                 <Grid item xs={6}>
-                <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="type">Type</InputLabel>
-                                <Select
-                                  labelId="type"
-                                  id="type"
-                                  //value={age}
-                                  //onChange={handleChange}
-                                  label="Type"
-                                >
-                               <MenuItem value=""><em>Manual</em></MenuItem>
-                               <MenuItem value={10}>Auto</MenuItem>
-                              </Select>
-                            </FormControl>
+                  <TextField id="description" label="Type" variant="outlined"  fullWidth required/>
                 </Grid>
               </Grid>
               
@@ -114,11 +74,45 @@ const TestCaseExecDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <DragList/>
+          <List style={{maxHeight: '100%', overflow: 'auto'}}>
+            {listData.map((item) => (
+                    <ListItem key={item.id}>
+                      <Grid container spacing={1}>
+                        <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
+                        <Grid item xs={4}><TextField id="definition" variant="outlined" label='Definition' required  fullWidth multiline  rows={3}/></Grid>
+                        <Grid item xs={4}><TextField id="expectResult"  variant="outlined" label='Expected Result' required  multiline fullWidth rows={3}/></Grid>
+                        <Grid item xs={2}><FormControl variant="outlined" fullWidth>
+                              <InputLabel id="type">Type</InputLabel>
+                                <Select
+                                  labelId="type"
+                                  id="type"
+                                  //value={age}
+                                  //onChange={handleChange}
+                                  label="Type"
+                                >
+                               <MenuItem value=""><em>Manual</em></MenuItem>
+                               <MenuItem value={10}>Auto</MenuItem>
+                              </Select>
+                    </FormControl></Grid>
+                      </Grid>
+                    </ListItem>
+                ))}
+          </List>
         </Grid>
 
         <Grid item xs={12}>
-          <Grid container justify ='flex-end'>
+            <Typography variant="h5" gutterBottom display="inline">
+                Result
+            </Typography>
+            <Divider/>
+        </Grid>
+        <Grid item xs={12}>
+            <Selectbox labelTitle="Result" listItems={[{value: '', title: 'Untested'},{value: 'Pass', title: 'Pass'},{value: 'Fail', title: 'Fail'},{value: 'Blocked', title: 'Blocked'},]}/>
+        </Grid>
+
+
+        <Grid item xs={12} style={{marginTop: 10}}>
+          <Grid container justify ='space-between'>
             <Grid item>
               <Button variant="contained" color="primary" fullWidth>Previous Test Case</Button>
             </Grid>
