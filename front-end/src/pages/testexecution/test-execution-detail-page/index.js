@@ -150,7 +150,7 @@ const TestExecutionDetailPage = (props) => {
             </Grid>
 
 
-          <Typography variant="p" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography>
+          <Typography variant="subtitle1" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography>
 
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleClose}>
