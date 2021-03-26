@@ -18,7 +18,7 @@ import {
 
 
 const BuildDetailPage = (props) => {
-    const {classes, name} = props;
+    const {classes, listBuilds, name} = props;
     
     const history = useHistory();
 
@@ -63,7 +63,7 @@ const BuildDetailPage = (props) => {
               classes= {{label: classes.titleContent}}
               value="start"
               control={<Checkbox color="primary" />}
-              label="Public"
+              label="Active"
               labelPlacement="start"
             />
           </div>
@@ -72,7 +72,7 @@ const BuildDetailPage = (props) => {
               classes= {{label: classes.titleContent}}
               value="start"
               control={<Checkbox color="primary" />}
-              label="Active"
+              label="Open"
               labelPlacement="start"
             />
           </div>
@@ -80,12 +80,12 @@ const BuildDetailPage = (props) => {
               <Grid item xs={12}>
                  <DatePicker label="Release Date" />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField id="buildName" label="Branch" variant="outlined" fullWidth   />  
               </Grid>
               <Grid item xs={12}>
                 <TextField id="buildName" label="Name" variant="outlined" fullWidth/>
-              </Grid>
+              </Grid> */}
           </Grid>
          
           
