@@ -60,6 +60,8 @@ const TestCaseExecDetail = (props) => {
                 <Grid item xs={6}>
                   <TextField id="description" label="Type" variant="outlined"  fullWidth required/>
                 </Grid>
+                <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
+                <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
               </Grid>
               
             </Grid>
@@ -79,9 +81,9 @@ const TestCaseExecDetail = (props) => {
                     <ListItem key={item.id}>
                       <Grid container spacing={1}>
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
-                        <Grid item xs={4}><TextField id="definition" variant="outlined" label='Definition' required  fullWidth multiline  rows={3}/></Grid>
-                        <Grid item xs={4}><TextField id="expectResult"  variant="outlined" label='Expected Result' required  multiline fullWidth rows={3}/></Grid>
-                        <Grid item xs={2}><FormControl variant="outlined" fullWidth>
+                        <Grid item xs={3}><TextField id="definition" variant="outlined" label='Definition' value={'HHOL'} required  fullWidth multiline rows={3}/></Grid>
+                        <Grid item xs={3}><TextField id="expectResult"  variant="outlined" label='Expected Result' required  multiline fullWidth rows={3}/></Grid>
+                        <Grid item xs={1}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select
                                   labelId="type"
@@ -93,7 +95,21 @@ const TestCaseExecDetail = (props) => {
                                <MenuItem value=""><em>Manual</em></MenuItem>
                                <MenuItem value={10}>Auto</MenuItem>
                               </Select>
-                    </FormControl></Grid>
+                        </FormControl></Grid>
+                        <Grid item xs={3}><TextField id="execNote"  variant="outlined" label='Execution Note' required  multiline fullWidth rows={3}/></Grid>
+                        <Grid item xs={1}><FormControl variant="outlined" fullWidth>
+                              <InputLabel id="type">Result</InputLabel>
+                                <Select
+                                  labelId="type"
+                                  id="type"
+                                  //value={age}
+                                  //onChange={handleChange}
+                                  label="Type"
+                                >
+                               <MenuItem value=""><em>Pass</em></MenuItem>
+                               <MenuItem value={10}>Fail</MenuItem>
+                              </Select>
+                        </FormControl></Grid>
                       </Grid>
                     </ListItem>
                 ))}

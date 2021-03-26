@@ -101,9 +101,11 @@ const TestCaseDetail = (props) => {
                               </Select>
                             </FormControl>
                 </Grid>
-              </Grid>
-              
+              </Grid>      
             </Grid>
+
+            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
+            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
           </Grid>
         </Grid>
 
