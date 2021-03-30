@@ -22,14 +22,12 @@ const reducer = (state = initialState, actions) => {
       }
 
     case types.GET_ALL_TESTCASE_SUCESS:
-      payload._id = 'root';
-      payload.type = 'F';
         return {
           error: "",
           errorMsg:"",
           currentSelectedTestplan: "",
           insTestplan: [],
-          listTestcase: payload,
+          listTestcase: payload            
         }
 
     case types.GET_ALL_TESTCASE_FAILED:
