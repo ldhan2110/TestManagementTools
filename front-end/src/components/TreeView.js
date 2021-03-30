@@ -43,13 +43,13 @@ export default function ControlledTreeView(props) {
   const renderTree = (nodes) => {
     if (nodes.type === 'F')
       return (
-      <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+      <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name}>
         {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
       </TreeItem>
     )
 
     else return (
-      <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name} icon={<FileText/>}/>
+      <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name} icon={<FileText/>}/>
     )
 }
 

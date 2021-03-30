@@ -2,6 +2,8 @@ import { combineEpics } from 'redux-observable';
 import * as accountEpics from '../account/accountEpics';
 import * as projectEpics from '../projects/projectEpics';
 import * as testplanEpics from '../test-plan/testplanEpics';
+import * as testcaseEpics from '../test-case/testcaseEpics';
+
 export default combineEpics(
    accountEpics.loginReqEpic,
    accountEpics.logoutReqEpic,
@@ -9,5 +11,6 @@ export default combineEpics(
    projectEpics.getAllProjectEpic,
    projectEpics.addNewProjectEpic,
    testplanEpics.getAllTestplanEpic,
-   testplanEpics.addNewTestplanEpic
+   testplanEpics.addNewTestplanEpic,
+   testcaseEpics.getAllTestcaseEpic,
 );
