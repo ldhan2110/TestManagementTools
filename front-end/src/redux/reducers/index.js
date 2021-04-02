@@ -5,7 +5,7 @@ import accountReducer from '../account/accountReducers';
 import projectReducers from '../projects/projectReducers';
 import testplanReducers from '../test-plan/testplanReducers';
 import messageReducers from '../message/messageReducers';
-import testcaseReducers from '../test-case/testcaseReducers';
+import buildReducers from '../build-release/buildReducers';
 
 export default combineReducers({
 	themeReducer,
@@ -13,5 +13,5 @@ export default combineReducers({
   project: projectReducers,
   testplan: testplanReducers,
 	message: messageReducers,
-	testcase: testcaseReducers
+	build: buildReducers,
 });

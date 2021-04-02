@@ -28,7 +28,6 @@ export default function ControlledTreeView(props) {
 
   useEffect(()=>{
     setListData(data);
-    console.log(data);
   },[data])
 
   const handleToggle = (event, nodeIds) => {
@@ -42,15 +41,15 @@ export default function ControlledTreeView(props) {
 
 
   const renderTree = (nodes) => {
-    if (nodes.type === 'TS' || nodes.type === 'root')
+    if (nodes.type === 'F')
       return (
-      <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name}>
+      <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
         {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
       </TreeItem>
     )
 
     else return (
-      <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name} icon={<FileText/>}/>
+      <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name} icon={<FileText/>}/>
     )
 }
 
