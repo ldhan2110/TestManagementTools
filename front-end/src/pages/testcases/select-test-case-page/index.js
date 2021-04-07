@@ -31,11 +31,13 @@ const mapDispatchToProps = dispatch => {
 
 const SelectTestCasePopup = (props) => {
   
-  
+  const {displayMsg, getAllTestcaseReq, testcase, project} = props;
   
   const {isOpen, setOpen} = props;  
   
   const [open, setOpenPopup] = React.useState(isOpen);
+
+  const [data,setData] = useState([]);
 
   const handleClose = () =>{
       setOpen(false);
@@ -45,6 +47,12 @@ const SelectTestCasePopup = (props) => {
       setOpenPopup(isOpen);
   },[isOpen, open])
 
+  useEffect(()=>{
+    getAllTestcaseReq(project);
+  },[])
+
+  
+
 
   return (
     <React.Fragment > 
@@ -53,7 +61,7 @@ const SelectTestCasePopup = (props) => {
         <DialogContent dividers>
           <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '20vw', maxWidth:'20vw'}}>
             <Grid item xs={12}>
-              <CheckboxTreeView/>
+              <CheckboxTreeView data={testcase.listTestcase}/>
             </Grid>
           </Grid>
         </DialogContent>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import CheckboxTree from 'react-checkbox-tree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
@@ -30,9 +30,16 @@ const nodes = [{
 }];
 
 const CheckboxTreeView = (props) => {
+
+   const {data} = props;
+
    const [selected,setSelect] = useState([]);
 
    const [expanded, setExpand] = useState([]);
+
+   useEffect(()=>{
+    console.log(data);
+   },[data]);
 
    
     return (
