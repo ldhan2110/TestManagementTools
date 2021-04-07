@@ -3,7 +3,6 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
-import SelectBox from '../../../components/Selectbox';
 import DatePicker from '../../../components/DatePicker';
 import {
   Grid,
@@ -12,13 +11,10 @@ import {
   Button,
   Divider,
   TextField,
-  FormControlLabel,
-  Checkbox
 } from '@material-ui/core';
 
-
-const BuildDetailPage = (props) => {
-    const {classes, listBuilds, name} = props;
+const NewMileStonePage = (props) => {
+    const {classes} = props;
     
     const history = useHistory();
 
@@ -27,7 +23,7 @@ const BuildDetailPage = (props) => {
     }
     return (
     <div>
-        <Helmet title="New Test Plan" />
+        <Helmet title="New Milestone" />
 
       <Grid
         justify="space-between"
@@ -35,7 +31,7 @@ const BuildDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Build/Release - {props.match.params.buildName}
+            Create Milestone
           </Typography>
 
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
@@ -55,47 +51,24 @@ const BuildDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="buildName" label="Name" variant="outlined"  fullWidth required/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}/>
-            
-          <div>
-             <FormControlLabel
-              classes= {{label: classes.titleContent}}
-              value="start"
-              control={<Checkbox color="primary" />}
-              label="Active"
-              labelPlacement="start"
-            />
-          </div>
-          <div>
-            <FormControlLabel
-              classes= {{label: classes.titleContent}}
-              value="start"
-              control={<Checkbox color="primary" />}
-              label="Open"
-              labelPlacement="start"
-            />
-          </div>
-          <Grid container spacing={3}>
+          <TextField id="milestoneName" label="Name" variant="outlined"  fullWidth required/>
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}/>                      
+                  
+          <Grid container spacing={3}> 
               <Grid item xs={12}>
-                 <DatePicker label="Release Date" />
-              </Grid>
-              {/* <Grid item xs={12}>
-                <TextField id="buildName" label="Branch" variant="outlined" fullWidth   />  
+                 <DatePicker label="Start Date"/>
               </Grid>
               <Grid item xs={12}>
-                <TextField id="buildName" label="Name" variant="outlined" fullWidth/>
-              </Grid> */}
-          </Grid>
-         
-          
+                 <DatePicker label="End Date" />
+              </Grid>
+          </Grid>                  
           
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleClose}>
-            Save
+            Create
           </Button>
           <Button variant="contained" onClick={handleClose}>
-            Cancel
+            Back
           </Button>
         </div>
         </form>
@@ -105,4 +78,4 @@ const BuildDetailPage = (props) => {
     );
   }
   
-  export default withStyles(styles)(BuildDetailPage);
+  export default withStyles(styles)(NewMileStonePage);

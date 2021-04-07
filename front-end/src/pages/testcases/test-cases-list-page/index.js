@@ -6,9 +6,6 @@ import Helmet from 'react-helmet';
 import TreeView from '../../../components/TreeView';
 import TestSuiteDetail from './TestSuitePage';
 import TestCaseDetail from "./TestCasePage";
-import {GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
-import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import { connect } from 'react-redux';
 import {
   Grid,
   Typography,
@@ -24,46 +21,26 @@ import {
 
 
 
-// const tempData = {
-//   id: 'root',
-//   name: "Test Project",
-//   type: 'F',
-//   children: [
-//     {id: 'TF-01', name: 'Test Suite 01', type: 'F', children:[]},
-//     {id: 'TF-02', name: 'Test Suite 02', type: 'F', children:[
-//       {id: 'TC-01', name: 'Test Login Page', type: 'C'},
-//       {id: 'TC-02', name: 'Test Register Page', type: 'C'},
-//       {id: 'TC-03', name: 'Test Forgot Password  Page', type: 'C'},
-//       {id: 'TC-04', name: 'Test Login API', type: 'C'},
-//     ]},
-//     {id: 'TF-03', name: 'Test Suite 03', type: 'F', children:[
-//       {id: 'TC-05', name: 'Test Back-end', type: 'C'},
-//       {id: 'TC-06', name: 'Test UI', type: 'C'},
-//       {id: 'TC-07', name: 'Test Performance', type: 'C'},
-//       {id: 'TC-08', name: 'Test Responsive', type: 'C'},
-//     ]},
-//   ]
-// }
-
-
-//MAP STATES TO PROPS - REDUX
-const  mapStateToProps = (state) => {
-  return { 
-    project: state.project.currentSelectedProject,
-    testcase: state.testcase
-   }
+const tempData = {
+  id: 'root',
+  name: "Test Project",
+  type: 'F',
+  children: [
+    {id: 'TF-01', name: 'Test Suite 01', type: 'F', children:[]},
+    {id: 'TF-02', name: 'Test Suite 02', type: 'F', children:[
+      {id: 'TC-01', name: 'Test Login Page', type: 'C'},
+      {id: 'TC-02', name: 'Test Register Page', type: 'C'},
+      {id: 'TC-03', name: 'Test Forgot Password  Page', type: 'C'},
+      {id: 'TC-04', name: 'Test Login API', type: 'C'},
+    ]},
+    {id: 'TF-03', name: 'Test Suite 03', type: 'F', children:[
+      {id: 'TC-05', name: 'Test Back-end', type: 'C'},
+      {id: 'TC-06', name: 'Test UI', type: 'C'},
+      {id: 'TC-07', name: 'Test Performance', type: 'C'},
+      {id: 'TC-08', name: 'Test Responsive', type: 'C'},
+    ]},
+  ]
 }
-
-//MAP DISPATCH ACTIONS TO PROPS - REDUX
-const mapDispatchToProps = dispatch => {
-  return {
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload})
-  }
-}
-
-
-
 
 const TestCaseListPage = (props) => {
     const {classes} = props;
@@ -72,7 +49,7 @@ const TestCaseListPage = (props) => {
 
     const[selectedNode, setSelectNode] = useState('');
 
-    const[displayNode,setDisplayNode] = useState({});
+    const[displayNode,setDisplayNode] = useState(tempData ? tempData : {});
 
     const {project, testcase, displayMsg, getAllTestcaseReq} = props;
 
@@ -192,7 +169,7 @@ const TestCaseListPage = (props) => {
                   <Grid item xs={12} style={{marginTop: '5vh'}}>
                     <Grid container spacing={3}>
                       <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">Test Cases</Typography> <Divider /></Grid>
-                      <Grid item xs={12}><TreeView data={testcase.listTestcase} setSelectNode={setSelectNode}/></Grid>
+                      <Grid item xs={12}><TreeView data={tempData} setSelectNode={setSelectNode}/></Grid>
                     </Grid>
                   </Grid>
 
@@ -212,4 +189,4 @@ const TestCaseListPage = (props) => {
     );
   }
   
-  export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TestCaseListPage));
+  export default withStyles(styles)(TestCaseListPage);
