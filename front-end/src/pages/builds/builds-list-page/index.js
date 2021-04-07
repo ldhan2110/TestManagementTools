@@ -1,13 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {BUILDS_HEADERS} from '../../../components/Table/DefineHeader';
-import {GET_ALL_BUILD_REQ} from '../../../redux/build-release/constants';
-import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import { connect } from 'react-redux';
 import {
   Grid,
   Typography,
@@ -20,66 +17,43 @@ import {
 } from "@material-ui/icons";
 
 
-//MAP STATES TO PROPS - REDUX
-const  mapStateToProps = (state) => {
-  return { listBuild: state.build.listBuild,
-            project:state.project.currentSelectedProject
-  }
-}
-
-//MAP DISPATCH ACTIONS TO PROPS - REDUX
-const mapDispatchToProps = dispatch => {
-  return {    
-    getAllBuildReq: (payload) => dispatch({ type: GET_ALL_BUILD_REQ, payload}),
-    //displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
-  }
-}
-
-
 // const NavLink = React.forwardRef((props, ref) => (
 //   <RouterNavLink innerRef={ref} {...props} />
 // ));
 
-function createData(id, buildname, descriptions, isActive, isOpen, releasedate) {
-  console.log({id, buildname, descriptions, isActive, isOpen, releasedate});
-  return { id, buildname, descriptions, isActive, isOpen, releasedate };
+function createData(id, name, description, status, open, date) {
+  return { id, name, description, status, open, date };
 }
 
+const rows = [
+  createData('#1001', 'Test Plan Zero', 'Adsadsadasdsa', 0,  'Open', '2020-01-02'),
+  createData('#1002', 'Test Plan Zero', 'Adsadsadas', 1,  'Open', '2020-01-02'),
+  createData('#1003', 'Test Plan Zero', 'Adsadas', 1,  'Open', '2020-01-02'),
+  createData('#1004', 'Test Plan Zero', 'Adsdada', 0,  'Open', '2020-01-02'),
+  createData('#1005', 'Test Plan Zero', 'Adsadas', 1,  'Open', '2020-01-02'),
+  createData('#1006', 'Test Plan Zero', 'Adsada', 1,  'Open', '2020-01-02'),
+  createData('#1007', 'Test Plan Zero', 'Adsada', 0,  'Open', '2020-01-02'),
+  createData('#1008', 'Test Plan Zero', 'Adsad', 1,  'Open', '2020-01-02'),
+  createData('#1009', 'Test Plan Zero', 'Adsa', 0,  'Open', '2020-01-02'),
+  createData('#1010', 'Test Plan Zero', 'Adsa', 1,  'Open', '2020-01-02'),
+  createData('#1011', 'Test Plan Zero', 'Adsa', 0,  'Open', '2020-01-02'),
+  createData('#1012', 'Test Plan Zero', 'Adsa', 1,  'Open', '2020-01-02'),
+  createData('#1013', 'Test Plan Zero', 'Adsa', 1,   'Open','2020-01-02'),
 
+];
 
-/* const rows = [
-  createData('#1001', 'build', 'Adsadsadasdsa', 0,  'Open', '2020-01-02'),
-  createData('#1002', 'build', 'Adsadsadas', 1,  'Open', '2020-01-02'),
-  createData('#1003', 'build', 'Adsadas', 1,  'Open', '2020-01-02'),
-  createData('#1004', 'build', 'Adsdada', 0,  'Open', '2020-01-02'),
-  createData('#1005', 'build', 'Adsadas', 1,  'Open', '2020-01-02'),
-  createData('#1006', 'build', 'Adsada', 1,  'Open', '2020-01-02'),
-  createData('#1007', 'build', 'Adsada', 0,  'Open', '2020-01-02'),
-  createData('#1008', 'build', 'Adsad', 1,  'Open', '2020-01-02'),
-  createData('#1009', 'build', 'Adsa', 0,  'Open', '2020-01-02'),
-  createData('#1010', 'build', 'Adsa', 1,  'Open', '2020-01-02'),
-  createData('#1011', 'build', 'Adsa', 0,  'Open', '2020-01-02'),
-  createData('#1012', 'build', 'Adsa', 1,  'Open', '2020-01-02'),
-  createData('#1013', 'build', 'Adsa', 1,   'Open','2020-01-02'),
-
-]; */
-
-/* const headCells = [
+const headCells = [
   { id: 'id', alignment: 'left', label: 'ID' },
   { id: 'name', alignment: 'left', label: 'Name' },
   { id: 'description', alignment: 'left', label: 'Description' },
   { id: 'status', alignment: 'left', label: 'Status' },
-  { id: 'date', alignment: 'left', label: 'Release Date' },
+  { id: 'date', alignment: 'left', label: 'Create Date' },
   { id: 'actions', alignment: 'left', label: 'Actions' },
-]; */
+];
 
 
 const BuildListPage = (props) => {
   const {classes} = props;
-
-  const {listBuild, getAllBuildReq, project} = props;
-  /* const [listBuilds, setListBuild] = useState([]);
-  const [selectPage, setSelectPage] = useState(1); */
 
   const history = useHistory();
 
@@ -91,15 +65,6 @@ const BuildListPage = (props) => {
     if (params)
       history.push(window.location.pathname+"/"+params);
   }
-
-   useEffect(() => {
-    getAllBuildReq(project);
-  },[])
-
-  useEffect(() =>{
-    // setListBuild(listBuild);
-    console.log(listBuild);
-  },[listBuild])
 
   return(
     <div>
@@ -140,7 +105,7 @@ const BuildListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <EnhancedTable
-            rows={listBuild}
+            rows={rows}
             headerList = {BUILDS_HEADERS}
             viewAction={navigateToDetailPage}
           />
@@ -150,4 +115,4 @@ const BuildListPage = (props) => {
   );
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(BuildListPage));
+export default withStyles(styles)(BuildListPage);

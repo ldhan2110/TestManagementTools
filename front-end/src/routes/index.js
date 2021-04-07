@@ -48,8 +48,6 @@ const MemberListPage = async(()=>import('../pages/settings/members/index'));
 
 //Milestone components
 const MileStonePage = async(()=>import('../pages/milstones/milestone-overview-page/index'));
-const NewMileStonePage = async(()=>import('../pages/milstones/new-milestone-page/index'));
-const detailMileStonePage = async(()=>import('../pages/milstones/milestone-detail-page/index'));
 
 //TestCase components
 const TestCasePage = async(()=>import('../pages/testcases/test-cases-list-page/index'));
@@ -232,25 +230,6 @@ const milestoneRoute = {
   component: MileStonePage,
 }
 
-const newMilestoneRoute = {
-  id: "New Milestone",
-  path: "/projects/:projectName/milestones/new-milestone",
-  name: "New Milestone",
-  icon: <Flag/>,
-  restrict: true,
-  exact: true,
-  component: NewMileStonePage,
-}
-
-const detailMilestoneRoute = {
-  id: "Detail Milestone",
-  path: "/projects/:projectName/milestones/milestone-detail",
-  name: "Detail Milestone",
-  icon: <Flag/>,
-  restrict: true,
-  exact: true,
-  component: detailMileStonePage,
-}
 
 //Test Plan
 const testCaseRoute = {
@@ -279,8 +258,6 @@ export const primaryLayoutRoutes = [
   projectSettingRoutes,
   milestoneRoute,
   testCaseRoute,
-  newMilestoneRoute,
-  detailMilestoneRoute,
 ];
 
 // Routes using the Auth layout

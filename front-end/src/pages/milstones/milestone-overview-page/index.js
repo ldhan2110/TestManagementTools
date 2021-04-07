@@ -1,7 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from "react-router-dom";
 import AddIcon from '@material-ui/icons/Add';
 import {
   Grid,
@@ -34,11 +33,6 @@ const sampleData = {
 
 export default function CustomizedTimeline() {
   const classes = useStyles();
-  const history = useHistory();
-  
-  const handleClickNewMilestone = () => {
-    history.push(window.location.pathname+"/new-milestone");
-  }
 
   return (
 
@@ -58,7 +52,7 @@ export default function CustomizedTimeline() {
 
         <Grid item>
           <div>
-            <Button variant="contained" color="primary" onClick={handleClickNewMilestone}>
+            <Button variant="contained" color="primary" >
               <AddIcon />
               New Milestone
             </Button>
