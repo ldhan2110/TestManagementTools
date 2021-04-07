@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import CheckboxTreeView from '../../../components/CheckboxTreeView/CheckboxTreeView';
+import { connect } from 'react-redux';
+import {GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Dialog,
   DialogActions,
@@ -8,6 +11,23 @@ import {
   Button,
   Grid,
 } from '@material-ui/core'
+
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { 
+    project: state.project.currentSelectedProject,
+    testcase: state.testcase
+   }
+}
+
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload})
+  }
+}
+
 
 const SelectTestCasePopup = (props) => {
   
@@ -48,4 +68,4 @@ const SelectTestCasePopup = (props) => {
   )
 }
 
-export default SelectTestCasePopup;
+export default  connect(mapStateToProps, mapDispatchToProps)(SelectTestCasePopup);

@@ -78,21 +78,14 @@ const TestCaseListPage = (props) => {
 
 
     useEffect(()=>{
-      setDisplayNode(searchTree(testcase,selectedNode));
+      setDisplayNode(searchTree(testcase.listTestcase,selectedNode));
     },[selectedNode,testcase]);
 
 
     useEffect(()=>{
       getAllTestcaseReq(project);
     },[]);
-
-    useEffect(()=>{
-      console.log(testcase);
-    },[testcase]);
   
-    const handleClickNewTestPlan = () => {
-      history.push(window.location.pathname+"/create-test-plan");
-    }
 
     const searchTree = (root,selectedNode)=>{
       var stack = [], node, ii;
@@ -100,7 +93,7 @@ const TestCaseListPage = (props) => {
 
       while (stack.length > 0) {
         node = stack.pop();
-        if (node.id == selectedNode) {
+        if (node._id == selectedNode) {
         // Found it!
           return node;
         } else if (node.children && node.children.length) {
@@ -108,10 +101,8 @@ const TestCaseListPage = (props) => {
               stack.push(node.children[ii]);
         }
       }
-    }
-
-// Didn't find it. Return null.
-return null;
+    }// Didn't find it. Return null.
+      return null;
     }
   
     const navigateToDetailPage = (params) => {
@@ -211,8 +202,8 @@ return null;
               <Divider orientation="vertical" flexItem />
 
               <Grid item xs={8}>
-                {displayNode !== null && displayNode.type === 'F' && <TestSuiteDetail node={displayNode}/>}
-                {displayNode !== null && displayNode.type === 'C' && <TestCaseDetail node={displayNode}/>}
+                {displayNode !== null && (displayNode.type === 'TS' || displayNode.type === 'root') && <TestSuiteDetail node={displayNode}/>}
+                {displayNode !== null && displayNode.type === 'TC' && <TestCaseDetail node={displayNode}/>}
               </Grid>
             </Grid>
           </Grid> 

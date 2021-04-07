@@ -40,9 +40,10 @@ const TestSuiteDetail = (props) => {
   useEffect(()=>{
     if (node){
       setTestSuite({
-        ...testSuite,
+        ...node,
         id: node.id,
         name: node.name,
+        description: node.description,
         children: node.children
       });
     }
@@ -72,7 +73,7 @@ const TestSuiteDetail = (props) => {
         <Grid item xs={12}>
           <Grid container spacing={3}>
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Suite Name" variant="outlined"  value={testSuite.name} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  value={testSuite.description} fullWidth required/></Grid>
             <Grid item xs={12}>
                   <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
@@ -82,6 +83,7 @@ const TestSuiteDetail = (props) => {
                                   //value={age}
                                   //onChange={handleChange}
                                   label="Test Suite"
+                                  disabled={testSuite.type === "root" ? true : false}
                                 >
                                <MenuItem value=""><em>Any</em></MenuItem>
                                <MenuItem value={10}>Low</MenuItem>
@@ -100,7 +102,7 @@ const TestSuiteDetail = (props) => {
               </Grid>
 
               <Grid item xs={6}> 
-                {testSuite.id !== 'root' ?
+                {testSuite.type !== "root" ?
                 <Grid container spacing={1} justify='flex-end'>
                    <Grid item>
                     <Button variant="contained" color="primary" onClick={handleOpenTC} >
