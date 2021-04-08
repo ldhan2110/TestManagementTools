@@ -26,12 +26,12 @@ export const BUILDS_HEADERS = {
   hasActions: true,
   hasCheckbox: true,
   headerCells: [  
-  { id: 'id', alignment: 'left', label: 'ID', type: 'text' },
-  { id: 'name', alignment: 'left', label: 'Name',type: 'text' },
-  { id: 'description', alignment: 'left', label: 'Description',type: 'text' },
-  { id: 'status', alignment: 'left', label: 'Status',type: 'label' },
-  {id: 'open', alignment: 'left', label: 'Open',type: 'text'},
-  { id: 'date', alignment: 'left', label: 'Create Date',type: 'text' },
+  { id: '_id', alignment: 'left', label: 'ID', type: 'text' },
+  { id: 'buildname', alignment: 'left', label: 'Name',type: 'text' },
+  { id: 'descriptions', alignment: 'left', label: 'Description',type: 'text' },
+  { id: 'is_active', alignment: 'left', label: 'Status',type: 'label' },
+  { id: 'is_open', alignment: 'left', label: 'Open',type: 'text'},
+  { id: 'releasedate', alignment: 'left', label: 'Release Date',type: 'text' },
 ]}
 
 export const MEMBERS_HEADERS = {

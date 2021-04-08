@@ -16,9 +16,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 import useStyles from './styles';
 import MessagePopup from '../../../components/MessageBox';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 
 //IMPORT REGISTER
 import RegisterPage from '../register-page/index';
+import { TrendingUpOutlined } from "@material-ui/icons";
 
 
 //MAP STATES TO PROPS - REDUX
@@ -31,6 +33,7 @@ const mapDispatchToProps = dispatch => {
   return {
     // dispatching plain actions
     loginReq: (payload) => dispatch({ type: LOGIN_REQ, payload }),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
   }
 }
 
@@ -40,7 +43,7 @@ const LoginPage = (props) => {
 
     const classes = useStyles();
 
-    const {account, loginReq} = props;
+    const {account, loginReq, displayMsg} = props;
 
     const {accountInfo} = account;
 
@@ -53,11 +56,29 @@ const LoginPage = (props) => {
 
     const [openMsg, setOpenMsg] = useState(false);
     
+    const [error, setError] = useState({});
+    
+
+     useEffect(()=>{
+      console.log(account);
+      if(account.error === true)// && account.errorMsg.errMsg == "Password is not valid")
+      {
+        setError({error: "Wrong username or password"});
+      }
+      else if (account.success == true) {
+        displayMsg({
+          content: "Logged in successfully!",
+          type: 'success'
+        });
+      }
+    },[account]);
+
     useEffect(()=>{
       if (accountInfo.isLogin){
         history.push("/projects");
       }
     }, [accountInfo, history])
+
 
     //OPEN REGISTER POPUP STATE
     const [isOpenRegister, openRegister] = useState(false);
@@ -88,12 +109,34 @@ const LoginPage = (props) => {
     //HANDLE OPEN REGISTER POPUP
     const handleOpenRegister = ()=> {
       openRegister(!isOpenRegister);
-    }
+    };
 
     //HANDLE LOGIN REQUEST BUTTON
-    const handleClickLogin = (event) => {
-      loginReq({username: values.username, password: values.password});
-    }
+    const handleClickLogin = (event) => {      
+      console.log(accountInfo);
+      if(values.username == "" && values.password == ""){
+        console.log('1');
+        console.log(error);
+        setError({username: "Username is required",
+                  password: "Password is required"})
+      }
+      else if(values.username == ""){ 
+        console.log('2');
+        console.log(error);
+        setError({username: "Username is required", password: null});
+      }
+      else if (values.password == ""){
+        console.log('3');
+        console.log(error);
+        setError({username: null, password: "Password is required"});
+      }      
+      else {
+        console.log('4');
+        console.log(error);
+      setError({username: null, password: null, error: null});
+      loginReq({username: values.username, password: values.password}); 
+      }     
+    };
 
     return(
     <div className={classes.root}>
@@ -107,16 +150,18 @@ const LoginPage = (props) => {
             <form className = {classes.formLogin}>
               <div>
                 <img className={classes.logo} src="../img/Logo1zz.jpg" alt = "logo-banner"/>
-              </div>
+              </div>              
               <FormControl fullWidth variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-username"
                     value={values.username || ''}
                     onChange={handleChange('username')}
+                    error={error.username ? true : false}
                     labelWidth={60}
-                    required={true}
+                    required={true}                    
                 />
+                {error && error.username && <FormHelperText id="component-error-text" error={true}>{error.username}</FormHelperText>}
               </FormControl>
 
         <FormControl fullWidth variant="outlined">
@@ -127,6 +172,7 @@ const LoginPage = (props) => {
             value={values.password}
             onChange={handleChange('password')}
             required={true}
+            error={error.password ? true : false}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -141,8 +187,9 @@ const LoginPage = (props) => {
             }
             labelWidth={60}
           />
-          <FormHelperText></FormHelperText>
+           {error && error.password && <FormHelperText id="component-error-text" error={true}>{error.password}</FormHelperText>}
         </FormControl>
+        {error && error.error && <FormHelperText id="component-error-text" error={true}>{error.error}</FormHelperText>}
 
         <FormControlLabel
         control={
