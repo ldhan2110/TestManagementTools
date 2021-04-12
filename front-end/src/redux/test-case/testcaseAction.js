@@ -6,3 +6,10 @@ export function getAllTestcase(value) {
     payload: value
   }
 }
+
+export function addTestSuite(value) {
+  return {
+    type: types.ADD_TEST_SUITE_REQ,
+    payload: value
+  }
+}

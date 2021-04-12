@@ -14,6 +14,7 @@ export default combineEpics(
    testplanEpics.getAllTestplanEpic,
    testplanEpics.addNewTestplanEpic,
    testcaseEpics.getAllTestcaseEpic,
+   testcaseEpics.addTestSuiteEpic,
    buildEpics.addNewBuildEpic,
    buildEpics.getAllBuildEpic,
 );

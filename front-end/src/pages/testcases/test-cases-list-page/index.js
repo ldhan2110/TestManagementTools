@@ -76,6 +76,8 @@ const TestCaseListPage = (props) => {
 
     const {project, testcase, displayMsg, getAllTestcaseReq} = props;
 
+    const [listTestCase, setListTestCase] = useState([]);
+
 
     useEffect(()=>{
       setDisplayNode(searchTree(testcase.listTestcase,selectedNode));
@@ -85,6 +87,10 @@ const TestCaseListPage = (props) => {
     useEffect(()=>{
       getAllTestcaseReq(project);
     },[]);
+
+    useEffect(()=>{
+      setListTestCase(testcase.listTestcase);
+    },[testcase.listTestcase]);
   
 
     const searchTree = (root,selectedNode)=>{
@@ -192,7 +198,7 @@ const TestCaseListPage = (props) => {
                   <Grid item xs={12} style={{marginTop: '5vh'}}>
                     <Grid container spacing={3}>
                       <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">Test Cases</Typography> <Divider /></Grid>
-                      <Grid item xs={12}><TreeView data={testcase.listTestcase} setSelectNode={setSelectNode}/></Grid>
+                      <Grid item xs={12}><TreeView data={listTestCase} setSelectNode={setSelectNode}/></Grid>
                     </Grid>
                   </Grid>
 

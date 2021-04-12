@@ -59,7 +59,7 @@ const TestSuiteDetail = (props) => {
 
   return(
     <React.Fragment>
-      <NewTestSuitePopup isOpen={openNewTS} setOpen={setOpenTS}/>
+      <NewTestSuitePopup isOpen={openNewTS} setOpen={setOpenTS} selected={node.name}/>
       <SelectTestCasePopup isOpen={openNewTC} setOpen={setOpenTC}/>
       <Grid container spacing={3} >
         <Grid item xs={12}>
