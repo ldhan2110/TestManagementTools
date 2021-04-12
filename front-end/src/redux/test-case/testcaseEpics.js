@@ -7,7 +7,7 @@ import {API_ADDR} from '../constants';
 
 export  const getAllTestcaseEpic = (action$, state$) => action$.pipe(
   ofType(actions.GET_ALL_TESTCASE_REQ),
-  mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload+'/api/getalltestsuite',{
+  mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/getalltestsuite',{
       headers: {
         "X-Auth-Token": localStorage.getItem("token"),
         "content-type": "application/json"
