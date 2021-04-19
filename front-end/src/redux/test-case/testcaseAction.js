@@ -13,3 +13,10 @@ export function addTestSuite(value) {
     payload: value
   }
 }
+
+export function addTestCase(value){
+  return {
+    type: types.ADD_TEST_CASE_REQ,
+    payload: value
+  }
+}

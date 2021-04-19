@@ -5,6 +5,7 @@ import { Observable, from, of } from 'rxjs';
 import axios from 'axios';
 import {API_ADDR} from '../constants';
 
+//get all test case
 export  const getAllTestcaseEpic = (action$, state$) => action$.pipe(
   ofType(actions.GET_ALL_TESTCASE_REQ),
   mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/getalltestsuite',{
@@ -35,6 +36,7 @@ export  const getAllTestcaseEpic = (action$, state$) => action$.pipe(
   )))
 
 
+  //add test suite
   export const addTestSuiteEpic = (action$, state$) => action$.pipe(
     ofType(actions.ADD_TEST_SUITE_REQ),
     mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/create_testsuite',payload,{
@@ -64,3 +66,33 @@ export  const getAllTestcaseEpic = (action$, state$) => action$.pipe(
         payload: error.response
       }))
     )))
+
+    export const addTestCaseEpic = (action$, state$) => action$.pipe(
+      ofType(actions.ADD_TEST_CASE_REQ),
+      mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/addteststep',payload,{
+          headers: {
+            "X-Auth-Token": localStorage.getItem("token"),
+            "content-type": "application/json"
+          }
+        })).pipe(
+        map(response => {
+          const {data} = response;
+          if (data.success) {
+            console.log(data);
+            return ({
+              type: actions.ADD_TEST_CASE_SUCCESS,
+              payload: data.result
+            })
+          } else {
+            return ({
+              type: actions.ADD_TEST_CASE_FAILED,
+              payload: data.errMsg
+            })
+          }
+        
+        }),
+        catchError (error => of({
+          type: actions.ADD_TEST_CASE_FAILED,
+          payload: error.response
+        }))
+      )))

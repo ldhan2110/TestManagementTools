@@ -60,7 +60,30 @@ const reducer = (state = initialState, actions) => {
           sucess: false,
           errMsg: payload
         }
-      }
+      };
+
+      case types.ADD_TEST_CASE_REQ:
+        return {
+          ...state,
+        };
+  
+      case types.ADD_TEST_CASE_SUCCESS:
+          return {
+            ...state,
+            insTestcase: {
+              sucess: true,
+              errMsg: null
+            }      
+          };
+  
+      case types.ADD_TEST_CASE_FAILED:
+        return {
+          ...state,
+        insTestcase:{
+          sucess: false,
+          errMsg: payload
+        }
+      };
         
 
     
