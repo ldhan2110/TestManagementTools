@@ -8,14 +8,25 @@ import TimelineDot from '@material-ui/lab/TimelineDot';
 import DoneIcon from '@material-ui/icons/Done';
 import FlagIcon from '@material-ui/icons/Flag';
 import ClearIcon from '@material-ui/icons/Clear';
+import { useHistory } from "react-router-dom";
+import styles from './styles';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+
 import {
   Card,
   CardContent,
   Typography,
   CardActionArea
 } from '@material-ui/core';
+import { SELECT_MILESTONE } from '../../redux/milestones/constants';
 
-
+const mapDispatchToProps = dispatch => {
+  return {
+    // dispatching plain actions
+    selectMilestone: (value) => dispatch({ type: SELECT_MILESTONE, value }),
+  }
+}
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,8 +38,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "300px"
   }
 }));
-
-
 
 const Compeleted = (props) => {
 
@@ -80,7 +89,7 @@ const MilestoneCard = (props)=>{
   const classes = useStyles();
 
   return(
-    <Card variant="outlined" className={{root: classes.cardRoot}} elevation={3}>
+    <Card variant="outlined" className={{root: classes.cardRoot}} elevation={3} >
       <CardActionArea>
         <CardContent>
           <div>
@@ -101,19 +110,25 @@ const MilestoneCard = (props)=>{
 const Milestone = (props) => {
 
   const classes = useStyles();
+  const history = useHistory();
 
-  const {status, title, descriptions, isFinal} = props;
+  const {status, title, descriptions, isFinal, milestoneid, selectMilestone} = props;
+
+  const handleClickDetailMilestone = () => {
+    selectMilestone(milestoneid);
+    history.push(window.location.pathname+"/"+milestoneid+"/milestone-detail");
+  }
 
 
     return (
-      <TimelineItem >
+      <TimelineItem  onClick={handleClickDetailMilestone}  >
 
       {status === "completed" && <Compeleted final={isFinal}/>}
       {status === "inprogress" && <InProgress final={isFinal}/>}
       {status === "failed" && <Failed final={isFinal}/>}
 
       <TimelineContent>
-        <MilestoneCard title={title} descriptions={descriptions}/>
+        <MilestoneCard title={title} descriptions={descriptions} />
       </TimelineContent>
     </TimelineItem>
     )
@@ -121,4 +136,4 @@ const Milestone = (props) => {
 
 
 
-export default Milestone;
+export default connect (null,mapDispatchToProps) (withStyles(styles)(Milestone));

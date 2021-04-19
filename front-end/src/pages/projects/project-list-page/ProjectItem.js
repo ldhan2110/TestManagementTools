@@ -30,7 +30,7 @@ import { SELECT_PROJECT } from "../../../redux/projects/constants";
     }
   }
 
-
+ 
 const ProjectItem = (props) => {
 
   const history = useHistory();

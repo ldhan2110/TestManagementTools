@@ -1,5 +1,10 @@
 import React, {useState,useEffect} from 'react';
 import SearchInput from '../../../components/SearchInput';
+import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import { connect } from 'react-redux';
+import styles from "./styles";
+import { withStyles } from '@material-ui/core/styles';
 import {
   Button,
   List,
@@ -16,19 +21,30 @@ import {
 
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
+function mapStateToProps(state) {
+  return {
+    insUsers: state.user.insUsers,
+    listUsers: state.user.listUsers,
+    project: state.project.currentSelectedProject
+  };
+}
 
-const data = [
-  {name: "An Le", email:"ldhan@gmail.com"},
-  {name: "An Dang", email:"ldhan@gmail.com"},
-  {name: "Tuc Tran", email:"ldhan@gmail.com"},
-  {name: "Trieu Duong", email:"ldhan@gmail.com"},
-  {name: "Le Cuong", email:"ldhan@gmail.com"},
-  {name: "Doan Phan", email:"ldhan@gmail.com"},
-]
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    addUserToProjectReq: (payload) => dispatch({ type: ADD_USERS_TO_PROJECT_REQ, payload }),
+    getAllUserReq: (payload) => dispatch({ type: GET_ALL_USERS_REQ, payload}),
+    getAllUserOfProjectReq: (payload) => dispatch({ type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+  }
+}
 
 const InviteNewMemberDialog = (props) => {
 
   const {isOpen, openMethod} = props;
+
+  const {insUsers, listUsers, addUserToProjectReq, project, getAllUserReq, getAllUserOfProjectReq, displayMsg} = props;
+
 
   const [open, setOpen] = useState(isOpen);
 
@@ -36,13 +52,33 @@ const InviteNewMemberDialog = (props) => {
 
   const [resultData, setResultData] = useState([]);
 
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    role: 'tester',
+    projectid: project,
+  });
+
+  const [array, setArray] = React.useState([]);
+
+  const handleArray = () => {   
+
+  setArray([]);
+  for(let i in listUsers){
+    setArray(array => [...array, {
+      name: listUsers[i].username,
+      email: listUsers[i].email
+    }]);
+  }
+ }
+
 
   const checkValidCollab = (queryString) => {
     var result = [];
     if (queryString !== '') {
-      for (var idx in data){
-        if (data[idx].name.includes(queryString) || data[idx].email.includes(queryString))
-          result.push(data[idx]);
+      for (let idx of array){
+        if (idx.email === queryString){
+          result.push(idx);
+        }          
       }
     }
     return result;
@@ -61,6 +97,34 @@ const InviteNewMemberDialog = (props) => {
     setOpen(isOpen);
   },[isOpen])
 
+  useEffect(()=>{
+    getAllUserReq(project);
+    setArray([]);
+  },[]);
+
+  useEffect(()=>{
+    handleArray();
+    console.log(array);
+  },[listUsers])
+
+  useEffect(()=>{
+ if (insUsers.sucess === true) {
+      displayMsg({
+        content: "Add user to project successfully !",
+        type: 'success'
+      });
+      getAllUserOfProjectReq(project);
+      handleClose();
+    }
+  else if(insUsers.sucess === false){
+    console.log('co fail: ' + insUsers.errMsg);
+    displayMsg({
+      content: insUsers.errMsg,
+      type: 'error'
+    });
+    handleClose();
+  }
+  },[insUsers.sucess]);
   
 
   const handleClose = () => {
@@ -70,8 +134,15 @@ const InviteNewMemberDialog = (props) => {
     openMethod(false);
   }
 
+  const handleSendButton = () => {
+    console.log('Send Mail');
+    console.log(userInfo);
+    addUserToProjectReq(userInfo);
+  }
+
   const handleInputChange = (values) => {
     setInput(values);
+    setUserInfo({ ...userInfo, email: values });
   }
 
     return(
@@ -90,7 +161,7 @@ const InviteNewMemberDialog = (props) => {
                   secondary={item.email}/>
                   <ListItemSecondaryAction>
 
-                    <IconButton edge="end" aria-label="delete">
+                    <IconButton edge="end" aria-label="delete" onClick={handleSendButton}>
                       <MailOutlineIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
@@ -107,4 +178,4 @@ const InviteNewMemberDialog = (props) => {
     );
 };
 
-export default (InviteNewMemberDialog);
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(InviteNewMemberDialog));

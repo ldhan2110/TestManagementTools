@@ -4,6 +4,9 @@ import * as projectEpics from '../projects/projectEpics';
 import * as testplanEpics from '../test-plan/testplanEpics';
 import * as testcaseEpics from '../test-case/testcaseEpics';
 import * as buildEpics from '../build-release/buildEpics';
+import * as milestoneEpics from '../milestones/milestoneEpics';
+import * as userEpics from '../users/userEpics';
+
 
 export default combineEpics(
    accountEpics.loginReqEpic,
@@ -16,4 +19,17 @@ export default combineEpics(
    testcaseEpics.getAllTestcaseEpic,
    buildEpics.addNewBuildEpic,
    buildEpics.getAllBuildEpic,
+   buildEpics.getBuildByIdEpic,
+   buildEpics.updateBuildEpic,
+   buildEpics.deleteBuildEpic,
+   milestoneEpics.addNewMilestoneEpic,
+   milestoneEpics.getAllMilestoneEpic,
+   milestoneEpics.getMilestoneByIdEpic,
+   milestoneEpics.updateMilestoneEpic,
+   milestoneEpics.deleteMilestoneEpic,
+   userEpics.getAllUserOfProjectEpic,
+   userEpics.addUserToProjectEpic,
+   userEpics.getAllUserEpic,
+   userEpics.deleteUserOfProjectEpic
+
 );

@@ -1,10 +1,14 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 import SelectBox from '../../../components/Selectbox';
 import DatePicker from '../../../components/DatePicker';
+import { connect } from 'react-redux';
+import {GET_ALL_BUILDS_REQ, GET_BUILD_BYID_REQ, UPDATE_BUILD_REQ, DELETE_BUILD_REQ} from '../../../redux/build-release/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+
 import {
   Grid,
   Typography,
@@ -16,15 +20,113 @@ import {
   Checkbox
 } from '@material-ui/core';
 
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { insBuilds: state.build.insBuilds,  project:state.project.currentSelectedProject,
+    build:state.build.currentSelectedBuild, listBuilds: state.build.listBuilds}
+}
+
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    updateBuildReq: (payload) => dispatch({ type: UPDATE_BUILD_REQ, payload }),
+    getBuildByIdReq: (payload) => dispatch({ type: GET_BUILD_BYID_REQ, payload}),
+    deleteBuildReq: (payload) => dispatch({ type: DELETE_BUILD_REQ, payload}),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+  }
+}
 
 const BuildDetailPage = (props) => {
     const {classes, name} = props;
+    const {insBuilds, updateBuildReq, displayMsg,listBuilds,deleteBuildReq, getBuildByIdReq, project, build} = props;
+    const [buildbyid, setBuildbyid] = useState({
+      projectid: props.match.params.projectName,
+      buildid: props.match.params.buildName
+    });
     
     const history = useHistory();
+    const [buildInfor, setBuildInfor] = React.useState({
+      buildid: props.match.params.buildName,
+      projectid: props.match.params.projectName,
+      buildname: props.history.location.state.buildname,
+      description: props.history.location.state.descriptions,
+      isActive: props.history.location.state.is_active,
+      isPublic: props.history.location.state.is_open,
+      releasedate: props.history.location.state.releasedate  
+    });
+    const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
 
-    const handleClose = () =>{
-      history.goBack();
+    useEffect(()=>{
+      console.log('buildInfor: '+JSON.stringify(props.history.location.state));
+      /*setBuildInfor({ ...buildInfor,
+        buildid: props.match.params.buildName,
+        projectid: props.match.params.projectName,
+        buildname: props.history.location.state.buildname,
+        description: props.history.location.state.descriptions,
+        isActive: props.history.location.state.is_active,
+        isPublic: props.history.location.state.is_open,
+        releasedate: props.history.location.state.releasedate    
+      });*/
+      console.log('buildInfor none commit: '+JSON.stringify(buildInfor));
+    },[buildInfor]);
+
+    useEffect(()=>{
+      setBuildInfor({ ...buildInfor, releasedate: selectedDateStart });
+  },[selectedDateStart])
+
+  useEffect(()=>{
+    if (insBuilds.sucess === false){
+      displayMsg({
+        content: insBuilds.errMsg,
+        type: 'error'
+      });
+    } else if (insBuilds.sucess == true) {
+      displayMsg({
+        content: "Update build successfully !",
+        type: 'success'
+      });
     }
+  },[insBuilds.sucess]);
+
+    const handleDateStart = (date) => {
+      setSelectedDateStart(date);
+      console.log('change Date');
+    };
+
+    const handleUpdate = () => {
+      console.log('buildInfor update: '+JSON.stringify(buildInfor));
+      updateBuildReq(buildInfor);
+    };
+
+    const handleDelete = () =>{
+      deleteBuildReq(buildbyid);
+    }
+
+  const handleChange = (prop) => (event) => {
+    setBuildInfor({ ...buildInfor, [prop]: event.target.value });
+  }
+
+  const handleIsActive = () =>{
+    console.log('change IsActive');
+    if(buildInfor.isActive === true || buildInfor.isActive === 0){
+      setBuildInfor({ ...buildInfor, isActive: false });
+    }
+    else{
+      setBuildInfor({ ...buildInfor, isActive: true });
+    }  };
+
+  const handleIsPublic = () =>{
+    console.log('change IsPublic');
+    if(buildInfor.isPublic === true || buildInfor.isPublic === 0){
+      setBuildInfor({ ...buildInfor, isPublic: false });
+    }
+    else{
+      setBuildInfor({ ...buildInfor, isPublic: true });
+    }
+  };
+
+
+
     return (
     <div>
         <Helmet title="New Test Plan" />
@@ -35,7 +137,7 @@ const BuildDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Build/Release - {props.match.params.buildName}
+            Build/Release - {props.history.location.state.buildname}
           </Typography>
 
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
@@ -55,14 +157,20 @@ const BuildDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="buildName" label="Name" variant="outlined"  fullWidth required/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}/>
+          <TextField id="buildName" label="Name" variant="outlined"  fullWidth 
+          required value={buildInfor.buildname || ''}
+          onChange={handleChange('buildname')}/>
+          <TextField id="description" label="Descriptions" variant="outlined"  fullWidth 
+          required multiline rows={20} value={buildInfor.description || ''}
+          onChange={handleChange('description')}/>
             
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" />}
+              control={<Checkbox color="primary" 
+              value={buildInfor.isPublic}  onChange={handleIsPublic}
+              />}
               label="Public"
               labelPlacement="start"
             />
@@ -71,31 +179,29 @@ const BuildDetailPage = (props) => {
             <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" />}
+              control={<Checkbox color="primary" 
+              value={buildInfor.isActive}  onChange={handleIsActive}
+              />}
               label="Active"
               labelPlacement="start"
             />
           </div>
           <Grid container spacing={3}>
               <Grid item xs={12}>
-                 <DatePicker label="Release Date" />
+                 <DatePicker label="Release Date" 
+                 value={buildInfor.releasedate}
+                 onChange={handleDateStart}/>
               </Grid>
-              <Grid item xs={12}>
-                <TextField id="buildName" label="Branch" variant="outlined" fullWidth   />  
               </Grid>
-              <Grid item xs={12}>
-                <TextField id="buildName" label="Name" variant="outlined" fullWidth/>
-              </Grid>
-          </Grid>
          
           
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleClose}>
-            Save
+          <Button variant="contained" color="primary" onClick={handleUpdate}>
+            Update
           </Button>
-          <Button variant="contained" onClick={handleClose}>
-            Cancel
+          <Button variant="contained" onClick={handleDelete}>
+            Delete
           </Button>
         </div>
         </form>
@@ -105,4 +211,4 @@ const BuildDetailPage = (props) => {
     );
   }
   
-  export default withStyles(styles)(BuildDetailPage);
+  export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(BuildDetailPage));

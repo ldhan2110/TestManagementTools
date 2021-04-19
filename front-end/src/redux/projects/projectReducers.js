@@ -67,7 +67,8 @@ const reducer = (state = initialState, actions) => {
     }
 
     
-    case types.SELECT_PROJECT: 
+    case types.SELECT_PROJECT:
+      localStorage.setItem("selectProject",actions.value);
       return {
         ...state,
         currentSelectedProject: actions.value

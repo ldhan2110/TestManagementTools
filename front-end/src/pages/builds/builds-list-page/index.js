@@ -5,13 +5,13 @@ import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {BUILDS_HEADERS} from '../../../components/Table/DefineHeader';
-import {GET_ALL_BUILD_REQ} from '../../../redux/build-release/constants';
-import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
+import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ} from '../../../redux/build-release/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Grid,
   Typography,
-  Divider,
+  Divider, 
   Button
 } from '@material-ui/core';
 
@@ -21,84 +21,82 @@ import {
 
 
 //MAP STATES TO PROPS - REDUX
-const  mapStateToProps = (state) => {
-  return { listBuild: state.build.listBuild,
-            project:state.project.currentSelectedProject
-  }
+function mapStateToProps(state) {
+  return {
+    listBuilds: state.build.listBuilds,
+    project: state.project.currentSelectedProject
+  };
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
-  return {    
-    getAllBuildReq: (payload) => dispatch({ type: GET_ALL_BUILD_REQ, payload}),
-    //displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+  return {
+    addNewBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
+    getAllBuildReq: (payload) => dispatch({ type: GET_ALL_BUILDS_REQ, payload}),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
   }
 }
 
 
-// const NavLink = React.forwardRef((props, ref) => (
-//   <RouterNavLink innerRef={ref} {...props} />
-// ));
-
-/* function createData(id, buildname, descriptions, isActive, isOpen, releasedate) {
-  console.log({id, buildname, descriptions, isActive, isOpen, releasedate});
-  return { id, buildname, descriptions, isActive, isOpen, releasedate };
-}
-
-
-
-const rows = [
-  createData('#1001', 'build', 'Adsadsadasdsa', 0,  'Open', '2020-01-02'),
-  createData('#1002', 'build', 'Adsadsadas', 1,  'Open', '2020-01-02'),
-  createData('#1003', 'build', 'Adsadas', 1,  'Open', '2020-01-02'),
-  createData('#1004', 'build', 'Adsdada', 0,  'Open', '2020-01-02'),
-  createData('#1005', 'build', 'Adsadas', 1,  'Open', '2020-01-02'),
-  createData('#1006', 'build', 'Adsada', 1,  'Open', '2020-01-02'),
-  createData('#1007', 'build', 'Adsada', 0,  'Open', '2020-01-02'),
-  createData('#1008', 'build', 'Adsad', 1,  'Open', '2020-01-02'),
-  createData('#1009', 'build', 'Adsa', 0,  'Open', '2020-01-02'),
-  createData('#1010', 'build', 'Adsa', 1,  'Open', '2020-01-02'),
-  createData('#1011', 'build', 'Adsa', 0,  'Open', '2020-01-02'),
-  createData('#1012', 'build', 'Adsa', 1,  'Open', '2020-01-02'),
-  createData('#1013', 'build', 'Adsa', 1,   'Open','2020-01-02'),
-];
-
-const headCells = [
-  { id: 'id', alignment: 'left', label: 'ID' },
-  { id: 'name', alignment: 'left', label: 'Name' },
-  { id: 'description', alignment: 'left', label: 'Description' },
-  { id: 'status', alignment: 'left', label: 'Status' },
-  { id: 'date', alignment: 'left', label: 'Release Date' },
-  { id: 'actions', alignment: 'left', label: 'Actions' },
-]; */
-
-
 const BuildListPage = (props) => {
-  const {classes} = props;
-
-  const {listBuild, getAllBuildReq, project} = props;
-  /* const [listBuilds, setListBuild] = useState([]);
-  const [selectPage, setSelectPage] = useState(1); */
 
   const history = useHistory();
+
+  const {classes} = props;
+
+  const {listBuilds, getAllBuildReq, project} = props;
+
+  const [array, setArray] = React.useState([]);
+
+  const handleArray = () => {   
+
+  setArray([]);
+  for(let i in listBuilds){
+    let temp_active = 0;
+    if(listBuilds[i].is_active === true)
+    temp_active = 0
+    else
+    temp_active = 4 
+
+    let temp_public = 0;
+    if(listBuilds[i].is_open === true)
+    temp_public = 0
+    else
+    temp_public = 4 
+
+    setArray(array => [...array, {
+      _id: listBuilds[i]._id,
+      buildname: listBuilds[i].buildname,
+      descriptions: listBuilds[i].description,
+      is_active: temp_active,
+      is_open: temp_public,
+      releasedate: listBuilds[i].releasedate
+    }]);
+
+  }
+}
+
+  useEffect(()=>{
+    getAllBuildReq(project);
+    setArray([]);
+  },[]);
+
+  useEffect(()=>{
+    handleArray();
+  },[listBuilds])
 
   const handleClickNewBuild = () => {
     history.push(window.location.pathname+"/new-build");
   }
 
-  const navigateToDetailPage = (params) => {
-    if (params)
-      history.push(window.location.pathname+"/"+params);
+  const navigateToDetailPage = () => {
+      history.push(window.location.pathname+"/buildDetail");
   }
 
-   useEffect(() => {
-    getAllBuildReq(project);
-  },[])
-
-  useEffect(() =>{
-    // setListBuild(listBuild);
-    console.log(listBuild);
-  },[listBuild])
+  const handleClickDetailPage = (params) => {
+    if (params)
+      history.push(window.location.pathname+"/detail-build");
+  }
 
   return(
     <div>
@@ -139,9 +137,10 @@ const BuildListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <EnhancedTable
-            rows={listBuild}
+            rows={array}
             headerList = {BUILDS_HEADERS}
             viewAction={navigateToDetailPage}
+            onClick={navigateToDetailPage}
           />
         </Grid>
       </Grid>

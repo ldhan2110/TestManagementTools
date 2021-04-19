@@ -25,8 +25,8 @@ export default function DatePicker(props) {
           id="date-picker-inline"
           inputVariant="outlined"
           label={label}
-          value={selectedDate}
-          onChange={handleDateChange}
+          value={props.value}
+          onChange={props.onChange}
           KeyboardButtonProps={{
             'aria-label': 'change date',
           }}
