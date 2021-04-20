@@ -30,27 +30,31 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
-    addTestsuiteReq: (payload) => dispatch({type: ADD_TEST_CASE_REQ, payload})
+    addTestcaseReq: (payload) => dispatch({type: ADD_TEST_CASE_REQ, payload})
   }
 }
 
 const TestCaseDetail = (props) => {
   const {node} = props;
   
-  const [testSuite, setTestSuite] = useState({
+  const [testcase, setTestcase] = useState({
     name: '',
     description: '',
-    children: [],
+    testSuite: '',
+    importance: '',
+    preCond: '',
+    postCond: '',
+    listSteps:[]
   });
 
   useEffect(()=>{
-    if (node){
-      setTestSuite({
-        ...testSuite,
-        name: node.name,
-        children: node.children
-      });
-    }
+    // if (node){
+    //   setTestSuite({
+    //     ...testSuite,
+    //     name: node.name,
+    //     children: node.children
+    //   });
+    // }
   },[node]);
 
 
@@ -66,7 +70,7 @@ const TestCaseDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testSuite.name} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"   fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
             <Grid item xs={12}>
             <FormControl variant="outlined"  fullWidth>

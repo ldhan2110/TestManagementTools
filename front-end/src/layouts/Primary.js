@@ -24,6 +24,8 @@ const GlobalStyle = createGlobalStyle`
   body,
   #root {
     height: 100%;
+    margin: 0 1.5% 0 0
+    
   }
 
   body {
