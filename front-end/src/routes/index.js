@@ -53,6 +53,7 @@ const detailMileStonePage = async(()=>import('../pages/milstones/milestone-detai
 
 //TestCase components
 const TestCasePage = async(()=>import('../pages/testcases/test-cases-list-page/index'));
+const NewTestCasePage = async(()=>import('../pages/testcases/new-test-case-page/index'));
 
 const dashboardRoute = {
   id: "Dashboard",
@@ -252,7 +253,7 @@ const detailMilestoneRoute = {
   component: detailMileStonePage,
 }
 
-//Test Plan
+//Test Case
 const testCaseRoute = {
   id: "Test Cases",
   path: "/projects/:projectName/test-cases",
@@ -261,6 +262,15 @@ const testCaseRoute = {
   restrict: true,
   exact: true,
   component: TestCasePage
+}
+
+const newTestcaseRoute = {
+  id: "New Test Case",
+  path: "/projects/:projectName/test-cases/new-test-case",
+  name: "New Test Case",
+  restrict: true,
+  exact: true,
+  component: NewTestCasePage
 }
 
 // Routes using the Dashboard layout
@@ -279,6 +289,7 @@ export const primaryLayoutRoutes = [
   projectSettingRoutes,
   milestoneRoute,
   testCaseRoute,
+  newTestcaseRoute,
   newMilestoneRoute,
   detailMilestoneRoute,
 ];

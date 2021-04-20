@@ -37,6 +37,8 @@ const TestSuiteDetail = (props) => {
 
   const [openNewTC, setOpenTC] = useState(false);
 
+  const history = useHistory();
+
   useEffect(()=>{
     if (node){
       setTestSuite({
@@ -54,13 +56,13 @@ const TestSuiteDetail = (props) => {
   }
 
   const handleOpenTC = ()=>{
-    setOpenTC(true);
+    history.push(window.location.pathname+"/new-test-case");
   }
 
   return(
     <React.Fragment>
       <NewTestSuitePopup isOpen={openNewTS} setOpen={setOpenTS} selected={node.name}/>
-      <SelectTestCasePopup isOpen={openNewTC} setOpen={setOpenTC}/>
+
       <Grid container spacing={3} >
         <Grid item xs={12}>
               <Typography variant="h4" gutterBottom display="inline">

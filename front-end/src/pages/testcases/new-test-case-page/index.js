@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import DragList from '../../../components/DragList';
+import { connect } from 'react-redux';
+import {ADD_TEST_CASE_REQ, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Grid,
   Typography,
@@ -15,6 +17,22 @@ import {
   FormControl,
   InputLabel
 } from '@material-ui/core';
+
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { 
+    testsuite: state.testcase.insTestsuite
+   }
+}
+
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
+    addTestsuiteReq: (payload) => dispatch({type: ADD_TEST_CASE_REQ, payload})
+  }
+}
 
 const TestCaseDetail = (props) => {
   const {node} = props;
@@ -133,4 +151,4 @@ const TestCaseDetail = (props) => {
   )
 }
 
-export default TestCaseDetail;
+export default connect(mapStateToProps,mapDispatchToProps)(TestCaseDetail);
