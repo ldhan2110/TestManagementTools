@@ -70,7 +70,7 @@ const TestCaseDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"   fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" value={testcase.name}  fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
             <Grid item xs={12}>
             <FormControl variant="outlined"  fullWidth>
