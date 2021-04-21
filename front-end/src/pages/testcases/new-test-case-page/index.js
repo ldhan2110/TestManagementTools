@@ -41,21 +41,20 @@ const TestCaseDetail = (props) => {
     name: '',
     description: '',
     testSuite: '',
-    importance: '',
+    importance: 'medium',
+    type: 'manual',
     preCond: '',
     postCond: '',
     listSteps:[]
   });
 
   useEffect(()=>{
-    // if (node){
-    //   setTestSuite({
-    //     ...testSuite,
-    //     name: node.name,
-    //     children: node.children
-    //   });
-    // }
-  },[node]);
+    console.log(testcase);
+  },[testcase]);
+
+  const handleChange = (prop) => (event) => {
+    setTestcase({ ...testcase, [prop]: event.target.value });
+  };
 
 
   return(
@@ -70,22 +69,21 @@ const TestCaseDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" value={testcase.name}  fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" value={testcase.name}  onChange={handleChange('name')} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" value={testcase.description} onChange={handleChange('description')} fullWidth required/></Grid>
             <Grid item xs={12}>
             <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
                                 <Select
                                   labelId="testSuite"
                                   id="testSuite"
-                                  //value={age}
-                                  //onChange={handleChange}
+                                  value={testcase.testSuite}
+                                  onChange={handleChange('testSuite')}
                                   label="Test Suite"
                                 >
                                <MenuItem value=""><em>Any</em></MenuItem>
-                               <MenuItem value={10}>Low</MenuItem>
-                               <MenuItem value={20}>Medium</MenuItem>
-                               <MenuItem value={30}>High</MenuItem>
+                               <MenuItem value={'manual'}>Manual</MenuItem>
+                               <MenuItem value={'auto'}>Auto</MenuItem>
                               </Select>
                     </FormControl>
             </Grid>
@@ -97,14 +95,14 @@ const TestCaseDetail = (props) => {
                                 <Select
                                   labelId="Importance"
                                   id="Importance"
-                                  //value={age}
-                                  //onChange={handleChange}
+                                  value={testcase.importance}
+                                  onChange={handleChange('importance')}
                                   label="Importance"
                                 >
                                <MenuItem value=""><em>Any</em></MenuItem>
-                               <MenuItem value={10}>Low</MenuItem>
-                               <MenuItem value={20}>Medium</MenuItem>
-                               <MenuItem value={30}>High</MenuItem>
+                               <MenuItem value={'low'}>Low</MenuItem>
+                               <MenuItem value={'medium'}>Medium</MenuItem>
+                               <MenuItem value={'high'}>High</MenuItem>
                               </Select>
                     </FormControl>
                 </Grid>
@@ -114,20 +112,20 @@ const TestCaseDetail = (props) => {
                                 <Select
                                   labelId="type"
                                   id="type"
-                                  //value={age}
-                                  //onChange={handleChange}
+                                  value={testcase.type}
+                                  onChange={handleChange('type')}
                                   label="Type"
                                 >
-                               <MenuItem value=""><em>Manual</em></MenuItem>
-                               <MenuItem value={10}>Auto</MenuItem>
+                               <MenuItem value={"manual"}><em>Manual</em></MenuItem>
+                               <MenuItem value={"auto"}>Auto</MenuItem>
                               </Select>
                             </FormControl>
                 </Grid>
               </Grid>      
             </Grid>
 
-            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
-            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
+            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" value={testcase.preCond} onChange={handleChange('preCond')} variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
+            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined" value={testcase.postCond} onChange={handleChange('postCond')} fullWidth multiline rows={3} rowsMax={3}/></Grid>
           </Grid>
         </Grid>
 
@@ -139,7 +137,7 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <DragList/>
+          <DragList data = {testcase.listSteps}/>
         </Grid>
 
         <Grid item xs={12}>

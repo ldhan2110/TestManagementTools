@@ -20,18 +20,15 @@ const DragList = (props) => {
 
   const {data} = props;
 
-  const [listData, setListData] = useState([
-    {id: '1', name: '123', expectResult: 'Open Google'},
-    {id: '2', name: '456', expectResult: 'Open Google'},
-    {id: '3', name: '789', expectResult: 'Open Google'},
-  ]);
+  const [listData, setListData] = useState(data);
 
   var tempArr = [];
 
   useEffect(()=>{
     //console.log(listData);
-    console.log(listData);
-  },[listData])
+    setListData(data);
+    console.log(data);
+  },[data])
 
   const handleAddStep = () => {
     var tempArr = listData.slice();
