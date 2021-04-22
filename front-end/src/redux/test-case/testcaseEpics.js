@@ -63,7 +63,7 @@ export  const getAllTestcaseEpic = (action$, state$) => action$.pipe(
       }),
       catchError (error => of({
         type: actions.ADD_TEST_SUITE_FAILED,
-        payload: error.response
+        payload: error.response.data.errMsg
       }))
     )))
 

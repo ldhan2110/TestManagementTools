@@ -18,7 +18,7 @@ import {
 
 const DragList = (props) => {
 
-  const {data} = props;
+  const {data, setData} = props;
 
   const [listData, setListData] = useState(data);
 
@@ -27,14 +27,21 @@ const DragList = (props) => {
   useEffect(()=>{
     //console.log(listData);
     setListData(data);
-    console.log(data);
   },[data])
+
+  useEffect(()=>{
+    console.log(listData);
+  },[listData])
 
   const handleAddStep = () => {
     var tempArr = listData.slice();
-    tempArr.push({id: listData.length+1, name: '', expectResult: ''});
+    tempArr.push({id: listData.length+1, stepDefine: '', expectResult: '', type: 'manual'});
     setListData(tempArr);
   }
+
+  const handleChange = (prop) => (event) => {
+    setListData({ ...listData, [prop]: event.target.value });
+  };
 
 
   return(
@@ -56,8 +63,8 @@ const DragList = (props) => {
                                   //onChange={handleChange}
                                   label="Type"
                                 >
-                               <MenuItem value=""><em>Manual</em></MenuItem>
-                               <MenuItem value={10}>Auto</MenuItem>
+                               <MenuItem value={"manual"}><em>Manual</em></MenuItem>
+                               <MenuItem value={"auto"}>Auto</MenuItem>
                               </Select>
                     </FormControl></Grid>
                       </Grid>

@@ -61,7 +61,7 @@ useEffect(()=>{
 },[testSuiteInfo])
 
   useEffect(()=>{
-    if (testsuite.sucess === false){
+     if (testsuite.sucess === false){
       displayMsg({
         content: testsuite.errMsg,
         type: 'error'

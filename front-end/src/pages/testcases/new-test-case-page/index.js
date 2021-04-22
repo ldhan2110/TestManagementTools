@@ -40,10 +40,10 @@ const TestCaseDetail = (props) => {
   const history = useHistory();
   
   const [testcase, setTestcase] = useState({
-    name: '',
+    testcaseName: '',
     description: '',
     testSuite: '',
-    importance: 'medium',
+    priority: 'medium',
     type: 'manual',
     preCond: '',
     postCond: '',
@@ -75,7 +75,7 @@ const TestCaseDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" value={testcase.name}  onChange={handleChange('name')} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" value={testcase.testcaseName}  onChange={handleChange('testcaseName')} fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" value={testcase.description} onChange={handleChange('description')} fullWidth required/></Grid>
             <Grid item xs={12}>
             <FormControl variant="outlined"  fullWidth>
@@ -101,8 +101,8 @@ const TestCaseDetail = (props) => {
                                 <Select
                                   labelId="Importance"
                                   id="Importance"
-                                  value={testcase.importance}
-                                  onChange={handleChange('importance')}
+                                  value={testcase.priority}
+                                  onChange={handleChange('priority')}
                                   label="Importance"
                                 >
                                <MenuItem value=""><em>Any</em></MenuItem>
@@ -143,7 +143,7 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <DragList data = {testcase.listSteps}/>
+          <DragList data = {testcase.listSteps} setData={setTestcase}/>
         </Grid>
 
         <Grid item xs={12}>
