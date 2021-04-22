@@ -21,7 +21,7 @@ import {
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
-    testsuite: state.testcase.insTestsuite
+    insTestcase: state.testcase.insTestcase
    }
 }
 
@@ -35,14 +35,14 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestCaseDetail = (props) => {
-  const {node} = props;
+  const {node, addTestcaseReq, displayMsg, insTestcase, getAllTestcaseReq} = props;
 
   const history = useHistory();
   
   const [testcase, setTestcase] = useState({
     testcaseName: '',
     description: '',
-    testSuite: '',
+    testSuite: props.match.params.testsuiteName,
     priority: 'medium',
     type: 'manual',
     preCond: '',
@@ -57,6 +57,23 @@ const TestCaseDetail = (props) => {
     console.log(listSteps);
   },[listSteps]);
 
+
+  useEffect(()=>{
+    if (insTestcase.sucess === false){
+      displayMsg({
+        content: insTestcase.errMsg,
+        type: 'error'
+      });
+    } else if (insTestcase.sucess === true) {
+      displayMsg({
+        content: "Create test suite successfully !",
+        type: 'success'
+      });
+      getAllTestcaseReq();
+      history.goBack();
+    }
+  },[insTestcase.sucess]);
+
   const handleChange = (prop) => (event) => {
     setTestcase({ ...testcase, [prop]: event.target.value });
   };
@@ -66,8 +83,7 @@ const TestCaseDetail = (props) => {
   }
 
   const handleSave = () => {
-    console.log(testcase);
-    console.log("save")
+    addTestcaseReq(testcase);
   }
 
   return(
@@ -85,7 +101,7 @@ const TestCaseDetail = (props) => {
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" value={testcase.testcaseName}  onChange={handleChange('testcaseName')} fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" value={testcase.description} onChange={handleChange('description')} fullWidth required/></Grid>
             <Grid item xs={12}>
-            <FormControl variant="outlined"  fullWidth>
+            {/* <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
                                 <Select
                                   labelId="testSuite"
@@ -98,7 +114,8 @@ const TestCaseDetail = (props) => {
                                <MenuItem value={'manual'}>Manual</MenuItem>
                                <MenuItem value={'auto'}>Auto</MenuItem>
                               </Select>
-                    </FormControl>
+                    </FormControl> */}
+                  <TextField id="testSuite" label="Test Suite" variant="outlined" value={testcase.testSuite} fullWidth required/>
             </Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>

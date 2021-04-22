@@ -56,7 +56,7 @@ const TestSuiteDetail = (props) => {
   }
 
   const handleOpenTC = ()=>{
-    history.push(window.location.pathname+"/new-test-case");
+    history.push(window.location.pathname+"/"+node.name+"/new-test-case");
   }
 
   return(

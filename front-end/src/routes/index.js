@@ -266,7 +266,7 @@ const testCaseRoute = {
 
 const newTestcaseRoute = {
   id: "New Test Case",
-  path: "/projects/:projectName/test-cases/new-test-case",
+  path: "/projects/:projectName/test-cases/:testsuiteName/new-test-case",
   name: "New Test Case",
   restrict: true,
   exact: true,
