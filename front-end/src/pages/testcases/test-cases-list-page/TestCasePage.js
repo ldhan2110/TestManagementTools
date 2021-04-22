@@ -19,16 +19,20 @@ import {
 const TestCaseDetail = (props) => {
   const {node} = props;
   
-  const [testSuite, setTestSuite] = useState({
-    name: '',
-    description: '',
-    children: [],
+  const [testCase, setTestCase] = useState({
+    name: node.name,
+    description: node.description,
+    priority: node.priority,
+    listStep: node.listStep
   });
 
+  const [listSteps, setListSteps] = useState(node.listStep);
+
   useEffect(()=>{
+    console.log(node);
     if (node){
-      setTestSuite({
-        ...testSuite,
+      setTestCase({
+        ...testCase,
         name: node.name,
         children: node.children
       });
@@ -48,15 +52,15 @@ const TestCaseDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testSuite.name} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testCase.name} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  value={testCase.description} fullWidth required/></Grid>
             <Grid item xs={12}>
             <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
                                 <Select
                                   labelId="testSuite"
                                   id="testSuite"
-                                  //value={age}
+                                  value={node.parent}
                                   //onChange={handleChange}
                                   label="Test Suite"
                                 >
@@ -75,14 +79,13 @@ const TestCaseDetail = (props) => {
                                 <Select
                                   labelId="Importance"
                                   id="Importance"
-                                  //value={age}
+                                  value={testCase.priority}
                                   //onChange={handleChange}
                                   label="Importance"
                                 >
-                               <MenuItem value=""><em>Any</em></MenuItem>
-                               <MenuItem value={10}>Low</MenuItem>
-                               <MenuItem value={20}>Medium</MenuItem>
-                               <MenuItem value={30}>High</MenuItem>
+                               <MenuItem value={"low"}>Low</MenuItem>
+                               <MenuItem value={"medium"}>Medium</MenuItem>
+                               <MenuItem value={"high"}>High</MenuItem>
                               </Select>
                     </FormControl>
                 </Grid>
@@ -117,7 +120,7 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <DragList/>
+          <DragList data = {listSteps} setData={setListSteps}/>
         </Grid>
 
         <Grid item xs={12}>

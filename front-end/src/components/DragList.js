@@ -26,6 +26,7 @@ const DragList = (props) => {
 
   useEffect(()=>{
     setListData(data);
+    console.log(data);
   },[data])
 
   const handleAddStep = () => {
@@ -53,8 +54,8 @@ const DragList = (props) => {
                     <ListItem key={item.id}>
                       <Grid container spacing={1}>
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
-                        <Grid item xs={4}><TextField id={"definition"+item.id} variant="outlined" label='Definition' required  fullWidth multiline  rows={3} onChange={(event)=>{ handleChange({id: item.id, name: "stepDefine", data: event.target.value}) }}/></Grid>
-                        <Grid item xs={4}><TextField id="expectResult"  variant="outlined" label='Expected Result' required  multiline fullWidth rows={3}  onChange={(event)=>{ handleChange({id: item.id, name: "expectResult", data: event.target.value}) }}/></Grid>
+                        <Grid item xs={4}><TextField id={"definition"+item.id} variant="outlined" label='Definition' required  fullWidth multiline  rows={3} value={item.teststepname} onChange={(event)=>{ handleChange({id: item.id, name: "stepDefine", data: event.target.value}) }}/></Grid>
+                        <Grid item xs={4}><TextField id="expectResult"  variant="outlined" label='Expected Result' required  multiline fullWidth rows={3} value={item.description} onChange={(event)=>{ handleChange({id: item.id, name: "expectResult", data: event.target.value}) }}/></Grid>
                         <Grid item xs={2}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select

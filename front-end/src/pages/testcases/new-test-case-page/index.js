@@ -42,19 +42,18 @@ const TestCaseDetail = (props) => {
   const [testcase, setTestcase] = useState({
     testcaseName: '',
     description: '',
-    testSuite: props.match.params.testsuiteName,
+    testsuite: props.match.params.testsuiteName,
     priority: 'medium',
     type: 'manual',
-    preCond: '',
-    postCond: '',
-    listSteps:[]
+    precondition: '',
+    postCondition: '',
+    listStep:[]
   });
 
   const [listSteps, setListSteps] = useState([]);
 
   useEffect(()=>{
-    setTestcase({...testcase, listSteps: listSteps});
-    console.log(listSteps);
+    setTestcase({...testcase, listStep: listSteps});
   },[listSteps]);
 
 
@@ -84,6 +83,7 @@ const TestCaseDetail = (props) => {
 
   const handleSave = () => {
     addTestcaseReq(testcase);
+    console.log(testcase);
   }
 
   return(
@@ -115,7 +115,7 @@ const TestCaseDetail = (props) => {
                                <MenuItem value={'auto'}>Auto</MenuItem>
                               </Select>
                     </FormControl> */}
-                  <TextField id="testSuite" label="Test Suite" variant="outlined" value={testcase.testSuite} fullWidth required/>
+                  <TextField id="testSuite" label="Test Suite" variant="outlined" value={testcase.testsuite} fullWidth required/>
             </Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>
@@ -154,8 +154,8 @@ const TestCaseDetail = (props) => {
               </Grid>      
             </Grid>
 
-            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" value={testcase.preCond} onChange={handleChange('preCond')} variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
-            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined" value={testcase.postCond} onChange={handleChange('postCond')} fullWidth multiline rows={3} rowsMax={3}/></Grid>
+            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" value={testcase.preCond} onChange={handleChange('precondition')} variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
+            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined" value={testcase.postCond} onChange={handleChange('postCondition')} fullWidth multiline rows={3} rowsMax={3}/></Grid>
           </Grid>
         </Grid>
 
