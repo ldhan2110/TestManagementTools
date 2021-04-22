@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import { useHistory } from "react-router";
 
 import {
   Grid,
@@ -38,6 +38,8 @@ const mapDispatchToProps = dispatch => {
 
 const DetailMileStonePage = (props) => {
   const {classes} = props;
+
+  const history = useHistory();
 
   const {insMilestones, updateMilestoneReq, displayMsg,listMilestones,deleteMilestoneReq, getMilestoneByIdReq, project, milestone} = props;
 
@@ -96,11 +98,12 @@ const DetailMileStonePage = (props) => {
         content: "Update milestone successfully !",
         type: 'success'
       });
+      history.goBack();
     }
   },[insMilestones.sucess]);
     
-  const handleClose = () => {
-    deleteMilestoneReq(milestonebyid);
+  const handleClose = async () => {
+    await deleteMilestoneReq(milestonebyid);
   };
 
   const handleUpdate = () => {

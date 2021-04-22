@@ -18,6 +18,7 @@ import {
   Breadcrumbs,
   Divider,
 } from '@material-ui/core';
+import { useHistory } from "react-router";
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -42,7 +43,7 @@ const NewMileStonePage = (props) => {
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
 
-
+  const history = useHistory();
 
   const [milestoneInfo, setMilestoneInfo] = useState({
     milestonetitle: '',
@@ -90,7 +91,7 @@ const NewMileStonePage = (props) => {
       end_date: '',
       is_completed: false
     })
-    //setOpen(false);
+    history.goBack();
   };
 
   const handleCreate = () => {
@@ -111,7 +112,6 @@ const NewMileStonePage = (props) => {
 
   const handleCompleted = () =>{
     setMilestoneInfo({ ...milestoneInfo, is_completed: !milestoneInfo.is_completed });
-    console.log('hello');
   };
 
     return (
