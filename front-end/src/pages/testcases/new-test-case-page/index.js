@@ -50,9 +50,12 @@ const TestCaseDetail = (props) => {
     listSteps:[]
   });
 
+  const [listSteps, setListSteps] = useState([]);
+
   useEffect(()=>{
-    console.log(testcase);
-  },[testcase]);
+    setTestcase({...testcase, listSteps: listSteps});
+    console.log(listSteps);
+  },[listSteps]);
 
   const handleChange = (prop) => (event) => {
     setTestcase({ ...testcase, [prop]: event.target.value });
@@ -62,6 +65,10 @@ const TestCaseDetail = (props) => {
     history.goBack();
   }
 
+  const handleSave = () => {
+    console.log(testcase);
+    console.log("save")
+  }
 
   return(
     <React.Fragment>
@@ -143,13 +150,13 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <DragList data = {testcase.listSteps} setData={setTestcase}/>
+          <DragList data = {listSteps} setData={setListSteps}/>
         </Grid>
 
         <Grid item xs={12}>
           <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth>Save</Button>
+              <Button variant="contained" color="primary" fullWidth onClick={handleSave}>Save</Button>
             </Grid>
             <Grid item>
               <Button variant="contained"  fullWidth onClick={handleCancel}>Cancel</Button>
