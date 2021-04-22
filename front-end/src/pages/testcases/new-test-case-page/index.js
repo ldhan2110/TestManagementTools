@@ -36,6 +36,8 @@ const mapDispatchToProps = dispatch => {
 
 const TestCaseDetail = (props) => {
   const {node} = props;
+
+  const history = useHistory();
   
   const [testcase, setTestcase] = useState({
     name: '',
@@ -55,6 +57,10 @@ const TestCaseDetail = (props) => {
   const handleChange = (prop) => (event) => {
     setTestcase({ ...testcase, [prop]: event.target.value });
   };
+
+  const handleCancel = (event) => {
+    history.goBack();
+  }
 
 
   return(
@@ -141,9 +147,12 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Grid container justify ='flex-end'>
+          <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
               <Button variant="contained" color="primary" fullWidth>Save</Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained"  fullWidth onClick={handleCancel}>Cancel</Button>
             </Grid>
           </Grid>
         </Grid>
