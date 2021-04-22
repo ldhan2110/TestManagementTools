@@ -4,7 +4,8 @@ import Milestone from './MilestoneItem';
 
 
 
-const MilestoneLine = (props) => {
+
+const MilestoneLine = (props) => { 
 
 
 
@@ -13,13 +14,16 @@ const MilestoneLine = (props) => {
   return (
     <Timeline align="alternate">
     {listData ? listData.listMilestone.map((item,index) => {
-        console.log(listData.listMilestone.length-1);
+        //console.log(listData.listMilestone.length-1);
         if (index !== listData.listMilestone.length-1){
           return(
             <Milestone key={index}
             status = {item.status}
             title = {item.title}
             descriptions = {item.descriptions}
+            milestoneid = {item.milestoneid}
+            startdate ={item.startdate}
+            enddate ={item.enddate}
             isFinal={false} />
           );
         } else return(
@@ -27,7 +31,10 @@ const MilestoneLine = (props) => {
           status = {item.status}
           title = {item.title}
           descriptions = {item.descriptions}
-          isFinal={true} />
+          milestoneid = {item.milestoneid}
+          startdate ={item.startdate}
+          enddate ={item.enddate}
+          isFinal={true}/>
         );
       } 
       )

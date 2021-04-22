@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
@@ -6,6 +6,9 @@ import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {MEMBERS_HEADERS} from '../../../components/Table/DefineHeader';
 import NewMemberDialog from './InviteNewMember';
+import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import { connect } from 'react-redux';
 import {
   Grid,
   Typography,
@@ -22,23 +25,53 @@ import {
 //   <RouterNavLink innerRef={ref} {...props} />
 // ));
 
-function createData(id, name, role) {
-  return { id, name, role};
+function mapStateToProps(state) {
+  return {
+    listUsers: state.user.listUsers,
+    listUsersOfProject: state.user.listUsersOfProject,
+    project: state.project.currentSelectedProject
+  };
 }
 
-const rows = [
-  createData('#1001', 'An Le', 'Admin'),
-  createData('#1001', 'Zoro', 'Test Leader'),
-
-];
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    addUserToProjectReq: (payload) => dispatch({ type: ADD_USERS_TO_PROJECT_REQ, payload }),
+    getAllUserReq: (payload) => dispatch({ type: GET_ALL_USERS_REQ, payload}),
+    getAllUserOfProjectReq: (payload) => dispatch({ type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+  }
+}
 
 
 const MemberListPage = (props) => {
   const {classes} = props;
 
+  const {listUsers, listUsersOfProject, addUserToProjectReq, project, getAllUserReq, getAllUserOfProjectReq, displayMsg} = props;
+
+
   const [openDialog,setOpenDialog] = useState(false);
 
   const history = useHistory();
+
+  const [array, setArray] = React.useState([]);
+
+  const handleArray = () => {   
+    if(listUsersOfProject !== undefined){
+      setArray([]);
+      for(let i in listUsersOfProject){
+        setArray(array => [...array, { 
+          id: listUsersOfProject[i]._id,
+          name: listUsersOfProject[i].username,
+          role: listUsersOfProject[i].role
+        }]);
+      }
+    }
+    else{
+      console.log('no members');
+    }
+
+ }
 
   const handleClickNewMemberDialog = () => {
     setOpenDialog(true);
@@ -48,6 +81,21 @@ const MemberListPage = (props) => {
     if (params)
       history.push(window.location.pathname+"/"+params);
   }
+
+  useEffect(()=>{
+    getAllUserOfProjectReq(project);
+    //console.log('listUsersOfProject ban dau: ' + listUsersOfProject);
+    setArray([]);
+  },[]);
+
+  useEffect(()=>{
+    handleArray();
+    //console.log('array: '+array);
+    //console.log('projectid: '+project);
+    //console.log('listUsersOfProject: ' + JSON.stringify(listUsersOfProject));
+    //console.log('listProject: '+ listUsers);
+  },[listUsersOfProject])
+//JSON.stringify(listUsersOfProject)
 
   return(
     <div>
@@ -88,7 +136,7 @@ const MemberListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <EnhancedTable
-            rows={rows}
+            rows={array}
             headerList = {MEMBERS_HEADERS}
             viewAction={navigateToDetailPage}
           />
@@ -98,4 +146,4 @@ const MemberListPage = (props) => {
   );
 }
 
-export default withStyles(styles)(MemberListPage);
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(MemberListPage));

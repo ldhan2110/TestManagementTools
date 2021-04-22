@@ -4,6 +4,8 @@ import { Link as RouterLink } from "react-router-dom";
 import EnhancedTableHead from './TableHead';
 import EnhancedTableToolbar from './TableToolbar';
 import {getComparator,stableSort} from './utils';
+import { useHistory } from "react-router-dom";
+
 import {
   Avatar as MuiAvatar,
   Checkbox,
@@ -54,6 +56,8 @@ const Customer = styled.div`
 
 
 const EnhancedTable = (props) => {
+  const history = useHistory();
+
   const {rows, headerList, viewAction} = props;
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('customer');
@@ -77,6 +81,7 @@ const EnhancedTable = (props) => {
   };
 
   const handleClick = (event, id) => {
+    console.log('hello');
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
   
@@ -106,8 +111,13 @@ const EnhancedTable = (props) => {
   };
 
   const handleDefaultViewAction = (event,row) => {
-      if (viewAction){
-        viewAction(row.name);
+    console.log('view detail build: '+JSON.stringify(row));
+          if (viewAction){
+        //viewAction(row);
+        history.push({
+          pathname: window.location.pathname+"/"+row._id,
+          state: row
+        });
       }
   };
 

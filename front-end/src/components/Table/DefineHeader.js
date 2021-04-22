@@ -30,7 +30,7 @@ export const BUILDS_HEADERS = {
   { id: 'buildname', alignment: 'left', label: 'Name',type: 'text' },
   { id: 'descriptions', alignment: 'left', label: 'Description',type: 'text' },
   { id: 'is_active', alignment: 'left', label: 'Status',type: 'label' },
-  { id: 'is_open', alignment: 'left', label: 'Open',type: 'text'},
+  { id: 'is_open', alignment: 'left', label: 'Open',type: 'label'},
   { id: 'releasedate', alignment: 'left', label: 'Release Date',type: 'text' },
 ]}
 

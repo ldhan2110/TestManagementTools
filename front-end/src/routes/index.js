@@ -245,7 +245,7 @@ const newMilestoneRoute = {
 
 const detailMilestoneRoute = {
   id: "Detail Milestone",
-  path: "/projects/:projectName/milestones/milestone-detail",
+  path: "/projects/:projectName/milestones/:milestoneid/milestone-detail",
   name: "Detail Milestone",
   icon: <Flag/>,
   restrict: true,

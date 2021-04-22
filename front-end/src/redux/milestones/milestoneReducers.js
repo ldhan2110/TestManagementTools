@@ -3,12 +3,12 @@ import * as types from './constants';
 var initialState = {
   error: "",
   errorMsg:"",
-  currentSelectedBuild: "",
-  insBuilds: {
+  currentSelectedMilestone: "",
+  insMilestones: {
     sucess: null,
     errMsg: null
   },
-  listBuilds: [],
+  listMilestones: [],
 }
 
 
@@ -18,48 +18,48 @@ const reducer = (state = initialState, actions) => {
 
   switch (actions.type) {
     //LOGIN
-    case types.GET_ALL_BUILDS_REQ:
+    case types.GET_ALL_MILESTONES_REQ:
       return {
-        ...state, listBuilds: []
+        ...state, listMilestones: []
       }
 
-    case types.GET_ALL_BUILDS_FAILED:
+    case types.GET_ALL_MILESTONES_FAILED:
       return {
         ...state,
         error: true,
         errorMsg: payload,
       }
     
-    case types.GET_ALL_BUILDS_SUCCESS:
+    case types.GET_ALL_MILESTONES_SUCCESS:
         return {
           error: "",
           errorMsg:"",
-          currentSelectedBuild: "",
-          insBuilds: [],
-          listBuilds: payload,
+          currentSelectedMilestone: "",
+          insMilestones: [],
+          listMilestones: payload,
         }
     
-    case types.ADD_NEW_BUILD_REQ:{      
+    case types.ADD_NEW_MILESTONE_REQ:{      
       return {
         ...state,
-        insBuilds: initialState.insBuilds
+        insMilestones: initialState.insMilestones
       };
     }
 
-    case types.ADD_NEW_BUILD_SUCCESS:{
+    case types.ADD_NEW_MILESTONE_SUCCESS:{
       return {
         ...state,
-        insBuilds: {
+        insMilestones: {
           sucess: true,
           errMsg: null
         }
       }
     }
 
-    case types.ADD_NEW_BUILD_FAILED: {
+    case types.ADD_NEW_MILESTONE_FAILED: {
       return{
         ...state,
-        insBuilds:{
+        insMilestones:{
           sucess: false,
           errMsg: payload
         }
@@ -67,35 +67,35 @@ const reducer = (state = initialState, actions) => {
     }
 
     
-    case types.SELECT_BUILD:
-      localStorage.setItem("selectBuild",actions.value); 
+    case types.SELECT_MILESTONE:
+      localStorage.setItem("selectMilestone",actions.value); 
       return {
         ...state,
-        currentSelectedBuild: actions.value
+        currentSelectedMilestone: actions.value
       }
 
     
-  case types.UPDATE_BUILD_REQ:{      
+  case types.UPDATE_MILESTONE_REQ:{      
     return {
       ...state,
-      insBuilds: initialState.insBuilds
+      insMilestones: initialState.insMilestones
     };
   }
 
-  case types.UPDATE_BUILD_SUCCESS:{
+  case types.UPDATE_MILESTONE_SUCCESS:{
     return {
       ...state,
-      insBuilds: {
+      insMilestones: {
         sucess: true,
         errMsg: null
       }
     }
   }
 
-  case types.UPDATE_BUILD_FAILED: {
+  case types.UPDATE_MILESTONE_FAILED: {
     return{
       ...state,
-      insBuilds:{
+      insMilestones:{
         sucess: false,
         errMsg: payload
       }
@@ -103,52 +103,52 @@ const reducer = (state = initialState, actions) => {
   }
 
 
-  case types.DELETE_BUILD_REQ:{      
+  case types.DELETE_MILESTONE_REQ:{      
     return {
       ...state,
-      insBuilds: initialState.insBuilds
+      insMilestones: initialState.insMilestones
     };
   }
 
-  case types.DELETE_BUILD_SUCCESS:{
+  case types.DELETE_MILESTONE_SUCCESS:{
     return {
       ...state,
-      insBuilds: {
+      insMilestones: {
         sucess: true,
         errMsg: null
       }
     }
   }
 
-  case types.DELETE_BUILD_FAILED: {
+  case types.DELETE_MILESTONE_FAILED: {
     return{
       ...state,
-      insBuilds:{
+      insMilestones:{
         sucess: false,
         errMsg: payload
       }
     }    
   }
 
-  case types.GET_BUILD_BYID_REQ:
+  case types.GET_MILESTONE_BYID_REQ:
       return {
-        ...state, listBuilds: []
+        ...state, listMilestones: []
       }
 
-    case types.GET_BUILD_BYID_FAILED:
+    case types.GET_MILESTONE_BYID_FAILED:
       return {
         ...state,
         error: true,
         errorMsg: payload,
       }
     
-    case types.GET_BUILD_BYID_SUCCESS:
+    case types.GET_MILESTONE_BYID_SUCCESS:
         return {
           error: "",
           errorMsg:"",
-          currentSelectedBuild: "",
-          insBuilds: [],
-          listBuilds: payload,
+          currentSelectedMilestone: "",
+          insMilestones: [],
+          listMilestones: payload,
         }
 
     default:

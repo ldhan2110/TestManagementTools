@@ -6,9 +6,9 @@ import axios from 'axios';
 import {API_ADDR} from '../constants';
 
 
-  export  const getAllBuildEpic = (action$, state$) => action$.pipe(
-    ofType(actions.GET_ALL_BUILDS_REQ),
-    mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/api/build/'+payload,{
+  export  const getAllMilestoneEpic = (action$, state$) => action$.pipe(
+    ofType(actions.GET_ALL_MILESTONES_REQ),
+    mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload+'/getallmilestoneofproject',{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
@@ -18,31 +18,31 @@ import {API_ADDR} from '../constants';
         const {data} = response;
         if (data.success) {
           return ({
-            type: actions.GET_ALL_BUILDS_SUCCESS,
-            payload: data.result[0].build
+            type: actions.GET_ALL_MILESTONES_SUCCESS,
+            payload: data.result
           })
         } else {
           return ({
-            type: actions.GET_ALL_BUILDS_FAILED,
+            type: actions.GET_ALL_MILESTONES_FAILED,
             payload: data.errMsg
           })
         }
       
       }),
       catchError (error => of({
-        type: actions.GET_ALL_BUILDS_FAILED,
+        type: actions.GET_ALL_MILESTONES_FAILED,
         payload: error.response
       }))
     )))
 
-    export  const addNewBuildEpic = (action$, state$) => action$.pipe(
-      ofType(actions.ADD_NEW_BUILD_REQ),
-      mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/api/build/'+payload.projectid,{
-        buildname: payload.buildname,
-        description: payload.description,
-        isActive: payload.isActive,
-        isPublic: payload.isPublic,
-        releasedate: payload.releasedate
+    export  const addNewMilestoneEpic = (action$, state$) => action$.pipe(
+      ofType(actions.ADD_NEW_MILESTONE_REQ),
+      mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/createmilestone',{
+          milestonetitle: payload.milestonetitle,
+          description: payload.description,
+          start_date: payload.start_date,
+          end_date: payload.end_date,
+          is_completed: payload.is_completed
       } , {
           headers: {
             "X-Auth-Token": localStorage.getItem("token"),
@@ -54,26 +54,26 @@ import {API_ADDR} from '../constants';
           if (data.success) {
             console.log(data);
             return ({
-              type: actions.ADD_NEW_BUILD_SUCCESS,
+              type: actions.ADD_NEW_MILESTONE_SUCCESS,
               payload: true
             })
           } else {
             return ({
-              type: actions.ADD_NEW_BUILD_FAILED,
+              type: actions.ADD_NEW_MILESTONE_FAILED,
               payload: data.errMsg
             })
           }
         
         }),
         catchError (error => of({
-          type: actions.ADD_NEW_BUILD_FAILED,
+          type: actions.ADD_NEW_MILESTONE_FAILED,
           payload: error.response.data.errMsg
         }))
       )))
 
-      export  const getBuildByIdEpic = (action$, state$) => action$.pipe(
-        ofType(actions.GET_BUILD_BYID_REQ),
-        mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/api/build/'+payload.projectid+'/'+payload.buildid+'/getbyid',{
+      export  const getMilestoneByIdEpic = (action$, state$) => action$.pipe(
+        ofType(actions.GET_MILESTONE_BYID_REQ),
+        mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload.projectid+'/'+payload.milestoneid+'/getbyid',{
             headers: {
               "X-Auth-Token": localStorage.getItem("token"),
               "content-type": "application/json"
@@ -83,31 +83,31 @@ import {API_ADDR} from '../constants';
             const {data} = response;
             if (data.success) {
               return ({
-                type: actions.GET_BUILD_BYID_SUCCESS,
+                type: actions.GET_MILESTONE_BYID_SUCCESS,
                 payload: data.result
               })
             } else {
               return ({
-                type: actions.GET_BUILD_BYID_FAILED,
+                type: actions.GET_MILESTONE_BYID_FAILED,
                 payload: data.errMsg
               })
             }
           
           }),
           catchError (error => of({
-            type: actions.GET_BUILD_BYID_FAILED,
+            type: actions.GET_MILESTONE_BYID_FAILED,
             payload: error.response
           }))
         )))
 
-      export  const updateBuildEpic = (action$, state$) => action$.pipe(
-        ofType(actions.UPDATE_BUILD_REQ),
-        mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/api/build/'+payload.projectid+'/'+payload.buildid,{
-          buildname: payload.buildname,
-          description: payload.description,
-          isActive: payload.isActive,
-          isPublic: payload.isPublic,
-          releasedate: payload.releasedate
+      export  const updateMilestoneEpic = (action$, state$) => action$.pipe(
+        ofType(actions.UPDATE_MILESTONE_REQ),
+        mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.milestoneid+'/api/updatemilestone',{
+            milestonetitle: payload.milestonetitle,
+            description: payload.description,
+            start_date: payload.start_date,
+            end_date: payload.end_date,
+            is_completed: payload.is_completed
         } , {
             headers: {
               "X-Auth-Token": localStorage.getItem("token"), 
@@ -119,26 +119,26 @@ import {API_ADDR} from '../constants';
             if (data.success) {
               console.log(data);
               return ({
-                type: actions.UPDATE_BUILD_SUCCESS,
+                type: actions.UPDATE_MILESTONE_SUCCESS,
                 payload: true
               })
             } else {
               return ({
-                type: actions.UPDATE_BUILD_FAILED,
+                type: actions.UPDATE_MILESTONE_FAILED,
                 payload: data.errMsg
               })
             }
           
           }),
           catchError (error => of({
-            type: actions.UPDATE_BUILD_FAILED,
+            type: actions.UPDATE_MILESTONE_FAILED,
             payload: error.response.data.errMsg
           }))
         )))
 
-        export  const deleteBuildEpic = (action$, state$) => action$.pipe(
-          ofType(actions.DELETE_BUILD_REQ),
-          mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/api/build/'+payload.projectid+'/'+payload.buildid,{
+        export  const deleteMilestoneEpic = (action$, state$) => action$.pipe(
+          ofType(actions.DELETE_MILESTONE_REQ),
+          mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/'+payload.projectid+'/'+payload.milestoneid+'/api/removeanddeletefromproject',{
               headers: {
                 "X-Auth-Token": localStorage.getItem("token"), 
                 "content-type": "application/json"
@@ -149,19 +149,19 @@ import {API_ADDR} from '../constants';
               if (data.success) {
                 console.log(data);
                 return ({
-                  type: actions.DELETE_BUILD_SUCCESS,
+                  type: actions.DELETE_MILESTONE_SUCCESS,
                   payload: true
                 })
               } else {
                 return ({
-                  type: actions.DELETE_BUILD_FAILED,
+                  type: actions.DELETE_MILESTONE_FAILED,
                   payload: data.errMsg
                 })
               }
             
             }),
             catchError (error => of({
-              type: actions.DELETE_BUILD_FAILED,
+              type: actions.DELETE_MILESTONE_FAILED,
               payload: error.response.data.errMsg
             }))
           )))
