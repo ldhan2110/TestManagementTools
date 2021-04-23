@@ -19,9 +19,6 @@ import {
 const TestPlanDetailPage = (props) => {
     const {classes, listTestPlans, name, match} = props;
 
-    useEffect(()=>{
-        console.log(props);
-    },[])
 
     const handleClose=()=>{
 

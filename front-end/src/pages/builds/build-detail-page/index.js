@@ -57,7 +57,7 @@ const BuildDetailPage = (props) => {
     const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
 
     useEffect(()=>{
-      console.log('buildInfor: '+JSON.stringify(props.history.location.state));
+ 
       /*setBuildInfor({ ...buildInfor,
         buildid: props.match.params.buildName,
         projectid: props.match.params.projectName,
@@ -67,7 +67,7 @@ const BuildDetailPage = (props) => {
         isPublic: props.history.location.state.is_open,
         releasedate: props.history.location.state.releasedate    
       });*/
-      console.log('buildInfor none commit: '+JSON.stringify(buildInfor));
+     
     },[buildInfor]);
 
     useEffect(()=>{
@@ -90,11 +90,11 @@ const BuildDetailPage = (props) => {
 
     const handleDateStart = (date) => {
       setSelectedDateStart(date);
-      console.log('change Date');
+      
     };
 
     const handleUpdate = () => {
-      console.log('buildInfor update: '+JSON.stringify(buildInfor));
+
       updateBuildReq(buildInfor);
     };
 
@@ -107,7 +107,7 @@ const BuildDetailPage = (props) => {
   }
 
   const handleIsActive = () =>{
-    console.log('change IsActive');
+
     if(buildInfor.isActive === true || buildInfor.isActive === 0){
       setBuildInfor({ ...buildInfor, isActive: false });
     }
@@ -116,7 +116,7 @@ const BuildDetailPage = (props) => {
     }  };
 
   const handleIsPublic = () =>{
-    console.log('change IsPublic');
+
     if(buildInfor.isPublic === true || buildInfor.isPublic === 0){
       setBuildInfor({ ...buildInfor, isPublic: false });
     }

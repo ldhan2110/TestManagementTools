@@ -31,7 +31,37 @@ export  const getAllTestcaseEpic = (action$, state$) => action$.pipe(
     }),
     catchError (error => of({
       type: actions.GET_ALL_TESTCASE_FAILED,
-      payload: error.response
+      payload: error.response.data.errMsg
+    }))
+  )))
+
+//get all test suite
+export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
+  ofType(actions.GET_ALL_TESTSUITE_REQ),
+  mergeMap(() =>  from(axios.get(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/getalltestsuiteonlyname',{
+      headers: {
+        "X-Auth-Token": localStorage.getItem("token"),
+        "content-type": "application/json"
+      }
+    })).pipe(
+    map(response => {
+      const {data} = response;
+      if (data.success) {
+        return ({
+          type: actions.GET_ALL_TESTSUITE_SUCESS,
+          payload: data.result
+        })
+      } else {
+        return ({
+          type: actions.GET_ALL_TESTSUITE_FAILED,
+          payload: data.errMsg
+        })
+      }
+    
+    }),
+    catchError (error => of({
+      type: actions.GET_ALL_TESTSUITE_FAILED,
+      payload: error.response.data.errMsg
     }))
   )))
 
@@ -48,7 +78,6 @@ export  const getAllTestcaseEpic = (action$, state$) => action$.pipe(
       map(response => {
         const {data} = response;
         if (data.success) {
-          console.log(data);
           return ({
             type: actions.ADD_TEST_SUITE_SUCCESS,
             payload: data.result
@@ -67,6 +96,7 @@ export  const getAllTestcaseEpic = (action$, state$) => action$.pipe(
       }))
     )))
 
+    //ADD TEST CASE
     export const addTestCaseEpic = (action$, state$) => action$.pipe(
       ofType(actions.ADD_TEST_CASE_REQ),
       mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/addteststep',payload,{
@@ -78,7 +108,6 @@ export  const getAllTestcaseEpic = (action$, state$) => action$.pipe(
         map(response => {
           const {data} = response;
           if (data.success) {
-            console.log(data);
             return ({
               type: actions.ADD_TEST_CASE_SUCCESS,
               payload: data.result

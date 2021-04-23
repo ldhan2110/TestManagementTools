@@ -83,7 +83,6 @@ const TestCaseDetail = (props) => {
 
   const handleSave = () => {
     addTestcaseReq(testcase);
-    console.log(testcase);
   }
 
   return(

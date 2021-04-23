@@ -45,7 +45,6 @@ const mapDispatchToProps = dispatch => {
 
 
 function createData(id, testplanname, description, is_active, is_public, created_date) {
-  console.log({id, testplanname, description, is_active,is_public, created_date});
   return {id, testplanname, description, is_active,is_public, created_date};
 }
 
@@ -76,7 +75,6 @@ function createData(id, testplanname, description, is_active, is_public, created
 ];*/
 
 /*function createData(_id, testplanname, description, status, created_date) {
-  console.log({_id, testplanname, description, status, created_date});
   return {testplanname,_id, description, status, created_date};
 }*/
 
@@ -121,9 +119,7 @@ const TestPlanListPage = (props) => {
 
   },[])
 
-  useEffect(()=>{
-    console.log(listTestplan);
-  },[listTestplan])
+  
 
   return(
     <div>

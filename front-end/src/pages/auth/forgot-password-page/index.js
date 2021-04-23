@@ -22,16 +22,11 @@ const ForgotPassword = () => {
       };
 
     const handleClickConfirm = (event) => {      
-        console.log(values); 
         if(values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
-            //console.log('error no'); 
             setValues({email: values.email, error: null});
-            //console.log(values);
         }
         else{
-            //console.log('error yes'); 
-            setValues({email: values.email, error: "Invalid email!"});
-            //console.log(values); 
+            setValues({email: values.email, error: "Invalid email!"}); 
         }
     };
     const history = useHistory();

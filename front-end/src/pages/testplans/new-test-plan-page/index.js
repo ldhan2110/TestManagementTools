@@ -96,8 +96,6 @@ const NewTestPlanPage = (props) => {
       getAllTestplanReq();
       handleClose();
     }
-    /*console.log(insTestplan);
-    console.log(project);*/
   },[insTestplan.sucess]); 
 
 

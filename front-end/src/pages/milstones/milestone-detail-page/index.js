@@ -75,9 +75,6 @@ const DetailMileStonePage = (props) => {
     });
   },[listMilestones])
 
-  useEffect(()=>{
-    console.log('is_completed: ' + milestoneInfo.is_completed);
-  },[milestoneInfo])
 
   useEffect(()=>{
     setMilestoneInfo({ ...milestoneInfo, start_date: selectedDateStart });

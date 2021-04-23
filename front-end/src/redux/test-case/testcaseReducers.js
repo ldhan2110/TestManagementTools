@@ -13,6 +13,7 @@ var initialState = {
     errMsg: null
   },
   listTestcase: [],
+  listTestsuite: [],
 }
 
 
@@ -84,6 +85,26 @@ const reducer = (state = initialState, actions) => {
           errMsg: payload
         }
       };
+
+    case types.GET_ALL_TESTSUITE_REQ:
+      return {
+        ...state,
+      };
+
+    case types.GET_ALL_TESTSUITE_SUCESS:
+      console.log(payload);
+        return {
+          ...state,
+          listTestsuite: payload            
+        };
+
+    case types.GET_ALL_TESTSUITE_FAILED:
+      return {
+        ...state,
+        error: true,
+        errorMsg: payload,
+      };
+
         
 
     

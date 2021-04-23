@@ -60,7 +60,6 @@ const LoginPage = (props) => {
     
 
      useEffect(()=>{
-      console.log(account);
       if(account.error === true)// && account.errorMsg.errMsg == "Password is not valid")
       {
         setError({error: "Wrong username or password"});
@@ -113,26 +112,17 @@ const LoginPage = (props) => {
 
     //HANDLE LOGIN REQUEST BUTTON
     const handleClickLogin = (event) => {      
-      console.log(accountInfo);
       if(values.username == "" && values.password == ""){
-        console.log('1');
-        console.log(error);
         setError({username: "Username is required",
                   password: "Password is required"})
       }
       else if(values.username == ""){ 
-        console.log('2');
-        console.log(error);
         setError({username: "Username is required", password: null});
       }
       else if (values.password == ""){
-        console.log('3');
-        console.log(error);
         setError({username: null, password: "Password is required"});
       }      
       else {
-        console.log('4');
-        console.log(error);
       setError({username: null, password: null, error: null});
       loginReq({username: values.username, password: values.password}); 
       }     

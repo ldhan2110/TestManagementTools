@@ -26,7 +26,6 @@ const DragList = (props) => {
 
   useEffect(()=>{
     setListData(data);
-    console.log(data);
   },[data])
 
   const handleAddStep = () => {

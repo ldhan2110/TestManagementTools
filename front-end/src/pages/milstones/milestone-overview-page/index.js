@@ -101,7 +101,6 @@ const CustomizedTimeline = (props) => {
 
   useEffect(()=>{
     handleArray();
-    console.log(array);
   },[listMilestones])
   
 

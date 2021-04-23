@@ -9,26 +9,40 @@ import * as userEpics from '../users/userEpics';
 
 
 export default combineEpics(
+   //ACCOUNT EPICS
    accountEpics.loginReqEpic,
    accountEpics.logoutReqEpic,
    accountEpics.registerReqEpic,
+
+   //PROJECT EPICS
    projectEpics.getAllProjectEpic,
    projectEpics.addNewProjectEpic,
+
+   //TEST PLAN EPICS
    testplanEpics.getAllTestplanEpic,
    testplanEpics.addNewTestplanEpic,
+
+   //TEST CASE EPICS
    testcaseEpics.getAllTestcaseEpic,
    testcaseEpics.addTestSuiteEpic,
    testcaseEpics.addTestCaseEpic,
+   testcaseEpics.getAllTestsuiteEpic,
+
+   // BUILD-RELEASE EPICS
    buildEpics.addNewBuildEpic,
    buildEpics.getAllBuildEpic,
    buildEpics.getBuildByIdEpic,
    buildEpics.updateBuildEpic,
    buildEpics.deleteBuildEpic,
+
+   //MILESTONE EPICS
    milestoneEpics.addNewMilestoneEpic,
    milestoneEpics.getAllMilestoneEpic,
    milestoneEpics.getMilestoneByIdEpic,
    milestoneEpics.updateMilestoneEpic,
    milestoneEpics.deleteMilestoneEpic,
+
+   //USER EPICS
    userEpics.getAllUserOfProjectEpic,
    userEpics.addUserToProjectEpic,
    userEpics.getAllUserEpic,

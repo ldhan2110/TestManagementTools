@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import TreeView from '../../../components/TreeView';
 import TestSuiteDetail from './TestSuitePage';
 import TestCaseDetail from "./TestCasePage";
-import {GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
+import {GET_ALL_TESTCASE_REQ, GET_ALL_TESTSUITE_REQ} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {
@@ -58,7 +58,8 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload})
+    getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
+    getAllTestsuiteReq: (payload) => dispatch({type: GET_ALL_TESTSUITE_REQ,payload})
   }
 }
 
@@ -74,7 +75,7 @@ const TestCaseListPage = (props) => {
 
     const[displayNode,setDisplayNode] = useState({});
 
-    const {project, testcase, displayMsg, getAllTestcaseReq} = props;
+    const {project, testcase, displayMsg, getAllTestcaseReq, getAllTestsuiteReq} = props;
 
     const [listTestCase, setListTestCase] = useState([]);
 
@@ -86,6 +87,7 @@ const TestCaseListPage = (props) => {
 
     useEffect(()=>{
       getAllTestcaseReq(project);
+      getAllTestsuiteReq(project);
     },[]);
 
     useEffect(()=>{

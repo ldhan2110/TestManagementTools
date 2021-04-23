@@ -29,7 +29,6 @@ const TestCaseDetail = (props) => {
   const [listSteps, setListSteps] = useState(node.listStep);
 
   useEffect(()=>{
-    console.log(node);
     if (node){
       setTestCase({
         ...testCase,
