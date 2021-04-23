@@ -6,6 +6,7 @@ import Helmet from 'react-helmet';
 import EnhancedTable from '../../../components/Table/index';
 import NewTestSuitePopup from '../new-test-suite-page/index';
 import {TEST_SUITE_DETAIL_HEADERS} from '../../../components/Table/DefineHeader';
+import { connect } from 'react-redux';
 import {
   Grid,
   Typography,
@@ -23,8 +24,16 @@ import {
 } from "@material-ui/icons";
 import SelectTestCasePopup from "../select-test-case-page";
 
+
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { 
+    listTestsuite: state.testcase.listTestsuite
+   }
+}
+
 const TestSuiteDetail = (props) => {
-  const {node} = props;
+  const {node, listTestsuite} = props;
   
   const [testSuite, setTestSuite] = useState({
     id: '',
@@ -36,6 +45,7 @@ const TestSuiteDetail = (props) => {
   const [openNewTS, setOpenTS] = useState(false);
 
   const [openNewTC, setOpenTC] = useState(false);
+
 
   const history = useHistory();
 
@@ -87,10 +97,9 @@ const TestSuiteDetail = (props) => {
                                   label="Test Suite"
                                   disabled={testSuite.type === "root" ? true : false}
                                 >
-                               <MenuItem value=""><em>Any</em></MenuItem>
-                               <MenuItem value={10}>Low</MenuItem>
-                               <MenuItem value={20}>Medium</MenuItem>
-                               <MenuItem value={30}>High</MenuItem>
+                                  {listTestsuite.map((item) => (
+                                    <MenuItem value={item.name}>{item.name}</MenuItem>
+                                  ))}
                               </Select>
                   </FormControl>
             </Grid>
@@ -155,4 +164,4 @@ const TestSuiteDetail = (props) => {
   )
 }
 
-export default TestSuiteDetail;
+export default connect(mapStateToProps,null)(TestSuiteDetail);

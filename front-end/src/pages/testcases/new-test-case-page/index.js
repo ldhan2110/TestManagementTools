@@ -21,7 +21,8 @@ import {
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
-    insTestcase: state.testcase.insTestcase
+    insTestcase: state.testcase.insTestcase,
+    listTestsuite: state.testcase.listTestsuite
    }
 }
 
@@ -35,7 +36,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestCaseDetail = (props) => {
-  const {node, addTestcaseReq, displayMsg, insTestcase, getAllTestcaseReq} = props;
+  const {node, addTestcaseReq, displayMsg, insTestcase, getAllTestcaseReq, listTestsuite} = props;
 
   const history = useHistory();
   
@@ -100,21 +101,21 @@ const TestCaseDetail = (props) => {
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" value={testcase.testcaseName}  onChange={handleChange('testcaseName')} fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" value={testcase.description} onChange={handleChange('description')} fullWidth required/></Grid>
             <Grid item xs={12}>
-            {/* <FormControl variant="outlined"  fullWidth>
+             <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
                                 <Select
                                   labelId="testSuite"
                                   id="testSuite"
-                                  value={testcase.testSuite}
-                                  onChange={handleChange('testSuite')}
+                                  value={testcase.testsuite}
+                                  onChange={handleChange('testsuite')}
                                   label="Test Suite"
                                 >
-                               <MenuItem value=""><em>Any</em></MenuItem>
-                               <MenuItem value={'manual'}>Manual</MenuItem>
-                               <MenuItem value={'auto'}>Auto</MenuItem>
+                               {listTestsuite.map((item) => (
+                                    <MenuItem value={item.name}>{item.name}</MenuItem>
+                               ))}
                               </Select>
-                    </FormControl> */}
-                  <TextField id="testSuite" label="Test Suite" variant="outlined" value={testcase.testsuite} fullWidth required/>
+              </FormControl> 
+                
             </Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>

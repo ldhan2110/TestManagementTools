@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import DragList from '../../../components/DragList';
+import { connect } from 'react-redux';
 import {
   Grid,
   Typography,
@@ -16,8 +17,15 @@ import {
   InputLabel
 } from '@material-ui/core';
 
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { 
+    listTestsuite: state.testcase.listTestsuite
+   }
+}
+
 const TestCaseDetail = (props) => {
-  const {node} = props;
+  const {node, listTestsuite} = props;
   
   const [testCase, setTestCase] = useState({
     name: node.name,
@@ -63,10 +71,9 @@ const TestCaseDetail = (props) => {
                                   //onChange={handleChange}
                                   label="Test Suite"
                                 >
-                               <MenuItem value=""><em>Any</em></MenuItem>
-                               <MenuItem value={10}>Low</MenuItem>
-                               <MenuItem value={20}>Medium</MenuItem>
-                               <MenuItem value={30}>High</MenuItem>
+                               {listTestsuite.map((item) => (
+                                    <MenuItem value={item.name}>{item.name}</MenuItem>
+                               ))}
                               </Select>
                     </FormControl>
             </Grid>
@@ -135,4 +142,4 @@ const TestCaseDetail = (props) => {
   )
 }
 
-export default TestCaseDetail;
+export default connect(mapStateToProps,null)(TestCaseDetail);

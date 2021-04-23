@@ -95,7 +95,7 @@ const reducer = (state = initialState, actions) => {
       console.log(payload);
         return {
           ...state,
-          listTestsuite: payload            
+          listTestsuite: payload.children            
         };
 
     case types.GET_ALL_TESTSUITE_FAILED:
