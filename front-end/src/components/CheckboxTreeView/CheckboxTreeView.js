@@ -6,26 +6,8 @@ const nodes = [{
     value: 'mars',
     label: 'Mars',
     children: [
-        { value: 'phobos', label: 'Phobos', children:[{value: 'testdata', label: 'fada'}] },
+        { value: 'phobos', label: 'Phobos' },
         { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        { value: 'deimos', label: 'Deimos' },
-        
     ],
 }];
 
@@ -33,21 +15,24 @@ const CheckboxTreeView = (props) => {
 
    const {data} = props;
 
-   const [selected,setSelect] = useState([]);
+   const [checked,setChecked] = useState([]);
 
    const [expanded, setExpand] = useState([]);
 
    useEffect(()=>{
-    console.log(data);
+    console.log('data select: '+JSON.stringify(data, null, '  '));
    },[data]);
 
+   useEffect(()=>{
+    console.log('checked: '+checked);
+   },[checked]);
    
     return (
             <CheckboxTree
-                nodes={nodes}
-                checked={selected}
+                nodes={[data]}
+                checked={checked}
                 expanded={expanded}
-                onCheck={checked => setSelect( checked )}
+                onCheck={checked => setChecked( checked )}
                 onExpand={expanded => setExpand( expanded )}
                 nativeCheckboxes={true}
             />
@@ -55,4 +40,4 @@ const CheckboxTreeView = (props) => {
  
 }
 
-export default  CheckboxTreeView
+export default  CheckboxTreeView;

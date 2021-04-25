@@ -27,3 +27,10 @@ export function addTestCase(value){
     payload: value
   }
 }
+
+export function getAllTestsuiteNoTree(value){
+  return {
+    type: types.GET_ALL_TESTSUITE_NO_TREE_REQ,
+    payload: value
+  }
+}

@@ -14,6 +14,7 @@ var initialState = {
   },
   listTestcase: [],
   listTestsuite: [],
+  listTestsuiteNoTree: [],
 }
 
 
@@ -105,7 +106,24 @@ const reducer = (state = initialState, actions) => {
         errorMsg: payload,
       };
 
-        
+      case types.GET_ALL_TESTSUITE_NO_TREE_REQ:
+        return {
+          ...state,
+        };
+  
+      case types.GET_ALL_TESTSUITE_NO_TREE_SUCESS:
+        console.log(payload);
+          return {
+            ...state,
+            listTestsuiteNoTree: payload            
+          };
+  
+      case types.GET_ALL_TESTSUITE_NO_TREE_FAILED:
+        return {
+          ...state,
+          error: true,
+          errorMsg: payload,
+        };        
 
     
     default:

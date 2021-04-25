@@ -125,3 +125,32 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
           payload: error.response.data.errMsg
         }))
       )))
+
+      export  const getAllTestcaseNoTreeEpic = (action$, state$) => action$.pipe(
+        ofType(actions.GET_ALL_TESTSUITE_NO_TREE_REQ),
+        mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/getalltestsuitenotree',{
+            headers: {
+              "X-Auth-Token": localStorage.getItem("token"),
+              "content-type": "application/json"
+            }
+          })).pipe(
+          map(response => {
+            const {data} = response;
+            if (data.success) {
+              return ({
+                type: actions.GET_ALL_TESTSUITE_NO_TREE_SUCESS,
+                payload: data.result
+              })
+            } else {
+              return ({
+                type: actions.GET_ALL_TESTSUITE_NO_TREE_FAILED,
+                payload: data.errMsg
+              })
+            }
+          
+          }),
+          catchError (error => of({
+            type: actions.GET_ALL_TESTSUITE_NO_TREE_FAILED,
+            payload: error.response.data.errMsg
+          }))
+        )))

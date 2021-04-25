@@ -27,6 +27,7 @@ export default combineEpics(
    testcaseEpics.addTestSuiteEpic,
    testcaseEpics.addTestCaseEpic,
    testcaseEpics.getAllTestsuiteEpic,
+   testcaseEpics.getAllTestcaseNoTreeEpic,
 
    // BUILD-RELEASE EPICS
    buildEpics.addNewBuildEpic,

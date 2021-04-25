@@ -61,7 +61,7 @@ const SelectTestCasePopup = (props) => {
         <DialogContent dividers>
           <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '20vw', maxWidth:'20vw'}}>
             <Grid item xs={12}>
-              <CheckboxTreeView data={testcase.listTestcase}/>
+              <CheckboxTreeView data={testcase.listTestsuiteNoTree}/>
             </Grid>
           </Grid>
         </DialogContent>
