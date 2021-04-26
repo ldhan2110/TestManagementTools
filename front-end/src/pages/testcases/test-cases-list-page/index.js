@@ -9,6 +9,7 @@ import TestCaseDetail from "./TestCasePage";
 import {GET_ALL_TESTCASE_REQ, GET_ALL_TESTSUITE_REQ, GET_ALL_TESTSUITE_NO_TREE_REQ} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
+import NewTestSuitePopup from '../new-test-suite-page/index';
 import {
   Grid,
   Typography,
@@ -18,8 +19,10 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel
+  InputLabel,
+  IconButton
 } from '@material-ui/core';
+import { Folder, FolderPlus } from "react-feather";
 
 
 
@@ -77,11 +80,15 @@ const TestCaseListPage = (props) => {
 
     const[displayNode,setDisplayNode] = useState({});
 
+    const[selected,setSelected] = useState('');
+
     const {project, testcase, displayMsg, getAllTestcaseReq, getAllTestsuiteReq, getAllTestsuiteNoTreeReq} = props;
 
     const [listTestCase, setListTestCase] = useState([]);
 
     const [listTestCaseNoTree, setListTestCaseNoTree] = useState([]);
+
+    const [openNewTS, setOpenTS] = useState(false);
 
 
 
@@ -89,6 +96,9 @@ const TestCaseListPage = (props) => {
       setDisplayNode(searchTree(testcase.listTestcase,selectedNode));
     },[selectedNode,testcase]);
 
+    useEffect(()=>{
+      console.log(displayNode);
+    },[displayNode]);
 
     useEffect(()=>{
       getAllTestcaseReq(project);
@@ -127,10 +137,15 @@ const TestCaseListPage = (props) => {
       if (params)
         history.push(window.location.pathname+"/"+params);
     }
+
+    const handleAddTestSuite = () => {
+      setOpenTS(true);
+    }
   
     return(
       <div> 
         <Helmet title="Service Management" />
+        <NewTestSuitePopup isOpen={openNewTS} setOpen={setOpenTS} selected={selected}/>
         <Grid container spacing={8}>
           <Grid item xs={12}>
             <Grid container spacing={8} className={classes.contentContainer}>
@@ -209,7 +224,16 @@ const TestCaseListPage = (props) => {
 
                   <Grid item xs={12} style={{marginTop: '5vh'}}>
                     <Grid container spacing={3}>
-                      <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">Test Cases</Typography> <Divider /></Grid>
+                      <Grid item xs={12}>
+                       
+                            <Typography variant="h4" gutterBottom display="inline">Test Cases</Typography> 
+                         
+                            <IconButton aria-label="Delete" style={{marginLeft: '5.5vw'}} onClick={handleAddTestSuite}>
+                              <FolderPlus />
+                            </IconButton>
+
+                      <Divider />
+                    </Grid>
                       <Grid item xs={12}><TreeView data={listTestCase} setSelectNode={setSelectNode}/></Grid>
                     </Grid>
                   </Grid>

@@ -25,6 +25,8 @@ const DragList = (props) => {
 
 
   useEffect(()=>{
+    var tempArr = listData.slice();
+    tempArr.map((item, index) =>{ item.id = index});
     setListData(data);
   },[data])
 
@@ -41,6 +43,7 @@ const DragList = (props) => {
     var data = prop.data;
     var objIndex = tempArr.findIndex((obj => obj.id === id));
     tempArr[objIndex][name] = data;
+    console.log(objIndex);
     setData(tempArr);
   };
 

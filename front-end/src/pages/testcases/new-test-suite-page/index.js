@@ -56,9 +56,6 @@ const NewTestSuitePopup = (props) => {
     })
 },[selected])
 
-useEffect(()=>{
-  console.log(testSuiteInfo);
-},[testSuiteInfo])
 
   useEffect(()=>{
      if (testsuite.sucess === false){

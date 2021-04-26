@@ -25,6 +25,7 @@ const CheckboxTreeView = (props) => {
 
    useEffect(()=>{
     console.log('checked: '+checked);
+    console.log(data);
    },[checked]);
    
     return (
