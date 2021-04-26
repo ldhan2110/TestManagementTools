@@ -34,3 +34,17 @@ export function getAllTestsuiteNoTree(value){
     payload: value
   }
 }
+
+export function updateTestCase(value){
+  return {
+    type: types.UPDATE_TESTCASE_REQ,
+    payload: value
+  }
+}
+
+export function deleteTestCase(value){
+  return {
+    type: types.DELETE_TESTCASE_REQ,
+    payload: value
+  }
+}

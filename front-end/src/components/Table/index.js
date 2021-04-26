@@ -85,7 +85,7 @@ const EnhancedTable = (props) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
   
-    if (selectedIndex === -1) {
+    if (selectedIndex === -1) { 
       newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
@@ -115,7 +115,7 @@ const EnhancedTable = (props) => {
           if (viewAction){
         //viewAction(row);
         history.push({
-          pathname: window.location.pathname+"/"+row._id,
+          pathname: window.location.pathname+"/"+row.id,
           state: row
         });
       }

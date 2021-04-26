@@ -19,7 +19,7 @@ import {
 
 const DragList = (props) => {
 
-  const {data, setData} = props;
+  const {data, setData, parentCallback} = props;
 
   const [listData, setListData] = useState(data);
 
@@ -43,8 +43,9 @@ const DragList = (props) => {
     var data = prop.data;
     var objIndex = tempArr.findIndex((obj => obj.id === id));
     tempArr[objIndex][name] = data;
-    console.log(objIndex);
-    setData(tempArr);
+    console.log('objIndex: '+objIndex);
+    console.log('listStep: '+JSON.stringify(listData, null, '  '));
+    parentCallback(listData);
   };
 
 

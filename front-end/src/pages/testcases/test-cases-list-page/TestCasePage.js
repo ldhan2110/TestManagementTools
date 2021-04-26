@@ -5,6 +5,8 @@ import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import {UPDATE_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import {
   Grid,
   Typography,
@@ -18,20 +20,39 @@ import {
 } from '@material-ui/core';
 
 //MAP STATES TO PROPS - REDUX
-const  mapStateToProps = (state) => {
+const  mapStateToProps = (state) => { 
   return { 
-    listTestsuite: state.testcase.listTestsuite
+    listTestsuite: state.testcase.listTestsuite,
+    project:state.project.currentSelectedProject
    }
 }
 
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    updateTestcaseReq: (payload) => dispatch({type: UPDATE_TESTCASE_REQ, payload}),
+  }
+}
+
 const TestCaseDetail = (props) => {
-  const {node, listTestsuite} = props;
+  const {node, listTestsuite, project, updateTestcaseReq, displayMsg} = props;
   
   const [testCase, setTestCase] = useState({
     name: node.name,
     description: node.description,
     priority: node.priority,
     listStep: node.listStep
+  });
+
+  const [newtestCase, setNewTestCase] = useState({
+    testcaseid: node._id,
+    testcasename: node.name,
+    description: node.description,
+    testsuite: node.testsuite,
+    priority: node.priority,
+    listStep: node.listStep,
+    projectid: project
   });
 
   const [listSteps, setListSteps] = useState(node.listStep);
@@ -46,6 +67,21 @@ const TestCaseDetail = (props) => {
     }
   },[node]);
 
+  const handleUpdate = () => {
+    //console.log('TestCase: '+JSON.stringify(testCase, null, '  '));
+    console.log('Node: '+JSON.stringify(node, null, '  '));
+    console.log('newTestCase: '+JSON.stringify(newtestCase, null, '  '));
+    updateTestcaseReq(newtestCase);
+  };
+
+  const handleChange = (prop) => (event) => {
+    setNewTestCase({ ...newtestCase, [prop]: event.target.value });
+  };
+
+  const updateListStep = (Data) => {
+    setNewTestCase({ ...newtestCase, listStep: Data });
+    setListSteps(Data);
+  };
 
   return(
     <React.Fragment>
@@ -53,22 +89,22 @@ const TestCaseDetail = (props) => {
         <Grid item xs={12}>
             <Typography variant="h4" gutterBottom display="inline">
                 Test Case Detail
-            </Typography>
+            </Typography> 
             <Divider/>
         </Grid>
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testCase.name} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  value={testCase.description} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  fullWidth required onChange={handleChange('testcasename')} defaultValue={testCase.name || ''}/></Grid>
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth required onChange={handleChange('description')} defaultValue={testCase.description || ''}/></Grid>
             <Grid item xs={12}>
             <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="testSuite">Test Suite</InputLabel>
+                              <InputLabel id="testSuite">Test Suite</InputLabel> 
                                 <Select
                                   labelId="testSuite"
                                   id="testSuite"
-                                  value={node.parent}
-                                  //onChange={handleChange}
+                                  value={newtestCase.testsuite || ''}
+                                  onChange={handleChange('testsuite')}
                                   label="Test Suite"
                                 >
                                {listTestsuite.map((item) => (
@@ -85,8 +121,8 @@ const TestCaseDetail = (props) => {
                                 <Select
                                   labelId="Importance"
                                   id="Importance"
-                                  value={testCase.priority}
-                                  //onChange={handleChange}
+                                  defaultValue={testCase.priority}
+                                  onChange={handleChange('priority')}
                                   label="Importance"
                                 >
                                <MenuItem value={"low"}>Low</MenuItem>
@@ -105,8 +141,8 @@ const TestCaseDetail = (props) => {
                                   //onChange={handleChange}
                                   label="Type"
                                 >
-                               <MenuItem value=""><em>Manual</em></MenuItem>
-                               <MenuItem value={10}>Auto</MenuItem>
+                               <MenuItem value={"manual"}><em>Manual</em></MenuItem>
+                               <MenuItem value={"auto"}>Auto</MenuItem>
                               </Select>
                             </FormControl>
                 </Grid>
@@ -126,13 +162,13 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <DragList data = {listSteps} setData={setListSteps}/>
+          <DragList data = {listSteps} parentCallback={updateListStep} />
         </Grid>
 
         <Grid item xs={12}>
           <Grid container justify ='flex-end'>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth>Save</Button>
+              <Button variant="contained" color="primary" fullWidth onClick={handleUpdate}>Save</Button>
             </Grid>
           </Grid>
         </Grid>
@@ -142,4 +178,4 @@ const TestCaseDetail = (props) => {
   )
 }
 
-export default connect(mapStateToProps,null)(TestCaseDetail);
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(TestCaseDetail));

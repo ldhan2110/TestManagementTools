@@ -154,3 +154,38 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
             payload: error.response.data.errMsg
           }))
         )))
+
+        export const updateTestCaseEpic = (action$, state$) => action$.pipe(
+          ofType(actions.UPDATE_TESTCASE_REQ),
+          mergeMap(({ payload  }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.testcaseid+'/api/updatetestcase',{
+            testcaseName: payload.testcasename,
+            description: payload.description,
+            testsuite: payload.testsuite,
+            priority: payload.priority,
+            listStep: payload.listStep
+          },{
+              headers: {
+                "X-Auth-Token": localStorage.getItem("token"),
+                "content-type": "application/json"
+              }
+            })).pipe(
+            map(response => {
+              const {data} = response;
+              if (data.success) {
+                return ({
+                  type: actions.UPDATE_TESTCASE_SUCCESS,
+                  payload: data.result
+                })
+              } else {
+                return ({
+                  type: actions.UPDATE_TESTCASE_FAILED,
+                  payload: data.errMsg
+                })
+              }
+            
+            }),
+            catchError (error => of({
+              type: actions.UPDATE_TESTCASE_FAILED,
+              payload: error.response.data.errMsg
+            }))
+          )))

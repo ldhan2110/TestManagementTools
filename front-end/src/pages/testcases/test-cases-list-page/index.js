@@ -69,8 +69,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-
-
 const TestCaseListPage = (props) => {
     const {classes} = props;
   
@@ -97,7 +95,7 @@ const TestCaseListPage = (props) => {
     },[selectedNode,testcase]);
 
     useEffect(()=>{
-      console.log(displayNode);
+      console.log('displaynode: '+ displayNode);
     },[displayNode]);
 
     useEffect(()=>{

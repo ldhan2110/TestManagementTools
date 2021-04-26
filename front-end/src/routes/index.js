@@ -45,6 +45,7 @@ const DetailBuildPage = async(()=>import('../pages/builds/build-detail-page/inde
 
 //Setting components
 const MemberListPage = async(()=>import('../pages/settings/members/index'));
+//const ViewMember = async(()=>import('../pages/settings/members/index'));
 
 //Milestone components
 const MileStonePage = async(()=>import('../pages/milstones/milestone-overview-page/index'));
