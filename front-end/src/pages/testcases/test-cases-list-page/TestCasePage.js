@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {UPDATE_TESTCASE_REQ} from '../../../redux/test-case/constants';
+import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import {
   Grid,
   Typography,
@@ -32,11 +32,12 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updateTestcaseReq: (payload) => dispatch({type: UPDATE_TESTCASE_REQ, payload}),
+    deleteTestcaseReq: (payload) => dispatch({type: DELETE_TESTCASE_REQ, payload}),
   }
 }
 
 const TestCaseDetail = (props) => {
-  const {node, listTestsuite, project, updateTestcaseReq, displayMsg} = props;
+  const {node, listTestsuite, project, updateTestcaseReq, displayMsg, deleteTestcaseReq} = props;
   
   const [testCase, setTestCase] = useState({
     name: node.name,
@@ -73,6 +74,10 @@ const TestCaseDetail = (props) => {
     console.log('newTestCase: '+JSON.stringify(newtestCase, null, '  '));
     updateTestcaseReq(newtestCase);
   };
+
+  const handleDelete = () => {
+    deleteTestcaseReq(newtestCase);
+  }
 
   const handleChange = (prop) => (event) => {
     setNewTestCase({ ...newtestCase, [prop]: event.target.value });
@@ -169,6 +174,9 @@ const TestCaseDetail = (props) => {
           <Grid container justify ='flex-end'>
             <Grid item>
               <Button variant="contained" color="primary" fullWidth onClick={handleUpdate}>Save</Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="primary" fullWidth onClick={handleDelete}>Delete</Button>
             </Grid>
           </Grid>
         </Grid>
