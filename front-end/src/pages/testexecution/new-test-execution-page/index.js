@@ -8,12 +8,14 @@ import SelectTestCasePopup from '../../testcases/select-test-case-page/index';
 import {
   Grid,
   Typography,
-  Breadcrumbs,
+  FormControl,
   Button,
   Divider,
   TextField,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  InputLabel,
+  Select, MenuItem
 } from '@material-ui/core';
 
 import {
@@ -66,6 +68,23 @@ const NewTestExecutionPage = (props) => {
         <form className={classes.content}>
           <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}/>
+
+          <FormControl variant="outlined" fullWidth>
+           <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
+            <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Age"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+
+      </FormControl>
           <Grid container fullWidth>
               <Grid item xs={3}>
                 <p>Create from existing test execution ?</p>
@@ -105,6 +124,25 @@ const NewTestExecutionPage = (props) => {
               labelPlacement="start"
             />
           </div>
+
+
+          <FormControl variant="outlined" fullWidth>
+           <InputLabel id="tester">Assign Tester</InputLabel>
+            <Select
+          labelId="tester"
+          id="tester"
+          label="Tester"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+        </FormControl>
+
+        
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleClose}>
             Create
