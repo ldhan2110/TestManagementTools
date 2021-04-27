@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CheckboxTreeView from '../../../components/CheckboxTreeView/CheckboxTreeView';
 import { connect } from 'react-redux';
-import {GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
+import {GET_ALL_TESTCASE_REQ, GET_LIST_TESTCASE_SELECT_REQ} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Dialog,
@@ -16,7 +16,8 @@ import {
 const  mapStateToProps = (state) => {
   return { 
     project: state.project.currentSelectedProject,
-    testcase: state.testcase
+    testcase: state.testcase,
+    listtestcaseselect: state.testcase.listTestcaseSelect,
    }
 }
 
@@ -24,14 +25,15 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload})
+    getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
+    getListTestcaseSelectReq: (payload) => dispatch({type: GET_LIST_TESTCASE_SELECT_REQ, payload}),
   }
 }
 
 
 const SelectTestCasePopup = (props) => {
   
-  const {displayMsg, getAllTestcaseReq, testcase, project} = props;
+  const {displayMsg, getAllTestcaseReq, testcase, project, listtestcaseselect, getListTestcaseSelectReq} = props;
   
   const {isOpen, setOpen} = props;  
   
@@ -43,6 +45,16 @@ const SelectTestCasePopup = (props) => {
       setOpen(false);
   }
 
+  const handleSelect = (Data) =>{
+    console.log('Data: '+ Data);
+    setData(Data)
+}
+
+const handleSelectTestcase = () =>{
+  getListTestcaseSelectReq(data);
+  setOpen(false);
+}
+
   useEffect(()=>{
       setOpenPopup(isOpen);
   },[isOpen, open])
@@ -51,7 +63,9 @@ const SelectTestCasePopup = (props) => {
     getAllTestcaseReq(project);
   },[])
 
-  
+  useEffect(()=>{
+    console.log('list Testcase: '+ listtestcaseselect);
+  },[listtestcaseselect])
 
 
   return (
@@ -61,13 +75,13 @@ const SelectTestCasePopup = (props) => {
         <DialogContent dividers>
           <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '20vw', maxWidth:'20vw'}}>
             <Grid item xs={12}>
-              <CheckboxTreeView data={testcase.listTestsuiteNoTree}/>
+              <CheckboxTreeView data={testcase.listTestsuiteNoTree} parentCallback={handleSelect}/>
             </Grid>
           </Grid>
         </DialogContent>
 
         <DialogActions>
-          <Button color="primary">
+          <Button color="primary" onClick={handleSelectTestcase}>
             Select
           </Button>
         </DialogActions>

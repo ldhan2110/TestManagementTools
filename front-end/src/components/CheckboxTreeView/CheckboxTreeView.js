@@ -2,18 +2,9 @@ import React, {useState, useEffect} from 'react';
 import CheckboxTree from 'react-checkbox-tree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
-const nodes = [{
-    value: 'mars',
-    label: 'Mars',
-    children: [
-        { value: 'phobos', label: 'Phobos' },
-        { value: 'deimos', label: 'Deimos' },
-    ],
-}];
-
 const CheckboxTreeView = (props) => {
 
-   const {data} = props;
+   const {data, parentCallback} = props;
 
    const [checked,setChecked] = useState([]);
 
@@ -25,7 +16,7 @@ const CheckboxTreeView = (props) => {
 
    useEffect(()=>{
     console.log('checked: '+checked);
-    console.log(data);
+    parentCallback(checked);
    },[checked]);
    
     return (

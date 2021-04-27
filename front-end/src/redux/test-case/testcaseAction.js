@@ -48,3 +48,10 @@ export function deleteTestCase(value){
     payload: value
   }
 }
+
+export function getListTestcaseSelect(value){
+  return {
+    type: types.GET_LIST_TESTCASE_SELECT_REQ,
+    payload: value
+  }
+}

@@ -219,3 +219,34 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
                 payload: error.response.data.errMsg
               }))
             )))
+
+            export const getListTestcaseSelectEpic = (action$, state$) => action$.pipe(
+              ofType(actions.GET_LIST_TESTCASE_SELECT_REQ),
+              mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/api/get_list_testcase',{
+                listselect: payload
+              },{
+                  headers: {
+                    "X-Auth-Token": localStorage.getItem("token"),
+                    "content-type": "application/json"
+                  }
+                })).pipe(
+                map(response => {
+                  const {data} = response;
+                  if (data.success) {
+                    return ({
+                      type: actions.GET_LIST_TESTCASE_SELECT_SUCCESS,
+                      payload: data.result
+                    })
+                  } else {
+                    return ({
+                      type: actions.GET_LIST_TESTCASE_SELECT_FAILED,
+                      payload: data.errMsg
+                    })
+                  }
+                
+                }),
+                catchError (error => of({
+                  type: actions.GET_LIST_TESTCASE_SELECT_FAILED,
+                  payload: error.response.data.errMsg
+                }))
+              )))

@@ -16,14 +16,20 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel
+  InputLabel,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  Dialog
 } from '@material-ui/core';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => { 
   return { 
     listTestsuite: state.testcase.listTestsuite,
-    project:state.project.currentSelectedProject
+    project:state.project.currentSelectedProject,
+    insTestcase: state.testcase.insTestcase,
+    insTestcaseDelete: state.testcase.insTestcaseDelete
    }
 }
 
@@ -32,12 +38,13 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updateTestcaseReq: (payload) => dispatch({type: UPDATE_TESTCASE_REQ, payload}),
-    deleteTestcaseReq: (payload) => dispatch({type: DELETE_TESTCASE_REQ, payload}),
+    deleteTestcaseReq: (payload) => dispatch({type: DELETE_TESTCASE_REQ, payload})
   }
 }
 
 const TestCaseDetail = (props) => {
-  const {node, listTestsuite, project, updateTestcaseReq, displayMsg, deleteTestcaseReq} = props;
+  const {node, listTestsuite, project, updateTestcaseReq,
+     displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete} = props;
   
   const [testCase, setTestCase] = useState({
     name: node.name,
@@ -57,6 +64,7 @@ const TestCaseDetail = (props) => {
   });
 
   const [listSteps, setListSteps] = useState(node.listStep);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(()=>{
     if (node){
@@ -68,15 +76,54 @@ const TestCaseDetail = (props) => {
     }
   },[node]);
 
+  useEffect(()=>{
+    if (insTestcase.sucess === false){
+      displayMsg({
+        content: insTestcase.errMsg,
+        type: 'error'
+      });
+    } else if (insTestcase.sucess === true) {
+      displayMsg({
+        content: "Update testcase successfully !",
+        type: 'success'
+      });
+    }
+  },[insTestcase.sucess]);
+
+  useEffect(()=>{
+    if (insTestcaseDelete.sucess === false){
+      displayMsg({
+        content: insTestcaseDelete.errMsg,
+        type: 'error'
+      });
+    } else if (insTestcaseDelete.sucess === true) {
+      displayMsg({
+        content: "Delete testcase successfully !",
+        type: 'success'
+      });
+    }
+  },[insTestcaseDelete.sucess]);
+
+
   const handleUpdate = () => {
     //console.log('TestCase: '+JSON.stringify(testCase, null, '  '));
     console.log('Node: '+JSON.stringify(node, null, '  '));
     console.log('newTestCase: '+JSON.stringify(newtestCase, null, '  '));
+    console.log('status update: '+ insTestcase.sucess);
     updateTestcaseReq(newtestCase);
   };
 
   const handleDelete = () => {
     deleteTestcaseReq(newtestCase);
+    setOpen(false);
+  }
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
   }
 
   const handleChange = (prop) => (event) => {
@@ -176,7 +223,17 @@ const TestCaseDetail = (props) => {
               <Button variant="contained" color="primary" fullWidth onClick={handleUpdate}>Save</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth onClick={handleDelete}>Delete</Button>
+              <Button variant="contained" color="primary" fullWidth onClick={handleOpen}>Delete</Button>
+            </Grid>
+            <Grid item>
+                <Dialog open={open} onEnter={console.log("Hey.")}>
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this testcase?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
             </Grid>
           </Grid>
         </Grid>

@@ -15,6 +15,12 @@ var initialState = {
   listTestcase: [],
   listTestsuite: [],
   listTestsuiteNoTree: [],
+  listTestcaseSelect: [],
+
+  insTestcaseDelete: {
+    sucess: null,
+    errMsg: null
+  },
 }
 
 
@@ -123,8 +129,93 @@ const reducer = (state = initialState, actions) => {
           ...state,
           error: true,
           errorMsg: payload,
-        };        
+        };
+        
+        case types.UPDATE_TESTCASE_REQ:{      
+          return {
+            ...state,
+            //insTestcase: initialState.insTestcase
+            insTestcase: {
+              sucess: null,
+              errMsg: null
+            }
+          };
+        }
+      
+        case types.UPDATE_TESTCASE_SUCCESS:{
+          //console.log('AAAAAA SUCCESS')
+          return {
+            ...state,
+            insTestcase: {
+              sucess: true,
+              errMsg: null
+            }
+          }
+        }
+      
+        case types.UPDATE_TESTCASE_FAILED: {
+          //console.log('AAAAAA FAILED')
+          return{
+            ...state,
+            insTestcase: {
+              sucess: false,
+              errMsg: payload
+            }
+          }    
+        }
+      
+      
+        case types.DELETE_TESTCASE_REQ:{      
+          return {
+            ...state,
+            //insTestcaseDelete: initialState.insTestcaseDelete
+            insTestcaseDelete: {
+              sucess: null,
+              errMsg: null
+            }
+          };
+        }
+      
+        case types.DELETE_TESTCASE_SUCCESS:{
+          return {
+            ...state,
+            insTestcaseDelete: {
+              sucess: true,
+              errMsg: null
+            }
+          }
+        }
+      
+        case types.DELETE_TESTCASE_FAILED: {
+          return{
+            ...state,
+            insTestcaseDelete:{
+              sucess: false,
+              errMsg: payload
+            }
+          }    
+        }
 
+        case types.GET_LIST_TESTCASE_SELECT_REQ:{      
+          return {
+            ...state,
+          };
+        }
+      
+        case types.GET_LIST_TESTCASE_SELECT_SUCCESS:{
+          return {
+            ...state,
+            listTestcaseSelect: payload
+          }
+        }
+      
+        case types.GET_LIST_TESTCASE_SELECT_FAILED: {
+          return{
+            ...state,
+            error: true,
+            errorMsg: payload,
+          }    
+        }
     
     default:
       return state;
