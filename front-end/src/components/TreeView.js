@@ -13,10 +13,19 @@ import {
 
 const useStyles = makeStyles({
   root: {
-    height: 216,
+    height: "89vh",
     flexGrow: 1,
     maxWidth: 400,
+    overflowY: "scroll",
+    overflowX: "hidden"
+
   },
+
+  scrollBar: {
+    height: 80,
+    overflow: "scroll",
+    overflowX: "hidden",
+  }
 });
 
 export default function ControlledTreeView(props) {
@@ -55,7 +64,8 @@ export default function ControlledTreeView(props) {
 }
 
   return (
-    <TreeView
+    
+      <TreeView
       className={classes.root}
       defaultParentIcon={<Folder/>}
       defaultCollapseIcon={<FolderMinus />}
@@ -68,5 +78,6 @@ export default function ControlledTreeView(props) {
     >
       {renderTree(listData)}
     </TreeView>
+
   );
 }
