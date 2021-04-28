@@ -43,8 +43,6 @@ const DragList = (props) => {
     var data = prop.data;
     var objIndex = tempArr.findIndex((obj => obj.id === id));
     tempArr[objIndex][name] = data;
-    console.log('objIndex: '+objIndex);
-    console.log('listStep: '+JSON.stringify(listData, null, '  '));
     parentCallback(listData);
   };
 

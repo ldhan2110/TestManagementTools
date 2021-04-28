@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 import SelectBox from '../../../components/Selectbox';
 import SelectTestCasePopup from '../../testcases/select-test-case-page/index';
+import { connect } from 'react-redux';
 import {
   Grid,
   Typography,
@@ -18,15 +19,56 @@ import {
   Select, MenuItem
 } from '@material-ui/core';
 
-import {
-  Add as AddIcon,
-} from "@material-ui/icons";
+import {GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+
+
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { 
+    testsuite: state.testcase.insTestsuite,
+    listUser: state.user.listUsersOfProject
+   }
+}
+
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    getAllUserReq: (payload) => dispatch({type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
+  }
+}
 
 const NewTestExecutionPage = (props) => {
     const {classes, listTestExecution} = props;
 
+    const {listUser, getAllUserReq} = props;
+
     const [open,setOpenPopup] = useState(false);
+    
+    const [testExecInfo, setTestExecInfo] = useState({
+        testexecName: '',
+        description: '',
+        testplan: '',
+        listExecTestcase: [],
+        public: false,
+        active: false,
+        assignTester: ''
+    });
     const history = useHistory();
+
+    useEffect(()=>{
+      getAllUserReq(localStorage.getItem('selectProject'));
+    },[])
+
+
+    useEffect(()=>{
+      console.log(listUser);
+    },[listUser])
+
+    useEffect(()=>{
+      console.log(testExecInfo);
+    },[testExecInfo]);
 
     const handleClose = () =>{
       history.goBack();      
@@ -35,6 +77,13 @@ const NewTestExecutionPage = (props) => {
     const handleOpenSelectTC = () => {
       setOpenPopup(true);
     }
+
+    const handleChange = (prop) => (event) => {
+      if (prop !== 'public' && prop !== 'active')
+        setTestExecInfo({ ...testExecInfo, [prop]: event.target.value });
+      else
+      setTestExecInfo({ ...testExecInfo, [prop]: !testExecInfo.prop });
+    };
     
     return (
     <div>
@@ -66,8 +115,8 @@ const NewTestExecutionPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}/>
+          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth  value={testExecInfo.testexecName} onChange={handleChange('testexecName')}/>
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} value={testExecInfo.description} onChange={handleChange('description')}/>
 
           <FormControl variant="outlined" fullWidth>
            <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
@@ -110,7 +159,7 @@ const NewTestExecutionPage = (props) => {
              <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" />}
+              control={<Checkbox color="primary" value = {testExecInfo.public} onChange={handleChange('public')} />}
               label="Public"
               labelPlacement="start"
             />
@@ -119,7 +168,7 @@ const NewTestExecutionPage = (props) => {
             <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" />}
+              control={<Checkbox color="primary" value = {testExecInfo.active} onChange={handleChange('active')}  />}
               label="Active"
               labelPlacement="start"
             />
@@ -132,13 +181,12 @@ const NewTestExecutionPage = (props) => {
           labelId="tester"
           id="tester"
           label="Tester"
+          value={testExecInfo.assignTester}
+          onChange={handleChange('assignTester')}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+           {listUser.map((item) => (
+              <MenuItem value={item.username}>{item.username}</MenuItem>
+          ))}
         </Select>
         </FormControl>
 
@@ -158,4 +206,4 @@ const NewTestExecutionPage = (props) => {
     );
   }
   
-  export default withStyles(styles)(NewTestExecutionPage);
+  export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(NewTestExecutionPage));
