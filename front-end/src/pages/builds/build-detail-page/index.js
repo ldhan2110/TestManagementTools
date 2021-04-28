@@ -58,7 +58,7 @@ const BuildDetailPage = (props) => {
 
     useEffect(()=>{
  
-      /*setBuildInfor({ ...buildInfor,
+      /*setBuildInfor({ ...buildInfor, 
         buildid: props.match.params.buildName,
         projectid: props.match.params.projectName,
         buildname: props.history.location.state.buildname,
@@ -85,6 +85,7 @@ const BuildDetailPage = (props) => {
         content: "Update build successfully !",
         type: 'success'
       });
+      history.goBack();
     }
   },[insBuilds.sucess]);
 
@@ -95,10 +96,11 @@ const BuildDetailPage = (props) => {
 
     const handleUpdate = () => {
       updateBuildReq(buildInfor);
+      console.log('build infor: '+JSON.stringify(buildInfor));
     };
 
     const handleDelete = () =>{
-      deleteBuildReq(buildbyid);
+      //deleteBuildReq(buildbyid);
     }
 
   const handleChange = (prop) => (event) => {
@@ -106,7 +108,6 @@ const BuildDetailPage = (props) => {
   }
 
   const handleIsActive = () =>{
-
     if(buildInfor.isActive === true || buildInfor.isActive === 0){
       setBuildInfor({ ...buildInfor, isActive: false });
     }

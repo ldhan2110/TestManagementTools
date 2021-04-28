@@ -68,8 +68,8 @@ const BuildListPage = (props) => {
       _id: listBuilds[i]._id,
       buildname: listBuilds[i].buildname,
       descriptions: listBuilds[i].description,
-      is_active: temp_active,
-      is_open: temp_public,
+      is_active: listBuilds[i].is_active,
+      is_open: listBuilds[i].is_open,
       releasedate: listBuilds[i].releasedate
     }]);
 

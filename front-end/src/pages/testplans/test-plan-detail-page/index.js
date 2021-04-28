@@ -20,7 +20,7 @@ import {
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return { insTestplan: state.build.insTestplan,  project:state.project.currentSelectedProject}
+  return { insTestplan: state.testplan.insTestplan,  project:state.project.currentSelectedProject}
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestPlanDetailPage = (props) => {
-    const {classes, listTestPlans, name, match, updateTestplanReq} = props;
+    const {classes, listTestPlans, name, match, updateTestplanReq, insTestplan, displayMsg} = props;
     const history = useHistory();
     const [testplanInfor, setTestplanInfor] = React.useState({
       testplanid: props.match.params.testPlanName,
@@ -50,6 +50,21 @@ const TestPlanDetailPage = (props) => {
       console.log('testplanname: '+JSON.stringify(props.history.location.state));
      
     },[]);
+
+    useEffect(()=>{
+      if (insTestplan.sucess === false){
+        displayMsg({
+          content: insTestplan.errMsg,
+          type: 'error'
+        });
+      } else if (insTestplan.sucess == true) {
+        displayMsg({
+          content: "Update testplan successfully !",
+          type: 'success'
+        });
+        history.goBack();
+      }
+    },[insTestplan.sucess]);
 
     const handleClose=()=>{
 
