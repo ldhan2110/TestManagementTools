@@ -111,11 +111,11 @@ const EnhancedTable = (props) => {
   };
 
   const handleDefaultViewAction = (event,row) => {
-    console.log('view detail build: '+JSON.stringify(row));
+    console.log('view detail: '+JSON.stringify(row));
           if (viewAction){
         //viewAction(row);
         history.push({
-          pathname: window.location.pathname+"/"+row.id,
+          pathname: window.location.pathname+"/"+row._id,
           state: row
         });
       }

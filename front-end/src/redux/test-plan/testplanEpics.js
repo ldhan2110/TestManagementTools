@@ -41,8 +41,8 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
     mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/createtestplan',{
         testplanname: payload.Testplanname,
         description: payload.description,
-        is_active: payload.is_active,
-        is_public: payload.is_public
+        isActive: payload.is_active,
+        isPublic: payload.is_public
     } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
@@ -70,3 +70,38 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
         payload: error.response.data.errMsg
       }))
     )))
+
+export  const updateTestplanEpic = (action$, state$) => action$.pipe(
+  ofType(actions.UPDATE_TESTPLAN_REQ),
+  mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.testplanid+'/api/updatetestplan',{
+      testplanname: payload.testplanname,
+      description: payload.description,
+      isActive: payload.isActive,
+      isPublic: payload.isPublic,
+  } , {
+      headers: {
+        "X-Auth-Token": localStorage.getItem("token"),
+        "content-type": "application/json"
+      }
+    })).pipe(
+    map(response => {
+      const {data} = response;
+      if (data.success) {
+        console.log(data);
+        return ({
+          type: actions.UPDATE_TESTPLAN_SUCCESS,
+          payload: true
+        })
+      } else {
+        return ({
+          type: actions.UPDATE_TESTPLAN_FAILED,
+          payload: data.errMsg
+        })
+      }
+    
+    }),
+    catchError (error => of({
+      type: actions.UPDATE_TESTPLAN_FAILED,
+      payload: error.response.data.errMsg
+    }))
+  )))

@@ -73,6 +73,33 @@ const reducer = (state = initialState, actions) => {
         currentSelectedTestplan: actions.value
       }
 
+    case types.UPDATE_TESTPLAN_REQ:{      
+      return {
+        ...state,
+        insTestplan: initialState.insTestplan
+      };
+    }
+
+    case types.UPDATE_TESTPLAN_SUCCESS:{
+      return {
+        ...state,
+        insTestplan: {
+          sucess: true,
+          errMsg: null
+        }
+      }
+    }
+
+    case types.UPDATE_TESTPLAN_FAILED: {
+      return{
+        ...state,
+        insTestplan:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
+
     default:
       return state
   }

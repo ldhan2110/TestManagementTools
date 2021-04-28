@@ -64,7 +64,7 @@ const handleSelectTestcase = () =>{
   },[])
 
   useEffect(()=>{
-    console.log('list Testcase: '+ JSON.stringify(listtestcaseselect, null, '  '));
+    console.log('list Testcase: '+JSON.stringify(listtestcaseselect, null, '  '));
   },[listtestcaseselect])
 
 

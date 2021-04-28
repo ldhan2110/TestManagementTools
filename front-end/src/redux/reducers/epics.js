@@ -21,6 +21,7 @@ export default combineEpics(
    //TEST PLAN EPICS
    testplanEpics.getAllTestplanEpic,
    testplanEpics.addNewTestplanEpic,
+   testplanEpics.updateTestplanEpic,
 
    //TEST CASE EPICS
    testcaseEpics.getAllTestcaseEpic,

@@ -23,3 +23,11 @@ export function selectTestplan(value){
     payload: value
   }
 }
+
+export function updateTestplan(value){
+
+  return {
+    type: types.UPDATE_TESTPLAN_REQ,
+    payload: value
+  }
+}
