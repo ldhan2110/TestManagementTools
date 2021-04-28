@@ -94,7 +94,6 @@ const BuildDetailPage = (props) => {
     };
 
     const handleUpdate = () => {
-
       updateBuildReq(buildInfor);
     };
 
