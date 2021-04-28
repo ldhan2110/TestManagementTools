@@ -27,7 +27,8 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 const  mapStateToProps = (state) => {
   return { 
     testsuite: state.testcase.insTestsuite,
-    listUser: state.user.listUsersOfProject
+    listUser: state.user.listUsersOfProject,
+    listtestcaseselect: state.testcase.listTestcaseSelect,
    }
 }
 
@@ -40,7 +41,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const NewTestExecutionPage = (props) => {
-    const {classes, listTestExecution} = props;
+    const {classes, listTestExecution, listtestcaseselect} = props;
 
     const {listUser, getAllUserReq} = props;
 
@@ -63,12 +64,12 @@ const NewTestExecutionPage = (props) => {
 
 
     useEffect(()=>{
-      console.log(listUser);
-    },[listUser])
+      console.log(testExecInfo);
+    },[testExecInfo])
 
     useEffect(()=>{
-      console.log(testExecInfo);
-    },[testExecInfo]);
+      setTestExecInfo({...testExecInfo, listExecTestcase: listtestcaseselect });
+    },[listtestcaseselect]);
 
     const handleClose = () =>{
       history.goBack();      
@@ -146,10 +147,10 @@ const NewTestExecutionPage = (props) => {
           <div>
             <Grid container spacing={3}>
               <Grid item>
-                <p>Select Test Case: <b>0 selected</b></p>
+                <p>Select Test Case: <b>{testExecInfo.listExecTestcase.length} selected</b></p>
               </Grid>
               <Grid item>
-                <SelectTestCasePopup isOpen={open} setOpen={setOpenPopup}/>
+                <SelectTestCasePopup isOpen={open} setOpen={setOpenPopup} selected={testExecInfo.listExecTestcase}/>
                 <Button variant="contained" onClick={handleOpenSelectTC}>Add Test Case</Button>
               </Grid>
             </Grid>

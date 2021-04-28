@@ -4,9 +4,9 @@ import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
 const CheckboxTreeView = (props) => {
 
-   const {data, parentCallback} = props;
+   const {data, parentCallback, selected} = props;
 
-   const [checked,setChecked] = useState([]);
+   const [checked,setChecked] = useState(selected ? selected : []);
 
    const [expanded, setExpand] = useState([]);
 

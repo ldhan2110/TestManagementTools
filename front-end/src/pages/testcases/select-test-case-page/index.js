@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => {
 
 const SelectTestCasePopup = (props) => {
   
-  const {displayMsg, getAllTestcaseReq, testcase, project, listtestcaseselect, getListTestcaseSelectReq} = props;
+  const {displayMsg, getAllTestcaseReq, testcase, project, listtestcaseselect, getListTestcaseSelectReq, selected} = props;
   
   const {isOpen, setOpen} = props;  
   
@@ -75,7 +75,7 @@ const handleSelectTestcase = () =>{
         <DialogContent dividers>
           <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '20vw', maxWidth:'20vw'}}>
             <Grid item xs={12}>
-              <CheckboxTreeView data={testcase.listTestsuiteNoTree} parentCallback={handleSelect}/>
+              <CheckboxTreeView data={testcase.listTestsuiteNoTree} parentCallback={handleSelect} selected={selected}/>
             </Grid>
           </Grid>
         </DialogContent>
