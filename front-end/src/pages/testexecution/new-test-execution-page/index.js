@@ -117,7 +117,7 @@ const NewTestExecutionPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
           <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth  value={testExecInfo.testexecName} onChange={handleChange('testexecName')}/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} value={testExecInfo.description} onChange={handleChange('description')}/>
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={15} value={testExecInfo.description} onChange={handleChange('description')}/>
 
           <FormControl variant="outlined" fullWidth>
            <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
