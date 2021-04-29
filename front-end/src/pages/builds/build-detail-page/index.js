@@ -169,6 +169,7 @@ const BuildDetailPage = (props) => {
               value="start"
               control={<Checkbox color="primary" 
               value={buildInfor.isPublic}  onChange={handleIsPublic}
+              checked={buildInfor.isPublic}
               />}
               label="Public"
               labelPlacement="start"
@@ -180,6 +181,7 @@ const BuildDetailPage = (props) => {
               value="start"
               control={<Checkbox color="primary" 
               value={buildInfor.isActive}  onChange={handleIsActive}
+              checked={buildInfor.isActive} 
               />}
               label="Active"
               labelPlacement="start"

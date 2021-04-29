@@ -219,6 +219,7 @@ const NewTestPlanPage = (props) => {
               control={<Checkbox color="primary"  value={TestplanInfo.is_public} onChange={handlePublic}/>}
               label="Public"
               labelPlacement="start"
+              checked={TestplanInfo.is_public}
             />
           </div>
           <div>
@@ -228,6 +229,7 @@ const NewTestPlanPage = (props) => {
               control={<Checkbox color="primary" value={TestplanInfo.is_active}  onChange={handleActive}/>}
               label="Active"
               labelPlacement="start"
+              checked={TestplanInfo.is_active}
             />
           </div>
           <div className = {classes.btnGroup}>

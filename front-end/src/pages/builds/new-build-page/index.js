@@ -158,6 +158,7 @@ const NewBuildPage = (props) => {
               control={<Checkbox color="primary" value={buildInfo.isActive} onChange={handleIsActive}/>}
               label="Active"
               labelPlacement="start"
+              checked={buildInfo.isActive}
             />
           </div>
           <div>
@@ -167,6 +168,7 @@ const NewBuildPage = (props) => {
               control={<Checkbox color="primary" value={buildInfo.isPublic} onChange={handleIsPublic}/>}
               label="Open"
               labelPlacement="start"
+              checked={buildInfo.isPublic}
             />
           </div>
           <Grid container spacing={3}>

@@ -136,6 +136,7 @@ const TestPlanDetailPage = (props) => {
               label="Public"
               labelPlacement="start"
               value={testplanInfor.isPublic}  onChange={handleIsPublic}
+              checked={testplanInfor.isPublic}
             />
           </div>
           <div>
@@ -146,6 +147,7 @@ const TestPlanDetailPage = (props) => {
               label="Active"
               labelPlacement="start" 
               value={testplanInfor.isActive}  onChange={handleIsActive}
+              checked={testplanInfor.isActive}
             />
           </div>
           <div className = {classes.btnGroup}>
