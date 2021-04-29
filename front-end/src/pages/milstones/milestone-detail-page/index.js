@@ -178,6 +178,7 @@ const DetailMileStonePage = (props) => {
               control={<Checkbox color="primary" value={milestoneInfo.is_completed}  onChange={handleCompleted}/>}
               label="This milestone is completed?"
               labelPlacement="start"
+              checked={milestoneInfo.is_completed}
             />
           </div>                  
           
