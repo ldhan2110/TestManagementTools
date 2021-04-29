@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
@@ -78,6 +78,8 @@ const TestExecutionListPage = (props) => {
 
   const {listTestExec, getAllTestExecReq} = props;
 
+  const [listTestexec, setListTestExec] = useState([]);
+
   const history = useHistory();
 
   const handleClickNewTestExecution = () => {
@@ -95,6 +97,11 @@ const TestExecutionListPage = (props) => {
 
   useEffect(()=>{
     console.log(listTestExec);
+    var tempArr = [];
+    listTestExec.forEach((item)=>{
+      tempArr.push({_id: item._id, status: item.status, testexecutionname: item.testexecutionname, description: item.description, tester: item.tester.username, testplanname: item.testplan.testplanname })
+    });
+    setListTestExec(tempArr);
   },[listTestExec]);
 
   return(
@@ -136,7 +143,7 @@ const TestExecutionListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <EnhancedTable
-            rows={rows}
+            rows={listTestexec}
             headerList = {TEST_EXECUTION_HEADERS}
             viewAction={navigateToDetailPage}
           />

@@ -39,14 +39,15 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllUserReq: (payload) => dispatch({type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
-    addNewTestexecReq: (payload) => dispatch({type: ADD_TESTEXEC_REQ, payload})
+    addNewTestexecReq: (payload) => dispatch({type: ADD_TESTEXEC_REQ, payload}),
+    getAllTestExecReq: (payload) => dispatch({type: GET_ALL_TESTEXEC_REQ})
   }
 }
 
 const NewTestExecutionPage = (props) => {
     const {classes, listTestExecution, listtestcaseselect} = props;
 
-    const {listUser, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg} = props;
+    const {listUser, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq} = props;
 
     const [open,setOpenPopup] = useState(false);
     
@@ -93,7 +94,7 @@ const NewTestExecutionPage = (props) => {
           content: "Create Test Execution successfully !",
           type: 'success'
         });
-        // getAllTestcaseReq();
+        getAllTestExecReq();
         history.goBack();
       }
     },[insTestexec.sucess]);

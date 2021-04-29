@@ -14,12 +14,13 @@ export const TEST_EXECUTION_HEADERS = {
   hasActions: true,
   hasCheckbox: true,
   headerCells: [  
-  { id: 'id', alignment: 'left', label: 'ID', type: "text" },
-  { id: 'name', alignment: 'left', label: 'Name', type: "text" },
+  // { id: '_id', alignment: 'left', label: 'ID', type: "text" },
+  { id: 'testexecutionname', alignment: 'left', label: 'Name', type: "text" },
   { id: 'description', alignment: 'left', label: 'Description', type: "text" },
+  { id: 'testplanname', alignment: 'left', label: 'Test Plan Name', type: "text" },
   { id: 'status', alignment: 'left', label: 'Status' , type: "label"},
-  { id: 'testexecutiontime', alignment: 'left', label: 'Test Execution Time', type: "text" },
-  { id: 'testdate', alignment: 'left', label: 'Test Date', type: "text" },
+  { id: 'tester', alignment: 'left', label: 'Assign Tester', type: "text" },
+  // { id: 'testdate', alignment: 'left', label: 'Test Date', type: "text" },
 ]}
 
 export const BUILDS_HEADERS = {
