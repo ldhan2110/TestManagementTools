@@ -41,7 +41,7 @@ export  const getAllTestexecEpic = (action$, state$) => action$.pipe(
   //ADD A NEW TEST EXECUTION
 export  const addNewTestexecEpic = (action$, state$) => action$.pipe(
   ofType(actions.ADD_TESTEXEC_REQ),
-  mergeMap(() =>  from(axios.post(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/createtestexecution',{
+  mergeMap(({payload}) =>  from(axios.post(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/createtestexecution',payload,{
       headers: {
         "X-Auth-Token": localStorage.getItem("token"),
         "content-type": "application/json"

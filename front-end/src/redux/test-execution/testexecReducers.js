@@ -48,7 +48,7 @@ const reducer = (state = initialState, actions) => {
         return {
           ...state,
           insTestexec:{
-            sucess: false,
+            sucess: true,
             errMsg: payload
           }           
         };

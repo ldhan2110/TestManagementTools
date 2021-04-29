@@ -74,7 +74,7 @@ const NewTestExecutionPage = (props) => {
       if (listtestcaseselect !== null){
       var temparr = [];
       listtestcaseselect.forEach((item)=>{
-          temparr.push(item._id);
+          temparr.push({testcaseid: item._id});
       });
       setTestExecInfo({...testExecInfo, listexectestcases: temparr });
     }
@@ -82,6 +82,7 @@ const NewTestExecutionPage = (props) => {
 
 
     useEffect(()=>{
+      console.log(insTestexec);
       if (insTestexec.sucess === false){
         displayMsg({
           content: insTestexec.errMsg,
