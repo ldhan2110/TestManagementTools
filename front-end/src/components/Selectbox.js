@@ -9,9 +9,6 @@ import Select from '@material-ui/core/Select';
 const SelectBox = (props) =>{
     const {classes, labelTitle, listItems} = props;
 
-    useEffect(()=>{
-      console.log(listItems);
-    },[listItems])
 
     return (
         <FormControl variant="filled" style={{width:"100%"}}>

@@ -105,3 +105,35 @@ export  const updateTestplanEpic = (action$, state$) => action$.pipe(
       payload: error.response.data.errMsg
     }))
   )))
+
+
+
+  export  const getAllActiveTestplanEpic = (action$, state$) => action$.pipe(
+    ofType(actions.GET_ALL_ACTIVE_TESTPLAN_REQ),
+    mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+localStorage.getItem("selectProject")+'/getalltestplanactive',{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        console.log(response);
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.GET_ALL_ACTIVE_TESTPLAN_SUCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.GET_ALL_ACTIVE_TESTPLAN_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.GET_ALL_ACTIVE_TESTPLAN_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )))

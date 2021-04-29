@@ -22,15 +22,16 @@ import {
 import {GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
 import { ADD_TESTEXEC_REQ, GET_ALL_TESTEXEC_REQ } from '../../../redux/test-execution/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import { GET_ALL_ACTIVE_TESTPLAN_REQ } from "../../../redux/test-plan/constants";
 
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
-    testsuite: state.testcase.insTestsuite,
     listUser: state.user.listUsersOfProject,
     listtestcaseselect: state.testcase.listTestcaseSelect,
-    insTestexec: state.testexec.insTestexec
+    insTestexec: state.testexec.insTestexec,
+    listActiveTestplan: state.testplan.listActiveTestplan
    }
 }
 
@@ -40,14 +41,15 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllUserReq: (payload) => dispatch({type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
     addNewTestexecReq: (payload) => dispatch({type: ADD_TESTEXEC_REQ, payload}),
-    getAllTestExecReq: (payload) => dispatch({type: GET_ALL_TESTEXEC_REQ})
+    getAllTestExecReq: (payload) => dispatch({type: GET_ALL_TESTEXEC_REQ}),
+    getAllActiveTestplanReq: (payload) => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ})
   }
 }
 
 const NewTestExecutionPage = (props) => {
     const {classes, listTestExecution, listtestcaseselect} = props;
 
-    const {listUser, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq} = props;
+    const {listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq} = props;
 
     const [open,setOpenPopup] = useState(false);
     
@@ -64,12 +66,13 @@ const NewTestExecutionPage = (props) => {
 
     useEffect(()=>{
       getAllUserReq(localStorage.getItem('selectProject'));
+      getAllActiveTestplanReq();
     },[])
 
-
     useEffect(()=>{
-      console.log(testExecInfo);
-    },[testExecInfo])
+      console.log(listActiveTestplan);
+    },[listActiveTestplan])
+
 
     useEffect(()=>{
       if (listtestcaseselect !== null){
@@ -83,7 +86,6 @@ const NewTestExecutionPage = (props) => {
 
 
     useEffect(()=>{
-      console.log(insTestexec);
       if (insTestexec.sucess === false){
         displayMsg({
           content: insTestexec.errMsg,
@@ -161,16 +163,12 @@ const NewTestExecutionPage = (props) => {
           id="demo-simple-select-outlined"
           label="Age"
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}
+         
         </Select>
 
       </FormControl>
-          <Grid container fullWidth>
+          <Grid container>
               <Grid item xs={3}>
                 <p>Create from existing test execution ?</p>
               </Grid>
@@ -220,8 +218,8 @@ const NewTestExecutionPage = (props) => {
           value={testExecInfo.assigntester}
           onChange={handleChange('assigntester')}
         >
-           {listUser.map((item) => (
-              <MenuItem value={item.username}>{item.username}</MenuItem>
+           {listUser.map((item,index) => (
+              <MenuItem key={index} value={item.username}>{item.username}</MenuItem>
           ))}
         </Select>
         </FormControl>

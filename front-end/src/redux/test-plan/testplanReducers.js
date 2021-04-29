@@ -9,6 +9,7 @@ var initialState = {
     errMsg: null
   },
   listTestplan: [],
+  listActiveTestplan: []
 }
 
 
@@ -32,13 +33,39 @@ const reducer = (state = initialState, actions) => {
     
     case types.GET_ALL_TESTPLAN_SUCESS:
         return {
+          ...state,
           error: "",
           errorMsg:"",
           currentSelectedTestplan: "",
           insTestplan: [],
           listTestplan: payload,
         }
+
+
+
+        case types.GET_ALL_ACTIVE_TESTPLAN_REQ:
+          return {
+            ...state,
+          }
     
+        case types.GET_ALL_ACTIVE_TESTPLAN_FAILED:
+          return {
+            ...state,
+            error: true,
+            errorMsg: payload,
+          }
+        
+        case types.GET_ALL_ACTIVE_TESTPLAN_SUCESS:
+          console.log(payload);
+            return {
+              ...state,
+              error: "",
+              errorMsg:"",
+              listActiveTestplan: payload
+            }
+    
+
+
     case types.ADD_NEW_TESTPLAN_REQ:{      
       return {
         ...state,

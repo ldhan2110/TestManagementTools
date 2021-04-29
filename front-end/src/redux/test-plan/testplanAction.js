@@ -7,6 +7,13 @@ export function getAllTestplan(value) {
   }
 }
 
+export function getAllActiveTestplan(value) {
+  return {
+    type: types.GET_ALL_ACTIVE_TESTPLAN_REQ,
+    payload: value
+  }
+}
+
 export function addNewTestplan(value){
   console.log(value);
   return{

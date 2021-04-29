@@ -46,7 +46,6 @@ const SelectTestCasePopup = (props) => {
   }
 
   const handleSelect = (Data) =>{
-    console.log('Data: '+ Data);
     setData(Data)
 }
 
@@ -63,9 +62,6 @@ const handleSelectTestcase = () =>{
     getAllTestcaseReq(project);
   },[])
 
-  useEffect(()=>{
-    console.log('list Testcase: '+JSON.stringify(listtestcaseselect, null, '  '));
-  },[listtestcaseselect])
 
 
   return (

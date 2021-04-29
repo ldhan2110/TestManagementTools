@@ -178,8 +178,8 @@ const EnhancedTable = (props) => {
                             case 'label':
                               console.log(row[headerList.headerCells[index].id]);
                               return (<TableCell align={headerList.headerCells[index].alignment} key={index}>
-                                        {row[headerList.headerCells[index].id] == 0 && <Chip size="small" mr={1} mb={1} label="Active" is_active={1}/>}
-                                        {row[headerList.headerCells[index].id] == 1 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
+                                        {row[headerList.headerCells[index].id] == 1 && <Chip size="small" mr={1} mb={1} label="Active" is_active={1}/>}
+                                        {row[headerList.headerCells[index].id] == 0 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
                                         {row[headerList.headerCells[index].id] == 2 && <Chip size="small" mr={1} mb={1} label="Pass" pass={1}/>}
                                         {row[headerList.headerCells[index].id] == 3 && <Chip size="small" mr={1} mb={1} label="Fail" fail={1}/>}
                                         {row[headerList.headerCells[index].id] == 4 && <Chip size="small" mr={1} mb={1} label="Block" block={1}/>}
