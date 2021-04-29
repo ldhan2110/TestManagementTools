@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {TEST_EXECUTION_HEADERS} from '../../../components/Table/DefineHeader';
+import { GET_ALL_TESTEXEC_REQ} from '../../../redux/test-execution/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import { connect } from 'react-redux';
 import {
   Grid,
   Typography,
@@ -20,6 +23,24 @@ import {
 // const NavLink = React.forwardRef((props, ref) => (
 //   <RouterNavLink innerRef={ref} {...props} />
 // ));
+
+
+//MAP STATES TO PROPS - REDUX
+function mapStateToProps(state) {
+  return {
+    listTestExec: state.testexec.listTestExec
+  };
+}
+
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    //addNewBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
+    getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
+  }
+}
+
+
 
 function createData(id, name, description, status, testexecutiontime, testdate) {
   return { id, name, description, status, testexecutiontime, testdate };
@@ -39,22 +60,23 @@ const rows = [
   createData('#1011', 'Test Execution Zero', 'Adsa', 2, '00:06:25', '2020-01-02'),
   createData('#1012', 'Test Execution Zero', 'Adsa', 4,'00:06:25', '2020-01-02'),
   createData('#1013', 'Test Execution Zero', 'Adsa', 2, '00:06:25', '2020-01-02'),
-
 ];
 
-const headerCells = [
-  { id: 'id', alignment: 'left', label: 'ID' },
-  { id: 'name', alignment: 'left', label: 'Name' },
-  { id: 'description', alignment: 'left', label: 'Description' },
-  { id: 'status', alignment: 'left', label: 'Status' },
-  { id: 'testexecutiontime', alignment: 'left', label: 'Test Execution Time' },
-  { id: 'testdate', alignment: 'left', label: 'Test Date' },
-  { id: 'actions', alignment: 'left', label: 'Actions' },
-];
+// const headerCells = [
+//   { id: 'id', alignment: 'left', label: 'ID' },
+//   { id: 'name', alignment: 'left', label: 'Name' },
+//   { id: 'description', alignment: 'left', label: 'Description' },
+//   { id: 'status', alignment: 'left', label: 'Status' },
+//   { id: 'testexecutiontime', alignment: 'left', label: 'Test Execution Time' },
+//   { id: 'testdate', alignment: 'left', label: 'Test Date' },
+//   { id: 'actions', alignment: 'left', label: 'Actions' },
+// ];
 
 
 const TestExecutionListPage = (props) => {
   const {classes} = props;
+
+  const {listTestExec, getAllTestExecReq} = props;
 
   const history = useHistory();
 
@@ -66,6 +88,14 @@ const TestExecutionListPage = (props) => {
     if (params)
       history.push(window.location.pathname+"/"+params);
   }
+
+  useEffect(()=>{
+    getAllTestExecReq();
+  },[]);
+
+  useEffect(()=>{
+    console.log(listTestExec);
+  },[listTestExec]);
 
   return(
     <div>
@@ -116,4 +146,4 @@ const TestExecutionListPage = (props) => {
   );
 }
 
-export default withStyles(styles)(TestExecutionListPage);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TestExecutionListPage));

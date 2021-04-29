@@ -6,6 +6,7 @@ import * as testcaseEpics from '../test-case/testcaseEpics';
 import * as buildEpics from '../build-release/buildEpics';
 import * as milestoneEpics from '../milestones/milestoneEpics';
 import * as userEpics from '../users/userEpics';
+import * as testexecEpics from '../test-execution/testexecEpics';
 
 
 export default combineEpics(
@@ -51,6 +52,10 @@ export default combineEpics(
    userEpics.getAllUserOfProjectEpic,
    userEpics.addUserToProjectEpic,
    userEpics.getAllUserEpic,
-   userEpics.deleteUserOfProjectEpic
+   userEpics.deleteUserOfProjectEpic,
+
+   //TEST EXEC EPICS
+   testexecEpics.getAllTestexecEpic,
+   testexecEpics.addNewTestexecEpic
 
 );

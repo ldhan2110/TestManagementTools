@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 
 import {GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
+import { ADD_TESTEXEC_REQ, GET_ALL_TESTEXEC_REQ } from '../../../redux/test-execution/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 
 
@@ -29,6 +30,7 @@ const  mapStateToProps = (state) => {
     testsuite: state.testcase.insTestsuite,
     listUser: state.user.listUsersOfProject,
     listtestcaseselect: state.testcase.listTestcaseSelect,
+    insTestexec: state.testexec.insTestexec
    }
 }
 
@@ -37,24 +39,25 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllUserReq: (payload) => dispatch({type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
+    addNewTestexecReq: (payload) => dispatch({type: ADD_TESTEXEC_REQ, payload})
   }
 }
 
 const NewTestExecutionPage = (props) => {
     const {classes, listTestExecution, listtestcaseselect} = props;
 
-    const {listUser, getAllUserReq} = props;
+    const {listUser, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg} = props;
 
     const [open,setOpenPopup] = useState(false);
     
     const [testExecInfo, setTestExecInfo] = useState({
-        testexecName: '',
+        testexecutionname: '',
         description: '',
-        testplan: '',
-        listExecTestcase: [],
-        public: false,
-        active: false,
-        assignTester: ''
+        testplanname: 'Testplan1990',
+        listexectestcases: [],
+        is_public: false,
+        is_active: false,
+        assigntester: ''
     });
     const history = useHistory();
 
@@ -68,8 +71,34 @@ const NewTestExecutionPage = (props) => {
     },[testExecInfo])
 
     useEffect(()=>{
-      setTestExecInfo({...testExecInfo, listExecTestcase: listtestcaseselect });
+      if (listtestcaseselect !== null){
+      var temparr = [];
+      listtestcaseselect.forEach((item)=>{
+          temparr.push(item._id);
+      });
+      setTestExecInfo({...testExecInfo, listexectestcases: temparr });
+    }
     },[listtestcaseselect]);
+
+
+    useEffect(()=>{
+      if (insTestexec.sucess === false){
+        displayMsg({
+          content: insTestexec.errMsg,
+          type: 'error'
+        });
+      } else if (insTestexec.sucess === true) {
+        displayMsg({
+          content: "Create Test Execution successfully !",
+          type: 'success'
+        });
+        // getAllTestcaseReq();
+        history.goBack();
+      }
+    },[insTestexec.sucess]);
+
+
+
 
     const handleClose = () =>{
       history.goBack();      
@@ -80,11 +109,15 @@ const NewTestExecutionPage = (props) => {
     }
 
     const handleChange = (prop) => (event) => {
-      if (prop !== 'public' && prop !== 'active')
+      if (prop !== 'is_public' && prop !== 'is_active')
         setTestExecInfo({ ...testExecInfo, [prop]: event.target.value });
       else
       setTestExecInfo({ ...testExecInfo, [prop]: !testExecInfo.prop });
     };
+
+    const handleCreateNewTestExec = () => {
+      addNewTestexecReq(testExecInfo);
+    }
     
     return (
     <div>
@@ -116,7 +149,7 @@ const NewTestExecutionPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth  value={testExecInfo.testexecName} onChange={handleChange('testexecName')}/>
+          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth  value={testExecInfo.testexecName} onChange={handleChange('testexecutionname')}/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={15} value={testExecInfo.description} onChange={handleChange('description')}/>
 
           <FormControl variant="outlined" fullWidth>
@@ -147,7 +180,7 @@ const NewTestExecutionPage = (props) => {
           <div>
             <Grid container spacing={3}>
               <Grid item>
-                <p>Select Test Case: <b>{testExecInfo.listExecTestcase.length} selected</b></p>
+                <p>Select Test Case: <b>{testExecInfo.listexectestcases.length} selected</b></p>
               </Grid>
               <Grid item>
                 <SelectTestCasePopup isOpen={open} setOpen={setOpenPopup} selected={testExecInfo.listExecTestcase}/>
@@ -160,7 +193,7 @@ const NewTestExecutionPage = (props) => {
              <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" value = {testExecInfo.public} onChange={handleChange('public')} />}
+              control={<Checkbox color="primary" value = {testExecInfo.is_public} onChange={handleChange('is_public')} />}
               label="Public"
               labelPlacement="start"
             />
@@ -169,7 +202,7 @@ const NewTestExecutionPage = (props) => {
             <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" value = {testExecInfo.active} onChange={handleChange('active')}  />}
+              control={<Checkbox color="primary" value = {testExecInfo.is_active} onChange={handleChange('is_active')}  />}
               label="Active"
               labelPlacement="start"
             />
@@ -182,8 +215,8 @@ const NewTestExecutionPage = (props) => {
           labelId="tester"
           id="tester"
           label="Tester"
-          value={testExecInfo.assignTester}
-          onChange={handleChange('assignTester')}
+          value={testExecInfo.assigntester}
+          onChange={handleChange('assigntester')}
         >
            {listUser.map((item) => (
               <MenuItem value={item.username}>{item.username}</MenuItem>
@@ -193,7 +226,7 @@ const NewTestExecutionPage = (props) => {
 
         
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleClose}>
+          <Button variant="contained" color="primary" onClick={handleCreateNewTestExec}>
             Create
           </Button>
           <Button variant="contained" onClick={handleClose}>
