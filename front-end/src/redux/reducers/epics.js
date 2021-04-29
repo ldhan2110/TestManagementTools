@@ -41,6 +41,7 @@ export default combineEpics(
    buildEpics.getBuildByIdEpic,
    buildEpics.updateBuildEpic,
    buildEpics.deleteBuildEpic,
+   buildEpics.getAllBuildActiveEpic,
 
    //MILESTONE EPICS
    milestoneEpics.addNewMilestoneEpic,

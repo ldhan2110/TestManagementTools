@@ -7,7 +7,7 @@ import SelectBox from '../../../components/Selectbox';
 import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
-
+import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
 import Slide from '@material-ui/core/Slide';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
@@ -22,6 +22,10 @@ import {
   Divider,
   TextField,
   FormControlLabel,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
   Checkbox
 } from '@material-ui/core';
 
@@ -35,7 +39,8 @@ import {
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { insTestplan: state.testplan.insTestplan, 
-                    project:state.project.currentSelectedProject }
+           project:state.project.currentSelectedProject,
+           listBuilds: state.build.listBuilds }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -43,7 +48,8 @@ const mapDispatchToProps = dispatch => {
   return {
     addNewTestplanReq: (payload) => dispatch({ type: ADD_NEW_TESTPLAN_REQ, payload }),
     getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    getAllBuildActiveReq: (payload) => dispatch({ type: GET_ALL_BUILD_ACTIVE_REQ, payload }),
   }
 }
 
@@ -52,7 +58,7 @@ const NewTestPlanPage = (props) => {
   const {classes, listTestPlan} = props;
     const {isOpen, setOpen} = props;
 
-    const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project} = props;
+    const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project, listBuilds, getAllBuildActiveReq} = props;
 
     const [open, setOpenPopup] = React.useState(isOpen);
 
@@ -63,6 +69,7 @@ const NewTestPlanPage = (props) => {
       setTestplanInfo({
         Testplanname: '', 
         projectid: project,
+        buildname: '',
         description: '',
         is_public: false,
         is_active: false,
@@ -74,9 +81,14 @@ const NewTestPlanPage = (props) => {
       Testplanname: '',
       projectid: project,
       description: '',
+      buildname: '',
       is_public: false,
       is_active: false,
     });
+
+  useEffect(()=>{
+    getAllBuildActiveReq(project);
+  },[])
 
   useEffect(()=>{
       setOpenPopup(isOpen);
@@ -101,6 +113,7 @@ const NewTestPlanPage = (props) => {
 
     const handleCreate = () => {
       addNewTestplanReq(TestplanInfo);
+      console.log(JSON.stringify(TestplanInfo));
     }
   
     const handleChange = (prop) => (event) => {
@@ -192,25 +205,30 @@ const NewTestPlanPage = (props) => {
                         {listItems }
                       </div>
                          );
-                }*/}
-         
-
-          
+                }*/}         
           <Autocomplete
               id="Create from existing test plan ?"
               options={listtestplan}
               getOptionLabel={(option) => option.title}
               style={{ width: 300 }}
-              renderInput={(params) => <TextField {...params} label="Create from existing test plan ?" variant="outlined"  />}
-              
-              />
-          
-          
-          
-
+              renderInput={(params) => <TextField {...params} label="Create from existing test plan ?" variant="outlined"  />}              
+          />
           </Grid>
 
-            
+          <FormControl variant="outlined"  fullWidth>
+                              <InputLabel id="buildRelease">Build/Release</InputLabel>
+                                <Select
+                                  labelId="buildRelease"
+                                  id="buildRelease"
+                                  value={TestplanInfo.buildname || ''}
+                                  onChange={handleChange('buildname')}
+                                  label="Build/Release"
+                                >
+                               {listBuilds.map((item) => (
+                                    <MenuItem value={item.buildname}>{item.buildname}</MenuItem>
+                               ))}
+                              </Select>
+          </FormControl>
 
           <div>
              <FormControlLabel
@@ -239,9 +257,7 @@ const NewTestPlanPage = (props) => {
           <Button variant="contained" onClick={handleClose}>
             Cancel
           </Button>
-        </div>
-
-        
+        </div>       
         </form>
         </Grid>
       </Grid>

@@ -45,3 +45,10 @@ export function getBuildById(value) {
     payload: value
   }
 }
+
+export function getAllBuildActive(value) {
+  return {
+    type: types.GET_ALL_BUILD_ACTIVE_REQ,
+    payload: value
+  }
+}

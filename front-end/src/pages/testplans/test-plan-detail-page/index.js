@@ -7,6 +7,8 @@ import SelectBox from '../../../components/Selectbox';
 import {UPDATE_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
+import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
+
 import {
   Grid,
   Typography,
@@ -14,13 +16,18 @@ import {
   Button,
   Divider,
   TextField,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
   FormControlLabel,
   Checkbox
 } from '@material-ui/core';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return { insTestplan: state.testplan.insTestplan,  project:state.project.currentSelectedProject}
+  return { insTestplan: state.testplan.insTestplan,  project:state.project.currentSelectedProject,
+    listBuilds: state.build.listBuilds }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -28,17 +35,20 @@ const mapDispatchToProps = dispatch => {
   return {
     updateTestplanReq: (payload) => dispatch({ type: UPDATE_TESTPLAN_REQ, payload }),
     //deleteBuildReq: (payload) => dispatch({ type: DELETE_BUILD_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    getAllBuildActiveReq: (payload) => dispatch({ type: GET_ALL_BUILD_ACTIVE_REQ, payload }),
   }
 }
 
 const TestPlanDetailPage = (props) => {
-    const {classes, listTestPlans, name, match, updateTestplanReq, insTestplan, displayMsg} = props;
+    const {classes, listTestPlans, name, match, updateTestplanReq, insTestplan,
+           displayMsg, project, listBuilds, getAllBuildActiveReq} = props;
     const history = useHistory();
     const [testplanInfor, setTestplanInfor] = React.useState({
       testplanid: props.match.params.testPlanName,
       projectid: props.match.params.projectName,
       testplanname: props.history.location.state.testplanname,
+      buildname: props.history.location.state.buildname,
       description: props.history.location.state.description,
       isActive: props.history.location.state.is_active,
       isPublic: props.history.location.state.is_public,
@@ -61,13 +71,17 @@ const TestPlanDetailPage = (props) => {
       }
     },[insTestplan.sucess]);
 
+    useEffect(()=>{
+      getAllBuildActiveReq(project); 
+    },[])
+
     const handleClose=()=>{
 
     }
 
     const handleUpdate = () => {
-      updateTestplanReq(testplanInfor);
-     
+      //updateTestplanReq(testplanInfor);
+      console.log(JSON.stringify(testplanInfor, null, '  '));    
     };
     
     const handleChange = (prop) => (event) => {
@@ -126,7 +140,22 @@ const TestPlanDetailPage = (props) => {
           <TextField id="testPlanName" label="Test Plan Name" variant="outlined"  fullWidth required
           value={testplanInfor.testplanname || ''} onChange={handleChange('testplanname')}/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}
-          value={testplanInfor.description || ''} onChange={handleChange('description')}/>
+          value={testplanInfor.description || ''} onChange={handleChange('description')}/> 
+
+<           FormControl variant="outlined"  fullWidth>
+                              <InputLabel id="buildRelease">Build/Release</InputLabel>
+                                <Select
+                                  labelId="buildRelease"
+                                  id="buildRelease"
+                                  value={testplanInfor.buildname || ''}
+                                  onChange={handleChange('buildname')}
+                                  label="Build/Release"
+                                >
+                               {listBuilds.map((item) => (
+                                    <MenuItem value={item.buildname}>{item.buildname}</MenuItem>
+                               ))}
+                              </Select>
+            </FormControl>
 
           <div>
              <FormControlLabel

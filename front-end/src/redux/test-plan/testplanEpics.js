@@ -41,6 +41,7 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
     mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/createtestplan',{
         testplanname: payload.Testplanname,
         description: payload.description,
+        buildname: payload.buildname,
         isActive: payload.is_active,
         isPublic: payload.is_public
     } , {
@@ -75,6 +76,7 @@ export  const updateTestplanEpic = (action$, state$) => action$.pipe(
   mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.testplanid+'/api/updatetestplan',{
       testplanname: payload.testplanname,
       description: payload.description,
+      buildname: payload.buildname,
       isActive: payload.isActive,
       isPublic: payload.isPublic,
   } , {
