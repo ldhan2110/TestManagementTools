@@ -96,7 +96,6 @@ const BuildDetailPage = (props) => {
 
     const handleUpdate = () => {
       updateBuildReq(buildInfor);
-      console.log('build infor: '+JSON.stringify(buildInfor));
     };
 
     const handleDelete = () =>{

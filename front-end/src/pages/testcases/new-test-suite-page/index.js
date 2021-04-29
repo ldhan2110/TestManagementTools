@@ -80,7 +80,6 @@ const NewTestSuitePopup = (props) => {
     };
 
     const handleCreate = () => {
-      console.log(localStorage.getItem("selectProject"));
        addTestsuiteReq(testSuiteInfo);
     }
 

@@ -92,7 +92,6 @@ const NewBuildPage = (props) => {
 
   const handleCreate = () => {
     addBuildReq(buildInfo);
-    console.log('buildInfor: '+JSON.stringify(buildInfo))
   }
 
   const handleChange = (prop) => (event) => {
@@ -101,17 +100,14 @@ const NewBuildPage = (props) => {
 
   const handleDateStart = (date) => {
     setSelectedDateStart(date);
-    console.log('change Date');
   };
 
   const handleIsActive = () =>{
     setBuildInfo({ ...buildInfo, isActive: !buildInfo.isActive });
-    console.log('change IsActive');
   };
 
   const handleIsPublic = () =>{
     setBuildInfo({ ...buildInfo, isPublic: !buildInfo.isPublic });
-    console.log('change IsPublic');
   };
 
     return (

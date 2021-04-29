@@ -201,7 +201,6 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
               map(response => {
                 const {data} = response;
                 if (data.success) {
-                  console.log(data);
                   return ({
                     type: actions.DELETE_TESTCASE_SUCCESS,
                     payload: true

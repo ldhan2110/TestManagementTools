@@ -8,7 +8,6 @@ export function getAllBuild(value) {
 }
 
 export function addNewBuild(value){
-  console.log(value);
   return{
     type: types.ADD_NEW_BUILD_REQ,
     payload: value

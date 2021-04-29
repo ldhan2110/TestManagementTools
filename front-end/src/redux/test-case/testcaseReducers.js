@@ -99,7 +99,6 @@ const reducer = (state = initialState, actions) => {
       };
 
     case types.GET_ALL_TESTSUITE_SUCESS:
-      console.log(payload);
         return {
           ...state,
           listTestsuite: payload.children            
@@ -118,7 +117,6 @@ const reducer = (state = initialState, actions) => {
         };
   
       case types.GET_ALL_TESTSUITE_NO_TREE_SUCESS:
-        console.log(payload);
           return {
             ...state,
             listTestsuiteNoTree: payload            
@@ -143,7 +141,6 @@ const reducer = (state = initialState, actions) => {
         }
       
         case types.UPDATE_TESTCASE_SUCCESS:{
-          //console.log('AAAAAA SUCCESS')
           return {
             ...state,
             insTestcase: {
@@ -154,7 +151,6 @@ const reducer = (state = initialState, actions) => {
         }
       
         case types.UPDATE_TESTCASE_FAILED: {
-          //console.log('AAAAAA FAILED')
           return{
             ...state,
             insTestcase: {

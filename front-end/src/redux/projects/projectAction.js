@@ -8,7 +8,6 @@ export function getAllProject(value) {
 }
 
 export function addNewProject(value){
-  console.log(value);
   return{
     type: types.ADD_NEW_PROJECT_REQ,
     payload: value

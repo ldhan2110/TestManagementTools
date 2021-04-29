@@ -52,7 +52,6 @@ import {API_ADDR} from '../constants';
         map(response => {
           const {data} = response;
           if (data.success) {
-            console.log(data);
             return ({
               type: actions.ADD_NEW_BUILD_SUCCESS,
               payload: true
@@ -117,7 +116,7 @@ import {API_ADDR} from '../constants';
           map(response => {
             const {data} = response;
             if (data.success) {
-              console.log(data);
+
               return ({
                 type: actions.UPDATE_BUILD_SUCCESS,
                 payload: true
@@ -147,7 +146,6 @@ import {API_ADDR} from '../constants';
             map(response => {
               const {data} = response;
               if (data.success) {
-                console.log(data);
                 return ({
                   type: actions.DELETE_BUILD_SUCCESS,
                   payload: true

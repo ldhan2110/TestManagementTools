@@ -52,7 +52,6 @@ import {API_ADDR} from '../constants';
         map(response => {
           const {data} = response;
           if (data.success) {
-            console.log(data);
             return ({
               type: actions.ADD_NEW_MILESTONE_SUCCESS,
               payload: true
@@ -117,7 +116,6 @@ import {API_ADDR} from '../constants';
           map(response => {
             const {data} = response;
             if (data.success) {
-              console.log(data);
               return ({
                 type: actions.UPDATE_MILESTONE_SUCCESS,
                 payload: true
@@ -147,7 +145,6 @@ import {API_ADDR} from '../constants';
             map(response => {
               const {data} = response;
               if (data.success) {
-                console.log(data);
                 return ({
                   type: actions.DELETE_MILESTONE_SUCCESS,
                   payload: true

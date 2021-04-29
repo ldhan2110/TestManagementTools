@@ -96,7 +96,6 @@ const TestExecutionListPage = (props) => {
   },[]);
 
   useEffect(()=>{
-    console.log(listTestExec);
     var tempArr = [];
     listTestExec.forEach((item)=>{
       tempArr.push({_id: item._id, status: item.status, testexecutionname: item.testexecutionname, description: item.description, tester: item.tester.username, testplanname: item.testplan.testplanname })

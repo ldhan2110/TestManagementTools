@@ -142,7 +142,6 @@ import {API_ADDR} from '../constants';
         map(response => {
           const {data} = response;
           if (data.success) {
-            console.log(data);
             return ({
               type: actions.ADD_NEW_USER_SUCCESS,
               payload: true
@@ -207,7 +206,6 @@ import {API_ADDR} from '../constants';
           map(response => {
             const {data} = response;
             if (data.success) {
-              console.log(data);
               return ({
                 type: actions.UPDATE_USER_SUCCESS,
                 payload: true
@@ -237,7 +235,6 @@ import {API_ADDR} from '../constants';
             map(response => {
               const {data} = response;
               if (data.success) {
-                console.log(data);
                 return ({
                   type: actions.DELETE_USER_SUCCESS,
                   payload: true

@@ -54,7 +54,6 @@ const reducer = (state = initialState, actions) => {
         };
 
     case types.ADD_TESTEXEC_FAILED:
-      console.log(payload);
       return {
         ...state,
         insTestexec:{

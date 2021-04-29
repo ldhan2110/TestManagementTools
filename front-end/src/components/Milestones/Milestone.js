@@ -14,7 +14,6 @@ const MilestoneLine = (props) => {
   return (
     <Timeline align="alternate">
     {listData ? listData.listMilestone.map((item,index) => {
-        //console.log(listData.listMilestone.length-1);
         if (index !== listData.listMilestone.length-1){
           return(
             <Milestone key={index}

@@ -13,7 +13,6 @@ const reducer = (state = initialState, actions) => {
   switch (actions.type) {
     
     case types.DISPLAY_MESSAGE:
-      console.log(payload);
       return {
           content: payload.content,
           type: payload.type,

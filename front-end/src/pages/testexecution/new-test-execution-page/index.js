@@ -69,9 +69,7 @@ const NewTestExecutionPage = (props) => {
       getAllActiveTestplanReq();
     },[])
 
-    useEffect(()=>{
-      console.log(listActiveTestplan);
-    },[listActiveTestplan])
+    
 
 
     useEffect(()=>{

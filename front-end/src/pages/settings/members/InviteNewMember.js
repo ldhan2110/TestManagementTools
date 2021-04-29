@@ -86,7 +86,6 @@ const InviteNewMemberDialog = (props) => {
 
   const handleSearch = () => {
     if (inputData ==='') {
-      console.log("Empty")
       setResultData([]);
     }
    setResultData(checkValidCollab(inputData));
@@ -104,7 +103,6 @@ const InviteNewMemberDialog = (props) => {
 
   useEffect(()=>{
     handleArray();
-    console.log(array);
   },[listUsers])
 
   useEffect(()=>{
@@ -117,7 +115,6 @@ const InviteNewMemberDialog = (props) => {
       handleClose();
     }
   else if(insUsers.sucess === false){
-    console.log('co fail: ' + insUsers.errMsg);
     displayMsg({
       content: insUsers.errMsg,
       type: 'error'
@@ -135,8 +132,6 @@ const InviteNewMemberDialog = (props) => {
   }
 
   const handleSendButton = () => {
-    console.log('Send Mail');
-    console.log(userInfo);
     addUserToProjectReq(userInfo);
   }
 

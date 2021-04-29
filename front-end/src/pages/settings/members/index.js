@@ -68,7 +68,6 @@ const MemberListPage = (props) => {
       }
     }
     else{
-      console.log('no members');
     }
 
  }
@@ -84,18 +83,13 @@ const MemberListPage = (props) => {
 
   useEffect(()=>{
     getAllUserOfProjectReq(project);
-    //console.log('listUsersOfProject ban dau: ' + listUsersOfProject);
     setArray([]);
   },[]);
 
   useEffect(()=>{
     handleArray();
-    //console.log('array: '+array);
-    //console.log('projectid: '+project);
-    //console.log('listUsersOfProject: ' + JSON.stringify(listUsersOfProject));
-    //console.log('listProject: '+ listUsers);
   },[listUsersOfProject])
-//JSON.stringify(listUsersOfProject)
+
 
   return(
     <div>

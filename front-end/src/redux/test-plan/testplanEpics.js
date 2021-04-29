@@ -52,7 +52,6 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
       map(response => {
         const {data} = response;
         if (data.success) {
-          console.log(data);
           return ({
             type: actions.ADD_NEW_TESTPLAN_SUCCESS,
             payload: true
@@ -87,7 +86,6 @@ export  const updateTestplanEpic = (action$, state$) => action$.pipe(
     map(response => {
       const {data} = response;
       if (data.success) {
-        console.log(data);
         return ({
           type: actions.UPDATE_TESTPLAN_SUCCESS,
           payload: true
@@ -117,7 +115,6 @@ export  const updateTestplanEpic = (action$, state$) => action$.pipe(
         }
       })).pipe(
       map(response => {
-        console.log(response);
         const {data} = response;
         if (data.success) {
           return ({

@@ -8,7 +8,7 @@ export function getAllMilestone(value) {
 }
 
 export function addNewMilestone(value){
-  console.log(value);
+
   return{
     type: types.ADD_NEW_MILESTONE_REQ,
     payload: value

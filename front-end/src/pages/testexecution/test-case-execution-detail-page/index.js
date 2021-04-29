@@ -32,9 +32,7 @@ const TestCaseExecDetail = (props) => {
     children: [],
   });
 
-  useEffect(()=>{
-    console.log(listData);
-  },[listData]);
+  
 
 
   return(

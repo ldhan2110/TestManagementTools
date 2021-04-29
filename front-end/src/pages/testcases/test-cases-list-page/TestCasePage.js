@@ -106,10 +106,7 @@ const TestCaseDetail = (props) => {
 
 
   const handleUpdate = () => {
-    //console.log('TestCase: '+JSON.stringify(testCase, null, '  '));
-    console.log('Node: '+JSON.stringify(node, null, '  '));
-    console.log('newTestCase: '+JSON.stringify(newtestCase, null, '  '));
-    console.log('status update: '+ insTestcase.sucess);
+    
     updateTestcaseReq(newtestCase);
   };
 
@@ -226,7 +223,7 @@ const TestCaseDetail = (props) => {
               <Button variant="contained" color="primary" fullWidth onClick={handleOpen}>Delete</Button>
             </Grid>
             <Grid item>
-                <Dialog open={open} onEnter={console.log("Hey.")}>
+                <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure want to delete this testcase?</DialogContent>
                   <DialogActions>

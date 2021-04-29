@@ -81,7 +81,6 @@ const EnhancedTable = (props) => {
   };
 
   const handleClick = (event, id) => {
-    console.log('hello');
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
   
@@ -111,7 +110,6 @@ const EnhancedTable = (props) => {
   };
 
   const handleDefaultViewAction = (event,row) => {
-    console.log('view detail: '+JSON.stringify(row));
           if (viewAction){
         //viewAction(row);
         history.push({
@@ -176,7 +174,6 @@ const EnhancedTable = (props) => {
                                   </TableCell>)
 
                             case 'label':
-                              console.log(row[headerList.headerCells[index].id]);
                               return (<TableCell align={headerList.headerCells[index].alignment} key={index}>
                                         {row[headerList.headerCells[index].id] == 1 && <Chip size="small" mr={1} mb={1} label="Active" is_active={1}/>}
                                         {row[headerList.headerCells[index].id] == 0 && <Chip size="small" mr={1} mb={1} label="Inactive" />}

@@ -56,7 +56,6 @@ const reducer = (state = initialState, actions) => {
           }
         
         case types.GET_ALL_ACTIVE_TESTPLAN_SUCESS:
-          console.log(payload);
             return {
               ...state,
               error: "",

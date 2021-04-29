@@ -15,7 +15,6 @@ export function getAllActiveTestplan(value) {
 }
 
 export function addNewTestplan(value){
-  console.log(value);
   return{
     type: types.ADD_NEW_TESTPLAN_REQ,
     payload: value

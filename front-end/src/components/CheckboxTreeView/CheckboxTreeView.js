@@ -10,12 +10,8 @@ const CheckboxTreeView = (props) => {
 
    const [expanded, setExpand] = useState([]);
 
-   useEffect(()=>{
-    console.log('data select: '+JSON.stringify(data, null, '  '));
-   },[data]);
 
    useEffect(()=>{
-    console.log('checked: '+checked);
     parentCallback(checked);
    },[checked]);
    

@@ -45,12 +45,7 @@ const TestPlanDetailPage = (props) => {
       created_date: props.history.location.state.created_date  
     });
 
-    useEffect(()=>{
-      console.log('param: '+JSON.stringify(props.match.params));
-      console.log('testplanname: '+JSON.stringify(props.history.location.state));
-     
-    },[]);
-
+    
     useEffect(()=>{
       if (insTestplan.sucess === false){
         displayMsg({
@@ -72,7 +67,7 @@ const TestPlanDetailPage = (props) => {
 
     const handleUpdate = () => {
       updateTestplanReq(testplanInfor);
-      console.log('Testplan Infor: '+JSON.stringify(testplanInfor, null, '  '));
+     
     };
     
     const handleChange = (prop) => (event) => {

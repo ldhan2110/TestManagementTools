@@ -37,7 +37,6 @@ export default function ControlledTreeView(props) {
 
   useEffect(()=>{
     setListData(data);
-    console.log(data);
   },[data])
 
   const handleToggle = (event, nodeIds) => {
