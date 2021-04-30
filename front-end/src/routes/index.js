@@ -10,7 +10,8 @@ import {
   Settings,
   Briefcase,
   Trello,
-  Radio
+  Radio,
+  AlertOctagon
 } from "react-feather";
 import async from "../components/Async";
 
@@ -274,6 +275,18 @@ const newTestcaseRoute = {
   component: NewTestCasePage
 }
 
+// Issues
+const issuesRoute = {
+  id: "Issues",
+  path: "/projects/:projectName/issues",
+  name: "Issues",
+  icon: <AlertOctagon/>,
+  restrict: true,
+  exact: true,
+  component: NewTestCasePage
+}
+
+
 // Routes using the Dashboard layout
 export const primaryLayoutRoutes = [
   dashboardRoute,
@@ -293,6 +306,7 @@ export const primaryLayoutRoutes = [
   newTestcaseRoute,
   newMilestoneRoute,
   detailMilestoneRoute,
+  issuesRoute
 ];
 
 // Routes using the Auth layout
@@ -311,6 +325,7 @@ export const sidebarRoutes = [
   testCaseRoute,
   buildListRoute,
   milestoneRoute,
+  issuesRoute,
   projectSettingRoutes,
 ];
 
