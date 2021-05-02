@@ -53,3 +53,17 @@ export const TEST_SUITE_DETAIL_HEADERS = {
     { id: 'name', alignment: 'left', label: 'Name',type: 'text'},
   ]
 }
+
+export const ISSUE_LIST_HEADERS = {
+  hasActions: true,
+  hasCheckbox: true,
+  headerCells: [
+    { id: 'id', alignment: 'left', label: 'ID', type: 'text', hidden: true },
+    { id: 'name', alignment: 'left', label: 'Name',type: 'text'},
+    { id: 'description', alignment: 'left', label: 'Description',type: 'text'},
+    { id: 'testexec', alignment: 'left', label: 'Test Execution',type: 'text'},
+    { id: 'status', alignment: 'left', label: 'Status',type: 'text'},
+    { id: 'reportBy', alignment: 'left', label: 'Report By',type: 'text'},
+    { id: 'reportDate', alignment: 'left', label: 'Report Date',type: 'text'},
+  ]
+}

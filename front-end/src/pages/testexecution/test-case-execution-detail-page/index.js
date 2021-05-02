@@ -17,6 +17,10 @@ import {
   List, ListItem
 } from '@material-ui/core';
 
+import {
+  Add as AddIcon,
+} from "@material-ui/icons";
+
 const TestCaseExecDetail = (props) => {
   const {node} = props;
 
@@ -115,9 +119,16 @@ const TestCaseExecDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom display="inline">
+          <Typography variant="h5" gutterBottom display="inline">
                 Result
-            </Typography>
+          </Typography>
+          <Grid container justify='flex-end' styles={{display: 'inline'}}>
+                <Grid item>
+                    <Button variant="contained" color="primary" >
+                      <AddIcon />Report Issue
+                    </Button>
+                </Grid>
+          </Grid>
             <Divider/>
         </Grid>
         <Grid item xs={12}>

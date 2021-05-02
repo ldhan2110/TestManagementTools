@@ -57,6 +57,9 @@ const detailMileStonePage = async(()=>import('../pages/milstones/milestone-detai
 const TestCasePage = async(()=>import('../pages/testcases/test-cases-list-page/index'));
 const NewTestCasePage = async(()=>import('../pages/testcases/new-test-case-page/index'));
 
+//Issue components
+const IssueListPage = async(()=> import('../pages/issues/issue-list-page/index'));
+
 const dashboardRoute = {
   id: "Dashboard",
   path: "/projects/:projectName",
@@ -283,7 +286,7 @@ const issuesRoute = {
   icon: <AlertOctagon/>,
   restrict: true,
   exact: true,
-  component: NewTestCasePage
+  component: IssueListPage
 }
 
 
