@@ -62,11 +62,15 @@ const BuildDetailPage = (props) => {
       isActive: props.history.location.state.is_active,
       isPublic: props.history.location.state.is_open,
       releasedate: props.history.location.state.releasedate,
-      testplan: props.history.location.state.testplanname   
+      testplan: ''
     });
     const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
 
     useEffect(()=>{
+      if(props.history.location.state.testplanname !== undefined){ 
+        console.log('testplanname: '+props.history.location.state.testplanname);
+        setBuildInfor({ ...buildInfor, testplan: props.history.location.state.testplanname.testplanname }); 
+      }
       getAllTestplanReq(project);
     },[])
 
@@ -109,7 +113,8 @@ const BuildDetailPage = (props) => {
     };
 
     const handleUpdate = () => {
-      updateBuildReq(buildInfor);
+      //updateBuildReq(buildInfor);
+      console.log('buildInfor: '+JSON.stringify(buildInfor));
     };
 
     const handleDelete = () =>{
