@@ -7,6 +7,8 @@ import SelectBox from '../../../components/Selectbox';
 import DatePicker from '../../../components/DatePicker';
 import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ} from '../../../redux/build-release/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
+
 import { connect } from 'react-redux';
 import {
   Grid,
@@ -15,7 +17,11 @@ import {
   Divider,
   TextField,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
 } from '@material-ui/core';
 
 
@@ -23,7 +29,8 @@ import {
 const  mapStateToProps = (state) => {
   return { insBuilds: state.build.insBuilds,  
     project:state.project.currentSelectedProject,
-    listBuilds: state.build.listBuilds }
+    listBuilds: state.build.listBuilds,
+    listTestplan: state.testplan.listTestplan }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -31,7 +38,8 @@ const mapDispatchToProps = dispatch => {
   return {
     addBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
     getAllBuildReq: () => dispatch({ type: GET_ALL_BUILDS_REQ}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload,}),
+    getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
   }
 }
 
@@ -39,7 +47,7 @@ const NewBuildPage = (props) => {
     
   const {isOpen, setOpen, classes} = props;
 
-  const {insBuilds, addBuildReq, displayMsg, getAllBuildReq, project, listBuilds} = props;
+  const {insBuilds, addBuildReq, displayMsg, getAllBuildReq, project, listBuilds, listTestplan, getAllTestplanReq} = props;
 
   const [open, setOpenPopup] = React.useState(isOpen);
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
@@ -51,8 +59,13 @@ const NewBuildPage = (props) => {
     description: '',
     isActive: false,
     isPublic: false,
-    releasedate: new Date()
+    releasedate: new Date(),
+    testplan: ''
   });
+
+  useEffect(()=>{
+    getAllTestplanReq(project);
+  },[])
 
   useEffect(()=>{
       setOpenPopup(isOpen);
@@ -85,7 +98,8 @@ const NewBuildPage = (props) => {
       description: '',
       isActive: false,
       isPublic: false,
-      releasedate: new Date()
+      releasedate: new Date(),
+      testplan: ''
     })
     //setOpen(false);
   };
@@ -150,6 +164,21 @@ const NewBuildPage = (props) => {
                 <SelectBox labelTitle="Create from existing build ?" listItems={listBuilds ? listBuilds : null} />
               </Grid>
           </Grid>
+
+          <FormControl variant="outlined"  fullWidth>
+                              <InputLabel id="testPlan">Testplan</InputLabel>
+                                <Select
+                                  labelId="testPlan"
+                                  id="testPlan"
+                                  value={buildInfo.testplan || ''}
+                                  onChange={handleChange('testplan')}
+                                  label="Testplan"
+                                >
+                               {listTestplan.map((item) => (
+                                    <MenuItem value={item.testplanname}>{item.testplanname}</MenuItem>
+                               ))}
+                              </Select>
+          </FormControl>
             
           <div>
              <FormControlLabel

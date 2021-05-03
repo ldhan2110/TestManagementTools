@@ -8,6 +8,8 @@ import DatePicker from '../../../components/DatePicker';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILDS_REQ, GET_BUILD_BYID_REQ, UPDATE_BUILD_REQ, DELETE_BUILD_REQ} from '../../../redux/build-release/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
+
 
 import {
   Grid,
@@ -17,13 +19,18 @@ import {
   Divider,
   TextField,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
 } from '@material-ui/core';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { insBuilds: state.build.insBuilds,  project:state.project.currentSelectedProject,
-    build:state.build.currentSelectedBuild, listBuilds: state.build.listBuilds}
+    build:state.build.currentSelectedBuild, listBuilds: state.build.listBuilds,
+    listTestplan: state.testplan.listTestplan}
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -32,13 +39,15 @@ const mapDispatchToProps = dispatch => {
     updateBuildReq: (payload) => dispatch({ type: UPDATE_BUILD_REQ, payload }),
     getBuildByIdReq: (payload) => dispatch({ type: GET_BUILD_BYID_REQ, payload}),
     deleteBuildReq: (payload) => dispatch({ type: DELETE_BUILD_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
   }
 }
 
 const BuildDetailPage = (props) => {
     const {classes, name} = props;
-    const {insBuilds, updateBuildReq, displayMsg,listBuilds,deleteBuildReq, getBuildByIdReq, project, build} = props;
+    const {insBuilds, updateBuildReq, displayMsg,listBuilds,deleteBuildReq,
+       getBuildByIdReq, project, build, listTestplan, getAllTestplanReq} = props;
     const [buildbyid, setBuildbyid] = useState({
       projectid: props.match.params.projectName,
       buildid: props.match.params.buildName
@@ -52,9 +61,14 @@ const BuildDetailPage = (props) => {
       description: props.history.location.state.descriptions,
       isActive: props.history.location.state.is_active,
       isPublic: props.history.location.state.is_open,
-      releasedate: props.history.location.state.releasedate  
+      releasedate: props.history.location.state.releasedate,
+      testplan: props.history.location.state.testplanname   
     });
     const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
+
+    useEffect(()=>{
+      getAllTestplanReq(project);
+    },[])
 
     useEffect(()=>{
  
@@ -162,6 +176,21 @@ const BuildDetailPage = (props) => {
           <TextField id="description" label="Descriptions" variant="outlined"  fullWidth 
           required multiline rows={20} value={buildInfor.description || ''}
           onChange={handleChange('description')}/>
+
+          <FormControl variant="outlined"  fullWidth>
+                              <InputLabel id="testPlan">Testplan</InputLabel>
+                                <Select
+                                  labelId="testPlan"
+                                  id="testPlan"
+                                  value={buildInfor.testplan || ''}
+                                  onChange={handleChange('testplan')}
+                                  label="Testplan"
+                                >
+                               {listTestplan.map((item) => (
+                                    <MenuItem value={item.testplanname}>{item.testplanname}</MenuItem>
+                               ))}
+                              </Select>
+          </FormControl>
             
           <div>
              <FormControlLabel

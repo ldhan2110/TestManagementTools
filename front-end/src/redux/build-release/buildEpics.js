@@ -42,7 +42,8 @@ import {API_ADDR} from '../constants';
       description: payload.description,
       isActive: payload.isActive,
       isPublic: payload.isPublic,
-      releasedate: payload.releasedate
+      releasedate: payload.releasedate,
+      testplanname: payload.testplan
     } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
@@ -106,7 +107,8 @@ import {API_ADDR} from '../constants';
       description: payload.description,
       isActive: payload.isActive,
       isPublic: payload.isPublic,
-      releasedate: payload.releasedate
+      releasedate: payload.releasedate,
+      testplanname: payload.testplan
     } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"), 

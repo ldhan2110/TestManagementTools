@@ -70,7 +70,8 @@ const BuildListPage = (props) => {
       descriptions: listBuilds[i].description,
       is_active: listBuilds[i].is_active,
       is_open: listBuilds[i].is_open,
-      releasedate: listBuilds[i].releasedate
+      releasedate: listBuilds[i].releasedate,
+      testplanname: listBuilds[i].testplan
     }]);
 
   }
@@ -83,6 +84,7 @@ const BuildListPage = (props) => {
 
   useEffect(()=>{
     handleArray();
+    console.log('listbuild: '+JSON.stringify(listBuilds));
   },[listBuilds])
 
   const handleClickNewBuild = () => {
