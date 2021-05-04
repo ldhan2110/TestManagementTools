@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./styles";
 import styled from "styled-components";
 import { withStyles } from '@material-ui/core/styles';
@@ -6,6 +6,7 @@ import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 import { green, orange, red } from "@material-ui/core/colors";
 import { spacing } from "@material-ui/system";
+import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import {
   Grid,
@@ -51,16 +52,35 @@ const Chip = styled(MuiChip)`
   color: ${props => (props.block || props.sent) && props.theme.palette.common.white};
 `
 
-
+//MAP STATES TO PROPS - REDUX
+function mapStateToProps(state) {
+  return {
+    listTestExec: state.testexec.listTestExec
+  };
+}
 
 const TestExecutionDetailPage = (props) => {
-    const {classes, listTestExecution, name, match} = props;
+    const {classes, listTestExecution, name, match, listTestExec} = props;
     const history = useHistory();
     const location = useLocation();
 
+    const [testExecInfo, setTestExecInfo] = useState({});
+
     const handleClose=()=>{
       history.goBack();
-    }  
+    }
+
+    const filterTestExec = (id) => {
+      return  listTestExec.find((item) => item._id === id);
+    }
+
+    useEffect(()=>{
+      const result = filterTestExec(props.match.params.testExecutionId);
+      if (result){
+        setTestExecInfo(result);
+      }
+      console.log(result);
+    },[])
   
     return (
     <div>
@@ -72,7 +92,7 @@ const TestExecutionDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Test Execution Detail - {props.match.params.testExecutionName}
+            Test Execution Detail - {testExecInfo.testexecutionname}
           </Typography>
 
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
@@ -92,20 +112,22 @@ const TestExecutionDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}/>
+          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required value={testExecInfo.testexecutionname}/>
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} value={testExecInfo.description}/>
+          <TextField id="testExecutionName" label="Test Plan" variant="outlined"  fullWidth required value={''}/>
+          <TextField id="testExecutionName" label="Assign tester" variant="outlined"  fullWidth required value={testExecInfo.testexecutionname}/>
           <FormControl variant="outlined" className={classes.formControl} fullWidth>
               <InputLabel id="status">Status</InputLabel>
                   <Select
                     labelId="status"
                     id="status"
-                    //value={age}
+                    value={testExecInfo.status}
                     //onChange={handleChange}
                     label="status">
-                        <MenuItem value=""><em>Untested</em></MenuItem>
-                        <MenuItem value={10}>Pass</MenuItem>
-                        <MenuItem value={20}>Blocked</MenuItem>
-                        <MenuItem value={30}>Fail</MenuItem>
+                        <MenuItem value={'Untest'}>Untest</MenuItem>
+                        <MenuItem value={"Pass"}>Pass</MenuItem>
+                        <MenuItem value={"Block"}>Blocked</MenuItem>
+                        <MenuItem value={"Fail"}>Fail</MenuItem>
                   </Select>
           </FormControl>
 
@@ -113,7 +135,7 @@ const TestExecutionDetailPage = (props) => {
              <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" />}
+              control={<Checkbox color="primary" value={testExecInfo.is_public}/>}
               label="Public"
               labelPlacement="start"
             />
@@ -122,7 +144,7 @@ const TestExecutionDetailPage = (props) => {
             <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" />}
+              control={<Checkbox color="primary" value={testExecInfo.is_active}/>}
               label="Active"
               labelPlacement="start"
             />
@@ -133,11 +155,11 @@ const TestExecutionDetailPage = (props) => {
               <Grid item xs={12}>
                 <Paper style={{maxHeight: 200, overflow: 'auto'}}>
                 <List>
-                  {tempData.map((item,index) => 
+                  {testExecInfo.exectestcases && testExecInfo.exectestcases.map((item,index) => 
                     <ListItem key={index} dense button  selected onClick={()=>{history.push(location.pathname+'/test-exec/'+item.id)}}>
-                      <ListItemText id={item.id} primary={item.name} />
+                      <ListItemText id={item.id} primary={item.testcaseid.testcaseName} />
                       <ListItemSecondaryAction>
-                        {item.status === 'Untested' && <Chip size="small" mr={1} mb={1} label={item.status} />}
+                        {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
                         {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}
                         {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status} block={1}/>}
                         {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status} fail={1}/>}
@@ -167,4 +189,4 @@ const TestExecutionDetailPage = (props) => {
     );
   }
   
-  export default withStyles(styles)(TestExecutionDetailPage);
+  export default connect(mapStateToProps, null)(withStyles(styles)(TestExecutionDetailPage));

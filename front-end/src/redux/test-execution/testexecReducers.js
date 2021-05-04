@@ -8,6 +8,13 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
+
+  execTest:{
+    currentIdx: 0,
+    listExec: [],
+    sucess: null,
+    errMsg: null
+  },
  
   listTestExec: [],
 }

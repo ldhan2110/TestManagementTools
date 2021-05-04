@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
+import { connect } from 'react-redux';
 import DragList from '../../../components/DragList';
 import Selectbox from '../../../components/Selectbox';
 import {
@@ -20,6 +21,21 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
+
+//MAP STATES TO PROPS - REDUX
+function mapStateToProps(state) {
+  return {
+    listTestExec: state.testexec.listTestExec
+  };
+}
+
+// //MAP DISPATCH ACTIONS TO PROPS - REDUX
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     //addNewBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
+//     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
+//   }
+// }
 
 const TestCaseExecDetail = (props) => {
   const {node} = props;
@@ -152,4 +168,4 @@ const TestCaseExecDetail = (props) => {
   )
 }
 
-export default TestCaseExecDetail;
+export default connect(mapStateToProps,null)(TestCaseExecDetail);
