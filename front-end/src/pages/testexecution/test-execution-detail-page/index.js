@@ -64,23 +64,17 @@ const TestExecutionDetailPage = (props) => {
     const history = useHistory();
     const location = useLocation();
 
-    const [testExecInfo, setTestExecInfo] = useState({});
+    const filterTestExec = (id) => {
+      return  listTestExec.find((item) => item._id === id);
+    }
+
+
+    const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
 
     const handleClose=()=>{
       history.goBack();
     }
 
-    const filterTestExec = (id) => {
-      return  listTestExec.find((item) => item._id === id);
-    }
-
-    useEffect(()=>{
-      const result = filterTestExec(props.match.params.testExecutionId);
-      if (result){
-        setTestExecInfo(result);
-      }
-      console.log(result);
-    },[])
   
     return (
     <div>
@@ -114,8 +108,8 @@ const TestExecutionDetailPage = (props) => {
         <form className={classes.content}>
           <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required value={testExecInfo.testexecutionname}/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} value={testExecInfo.description}/>
-          <TextField id="testExecutionName" label="Test Plan" variant="outlined"  fullWidth required value={''}/>
-          <TextField id="testExecutionName" label="Assign tester" variant="outlined"  fullWidth required value={testExecInfo.testexecutionname}/>
+          <TextField id="testExecutionName" label="Test Plan" variant="outlined"  fullWidth required value={testExecInfo.testplan.testplanname}/>
+          <TextField id="testExecutionName" label="Assign tester" variant="outlined"  fullWidth required value={testExecInfo.tester.username}/>
           <FormControl variant="outlined" className={classes.formControl} fullWidth>
               <InputLabel id="status">Status</InputLabel>
                   <Select
