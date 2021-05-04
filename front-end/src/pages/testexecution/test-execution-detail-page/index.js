@@ -75,6 +75,10 @@ const TestExecutionDetailPage = (props) => {
       history.goBack();
     }
 
+    useEffect(()=>{
+      console.log(testExecInfo);
+    },[])
+
   
     return (
     <div>
@@ -129,7 +133,7 @@ const TestExecutionDetailPage = (props) => {
              <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" value={testExecInfo.is_public}/>}
+              control={<Checkbox color="primary" checked={testExecInfo.is_public}/>}
               label="Public"
               labelPlacement="start"
             />
@@ -138,7 +142,7 @@ const TestExecutionDetailPage = (props) => {
             <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" value={testExecInfo.is_active}/>}
+              control={<Checkbox color="primary" checked={testExecInfo.is_active}/>}
               label="Active"
               labelPlacement="start"
             />
