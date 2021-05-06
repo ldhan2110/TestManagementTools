@@ -38,20 +38,31 @@ function mapStateToProps(state) {
 // }
 
 const TestCaseExecDetail = (props) => {
-  const {node} = props;
+  const {listTestExec} = props;
 
   const [listData, setListData] = useState([
     {id: '1', name: '123', expectResult: 'Open Google'},
     {id: '2', name: '456', expectResult: 'Open Google'},
     {id: '3', name: '789', expectResult: 'Open Google'},
   ]);
-  
-  const [testSuite, setTestSuite] = useState({
-    name: '',
-    description: '',
-    children: [],
-  });
 
+  const filterTestCase = (execId, testcaseId) => {
+    var subItem = null;
+    const result =  listTestExec.find((item) => {
+      if (item._id === execId){
+        subItem = item.exectestcases.find(subItem => subItem._id === testcaseId);
+      } 
+    });
+
+    return subItem;
+  }
+  
+  const [testCaseDetail, setTestcaseDetail] = useState(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
+
+
+  useEffect(()=>{
+    console.log(testCaseDetail);
+  },[testCaseDetail])
   
 
 
@@ -67,13 +78,13 @@ const TestCaseExecDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testSuite.name} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Test Suite" variant="outlined"  fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testCaseDetail.testcaseid.testcaseName} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  value = {testCaseDetail.testcaseid.description} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="parent" label="Test Suite" variant="outlined"  fullWidth required/></Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
-                  <TextField id="description" label="Importance" variant="outlined"  fullWidth required/>
+                  <TextField id="description" label="Importance" variant="outlined" value={testCaseDetail.testcaseid.priority}  fullWidth required/>
                 </Grid>
                 <Grid item xs={6}>
                   <TextField id="description" label="Type" variant="outlined"  fullWidth required/>
@@ -95,23 +106,23 @@ const TestCaseExecDetail = (props) => {
 
         <Grid item xs={12}>
           <List style={{maxHeight: '100%', overflow: 'auto'}}>
-            {listData.map((item) => (
+            {testCaseDetail.testcaseid.listStep.map((item) => (
                     <ListItem key={item.id}>
                       <Grid container spacing={1}>
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
-                        <Grid item xs={3}><TextField id="definition" variant="outlined" label='Definition' value={'HHOL'} required  fullWidth multiline rows={3}/></Grid>
-                        <Grid item xs={3}><TextField id="expectResult"  variant="outlined" label='Expected Result' required  multiline fullWidth rows={3}/></Grid>
+                        <Grid item xs={3}><TextField id="definition" variant="outlined" label='Definition' value={item.stepDefine} required  fullWidth multiline rows={3}/></Grid>
+                        <Grid item xs={3}><TextField id="expectResult"  variant="outlined" label='Expected Result' required value={item.expectResult}  multiline fullWidth rows={3}/></Grid>
                         <Grid item xs={1}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select
                                   labelId="type"
                                   id="type"
-                                  //value={age}
+                                  value={item.type}
                                   //onChange={handleChange}
                                   label="Type"
                                 >
-                               <MenuItem value=""><em>Manual</em></MenuItem>
-                               <MenuItem value={10}>Auto</MenuItem>
+                               <MenuItem value='manual'><em>Manual</em></MenuItem>
+                               <MenuItem value='auto'>Auto</MenuItem>
                               </Select>
                         </FormControl></Grid>
                         <Grid item xs={3}><TextField id="execNote"  variant="outlined" label='Execution Note' required  multiline fullWidth rows={3}/></Grid>
@@ -148,7 +159,9 @@ const TestCaseExecDetail = (props) => {
             <Divider/>
         </Grid>
         <Grid item xs={12}>
-            <Selectbox labelTitle="Result" listItems={[{value: '', title: 'Untested'},{value: 'Pass', title: 'Pass'},{value: 'Fail', title: 'Fail'},{value: 'Blocked', title: 'Blocked'},]}/>
+            <Selectbox labelTitle="Result" 
+            value={testCaseDetail.status}
+            listItems={[{value: 'Untest', title: 'Untest'},{value: 'Pass', title: 'Pass'},{value: 'Fail', title: 'Fail'},{value: 'Blocked', title: 'Blocked'},]}/>
         </Grid>
 
 

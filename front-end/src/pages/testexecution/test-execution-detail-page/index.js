@@ -26,18 +26,6 @@ import {
 } from '@material-ui/core';
 
 
-const tempData = [
-  {id: '01', name: 'TestCase01', status: 'Untested'},
-  {id: '02', name: 'TestCase02', status: 'Blocked'},
-  {id: '03', name: 'TestCase03', status: 'Pass'},
-  {id: '04', name: 'TestCase04', status: 'Untested'},
-  {id: '05', name: 'TestCase05', status: 'Untested'},
-  {id: '06', name: 'TestCase06', status: 'Untested'},
-  {id: '07', name: 'TestCase07', status: 'Untested'},
-  {id: '08', name: 'TestCase08', status: 'Untested'},
-  {id: '09', name: 'TestCase09', status: 'Untested'},
-]
-
 const Chip = styled(MuiChip)`
   ${spacing};
 
@@ -75,9 +63,6 @@ const TestExecutionDetailPage = (props) => {
       history.goBack();
     }
 
-    useEffect(()=>{
-      console.log(testExecInfo);
-    },[])
 
   
     return (
@@ -154,7 +139,7 @@ const TestExecutionDetailPage = (props) => {
                 <Paper style={{maxHeight: 200, overflow: 'auto'}}>
                 <List>
                   {testExecInfo.exectestcases && testExecInfo.exectestcases.map((item,index) => 
-                    <ListItem key={index} dense button  selected onClick={()=>{history.push(location.pathname+'/test-exec/'+item.id)}}>
+                    <ListItem key={index} dense button  selected onClick={()=>{history.push(location.pathname+'/test-exec/'+item._id)}}>
                       <ListItemText id={item.id} primary={item.testcaseid.testcaseName} />
                       <ListItemSecondaryAction>
                         {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}

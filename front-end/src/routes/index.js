@@ -192,7 +192,7 @@ const testExecutionDetailRoute = {
 
 const testCaseExecDetailRoute = {
   id: "Test Case Execution Detail",
-  path: "/projects/:projectName/test-execution/:testExecutionName/test-exec/:id",
+  path: "/projects/:projectName/test-execution/:testExecutionId/test-exec/:id",
   name: "Test Case Execution Detail",
   restrict: true,
   exact: true,
