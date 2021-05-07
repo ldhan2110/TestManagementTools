@@ -67,3 +67,40 @@ export  const addNewTestexecEpic = (action$, state$) => action$.pipe(
       payload: error.response.data.errMsg
     }))
   )))
+
+
+
+
+  //EXEC A TEST CASE IN TEST EXECUTION
+export  const execTestcaseEpics = (action$, state$) => action$.pipe(
+  ofType(actions.EXECUTE_TEST_CASE_REQ),
+  mergeMap(({payload}) =>  from(axios.post(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/createtestexecution',payload,{
+      headers: {
+        "X-Auth-Token": localStorage.getItem("token"),
+        "content-type": "application/json"
+      }
+    })).pipe(
+    map(response => {
+      const {data} = response;
+      if (data.success) {
+        return ({
+          type: actions.ADD_TESTEXEC_SUCCESS,
+          payload: data.result
+        })
+      } else {
+        return ({
+          type: actions.ADD_TESTEXEC_FAILED,
+          payload: data.errMsg
+        })
+      }
+    
+    }),
+    catchError (error => of({
+      type: actions.ADD_TESTEXEC_FAILED,
+      payload: error.response.data.errMsg
+    }))
+  )))
+
+
+
+

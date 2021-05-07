@@ -13,3 +13,10 @@ export function addNewTestexec(value) {
     payload: value
   }
 }
+
+export function execTestcase(value) {
+  return {
+    type: types.EXECUTE_TEST_CASE_REQ,
+    payload: value
+  }
+}
