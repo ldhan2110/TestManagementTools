@@ -97,6 +97,7 @@ const TestSuiteDetail = (props) => {
                                   label="Test Suite"
                                   disabled={testSuite.type === "root" ? true : false}
                                 >
+                                  <MenuItem value=''>root</MenuItem>
                                   {listTestsuite.map((item) => (
                                     <MenuItem value={item.name}>{item.name}</MenuItem>
                                   ))}
