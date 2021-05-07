@@ -252,7 +252,7 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
 
   export const updateTestSuiteEpic = (action$, state$) => action$.pipe(
     ofType(actions.UPDATE_TESTSUITE_REQ),
-    mergeMap(({ payload  }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.id+'/api/updatetestsuite',{
+    mergeMap(({ payload  }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload._id+'/api/updatetestsuite',{
       testsuitename: payload.name,
       description: payload.description,
       priority: payload.priority,

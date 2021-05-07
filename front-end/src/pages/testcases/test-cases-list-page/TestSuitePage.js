@@ -32,6 +32,7 @@ const  mapStateToProps = (state) => {
   return { 
     listTestsuite: state.testcase.listTestsuite,
     project:state.project.currentSelectedProject,
+    insTestsuite: state.testcase.insTestsuite,
    }
 }
 
@@ -45,7 +46,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestSuiteDetail = (props) => {
-  const {node, listTestsuite, project, updateTestsuiteReq, deleteTestsuiteReq, displayMsg} = props;
+  const {node, listTestsuite, project, updateTestsuiteReq, deleteTestsuiteReq, displayMsg, insTestsuite} = props;
   
   const [testSuite, setTestSuite] = useState({
     id: '',
@@ -94,6 +95,20 @@ const TestSuiteDetail = (props) => {
     }
   },[node])
 
+  useEffect(()=>{
+    if (insTestsuite.sucess === false){
+      displayMsg({
+        content: insTestsuite.errMsg,
+        type: 'error'
+      });
+    } else if (insTestsuite.sucess === true) {
+      displayMsg({
+        content: "Update testsuite successfully !",
+        type: 'success'
+      });
+    }
+  },[insTestsuite.sucess]);
+
   const handleOpenTS = ()=>{
     console.log('testsuite: ' + JSON.stringify(node));
     setOpenTS(true);
@@ -109,13 +124,11 @@ const TestSuiteDetail = (props) => {
 
   const handleSave = ()=>{
     console.log('testsuite_infor: ' + JSON.stringify(testSuite));
+    if(testSuite.name !== testSuite.parent){
+      updateTestsuiteReq(testSuite);
+    }
   }
 
-  useEffect(()=>{
-
-      console.log('testsuite: ' + JSON.stringify(node));
-    
-  },[])
 
   return(
     <React.Fragment>
@@ -212,4 +225,4 @@ const TestSuiteDetail = (props) => {
   )
 }
 
-export default connect(mapStateToProps,null)(TestSuiteDetail);
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(TestSuiteDetail));
