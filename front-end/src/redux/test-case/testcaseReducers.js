@@ -21,6 +21,10 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
+  insTestsuiteDelete:{
+    sucess: null,
+    errMsg: null
+  },
 }
 
 
@@ -47,44 +51,44 @@ const reducer = (state = initialState, actions) => {
         errorMsg: payload,
       };
 
-      case types.ADD_TEST_SUITE_REQ:
-        return {
-          ...state,
-        };
-  
-      case types.ADD_TEST_SUITE_SUCCESS:
-          return {
-            ...state,
-            insTestsuite: {
-              sucess: true,
-              errMsg: null
-            }      
-          };
-  
-      case types.ADD_TEST_SUITE_FAILED:
-        return {
-          ...state,
-        insTestsuite:{
-          sucess: false,
-          errMsg: payload
-        }
+    case types.ADD_TEST_SUITE_REQ:
+      return {
+        ...state,
       };
 
-      case types.ADD_TEST_CASE_REQ:
+    case types.ADD_TEST_SUITE_SUCCESS:
         return {
           ...state,
+          insTestsuite: {
+            sucess: true,
+            errMsg: null
+          }      
         };
-  
-      case types.ADD_TEST_CASE_SUCCESS:
-          return {
-            ...state,
-            insTestcase: {
-              sucess: true,
-              errMsg: null
-            }      
-          };
-  
-      case types.ADD_TEST_CASE_FAILED:
+
+    case types.ADD_TEST_SUITE_FAILED:
+      return {
+        ...state,
+      insTestsuite:{
+        sucess: false,
+        errMsg: payload
+      }
+    };
+
+    case types.ADD_TEST_CASE_REQ:
+      return {
+        ...state,
+      };
+
+    case types.ADD_TEST_CASE_SUCCESS:
+        return {
+          ...state,
+          insTestcase: {
+            sucess: true,
+            errMsg: null
+          }      
+        };
+
+    case types.ADD_TEST_CASE_FAILED:
         return {
           ...state,
         insTestcase:{
@@ -111,107 +115,168 @@ const reducer = (state = initialState, actions) => {
         errorMsg: payload,
       };
 
-      case types.GET_ALL_TESTSUITE_NO_TREE_REQ:
+    case types.GET_ALL_TESTSUITE_NO_TREE_REQ:
+      return {
+        ...state,
+      };
+
+    case types.GET_ALL_TESTSUITE_NO_TREE_SUCESS:
         return {
           ...state,
+          listTestsuiteNoTree: payload            
         };
-  
-      case types.GET_ALL_TESTSUITE_NO_TREE_SUCESS:
-          return {
-            ...state,
-            listTestsuiteNoTree: payload            
-          };
-  
-      case types.GET_ALL_TESTSUITE_NO_TREE_FAILED:
+
+    case types.GET_ALL_TESTSUITE_NO_TREE_FAILED:
         return {
           ...state,
           error: true,
           errorMsg: payload,
         };
         
-        case types.UPDATE_TESTCASE_REQ:{      
-          return {
-            ...state,
-            //insTestcase: initialState.insTestcase
-            insTestcase: {
-              sucess: null,
-              errMsg: null
-            }
-          };
+    case types.UPDATE_TESTCASE_REQ:{      
+      return {
+        ...state,
+        //insTestcase: initialState.insTestcase
+        insTestcase: {
+          sucess: null,
+          errMsg: null
         }
-      
-        case types.UPDATE_TESTCASE_SUCCESS:{
-          return {
-            ...state,
-            insTestcase: {
-              sucess: true,
-              errMsg: null
-            }
-          }
+      };
+    }
+  
+    case types.UPDATE_TESTCASE_SUCCESS:{
+      return {
+        ...state,
+        insTestcase: {
+          sucess: true,
+          errMsg: null
         }
-      
-        case types.UPDATE_TESTCASE_FAILED: {
-          return{
-            ...state,
-            insTestcase: {
-              sucess: false,
-              errMsg: payload
-            }
-          }    
+      }
+    }
+  
+    case types.UPDATE_TESTCASE_FAILED: {
+      return{
+        ...state,
+        insTestcase: {
+          sucess: false,
+          errMsg: payload
         }
-      
-      
-        case types.DELETE_TESTCASE_REQ:{      
-          return {
-            ...state,
-            //insTestcaseDelete: initialState.insTestcaseDelete
-            insTestcaseDelete: {
-              sucess: null,
-              errMsg: null
-            }
-          };
+      }    
+    }
+        
+    case types.DELETE_TESTCASE_REQ:{      
+      return {
+        ...state,
+        //insTestcaseDelete: initialState.insTestcaseDelete
+        insTestcaseDelete: {
+          sucess: null,
+          errMsg: null
         }
-      
-        case types.DELETE_TESTCASE_SUCCESS:{
-          return {
-            ...state,
-            insTestcaseDelete: {
-              sucess: true,
-              errMsg: null
-            }
-          }
+      };
+    }
+  
+    case types.DELETE_TESTCASE_SUCCESS:{
+      return {
+        ...state,
+        insTestcaseDelete: {
+          sucess: true,
+          errMsg: null
         }
-      
-        case types.DELETE_TESTCASE_FAILED: {
-          return{
-            ...state,
-            insTestcaseDelete:{
-              sucess: false,
-              errMsg: payload
-            }
-          }    
+      }
+    }
+  
+    case types.DELETE_TESTCASE_FAILED: {
+      return{
+        ...state,
+        insTestcaseDelete:{
+          sucess: false,
+          errMsg: payload
         }
+      }    
+    }
 
-        case types.GET_LIST_TESTCASE_SELECT_REQ:{      
-          return {
-            ...state,
-          };
+    case types.GET_LIST_TESTCASE_SELECT_REQ:{      
+      return {
+        ...state,
+      };
+    }
+  
+    case types.GET_LIST_TESTCASE_SELECT_SUCCESS:{
+      return {
+        ...state,
+        listTestcaseSelect: payload
+      }
+    }
+  
+    case types.GET_LIST_TESTCASE_SELECT_FAILED: {
+      return{
+        ...state,
+        error: true,
+        errorMsg: payload,
+      }    
+    }
+
+    case types.UPDATE_TESTSUITE_REQ:{      
+      return {
+        ...state,
+        //insTestcase: initialState.insTestcase
+        insTestsuite: {
+          sucess: null,
+          errMsg: null
         }
-      
-        case types.GET_LIST_TESTCASE_SELECT_SUCCESS:{
-          return {
-            ...state,
-            listTestcaseSelect: payload
-          }
+      };
+    }
+  
+    case types.UPDATE_TESTSUITE_SUCCESS:{
+      return {
+        ...state,
+        insTestsuite: {
+          sucess: true,
+          errMsg: null
         }
-      
-        case types.GET_LIST_TESTCASE_SELECT_FAILED: {
-          return{
-            ...state,
-            error: true,
-            errorMsg: payload,
-          }    
+      }
+    }
+  
+    case types.UPDATE_TESTSUITE_FAILED: {
+      return{
+        ...state,
+        insTestsuite: {
+          sucess: false,
+          errMsg: payload
         }
+      }    
+    }
+        
+    case types.DELETE_TESTSUITE_REQ:{      
+      return {
+        ...state,
+        //insTestcaseDelete: initialState.insTestcaseDelete
+        insTestsuiteDelete: {
+          sucess: null,
+          errMsg: null
+        }
+      };
+    }
+  
+    case types.DELETE_TESTSUITE_SUCCESS:{
+      return {
+        ...state,
+        insTestsuiteDelete: {
+          sucess: true,
+          errMsg: null
+        }
+      }
+    }
+  
+    case types.DELETE_TESTSUITE_FAILED: {
+      return{
+        ...state,
+        insTestsuiteDelete:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
     
     default:
       return state;

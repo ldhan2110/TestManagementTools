@@ -55,3 +55,17 @@ export function getListTestcaseSelect(value){
     payload: value
   }
 }
+
+export function updateTestSuite(value){
+  return {
+    type: types.UPDATE_TESTSUITE_REQ,
+    payload: value
+  }
+}
+
+export function deleteTestSuite(value){
+  return {
+    type: types.DELETE_TESTSUITE_REQ,
+    payload: value
+  }
+}
