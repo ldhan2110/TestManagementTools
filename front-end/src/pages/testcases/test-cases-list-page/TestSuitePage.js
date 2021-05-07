@@ -7,6 +7,8 @@ import EnhancedTable from '../../../components/Table/index';
 import NewTestSuitePopup from '../new-test-suite-page/index';
 import {TEST_SUITE_DETAIL_HEADERS} from '../../../components/Table/DefineHeader';
 import { connect } from 'react-redux';
+import {UPDATE_TESTSUITE_REQ, DELETE_TESTSUITE_REQ} from '../../../redux/test-case/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Grid,
   Typography,
@@ -28,18 +30,33 @@ import SelectTestCasePopup from "../select-test-case-page";
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
-    listTestsuite: state.testcase.listTestsuite
+    listTestsuite: state.testcase.listTestsuite,
+    project:state.project.currentSelectedProject,
+    insTestsuite: state.testcase.insTestsuite,
    }
 }
 
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    updateTestsuiteReq: (payload) => dispatch({type: UPDATE_TESTSUITE_REQ, payload}),
+    deleteTestsuiteReq: (payload) => dispatch({type: DELETE_TESTSUITE_REQ, payload})
+  }
+}
+
 const TestSuiteDetail = (props) => {
-  const {node, listTestsuite} = props;
+  const {node, listTestsuite, project, updateTestsuiteReq, deleteTestsuiteReq, displayMsg, insTestsuite} = props;
   
   const [testSuite, setTestSuite] = useState({
     id: '',
     name: '',
     description: '',
+    parent: '',
+    priority: node.priority,
     children: [],
+    projectid: project,
+    
   });
 
   const [openNewTS, setOpenTS] = useState(false);
@@ -50,24 +67,68 @@ const TestSuiteDetail = (props) => {
   const history = useHistory();
 
   useEffect(()=>{
-    if (node){
+    if (node && node.parent === undefined){
+      console.log('no parent');
       setTestSuite({
         ...node,
         id: node.id,
         name: node.name,
         description: node.description,
-        children: node.children
+        parent: "",
+        priority: node.priority,
+        children: node.children,
+        projectid: project
       });
+    }
+    else if(node && node.parent !== undefined){
+      console.log('have a parent');
+      setTestSuite({
+        ...node,
+        id: node.id,
+        name: node.name,
+        description: node.description,
+        parent: node.parent.testsuitename,
+        priority: node.priority,
+        children: node.children,
+        projectid: project
+      });      
     }
   },[node])
 
+  useEffect(()=>{
+    if (insTestsuite.sucess === false){
+      displayMsg({
+        content: insTestsuite.errMsg,
+        type: 'error'
+      });
+    } else if (insTestsuite.sucess === true) {
+      displayMsg({
+        content: "Update testsuite successfully !",
+        type: 'success'
+      });
+    }
+  },[insTestsuite.sucess]);
+
   const handleOpenTS = ()=>{
+    console.log('testsuite: ' + JSON.stringify(node));
     setOpenTS(true);
   }
 
   const handleOpenTC = ()=>{
     history.push(window.location.pathname+"/"+node.name+"/new-test-case");
   }
+
+  const handleChange = (prop) => (event) => {
+    setTestSuite({ ...testSuite, [prop]: event.target.value });
+  };
+
+  const handleSave = ()=>{
+    console.log('testsuite_infor: ' + JSON.stringify(testSuite));
+    if(testSuite.name !== testSuite.parent){
+      updateTestsuiteReq(testSuite);
+    }
+  }
+
 
   return(
     <React.Fragment>
@@ -84,16 +145,16 @@ const TestSuiteDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Suite Name" variant="outlined"  value={testSuite.name} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  value={testSuite.description} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Suite Name" variant="outlined" onChange={handleChange('name')} value={testSuite.name || ''} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" onChange={handleChange('description')} fullWidth required value={testSuite.description || ''}/></Grid>
             <Grid item xs={12}>
                   <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
                                 <Select
                                   labelId="testSuite"
                                   id="testSuite"
-                                  //value={age}
-                                  //onChange={handleChange}
+                                  onChange={handleChange('parent')} 
+                                  value={testSuite.parent || ''}
                                   label="Test Suite"
                                   disabled={testSuite.type === "root" ? true : false}
                                 >
@@ -156,7 +217,7 @@ const TestSuiteDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end'>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth>Save</Button>
+              <Button variant="contained" color="primary" fullWidth onClick={handleSave}>Save</Button>
             </Grid>
           </Grid>
         </Grid>
@@ -165,4 +226,4 @@ const TestSuiteDetail = (props) => {
   )
 }
 
-export default connect(mapStateToProps,null)(TestSuiteDetail);
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(TestSuiteDetail));
