@@ -71,10 +71,13 @@ const CustomizedTimeline = (props) => {
   setArray([]);
   for(let i in listMilestones){
     let temp_status = 'new';
-    if(listMilestones[i].is_completed === true)
-        temp_status = 'completed'
-    else
-        temp_status = 'failed'
+    if(listMilestones[i].is_completed !== undefined){
+      if(listMilestones[i].is_completed === true)
+      temp_status = 'completed'
+      else
+      temp_status = 'failed'
+    }
+
 
     // setArray(array => [...array, {
     //     title: listMilestones[i].milestonetitle,

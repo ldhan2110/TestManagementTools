@@ -105,6 +105,7 @@ const DetailMileStonePage = (props) => {
 
   const handleUpdate = () => {
     updateMilestoneReq(milestoneInfo);
+    //console.log(JSON.stringify(milestoneInfo, null, '  '));    
   };
 
   const handleChange = (prop) => (event) => {
