@@ -15,6 +15,11 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
+
+  updTestExec: {
+    sucess: null,
+    errMsg: null
+  },
  
   listTestExec: [],
 }

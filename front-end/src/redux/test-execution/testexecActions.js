@@ -20,3 +20,10 @@ export function execTestcase(value) {
     payload: value
   }
 }
+
+export function updateTestExec(value) {
+  return {
+    type: types.UPDATE_TEST_EXEC_REQ,
+    payload: value
+  }
+}

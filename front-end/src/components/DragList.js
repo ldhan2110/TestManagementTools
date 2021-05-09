@@ -43,7 +43,8 @@ const DragList = (props) => {
     var data = prop.data;
     var objIndex = tempArr.findIndex((obj => obj.id === id));
     tempArr[objIndex][name] = data;
-    parentCallback(listData);
+    setListData(tempArr);
+    parentCallback(tempArr);
   };
 
 

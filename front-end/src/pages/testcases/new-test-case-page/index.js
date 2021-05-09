@@ -86,6 +86,10 @@ const TestCaseDetail = (props) => {
     addTestcaseReq(testcase);
   }
 
+  const updateListStep = (Data) => {
+    setListSteps(Data);
+  };
+
   return(
     <React.Fragment>
       <Grid container spacing={3} >
@@ -167,7 +171,7 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <DragList data = {listSteps} setData={setListSteps}/>
+          <DragList data = {listSteps} setData={setListSteps} parentCallback={updateListStep}/>
         </Grid>
 
         <Grid item xs={12}>
