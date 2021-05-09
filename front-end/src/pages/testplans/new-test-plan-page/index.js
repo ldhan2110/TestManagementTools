@@ -215,21 +215,6 @@ const NewTestPlanPage = (props) => {
           />
           </Grid>
 
-          <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="buildRelease">Build/Release</InputLabel>
-                                <Select
-                                  labelId="buildRelease"
-                                  id="buildRelease"
-                                  value={TestplanInfo.buildname || ''}
-                                  onChange={handleChange('buildname')}
-                                  label="Build/Release"
-                                >
-                               {listBuilds.map((item) => (
-                                    <MenuItem value={item.buildname}>{item.buildname}</MenuItem>
-                               ))}
-                              </Select>
-          </FormControl>
-
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}

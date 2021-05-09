@@ -71,17 +71,17 @@ const TestPlanDetailPage = (props) => {
       }
     },[insTestplan.sucess]);
 
-    useEffect(()=>{
-      getAllBuildActiveReq(project); 
-    },[])
+    //useEffect(()=>{
+      //getAllBuildActiveReq(project); 
+    //},[])
 
     const handleClose=()=>{
 
     }
 
     const handleUpdate = () => {
-      //updateTestplanReq(testplanInfor);
-      console.log(JSON.stringify(testplanInfor, null, '  '));    
+      updateTestplanReq(testplanInfor);
+      //console.log(JSON.stringify(testplanInfor, null, '  '));    
     };
     
     const handleChange = (prop) => (event) => {
@@ -141,21 +141,6 @@ const TestPlanDetailPage = (props) => {
           value={testplanInfor.testplanname || ''} onChange={handleChange('testplanname')}/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}
           value={testplanInfor.description || ''} onChange={handleChange('description')}/> 
-
-<           FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="buildRelease">Build/Release</InputLabel>
-                                <Select
-                                  labelId="buildRelease"
-                                  id="buildRelease"
-                                  value={testplanInfor.buildname || ''}
-                                  onChange={handleChange('buildname')}
-                                  label="Build/Release"
-                                >
-                               {listBuilds.map((item) => (
-                                    <MenuItem value={item.buildname}>{item.buildname}</MenuItem>
-                               ))}
-                              </Select>
-            </FormControl>
 
           <div>
              <FormControlLabel
