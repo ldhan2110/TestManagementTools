@@ -283,3 +283,32 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         payload: error.response.data.errMsg
       }))
     )))
+
+  export  const deleteTestsuiteEpic = (action$, state$) => action$.pipe(
+    ofType(actions.DELETE_TESTSUITE_REQ),
+    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/'+payload.projectid+'/'+payload._id+'/api/deletetestsuitefromproject',{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"), 
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.DELETE_TESTSUITE_SUCCESS,
+            payload: true
+          })
+        } else {
+          return ({
+            type: actions.DELETE_TESTSUITE_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.DELETE_TESTSUITE_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )))

@@ -59,6 +59,7 @@ const TestCaseDetail = (props) => {
 
 
   useEffect(()=>{
+    console.log(JSON.stringify(insTestcase));
     if (insTestcase.sucess === false){
       displayMsg({
         content: insTestcase.errMsg,
@@ -66,7 +67,7 @@ const TestCaseDetail = (props) => {
       });
     } else if (insTestcase.sucess === true) {
       displayMsg({
-        content: "Create test suite successfully !",
+        content: "Create Testcase successfully !",
         type: 'success'
       });
       getAllTestcaseReq();

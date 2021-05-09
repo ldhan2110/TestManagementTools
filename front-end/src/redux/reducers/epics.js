@@ -35,6 +35,7 @@ export default combineEpics(
    testcaseEpics.deleteTestcaseEpic,
    testcaseEpics.getListTestcaseSelectEpic,
    testcaseEpics.updateTestSuiteEpic,
+   testcaseEpics.deleteTestsuiteEpic,
 
    // BUILD-RELEASE EPICS
    buildEpics.addNewBuildEpic,
