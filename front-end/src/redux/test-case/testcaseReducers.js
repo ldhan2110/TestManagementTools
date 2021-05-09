@@ -277,6 +277,37 @@ const reducer = (state = initialState, actions) => {
         }
       }    
     }
+
+    case types.DELETE_TESTSUITE_REQ:{      
+      return {
+        ...state,
+        //insTestcaseDelete: initialState.insTestcaseDelete
+        insTestsuiteDelete: {
+          sucess: null,
+          errMsg: null
+        }
+      };
+    }
+  
+    case types.DELETE_TESTSUITE_SUCCESS:{
+      return {
+        ...state,
+        insTestsuiteDelete: {
+          sucess: true,
+          errMsg: null
+        }
+      }
+    }
+  
+    case types.DELETE_TESTSUITE_FAILED: {
+      return{
+        ...state,
+        insTestsuiteDelete:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
     
     default:
       return state;

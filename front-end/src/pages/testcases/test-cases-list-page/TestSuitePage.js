@@ -129,6 +129,13 @@ const TestSuiteDetail = (props) => {
     }
   }
 
+  const handleDelete = ()=>{
+    console.log('testsuite_infor: ' + JSON.stringify(testSuite));
+    //if(testSuite.name !== testSuite.parent){
+      deleteTestsuiteReq(testSuite);
+    //}
+  }
+
 
   return(
     <React.Fragment>
@@ -219,8 +226,12 @@ const TestSuiteDetail = (props) => {
             <Grid item>
               <Button variant="contained" color="primary" fullWidth onClick={handleSave}>Save</Button>
             </Grid>
+            <Grid item>
+              <Button variant="contained" color="primary" fullWidth onClick={handleDelete}>Delete</Button>
+            </Grid>
           </Grid>
         </Grid>
+
       </Grid>
     </React.Fragment>
   )
