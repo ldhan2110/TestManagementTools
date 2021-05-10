@@ -24,6 +24,8 @@ import {
   InputLabel,
   MenuItem
 } from '@material-ui/core';
+import { GET_ALL_TESTEXEC_REQ, UPDATE_TEST_EXEC_REQ } from "../../../redux/test-execution/constants";
+import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 
 
 const Chip = styled(MuiChip)`
@@ -43,12 +45,23 @@ const Chip = styled(MuiChip)`
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
-    listTestExec: state.testexec.listTestExec
+    listTestExec: state.testexec.listTestExec,
+    updTestExec: state.testexec.updTestExec,
   };
 }
 
+
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    updateTestExecReq: (payload) => dispatch({type: UPDATE_TEST_EXEC_REQ, payload}),
+    getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
+  }
+}
+
 const TestExecutionDetailPage = (props) => {
-    const {classes, listTestExecution, name, match, listTestExec} = props;
+    const {classes, listTestExecution, name, match, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq} = props;
     const history = useHistory();
     const location = useLocation();
 
@@ -59,10 +72,45 @@ const TestExecutionDetailPage = (props) => {
 
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
 
+    const [resultTestExec, setResultTestExec] = useState({
+      status: testExecInfo.status,
+      testexecid: props.match.params.testExecutionId
+    })
+
+    useEffect(()=>{
+      if (updTestExec.sucess === false){
+        displayMsg({
+          content: updTestExec.errMsg,
+          type: 'error'
+        });
+      } else if (updTestExec.sucess === true) {
+        displayMsg({
+          content: "Update result successfully !",
+          type: 'success'
+        });
+        getAllTestExecReq();
+        history.goBack();
+      }
+     } ,[updTestExec.sucess])
+
+
+
+     useEffect(()=>{
+        console.log(testExecInfo.exectestcases);
+     },[testExecInfo.exectestcases]);
+
     const handleClose=()=>{
       history.goBack();
     }
 
+    const handleChange = (event) => {
+      setTestExecInfo({...testExecInfo, status: event.target.value});
+      setResultTestExec({...resultTestExec, status: event.target.value});
+    }
+
+    const handleExecute = () => {
+      updateTestExecReq(resultTestExec);
+    }
 
   
     return (
@@ -105,7 +153,7 @@ const TestExecutionDetailPage = (props) => {
                     labelId="status"
                     id="status"
                     value={testExecInfo.status}
-                    //onChange={handleChange}
+                    onChange={handleChange}
                     label="status">
                         <MenuItem value={'Untest'}>Untest</MenuItem>
                         <MenuItem value={"Pass"}>Pass</MenuItem>
@@ -158,7 +206,7 @@ const TestExecutionDetailPage = (props) => {
           <Typography variant="subtitle1" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography>
 
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleClose}>
+          <Button variant="contained" color="primary" onClick={handleExecute}>
             Execute
           </Button>
           <Button variant="contained" onClick={handleClose}>
@@ -172,4 +220,4 @@ const TestExecutionDetailPage = (props) => {
     );
   }
   
-  export default connect(mapStateToProps, null)(withStyles(styles)(TestExecutionDetailPage));
+  export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TestExecutionDetailPage));

@@ -60,6 +60,8 @@ export default combineEpics(
 
    //TEST EXEC EPICS
    testexecEpics.getAllTestexecEpic,
-   testexecEpics.addNewTestexecEpic
+   testexecEpics.addNewTestexecEpic,
+   testexecEpics.updTestExecEpic,
+   testexecEpics.execTestcaseEpic
 
 );

@@ -21,31 +21,31 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
+import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
+import { EXECUTE_TEST_CASE_REQ, GET_ALL_TESTEXEC_REQ } from "../../../redux/test-execution/constants";
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
-    listTestExec: state.testexec.listTestExec
+    listTestExec: state.testexec.listTestExec,
+    execTest: state.testexec.execTest
   };
 }
 
-// //MAP DISPATCH ACTIONS TO PROPS - REDUX
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     //addNewBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
-//     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
-//   }
-// }
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    updTestcaseResultReq: (payload) => dispatch({type: EXECUTE_TEST_CASE_REQ, payload}),
+    getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
+  }
+}
 
 const TestCaseExecDetail = (props) => {
-  const {listTestExec} = props;
+  const {listTestExec, updTestcaseResultReq, getAllTestExecReq,execTest, displayMsg} = props;
 
-  const [listData, setListData] = useState([
-    {id: '1', name: '123', expectResult: 'Open Google'},
-    {id: '2', name: '456', expectResult: 'Open Google'},
-    {id: '3', name: '789', expectResult: 'Open Google'},
-  ]);
-
+  const history = useHistory();
+   
   const filterTestCase = (execId, testcaseId) => {
     var subItem = null;
     const result =  listTestExec.find((item) => {
@@ -59,11 +59,38 @@ const TestCaseExecDetail = (props) => {
   
   const [testCaseDetail, setTestcaseDetail] = useState(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
 
+  const [submitResult, setSubmitResult] = useState({
+      testcaseid: props.match.params.id,
+      testexecid: props.match.params.testExecutionId,
+      status: testCaseDetail.status,
+      note: 'test'
+  })
+
 
   useEffect(()=>{
-    console.log(testCaseDetail);
-  },[testCaseDetail])
+    if (execTest.sucess===true){
+      displayMsg({
+        content: "Update result successfully !",
+        type: 'success'
+      });
+      getAllTestExecReq();
+      history.goBack();
+    } else if (execTest.sucess === false) {
+      displayMsg({
+        content: execTest.errMsg,
+        type: 'error'
+      });
+    }
+  },[execTest.sucess])
   
+  const handleChange = (event) => {
+    setSubmitResult({...submitResult, status: event.target.value});
+    setTestcaseDetail({...testCaseDetail, status: event.target.value});
+  }
+
+  const handleSave = () => {
+    updTestcaseResultReq(submitResult);
+  }
 
 
   return(
@@ -146,22 +173,35 @@ const TestCaseExecDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant="h5" gutterBottom display="inline">
-                Result
-          </Typography>
-          <Grid container justify='flex-end' styles={{display: 'inline'}}>
+          <Grid container justify='space-between' styles={{display: 'inline'}}>
+              <Grid item>
+                <Typography variant="h5" gutterBottom display="inline">
+                   Result
+                </Typography>
+              </Grid>
                 <Grid item>
-                    <Button variant="contained" color="primary" >
-                      <AddIcon />Report Issue
+                    <Button variant="contained" color="primary" onClick={handleSave}>
+                      <AddIcon />Save Result
                     </Button>
                 </Grid>
+               
           </Grid>
-            <Divider/>
         </Grid>
         <Grid item xs={12}>
-            <Selectbox labelTitle="Result" 
-            value={testCaseDetail.status}
-            listItems={[{value: 'Untest', title: 'Untest'},{value: 'Pass', title: 'Pass'},{value: 'Fail', title: 'Fail'},{value: 'Blocked', title: 'Blocked'},]}/>
+          <FormControl variant="outlined"  fullWidth>
+              <InputLabel id="status">Status</InputLabel>
+                  <Select
+                    labelId="status"
+                    id="status"
+                    value={testCaseDetail.status}
+                    onChange={handleChange}
+                    label="status">
+                        <MenuItem value={'Untest'}>Untest</MenuItem>
+                        <MenuItem value={"Pass"}>Pass</MenuItem>
+                        <MenuItem value={"Block"}>Blocked</MenuItem>
+                        <MenuItem value={"Fail"}>Fail</MenuItem>
+                  </Select>
+          </FormControl>
         </Grid>
 
 
@@ -181,4 +221,4 @@ const TestCaseExecDetail = (props) => {
   )
 }
 
-export default connect(mapStateToProps,null)(TestCaseExecDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(TestCaseExecDetail);

@@ -59,7 +59,6 @@ const TestCaseDetail = (props) => {
 
 
   useEffect(()=>{
-    console.log(JSON.stringify(insTestcase));
     if (insTestcase.sucess === false){
       displayMsg({
         content: insTestcase.errMsg,

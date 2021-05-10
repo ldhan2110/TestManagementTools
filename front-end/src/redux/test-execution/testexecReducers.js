@@ -51,7 +51,7 @@ const reducer = (state = initialState, actions) => {
     
 
 
-      case types.ADD_TESTEXEC_REQ:
+    case types.ADD_TESTEXEC_REQ:
       return {
         ...state,
       };
@@ -73,6 +73,57 @@ const reducer = (state = initialState, actions) => {
           errMsg: payload
         }
       };
+
+      case types.UPDATE_TEST_EXEC_REQ:
+        return {
+          ...state,
+        };
+  
+      case types.UPDATE_TEST_EXEC_SUCCESS:
+          return {
+            ...state,
+            updTestExec:{
+              sucess: true,
+              errMsg: payload
+            }           
+          };
+  
+      case types.UPDATE_TEST_EXEC_FAILED:
+        return {
+          ...state,
+          updTestExec:{
+            sucess: false,
+            errMsg: payload
+          }
+        };
+
+
+        case types.EXECUTE_TEST_CASE_REQ:
+          return {
+           ...state,
+          };
+  
+      case types.EXECUTE_TEST_CASE_SUCCESS:
+          return {
+            ...state,
+            execTest:{
+              currentIdx: 0,
+              listExec: [],
+              sucess: true,
+              errMsg: null
+            },
+          };
+  
+      case types.EXECUTE_TEST_CASE_FAILED:
+        return {
+          ...state,
+          execTest:{
+            currentIdx: 0,
+            listExec: [],
+            sucess: false,
+            errMsg: payload
+          },
+        };
 
 
       default: 

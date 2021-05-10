@@ -72,9 +72,9 @@ export  const addNewTestexecEpic = (action$, state$) => action$.pipe(
 
 
   //EXEC A TEST CASE IN TEST EXECUTION
-export  const execTestcaseEpics = (action$, state$) => action$.pipe(
+export  const execTestcaseEpic = (action$, state$) => action$.pipe(
   ofType(actions.EXECUTE_TEST_CASE_REQ),
-  mergeMap(({payload}) =>  from(axios.post(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/createtestexecution',payload,{
+  mergeMap(({payload}) =>  from(axios.put(API_ADDR+'/'+localStorage.getItem("selectProject")+'/'+payload.testexecid+'/api/updatetestcaseexec',payload,{
       headers: {
         "X-Auth-Token": localStorage.getItem("token"),
         "content-type": "application/json"
@@ -84,27 +84,30 @@ export  const execTestcaseEpics = (action$, state$) => action$.pipe(
       const {data} = response;
       if (data.success) {
         return ({
-          type: actions.ADD_TESTEXEC_SUCCESS,
+          type: actions.EXECUTE_TEST_CASE_SUCCESS,
           payload: data.result
         })
       } else {
         return ({
-          type: actions.ADD_TESTEXEC_FAILED,
+          type: actions.EXECUTE_TEST_CASE_FAILED,
           payload: data.errMsg
         })
       }
     
     }),
     catchError (error => of({
-      type: actions.ADD_TESTEXEC_FAILED,
+      type: actions.EXECUTE_TEST_CASE_FAILED,
       payload: error.response.data.errMsg
     }))
   )))
 
-  //EXEC A TEST CASE IN TEST EXECUTION
+
+
+
+  //UPDATE TEST EXEC RESULT
   export  const updTestExecEpic = (action$, state$) => action$.pipe(
     ofType(actions.UPDATE_TEST_EXEC_REQ),
-    mergeMap(({payload}) =>  from(axios.post(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/createtestexecution',payload,{
+    mergeMap(({payload}) =>  from(axios.put(API_ADDR+'/'+localStorage.getItem("selectProject")+'/'+payload.testexecid+'/api/updatetestexecution',payload,{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
@@ -126,7 +129,7 @@ export  const execTestcaseEpics = (action$, state$) => action$.pipe(
       
       }),
       catchError (error => of({
-        type: actions.ADD_TESTEXEC_FAILED,
+        type: actions.UPDATE_TEST_EXEC_FAILED,
         payload: error.response.data.errMsg
       }))
     )))
