@@ -89,7 +89,7 @@ const TestExecutionDetailPage = (props) => {
           type: 'success'
         });
         getAllTestExecReq();
-        history.goBack();
+        //history.goBack();
       }
      } ,[updTestExec.sucess])
 

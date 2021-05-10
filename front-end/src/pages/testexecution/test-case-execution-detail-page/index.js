@@ -60,7 +60,7 @@ const TestCaseExecDetail = (props) => {
   const [testCaseDetail, setTestcaseDetail] = useState(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
 
   const [submitResult, setSubmitResult] = useState({
-      testcaseid: props.match.params.id,
+      testcaseid: testCaseDetail.testcaseid._id,
       testexecid: props.match.params.testExecutionId,
       status: testCaseDetail.status,
       note: 'test'
