@@ -255,12 +255,9 @@ import {API_ADDR} from '../constants';
 
   export  const updatePasswordEpic = (action$, state$) => action$.pipe(
     ofType(actions.UPDATE_PASSWORD_REQ),
-    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.milestoneid+'/api/updatemilestone',{
-        milestonetitle: payload.milestonetitle,
-        description: payload.description,
-        start_date: payload.start_date,
-        end_date: payload.end_date,
-        is_completed: payload.is_completed
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/users/api/updatepassword',{
+        Password: payload.password,
+        ConfirmPassword: payload.confirmpassword
     } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"), 
@@ -290,12 +287,10 @@ import {API_ADDR} from '../constants';
 
   export  const updateProfileEpic = (action$, state$) => action$.pipe(
     ofType(actions.UPDATE_PROFILE_REQ),
-    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.milestoneid+'/api/updatemilestone',{
-        milestonetitle: payload.milestonetitle,
-        description: payload.description,
-        start_date: payload.start_date,
-        end_date: payload.end_date,
-        is_completed: payload.is_completed
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/users/api/updateprofile',{
+      fullname: payload.fullname,
+      phonenumber: payload.phonenumber,
+      introduction: payload.introduction
     } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"), 
@@ -320,5 +315,34 @@ import {API_ADDR} from '../constants';
       catchError (error => of({
         type: actions.UPDATE_PROFILE_FAILED,
         payload: error.response.data.errMsg
+      }))
+    )))
+  
+  export  const getCurrentUserEpic = (action$, state$) => action$.pipe(
+    ofType(actions.GET_CURRENT_USER_REQ),
+    mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/users/api/getcurrentuser',{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.GET_CURRENT_USER_SUCCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.GET_CURRENT_USER_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.GET_CURRENT_USER_FAILED,
+        payload: error.response
       }))
     )))

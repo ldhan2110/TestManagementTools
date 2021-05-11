@@ -19,7 +19,8 @@ var initialState = {
   insProfile: {
     sucess: null,
     errMsg: null
-  }
+  },
+  inforProfile: "",
 }
 
 
@@ -274,6 +275,27 @@ const reducer = (state = initialState, actions) => {
         }
       }    
     }
+
+    case types.GET_CURRENT_USER_REQ:
+      return {
+        ...state, inforProfile: []
+  }
+
+  case types.GET_CURRENT_USER_FAILED:
+    return {
+      ...state,
+      error: true,
+      errorMsg: payload,
+  }
+  
+  case types.GET_CURRENT_USER_SUCCESS:
+      return {
+        error: "",
+        errorMsg:"",
+        currentSelectedUser: "",
+        insUsers: [],
+        inforProfile: payload,
+  }
 
     default:
       return state

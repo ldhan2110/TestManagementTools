@@ -82,3 +82,10 @@ export function updateProfile(value){
     payload: value
   }
 }
+
+export function getCurentUser(value) {
+  return {
+    type: types.GET_CURRENT_USER_REQ,
+    payload: value
+  }
+}

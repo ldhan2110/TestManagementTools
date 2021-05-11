@@ -1,5 +1,5 @@
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {UPDATE_PROFILE_REQ, UPDATE_PASSWORD_REQ} from '../../../redux/users/constants';
+import {UPDATE_PROFILE_REQ, UPDATE_PASSWORD_REQ, GET_CURRENT_USER_REQ} from '../../../redux/users/constants';
 import React, {useEffect, useState} from "react";
 import styles from './styles';
 import { connect } from 'react-redux';
@@ -17,7 +17,8 @@ import UploadButton from "../../../components/UploadButton";
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return {insProfile: state.user.insProfile,
-          insPassword: state.user.insPassword}
+          insPassword: state.user.insPassword,
+          inforProfile: state.user.inforProfile}
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -25,14 +26,14 @@ const mapDispatchToProps = dispatch => {
   return {
     updateProfileReq: (payload) => dispatch({ type: UPDATE_PROFILE_REQ, payload }),
     updatePasswordReq: (payload) => dispatch({ type: UPDATE_PASSWORD_REQ, payload }),
-    //getMilestoneByIdReq: (payload) => dispatch({ type: GET_MILESTONE_BYID_REQ, payload}),
+    getCurrentProfileReq: (payload) => dispatch({ type: GET_CURRENT_USER_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
   }
 }
 
 const ProfilePage = (props)=>{
 
-  const {insProfile, insPassword, updateProfileReq, updatePasswordReq, displayMsg} = props;
+  const {insProfile, insPassword, updateProfileReq, updatePasswordReq, displayMsg, inforProfile, getCurrentProfileReq} = props;
   const {classes} = props;
 
   const [profileInfo, setProfileInfo] = useState({
@@ -48,27 +49,42 @@ const ProfilePage = (props)=>{
   });
 
   useEffect(()=>{
-    //getMilestoneByIdReq(milestonebyid);
-    console.log('get data');
+    getCurrentProfileReq();
+    //console.log('get data');
   },[]);
 
   useEffect(()=>{
     setProfileInfo({ ...profileInfo, 
-      fullname: '',
-      email: '',
-      phonenumber: '',
-      introduction: ''
+      fullname: inforProfile.fullname,
+      email: inforProfile.email,
+      phonenumber: inforProfile.phonenumber,
+      introduction: inforProfile.introduction
     });
-  },[])
+  },[inforProfile])
+
+  /*useEffect(()=>{
+    if (insProfile.sucess === false){
+      displayMsg({
+        content: insProfile.errMsg,
+        type: 'error'
+      });
+    } else if (insProfile.sucess == true) {
+      displayMsg({
+        content: "Update Profile successfully !",
+        type: 'success'
+      });
+    }
+  },[insProfile.sucess]);*/
 
   const handleUpdateProfile = () => {
-    //updateMilestoneReq(milestoneInfo);
+    updateProfileReq(profileInfo);
     console.log(JSON.stringify(profileInfo, null, '  ')); 
+    console.log('inforProfile: '+JSON.stringify(inforProfile, null, '  ')); 
     //console.log('update profile');  
   };
 
   const handleUpdatePassword = () => {
-    //updateMilestoneReq(milestoneInfo);
+    updatePasswordReq(passwordInfo);
     console.log(JSON.stringify(passwordInfo, null, '  ')); 
     //console.log('update password');  
   };
