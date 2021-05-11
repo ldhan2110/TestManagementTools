@@ -42,37 +42,6 @@ const mapDispatchToProps = dispatch => {
 
 
 
-function createData(id, name, description, status, testexecutiontime, testdate) {
-  return { id, name, description, status, testexecutiontime, testdate };
-}
-
-const rows = [
-  createData('#1001', 'Test Execution Zero', 'Adsadsadasdsa', 2, '00:06:25', '2020-01-02'),
-  createData('#1002', 'Test Execution Zero', 'Adsadsadas', 4, '00:06:25', '2020-01-02'),
-  createData('#1003', 'Test Execution Zero', 'Adsadas', 3, '00:06:25', '2020-01-02'),
-  createData('#1004', 'Test Execution Zero', 'Adsdada', 2, '00:06:25', '2020-01-02'),
-  createData('#1005', 'Test Execution Zero', 'Adsadas', 2, '00:06:25', '2020-01-02'),
-  createData('#1006', 'Test Execution Zero', 'Adsada', 4, '00:06:25', '2020-01-02'),
-  createData('#1007', 'Test Execution Zero', 'Adsada', 3, '00:06:25', '2020-01-02'),
-  createData('#1008', 'Test Execution Zero', 'Adsad', 2, '00:06:25', '2020-01-02'),
-  createData('#1009', 'Test Execution Zero', 'Adsa', 4, '00:06:25', '2020-01-02'),
-  createData('#1010', 'Test Execution Zero', 'Adsa', 3, '00:06:25', '2020-01-02'),
-  createData('#1011', 'Test Execution Zero', 'Adsa', 2, '00:06:25', '2020-01-02'),
-  createData('#1012', 'Test Execution Zero', 'Adsa', 4,'00:06:25', '2020-01-02'),
-  createData('#1013', 'Test Execution Zero', 'Adsa', 2, '00:06:25', '2020-01-02'),
-];
-
-// const headerCells = [
-//   { id: 'id', alignment: 'left', label: 'ID' },
-//   { id: 'name', alignment: 'left', label: 'Name' },
-//   { id: 'description', alignment: 'left', label: 'Description' },
-//   { id: 'status', alignment: 'left', label: 'Status' },
-//   { id: 'testexecutiontime', alignment: 'left', label: 'Test Execution Time' },
-//   { id: 'testdate', alignment: 'left', label: 'Test Date' },
-//   { id: 'actions', alignment: 'left', label: 'Actions' },
-// ];
-
-
 const TestExecutionListPage = (props) => {
   const {classes} = props;
 

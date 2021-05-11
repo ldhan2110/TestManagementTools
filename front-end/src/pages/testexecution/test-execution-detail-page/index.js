@@ -66,6 +66,7 @@ const TestExecutionDetailPage = (props) => {
     const location = useLocation();
 
     const filterTestExec = (id) => {
+      console.log(listTestExec);
       return  listTestExec.find((item) => item._id === id);
     }
 
@@ -96,8 +97,8 @@ const TestExecutionDetailPage = (props) => {
 
 
      useEffect(()=>{
-        console.log(testExecInfo.exectestcases);
-     },[testExecInfo.exectestcases]);
+        console.log(testExecInfo);
+     },[testExecInfo]);
 
     const handleClose=()=>{
       history.goBack();
@@ -125,16 +126,6 @@ const TestExecutionDetailPage = (props) => {
           <Typography variant="h3" gutterBottom display="inline">
             Test Execution Detail - {testExecInfo.testexecutionname}
           </Typography>
-
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-          </Breadcrumbs> */}
         </Grid>
       </Grid>
 
@@ -188,7 +179,7 @@ const TestExecutionDetailPage = (props) => {
                 <List>
                   {testExecInfo.exectestcases && testExecInfo.exectestcases.map((item,index) => 
                     <ListItem key={index} dense button  selected onClick={()=>{history.push(location.pathname+'/test-exec/'+item._id)}}>
-                      <ListItemText id={item.id} primary={item.testcaseid.testcaseName} />
+                      <ListItemText id={item.id} primary={item.testcaseName} />
                       <ListItemSecondaryAction>
                         {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
                         {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}

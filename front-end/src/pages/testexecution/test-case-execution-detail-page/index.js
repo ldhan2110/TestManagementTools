@@ -60,12 +60,11 @@ const TestCaseExecDetail = (props) => {
   const [testCaseDetail, setTestcaseDetail] = useState(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
 
   const [submitResult, setSubmitResult] = useState({
-      testcaseid: testCaseDetail.testcaseid._id,
+      testcaseid: testCaseDetail._id,
       testexecid: props.match.params.testExecutionId,
       status: testCaseDetail.status,
       note: 'test'
   })
-
 
   useEffect(()=>{
     if (execTest.sucess===true){
@@ -105,13 +104,13 @@ const TestCaseExecDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testCaseDetail.testcaseid.testcaseName} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  value = {testCaseDetail.testcaseid.description} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testCaseDetail.testcaseName} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  value = {testCaseDetail.description} fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="parent" label="Test Suite" variant="outlined"  fullWidth required/></Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
-                  <TextField id="description" label="Importance" variant="outlined" value={testCaseDetail.testcaseid.priority}  fullWidth required/>
+                  <TextField id="description" label="Importance" variant="outlined" value={testCaseDetail.priority}  fullWidth required/>
                 </Grid>
                 <Grid item xs={6}>
                   <TextField id="description" label="Type" variant="outlined"  fullWidth required/>
@@ -133,7 +132,7 @@ const TestCaseExecDetail = (props) => {
 
         <Grid item xs={12}>
           <List style={{maxHeight: '100%', overflow: 'auto'}}>
-            {testCaseDetail.testcaseid.listStep.map((item) => (
+            {testCaseDetail.listStep.map((item) => (
                     <ListItem key={item.id}>
                       <Grid container spacing={1}>
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
