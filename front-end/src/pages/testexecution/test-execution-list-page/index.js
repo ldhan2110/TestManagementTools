@@ -56,8 +56,9 @@ const TestExecutionListPage = (props) => {
   }
 
   const navigateToDetailPage = (params) => {
-    if (params)
+    if (params){
       history.push(window.location.pathname+"/"+params);
+    }
   }
 
   useEffect(()=>{

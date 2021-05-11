@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import DragList from '../../../components/DragList';
 import Selectbox from '../../../components/Selectbox';
+import { useLocation } from 'react-router-dom';
 import {
   Grid,
   Typography,
@@ -22,7 +23,7 @@ import {
   Add as AddIcon,
 } from "@material-ui/icons";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
-import { EXECUTE_TEST_CASE_REQ, GET_ALL_TESTEXEC_REQ } from "../../../redux/test-execution/constants";
+import { EXECUTE_TEST_CASE_REQ, GET_ALL_TESTEXEC_REQ, SELECT_TEST_CASE_REQ } from "../../../redux/test-execution/constants";
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
@@ -38,13 +39,16 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updTestcaseResultReq: (payload) => dispatch({type: EXECUTE_TEST_CASE_REQ, payload}),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
+    selectTestcaseReq: (payload) => dispatch({type: SELECT_TEST_CASE_REQ, payload})
   }
 }
 
 const TestCaseExecDetail = (props) => {
-  const {listTestExec, updTestcaseResultReq, getAllTestExecReq,execTest, displayMsg} = props;
+  const {listTestExec, updTestcaseResultReq, getAllTestExecReq,execTest, displayMsg, selectTestcaseReq} = props;
 
   const history = useHistory();
+
+  const location = useLocation();
    
   const filterTestCase = (execId, testcaseId) => {
     var subItem = null;
@@ -53,11 +57,24 @@ const TestCaseExecDetail = (props) => {
         subItem = item.exectestcases.find(subItem => subItem._id === testcaseId);
       } 
     });
-
     return subItem;
+  }
+
+  const filterTestExec = (execId) => {
+    return listTestExec.find((item) => item._id === execId);
+  }
+
+  const getIdxTestCase = (testcaseId) => {
+     return execTest.listTestCase.findIndex(item => item._id === testcaseId);
   }
   
   const [testCaseDetail, setTestcaseDetail] = useState(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
+
+  const [testExecDetail, setTestExecDetail] = useState(filterTestExec(props.match.params.testExecutionId));
+
+  const [currentIdx, setCurrentIdx] = useState(getIdxTestCase(props.match.params.id));
+
+  const [viewMode,setViewMode] = useState(false);
 
   const [submitResult, setSubmitResult] = useState({
       testcaseid: testCaseDetail._id,
@@ -65,6 +82,20 @@ const TestCaseExecDetail = (props) => {
       status: testCaseDetail.status,
       note: 'test'
   })
+
+  useEffect(()=>{
+    if (currentIdx > execTest.listTestCase.length || currentIdx < 0) return;
+    else {
+    selectTestcaseReq(props.match.params.id);
+    setCurrentIdx(getIdxTestCase(props.match.params.id));
+    setTestcaseDetail(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
+    }
+  },[currentIdx])
+
+  useEffect(()=>{
+    if (testExecDetail.status === 'Untest') setViewMode(false);
+    else setViewMode(true);
+  },[testExecDetail])
 
   useEffect(()=>{
     if (execTest.sucess===true){
@@ -83,6 +114,7 @@ const TestCaseExecDetail = (props) => {
   },[execTest.sucess])
   
   const handleChange = (event) => {
+    if (viewMode) return;
     setSubmitResult({...submitResult, status: event.target.value});
     setTestcaseDetail({...testCaseDetail, status: event.target.value});
   }
@@ -91,6 +123,23 @@ const TestCaseExecDetail = (props) => {
     updTestcaseResultReq(submitResult);
   }
 
+  const handleNavigateForward = () => {
+    var url = location.pathname.substring(0, location.pathname.lastIndexOf("/") + 1);
+    if (currentIdx+1 >= execTest.listTestCase.length) return;
+    else {
+      history.replace(url+execTest.listTestCase[currentIdx+1]._id);
+      setCurrentIdx(currentIdx+1);
+    }
+  }
+  
+  const handleNavigateBackward = () => {
+    var url = location.pathname.substring(0, location.pathname.lastIndexOf("/") + 1);
+    if (currentIdx-1 < 0) return;
+    else {
+      history.replace(url+execTest.listTestCase[currentIdx-1]._id);
+      setCurrentIdx(currentIdx-1);
+    }
+  }
 
   return(
     <React.Fragment>
@@ -178,11 +227,11 @@ const TestCaseExecDetail = (props) => {
                    Result
                 </Typography>
               </Grid>
-                <Grid item>
+              {!viewMode && <Grid item>
                     <Button variant="contained" color="primary" onClick={handleSave}>
                       <AddIcon />Save Result
                     </Button>
-                </Grid>
+                </Grid>}
                
           </Grid>
         </Grid>
@@ -207,10 +256,10 @@ const TestCaseExecDetail = (props) => {
         <Grid item xs={12} style={{marginTop: 10}}>
           <Grid container justify ='space-between'>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth>Previous Test Case</Button>
+              {currentIdx !== 0 && <Button variant="contained" color="primary" fullWidth onClick={handleNavigateBackward}>Previous Test Case</Button>}  
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth>Next Test Case</Button>
+              {currentIdx !== execTest.listTestCase.length-1 && <Button variant="contained" color="primary" fullWidth onClick={handleNavigateForward}>Next Test Case</Button>}
             </Grid>
           </Grid>
         </Grid>

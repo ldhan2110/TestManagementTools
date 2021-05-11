@@ -1,3 +1,4 @@
+import { SignalCellularNull } from '@material-ui/icons';
 import * as types from './constants';
 
 var initialState = {
@@ -10,13 +11,17 @@ var initialState = {
   },
 
   execTest:{
-    currentIdx: 0,
-    listExec: [],
+    testExecId: null,
+    selectTestCaseIdx: -1,
+    listTestCase: [],
+  },
+
+  updTestExec: {
     sucess: null,
     errMsg: null
   },
 
-  updTestExec: {
+  updTestCaseExec: {
     sucess: null,
     errMsg: null
   },
@@ -106,25 +111,41 @@ const reducer = (state = initialState, actions) => {
       case types.EXECUTE_TEST_CASE_SUCCESS:
           return {
             ...state,
-            execTest:{
-              currentIdx: 0,
-              listExec: [],
-              sucess: true,
-              errMsg: null
+            updTestCaseExec:{
+             sucess: true,
+             errMsg: null
             },
           };
   
       case types.EXECUTE_TEST_CASE_FAILED:
         return {
           ...state,
-          execTest:{
-            currentIdx: 0,
-            listExec: [],
+          updTestCaseExec:{
             sucess: false,
             errMsg: payload
           },
         };
 
+
+      case types.SELECT_TEST_EXEC_REQ:
+        return {
+          ...state,
+          execTest:{
+            testExecId: payload.id,
+            selectTestCaseIdx: -1,
+            listTestCase: payload.listTestcase,
+          },
+        }
+
+      case types.SELECT_TEST_CASE_REQ:
+        return{
+          ...state,
+          execTest: {
+            testExecId: state.execTest.testExecId,
+            selectTestCaseIdx: payload,
+            listTestCase: state.execTest.listTestCase,
+          }
+        }
 
       default: 
       return state;

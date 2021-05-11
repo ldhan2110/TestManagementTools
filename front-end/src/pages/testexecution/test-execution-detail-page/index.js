@@ -24,7 +24,7 @@ import {
   InputLabel,
   MenuItem
 } from '@material-ui/core';
-import { GET_ALL_TESTEXEC_REQ, UPDATE_TEST_EXEC_REQ } from "../../../redux/test-execution/constants";
+import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_REQ } from "../../../redux/test-execution/constants";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 
 
@@ -47,6 +47,7 @@ function mapStateToProps(state) {
   return {
     listTestExec: state.testexec.listTestExec,
     updTestExec: state.testexec.updTestExec,
+    execTest: state.testexec.execTest
   };
 }
 
@@ -57,16 +58,16 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updateTestExecReq: (payload) => dispatch({type: UPDATE_TEST_EXEC_REQ, payload}),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
+    selectTestExecReq: (payload) => dispatch({type: SELECT_TEST_EXEC_REQ, payload})
   }
 }
 
 const TestExecutionDetailPage = (props) => {
-    const {classes, listTestExecution, name, match, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq} = props;
+    const {classes, listTestExecution, name, match, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest} = props;
     const history = useHistory();
     const location = useLocation();
 
     const filterTestExec = (id) => {
-      console.log(listTestExec);
       return  listTestExec.find((item) => item._id === id);
     }
 
@@ -77,6 +78,16 @@ const TestExecutionDetailPage = (props) => {
       status: testExecInfo.status,
       testexecid: props.match.params.testExecutionId
     })
+
+
+    useEffect(()=> {
+      selectTestExecReq({id: props.match.params.testExecutionId, listTestcase: testExecInfo.exectestcases})
+    },[])
+
+
+    useEffect(()=>{
+      console.log(execTest)
+    },[execTest])
 
     useEffect(()=>{
       if (updTestExec.sucess === false){

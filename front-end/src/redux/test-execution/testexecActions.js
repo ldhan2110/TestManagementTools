@@ -27,3 +27,17 @@ export function updateTestExec(value) {
     payload: value
   }
 }
+
+export function selectTestExec(value){
+  return{
+    type: types.SELECT_TEST_EXEC_REQ,
+    payload: value
+  }
+}
+
+export function selectTestcase(value){
+  return{
+    type: types.SELECT_TEST_CASE_REQ,
+    payload: value
+  }
+}
