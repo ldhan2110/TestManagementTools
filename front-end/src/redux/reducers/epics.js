@@ -57,6 +57,9 @@ export default combineEpics(
    userEpics.addUserToProjectEpic,
    userEpics.getAllUserEpic,
    userEpics.deleteUserOfProjectEpic,
+   userEpics.updatePasswordEpic,
+   userEpics.updateProfileEpic,
+   userEpics.getCurrentUserEpic,
 
    //TEST EXEC EPICS
    testexecEpics.getAllTestexecEpic,

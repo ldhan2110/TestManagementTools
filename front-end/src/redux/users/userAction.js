@@ -66,3 +66,26 @@ export function deleteUserOfProject(value) {
     payload: value
   }
 }
+
+export function updatePassword(value){
+
+  return {
+    type: types.UPDATE_PASSWORD_REQ,
+    payload: value
+  }
+}
+
+export function updateProfile(value){
+
+  return {
+    type: types.UPDATE_PROFILE_REQ,
+    payload: value
+  }
+}
+
+export function getCurentUser(value) {
+  return {
+    type: types.GET_CURRENT_USER_REQ,
+    payload: value
+  }
+}
