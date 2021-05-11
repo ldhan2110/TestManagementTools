@@ -37,3 +37,11 @@ export function updateTestplan(value){
     payload: value
   }
 }
+
+export function deleteTestplan(value){
+
+  return {
+    type: types.DELETE_TESTPLAN_REQ,
+    payload: value
+  }
+}

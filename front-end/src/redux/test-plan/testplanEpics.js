@@ -71,40 +71,40 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
       }))
     )))
 
-export  const updateTestplanEpic = (action$, state$) => action$.pipe(
-  ofType(actions.UPDATE_TESTPLAN_REQ),
-  mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.testplanid+'/api/updatetestplan',{
-      testplanname: payload.testplanname,
-      description: payload.description,
-      buildname: payload.buildname,
-      isActive: payload.isActive,
-      isPublic: payload.isPublic,
-  } , {
-      headers: {
-        "X-Auth-Token": localStorage.getItem("token"),
-        "content-type": "application/json"
-      }
-    })).pipe(
-    map(response => {
-      const {data} = response;
-      if (data.success) {
-        return ({
-          type: actions.UPDATE_TESTPLAN_SUCCESS,
-          payload: true
-        })
-      } else {
-        return ({
-          type: actions.UPDATE_TESTPLAN_FAILED,
-          payload: data.errMsg
-        })
-      }
-    
-    }),
-    catchError (error => of({
-      type: actions.UPDATE_TESTPLAN_FAILED,
-      payload: error.response.data.errMsg
-    }))
-  )))
+  export  const updateTestplanEpic = (action$, state$) => action$.pipe(
+    ofType(actions.UPDATE_TESTPLAN_REQ),
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.testplanid+'/api/updatetestplan',{
+        testplanname: payload.testplanname,
+        description: payload.description,
+        buildname: payload.buildname,
+        isActive: payload.isActive,
+        isPublic: payload.isPublic,
+    } , {
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.UPDATE_TESTPLAN_SUCCESS,
+            payload: true
+          })
+        } else {
+          return ({
+            type: actions.UPDATE_TESTPLAN_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.UPDATE_TESTPLAN_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )))
 
 
 
@@ -133,6 +133,35 @@ export  const updateTestplanEpic = (action$, state$) => action$.pipe(
       }),
       catchError (error => of({
         type: actions.GET_ALL_ACTIVE_TESTPLAN_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )))
+
+  export  const deleteTestplanEpic = (action$, state$) => action$.pipe(
+    ofType(actions.DELETE_TESTPLAN_REQ),
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.testplanid+'/api/deletetestplan',{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.DELETE_TESTPLAN_SUCCESS,
+            payload: true
+          })
+        } else {
+          return ({
+            type: actions.DELETE_TESTPLAN_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.DELETE_TESTPLAN_FAILED,
         payload: error.response.data.errMsg
       }))
     )))

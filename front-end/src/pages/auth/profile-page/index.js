@@ -68,7 +68,7 @@ const ProfilePage = (props)=>{
         content: insProfile.errMsg,
         type: 'error'
       });
-    } else if (insProfile.sucess == true) {
+    } else if (insProfile.sucess === true) {
       displayMsg({
         content: "Update Profile successfully !",
         type: 'success'
@@ -84,8 +84,9 @@ const ProfilePage = (props)=>{
   };
 
   const handleUpdatePassword = () => {
-    updatePasswordReq(passwordInfo);
+    //updatePasswordReq(passwordInfo);
     console.log(JSON.stringify(passwordInfo, null, '  ')); 
+    console.log(JSON.stringify('insProfile: '+insProfile, null, '  ')); 
     //console.log('update password');  
   };
 
@@ -131,7 +132,7 @@ const ProfilePage = (props)=>{
                 </form>
               </Grid>
               <Grid item xs className={classes.avatarContainer}>
-                <Avatar alt="Remy Sharp" src="" className={classes.avatar} />
+                <Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} />
                 <UploadButton/>
               </Grid>
           </Grid>

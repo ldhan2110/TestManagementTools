@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 import SelectBox from '../../../components/Selectbox';
-import {UPDATE_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
+import {UPDATE_TESTPLAN_REQ, DELETE_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
@@ -34,7 +34,7 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     updateTestplanReq: (payload) => dispatch({ type: UPDATE_TESTPLAN_REQ, payload }),
-    //deleteBuildReq: (payload) => dispatch({ type: DELETE_BUILD_REQ, payload}),
+    deleteTestplanReq: (payload) => dispatch({ type: DELETE_TESTPLAN_REQ, payload }),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllBuildActiveReq: (payload) => dispatch({ type: GET_ALL_BUILD_ACTIVE_REQ, payload }),
   }
@@ -42,7 +42,7 @@ const mapDispatchToProps = dispatch => {
 
 const TestPlanDetailPage = (props) => {
     const {classes, listTestPlans, name, match, updateTestplanReq, insTestplan,
-           displayMsg, project, listBuilds, getAllBuildActiveReq} = props;
+           displayMsg, project, listBuilds, getAllBuildActiveReq, deleteTestplanReq} = props;
     const history = useHistory();
     const [testplanInfor, setTestplanInfor] = React.useState({
       testplanid: props.match.params.testPlanName,
@@ -76,7 +76,7 @@ const TestPlanDetailPage = (props) => {
     //},[])
 
     const handleClose=()=>{
-
+      deleteTestplanReq(testplanInfor);
     }
 
     const handleUpdate = () => {
@@ -169,7 +169,7 @@ const TestPlanDetailPage = (props) => {
             Save
           </Button>
           <Button variant="contained" onClick={handleClose}>
-            Cancel
+            Delete
           </Button>
         </div>
         </form>

@@ -109,16 +109,24 @@ const BuildDetailPage = (props) => {
 
     const handleDateStart = (date) => {
       setSelectedDateStart(date);
-      
     };
 
     const handleUpdate = () => {
-      //updateBuildReq(buildInfor);
-      console.log('buildInfor: '+JSON.stringify(buildInfor));
+      try {
+        updateBuildReq(buildInfor);
+      console.log('buildInfor: '+JSON.stringify(buildInfor));     
+      } catch (error) {
+        displayMsg({
+          content: 'Build error',
+          type: 'error'
+        });
+      }
+      
     };
 
     const handleDelete = () =>{
-      //deleteBuildReq(buildbyid);
+      deleteBuildReq(buildbyid);
+      console.log('buildid and projectid: '+buildbyid);
     }
 
   const handleChange = (prop) => (event) => {

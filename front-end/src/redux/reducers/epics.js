@@ -24,6 +24,7 @@ export default combineEpics(
    testplanEpics.addNewTestplanEpic,
    testplanEpics.updateTestplanEpic,
    testplanEpics.getAllActiveTestplanEpic,
+   testplanEpics.deleteTestplanEpic,
 
    //TEST CASE EPICS
    testcaseEpics.getAllTestcaseEpic,
@@ -44,6 +45,7 @@ export default combineEpics(
    buildEpics.updateBuildEpic,
    buildEpics.deleteBuildEpic,
    buildEpics.getAllBuildActiveEpic,
+   buildEpics.deleteBuildEpic,
 
    //MILESTONE EPICS
    milestoneEpics.addNewMilestoneEpic,

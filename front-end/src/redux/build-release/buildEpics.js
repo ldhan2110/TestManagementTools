@@ -139,7 +139,7 @@ import {API_ADDR} from '../constants';
 
   export  const deleteBuildEpic = (action$, state$) => action$.pipe(
     ofType(actions.DELETE_BUILD_REQ),
-    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/api/build/'+payload.projectid+'/'+payload.buildid,{
+    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/api/build/'+payload.projectid+'/'+payload.buildid+'/api/deletebuildfromproject',{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"), 
           "content-type": "application/json"

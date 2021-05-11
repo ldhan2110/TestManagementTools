@@ -22,14 +22,14 @@ const reducer = (state = initialState, actions) => {
     case types.GET_ALL_TESTPLAN_REQ:
       return {
         ...state,
-      }
+    }
 
     case types.GET_ALL_TESTPLAN_FAILED:
       return {
         ...state,
         error: true,
         errorMsg: payload,
-      }
+    }
     
     case types.GET_ALL_TESTPLAN_SUCESS:
         return {
@@ -39,31 +39,27 @@ const reducer = (state = initialState, actions) => {
           currentSelectedTestplan: "",
           insTestplan: [],
           listTestplan: payload,
-        }
+    }
 
+    case types.GET_ALL_ACTIVE_TESTPLAN_REQ:
+      return {
+        ...state,
+    }
 
-
-        case types.GET_ALL_ACTIVE_TESTPLAN_REQ:
-          return {
-            ...state,
-          }
+    case types.GET_ALL_ACTIVE_TESTPLAN_FAILED:
+      return {
+        ...state,
+        error: true,
+        errorMsg: payload,
+    }
     
-        case types.GET_ALL_ACTIVE_TESTPLAN_FAILED:
-          return {
-            ...state,
-            error: true,
-            errorMsg: payload,
-          }
-        
-        case types.GET_ALL_ACTIVE_TESTPLAN_SUCESS:
-            return {
-              ...state,
-              error: "",
-              errorMsg:"",
-              listActiveTestplan: payload
-            }
-    
-
+    case types.GET_ALL_ACTIVE_TESTPLAN_SUCESS:
+        return {
+          ...state,
+          error: "",
+          errorMsg:"",
+          listActiveTestplan: payload
+    }
 
     case types.ADD_NEW_TESTPLAN_REQ:{      
       return {
@@ -92,12 +88,11 @@ const reducer = (state = initialState, actions) => {
       }    
     }
 
-    
     case types.SELECT_TESTPLAN: 
       return {
         ...state,
         currentSelectedTestplan: actions.value
-      }
+    }
 
     case types.UPDATE_TESTPLAN_REQ:{      
       return {
@@ -117,6 +112,33 @@ const reducer = (state = initialState, actions) => {
     }
 
     case types.UPDATE_TESTPLAN_FAILED: {
+      return{
+        ...state,
+        insTestplan:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
+
+    case types.DELETE_TESTPLAN_REQ:{      
+      return {
+        ...state,
+        insTestplan: initialState.insTestplan
+      };
+    }
+
+    case types.DELETE_TESTPLAN_SUCCESS:{
+      return {
+        ...state,
+        insTestplan: {
+          sucess: true,
+          errMsg: null
+        }
+      }
+    }
+
+    case types.DELETE_TESTPLAN_FAILED: {
       return{
         ...state,
         insTestplan:{
