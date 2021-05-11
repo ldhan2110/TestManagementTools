@@ -139,7 +139,7 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
 
   export  const deleteTestplanEpic = (action$, state$) => action$.pipe(
     ofType(actions.DELETE_TESTPLAN_REQ),
-    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.testplanid+'/api/deletetestplan',{
+    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/'+payload.projectid+'/'+payload.testplanid+'/api/deletetestplan',{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"

@@ -67,7 +67,7 @@ const BuildDetailPage = (props) => {
     const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
 
     useEffect(()=>{
-      if(props.history.location.state.testplanname !== undefined){ 
+      if(props.history.location.state.testplanname !== undefined && props.history.location.state.testplanname !== null){ 
         console.log('testplanname: '+props.history.location.state.testplanname);
         setBuildInfor({ ...buildInfor, testplan: props.history.location.state.testplanname.testplanname }); 
       }
