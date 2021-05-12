@@ -24,6 +24,10 @@ import {
   MenuItem,
   InputLabel,
   Select,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  Dialog
 } from '@material-ui/core';
 
 //MAP STATES TO PROPS - REDUX
@@ -74,25 +78,13 @@ const BuildDetailPage = (props) => {
       getAllTestplanReq(project);
     },[])
 
-    useEffect(()=>{
- 
-      /*setBuildInfor({ ...buildInfor, 
-        buildid: props.match.params.buildName,
-        projectid: props.match.params.projectName,
-        buildname: props.history.location.state.buildname,
-        description: props.history.location.state.descriptions,
-        isActive: props.history.location.state.is_active,
-        isPublic: props.history.location.state.is_open,
-        releasedate: props.history.location.state.releasedate    
-      });*/
-     
-    },[buildInfor]);
+    const [open, setOpen] = React.useState(false);
 
     useEffect(()=>{
       setBuildInfor({ ...buildInfor, releasedate: selectedDateStart });
-  },[selectedDateStart])
+    },[selectedDateStart])
 
-  useEffect(()=>{
+    useEffect(()=>{
     if (insBuilds.sucess === false){
       displayMsg({
         content: insBuilds.errMsg,
@@ -104,7 +96,7 @@ const BuildDetailPage = (props) => {
         type: 'success'
       });
       history.goBack();
-    }
+      }
   },[insBuilds.sucess]);
 
     const handleDateStart = (date) => {
@@ -123,11 +115,6 @@ const BuildDetailPage = (props) => {
       }
       
     };
-
-    const handleDelete = () =>{
-      deleteBuildReq(buildbyid);
-      console.log('buildid and projectid: '+buildbyid);
-    }
 
   const handleChange = (prop) => (event) => {
     setBuildInfor({ ...buildInfor, [prop]: event.target.value });
@@ -150,6 +137,20 @@ const BuildDetailPage = (props) => {
       setBuildInfor({ ...buildInfor, isPublic: true });
     }
   };
+
+  const handleDelete = () =>{
+    deleteBuildReq(buildbyid);
+    setOpen(false);
+    console.log('buildid and projectid: '+buildbyid);
+  }
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
 
 
 
@@ -243,9 +244,19 @@ const BuildDetailPage = (props) => {
           <Button variant="contained" color="primary" onClick={handleUpdate}>
             Update
           </Button>
-          <Button variant="contained" onClick={handleDelete}>
+          <Button variant="contained" onClick={handleOpen}>
             Delete
           </Button>
+            <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this build?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+            </Grid>
         </div>
         </form>
         </Grid>

@@ -17,6 +17,10 @@ import {
   Grid,
   Breadcrumbs,
   Divider,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  Dialog
 } from '@material-ui/core';
 import { deleteMilestoneEpic } from "../../../redux/milestones/milestoneEpics";
 
@@ -40,6 +44,8 @@ const DetailMileStonePage = (props) => {
   const {classes} = props;
 
   const history = useHistory();
+
+  const [open, setOpen] = React.useState(false);
 
   const {insMilestones, updateMilestoneReq, displayMsg,listMilestones,deleteMilestoneReq, getMilestoneByIdReq, project, milestone} = props;
 
@@ -99,8 +105,9 @@ const DetailMileStonePage = (props) => {
     }
   },[insMilestones.sucess]);
     
-  const handleClose = async () => {
+  const handleDelete = async () => {
     await deleteMilestoneReq(milestonebyid);
+    setOpen(false);
   };
 
   const handleUpdate = () => {
@@ -123,6 +130,14 @@ const DetailMileStonePage = (props) => {
   const handleCompleted = () =>{
     setMilestoneInfo({ ...milestoneInfo, is_completed: !milestoneInfo.is_completed });
   };
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
 
     return (
     <div>
@@ -187,9 +202,19 @@ const DetailMileStonePage = (props) => {
           <Button variant="contained" color="primary" onClick={handleUpdate}>
             Update
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" onClick={handleOpen}>
             Delete
           </Button>
+          <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this milestone?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+            </Grid>
         </div>
         </form>
         </Grid>

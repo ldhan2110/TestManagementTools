@@ -21,7 +21,11 @@ import {
   InputLabel,
   Select,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  Dialog
 } from '@material-ui/core';
 
 //MAP STATES TO PROPS - REDUX
@@ -55,6 +59,7 @@ const TestPlanDetailPage = (props) => {
       created_date: props.history.location.state.created_date  
     });
 
+    const [open, setOpen] = React.useState(false);
     
     useEffect(()=>{
       if (insTestplan.sucess === false){
@@ -75,8 +80,9 @@ const TestPlanDetailPage = (props) => {
       //getAllBuildActiveReq(project); 
     //},[])
 
-    const handleClose=()=>{
+    const handleDelete=()=>{
       deleteTestplanReq(testplanInfor);
+      setOpen(false);
     }
 
     const handleUpdate = () => {
@@ -106,6 +112,14 @@ const TestPlanDetailPage = (props) => {
         setTestplanInfor({ ...testplanInfor, isPublic: true });
       }
     };
+
+    const handleOpen = () => {
+      setOpen(true);
+    }
+  
+    const handleClose = () => {
+      setOpen(false);
+    }
 
     return (
     <div>
@@ -168,9 +182,19 @@ const TestPlanDetailPage = (props) => {
           <Button variant="contained" color="primary" onClick={handleUpdate}>
             Save
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" onClick={handleOpen}>
             Delete
           </Button>
+          <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this milestone?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+            </Grid>
         </div>
         </form>
         </Grid>
