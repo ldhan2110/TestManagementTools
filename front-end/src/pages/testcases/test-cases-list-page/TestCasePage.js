@@ -60,6 +60,8 @@ const TestCaseDetail = (props) => {
     testsuite: node.testsuite,
     priority: node.priority,
     listStep: node.listStep,
+    precondition: node.precondition,
+    postcondition: node.postcondition,
     projectid: project
   });
 
@@ -170,7 +172,7 @@ const TestCaseDetail = (props) => {
                                 <Select
                                   labelId="Importance"
                                   id="Importance"
-                                  defaultValue={testCase.priority}
+                                  defaultValue={newtestCase.priority}
                                   onChange={handleChange('priority')}
                                   label="Importance"
                                 >
@@ -198,8 +200,10 @@ const TestCaseDetail = (props) => {
               </Grid>      
             </Grid>
 
-            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
-            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
+            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" variant="outlined" fullWidth multiline rows={3} 
+            rowsMax={3} value={newtestCase.precondition} onChange={handleChange('precondition')}/></Grid>
+            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined"  fullWidth multiline rows={3} 
+            rowsMax={3} value={newtestCase.postcondition} onChange={handleChange('postcondition')}/></Grid>
           </Grid>
         </Grid>
 
