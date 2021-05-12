@@ -18,7 +18,11 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel
+  InputLabel,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  Dialog
 } from '@material-ui/core';
 
 import {
@@ -62,6 +66,8 @@ const TestSuiteDetail = (props) => {
   const [openNewTS, setOpenTS] = useState(false);
 
   const [openNewTC, setOpenTC] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
 
 
   const history = useHistory();
@@ -133,7 +139,16 @@ const TestSuiteDetail = (props) => {
     console.log('testsuite_infor: ' + JSON.stringify(testSuite));
     //if(testSuite.name !== testSuite.parent){
       deleteTestsuiteReq(testSuite);
+      setOpen(false);
     //}
+  }
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
   }
 
 
@@ -227,7 +242,17 @@ const TestSuiteDetail = (props) => {
               <Button variant="contained" color="primary" fullWidth onClick={handleSave}>Save</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth onClick={handleDelete}>Delete</Button>
+              <Button variant="contained" color="primary" fullWidth onClick={handleOpen}>Delete</Button>
+            </Grid>
+            <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this testsuite?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
             </Grid>
           </Grid>
         </Grid>
