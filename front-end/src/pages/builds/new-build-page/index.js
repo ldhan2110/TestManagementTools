@@ -51,6 +51,7 @@ const NewBuildPage = (props) => {
 
   const [open, setOpenPopup] = React.useState(isOpen);
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
+  const history = useHistory();
 
 
   const [buildInfo, setBuildInfo] = useState({
@@ -101,6 +102,7 @@ const NewBuildPage = (props) => {
       releasedate: new Date(),
       testplan: ''
     })
+    history.goBack();
     //setOpen(false);
   };
 
