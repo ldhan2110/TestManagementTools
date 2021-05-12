@@ -56,7 +56,7 @@ const NewTestExecutionPage = (props) => {
     const [testExecInfo, setTestExecInfo] = useState({
         testexecutionname: '',
         description: '',
-        testplanname: 'Testplan1990',
+        testplanname: 'testplan12052021',
         listexectestcases: [],
         is_public: false,
         is_active: false,

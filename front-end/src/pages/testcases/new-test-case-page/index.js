@@ -47,7 +47,7 @@ const TestCaseDetail = (props) => {
     priority: 'medium',
     type: 'manual',
     precondition: '',
-    postCondition: '',
+    postcondition: '',
     listStep:[]
   });
 
@@ -158,8 +158,8 @@ const TestCaseDetail = (props) => {
               </Grid>      
             </Grid>
 
-            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" value={testcase.preCond} onChange={handleChange('precondition')} variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
-            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined" value={testcase.postCond} onChange={handleChange('postCondition')} fullWidth multiline rows={3} rowsMax={3}/></Grid>
+            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" value={testcase.precondition || ''} onChange={handleChange('precondition')} variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
+            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined" value={testcase.postcondition || ''} onChange={handleChange('postcondition')} fullWidth multiline rows={3} rowsMax={3}/></Grid>
           </Grid>
         </Grid>
 

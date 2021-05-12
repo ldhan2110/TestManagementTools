@@ -64,8 +64,7 @@ const NewTestPlanPage = (props) => {
 
     const history = useHistory();
 
-    const handleClose = () =>{
-      history.goBack();    
+    const handleClose = () =>{   
       setTestplanInfo({
         Testplanname: '', 
         projectid: project,
@@ -74,7 +73,7 @@ const NewTestPlanPage = (props) => {
         is_public: false,
         is_active: false,
       });
-      //setOpen(false);
+      history.goBack(); 
     };
 
     const [TestplanInfo, setTestplanInfo] = useState({

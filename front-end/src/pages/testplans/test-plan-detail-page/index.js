@@ -188,7 +188,7 @@ const TestPlanDetailPage = (props) => {
           <Grid item>
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
-                  <DialogContent>Are you sure want to delete this milestone?</DialogContent>
+                  <DialogContent>Are you sure want to delete this testplan?</DialogContent>
                   <DialogActions>
                     <Button onClick={handleDelete} color="primary">Yes</Button>
                     <Button onClick={handleClose} color="primary">No</Button>
