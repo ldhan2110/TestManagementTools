@@ -199,6 +199,29 @@ const testCaseExecDetailRoute = {
   component: TestCaseExecDetailPage
 } 
 
+const executeResultRoutes = {
+  id: "Test Execution Result",
+  path: "/projects/:projectName/test-execution/:testExecutionId/execute-result",
+  name: "Test Execution Result",
+  restrict: true,
+  exact: true,
+  component: TestExecutionDetailPage
+}
+
+const testCaseExecResultRoute = {
+  id: "Test Case Execution Detail",
+  path: "/projects/:projectName/test-execution/:testExecutionId/test-exec/:id/execute-result",
+  name: "Test Case Execution Detail",
+  restrict: true,
+  exact: true,
+  component: TestCaseExecDetailPage
+}
+
+
+
+
+
+
 //BUILD-RELEASE
 const buildListRoute = {
   id: "Build/Release",
@@ -309,7 +332,9 @@ export const primaryLayoutRoutes = [
   newTestcaseRoute,
   newMilestoneRoute,
   detailMilestoneRoute,
-  issuesRoute
+  issuesRoute,
+  executeResultRoutes,
+  testCaseExecResultRoute
 ];
 
 // Routes using the Auth layout

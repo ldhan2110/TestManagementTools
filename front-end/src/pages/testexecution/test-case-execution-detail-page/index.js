@@ -68,13 +68,24 @@ const TestCaseExecDetail = (props) => {
      return execTest.listTestCase.findIndex(item => item._id === testcaseId);
   }
   
+  const findNextIdx = (currentIdx) => {
+    return execTest.listTestCase.findIndex((item,index) => index > currentIdx && item.status === 'Untest' );
+  }
+
+  const findPrevIdx = (currentIdx) => {
+    for (var idx = currentIdx-1; idx >= 0; idx--){
+      if (execTest.listTestCase[idx].status === 'Untest') return idx;
+    }
+    return -1;
+  }
+
   const [testCaseDetail, setTestcaseDetail] = useState(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
 
   const [testExecDetail, setTestExecDetail] = useState(filterTestExec(props.match.params.testExecutionId));
 
   const [currentIdx, setCurrentIdx] = useState(getIdxTestCase(props.match.params.id));
 
-  const [viewMode,setViewMode] = useState(false);
+  const [viewMode,setViewMode] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? false : true);
 
   const [submitResult, setSubmitResult] = useState({
       testcaseid: testCaseDetail._id,
@@ -86,16 +97,12 @@ const TestCaseExecDetail = (props) => {
   useEffect(()=>{
     if (currentIdx > execTest.listTestCase.length || currentIdx < 0) return;
     else {
-    selectTestcaseReq(props.match.params.id);
-    setCurrentIdx(getIdxTestCase(props.match.params.id));
-    setTestcaseDetail(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
+      selectTestcaseReq(props.match.params.id);
+      setCurrentIdx(getIdxTestCase(props.match.params.id));
+      setTestcaseDetail(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
     }
   },[currentIdx])
 
-  useEffect(()=>{
-    if (testExecDetail.status === 'Untest') setViewMode(false);
-    else setViewMode(true);
-  },[testExecDetail])
 
   useEffect(()=>{
     if (execTest.sucess===true){
@@ -124,21 +131,32 @@ const TestCaseExecDetail = (props) => {
   }
 
   const handleNavigateForward = () => {
-    var url = location.pathname.substring(0, location.pathname.lastIndexOf("/") + 1);
-    if (currentIdx+1 >= execTest.listTestCase.length) return;
+    var url = location.pathname.substring(0,location.pathname.lastIndexOf("/"));
+    url = url.substring(0,url.lastIndexOf("/"));
+    if (currentIdx === execTest.listTestCase.length-1) {
+      url = url.substr(0,url.lastIndexOf("/"));
+      history.push(url+'/execute-result');
+      return;
+    }
+    if (currentIdx+1 >= execTest.listTestCase.length || findNextIdx(currentIdx) === -1) return;
     else {
-      history.replace(url+execTest.listTestCase[currentIdx+1]._id);
-      setCurrentIdx(currentIdx+1);
+      history.replace(url+'/'+execTest.listTestCase[findNextIdx(currentIdx)]._id+'/execute-result');
+      setCurrentIdx(findNextIdx(currentIdx));
     }
   }
   
   const handleNavigateBackward = () => {
-    var url = location.pathname.substring(0, location.pathname.lastIndexOf("/") + 1);
-    if (currentIdx-1 < 0) return;
+    var url = location.pathname.substring(0,location.pathname.lastIndexOf("/"));
+    url = url.substring(0,url.lastIndexOf("/"));
+    if (currentIdx-1 < 0 || findPrevIdx(currentIdx) === -1) return;
     else {
-      history.replace(url+execTest.listTestCase[currentIdx-1]._id);
-      setCurrentIdx(currentIdx-1);
+      history.replace(url+'/'+execTest.listTestCase[findPrevIdx(currentIdx)]._id+'/execute-result');
+      setCurrentIdx(findPrevIdx(currentIdx));
     }
+  }
+
+  const handleClose = () => {
+    history.goBack();
   }
 
   return(
@@ -254,14 +272,15 @@ const TestCaseExecDetail = (props) => {
 
 
         <Grid item xs={12} style={{marginTop: 10}}>
-          <Grid container justify ='space-between'>
+          {!viewMode && <Grid container justify ='space-between'>
             <Grid item>
               {currentIdx !== 0 && <Button variant="contained" color="primary" fullWidth onClick={handleNavigateBackward}>Previous Test Case</Button>}  
             </Grid>
             <Grid item>
-              {currentIdx !== execTest.listTestCase.length-1 && <Button variant="contained" color="primary" fullWidth onClick={handleNavigateForward}>Next Test Case</Button>}
+             <Button variant="contained" color="primary" fullWidth onClick={handleNavigateForward}> {currentIdx !== execTest.listTestCase.length-1 ? 'Next Test Case': 'Finish'}</Button>
             </Grid>
-          </Grid>
+          </Grid>}
+          { viewMode &&  <Grid container justify ='flex-end'><Grid item xs={1}> <Button variant="contained"  fullWidth onClick={handleClose}>Return</Button></Grid></Grid>}
         </Grid>
         
       </Grid>

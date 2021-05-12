@@ -26,6 +26,7 @@ import {
 } from '@material-ui/core';
 import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_REQ } from "../../../redux/test-execution/constants";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
+import { GET_ALL_USERS_OF_PROJECT_REQ } from "../../../redux/users/constants";
 
 
 const Chip = styled(MuiChip)`
@@ -47,7 +48,8 @@ function mapStateToProps(state) {
   return {
     listTestExec: state.testexec.listTestExec,
     updTestExec: state.testexec.updTestExec,
-    execTest: state.testexec.execTest
+    execTest: state.testexec.execTest,
+    listUser: state.user.listUsersOfProject,
   };
 }
 
@@ -58,12 +60,13 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updateTestExecReq: (payload) => dispatch({type: UPDATE_TEST_EXEC_REQ, payload}),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
-    selectTestExecReq: (payload) => dispatch({type: SELECT_TEST_EXEC_REQ, payload})
+    selectTestExecReq: (payload) => dispatch({type: SELECT_TEST_EXEC_REQ, payload}),
+    getAllUserReq: (payload) => dispatch({type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
   }
 }
 
 const TestExecutionDetailPage = (props) => {
-    const {classes, listTestExecution, name, match, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest} = props;
+    const {classes, listTestExecution, name, match, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser} = props;
     const history = useHistory();
     const location = useLocation();
 
@@ -72,22 +75,40 @@ const TestExecutionDetailPage = (props) => {
     }
 
 
+
+
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
+
+    const [viewMode,setViewMode] = useState(testExecInfo.status === 'Untest' ? false : true);
+
+    const [isExecute,setExecute] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? false : true);
 
     const [resultTestExec, setResultTestExec] = useState({
       status: testExecInfo.status,
       testexecid: props.match.params.testExecutionId
     })
 
+    const filterTestcaseUntest = () => {
+      return execTest.listTestCase.find(item => item.status === 'Untest');
+    }
+
 
     useEffect(()=> {
-      selectTestExecReq({id: props.match.params.testExecutionId, listTestcase: testExecInfo.exectestcases})
+      selectTestExecReq({id: props.match.params.testExecutionId, listTestcase: testExecInfo.exectestcases});
+      getAllUserReq(localStorage.getItem('selectProject'));
     },[])
 
 
+    useEffect(()=> {
+      console.log(isExecute);
+    },[isExecute])
+
+
     useEffect(()=>{
-      console.log(execTest)
+      console.log(execTest);
     },[execTest])
+
+    
 
     useEffect(()=>{
       if (updTestExec.sucess === false){
@@ -107,21 +128,29 @@ const TestExecutionDetailPage = (props) => {
 
 
 
-     useEffect(()=>{
-        console.log(testExecInfo);
-     },[testExecInfo]);
+     
 
     const handleClose=()=>{
       history.goBack();
     }
 
-    const handleChange = (event) => {
-      setTestExecInfo({...testExecInfo, status: event.target.value});
-      setResultTestExec({...resultTestExec, status: event.target.value});
+    const handleChange = (prop) => (event) => {
+      if (prop !== 'status' && !isExecute)
+        setTestExecInfo({ ...testExecInfo, [prop]: event.target.value });
+      
+      else if (prop === 'status' && isExecute) {
+        setTestExecInfo({...testExecInfo, status: event.target.value});
+        setResultTestExec({...resultTestExec, status: event.target.value});
+      }
+    };
+
+    const handleSave = () => {
+      updateTestExecReq(resultTestExec);
     }
 
     const handleExecute = () => {
-      updateTestExecReq(resultTestExec);
+        var item = filterTestcaseUntest();
+        history.push(location.pathname+'/test-exec/'+item._id+'/execute-result');
     }
 
   
@@ -147,8 +176,23 @@ const TestExecutionDetailPage = (props) => {
         <form className={classes.content}>
           <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required value={testExecInfo.testexecutionname}/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} value={testExecInfo.description}/>
-          <TextField id="testExecutionName" label="Test Plan" variant="outlined"  fullWidth required value={testExecInfo.testplan.testplanname}/>
-          <TextField id="testExecutionName" label="Assign tester" variant="outlined"  fullWidth required value={testExecInfo.tester.username}/>
+          <TextField id="testplanName" label="Test Plan" variant="outlined"  fullWidth required value={testExecInfo.testplan.testplanname}/>
+
+          <FormControl variant="outlined" className={classes.formControl} fullWidth>
+              <InputLabel id="assignTester">Assign tester</InputLabel>
+                  <Select
+                    labelId="assignTesters"
+                    id="assignTester"
+                    value={testExecInfo.tester.username}
+                    //onChange={handleChange('assignTester')}
+                    label="assignTester">
+                        {listUser.map((item,index) => (
+                            <MenuItem key={index} value={item.username}>{item.username}</MenuItem>
+                        ))}
+                  </Select>
+          </FormControl>
+
+
           <FormControl variant="outlined" className={classes.formControl} fullWidth>
               <InputLabel id="status">Status</InputLabel>
                   <Select
@@ -205,12 +249,15 @@ const TestExecutionDetailPage = (props) => {
             </Grid>
 
 
-          <Typography variant="subtitle1" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography>
+          {/* <Typography variant="subtitle1" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography> */}
 
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleExecute}>
+          {testExecInfo.status === 'Untest' && <Button variant="contained" color="primary" onClick={handleSave}>
+            Save
+          </Button>}
+          {testExecInfo.status === 'Untest' && <Button variant="contained" color="primary" onClick={handleExecute}>
             Execute
-          </Button>
+          </Button>}
           <Button variant="contained" onClick={handleClose}>
             Cancel
           </Button>

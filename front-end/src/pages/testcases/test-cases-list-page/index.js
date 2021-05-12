@@ -219,14 +219,8 @@ const TestCaseListPage = (props) => {
 
                   <Grid item xs={12} style={{marginTop: '5vh'}}>
                     <Grid container spacing={3}>
-                      <Grid item xs={12}>
-                       
+                      <Grid item xs={12}>                 
                             <Typography variant="h4" gutterBottom display="inline">Test Cases</Typography> 
-                         
-                            <IconButton aria-label="Delete" style={{marginLeft: '5.5vw'}} onClick={handleAddTestSuite}>
-                              <FolderPlus />
-                            </IconButton>
-
                       <Divider />
                     </Grid>
                       <Grid item xs={12}><TreeView data={listTestCase} setSelectNode={setSelectNode}/></Grid>
