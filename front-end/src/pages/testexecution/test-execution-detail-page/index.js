@@ -81,7 +81,7 @@ const TestExecutionDetailPage = (props) => {
 
     const [viewMode,setViewMode] = useState(testExecInfo.status === 'Untest' ? false : true);
 
-    const [isExecute,setExecute] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? false : true);
+    const [isExecute,setExecute] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? true : false);
 
     const [resultTestExec, setResultTestExec] = useState({
       status: testExecInfo.status,
@@ -99,9 +99,7 @@ const TestExecutionDetailPage = (props) => {
     },[])
 
 
-    useEffect(()=> {
-      console.log(isExecute);
-    },[isExecute])
+
 
 
     useEffect(()=>{
@@ -199,7 +197,7 @@ const TestExecutionDetailPage = (props) => {
                     labelId="status"
                     id="status"
                     value={testExecInfo.status}
-                    onChange={handleChange}
+                    onChange={handleChange('status')}
                     label="status">
                         <MenuItem value={'Untest'}>Untest</MenuItem>
                         <MenuItem value={"Pass"}>Pass</MenuItem>
@@ -233,7 +231,7 @@ const TestExecutionDetailPage = (props) => {
                 <Paper style={{maxHeight: 200, overflow: 'auto'}}>
                 <List>
                   {testExecInfo.exectestcases && testExecInfo.exectestcases.map((item,index) => 
-                    <ListItem key={index} dense button  selected onClick={()=>{history.push(location.pathname+'/test-exec/'+item._id)}}>
+                    <ListItem key={index} dense button  selected onClick={()=>{if (!isExecute){history.push(location.pathname+'/test-exec/'+item._id)}}}>
                       <ListItemText id={item.id} primary={item.testcaseName} />
                       <ListItemSecondaryAction>
                         {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
@@ -252,10 +250,10 @@ const TestExecutionDetailPage = (props) => {
           {/* <Typography variant="subtitle1" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography> */}
 
           <div className = {classes.btnGroup}>
-          {testExecInfo.status === 'Untest' && <Button variant="contained" color="primary" onClick={handleSave}>
+          {isExecute && <Button variant="contained" color="primary" onClick={handleSave}>
             Save
           </Button>}
-          {testExecInfo.status === 'Untest' && <Button variant="contained" color="primary" onClick={handleExecute}>
+          {!isExecute && testExecInfo.status === 'Untest' && <Button variant="contained" color="primary" onClick={handleExecute}>
             Execute
           </Button>}
           <Button variant="contained" onClick={handleClose}>
