@@ -37,9 +37,12 @@ const mapDispatchToProps = dispatch => {
 
 const TestCaseDetail = (props) => {
   const {node, addTestcaseReq, displayMsg, insTestcase, getAllTestcaseReq, listTestsuite} = props;
-
   const history = useHistory();
-  
+  const [checkError, setCheckError] = useState(false);
+  const [error, setError] = useState({
+    testcaseName: 'ss',
+    description: 'ss',
+  });
   const [testcase, setTestcase] = useState({
     testcaseName: '',
     description: '',
@@ -50,13 +53,11 @@ const TestCaseDetail = (props) => {
     postcondition: '',
     listStep:[]
   });
-
   const [listSteps, setListSteps] = useState([]);
 
   useEffect(()=>{
     setTestcase({...testcase, listStep: listSteps});
   },[listSteps]);
-
 
   useEffect(()=>{
     if (insTestcase.sucess === false){
@@ -76,6 +77,9 @@ const TestCaseDetail = (props) => {
 
   const handleChange = (prop) => (event) => {
     setTestcase({ ...testcase, [prop]: event.target.value });
+
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
   };
 
   const handleCancel = (event) => {
@@ -83,6 +87,15 @@ const TestCaseDetail = (props) => {
   }
 
   const handleSave = () => {
+    setCheckError(true);
+
+    if(testcase.description === "")
+    setError({ ...testcase, description: "" });
+
+    if(testcase.testcaseName === "")
+    setError({ ...testcase, testcaseName: "" });
+
+    if(testcase.testcaseName !== "" && testcase.description !== "")
     addTestcaseReq(testcase);
   }
 
@@ -102,8 +115,17 @@ const TestCaseDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" value={testcase.testcaseName}  onChange={handleChange('testcaseName')} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" value={testcase.description} onChange={handleChange('description')} fullWidth required/></Grid>
+
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" 
+            value={testcase.testcaseName}  onChange={handleChange('testcaseName')} fullWidth required
+            error={!testcase.testcaseName && !error.testcaseName ? true : false}
+            helperText={!testcase.testcaseName && !error.testcaseName ? 'testcase name is required' : ' '}/></Grid>
+
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" 
+            value={testcase.description} onChange={handleChange('description')} fullWidth required
+            error={!testcase.description && !error.description ? true : false}
+            helperText={!testcase.description && !error.description ? 'description is required' : ' '}/></Grid>
+
             <Grid item xs={12}>
              <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
