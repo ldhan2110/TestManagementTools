@@ -168,7 +168,7 @@ const TestCaseDetail = (props) => {
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth required 
             onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
             error={!newtestCase.description && !error.description ? true : false}
-            helperText={!newtestCase.description && !error.description ? 'testcase name is required' : ' '}/></Grid>
+            helperText={!newtestCase.description && !error.description ? 'description is required' : ' '}/></Grid>
             <Grid item xs={12}>
             <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel> 
