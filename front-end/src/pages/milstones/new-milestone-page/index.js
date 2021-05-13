@@ -11,6 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@material-ui/core/FormControl';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 
 import {
@@ -42,6 +45,12 @@ const NewMileStonePage = (props) => {
   const [open, setOpenPopup] = React.useState(isOpen);
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
+  const [error, setError] = useState({
+    milestonetitle: 'ss',
+    description: 'ss',
+  });
+  const [checkError, setCheckError] = useState(false);
+
 
   const history = useHistory();
 
@@ -95,11 +104,22 @@ const NewMileStonePage = (props) => {
   };
 
   const handleCreate = () => {
+    setCheckError(true);
+    
+    if(milestoneInfo.description === "")
+    setError({ ...milestoneInfo, description: "" });
+
+    if(milestoneInfo.milestonetitle === "")
+    setError({ ...milestoneInfo, milestonetitle: "" });
+
+    if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== "")
     addMilestoneReq(milestoneInfo);
   }
 
   const handleChange = (prop) => (event) => {
     setMilestoneInfo({ ...milestoneInfo, [prop]: event.target.value });
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
   };
 
   const handleDateStart = (date) => {
@@ -144,9 +164,17 @@ const NewMileStonePage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="milestoneName" label="Name" variant="outlined"  fullWidth required value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')} inputProps={{maxLength : 16}}/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} value={milestoneInfo.description || ''} onChange={handleChange('description')}/>                      
-                  
+          <TextField id="milestoneName" label="Name" variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
+          value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')} 
+          error={!milestoneInfo.milestonetitle && !error.milestonetitle ? true : false}
+          helperText={!milestoneInfo.milestonetitle && !error.milestonetitle ? 'milestone name is required' : ' '}/>
+
+          <TextField id="descriptions" label="Descriptions" 
+          variant="outlined"  fullWidth required multiline rows={20} 
+          value={milestoneInfo.description || ''} onChange={handleChange('description')} 
+          error={!milestoneInfo.description && !error.description ? true : false}
+          helperText={!milestoneInfo.description && !error.description ? 'description is required' : ' '}/>                      
+
           <Grid container spacing={3}> 
               <Grid item xs={12}>
                  <DatePicker label="Start Date"
