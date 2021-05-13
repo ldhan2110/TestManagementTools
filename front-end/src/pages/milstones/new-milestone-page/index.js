@@ -36,9 +36,7 @@ const mapDispatchToProps = dispatch => {
 
 const NewMileStonePage = (props) => {
   const {isOpen, setOpen, classes} = props;
-
   const {insMilestones, addMilestoneReq, displayMsg, getAllMilestoneReq, project} = props;
-
   const [open, setOpenPopup] = React.useState(isOpen);
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
@@ -47,10 +45,7 @@ const NewMileStonePage = (props) => {
     description: 'ss',
   });
   const [checkError, setCheckError] = useState(false);
-
-
   const history = useHistory();
-
   const [milestoneInfo, setMilestoneInfo] = useState({
     milestonetitle: '',
     projectid: project,
