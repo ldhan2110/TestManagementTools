@@ -10,10 +10,6 @@ import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
 import Slide from '@material-ui/core/Slide';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
-
-
-
 import {
   Grid,
   Typography,
@@ -57,13 +53,14 @@ const mapDispatchToProps = dispatch => {
 const NewTestPlanPage = (props) => {
   const {classes, listTestPlan} = props;
     const {isOpen, setOpen} = props;
-
     const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project, listBuilds, getAllBuildActiveReq} = props;
-
     const [open, setOpenPopup] = React.useState(isOpen);
-
     const history = useHistory();
-
+    const [checkError, setCheckError] = useState(false);
+    const [error, setError] = useState({
+      Testplanname: 'ss',
+      description: 'ss',
+    });
     const handleClose = () =>{   
       setTestplanInfo({
         Testplanname: '', 
@@ -75,7 +72,6 @@ const NewTestPlanPage = (props) => {
       });
       history.goBack(); 
     };
-
     const [TestplanInfo, setTestplanInfo] = useState({
       Testplanname: '',
       projectid: project,
@@ -109,14 +105,25 @@ const NewTestPlanPage = (props) => {
     }
   },[insTestplan.sucess]); 
 
-
     const handleCreate = () => {
+      setCheckError(true);
+
+      if(TestplanInfo.description === "")
+      setError({ ...TestplanInfo, description: "" });
+  
+      if(TestplanInfo.Testplanname === "")
+      setError({ ...TestplanInfo, Testplanname: "" });
+  
+      if(TestplanInfo.Testplanname !== "" && TestplanInfo.description !== "")
       addNewTestplanReq(TestplanInfo);
-      console.log(JSON.stringify(TestplanInfo));
+      //console.log(JSON.stringify(TestplanInfo));
     }
   
     const handleChange = (prop) => (event) => {
       setTestplanInfo({ ...TestplanInfo, [prop]: event.target.value });
+
+      if(checkError == true)
+      setError({ ...error, [prop]: event.target.value });
     };
   
     const handlePublic = () =>{
@@ -173,8 +180,15 @@ const NewTestPlanPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="TestplanName" label="Testplan Name" variant="outlined"  fullWidth required  value={TestplanInfo.Testplanname || ''} onChange={handleChange('Testplanname')} inputProps={{maxLength : 16}} />
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}  value={TestplanInfo.description || ''} onChange={handleChange('description')}/>
+          <TextField id="TestplanName" label="Testplan Name" variant="outlined" fullWidth required inputProps={{maxLength : 16}}
+          value={TestplanInfo.Testplanname || ''} onChange={handleChange('Testplanname')}  
+          error={!TestplanInfo.Testplanname && !error.Testplanname ? true : false}
+          helperText={!TestplanInfo.Testplanname && !error.Testplanname ? 'testplan name is required' : ' '}/>
+
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}  
+          value={TestplanInfo.description || ''} onChange={handleChange('description')}
+          error={!TestplanInfo.description && !error.description ? true : false}
+          helperText={!TestplanInfo.description && !error.description ? 'description is required' : ' '}/>
 
           <Grid container fullWidth>
            {/*<Grid item xs={3}>

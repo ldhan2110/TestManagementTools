@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
@@ -48,6 +48,12 @@ const TestPlanDetailPage = (props) => {
     const {classes, listTestPlans, name, match, updateTestplanReq, insTestplan,
            displayMsg, project, listBuilds, getAllBuildActiveReq, deleteTestplanReq} = props;
     const history = useHistory();
+    const [open, setOpen] = React.useState(false);
+    const [checkError, setCheckError] = useState(false);
+    const [error, setError] = useState({
+      testplanname: 'ss',
+      description: 'ss',
+    });
     const [testplanInfor, setTestplanInfor] = React.useState({
       testplanid: props.match.params.testPlanName,
       projectid: props.match.params.projectName,
@@ -58,8 +64,6 @@ const TestPlanDetailPage = (props) => {
       isPublic: props.history.location.state.is_public,
       created_date: props.history.location.state.created_date  
     });
-
-    const [open, setOpen] = React.useState(false);
     
     useEffect(()=>{
       if (insTestplan.sucess === false){
@@ -86,12 +90,24 @@ const TestPlanDetailPage = (props) => {
     }
 
     const handleUpdate = () => {
+      setCheckError(true);
+
+      if(testplanInfor.description === "")
+      setError({ ...testplanInfor, description: "" });
+  
+      if(testplanInfor.testplanname === "")
+      setError({ ...testplanInfor, testplanname: "" });
+  
+      if(testplanInfor.testplanname !== "" && testplanInfor.description !== "")
       updateTestplanReq(testplanInfor);
       //console.log(JSON.stringify(testplanInfor, null, '  '));    
     };
     
     const handleChange = (prop) => (event) => {
       setTestplanInfor({ ...testplanInfor, [prop]: event.target.value });
+
+      if(checkError == true)
+      setError({ ...error, [prop]: event.target.value });
     }
   
     const handleIsActive = () =>{
@@ -152,9 +168,13 @@ const TestPlanDetailPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
           <TextField id="testPlanName" label="Test Plan Name" variant="outlined"  fullWidth required
-          value={testplanInfor.testplanname || ''} onChange={handleChange('testplanname')}/>
+          value={testplanInfor.testplanname || ''} onChange={handleChange('testplanname')}
+          error={!testplanInfor.testplanname && !error.testplanname ? true : false}
+          helperText={!testplanInfor.testplanname && !error.testplanname ? 'testplan name is required' : ' '}/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}
-          value={testplanInfor.description || ''} onChange={handleChange('description')}/> 
+          value={testplanInfor.description || ''} onChange={handleChange('description')}
+          error={!testplanInfor.description && !error.description ? true : false}
+          helperText={!testplanInfor.description && !error.description ? 'description name is required' : ' '}/> 
 
           <div>
              <FormControlLabel

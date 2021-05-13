@@ -35,7 +35,10 @@ const ProfilePage = (props)=>{
 
   const {insProfile, insPassword, updateProfileReq, updatePasswordReq, displayMsg, inforProfile, getCurrentProfileReq} = props;
   const {classes} = props;
-
+  const [error, setError] = useState({
+    fullname: 'ss',
+  });
+  const [checkError, setCheckError] = useState(false);
   const [profileInfo, setProfileInfo] = useState({
     fullname: '',
     email: '',
@@ -77,6 +80,15 @@ const ProfilePage = (props)=>{
   },[insProfile.sucess]);*/
 
   const handleUpdateProfile = () => {
+    setCheckError(true);
+
+    //if(milestoneInfo.description === "")
+    //setError({ ...milestoneInfo, description: "" });
+
+    if(profileInfo.fullname === "")
+    setError({ ...profileInfo, fullname: "" });
+
+    if(profileInfo.fullname !== "")
     updateProfileReq(profileInfo);
     console.log(JSON.stringify(profileInfo, null, '  ')); 
     console.log('inforProfile: '+JSON.stringify(inforProfile, null, '  ')); 
@@ -91,6 +103,9 @@ const ProfilePage = (props)=>{
   };
 
   const handleChangeProfile = (prop) => (event) => {
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
+
     setProfileInfo({ ...profileInfo, [prop]: event.target.value });
   };
 
@@ -109,23 +124,29 @@ const ProfilePage = (props)=>{
                 <form className={classes.formContent}>
                   <div className={classes.nameContainer}>
                     <TextField id="fullname" label="Full Name" variant="outlined"  fullWidth
-                    value={profileInfo.fullname || ''} onChange={handleChangeProfile('fullname')}/>
+                    value={profileInfo.fullname || ''} onChange={handleChangeProfile('fullname')}
+                    error={!profileInfo.fullname && !error.fullname ? true : false}
+                    helperText={!profileInfo.fullname && !error.fullname ? 'full name is required' : ' '}/>
                   </div>
 
-                  <TextField id="email" label="Email" variant="outlined"  fullWidth required
+                  <TextField id="email" label="Email" variant="outlined"  fullWidth required disabled={true}
                   value={profileInfo.email || ''} onChange={handleChangeProfile('email')}/>
+
                   <TextField id="phone" label="Phone Number" variant="outlined"  fullWidth 
                   value={profileInfo.phonenumber || ''} onChange={handleChangeProfile('phonenumber')}/>
+
                   <TextField id="Introductions" label="Introductions" variant="outlined"  fullWidth multiline 
                   rows={10} value={profileInfo.introduction || ''} onChange={handleChangeProfile('introduction')}/>
                   <div className = {classes.btnGroup}>
                       <Button variant="contained" color="primary" onClick={handleUpdateProfile}>Save Changes</Button>
                   </div>
 
-                  <TextField id="password" label="Password" variant="outlined"  fullWidth required
+                  <TextField id="password" label="Password" variant="outlined" fullWidth required type="password"
                   value={passwordInfo.password || ''} onChange={handleChangePassword('password')}/>
-                  <TextField id="confirmpassword" label="Confirm Password" variant="outlined"  fullWidth 
+
+                  <TextField id="confirmpassword" label="Confirm Password" variant="outlined" fullWidth type="password" 
                   required value={passwordInfo.confirmpassword || ''} onChange={handleChangePassword('confirmpassword')}/>
+
                   <div className = {classes.btnGroup}>
                       <Button variant="contained" color="primary" onClick={handleUpdatePassword}>Change Password</Button>
                   </div>

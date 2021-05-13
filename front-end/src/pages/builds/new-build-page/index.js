@@ -9,6 +9,7 @@ import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ} from '../../../redux/build-releas
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 
+
 import { connect } from 'react-redux';
 import {
   Grid,
@@ -46,12 +47,16 @@ const mapDispatchToProps = dispatch => {
 const NewBuildPage = (props) => {
     
   const {isOpen, setOpen, classes} = props;
-
   const {insBuilds, addBuildReq, displayMsg, getAllBuildReq, project, listBuilds, listTestplan, getAllTestplanReq} = props;
-
   const [open, setOpenPopup] = React.useState(isOpen);
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const history = useHistory();
+  const [checkError, setCheckError] = useState(false);
+  const [error, setError] = useState({
+    buildname: 'ss',
+    description: 'ss',
+    testplan: 'ss'
+  });
 
 
   const [buildInfo, setBuildInfo] = useState({
@@ -107,11 +112,25 @@ const NewBuildPage = (props) => {
   };
 
   const handleCreate = () => {
+    setCheckError(true);
+
+    if(buildInfo.description === "")
+    setError({ ...buildInfo, description: "" });
+
+    if(buildInfo.buildname === "")
+    setError({ ...buildInfo, buildname: "" });
+
+    //if(buildInfo.testplan === "")
+    //setError({ ...buildInfo, testplan: "" });
+
+    if(buildInfo.buildname !== "" && buildInfo.description !== "")
     addBuildReq(buildInfo);
   }
 
   const handleChange = (prop) => (event) => {
     setBuildInfo({ ...buildInfo, [prop]: event.target.value });
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
   };
 
   const handleDateStart = (date) => {
@@ -156,8 +175,16 @@ const NewBuildPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="buildName" label="Build name" variant="outlined"  fullWidth required  value={buildInfo.buildname || ''} onChange={handleChange('buildname')}/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} value={buildInfo.description || ''} onChange={handleChange('description')}/>
+          <TextField id="buildName" label="Build name" variant="outlined" fullWidth required 
+          value={buildInfo.buildname || ''} onChange={handleChange('buildname')}
+          error={!buildInfo.buildname && !error.buildname ? true : false}
+          helperText={!buildInfo.buildname && !error.buildname ? 'build name is required' : ' '}/>
+
+          <TextField id="descriptions" label="Descriptions" variant="outlined" fullWidth required multiline 
+          rows={20} value={buildInfo.description || ''} onChange={handleChange('description')}
+          error={!buildInfo.description && !error.description ? true : false}
+          helperText={!buildInfo.description && !error.description ? 'description is required' : ' '}/>
+
           <Grid container fullWidth>
               <Grid item xs={2}>
                 <p>Create from existing build ?</p>
@@ -175,6 +202,8 @@ const NewBuildPage = (props) => {
                                   value={buildInfo.testplan || ''}
                                   onChange={handleChange('testplan')}
                                   label="Testplan"
+                                  //error={!buildInfo.testplan && !error.testplan ? true : false}
+                                  //helperText={!buildInfo.testplan && !error.testplan ? 'testplan is required' : ' '}
                                 >
                                {listTestplan.map((item) => (
                                     <MenuItem value={item.testplanname}>{item.testplanname}</MenuItem>

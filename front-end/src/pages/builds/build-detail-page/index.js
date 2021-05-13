@@ -55,8 +55,7 @@ const BuildDetailPage = (props) => {
     const [buildbyid, setBuildbyid] = useState({
       projectid: props.match.params.projectName,
       buildid: props.match.params.buildName
-    });
-    
+    });  
     const history = useHistory();
     const [buildInfor, setBuildInfor] = React.useState({
       buildid: props.match.params.buildName,
@@ -69,6 +68,12 @@ const BuildDetailPage = (props) => {
       testplan: ''
     });
     const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
+    const [checkError, setCheckError] = useState(false);
+    const [error, setError] = useState({
+      buildname: 'ss',
+      description: 'ss',
+      testplan: 'ss'
+    });
 
     useEffect(()=>{
       if(props.history.location.state.testplanname !== undefined && props.history.location.state.testplanname !== null){ 
@@ -105,6 +110,18 @@ const BuildDetailPage = (props) => {
 
     const handleUpdate = () => {
       try {
+        setCheckError(true);
+
+        if(buildInfor.description === "")
+        setError({ ...buildInfor, description: "" });
+    
+        if(buildInfor.buildname === "")
+        setError({ ...buildInfor, buildname: "" });
+    
+        //if(buildInfo.testplan === "")
+        //setError({ ...buildInfo, testplan: "" });
+    
+        if(buildInfor.buildname !== "" && buildInfor.description !== "")
         updateBuildReq(buildInfor);
       console.log('buildInfor: '+JSON.stringify(buildInfor));     
       } catch (error) {
@@ -118,6 +135,8 @@ const BuildDetailPage = (props) => {
 
   const handleChange = (prop) => (event) => {
     setBuildInfor({ ...buildInfor, [prop]: event.target.value });
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
   }
 
   const handleIsActive = () =>{
@@ -185,11 +204,14 @@ const BuildDetailPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
           <TextField id="buildName" label="Name" variant="outlined"  fullWidth 
-          required value={buildInfor.buildname || ''}
-          onChange={handleChange('buildname')}/>
+          required value={buildInfor.buildname || ''} onChange={handleChange('buildname')}
+          error={!buildInfor.buildname && !error.buildname ? true : false}
+          helperText={!buildInfor.buildname && !error.buildname ? 'build name is required' : ' '}/>
+
           <TextField id="description" label="Descriptions" variant="outlined"  fullWidth 
-          required multiline rows={20} value={buildInfor.description || ''}
-          onChange={handleChange('description')}/>
+          required multiline rows={20} value={buildInfor.description || ''} onChange={handleChange('description')}
+          error={!buildInfor.description && !error.description ? true : false}
+          helperText={!buildInfor.description && !error.description ? 'description is required' : ' '}/>
 
           <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testPlan">Testplan</InputLabel>

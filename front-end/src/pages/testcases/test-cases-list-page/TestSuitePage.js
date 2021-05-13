@@ -62,14 +62,14 @@ const TestSuiteDetail = (props) => {
     projectid: project,
     
   });
-
   const [openNewTS, setOpenTS] = useState(false);
-
   const [openNewTC, setOpenTC] = useState(false);
-
   const [open, setOpen] = React.useState(false);
-
-
+  const [checkError, setCheckError] = useState(false);
+  const [error, setError] = useState({
+    name: 'ss',
+    description: 'ss',
+  });
   const history = useHistory();
 
   useEffect(()=>{
@@ -129,10 +129,20 @@ const TestSuiteDetail = (props) => {
   };
 
   const handleSave = ()=>{
-    console.log('testsuite_infor: ' + JSON.stringify(testSuite));
-    if(testSuite.name !== testSuite.parent){
-      updateTestsuiteReq(testSuite);
+    setCheckError(true);
+
+    if(testSuite.description === "")
+    setError({ ...testSuite, description: "" });
+
+    if(testSuite.name === "")
+    setError({ ...testSuite, name: "" });
+
+    if(testSuite.testsuitename !== "" && testSuite.description !== ""){
+      if(testSuite.name !== testSuite.parent)
+        updateTestsuiteReq(testSuite);
     }
+    //console.log('testsuite_infor: ' + JSON.stringify(testSuite));
+
   }
 
   const handleDelete = ()=>{
@@ -167,8 +177,15 @@ const TestSuiteDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Suite Name" variant="outlined" onChange={handleChange('name')} value={testSuite.name || ''} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" onChange={handleChange('description')} fullWidth required value={testSuite.description || ''}/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Suite Name" variant="outlined" 
+              onChange={handleChange('name')} value={testSuite.name || ''} fullWidth required
+              error={!testSuite.name && !error.name ? true : false}
+              helperText={!testSuite.name && !error.name ? 'testsuite name is required' : ' '}/></Grid>
+            
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" 
+              onChange={handleChange('description')} fullWidth required value={testSuite.description || ''}
+              error={!testSuite.description && !error.description ? true : false}
+              helperText={!testSuite.description && !error.description ? 'description is required' : ' '}/></Grid>
             <Grid item xs={12}>
                   <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel>

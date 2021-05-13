@@ -11,9 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 
 import {
@@ -39,9 +36,7 @@ const mapDispatchToProps = dispatch => {
 
 const NewMileStonePage = (props) => {
   const {isOpen, setOpen, classes} = props;
-
   const {insMilestones, addMilestoneReq, displayMsg, getAllMilestoneReq, project} = props;
-
   const [open, setOpenPopup] = React.useState(isOpen);
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
@@ -50,10 +45,7 @@ const NewMileStonePage = (props) => {
     description: 'ss',
   });
   const [checkError, setCheckError] = useState(false);
-
-
   const history = useHistory();
-
   const [milestoneInfo, setMilestoneInfo] = useState({
     milestonetitle: '',
     projectid: project,
@@ -105,7 +97,7 @@ const NewMileStonePage = (props) => {
 
   const handleCreate = () => {
     setCheckError(true);
-    
+
     if(milestoneInfo.description === "")
     setError({ ...milestoneInfo, description: "" });
 

@@ -43,9 +43,12 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestCaseDetail = (props) => {
-  const {node, listTestsuite, project, updateTestcaseReq,
-     displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete} = props;
-  
+  const {node, listTestsuite, project, updateTestcaseReq, displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete} = props;
+  const [checkError, setCheckError] = useState(false);
+  const [error, setError] = useState({
+    testcasename: 'ss',
+    description: 'ss',
+  });
   const [testCase, setTestCase] = useState({
     name: node.name,
     description: node.description,
@@ -108,7 +111,15 @@ const TestCaseDetail = (props) => {
 
 
   const handleUpdate = () => {
-    
+    setCheckError(true);
+
+    if(newtestCase.description === "")
+    setError({ ...newtestCase, description: "" });
+
+    if(newtestCase.testcasename === "")
+    setError({ ...newtestCase, testcasename: "" });
+
+    if(newtestCase.testcasename !== "" && newtestCase.description !== "")
     updateTestcaseReq(newtestCase);
   };
 
@@ -127,6 +138,9 @@ const TestCaseDetail = (props) => {
 
   const handleChange = (prop) => (event) => {
     setNewTestCase({ ...newtestCase, [prop]: event.target.value });
+
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
   };
 
   const updateListStep = (Data) => {
@@ -146,8 +160,15 @@ const TestCaseDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  fullWidth required onChange={handleChange('testcasename')} defaultValue={testCase.name || ''}/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth required onChange={handleChange('description')} defaultValue={testCase.description || ''}/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  fullWidth required 
+            onChange={handleChange('testcasename')} defaultValue={newtestCase.testcasename || ''}
+            error={!newtestCase.testcasename && !error.testcasename ? true : false}
+            helperText={!newtestCase.testcasename && !error.testcasename ? 'testcase name is required' : ' '}/></Grid>
+
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth required 
+            onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
+            error={!newtestCase.description && !error.description ? true : false}
+            helperText={!newtestCase.description && !error.description ? 'description is required' : ' '}/></Grid>
             <Grid item xs={12}>
             <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel> 

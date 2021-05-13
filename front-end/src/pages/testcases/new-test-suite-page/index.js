@@ -33,17 +33,18 @@ const mapDispatchToProps = dispatch => {
 const NewTestSuitePopup = (props) => {
     const {isOpen, setOpen, selected} = props;  
     const [open, setOpenPopup] = React.useState(isOpen);
-
     const{testsuite, displayMsg, getAllTestcaseReq, addTestsuiteReq} = props;
-
+    const [checkError, setCheckError] = useState(false);
+    const [error, setError] = useState({
+      testsuitename: 'ss',
+      description: 'ss',
+    });
     const [testSuiteInfo, setTestSuite] = useState({
       testsuitename:'',
       description:'',
       priority: 'medium',
       parent: ''
     });
-
-    
 
   useEffect(()=>{
       setOpenPopup(isOpen);
@@ -77,9 +78,21 @@ const NewTestSuitePopup = (props) => {
   
     const handleChange = (prop) => (event) => {
       setTestSuite({ ...testSuiteInfo, [prop]: event.target.value });
+
+      if(checkError == true)
+      setError({ ...error, [prop]: event.target.value });
     };
 
     const handleCreate = () => {
+      setCheckError(true);
+
+      if(testSuiteInfo.description === "")
+      setError({ ...testSuiteInfo, description: "" });
+  
+      if(testSuiteInfo.testsuitename === "")
+      setError({ ...testSuiteInfo, testsuitename: "" });
+  
+      if(testSuiteInfo.testsuitename !== "" && testSuiteInfo.description !== "")
        addTestsuiteReq(testSuiteInfo);
     }
 
@@ -99,10 +112,16 @@ const NewTestSuitePopup = (props) => {
         <DialogContent dividers>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <TextField id="name" label="Test Suite Name" variant="outlined"  fullWidth required  value={testSuiteInfo.testsuitename || ''} onChange={handleChange('testsuitename')} inputProps={{maxLength : 16}} />
+              <TextField id="name" label="Test Suite Name" variant="outlined"  fullWidth required  
+              value={testSuiteInfo.testsuitename || ''} onChange={handleChange('testsuitename')} inputProps={{maxLength : 16}} 
+              error={!testSuiteInfo.testsuitename && !error.testsuitename ? true : false}
+              helperText={!testSuiteInfo.testsuitename && !error.testsuitename ? 'testsuite name is required' : ' '}/>
             </Grid>
             <Grid item xs={12}>
-              <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={10}  value={testSuiteInfo.description || ''} onChange={handleChange('description')}/>
+              <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline rows={10}  
+              value={testSuiteInfo.description || ''} onChange={handleChange('description')}
+              error={!testSuiteInfo.description && !error.description ? true : false}
+              helperText={!testSuiteInfo.description && !error.description ? 'description is required' : ' '}/>
             </Grid>
           </Grid>
         </DialogContent>
