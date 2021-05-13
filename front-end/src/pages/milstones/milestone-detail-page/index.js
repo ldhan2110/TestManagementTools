@@ -42,15 +42,17 @@ const mapDispatchToProps = dispatch => {
 
 const DetailMileStonePage = (props) => {
   const {classes} = props;
-
   const history = useHistory();
-
   const [open, setOpen] = React.useState(false);
-
-  const {insMilestones, updateMilestoneReq, displayMsg,listMilestones,deleteMilestoneReq, getMilestoneByIdReq, project, milestone} = props;
-
+  const {insMilestones, updateMilestoneReq, displayMsg,listMilestones,deleteMilestoneReq, 
+         getMilestoneByIdReq, project, milestone} = props;
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
+  const [checkError, setCheckError] = useState(false);
+  const [error, setError] = useState({
+    milestonetitle: 'ss',
+    description: 'ss',
+  });
 
   const [milestoneInfo, setMilestoneInfo] = useState({
     milestonetitle: '',
@@ -111,12 +113,24 @@ const DetailMileStonePage = (props) => {
   };
 
   const handleUpdate = () => {
+    setCheckError(true);
+
+    if(milestoneInfo.description === "")
+    setError({ ...milestoneInfo, description: "" });
+
+    if(milestoneInfo.milestonetitle === "")
+    setError({ ...milestoneInfo, milestonetitle: "" });
+
+    if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== "")
     updateMilestoneReq(milestoneInfo);
     //console.log(JSON.stringify(milestoneInfo, null, '  '));   
   };
 
   const handleChange = (prop) => (event) => {
     setMilestoneInfo({ ...milestoneInfo, [prop]: event.target.value });
+
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
   };
 
   const handleDateStart = (date) => {
@@ -169,8 +183,16 @@ const DetailMileStonePage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="milestoneName" label="Name" variant="outlined"  fullWidth required value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')} inputProps={{maxLength : 16}}/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} value={milestoneInfo.description || ''} onChange={handleChange('description')}/>                      
+
+          <TextField id="milestoneName" label="Name" variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
+          value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')} 
+          error={!milestoneInfo.milestonetitle && !error.milestonetitle ? true : false}
+          helperText={!milestoneInfo.milestonetitle && !error.milestonetitle ? 'milestone name is required' : ' '}/>
+
+          <TextField id="descriptions" label="Descriptions" variant="outlined" fullWidth required multiline rows={20} 
+          value={milestoneInfo.description || ''} onChange={handleChange('description')}
+          error={!milestoneInfo.description && !error.description ? true : false}
+          helperText={!milestoneInfo.description && !error.description ? 'description is required' : ' '}/>                      
                   
           <Grid container spacing={3}> 
               <Grid item xs={12}>

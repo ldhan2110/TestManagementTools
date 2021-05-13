@@ -11,9 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 
 import {
@@ -105,7 +102,7 @@ const NewMileStonePage = (props) => {
 
   const handleCreate = () => {
     setCheckError(true);
-    
+
     if(milestoneInfo.description === "")
     setError({ ...milestoneInfo, description: "" });
 
