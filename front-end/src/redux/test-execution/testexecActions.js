@@ -41,3 +41,23 @@ export function selectTestcase(value){
     payload: value
   }
 }
+
+export function resetAddTestExec(){
+  return{
+    type: types.RESET_ADD_TEST_EXEC,
+  }
+}
+
+
+export function resetExecuteTestCase(){
+  return{
+    type: types.RESET_EXECUTE_TEST_CASE,
+  }
+}
+
+
+export function resetUpdateTestExec(){
+  return{
+    type: types.RESET_UPDATE_TEST_EXEC,
+  }
+}

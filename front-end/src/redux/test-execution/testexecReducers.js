@@ -79,6 +79,15 @@ const reducer = (state = initialState, actions) => {
         }
       };
 
+    case types.RESET_ADD_TEST_EXEC:
+      return{
+        ...state,
+        insTestexec:{
+          sucess: null,
+          errMsg: null
+        }
+      }
+
       case types.UPDATE_TEST_EXEC_REQ:
         return {
           ...state,
@@ -99,6 +108,16 @@ const reducer = (state = initialState, actions) => {
           updTestExec:{
             sucess: false,
             errMsg: payload
+          }
+        };
+
+      
+      case types.RESET_UPDATE_TEST_EXEC:
+        return {
+          ...state,
+          updTestExec:{
+            sucess: null,
+            errMsg: null
           }
         };
 
@@ -125,6 +144,17 @@ const reducer = (state = initialState, actions) => {
             errMsg: payload
           },
         };
+
+
+      case types.RESET_EXECUTE_TEST_CASE:
+          return {
+            ...state,
+            updTestCaseExec:{
+              sucess: null,
+              errMsg: null
+            },
+          };
+  
 
 
       case types.SELECT_TEST_EXEC_REQ:

@@ -41,6 +41,9 @@ const SelectTestCasePopup = (props) => {
 
   const [data,setData] = useState([]);
 
+  const [listTestCase, setListTestCase] = useState([])
+
+
   const handleClose = () =>{
       setOpen(false);
   }
@@ -57,6 +60,10 @@ const handleSelectTestcase = () =>{
   useEffect(()=>{
       setOpenPopup(isOpen);
   },[isOpen, open])
+
+  useEffect(()=>{
+    setListTestCase(testcase.listTestsuiteNoTree);
+  },[testcase.listTestsuiteNoTree])
 
   useEffect(()=>{
     getAllTestcaseReq(project);

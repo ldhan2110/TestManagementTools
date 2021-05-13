@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core';
 
 import {GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
-import { ADD_TESTEXEC_REQ, GET_ALL_TESTEXEC_REQ } from '../../../redux/test-execution/constants';
+import { ADD_TESTEXEC_REQ, GET_ALL_TESTEXEC_REQ, RESET_ADD_TEST_EXEC } from '../../../redux/test-execution/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { GET_ALL_ACTIVE_TESTPLAN_REQ } from "../../../redux/test-plan/constants";
 
@@ -42,21 +42,22 @@ const mapDispatchToProps = dispatch => {
     getAllUserReq: (payload) => dispatch({type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
     addNewTestexecReq: (payload) => dispatch({type: ADD_TESTEXEC_REQ, payload}),
     getAllTestExecReq: (payload) => dispatch({type: GET_ALL_TESTEXEC_REQ}),
-    getAllActiveTestplanReq: (payload) => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ})
+    getAllActiveTestplanReq: (payload) => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
+    resetAddRedux: () => dispatch({type: RESET_ADD_TEST_EXEC})
   }
 }
 
 const NewTestExecutionPage = (props) => {
     const {classes, listTestExecution, listtestcaseselect} = props;
 
-    const {listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq} = props;
+    const {listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux} = props;
 
     const [open,setOpenPopup] = useState(false);
     
     const [testExecInfo, setTestExecInfo] = useState({
         testexecutionname: '',
         description: '',
-        testplanname: 'testplan12052021',
+        testplanname: '',
         listexectestcases: [],
         is_public: false,
         is_active: false,
@@ -89,12 +90,14 @@ const NewTestExecutionPage = (props) => {
           content: insTestexec.errMsg,
           type: 'error'
         });
+        resetAddRedux();
       } else if (insTestexec.sucess === true) {
         displayMsg({
           content: "Create Test Execution successfully !",
           type: 'success'
         });
         getAllTestExecReq();
+        resetAddRedux();
         history.goBack();
       }
     },[insTestexec.sucess]);
@@ -159,7 +162,8 @@ const NewTestExecutionPage = (props) => {
             <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          label="Age"
+          label="testplan"
+          onChange={handleChange('testplanname')}
         >
           {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}
          
