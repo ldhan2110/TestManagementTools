@@ -29,7 +29,8 @@ import { EXECUTE_TEST_CASE_REQ, GET_ALL_TESTEXEC_REQ, SELECT_TEST_CASE_REQ } fro
 function mapStateToProps(state) {
   return {
     listTestExec: state.testexec.listTestExec,
-    execTest: state.testexec.execTest
+    execTest: state.testexec.execTest,
+    updTestCaseExec: state.testexec.updTestCaseExec
   };
 }
 
@@ -44,7 +45,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestCaseExecDetail = (props) => {
-  const {listTestExec, updTestcaseResultReq, getAllTestExecReq,execTest, displayMsg, selectTestcaseReq} = props;
+  const {listTestExec, updTestcaseResultReq, getAllTestExecReq,execTest, displayMsg, selectTestcaseReq, updTestCaseExec} = props;
 
   const history = useHistory();
 
@@ -87,12 +88,6 @@ const TestCaseExecDetail = (props) => {
 
   const [viewMode,setViewMode] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? false : true);
 
-  const [submitResult, setSubmitResult] = useState({
-      testcaseid: testCaseDetail._id,
-      testexecid: props.match.params.testExecutionId,
-      status: testCaseDetail.status,
-      note: 'test'
-  })
 
   useEffect(()=>{
     if (currentIdx > execTest.listTestCase.length || currentIdx < 0) return;
@@ -104,29 +99,43 @@ const TestCaseExecDetail = (props) => {
   },[currentIdx])
 
 
+
   useEffect(()=>{
-    if (execTest.sucess===true){
+    if (updTestCaseExec.sucess===true){
       displayMsg({
         content: "Update result successfully !",
         type: 'success'
       });
       getAllTestExecReq();
-      history.goBack();
-    } else if (execTest.sucess === false) {
+     // history.goBack();
+    } else if (updTestCaseExec.sucess === false) {
       displayMsg({
-        content: execTest.errMsg,
+        content: updTestCaseExec.errMsg,
         type: 'error'
       });
     }
-  },[execTest.sucess])
+  },[updTestCaseExec.sucess])
   
   const handleChange = (event) => {
     if (viewMode) return;
-    setSubmitResult({...submitResult, status: event.target.value});
     setTestcaseDetail({...testCaseDetail, status: event.target.value});
   }
 
+  const filterUpdateStep = (id, type, data) => {
+    var tempData = testCaseDetail.listStep.slice();
+    const result = testCaseDetail.listStep.findIndex(item => item._id === id);
+    tempData[result][type] = data;
+    setTestcaseDetail({...testCaseDetail,listStep: tempData});
+  }
+
   const handleSave = () => {
+    var submitResult = {
+      testexecid: props.match.params.testExecutionId,
+      testcaseid: testCaseDetail._id,
+      status: testCaseDetail.status,
+      note: 'Test',
+      listStep: testCaseDetail.listStep
+    }
     updTestcaseResultReq(submitResult);
   }
 
@@ -218,18 +227,18 @@ const TestCaseExecDetail = (props) => {
                                <MenuItem value='auto'>Auto</MenuItem>
                               </Select>
                         </FormControl></Grid>
-                        <Grid item xs={3}><TextField id="execNote"  variant="outlined" label='Execution Note' required  multiline fullWidth rows={3}/></Grid>
+                        <Grid item xs={3}><TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} multiline fullWidth rows={3}/></Grid>
                         <Grid item xs={1}><FormControl variant="outlined" fullWidth>
-                              <InputLabel id="type">Result</InputLabel>
+                              <InputLabel id="status">Result</InputLabel>
                                 <Select
-                                  labelId="type"
-                                  id="type"
-                                  //value={age}
-                                  //onChange={handleChange}
-                                  label="Type"
+                                  labelId="status"
+                                  id="status"
+                                  value={item.status}
+                                  onChange={(event)=>{filterUpdateStep(item._id, "status", event.target.value)}}
+                                  label="status"
                                 >
-                               <MenuItem value=""><em>Pass</em></MenuItem>
-                               <MenuItem value={10}>Fail</MenuItem>
+                               <MenuItem value="Pass"><em>Pass</em></MenuItem>
+                               <MenuItem value="Fail">Fail</MenuItem>
                               </Select>
                         </FormControl></Grid>
                       </Grid>
@@ -264,7 +273,7 @@ const TestCaseExecDetail = (props) => {
                     label="status">
                         <MenuItem value={'Untest'}>Untest</MenuItem>
                         <MenuItem value={"Pass"}>Pass</MenuItem>
-                        <MenuItem value={"Block"}>Blocked</MenuItem>
+                        <MenuItem value={"Blocked"}>Blocked</MenuItem>
                         <MenuItem value={"Fail"}>Fail</MenuItem>
                   </Select>
           </FormControl>

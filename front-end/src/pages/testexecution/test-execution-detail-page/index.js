@@ -98,14 +98,6 @@ const TestExecutionDetailPage = (props) => {
       getAllUserReq(localStorage.getItem('selectProject'));
     },[])
 
-
-
-
-
-    useEffect(()=>{
-      console.log(execTest);
-    },[execTest])
-
     
 
     useEffect(()=>{
@@ -236,7 +228,7 @@ const TestExecutionDetailPage = (props) => {
                       <ListItemSecondaryAction>
                         {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
                         {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}
-                        {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status} block={1}/>}
+                        {item.status === 'Blocked' || item.status === 'Block' && <Chip size="small" mr={1} mb={1} label={item.status} block={1}/>}
                         {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status} fail={1}/>}
                       </ListItemSecondaryAction>
                     </ListItem>
