@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CheckboxTreeView from '../../../components/CheckboxTreeView/CheckboxTreeView';
 import { connect } from 'react-redux';
-import {GET_ALL_TESTCASE_REQ, GET_LIST_TESTCASE_SELECT_REQ} from '../../../redux/test-case/constants';
+import {GET_ALL_TESTCASE_REQ, GET_LIST_TESTCASE_SELECT_REQ, GET_ALL_TESTSUITE_REQ, GET_ALL_TESTSUITE_NO_TREE_REQ} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Dialog,
@@ -26,14 +26,17 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
+    getAllTestsuiteReq: (payload) => dispatch({type: GET_ALL_TESTSUITE_REQ,payload}),
     getListTestcaseSelectReq: (payload) => dispatch({type: GET_LIST_TESTCASE_SELECT_REQ, payload}),
+    getAllTestsuiteNoTreeReq: (payload) => dispatch({type: GET_ALL_TESTSUITE_NO_TREE_REQ,payload})
+
   }
 }
 
 
 const SelectTestCasePopup = (props) => {
   
-  const {displayMsg, getAllTestcaseReq, testcase, project, listtestcaseselect, getListTestcaseSelectReq, selected} = props;
+  const {displayMsg, getAllTestcaseReq, testcase, project, listtestcaseselect, getListTestcaseSelectReq, selected, getAllTestsuiteReq, getAllTestsuiteNoTreeReq} = props;
   
   const {isOpen, setOpen} = props;  
   
@@ -66,7 +69,9 @@ const handleSelectTestcase = () =>{
   },[testcase.listTestsuiteNoTree])
 
   useEffect(()=>{
-    getAllTestcaseReq(project);
+    getAllTestsuiteReq(project);
+    getAllTestcaseReq(project); 
+    getAllTestsuiteNoTreeReq(project);
   },[])
 
 
