@@ -96,7 +96,7 @@ const ProfilePage = (props)=>{
   };
 
   const handleUpdatePassword = () => {
-    //updatePasswordReq(passwordInfo);
+    updatePasswordReq(passwordInfo);
     console.log(JSON.stringify(passwordInfo, null, '  ')); 
     console.log(JSON.stringify('insProfile: '+insProfile, null, '  ')); 
     //console.log('update password');  
