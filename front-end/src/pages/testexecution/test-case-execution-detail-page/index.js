@@ -23,7 +23,7 @@ import {
   Add as AddIcon,
 } from "@material-ui/icons";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
-import { EXECUTE_TEST_CASE_REQ, GET_ALL_TESTEXEC_REQ, SELECT_TEST_CASE_REQ } from "../../../redux/test-execution/constants";
+import { EXECUTE_TEST_CASE_REQ, GET_ALL_TESTEXEC_REQ, SELECT_TEST_CASE_REQ, RESET_EXECUTE_TEST_CASE } from "../../../redux/test-execution/constants";
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
@@ -40,12 +40,13 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updTestcaseResultReq: (payload) => dispatch({type: EXECUTE_TEST_CASE_REQ, payload}),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
-    selectTestcaseReq: (payload) => dispatch({type: SELECT_TEST_CASE_REQ, payload})
+    selectTestcaseReq: (payload) => dispatch({type: SELECT_TEST_CASE_REQ, payload}),
+    resetRedux: ()=> dispatch({type: RESET_EXECUTE_TEST_CASE})
   }
 }
 
 const TestCaseExecDetail = (props) => {
-  const {listTestExec, updTestcaseResultReq, getAllTestExecReq,execTest, displayMsg, selectTestcaseReq, updTestCaseExec} = props;
+  const {listTestExec, updTestcaseResultReq, getAllTestExecReq,execTest, displayMsg, selectTestcaseReq, updTestCaseExec, resetRedux} = props;
 
   const history = useHistory();
 
@@ -107,12 +108,14 @@ const TestCaseExecDetail = (props) => {
         type: 'success'
       });
       getAllTestExecReq();
+      resetRedux();
      // history.goBack();
     } else if (updTestCaseExec.sucess === false) {
       displayMsg({
         content: updTestCaseExec.errMsg,
         type: 'error'
       });
+      resetRedux();
     }
   },[updTestCaseExec.sucess])
   
@@ -283,10 +286,10 @@ const TestCaseExecDetail = (props) => {
         <Grid item xs={12} style={{marginTop: 10}}>
           {!viewMode && <Grid container justify ='space-between'>
             <Grid item>
-              {currentIdx !== 0 && <Button variant="contained" color="primary" fullWidth onClick={handleNavigateBackward}>Previous Test Case</Button>}  
+              {currentIdx !== 0 && findPrevIdx(currentIdx) !== -1 && <Button variant="contained" color="primary" fullWidth onClick={handleNavigateBackward}> Previous Test Case</Button>}  
             </Grid>
             <Grid item>
-             <Button variant="contained" color="primary" fullWidth onClick={handleNavigateForward}> {currentIdx !== execTest.listTestCase.length-1 ? 'Next Test Case': 'Finish'}</Button>
+             <Button variant="contained" color="primary" fullWidth onClick={handleNavigateForward}> {currentIdx !== execTest.listTestCase.length-1  && findNextIdx(currentIdx) ? 'Next Test Case': 'Finish'}</Button>
             </Grid>
           </Grid>}
           { viewMode &&  <Grid container justify ='flex-end'><Grid item xs={1}> <Button variant="contained"  fullWidth onClick={handleClose}>Return</Button></Grid></Grid>}

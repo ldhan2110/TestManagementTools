@@ -24,7 +24,7 @@ import {
   InputLabel,
   MenuItem
 } from '@material-ui/core';
-import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_REQ } from "../../../redux/test-execution/constants";
+import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_REQ, RESET_UPDATE_TEST_EXEC } from "../../../redux/test-execution/constants";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 import { GET_ALL_USERS_OF_PROJECT_REQ } from "../../../redux/users/constants";
 
@@ -62,11 +62,12 @@ const mapDispatchToProps = dispatch => {
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
     selectTestExecReq: (payload) => dispatch({type: SELECT_TEST_EXEC_REQ, payload}),
     getAllUserReq: (payload) => dispatch({type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
+    resetRedux: () => dispatch({type: RESET_UPDATE_TEST_EXEC})
   }
 }
 
 const TestExecutionDetailPage = (props) => {
-    const {classes, listTestExecution, name, match, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser} = props;
+    const {classes, listTestExecution, name, match, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux} = props;
     const history = useHistory();
     const location = useLocation();
 
@@ -106,13 +107,15 @@ const TestExecutionDetailPage = (props) => {
           content: updTestExec.errMsg,
           type: 'error'
         });
+        resetRedux();
       } else if (updTestExec.sucess === true) {
         displayMsg({
           content: "Update result successfully !",
           type: 'success'
         });
         getAllTestExecReq();
-        //history.goBack();
+        resetRedux();
+        handleClose();
       }
      } ,[updTestExec.sucess])
 
@@ -121,7 +124,13 @@ const TestExecutionDetailPage = (props) => {
      
 
     const handleClose=()=>{
-      history.goBack();
+      var url;
+      if (isExecute){
+        url = location.pathname.substring(0, location.pathname.substring(0, location.pathname.lastIndexOf("/")).lastIndexOf("/"));
+      } else {
+        url = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
+      }
+      history.push(url);
     }
 
     const handleChange = (prop) => (event) => {
@@ -140,7 +149,10 @@ const TestExecutionDetailPage = (props) => {
 
     const handleExecute = () => {
         var item = filterTestcaseUntest();
-        history.push(location.pathname+'/test-exec/'+item._id+'/execute-result');
+        if (item)
+          history.push(location.pathname+'/test-exec/'+item._id+'/execute-result');
+        else 
+          history.push(location.pathname+'/execute-result');
     }
 
   
