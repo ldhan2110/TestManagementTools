@@ -16,7 +16,7 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
-    testsuite: state.testcase.insTestsuite
+    insTestsuiteCreate: state.testcase.insTestsuiteCreate
    }
 }
 
@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => {
 const NewTestSuitePopup = (props) => {
     const {isOpen, setOpen, selected} = props;  
     const [open, setOpenPopup] = React.useState(isOpen);
-    const{testsuite, displayMsg, getAllTestcaseReq, addTestsuiteReq, resetAddRedux} = props;
+    const{displayMsg, getAllTestcaseReq, addTestsuiteReq, resetAddRedux, insTestsuiteCreate} = props;
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
       testsuitename: 'ss',
@@ -60,22 +60,23 @@ const NewTestSuitePopup = (props) => {
 
 
   useEffect(()=>{
-     if (testsuite.sucess === false){
+     if (insTestsuiteCreate.sucess === false){
       displayMsg({
-        content: testsuite.errMsg,
+        content: insTestsuiteCreate.errMsg,
         type: 'error'
       });
       resetAddRedux();
-    } else if (testsuite.sucess === true) {
+    } else if (insTestsuiteCreate.sucess === true) {
       displayMsg({
-        content: "Create test suite successfully !",
+        content: "Create test suite successfully!",
         type: 'success'
       });
+      handleClose();
+      console.log('here');
       getAllTestcaseReq();
       resetAddRedux();
-      handleClose();
     }
-  },[testsuite.sucess])
+  },[insTestsuiteCreate.sucess])
 
 
   

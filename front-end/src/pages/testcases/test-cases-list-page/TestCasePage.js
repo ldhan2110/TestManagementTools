@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ, RESET_UPDATE_TESTCASE, RESET_DELETE_TESTCASE} from '../../../redux/test-case/constants';
+import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ, RESET_UPDATE_TESTCASE, RESET_DELETE_TESTCASE, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import {
   Grid,
   Typography,
@@ -39,13 +39,14 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updateTestcaseReq: (payload) => dispatch({type: UPDATE_TESTCASE_REQ, payload}),
     deleteTestcaseReq: (payload) => dispatch({type: DELETE_TESTCASE_REQ, payload}),
+    getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
     resetUpdateRedux: () => dispatch({type: RESET_UPDATE_TESTCASE}),
     resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTCASE})
   }
 }
 
 const TestCaseDetail = (props) => {
-  const {node, listTestsuite, project, updateTestcaseReq, displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete, resetDeleteRedux, resetUpdateRedux} = props;
+  const {node, listTestsuite, project, updateTestcaseReq, getAllTestcaseReq, displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete, resetDeleteRedux, resetUpdateRedux} = props;
   const [checkError, setCheckError] = useState(false);
   const [error, setError] = useState({
     testcasename: 'ss',
@@ -111,6 +112,7 @@ const TestCaseDetail = (props) => {
         content: "Delete testcase successfully !",
         type: 'success'
       });
+      getAllTestcaseReq();
       resetDeleteRedux();
     }
   },[insTestcaseDelete.sucess]);

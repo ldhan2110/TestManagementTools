@@ -7,7 +7,7 @@ import EnhancedTable from '../../../components/Table/index';
 import NewTestSuitePopup from '../new-test-suite-page/index';
 import {TEST_SUITE_DETAIL_HEADERS} from '../../../components/Table/DefineHeader';
 import { connect } from 'react-redux';
-import {UPDATE_TESTSUITE_REQ, DELETE_TESTSUITE_REQ, RESET_UPDATE_TESTSUITE, RESET_DELETE_TESTSUITE} from '../../../redux/test-case/constants';
+import {UPDATE_TESTSUITE_REQ, DELETE_TESTSUITE_REQ, RESET_UPDATE_TESTSUITE, RESET_DELETE_TESTSUITE, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Grid,
@@ -47,13 +47,14 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updateTestsuiteReq: (payload) => dispatch({type: UPDATE_TESTSUITE_REQ, payload}),
     deleteTestsuiteReq: (payload) => dispatch({type: DELETE_TESTSUITE_REQ, payload}),
+    getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
     resetUpdateRedux: () => dispatch({type: RESET_UPDATE_TESTSUITE}),
     resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTSUITE})
   }
 }
 
 const TestSuiteDetail = (props) => {
-  const {node, listTestsuite, project, updateTestsuiteReq, deleteTestsuiteReq, displayMsg, insTestsuite, resetUpdateRedux, resetDeleteRedux, insTestsuiteDelete} = props;
+  const {node, listTestsuite, project, updateTestsuiteReq, getAllTestcaseReq, deleteTestsuiteReq, displayMsg, insTestsuite, resetUpdateRedux, resetDeleteRedux, insTestsuiteDelete} = props;
   
   const [testSuite, setTestSuite] = useState({
     id: '',
@@ -132,6 +133,7 @@ const TestSuiteDetail = (props) => {
         content: "Delete testsuite successfully !",
         type: 'success'
       });
+      getAllTestcaseReq();
       resetDeleteRedux();
     }
   },[insTestsuiteDelete.sucess]);

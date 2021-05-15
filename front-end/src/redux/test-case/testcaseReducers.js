@@ -25,6 +25,12 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
+
+  insTestsuiteCreate:{
+    sucess: null,
+    errMsg: null
+  },
+
 }
 
 
@@ -59,7 +65,7 @@ const reducer = (state = initialState, actions) => {
     case types.ADD_TEST_SUITE_SUCCESS:
         return {
           ...state,
-          insTestsuite: {
+          insTestsuiteCreate: {
             sucess: true,
             errMsg: null
           }      
@@ -68,7 +74,7 @@ const reducer = (state = initialState, actions) => {
     case types.ADD_TEST_SUITE_FAILED:
       return {
         ...state,
-      insTestsuite:{
+        insTestsuiteCreate:{
         sucess: false,
         errMsg: payload
       }
@@ -77,7 +83,7 @@ const reducer = (state = initialState, actions) => {
     case types.RESET_ADD_TEST_SUITE:
       return {
         ...state,
-      insTestsuite:{
+        insTestsuiteCreate:{
         sucess: null,
         errMsg: null
       }
