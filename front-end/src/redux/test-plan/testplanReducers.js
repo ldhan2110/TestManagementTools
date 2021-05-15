@@ -8,6 +8,10 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
+  insTestplanDelete: {
+    sucess: null,
+    errMsg: null
+  },
   listTestplan: [],
   listActiveTestplan: []
 }
@@ -88,6 +92,16 @@ const reducer = (state = initialState, actions) => {
       }    
     }
 
+    case types.RESET_ADD_NEW_TESTPLAN: {
+      return{
+        ...state,
+        insTestplan:{
+          sucess: null,
+          errMsg: null
+        }
+      }    
+    }
+
     case types.SELECT_TESTPLAN: 
       return {
         ...state,
@@ -121,17 +135,27 @@ const reducer = (state = initialState, actions) => {
       }    
     }
 
+    case types.RESET_UPDATE_TESTPLAN:{
+      return {
+        ...state,
+        insTestplan: {
+          sucess: null,
+          errMsg: null
+        }
+      }
+    }
+
     case types.DELETE_TESTPLAN_REQ:{      
       return {
         ...state,
-        insTestplan: initialState.insTestplan
+        insTestplanDelete: initialState.insTestplanDelete
       };
     }
 
     case types.DELETE_TESTPLAN_SUCCESS:{
       return {
         ...state,
-        insTestplan: {
+        insTestplanDelete: {
           sucess: true,
           errMsg: null
         }
@@ -141,11 +165,21 @@ const reducer = (state = initialState, actions) => {
     case types.DELETE_TESTPLAN_FAILED: {
       return{
         ...state,
-        insTestplan:{
+        insTestplanDelete:{
           sucess: false,
           errMsg: payload
         }
       }    
+    }
+
+    case types.RESET_DELETE_TESTPLAN:{
+      return {
+        ...state,
+        insTestplanDelete: {
+          sucess: null,
+          errMsg: null
+        }
+      }
     }
 
     default:

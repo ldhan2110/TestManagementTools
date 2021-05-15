@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 import SelectBox from '../../../components/Selectbox';
-import {UPDATE_TESTPLAN_REQ, DELETE_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
+import {UPDATE_TESTPLAN_REQ, DELETE_TESTPLAN_REQ, RESET_UPDATE_TESTPLAN, RESET_DELETE_TESTPLAN} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
@@ -31,7 +31,7 @@ import {
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { insTestplan: state.testplan.insTestplan,  project:state.project.currentSelectedProject,
-    listBuilds: state.build.listBuilds }
+    listBuilds: state.build.listBuilds, insTestplanDelete: state.testplan.insTestplanDelete }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -41,12 +41,14 @@ const mapDispatchToProps = dispatch => {
     deleteTestplanReq: (payload) => dispatch({ type: DELETE_TESTPLAN_REQ, payload }),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllBuildActiveReq: (payload) => dispatch({ type: GET_ALL_BUILD_ACTIVE_REQ, payload }),
+    resetUpdateRedux: () => dispatch({type: RESET_UPDATE_TESTPLAN}),
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTPLAN})
   }
 }
 
 const TestPlanDetailPage = (props) => {
     const {classes, listTestPlans, name, match, updateTestplanReq, insTestplan,
-           displayMsg, project, listBuilds, getAllBuildActiveReq, deleteTestplanReq} = props;
+           displayMsg, deleteTestplanReq, insTestplanDelete, resetUpdateRedux, resetDeleteRedux} = props;
     const history = useHistory();
     const [open, setOpen] = React.useState(false);
     const [checkError, setCheckError] = useState(false);
@@ -76,9 +78,26 @@ const TestPlanDetailPage = (props) => {
           content: "Update testplan successfully !",
           type: 'success'
         });
+        resetUpdateRedux();
         history.goBack();
       }
     },[insTestplan.sucess]);
+
+    useEffect(()=>{
+      if (insTestplanDelete.sucess === false){
+        displayMsg({
+          content: insTestplanDelete.errMsg,
+          type: 'error'
+        });
+      } else if (insTestplanDelete.sucess == true) {
+        displayMsg({
+          content: "Delete testplan successfully !",
+          type: 'success'
+        });
+        resetDeleteRedux();
+        history.goBack();
+      }
+    },[insTestplanDelete.sucess]);
 
     //useEffect(()=>{
       //getAllBuildActiveReq(project); 

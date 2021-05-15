@@ -27,7 +27,7 @@ const  mapStateToProps = (state) => {
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => { 
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),

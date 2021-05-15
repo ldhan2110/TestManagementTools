@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 import SelectBox from '../../../components/Selectbox';
-import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
+import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ, RESET_ADD_NEW_TESTPLAN} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
@@ -46,6 +46,7 @@ const mapDispatchToProps = dispatch => {
     getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllBuildActiveReq: (payload) => dispatch({ type: GET_ALL_BUILD_ACTIVE_REQ, payload }),
+    resetAddRedux: () => dispatch({type: RESET_ADD_NEW_TESTPLAN})
   }
 }
 
@@ -53,7 +54,7 @@ const mapDispatchToProps = dispatch => {
 const NewTestPlanPage = (props) => {
   const {classes, listTestPlan} = props;
     const {isOpen, setOpen} = props;
-    const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project, listBuilds, getAllBuildActiveReq} = props;
+    const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project, listBuilds, getAllBuildActiveReq, resetAddRedux} = props;
     const [open, setOpenPopup] = React.useState(isOpen);
     const history = useHistory();
     const [checkError, setCheckError] = useState(false);
@@ -100,6 +101,7 @@ const NewTestPlanPage = (props) => {
         content: "Create testplan successfully !",
         type: 'success'
       });
+      resetAddRedux();
       getAllTestplanReq();
       handleClose();
     }
