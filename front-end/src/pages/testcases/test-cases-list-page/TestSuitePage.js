@@ -7,7 +7,7 @@ import EnhancedTable from '../../../components/Table/index';
 import NewTestSuitePopup from '../new-test-suite-page/index';
 import {TEST_SUITE_DETAIL_HEADERS} from '../../../components/Table/DefineHeader';
 import { connect } from 'react-redux';
-import {UPDATE_TESTSUITE_REQ, DELETE_TESTSUITE_REQ} from '../../../redux/test-case/constants';
+import {UPDATE_TESTSUITE_REQ, DELETE_TESTSUITE_REQ, RESET_UPDATE_TESTSUITE, RESET_DELETE_TESTSUITE} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Grid,
@@ -37,6 +37,7 @@ const  mapStateToProps = (state) => {
     listTestsuite: state.testcase.listTestsuite,
     project:state.project.currentSelectedProject,
     insTestsuite: state.testcase.insTestsuite,
+    insTestsuiteDelete: state.testcase.insTestsuiteDelete
    }
 }
 
@@ -45,12 +46,14 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updateTestsuiteReq: (payload) => dispatch({type: UPDATE_TESTSUITE_REQ, payload}),
-    deleteTestsuiteReq: (payload) => dispatch({type: DELETE_TESTSUITE_REQ, payload})
+    deleteTestsuiteReq: (payload) => dispatch({type: DELETE_TESTSUITE_REQ, payload}),
+    resetUpdateRedux: () => dispatch({type: RESET_UPDATE_TESTSUITE}),
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTSUITE})
   }
 }
 
 const TestSuiteDetail = (props) => {
-  const {node, listTestsuite, project, updateTestsuiteReq, deleteTestsuiteReq, displayMsg, insTestsuite} = props;
+  const {node, listTestsuite, project, updateTestsuiteReq, deleteTestsuiteReq, displayMsg, insTestsuite, resetUpdateRedux, resetDeleteRedux, insTestsuiteDelete} = props;
   
   const [testSuite, setTestSuite] = useState({
     id: '',
@@ -107,13 +110,31 @@ const TestSuiteDetail = (props) => {
         content: insTestsuite.errMsg,
         type: 'error'
       });
+      resetUpdateRedux();
     } else if (insTestsuite.sucess === true) {
       displayMsg({
         content: "Update testsuite successfully !",
         type: 'success'
       });
+      resetUpdateRedux();
     }
   },[insTestsuite.sucess]);
+
+  useEffect(()=>{
+    if (insTestsuiteDelete.sucess === false){
+      displayMsg({
+        content: insTestsuiteDelete.errMsg,
+        type: 'error'
+      });
+      resetDeleteRedux();
+    } else if (insTestsuiteDelete.sucess === true) {
+      displayMsg({
+        content: "Delete testsuite successfully !",
+        type: 'success'
+      });
+      resetDeleteRedux();
+    }
+  },[insTestsuiteDelete.sucess]);
 
   const handleOpenTS = ()=>{
     console.log('testsuite: ' + JSON.stringify(node));

@@ -69,3 +69,45 @@ export function deleteTestSuite(value){
     payload: value
   }
 }
+
+export function resetAddTestSuite(value){
+  return {
+    type: types.RESET_ADD_TEST_SUITE,
+    payload: value
+  }
+}
+
+export function resetAddTestCase(value){
+  return {
+    type: types.RESET_ADD_TEST_CASE,
+    payload: value
+  }
+}
+
+export function resetUpdateTestCase(value){
+  return {
+    type: types.RESET_UPDATE_TESTCASE,
+    payload: value
+  }
+}
+
+export function resetDeleteTestCase(value){
+  return {
+    type: types.RESET_DELETE_TESTCASE,
+    payload: value
+  }
+}
+
+export function resetUpdateTestSuite(value){
+  return {
+    type: types.RESET_UPDATE_TESTSUITE,
+    payload: value
+  }
+}
+
+export function resetDeleteTestSuite(value){
+  return {
+    type: types.RESET_DELETE_TESTSUITE,
+    payload: value
+  }
+}

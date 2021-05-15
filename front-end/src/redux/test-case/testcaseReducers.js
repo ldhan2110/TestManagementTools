@@ -74,6 +74,15 @@ const reducer = (state = initialState, actions) => {
       }
     };
 
+    case types.RESET_ADD_TEST_SUITE:
+      return {
+        ...state,
+      insTestsuite:{
+        sucess: null,
+        errMsg: null
+      }
+    };
+
     case types.ADD_TEST_CASE_REQ:
       return {
         ...state,
@@ -95,6 +104,15 @@ const reducer = (state = initialState, actions) => {
           sucess: false,
           errMsg: payload
         }
+      };
+
+    case types.RESET_ADD_TEST_CASE:
+      return {
+        ...state,
+        insTestcase: {
+          sucess: null,
+          errMsg: null
+        }      
       };
 
     case types.GET_ALL_TESTSUITE_REQ:
@@ -163,7 +181,17 @@ const reducer = (state = initialState, actions) => {
         }
       }    
     }
-        
+ 
+    case types.RESET_UPDATE_TESTCASE: {
+      return{
+        ...state,
+        insTestcase: {
+          sucess: null,
+          errMsg: null
+        }
+      }    
+    }
+
     case types.DELETE_TESTCASE_REQ:{      
       return {
         ...state,
@@ -191,6 +219,16 @@ const reducer = (state = initialState, actions) => {
         insTestcaseDelete:{
           sucess: false,
           errMsg: payload
+        }
+      }    
+    }
+
+    case types.RESET_DELETE_TESTCASE: {
+      return{
+        ...state,
+        insTestcaseDelete:{
+          sucess: null,
+          errMsg: null
         }
       }    
     }
@@ -246,36 +284,15 @@ const reducer = (state = initialState, actions) => {
         }
       }    
     }
-        
-    case types.DELETE_TESTSUITE_REQ:{      
+ 
+    case types.RESET_UPDATE_TESTSUITE:{
       return {
         ...state,
-        //insTestcaseDelete: initialState.insTestcaseDelete
-        insTestsuiteDelete: {
+        insTestsuite: {
           sucess: null,
           errMsg: null
         }
-      };
-    }
-  
-    case types.DELETE_TESTSUITE_SUCCESS:{
-      return {
-        ...state,
-        insTestsuiteDelete: {
-          sucess: true,
-          errMsg: null
-        }
       }
-    }
-  
-    case types.DELETE_TESTSUITE_FAILED: {
-      return{
-        ...state,
-        insTestsuiteDelete:{
-          sucess: false,
-          errMsg: payload
-        }
-      }    
     }
 
     case types.DELETE_TESTSUITE_REQ:{      
@@ -308,6 +325,47 @@ const reducer = (state = initialState, actions) => {
         }
       }    
     }
+
+    case types.RESET_DELETE_TESTSUITE:{
+      return {
+        ...state,
+        insTestsuiteDelete: {
+          sucess: null,
+          errMsg: null
+        }
+      }
+    }
+
+    // case types.DELETE_TESTSUITE_REQ:{      
+    //   return {
+    //     ...state,
+    //     //insTestcaseDelete: initialState.insTestcaseDelete
+    //     insTestsuiteDelete: {
+    //       sucess: null,
+    //       errMsg: null
+    //     }
+    //   };
+    // }
+  
+    // case types.DELETE_TESTSUITE_SUCCESS:{
+    //   return {
+    //     ...state,
+    //     insTestsuiteDelete: {
+    //       sucess: true,
+    //       errMsg: null
+    //     }
+    //   }
+    // }
+  
+    // case types.DELETE_TESTSUITE_FAILED: {
+    //   return{
+    //     ...state,
+    //     insTestsuiteDelete:{
+    //       sucess: false,
+    //       errMsg: payload
+    //     }
+    //   }    
+    // }
     
     default:
       return state;

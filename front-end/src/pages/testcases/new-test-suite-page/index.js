@@ -10,7 +10,7 @@ import {
   Button,
   Grid
 } from '@material-ui/core'
-import {GET_ALL_TESTCASE_REQ, ADD_TEST_SUITE_REQ} from '../../../redux/test-case/constants';
+import {GET_ALL_TESTCASE_REQ, ADD_TEST_SUITE_REQ, RESET_ADD_TEST_SUITE} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 
 //MAP STATES TO PROPS - REDUX
@@ -25,7 +25,8 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
-    addTestsuiteReq: (payload) => dispatch({type: ADD_TEST_SUITE_REQ, payload})
+    addTestsuiteReq: (payload) => dispatch({type: ADD_TEST_SUITE_REQ, payload}),
+    resetAddRedux: () => dispatch({type: RESET_ADD_TEST_SUITE})
   }
 }
 
@@ -33,7 +34,7 @@ const mapDispatchToProps = dispatch => {
 const NewTestSuitePopup = (props) => {
     const {isOpen, setOpen, selected} = props;  
     const [open, setOpenPopup] = React.useState(isOpen);
-    const{testsuite, displayMsg, getAllTestcaseReq, addTestsuiteReq} = props;
+    const{testsuite, displayMsg, getAllTestcaseReq, addTestsuiteReq, resetAddRedux} = props;
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
       testsuitename: 'ss',
@@ -64,12 +65,14 @@ const NewTestSuitePopup = (props) => {
         content: testsuite.errMsg,
         type: 'error'
       });
+      resetAddRedux();
     } else if (testsuite.sucess === true) {
       displayMsg({
         content: "Create test suite successfully !",
         type: 'success'
       });
       getAllTestcaseReq();
+      resetAddRedux();
       handleClose();
     }
   },[testsuite.sucess])

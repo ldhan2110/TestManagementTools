@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ} from '../../../redux/test-case/constants';
+import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ, RESET_UPDATE_TESTCASE, RESET_DELETE_TESTCASE} from '../../../redux/test-case/constants';
 import {
   Grid,
   Typography,
@@ -38,12 +38,14 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updateTestcaseReq: (payload) => dispatch({type: UPDATE_TESTCASE_REQ, payload}),
-    deleteTestcaseReq: (payload) => dispatch({type: DELETE_TESTCASE_REQ, payload})
+    deleteTestcaseReq: (payload) => dispatch({type: DELETE_TESTCASE_REQ, payload}),
+    resetUpdateRedux: () => dispatch({type: RESET_UPDATE_TESTCASE}),
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTCASE})
   }
 }
 
 const TestCaseDetail = (props) => {
-  const {node, listTestsuite, project, updateTestcaseReq, displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete} = props;
+  const {node, listTestsuite, project, updateTestcaseReq, displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete, resetDeleteRedux, resetUpdateRedux} = props;
   const [checkError, setCheckError] = useState(false);
   const [error, setError] = useState({
     testcasename: 'ss',
@@ -81,17 +83,19 @@ const TestCaseDetail = (props) => {
     }
   },[node]);
 
-  useEffect(()=>{
+  useEffect(()=>{ 
     if (insTestcase.sucess === false){
       displayMsg({
         content: insTestcase.errMsg,
         type: 'error'
       });
+      resetUpdateRedux();
     } else if (insTestcase.sucess === true) {
       displayMsg({
         content: "Update testcase successfully !",
         type: 'success'
       });
+      resetUpdateRedux();
     }
   },[insTestcase.sucess]);
 
@@ -101,11 +105,13 @@ const TestCaseDetail = (props) => {
         content: insTestcaseDelete.errMsg,
         type: 'error'
       });
+      resetDeleteRedux();
     } else if (insTestcaseDelete.sucess === true) {
       displayMsg({
         content: "Delete testcase successfully !",
         type: 'success'
       });
+      resetDeleteRedux();
     }
   },[insTestcaseDelete.sucess]);
 

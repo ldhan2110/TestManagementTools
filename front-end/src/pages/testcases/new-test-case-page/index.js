@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
-import {ADD_TEST_CASE_REQ, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
+import {ADD_TEST_CASE_REQ, GET_ALL_TESTCASE_REQ, RESET_ADD_TEST_CASE} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Grid,
@@ -31,12 +31,13 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
-    addTestcaseReq: (payload) => dispatch({type: ADD_TEST_CASE_REQ, payload})
+    addTestcaseReq: (payload) => dispatch({type: ADD_TEST_CASE_REQ, payload}),
+    resetAddRedux: () => dispatch({type: RESET_ADD_TEST_CASE})
   }
 }
 
 const TestCaseDetail = (props) => {
-  const {node, addTestcaseReq, displayMsg, insTestcase, getAllTestcaseReq, listTestsuite} = props;
+  const {node, addTestcaseReq, displayMsg, insTestcase, getAllTestcaseReq, listTestsuite, resetAddRedux} = props;
   const history = useHistory();
   const [checkError, setCheckError] = useState(false);
   const [error, setError] = useState({
@@ -65,12 +66,14 @@ const TestCaseDetail = (props) => {
         content: insTestcase.errMsg,
         type: 'error'
       });
+      resetAddRedux();
     } else if (insTestcase.sucess === true) {
       displayMsg({
         content: "Create Testcase successfully !",
         type: 'success'
       });
       getAllTestcaseReq();
+      resetAddRedux();
       history.goBack();
     }
   },[insTestcase.sucess]);
