@@ -2,7 +2,7 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import DatePicker from '../../../components/DatePicker';
-import {ADD_NEW_MILESTONE_REQ, GET_ALL_MILESTONES_REQ} from '../../../redux/milestones/constants';
+import {ADD_NEW_MILESTONE_REQ, GET_ALL_MILESTONES_REQ, RESET_ADD_NEW_MILESTONE} from '../../../redux/milestones/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import React, {useEffect, useState} from "react";
 import { connect } from 'react-redux';
@@ -30,20 +30,17 @@ const mapDispatchToProps = dispatch => {
   return {
     addMilestoneReq: (payload) => dispatch({ type: ADD_NEW_MILESTONE_REQ, payload }),
     getAllMilestoneReq: () => dispatch({ type: GET_ALL_MILESTONES_REQ}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    resetAddRedux: () => dispatch({type: RESET_ADD_NEW_MILESTONE}) 
   }
 }
 
 const NewMileStonePage = (props) => {
   const {isOpen, setOpen, classes} = props;
-  const {insMilestones, addMilestoneReq, displayMsg, getAllMilestoneReq, project} = props;
+  const {insMilestones, addMilestoneReq, displayMsg, getAllMilestoneReq, project, resetAddRedux} = props;
   const [open, setOpenPopup] = React.useState(isOpen);
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
-  const [error, setError] = useState({
-    milestonetitle: 'ss',
-    description: 'ss',
-  });
   const [checkError, setCheckError] = useState(false);
   const history = useHistory();
   const [milestoneInfo, setMilestoneInfo] = useState({
@@ -53,6 +50,10 @@ const NewMileStonePage = (props) => {
     start_date: new Date(),
     end_date: new Date(),
     is_completed: false
+  });
+  const [error, setError] = useState({
+    milestonetitle: 'ss',
+    description: 'ss',
   });
 
   useEffect(()=>{
@@ -78,6 +79,7 @@ const NewMileStonePage = (props) => {
         content: "Create milestone successfully !",
         type: 'success'
       });
+      resetAddRedux();
       getAllMilestoneReq();
       handleClose();
     }

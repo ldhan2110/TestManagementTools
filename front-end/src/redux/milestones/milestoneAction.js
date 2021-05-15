@@ -46,3 +46,27 @@ export function getMilestoneById(value) {
     payload: value
   }
 }
+
+export function resetAddMilestone(value){
+
+  return {
+    type: types.RESET_ADD_NEW_MILESTONE,
+    payload: value
+  }
+}
+
+export function resetUpdateMilestone(value){
+
+  return {
+    type: types.RESET_UPDATE_MILESTONE,
+    payload: value
+  }
+}
+
+export function resetDeleteMilestone(value){
+
+  return {
+    type: types.RESET_DELETE_MILESTONE,
+    payload: value
+  }
+}

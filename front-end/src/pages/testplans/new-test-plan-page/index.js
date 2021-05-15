@@ -46,7 +46,7 @@ const mapDispatchToProps = dispatch => {
     getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllBuildActiveReq: (payload) => dispatch({ type: GET_ALL_BUILD_ACTIVE_REQ, payload }),
-    resetAddRedux: () => dispatch({type: RESET_ADD_NEW_TESTPLAN})
+    resetAddRedux: () => dispatch({type: RESET_ADD_NEW_TESTPLAN}) 
   }
 }
 

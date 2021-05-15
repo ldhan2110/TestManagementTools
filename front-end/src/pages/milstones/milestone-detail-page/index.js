@@ -2,7 +2,7 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import DatePicker from '../../../components/DatePicker';
-import {GET_ALL_MILESTONES_REQ, GET_MILESTONE_BYID_REQ, UPDATE_MILESTONE_REQ, DELETE_MILESTONE_REQ} from '../../../redux/milestones/constants';
+import {GET_ALL_MILESTONES_REQ, GET_MILESTONE_BYID_REQ, UPDATE_MILESTONE_REQ, DELETE_MILESTONE_REQ, RESET_UPDATE_MILESTONE, RESET_DELETE_MILESTONE} from '../../../redux/milestones/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import React, {useEffect, useState} from "react";
 import { connect } from 'react-redux';
@@ -27,7 +27,8 @@ import { deleteMilestoneEpic } from "../../../redux/milestones/milestoneEpics";
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { insMilestones: state.milestone.insMilestones,  project:state.project.currentSelectedProject,
-    milestone:state.milestone.currentSelectedMilestone, listMilestones: state.milestone.listMilestones}
+    milestone:state.milestone.currentSelectedMilestone, listMilestones: state.milestone.listMilestones,
+    insMilestonesDelete: state.milestone.insMilestonesDelete}
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -36,7 +37,9 @@ const mapDispatchToProps = dispatch => {
     updateMilestoneReq: (payload) => dispatch({ type: UPDATE_MILESTONE_REQ, payload }),
     getMilestoneByIdReq: (payload) => dispatch({ type: GET_MILESTONE_BYID_REQ, payload}),
     deleteMilestoneReq: (payload) => dispatch({ type: DELETE_MILESTONE_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    resetUpdateRedux: () => dispatch({type: RESET_UPDATE_MILESTONE}),
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_MILESTONE})
   }
 }
 
@@ -44,8 +47,7 @@ const DetailMileStonePage = (props) => {
   const {classes} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
-  const {insMilestones, updateMilestoneReq, displayMsg,listMilestones,deleteMilestoneReq, 
-         getMilestoneByIdReq, project, milestone} = props;
+  const {insMilestones, updateMilestoneReq, displayMsg,listMilestones,deleteMilestoneReq, getMilestoneByIdReq, project, milestone, resetUpdateRedux, resetDeleteRedux, insMilestonesDelete} = props;
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
   const [checkError, setCheckError] = useState(false);
@@ -103,10 +105,27 @@ const DetailMileStonePage = (props) => {
         content: "Update milestone successfully !",
         type: 'success'
       });
+      resetUpdateRedux();
       history.goBack();
     }
   },[insMilestones.sucess]);
-    
+
+  useEffect(()=>{
+    if (insMilestonesDelete.sucess === false){
+      displayMsg({
+        content: insMilestonesDelete.errMsg,
+        type: 'error'
+      });
+    } else if (insMilestonesDelete.sucess == true) {
+      displayMsg({
+        content: "Delete milestone successfully !",
+        type: 'success'
+      });
+      resetDeleteRedux();
+      history.goBack();
+    }
+  },[insMilestonesDelete.sucess]);
+
   const handleDelete = async () => {
     await deleteMilestoneReq(milestonebyid);
     setOpen(false);
