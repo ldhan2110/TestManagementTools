@@ -52,3 +52,24 @@ export function getAllBuildActive(value) {
     payload: value
   }
 }
+
+export function resetAddNewBuild(value) {
+  return {
+    type: types.RESET_ADD_NEW_BUILD,
+    payload: value
+  }
+}
+
+export function resetUpdateBuild(value) {
+  return {
+    type: types.RESET_UPDATE_BUILD,
+    payload: value
+  }
+}
+
+export function resetDeleteBuild(value) {
+  return {
+    type: types.RESET_DELETE_BUILD,
+    payload: value
+  }
+}

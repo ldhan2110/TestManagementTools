@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import SelectBox from '../../../components/Selectbox';
 import DatePicker from '../../../components/DatePicker';
 import { connect } from 'react-redux';
-import {GET_ALL_BUILDS_REQ, GET_BUILD_BYID_REQ, UPDATE_BUILD_REQ, DELETE_BUILD_REQ} from '../../../redux/build-release/constants';
+import {GET_ALL_BUILDS_REQ, GET_BUILD_BYID_REQ, UPDATE_BUILD_REQ, DELETE_BUILD_REQ, RESET_UPDATE_BUILD, RESET_DELETE_BUILD} from '../../../redux/build-release/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 
@@ -34,7 +34,7 @@ import {
 const  mapStateToProps = (state) => {
   return { insBuilds: state.build.insBuilds,  project:state.project.currentSelectedProject,
     build:state.build.currentSelectedBuild, listBuilds: state.build.listBuilds,
-    listTestplan: state.testplan.listTestplan}
+    listTestplan: state.testplan.listTestplan, insBuildsDelete: state.build.insBuildsDelete}
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -45,18 +45,27 @@ const mapDispatchToProps = dispatch => {
     deleteBuildReq: (payload) => dispatch({ type: DELETE_BUILD_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
+    resetUpdateRedux: () => dispatch({type: RESET_UPDATE_BUILD}),
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_BUILD})
   }
 }
 
 const BuildDetailPage = (props) => {
     const {classes, name} = props;
-    const {insBuilds, updateBuildReq, displayMsg,listBuilds,deleteBuildReq,
-       getBuildByIdReq, project, build, listTestplan, getAllTestplanReq} = props;
+    const {insBuilds, updateBuildReq, displayMsg,listBuilds,deleteBuildReq, getBuildByIdReq, project, build, listTestplan, getAllTestplanReq, resetUpdateRedux, resetDeleteRedux, insBuildsDelete} = props;
+    const history = useHistory();
+    const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
+    const [checkError, setCheckError] = useState(false);
+    const [open, setOpen] = React.useState(false);
+    const [error, setError] = useState({
+      buildname: 'ss',
+      description: 'ss',
+      testplan: 'ss'
+    });
     const [buildbyid, setBuildbyid] = useState({
       projectid: props.match.params.projectName,
       buildid: props.match.params.buildName
     });  
-    const history = useHistory();
     const [buildInfor, setBuildInfor] = React.useState({
       buildid: props.match.params.buildName,
       projectid: props.match.params.projectName,
@@ -67,13 +76,6 @@ const BuildDetailPage = (props) => {
       releasedate: props.history.location.state.releasedate,
       testplan: ''
     });
-    const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
-    const [checkError, setCheckError] = useState(false);
-    const [error, setError] = useState({
-      buildname: 'ss',
-      description: 'ss',
-      testplan: 'ss'
-    });
 
     useEffect(()=>{
       if(props.history.location.state.testplanname !== undefined && props.history.location.state.testplanname !== null){ 
@@ -82,8 +84,6 @@ const BuildDetailPage = (props) => {
       }
       getAllTestplanReq(project);
     },[])
-
-    const [open, setOpen] = React.useState(false);
 
     useEffect(()=>{
       setBuildInfor({ ...buildInfor, releasedate: selectedDateStart });
@@ -100,9 +100,26 @@ const BuildDetailPage = (props) => {
         content: "Update build successfully !",
         type: 'success'
       });
+      resetUpdateRedux();
       history.goBack();
       }
   },[insBuilds.sucess]);
+
+  useEffect(()=>{
+    if (insBuildsDelete.sucess === false){
+      displayMsg({
+        content: insBuildsDelete.errMsg,
+        type: 'error'
+      });
+    } else if (insBuildsDelete.sucess == true) {
+      displayMsg({
+        content: "Delete build successfully !",
+        type: 'success'
+      });
+      resetDeleteRedux();
+      history.goBack();
+      }
+  },[insBuildsDelete.sucess]);
 
     const handleDateStart = (date) => {
       setSelectedDateStart(date);
@@ -118,7 +135,7 @@ const BuildDetailPage = (props) => {
         if(buildInfor.buildname === "")
         setError({ ...buildInfor, buildname: "" });
     
-        //if(buildInfo.testplan === "")
+        //if(buildInfo.testplan === "") 
         //setError({ ...buildInfo, testplan: "" });
     
         if(buildInfor.buildname !== "" && buildInfor.description !== "")

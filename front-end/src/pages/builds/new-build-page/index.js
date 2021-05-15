@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 import SelectBox from '../../../components/Selectbox';
 import DatePicker from '../../../components/DatePicker';
-import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ} from '../../../redux/build-release/constants';
+import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ, RESET_ADD_NEW_BUILD} from '../../../redux/build-release/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 
@@ -41,13 +41,14 @@ const mapDispatchToProps = dispatch => {
     getAllBuildReq: () => dispatch({ type: GET_ALL_BUILDS_REQ}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload,}),
     getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
+    resetAddRedux: () => dispatch({type: RESET_ADD_NEW_BUILD})
   }
 }
 
 const NewBuildPage = (props) => {
     
   const {isOpen, setOpen, classes} = props;
-  const {insBuilds, addBuildReq, displayMsg, getAllBuildReq, project, listBuilds, listTestplan, getAllTestplanReq} = props;
+  const {insBuilds, addBuildReq, displayMsg, getAllBuildReq, project, listBuilds, listTestplan, getAllTestplanReq, resetAddRedux} = props;
   const [open, setOpenPopup] = React.useState(isOpen);
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const history = useHistory();
@@ -56,7 +57,7 @@ const NewBuildPage = (props) => {
     buildname: 'ss',
     description: 'ss',
     testplan: 'ss'
-  });
+  }); 
 
 
   const [buildInfo, setBuildInfo] = useState({
@@ -92,6 +93,7 @@ const NewBuildPage = (props) => {
         content: "Create build successfully !",
         type: 'success'
       });
+      resetAddRedux();
       getAllBuildReq();
       handleClose();
     }

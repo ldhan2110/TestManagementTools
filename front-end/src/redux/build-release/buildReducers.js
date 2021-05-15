@@ -8,6 +8,10 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
+  insBuildsDelete: {
+    sucess: null,
+    errMsg: null
+  },
   listBuilds: [],
 }
 
@@ -66,6 +70,15 @@ const reducer = (state = initialState, actions) => {
       }    
       }
 
+    case types.RESET_ADD_NEW_BUILD:{
+      return {
+        ...state,
+        insBuilds: {
+          sucess: null,
+          errMsg: null
+        }
+      }
+      }
     
     case types.SELECT_BUILD:
       localStorage.setItem("selectBuild",actions.value); 
@@ -73,8 +86,7 @@ const reducer = (state = initialState, actions) => {
         ...state,
         currentSelectedBuild: actions.value
       }
-
-    
+ 
     case types.UPDATE_BUILD_REQ:{      
       return {
         ...state,
@@ -102,18 +114,27 @@ const reducer = (state = initialState, actions) => {
       }    
       }
 
+    case types.RESET_UPDATE_BUILD:{
+      return {
+        ...state,
+        insBuilds: {
+          sucess: null,
+          errMsg: null
+        }
+      }
+      }
 
     case types.DELETE_BUILD_REQ:{      
       return {
         ...state,
-        insBuilds: initialState.insBuilds
+        insBuildsDelete: initialState.insBuildsDelete
       };
       }
 
     case types.DELETE_BUILD_SUCCESS:{
       return {
         ...state,
-        insBuilds: {
+        insBuildsDelete: {
           sucess: true,
           errMsg: null
         }
@@ -123,11 +144,21 @@ const reducer = (state = initialState, actions) => {
     case types.DELETE_BUILD_FAILED: {
       return{
         ...state,
-        insBuilds:{
+        insBuildsDelete:{
           sucess: false,
           errMsg: payload
         }
       }    
+      }
+
+    case types.RESET_DELETE_BUILD:{
+      return {
+        ...state,
+        insBuildsDelete: {
+          sucess: null,
+          errMsg: null
+        }
+      }
       }
 
     case types.GET_BUILD_BYID_REQ:
