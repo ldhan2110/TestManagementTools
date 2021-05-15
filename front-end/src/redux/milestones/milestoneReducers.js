@@ -175,10 +175,7 @@ const reducer = (state = initialState, actions) => {
     
     case types.GET_MILESTONE_BYID_SUCCESS:
         return {
-          error: "",
-          errorMsg:"",
-          currentSelectedMilestone: "",
-          insMilestones: [],
+          ...state,
           listMilestones: payload,
     }
 

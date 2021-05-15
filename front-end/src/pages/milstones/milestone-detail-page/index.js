@@ -114,7 +114,7 @@ const DetailMileStonePage = (props) => {
       resetUpdateRedux();
       history.goBack();
     }
-  },[insMilestones.sucess]);
+   },[insMilestones.sucess]);
 
   useEffect(()=>{
     if (insMilestonesDelete.sucess === false){
