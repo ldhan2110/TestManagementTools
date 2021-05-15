@@ -26,9 +26,14 @@ import { deleteMilestoneEpic } from "../../../redux/milestones/milestoneEpics";
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return { insMilestones: state.milestone.insMilestones,  project:state.project.currentSelectedProject,
-    milestone:state.milestone.currentSelectedMilestone, listMilestones: state.milestone.listMilestones,
-    insMilestonesDelete: state.milestone.insMilestonesDelete}
+  return { 
+    insMilestones: state.milestone.insMilestones,  
+    project:state.project.currentSelectedProject,
+    milestone:state.milestone.currentSelectedMilestone, 
+    listMilestones: state.milestone.listMilestones,
+    milestones: state.milestone,
+    insMilestonesDelete: state.milestone.insMilestonesDelete
+  }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -47,7 +52,7 @@ const DetailMileStonePage = (props) => {
   const {classes} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
-  const {insMilestones, updateMilestoneReq, displayMsg,listMilestones,deleteMilestoneReq, getMilestoneByIdReq, project, milestone, resetUpdateRedux, resetDeleteRedux, insMilestonesDelete} = props;
+  const {insMilestones, updateMilestoneReq, displayMsg,listMilestones,deleteMilestoneReq, getMilestoneByIdReq, project, milestone, resetUpdateRedux, resetDeleteRedux, insMilestonesDelete, milestones} = props;
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
   const [checkError, setCheckError] = useState(false);
@@ -73,6 +78,7 @@ const DetailMileStonePage = (props) => {
 
   useEffect(()=>{
     getMilestoneByIdReq(milestonebyid);
+    console.log(milestones);
   },[]);
 
   useEffect(()=>{

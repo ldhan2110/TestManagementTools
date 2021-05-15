@@ -4,10 +4,12 @@ var initialState = {
   error: "",
   errorMsg:"",
   currentSelectedMilestone: "",
+
   insMilestones: {
     sucess: null,
     errMsg: null
   },
+
   insMilestonesDelete: {
     sucess: null,
     errMsg: null
@@ -36,10 +38,7 @@ const reducer = (state = initialState, actions) => {
     
     case types.GET_ALL_MILESTONES_SUCCESS:
         return {
-          error: "",
-          errorMsg:"",
-          currentSelectedMilestone: "",
-          insMilestones: [],
+          ...state,
           listMilestones: payload,
     }
     
