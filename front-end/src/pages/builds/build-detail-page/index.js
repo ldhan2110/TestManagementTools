@@ -74,14 +74,14 @@ const BuildDetailPage = (props) => {
       isActive: props.history.location.state.is_active,
       isPublic: props.history.location.state.is_open,
       releasedate: props.history.location.state.releasedate,
-      testplan: ''
+      testplan: props.history.location.state.testplanname.testplanname
     });
 
     useEffect(()=>{
-      if(props.history.location.state.testplanname !== undefined && props.history.location.state.testplanname !== null){ 
-        console.log('testplanname: '+props.history.location.state.testplanname);
-        setBuildInfor({ ...buildInfor, testplan: props.history.location.state.testplanname.testplanname }); 
-      }
+      //if(props.history.location.state.testplanname !== undefined && props.history.location.state.testplanname !== null){ 
+        //setBuildInfor({ ...buildInfor, testplan: props.history.location.state.testplanname.testplanname }); 
+        //console.log('testplanname: '+JSON.stringify(props.history.location.state.testplanname));
+      //}
       getAllTestplanReq(project);
     },[])
 
@@ -238,6 +238,7 @@ const BuildDetailPage = (props) => {
                                   value={buildInfor.testplan || ''}
                                   onChange={handleChange('testplan')}
                                   label="Testplan"
+                                  disabled={true}
                                 >
                                {listTestplan.map((item) => (
                                     <MenuItem value={item.testplanname}>{item.testplanname}</MenuItem>

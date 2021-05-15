@@ -36,10 +36,7 @@ const reducer = (state = initialState, actions) => {
     
     case types.GET_ALL_BUILDS_SUCCESS:
         return {
-          error: "",
-          errorMsg:"",
-          currentSelectedBuild: "",
-          insBuilds: [],
+          ...state,
           listBuilds: payload,
       }
     
