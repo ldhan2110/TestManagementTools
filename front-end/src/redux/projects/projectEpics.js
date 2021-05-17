@@ -64,3 +64,61 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
         payload: error.response.data.errMsg
       }))
     )))
+
+  export  const updateProjectEpic = (action$, state$) => action$.pipe(
+    ofType(actions.UPDATE_PROJECT_REQ),
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+payload.projectid+'/project/updateproject',payload,{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.UPDATE_PROJECT_SUCCESS,
+            payload: true
+          })
+        } else {
+          return ({
+            type: actions.UPDATE_PROJECT_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.UPDATE_PROJECT_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )))
+
+  export  const deleteProjectEpic = (action$, state$) => action$.pipe(
+    ofType(actions.DELETE_PROJECT_REQ),
+    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+payload.projectid+'/project/deleteproject',{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.DELETE_PROJECT_SUCCESS,
+            payload: true
+          })
+        } else {
+          return ({
+            type: actions.DELETE_PROJECT_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.DELETE_PROJECT_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )))

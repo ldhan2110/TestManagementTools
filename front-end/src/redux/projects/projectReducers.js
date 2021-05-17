@@ -8,6 +8,10 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
+  insProjectsDelete: {
+    sucess: null,
+    errMsg: null
+  },
   listProjects: [],
 }
 
@@ -66,13 +70,96 @@ const reducer = (state = initialState, actions) => {
       }    
     }
 
+    case types.ADD_NEW_PROJECT_FAILED: {
+      return{
+        ...state,
+        insProjects:{
+          sucess: null,
+          errMsg: null
+        }
+      }    
+    }
     
     case types.SELECT_PROJECT:
       localStorage.setItem("selectProject",actions.value);
       return {
         ...state,
         currentSelectedProject: actions.value
+    }
+
+    case types.UPDATE_PROJECT_REQ:{      
+      return {
+        ...state,
+        insProjects: initialState.insProjects
+      };
+    }
+
+    case types.UPDATE_PROJECT_SUCCESS:{
+      return {
+        ...state,
+        insProjects: {
+          sucess: true,
+          errMsg: null
+        }
       }
+    }
+
+    case types.UPDATE_PROJECT_FAILED: {
+      return{
+        ...state,
+        insProjects:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
+
+    case types.UPDATE_PROJECT_SUCCESS:{
+      return {
+        ...state,
+        insProjects: {
+          sucess: null,
+          errMsg: null
+        }
+      }
+    }
+
+    case types.DELETE_PROJECT_REQ:{      
+      return {
+        ...state,
+        insProjectsDelete: initialState.insProjectsDelete
+      };
+    }
+
+    case types.DELETE_PROJECT_SUCCESS:{
+      return {
+        ...state,
+        insProjectsDelete: {
+          sucess: true,
+          errMsg: null
+        }
+      }
+    }
+
+    case types.DELETE_PROJECT_FAILED: {
+      return{
+        ...state,
+        insProjectsDelete:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
+
+    case types.DELETE_PROJECT_SUCCESS:{
+      return {
+        ...state,
+        insProjectsDelete: {
+          sucess: null,
+          errMsg: null
+        }
+      }
+    }
 
     default:
       return state

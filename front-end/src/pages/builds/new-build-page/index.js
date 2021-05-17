@@ -221,8 +221,6 @@ const NewBuildPage = (props) => {
                                   label="Testplan"
                                   error={!buildInfo.testplan && !error.testplan ? true : false}
                                   helperText={!buildInfo.testplan && !error.testplan ? 'testplan is required' : ' '}
-                                  //error={!buildInfo.testplan && !error.testplan ? true : false}
-                                  //helperText={!buildInfo.testplan && !error.testplan ? 'testplan is required' : ' '}
                                 >
                                {listTestplan.map((item) => (
                                     <MenuItem value={item.testplanname}>{item.testplanname}</MenuItem>
