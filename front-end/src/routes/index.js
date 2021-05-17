@@ -46,7 +46,8 @@ const DetailBuildPage = async(()=>import('../pages/builds/build-detail-page/inde
 
 //Setting components
 const MemberListPage = async(()=>import('../pages/settings/members/index'));
-//const ViewMember = async(()=>import('../pages/settings/members/index'));
+const ViewMember = async(()=>import('../pages/settings/members/index'));
+const SettingProjectPage = async(()=>import('../pages/settings/setting-project/index'));
 
 //Milestone components
 const MileStonePage = async(()=>import('../pages/milstones/milestone-overview-page/index'));
@@ -79,7 +80,7 @@ const projectSettingRoutes = {
       id: "Settings",
       path: "/projects/:projectName/settings",
       name: "Settings",
-      component: Dashboard
+      component: SettingProjectPage
     },
     {
       id: "Members",
