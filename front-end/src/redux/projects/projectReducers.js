@@ -70,7 +70,7 @@ const reducer = (state = initialState, actions) => {
       }    
     }
 
-    case types.ADD_NEW_PROJECT_FAILED: {
+    case types.RESET_ADD_NEW_PROJECT: {
       return{
         ...state,
         insProjects:{
@@ -114,7 +114,7 @@ const reducer = (state = initialState, actions) => {
       }    
     }
 
-    case types.UPDATE_PROJECT_SUCCESS:{
+    case types.RESET_UPDATE_PROJECT:{
       return {
         ...state,
         insProjects: {
@@ -151,7 +151,7 @@ const reducer = (state = initialState, actions) => {
       }    
     }
 
-    case types.DELETE_PROJECT_SUCCESS:{
+    case types.RESET_DELETE_PROJECT:{
       return {
         ...state,
         insProjectsDelete: {

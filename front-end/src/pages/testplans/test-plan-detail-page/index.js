@@ -244,7 +244,7 @@ const TestPlanDetailPage = (props) => {
                     <Button onClick={handleClose} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>
-            </Grid>
+          </Grid>
         </div>
         </form>
         </Grid>

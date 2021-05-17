@@ -37,7 +37,7 @@ const NewProjectPopup = (props) => {
 
   const {insProjects, addProjectReq, displayMsg, getAllProjectReq} = props;
 
-  const [open, setOpenPopup] = React.useState(isOpen);
+  const [open, setOpenPopup] = React.useState(isOpen); 
 
 
   const [projectInfo, setProjectInfo] = useState({
