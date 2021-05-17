@@ -106,7 +106,16 @@ const NewMileStonePage = (props) => {
     if(milestoneInfo.milestonetitle === "")
     setError({ ...milestoneInfo, milestonetitle: "" });
 
-    if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== "")
+    if(milestoneInfo.description.trim().length == 0 || milestoneInfo.milestonetitle.trim().length == 0
+            ||milestoneInfo.description.trim().length !== milestoneInfo.description.length 
+            || milestoneInfo.milestonetitle.trim().length !== milestoneInfo.milestonetitle.length){
+            displayMsg({
+              content: "milestone name or description should not contain spaces",
+              type: 'error'
+            });
+    }
+
+    else if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== "")
     addMilestoneReq(milestoneInfo);
   }
 

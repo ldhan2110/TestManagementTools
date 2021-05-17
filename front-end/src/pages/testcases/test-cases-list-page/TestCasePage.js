@@ -127,7 +127,16 @@ const TestCaseDetail = (props) => {
     if(newtestCase.testcasename === "")
     setError({ ...newtestCase, testcasename: "" });
 
-    if(newtestCase.testcasename !== "" && newtestCase.description !== "")
+    if(newtestCase.description.trim().length == 0 || newtestCase.testcasename.trim().length == 0
+        ||newtestCase.description.trim().length !== newtestCase.description.length 
+        || newtestCase.testcasename.trim().length !== newtestCase.testcasename.length){
+        displayMsg({
+          content: "testcase name name or description should not contain spaces",
+          type: 'error'
+        });
+    }
+
+    else if(newtestCase.testcasename !== "" && newtestCase.description !== "")
     updateTestcaseReq(newtestCase);
   };
 

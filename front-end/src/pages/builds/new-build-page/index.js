@@ -24,6 +24,7 @@ import {
   InputLabel,
   Select,
 } from '@material-ui/core';
+import build from '@date-io/date-fns';
 
 
 //MAP STATES TO PROPS - REDUX
@@ -88,6 +89,7 @@ const NewBuildPage = (props) => {
         content: insBuilds.errMsg,
         type: 'error'
       });
+      resetAddRedux();
     } else if (insBuilds.sucess == true) {
       displayMsg({
         content: "Create build successfully !",
@@ -122,10 +124,23 @@ const NewBuildPage = (props) => {
     if(buildInfo.buildname === "")
     setError({ ...buildInfo, buildname: "" });
 
-    //if(buildInfo.testplan === "")
-    //setError({ ...buildInfo, testplan: "" });
+    if(buildInfo.description.trim().length == 0 || buildInfo.buildname.trim().length == 0
+    ||buildInfo.description.trim().length !== buildInfo.description.length 
+    || buildInfo.buildname.trim().length !== buildInfo.buildname.length){
+      displayMsg({
+        content: "buildname or description should not contain spaces",
+        type: 'error'
+      });
+    }
 
-    if(buildInfo.buildname !== "" && buildInfo.description !== "")
+    else if(buildInfo.testplan === ""){
+      displayMsg({
+        content: "testplan should not be empty!",
+        type: 'error'
+      });
+    }
+
+    else if(buildInfo.buildname !== "" && buildInfo.description !== "")
     addBuildReq(buildInfo);
   }
 
@@ -204,6 +219,8 @@ const NewBuildPage = (props) => {
                                   value={buildInfo.testplan || ''}
                                   onChange={handleChange('testplan')}
                                   label="Testplan"
+                                  error={!buildInfo.testplan && !error.testplan ? true : false}
+                                  helperText={!buildInfo.testplan && !error.testplan ? 'testplan is required' : ' '}
                                   //error={!buildInfo.testplan && !error.testplan ? true : false}
                                   //helperText={!buildInfo.testplan && !error.testplan ? 'testplan is required' : ' '}
                                 >

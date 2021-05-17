@@ -115,8 +115,17 @@ const NewTestPlanPage = (props) => {
   
       if(TestplanInfo.Testplanname === "")
       setError({ ...TestplanInfo, Testplanname: "" });
+
+      if(TestplanInfo.description.trim().length == 0 || TestplanInfo.Testplanname.trim().length == 0
+          ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
+          || TestplanInfo.Testplanname.trim().length !== TestplanInfo.Testplanname.length){
+          displayMsg({
+            content: "Testplan name name or description should not contain spaces",
+            type: 'error'
+          });
+      }
   
-      if(TestplanInfo.Testplanname !== "" && TestplanInfo.description !== "")
+      else if(TestplanInfo.Testplanname !== "" && TestplanInfo.description !== "")
       addNewTestplanReq(TestplanInfo);
       //console.log(JSON.stringify(TestplanInfo));
     }

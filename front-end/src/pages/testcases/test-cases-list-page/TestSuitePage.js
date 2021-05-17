@@ -160,6 +160,15 @@ const TestSuiteDetail = (props) => {
     if(testSuite.name === "")
     setError({ ...testSuite, name: "" });
 
+    if(testSuite.description.trim().length == 0 || testSuite.name.trim().length == 0
+        ||testSuite.description.trim().length !== testSuite.description.length 
+        || testSuite.name.trim().length !== testSuite.name.length){
+        displayMsg({
+          content: "testsuite name name or description should not contain spaces",
+          type: 'error'
+        });
+    }
+
     if(testSuite.testsuitename !== "" && testSuite.description !== ""){
       if(testSuite.name !== testSuite.parent)
         updateTestsuiteReq(testSuite);
