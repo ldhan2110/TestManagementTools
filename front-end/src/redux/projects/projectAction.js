@@ -38,3 +38,11 @@ export function deleteProject(value){
     payload: value
   }
 }
+
+export function getProjectById(value){
+
+  return {
+    type: types.GET_PROJECTS_BY_ID_REQ,
+    payload: value
+  }
+}

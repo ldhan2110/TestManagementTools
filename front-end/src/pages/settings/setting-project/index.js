@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {UPDATE_PROJECT_REQ, DELETE_PROJECT_REQ, RESET_UPDATE_PROJECT, RESET_DELETE_PROJECT} from '../../../redux/projects/constants';
+import {UPDATE_PROJECT_REQ, DELETE_PROJECT_REQ, RESET_UPDATE_PROJECT, RESET_DELETE_PROJECT, GET_PROJECTS_BY_ID_REQ} from '../../../redux/projects/constants';
 import {
   Grid,
   Typography,
@@ -41,7 +41,7 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     updateProjectReq: (payload) => dispatch({ type: UPDATE_PROJECT_REQ, payload }),
-    //getProjectByIdReq: (payload) => dispatch({ type: GET_MILESTONE_BYID_REQ, payload}),
+    getProjectByIdReq: (payload) => dispatch({ type: GET_PROJECTS_BY_ID_REQ, payload}),
     deleteProjectReq: (payload) => dispatch({ type: DELETE_PROJECT_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     resetUpdateRedux: () => dispatch({type: RESET_UPDATE_PROJECT}),
@@ -52,7 +52,7 @@ const mapDispatchToProps = dispatch => {
 
 const SettingProjectPage = (props) => {
     const {classes, insProjects, project, insProjectsDelete, updateProjectReq, deleteProjectReq,
-      displayMsg, resetUpdateRedux, resetDeleteRedux} = props;
+      displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [checkError, setCheckError] = useState(false);
@@ -65,8 +65,13 @@ const SettingProjectPage = (props) => {
     description: '',
     is_public: false,
     active: false,
+    status: '',
     projectid: project
   });
+
+  useEffect(()=>{
+    //getProjectByIdReq(project);
+  },[]);
 
   useEffect(()=>{
     if (insProjects.sucess === false){
@@ -85,7 +90,7 @@ const SettingProjectPage = (props) => {
     }
   },[insProjects.sucess]);
 
-  useEffect(()=>{
+  /*useEffect(()=>{
     if (insProjectsDelete.sucess === false){
       displayMsg({
         content: insProjectsDelete.errMsg,
@@ -100,7 +105,7 @@ const SettingProjectPage = (props) => {
       resetDeleteRedux();
       history.goBack();
     }
-  },[insProjectsDelete.sucess]);
+  },[insProjectsDelete.sucess]);*/
 
   const handleDelete=()=>{
     console.log('delete successfully!'+JSON.stringify(projectInfo, null, '  '));
@@ -223,6 +228,8 @@ const SettingProjectPage = (props) => {
               control={<Checkbox color="primary" />}
               label="Public"
               labelPlacement="start"
+              value={projectInfo.is_public}  onChange={handleIsPublic}
+              checked={projectInfo.is_public}
             />
           </div>
           <div>
@@ -232,6 +239,8 @@ const SettingProjectPage = (props) => {
               control={<Checkbox color="primary"/>}
               label="Active"
               labelPlacement="start"
+              value={projectInfo.active}  onChange={handleIsActive}
+              checked={projectInfo.active}
             />
           </div>
 
@@ -241,6 +250,8 @@ const SettingProjectPage = (props) => {
                   <Select
                     labelId="status"
                     id="status"
+                    onChange={handleChange('status')} 
+                    value={projectInfo.status || ''}
                     label="status">
                         <MenuItem value={'Progressing'}>Progressing</MenuItem>
                         <MenuItem value={"Blocked"}>Blocked</MenuItem>

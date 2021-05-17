@@ -33,8 +33,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
       type: actions.GET_ALL_PROJECTS_FAILED,
       payload: error.response.data.errMsg
     }))
-  )))
-
+    )))
 
   export  const addNewProjectEpic = (action$, state$) => action$.pipe(
     ofType(actions.ADD_NEW_PROJECT_REQ),
@@ -67,7 +66,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
 
   export  const updateProjectEpic = (action$, state$) => action$.pipe(
     ofType(actions.UPDATE_PROJECT_REQ),
-    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+payload.projectid+'/project/updateproject',payload,{
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/project/updateproject',payload,{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
@@ -96,7 +95,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
 
   export  const deleteProjectEpic = (action$, state$) => action$.pipe(
     ofType(actions.DELETE_PROJECT_REQ),
-    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+payload.projectid+'/project/deleteproject',{
+    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/'+payload.projectid+'/project/deleteproject',{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
@@ -119,6 +118,35 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
       }),
       catchError (error => of({
         type: actions.DELETE_PROJECT_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )))
+
+  export  const getProjectByIdEpic = (action$, state$) => action$.pipe(
+    ofType(actions.GET_PROJECTS_BY_ID_REQ),
+    mergeMap(({ payload }) =>  from(axios.get(API_ADDR+'/'+payload+'/project/getprojectbyid',{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.GET_PROJECTS_BY_ID_SUCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.GET_PROJECTS_BY_ID_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.GET_PROJECTS_BY_ID_FAILED,
         payload: error.response.data.errMsg
       }))
     )))
