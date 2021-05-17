@@ -100,7 +100,7 @@ const NewTestSuitePopup = (props) => {
           ||testSuiteInfo.description.trim().length !== testSuiteInfo.description.length 
           || testSuiteInfo.testsuitename.trim().length !== testSuiteInfo.testsuitename.length){
           displayMsg({
-            content: "testsuite name name or description should not contain spaces",
+            content: "testsuite name or description should not contain spaces",
             type: 'error'
           });
       }
