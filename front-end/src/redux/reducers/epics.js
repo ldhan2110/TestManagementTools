@@ -18,6 +18,8 @@ export default combineEpics(
    //PROJECT EPICS
    projectEpics.getAllProjectEpic,
    projectEpics.addNewProjectEpic,
+   projectEpics.updateProjectEpic,
+   projectEpics.deleteProjectEpic,
 
    //TEST PLAN EPICS
    testplanEpics.getAllTestplanEpic,

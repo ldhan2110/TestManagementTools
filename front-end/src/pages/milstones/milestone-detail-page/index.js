@@ -106,6 +106,7 @@ const DetailMileStonePage = (props) => {
         content: insMilestones.errMsg,
         type: 'error'
       });
+      resetUpdateRedux();
     } else if (insMilestones.sucess == true) {
       displayMsg({
         content: "Update milestone successfully !",
@@ -122,6 +123,7 @@ const DetailMileStonePage = (props) => {
         content: insMilestonesDelete.errMsg,
         type: 'error'
       });
+      resetDeleteRedux();
     } else if (insMilestonesDelete.sucess == true) {
       displayMsg({
         content: "Delete milestone successfully !",
@@ -146,7 +148,16 @@ const DetailMileStonePage = (props) => {
     if(milestoneInfo.milestonetitle === "")
     setError({ ...milestoneInfo, milestonetitle: "" });
 
-    if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== "")
+    if(milestoneInfo.description.trim().length == 0 || milestoneInfo.milestonetitle.trim().length == 0
+        ||milestoneInfo.description.trim().length !== milestoneInfo.description.length 
+        || milestoneInfo.milestonetitle.trim().length !== milestoneInfo.milestonetitle.length){
+        displayMsg({
+          content: "milestone name or description should not contain spaces",
+          type: 'error'
+        });
+    }
+
+    else if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== "")
     updateMilestoneReq(milestoneInfo);
     //console.log(JSON.stringify(milestoneInfo, null, '  '));   
   };

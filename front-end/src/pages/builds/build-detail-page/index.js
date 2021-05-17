@@ -95,6 +95,7 @@ const BuildDetailPage = (props) => {
         content: insBuilds.errMsg,
         type: 'error'
       });
+      resetUpdateRedux();
     } else if (insBuilds.sucess == true) {
       displayMsg({
         content: "Update build successfully !",
@@ -111,6 +112,7 @@ const BuildDetailPage = (props) => {
         content: insBuildsDelete.errMsg,
         type: 'error'
       });
+      resetDeleteRedux();
     } else if (insBuildsDelete.sucess == true) {
       displayMsg({
         content: "Delete build successfully !",
@@ -135,10 +137,16 @@ const BuildDetailPage = (props) => {
         if(buildInfor.buildname === "")
         setError({ ...buildInfor, buildname: "" });
     
-        //if(buildInfo.testplan === "") 
-        //setError({ ...buildInfo, testplan: "" });
+        if(buildInfor.description.trim().length == 0 || buildInfor.buildname.trim().length == 0
+            ||buildInfor.description.trim().length !== buildInfor.description.length 
+            || buildInfor.buildname.trim().length !== buildInfor.buildname.length){
+            displayMsg({
+              content: "buildname or description should not contain spaces",
+              type: 'error'
+            });
+        }
     
-        if(buildInfor.buildname !== "" && buildInfor.description !== "")
+        else if(buildInfor.buildname !== "" && buildInfor.description !== "")
         updateBuildReq(buildInfor);
       console.log('buildInfor: '+JSON.stringify(buildInfor));     
       } catch (error) {

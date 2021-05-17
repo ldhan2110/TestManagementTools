@@ -95,8 +95,17 @@ const NewTestSuitePopup = (props) => {
   
       if(testSuiteInfo.testsuitename === "")
       setError({ ...testSuiteInfo, testsuitename: "" });
+
+      if(testSuiteInfo.description.trim().length == 0 || testSuiteInfo.testsuitename.trim().length == 0
+          ||testSuiteInfo.description.trim().length !== testSuiteInfo.description.length 
+          || testSuiteInfo.testsuitename.trim().length !== testSuiteInfo.testsuitename.length){
+          displayMsg({
+            content: "testsuite name or description should not contain spaces",
+            type: 'error'
+          });
+      }
   
-      if(testSuiteInfo.testsuitename !== "" && testSuiteInfo.description !== "")
+      else if(testSuiteInfo.testsuitename !== "" && testSuiteInfo.description !== "")
        addTestsuiteReq(testSuiteInfo);
     }
 

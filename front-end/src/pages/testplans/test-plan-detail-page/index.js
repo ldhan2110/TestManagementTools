@@ -73,6 +73,7 @@ const TestPlanDetailPage = (props) => {
           content: insTestplan.errMsg,
           type: 'error'
         });
+        resetUpdateRedux();
       } else if (insTestplan.sucess == true) {
         displayMsg({
           content: "Update testplan successfully !",
@@ -89,6 +90,7 @@ const TestPlanDetailPage = (props) => {
           content: insTestplanDelete.errMsg,
           type: 'error'
         });
+        resetDeleteRedux();
       } else if (insTestplanDelete.sucess == true) {
         displayMsg({
           content: "Delete testplan successfully !",
@@ -116,8 +118,17 @@ const TestPlanDetailPage = (props) => {
   
       if(testplanInfor.testplanname === "")
       setError({ ...testplanInfor, testplanname: "" });
+
+      if(testplanInfor.description.trim().length == 0 || testplanInfor.testplanname.trim().length == 0
+          ||testplanInfor.description.trim().length !== testplanInfor.description.length 
+          || testplanInfor.testplanname.trim().length !== testplanInfor.testplanname.length){
+          displayMsg({
+            content: "Testplan name or description should not contain spaces",
+            type: 'error'
+          });
+      }
   
-      if(testplanInfor.testplanname !== "" && testplanInfor.description !== "")
+      else if(testplanInfor.testplanname !== "" && testplanInfor.description !== "")
       updateTestplanReq(testplanInfor);
       //console.log(JSON.stringify(testplanInfor, null, '  '));    
     };
@@ -233,7 +244,7 @@ const TestPlanDetailPage = (props) => {
                     <Button onClick={handleClose} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>
-            </Grid>
+          </Grid>
         </div>
         </form>
         </Grid>
