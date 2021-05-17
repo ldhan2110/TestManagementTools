@@ -121,7 +121,7 @@ const NewTestPlanPage = (props) => {
           ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
           || TestplanInfo.Testplanname.trim().length !== TestplanInfo.Testplanname.length){
           displayMsg({
-            content: "Testplan name or description should not contain spaces",
+            content: "Testplan name or description should not contain spaces or empty",
             type: 'error'
           });
       }

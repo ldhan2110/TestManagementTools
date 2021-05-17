@@ -138,15 +138,20 @@ const SettingProjectPage = (props) => {
     if(projectInfo.description.trim().length == 0 || projectInfo.projectname.trim().length == 0
         ||projectInfo.description.trim().length !== projectInfo.description.length 
         || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
+          setError({ ...error, description: "" });
+          setError({ ...error, projectname: "" });
+          console.log('description ssssssss: '+projectInfo.description);
         displayMsg({
-          content: "Project name or description should not contain spaces",
+          content: "Project name, description should not contain spaces or empty",
           type: 'error'
         });
     }
 
     else if(projectInfo.projectname !== "" && projectInfo.description !== "")
     updateProjectReq(projectInfo);
-    //console.log('update successfully: '+JSON.stringify(projectInfo, null, '  '));    
+    console.log('update successfully: '+JSON.stringify(projectInfo, null, '  '));    
+    console.log('error Object: '+JSON.stringify(error, null, '  '));    
+    console.log('description: '+projectInfo.description);
   };
   
   const handleChange = (prop) => (event) => {

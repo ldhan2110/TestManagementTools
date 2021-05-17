@@ -164,7 +164,7 @@ const TestSuiteDetail = (props) => {
         ||testSuite.description.trim().length !== testSuite.description.length 
         || testSuite.name.trim().length !== testSuite.name.length){
         displayMsg({
-          content: "testsuite name or description should not contain spaces",
+          content: "testsuite name or description should not contain spaces or empty",
           type: 'error'
         });
     }
