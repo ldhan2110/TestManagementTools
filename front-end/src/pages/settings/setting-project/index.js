@@ -13,7 +13,10 @@ import {
   TextField,
   FormControl,
   Checkbox,
-  FormControlLabel
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select
 } from '@material-ui/core';
 
 import {
@@ -80,6 +83,20 @@ const SettingProjectPage = (props) => {
               label="Active"
               labelPlacement="start"
             />
+          </div>
+
+          <div>
+          <FormControl variant="outlined"  fullWidth>
+              <InputLabel id="status">Status</InputLabel>
+                  <Select
+                    labelId="status"
+                    id="status"
+                    label="status">
+                        <MenuItem value={'Progressing'}>Progressing</MenuItem>
+                        <MenuItem value={"Blocked"}>Blocked</MenuItem>
+                        <MenuItem value={"Closed"}>Closed</MenuItem>
+                  </Select>
+          </FormControl>
           </div>
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary">
