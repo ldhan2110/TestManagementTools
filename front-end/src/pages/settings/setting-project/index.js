@@ -33,7 +33,8 @@ const  mapStateToProps = (state) => {
   return { 
     insProjects: state.project.insProjects,  
     project:state.project.currentSelectedProject,
-    insProjectsDelete: state.project.insProjectsDelete
+    insProjectsDelete: state.project.insProjectsDelete,
+    inforProject: state.project.projectInfo
   }
 }
 
@@ -52,7 +53,7 @@ const mapDispatchToProps = dispatch => {
 
 const SettingProjectPage = (props) => {
     const {classes, insProjects, project, insProjectsDelete, updateProjectReq, deleteProjectReq,
-      displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq} = props;
+      displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq, inforProject} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [checkError, setCheckError] = useState(false);
@@ -70,8 +71,20 @@ const SettingProjectPage = (props) => {
   });
 
   useEffect(()=>{
-    //getProjectByIdReq(project);
+    getProjectByIdReq(project);
   },[]);
+
+  useEffect(()=>{
+    if(inforProject !== undefined)
+    setProjectInfo({...projectInfo,
+      projectname: inforProject.projectname,
+      description: inforProject.description,
+      is_public: inforProject.is_public,
+      active: inforProject.active,
+      status: inforProject.status,
+      projectid: project     
+    })
+  },[inforProject]);
 
   useEffect(()=>{
     if (insProjects.sucess === false){
@@ -90,7 +103,7 @@ const SettingProjectPage = (props) => {
     }
   },[insProjects.sucess]);
 
-  /*useEffect(()=>{
+  useEffect(()=>{
     if (insProjectsDelete.sucess === false){
       displayMsg({
         content: insProjectsDelete.errMsg,
@@ -105,11 +118,11 @@ const SettingProjectPage = (props) => {
       resetDeleteRedux();
       history.goBack();
     }
-  },[insProjectsDelete.sucess]);*/
+  },[insProjectsDelete.sucess]);
 
   const handleDelete=()=>{
-    console.log('delete successfully!'+JSON.stringify(projectInfo, null, '  '));
-    //deleteProjectReq(projectInfo);
+    //console.log('delete successfully!'+JSON.stringify(projectInfo, null, '  '));
+    deleteProjectReq(projectInfo);
     setOpen(false);
   }
 
@@ -132,8 +145,8 @@ const SettingProjectPage = (props) => {
     }
 
     else if(projectInfo.projectname !== "" && projectInfo.description !== "")
-    //updateProjectReq(projectInfo);
-    console.log('update successfully: '+JSON.stringify(projectInfo, null, '  '));    
+    updateProjectReq(projectInfo);
+    //console.log('update successfully: '+JSON.stringify(projectInfo, null, '  '));    
   };
   
   const handleChange = (prop) => (event) => {

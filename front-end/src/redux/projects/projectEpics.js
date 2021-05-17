@@ -66,7 +66,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
 
   export  const updateProjectEpic = (action$, state$) => action$.pipe(
     ofType(actions.UPDATE_PROJECT_REQ),
-    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/project/updateproject',payload,{
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/project/updateproject/'+payload.projectid,payload,{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
@@ -95,7 +95,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
 
   export  const deleteProjectEpic = (action$, state$) => action$.pipe(
     ofType(actions.DELETE_PROJECT_REQ),
-    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/'+payload.projectid+'/project/deleteproject',{
+    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/project/deleteproject/'+payload.projectid,{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
@@ -124,7 +124,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
 
   export  const getProjectByIdEpic = (action$, state$) => action$.pipe(
     ofType(actions.GET_PROJECTS_BY_ID_REQ),
-    mergeMap(({ payload }) =>  from(axios.get(API_ADDR+'/'+payload+'/project/getprojectbyid',{
+    mergeMap(({ payload }) =>  from(axios.get(API_ADDR+'/project/getprojectbyid/'+payload,{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"

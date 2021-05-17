@@ -13,6 +13,7 @@ var initialState = {
     errMsg: null
   },
   listProjects: [],
+  projectInfo: ""
 }
 
 
@@ -36,10 +37,9 @@ const reducer = (state = initialState, actions) => {
     
     case types.GET_ALL_PROJECTS_SUCESS:
         return {
+          ...state,
           error: "",
           errorMsg:"",
-          currentSelectedProject: "",
-          insProjects: [],
           listProjects: payload,
         }
     
@@ -160,6 +160,26 @@ const reducer = (state = initialState, actions) => {
         }
       }
     }
+
+    case types.GET_PROJECTS_BY_ID_REQ:
+      return {
+        ...state,
+      }
+
+    case types.GET_PROJECTS_BY_ID_FAILED:
+      return {
+        ...state,
+        error: true,
+        errorMsg: payload,
+      }
+    
+    case types.GET_PROJECTS_BY_ID_SUCESS:
+        return {
+          ...state,
+          error: "",
+          errorMsg:"",
+          projectInfo: payload,
+        }
 
     default:
       return state
