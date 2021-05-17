@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {BUILDS_HEADERS} from '../../../components/Table/DefineHeader';
+import {BUILDS_SEARCH} from '../../../components/Table/DefineSearch';
 import { connect } from 'react-redux';
 import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ} from '../../../redux/build-release/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
@@ -48,30 +49,44 @@ const BuildListPage = (props) => {
 
   const [array, setArray] = React.useState([]);
 
-  const handleArray = () => {   
+  const [searchConditions, setConditions] = useState({
+    buildName: '',
+    active: null
+  });
+
+
+  const searchBuild = () => {
+    if (searchConditions.active === null && searchConditions.buildName === ''){
+      handleArray(listBuilds);
+    } else  {
+      handleArray(listBuilds.filter(item => item.is_active === searchConditions.active));
+    }
+  }
+
+  const handleArray = (arrData) => {   
 
   setArray([]);
-  for(let i in listBuilds){
+  for(let i in arrData){
     let temp_active = 0;
-    if(listBuilds[i].is_active === true)
+    if(arrData[i].is_active === true)
     temp_active = 0
     else
     temp_active = 4 
 
     let temp_public = 0;
-    if(listBuilds[i].is_open === true)
+    if(arrData[i].is_open === true)
     temp_public = 0
     else
     temp_public = 4 
 
     setArray(array => [...array, {
-      _id: listBuilds[i]._id,
-      buildname: listBuilds[i].buildname,
-      descriptions: listBuilds[i].description,
-      is_active: listBuilds[i].is_active,
-      is_open: listBuilds[i].is_open,
-      releasedate: listBuilds[i].releasedate,
-      testplanname: listBuilds[i].testplan
+      _id: arrData[i]._id,
+      buildname: arrData[i].buildname,
+      descriptions: arrData[i].description,
+      is_active: arrData[i].is_active,
+      is_open: arrData[i].is_open,
+      releasedate: arrData[i].releasedate,
+      testplanname: arrData[i].testplan
     }]);
 
   }
@@ -83,9 +98,9 @@ const BuildListPage = (props) => {
   },[]);
 
   useEffect(()=>{
-    handleArray();
-    console.log('listbuild: '+JSON.stringify(listBuilds));
+    handleArray(listBuilds);
   },[listBuilds])
+
 
   const handleClickNewBuild = () => {
     history.push(window.location.pathname+"/new-build");
@@ -98,6 +113,10 @@ const BuildListPage = (props) => {
   const handleClickDetailPage = (params) => {
     if (params)
       history.push(window.location.pathname+"/detail-build");
+  }
+
+  const handleChangeConditions = (props, data) => {
+    setConditions({...searchConditions, [props]: data });
   }
 
   return(
@@ -143,6 +162,9 @@ const BuildListPage = (props) => {
             headerList = {BUILDS_HEADERS}
             viewAction={navigateToDetailPage}
             onClick={navigateToDetailPage}
+            conditions={BUILDS_SEARCH}
+            setConditions={handleChangeConditions}
+            searchMethod={searchBuild}
           />
         </Grid>
       </Grid>

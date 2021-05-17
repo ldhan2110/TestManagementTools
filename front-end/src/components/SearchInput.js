@@ -1,7 +1,7 @@
 import React from "react";
 import styled  from "styled-components";
 import { darken } from "polished";
-import {Button, InputBase} from '@material-ui/core';
+import {Button, InputBase, Select, MenuItem, FormControl, InputLabel, Grid, TextField} from '@material-ui/core';
 import {
     Search as SearchIcon
   } from "react-feather";
@@ -57,11 +57,10 @@ const Search = styled.div`
 
 const SearchInput = (props) => {
 
-  const {inputMethod, searchMethod} = props;
+  const {searchMethod, conditions, setConditions} = props;
 
-  const handleChange = (event) => {
-    if (inputMethod)
-      inputMethod(event.target.value);
+  const handleChange = (prop) => (event) => {
+    setConditions(prop, event.target.value);
   }
 
   const handleSearch = (event) => {
@@ -72,13 +71,35 @@ const SearchInput = (props) => {
 
     return(
         <React.Fragment>
-          <div style={{display: "flex", flexDirection: "row", justifyItems: "space-between"}}>
-             <Search>
+          <div style={{display: "flex", flexDirection: "row", justifyItems: "space-between", alignItems: "space-between", gap: "10px", marginTop: "10px", height: "75%"}}>
+            {conditions && conditions.map((item,index) =>{
+                if (item.type === "text"){
+                  return (  
+                    <TextField key={index} id={item.id} label={item.label} variant="outlined"  fullWidth  onChange={handleChange(item.id)}/>
+                  )
+                } else if (item.type === "select"){
+                  return(
+                    <FormControl variant="outlined" fullWidth key={index}>
+                      <InputLabel id={item.id}>{item.label}</InputLabel>
+                        <Select
+                          labelId={item.id}
+                          id={item.id}
+                          label={item.id}
+                          onChange={handleChange(item.id)}>
+                            {item.listValues.map((menuItem,idx) => <MenuItem key={idx} value={menuItem.value}>{menuItem.label}</MenuItem>)}
+                      </Select>
+                    </FormControl>
+                  )
+                }
+              })
+            }
+             {/* <Search>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>    
               <Input placeholder="Search" onChange={handleChange} />        
-            </Search>
+            </Search> */}
+            
             <Button variant="contained" color="primary" onClick={handleSearch}>Search</Button>
           </div>
         </React.Fragment>

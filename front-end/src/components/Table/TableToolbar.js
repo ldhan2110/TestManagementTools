@@ -21,21 +21,21 @@ const Spacer = styled.div`
 `;
 
 const ToolbarTitle = styled.div`
-  min-width: "";
+  width: "100vw";
 `;
 
 
 
 
 const EnhancedTableToolbar = props => {
-  const { numSelected } = props;
+  const { numSelected, conditions, setConditions, searchMethod } = props;
 
   return (
-    <Toolbar>
+    <Toolbar styles={{backgroundColor: 'red'}}>
       <ToolbarTitle>
-        <SearchInput/>
+        <SearchInput conditions={conditions} setConditions={setConditions} searchMethod={searchMethod}/>
       </ToolbarTitle>
-      <Spacer />
+      {/* <Spacer />
       <div>
         {numSelected > 0 && (
               <Tooltip title="Delete">
@@ -44,7 +44,7 @@ const EnhancedTableToolbar = props => {
                   </IconButton>
               </Tooltip>
         )}
-      </div>
+      </div> */}
     </Toolbar>
   );
 };

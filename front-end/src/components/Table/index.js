@@ -58,7 +58,7 @@ const Customer = styled.div`
 const EnhancedTable = (props) => {
   const history = useHistory();
 
-  const {rows, headerList, viewAction} = props;
+  const {rows, headerList, viewAction, conditions, setConditions, searchMethod} = props;
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('customer');
   const [selected, setSelected] = useState([]);
@@ -126,7 +126,7 @@ const EnhancedTable = (props) => {
   return (
     <div>
       <Paper>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} conditions={conditions} setConditions={setConditions} searchMethod={searchMethod}/>
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
