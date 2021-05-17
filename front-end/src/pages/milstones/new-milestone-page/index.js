@@ -74,6 +74,7 @@ const NewMileStonePage = (props) => {
         content: insMilestones.errMsg,
         type: 'error'
       });
+      resetAddRedux();
     } else if (insMilestones.sucess == true) {
       displayMsg({
         content: "Create milestone successfully !",

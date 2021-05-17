@@ -95,6 +95,7 @@ const BuildDetailPage = (props) => {
         content: insBuilds.errMsg,
         type: 'error'
       });
+      resetUpdateRedux();
     } else if (insBuilds.sucess == true) {
       displayMsg({
         content: "Update build successfully !",
@@ -111,6 +112,7 @@ const BuildDetailPage = (props) => {
         content: insBuildsDelete.errMsg,
         type: 'error'
       });
+      resetDeleteRedux();
     } else if (insBuildsDelete.sucess == true) {
       displayMsg({
         content: "Delete build successfully !",

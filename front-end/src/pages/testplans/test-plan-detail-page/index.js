@@ -73,6 +73,7 @@ const TestPlanDetailPage = (props) => {
           content: insTestplan.errMsg,
           type: 'error'
         });
+        resetUpdateRedux();
       } else if (insTestplan.sucess == true) {
         displayMsg({
           content: "Update testplan successfully !",
@@ -89,6 +90,7 @@ const TestPlanDetailPage = (props) => {
           content: insTestplanDelete.errMsg,
           type: 'error'
         });
+        resetDeleteRedux();
       } else if (insTestplanDelete.sucess == true) {
         displayMsg({
           content: "Delete testplan successfully !",

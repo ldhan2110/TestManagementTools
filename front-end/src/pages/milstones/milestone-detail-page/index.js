@@ -106,6 +106,7 @@ const DetailMileStonePage = (props) => {
         content: insMilestones.errMsg,
         type: 'error'
       });
+      resetUpdateRedux();
     } else if (insMilestones.sucess == true) {
       displayMsg({
         content: "Update milestone successfully !",
@@ -122,6 +123,7 @@ const DetailMileStonePage = (props) => {
         content: insMilestonesDelete.errMsg,
         type: 'error'
       });
+      resetDeleteRedux();
     } else if (insMilestonesDelete.sucess == true) {
       displayMsg({
         content: "Delete milestone successfully !",

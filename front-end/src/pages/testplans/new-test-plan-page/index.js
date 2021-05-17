@@ -96,6 +96,7 @@ const NewTestPlanPage = (props) => {
         content: insTestplan.errMsg,
         type: 'error'
       });
+      resetAddRedux();
     } else if (insTestplan.sucess == true) {
       displayMsg({
         content: "Create testplan successfully !",
