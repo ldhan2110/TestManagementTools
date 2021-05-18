@@ -51,15 +51,23 @@ const BuildListPage = (props) => {
 
   const [searchConditions, setConditions] = useState({
     buildName: '',
-    active: null
+    active: -1
   });
 
 
   const searchBuild = () => {
-    if (searchConditions.active === null && searchConditions.buildName === ''){
+    if (searchConditions.active === -1 && searchConditions.buildName === ''){
       handleArray(listBuilds);
-    } else  {
-      handleArray(listBuilds.filter(item => item.is_active === searchConditions.active));
+    } 
+    else{
+      if(searchConditions.active === -1)
+        handleArray(listBuilds.filter((item) => {
+        if(item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
+          return listBuilds;}))
+      else
+        handleArray(listBuilds.filter((item) => {
+        if(item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()) && searchConditions.active === item.is_active)
+          return listBuilds;}))
     }
   }
 
@@ -101,6 +109,23 @@ const BuildListPage = (props) => {
     handleArray(listBuilds);
   },[listBuilds])
 
+  useEffect(()=>{
+    console.log('keyword: '+searchConditions.buildName + '   ' + searchConditions.active);
+    if (searchConditions.active === -1 && searchConditions.buildName === ''){
+      handleArray(listBuilds);
+    } 
+    else{
+      if(searchConditions.active === -1)
+        handleArray(listBuilds.filter((item) => {
+        if(item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
+          return listBuilds;}))
+      else
+        handleArray(listBuilds.filter((item) => {
+        if(item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()) && searchConditions.active === item.is_active)
+          return listBuilds;}))
+    }
+  },[searchConditions]);
+
 
   const handleClickNewBuild = () => {
     history.push(window.location.pathname+"/new-build");
@@ -132,7 +157,6 @@ const BuildListPage = (props) => {
           <Typography variant="h3" gutterBottom display="inline">
             Build/Release List
           </Typography>
-
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
             <Link component={NavLink} exact to="/">
               Dashboard
