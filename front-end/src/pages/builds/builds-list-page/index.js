@@ -135,10 +135,6 @@ const BuildListPage = (props) => {
       history.push(window.location.pathname+"/buildDetail");
   }
 
-  const handleClickDetailPage = (params) => {
-    if (params)
-      history.push(window.location.pathname+"/detail-build");
-  }
 
   const handleChangeConditions = (props, data) => {
     setConditions({...searchConditions, [props]: data });

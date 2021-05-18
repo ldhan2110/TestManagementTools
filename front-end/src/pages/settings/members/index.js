@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {MEMBERS_HEADERS} from '../../../components/Table/DefineHeader';
+import {MEMBER_SEARCH} from '../../../components/Table/DefineSearch';
 import NewMemberDialog from './InviteNewMember';
 import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
@@ -52,6 +53,11 @@ const MemberListPage = (props) => {
 
   const [openDialog,setOpenDialog] = useState(false);
 
+  const [searchConditions, setConditions] = useState({
+    username: '',
+    role: ''
+  });
+
   const history = useHistory();
 
   const [array, setArray] = React.useState([]);
@@ -79,6 +85,14 @@ const MemberListPage = (props) => {
   const navigateToDetailPage = (params) => {
     if (params)
       history.push(window.location.pathname+"/"+params);
+  }
+
+  const handleChangeConditions = (props, data) => {
+    setConditions({...searchConditions, [props]: data });
+  }
+
+  const searchMember = () =>{
+
   }
 
   useEffect(()=>{
@@ -133,6 +147,9 @@ const MemberListPage = (props) => {
             rows={array}
             headerList = {MEMBERS_HEADERS}
             viewAction={navigateToDetailPage}
+            conditions={MEMBER_SEARCH}
+            setConditions={handleChangeConditions}
+            searchMethod={searchMember}
           />
         </Grid>
       </Grid>

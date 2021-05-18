@@ -87,7 +87,8 @@ const SearchInput = (props) => {
                           labelId={item.id}
                           id={item.id}
                           label={item.id}
-                          onChange={handleChange(item.id)}>
+                          onChange={handleChange(item.id)}
+                          defaultValue={item.default}>
                             {item.listValues.map((menuItem,idx) => <MenuItem key={idx} value={menuItem.value}>{menuItem.label}</MenuItem>)}
                       </Select>
                     </FormControl>
