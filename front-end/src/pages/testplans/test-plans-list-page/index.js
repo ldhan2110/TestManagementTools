@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {TEST_PLAN_HEADERS} from '../../../components/Table/DefineHeader';
+import {TEST_PLANS_SEARCH} from '../../../components/Table/DefineSearch';
 import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
@@ -20,9 +21,6 @@ import {
 } from "@material-ui/icons";
 
 
-// const NavLink = React.forwardRef((props, ref) => (
-//   <RouterNavLink innerRef={ref} {...props} />
-// ));
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
@@ -42,66 +40,15 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-
-
-function createData(id, testplanname, description, is_active, is_public, created_date) {
-  return {id, testplanname, description, is_active,is_public, created_date};
-}
-
-/*const rows = [
-  createData('#1001', 'Test Plan Zero', 'Adsadsadasdsa', 0, 0,   '2020-01-02'),
-  createData('#1002', 'Test Plan Zero', 'Adsadsadas', 1, 0,  '2020-01-02'),
-  createData('#1003', 'Test Plan Zero', 'Adsadas', 1,0,   '2020-01-02'),
-  createData('#1004', 'Test Plan Zero', 'Adsdada', 0, 0,  '2020-01-02'),
-  createData('#1005', 'Test Plan Zero', 'Adsadas', 1, 0,  '2020-01-02'),
-  createData('#1006', 'Test Plan Zero', 'Adsada', 1, 0,  '2020-01-02'),
-  createData('#1007', 'Test Plan Zero', 'Adsada', 0,0,   '2020-01-02'),
-  createData('#1008', 'Test Plan Zero', 'Adsad', 1, 0,  '2020-01-02'),
-  createData('#1009', 'Test Plan Zero', 'Adsa', 0, 0,  '2020-01-02'),
-  createData('#1010', 'Test Plan Zero', 'Adsa', 1, 0,  '2020-01-02'),
-  createData('#1011', 'Test Plan Zero', 'Adsa', 0, 0,  '2020-01-02'),
-  createData('#1012', 'Test Plan Zero', 'Adsa', 1, 0,  '2020-01-02'),
-  createData('#1013', 'Test Plan Zero', 'Adsa', 1, 0,  '2020-01-02'),
-
-];*/
-
-/*const headCells = [
-  { id: 'id', alignment: 'left', label: 'ID' },
-  { id: 'testplanname', alignment: 'left', label: 'Name' },
-  { id: 'description', alignment: 'left', label: 'Description' },
-  { id: 'status', alignment: 'left', label: 'Status' },
-  { id: 'created_date', alignment: 'left', label: 'Create Date' },
-  { id: 'actions', alignment: 'left', label: 'Actions' },
-];*/
-
-/*function createData(_id, testplanname, description, status, created_date) {
-  return {testplanname,_id, description, status, created_date};
-}*/
-
-/*const rows = [
-  createData('#1001', 'Test Plan Zero', 'Adsadsadasdsa', 0,   '2020-01-02'),
-  createData('#1002', 'Test Plan Zero', 'Adsadsadas', true,   '2020-01-02'),
-  createData('#1003', 'Test Plan Zero', 'Adsadas', true,   '2020-01-02'),
-  createData('#1004', 'Test Plan Zero', 'Adsdada', true,   '2020-01-02'),
-  createData('#1005', 'Test Plan Zero', 'Adsadas', true,   '2020-01-02'),
-  createData('#1006', 'Test Plan Zero', 'Adsada', true,   '2020-01-02'),
-  createData('#1007', 'Test Plan Zero', 'Adsada', true,   '2020-01-02'),
-  createData('#1008', 'Test Plan Zero', 'Adsad', true,   '2020-01-02'),
-  createData('#1009', 'Test Plan Zero', 'Adsa', true,   '2020-01-02'),
-  createData('#1010', 'Test Plan Zero', 'Adsa', true,   '2020-01-02'),
-  createData('#1011', 'Test Plan Zero', 'Adsa', true,   '2020-01-02'),
-  createData('#1012', 'Test Plan Zero', 'Adsa', true,   '2020-01-02'),
-  createData('#1013', 'Test Plan Zero', 'Adsa', true,   '2020-01-02'),
-
-];*/
-
-
-
-
 const TestPlanListPage = (props) => {
   const {classes} = props;
 
   const {listTestplan, getAllTestplanReq, project} = props;
+
+  const [searchConditions, setConditions] = useState({
+    testplanName: '',
+    active: null
+  });
 
   const history = useHistory();
 
@@ -118,6 +65,14 @@ const TestPlanListPage = (props) => {
     getAllTestplanReq(project);
 
   },[])
+
+  const handleChangeConditions = (props, data) => {
+    setConditions({...searchConditions, [props]: data });
+  }
+
+  const searchTestPlan = () => {
+    console.log(searchConditions);
+  }
 
   
 
@@ -163,6 +118,9 @@ const TestPlanListPage = (props) => {
             rows={listTestplan}
             headerList = {TEST_PLAN_HEADERS}
             viewAction={navigateToDetailPage}
+            conditions={TEST_PLANS_SEARCH}
+            setConditions={handleChangeConditions}
+            searchMethod={searchTestPlan}
           />
         </Grid>
       </Grid>

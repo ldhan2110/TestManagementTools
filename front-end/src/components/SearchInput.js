@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled  from "styled-components";
 import { darken } from "polished";
 import {Button, InputBase, Select, MenuItem, FormControl, InputLabel, Grid, TextField} from '@material-ui/core';
@@ -68,11 +68,13 @@ const SearchInput = (props) => {
       searchMethod();
   }
 
+  
+
 
     return(
         <React.Fragment>
           <div style={{display: "flex", flexDirection: "row", justifyItems: "space-between", alignItems: "space-between", gap: "10px", marginTop: "10px", height: "75%"}}>
-            {conditions && conditions.map((item,index) =>{
+            {conditions && conditions.map((item,index) => {
                 if (item.type === "text"){
                   return (  
                     <TextField key={index} id={item.id} label={item.label} variant="outlined"  fullWidth  onChange={handleChange(item.id)}/>
@@ -93,13 +95,7 @@ const SearchInput = (props) => {
                 }
               })
             }
-             {/* <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>    
-              <Input placeholder="Search" onChange={handleChange} />        
-            </Search> */}
-            
+
             <Button variant="contained" color="primary" onClick={handleSearch}>Search</Button>
           </div>
         </React.Fragment>
