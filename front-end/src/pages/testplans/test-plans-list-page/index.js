@@ -45,9 +45,11 @@ const TestPlanListPage = (props) => {
 
   const {listTestplan, getAllTestplanReq, project} = props;
 
+  const [array, setArray] = React.useState(listTestplan);
+
   const [searchConditions, setConditions] = useState({
     testplanName: '',
-    active: null
+    active: -1
   });
 
   const history = useHistory();
@@ -61,19 +63,48 @@ const TestPlanListPage = (props) => {
       history.push(window.location.pathname+"/"+params);
   }
 
+  const searchTestPlan = () => {
+    console.log(searchConditions);
+    if (searchConditions.active === -1 && searchConditions.testplanName === ''){
+      setArray(listTestplan);
+    } 
+    else{
+      if(searchConditions.active === -1)
+        setArray(listTestplan.filter((item) => {
+          if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()))
+            return listTestplan;}))
+      else
+        setArray(listTestplan.filter((item) => {
+          if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()) && searchConditions.active === item.is_active)
+            return listTestplan;}))
+    }
+  }
+
   useEffect(()=>{
     getAllTestplanReq(project);
-
   },[])
 
   const handleChangeConditions = (props, data) => {
     setConditions({...searchConditions, [props]: data });
   }
 
-  const searchTestPlan = () => {
-    console.log(searchConditions);
-  }
-
+  useEffect(()=>{
+    console.log('keyword: '+searchConditions.testplanName + '   ' + searchConditions.active);
+    if (searchConditions.active === -1 && searchConditions.testplanName === ''){
+      setArray(listTestplan);
+    } 
+    else{
+      console.log('not empty');
+      if(searchConditions.active === -1)
+      setArray(listTestplan.filter((item) => {
+        if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()))
+          return listTestplan;}))
+      else
+      setArray(listTestplan.filter((item) => {
+        if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()) && searchConditions.active === item.is_active)
+          return listTestplan;}))
+    }
+  },[searchConditions]);
   
 
   return(
@@ -115,7 +146,7 @@ const TestPlanListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <EnhancedTable
-            rows={listTestplan}
+            rows={array}
             headerList = {TEST_PLAN_HEADERS}
             viewAction={navigateToDetailPage}
             conditions={TEST_PLANS_SEARCH}
