@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import SearchInput from '../../../components/SearchInput';
 import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
+import {INVITE_MEMBERS_SEARCH} from '../../../components/Table/DefineSearch'
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import styles from "./styles";
@@ -135,9 +136,9 @@ const InviteNewMemberDialog = (props) => {
     addUserToProjectReq(userInfo);
   }
 
-  const handleInputChange = (values) => {
+  const handleInputChange = (props, values) => {
     setInput(values);
-    setUserInfo({ ...userInfo, email: values });
+    setUserInfo({ ...userInfo, [props]: values });
   }
 
     return(
@@ -147,7 +148,7 @@ const InviteNewMemberDialog = (props) => {
           <DialogContentText>
             To invite new collaborator, please enter username or email to send invitation.
           </DialogContentText>
-          <SearchInput inputMethod={handleInputChange} searchMethod={handleSearch}/>
+          <SearchInput setConditions={handleInputChange} searchMethod={handleSearch} conditions={INVITE_MEMBERS_SEARCH}/>
           <List>
           {resultData.length !==0 ? resultData.map((item,index) =>(
               <ListItem key={index}>

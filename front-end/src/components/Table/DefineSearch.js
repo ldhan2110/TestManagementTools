@@ -21,3 +21,8 @@ export let TEST_EXEC_SEARCH = [
   { id: 'testplanName',  label: 'Test Plan', type: "select", listValues: []},
   { id: 'status',  label: 'Status', type: "select", default: -1, listValues: [{value: -1, label: "ALL"}, {value: "Untest", label: "Untest"},{value: "Pass", label: "Pass"}, {value: "Blocked", label: "Blocked"}, {value: "Fail", label: "Fail"}]},
 ]
+
+
+export const INVITE_MEMBERS_SEARCH = [
+  { id: 'email',  label: 'Email', type: "text" },
+]
