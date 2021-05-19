@@ -257,7 +257,7 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Grid container justify ='flex-end'>
+          <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
               <Button variant="contained" color="primary" fullWidth onClick={handleUpdate}>Save</Button>
             </Grid>

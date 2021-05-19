@@ -253,12 +253,6 @@ const TestSuiteDetail = (props) => {
                       <AddIcon />Add Test Case
                     </Button>
                   </Grid>
-
-                  <Grid item>
-                    <Button variant="contained" color="secondary" onClick={handleOpenTS}>
-                      <AddIcon />Add Test Suite
-                    </Button> 
-                  </Grid>
                 </Grid>
                 :
                 <Grid container justify='flex-end'>
