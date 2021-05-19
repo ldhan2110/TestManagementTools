@@ -16,7 +16,8 @@ export const MEMBER_SEARCH = [
 ]
 
 
-export const TEST_EXEC_SEARCH = [
-  { id: 'testexecName',  label: 'Test Execution Name', type: "text" },
-  { id: 'active',  label: 'Active', type: "select", default: -1, listValues: [{value: -1, label: "ALL"}, {value: true, label: "Active"}, {value: false, label: "Inactive"}]},
+export var TEST_EXEC_SEARCH = [
+  { id: 'testexecName',  label: 'Name', type: "text" },
+  { id: 'active',  label: 'Test Plan', type: "select", listValues: [{value: -1, label: "ALL"}, {value: "Untest", label: "Untest"},{value: "Pass", label: "Pass"}, {value: "Blocked", label: "Blocked"}, {value: "Fail", label: "Fail"}]},
+  { id: 'active',  label: 'Status', type: "select", default: -1, listValues: [{value: -1, label: "ALL"}, {value: "Untest", label: "Untest"},{value: "Pass", label: "Pass"}, {value: "Blocked", label: "Blocked"}, {value: "Fail", label: "Fail"}]},
 ]

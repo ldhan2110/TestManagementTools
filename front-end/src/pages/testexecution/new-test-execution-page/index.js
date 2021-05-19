@@ -157,7 +157,7 @@ const NewTestExecutionPage = (props) => {
           <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth  value={testExecInfo.testexecName} onChange={handleChange('testexecutionname')}/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={15} value={testExecInfo.description} onChange={handleChange('description')}/>
 
-          <FormControl variant="outlined" fullWidth>
+        <FormControl variant="outlined" fullWidth>
            <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
             <Select
           labelId="demo-simple-select-outlined-label"
@@ -165,11 +165,24 @@ const NewTestExecutionPage = (props) => {
           label="testplan"
           onChange={handleChange('testplanname')}
         >
-          {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}
-         
+          {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
         </Select>
-
       </FormControl>
+
+      <FormControl variant="outlined" fullWidth>
+           <InputLabel id="build">Build/Release</InputLabel>
+            <Select
+          labelId="build"
+          id="build"
+          label="build"
+          //onChange={handleChange('testplanname')}
+        >
+          {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
+        </Select>
+      </FormControl>
+
+
+
           <Grid container>
               <Grid item xs={3}>
                 <p>Create from existing test execution ?</p>

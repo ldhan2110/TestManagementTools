@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {TEST_EXECUTION_HEADERS} from '../../../components/Table/DefineHeader';
+import {TEST_EXEC_SEARCH} from '../../../components/Table/DefineSearch';
 import { GET_ALL_TESTEXEC_REQ} from '../../../redux/test-execution/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
@@ -49,6 +50,11 @@ const TestExecutionListPage = (props) => {
 
   const [listTestexec, setListTestExec] = useState([]);
 
+  const [searchConditions, setConditions] = useState({
+    username: '',
+    role: ''
+  });
+
   const history = useHistory();
 
   const handleClickNewTestExecution = () => {
@@ -59,6 +65,14 @@ const TestExecutionListPage = (props) => {
     if (params){
       history.push(window.location.pathname+"/"+params);
     }
+  }
+
+  const searchTestExec = () =>{
+
+  }
+
+  const handleChangeConditions = (props, data) => {
+    setConditions({...searchConditions, [props]: data });
   }
 
   useEffect(()=>{
@@ -115,6 +129,9 @@ const TestExecutionListPage = (props) => {
             rows={listTestexec}
             headerList = {TEST_EXECUTION_HEADERS}
             viewAction={navigateToDetailPage}
+            conditions={TEST_EXEC_SEARCH}
+            setConditions={handleChangeConditions}
+            searchMethod={searchTestExec}
           />
         </Grid>
       </Grid>

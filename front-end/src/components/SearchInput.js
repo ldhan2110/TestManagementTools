@@ -77,7 +77,7 @@ const SearchInput = (props) => {
             {conditions && conditions.map((item,index) => {
                 if (item.type === "text"){
                   return (  
-                    <TextField key={index} id={item.id} label={item.label} variant="outlined"  fullWidth  onChange={handleChange(item.id)}/>
+                    <TextField key={index} id={item.id} label={item.label} variant="outlined"  fullWidth  onChange={handleChange(item.id)} styles={{flexGrow: 3}}/>
                   )
                 } else if (item.type === "select"){
                   return(
@@ -88,7 +88,8 @@ const SearchInput = (props) => {
                           id={item.id}
                           label={item.id}
                           onChange={handleChange(item.id)}
-                          defaultValue={item.default}>
+                          defaultValue={item.default}
+                          styles={{flexGrow: 1}}>
                             {item.listValues.map((menuItem,idx) => <MenuItem key={idx} value={menuItem.value}>{menuItem.label}</MenuItem>)}
                       </Select>
                     </FormControl>
