@@ -7,7 +7,7 @@ import Helmet from 'react-helmet';
 import {TEST_EXECUTION_HEADERS} from '../../../components/Table/DefineHeader';
 import {TEST_EXEC_SEARCH} from '../../../components/Table/DefineSearch';
 import { GET_ALL_TESTEXEC_REQ} from '../../../redux/test-execution/constants';
-import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import { GET_ALL_ACTIVE_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import { connect } from 'react-redux';
 import {
   Grid,
@@ -29,7 +29,8 @@ import {
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
-    listTestExec: state.testexec.listTestExec
+    listTestExec: state.testexec.listTestExec,
+    listTestPlan: state.testplan.listActiveTestplan
   };
 }
 
@@ -38,6 +39,7 @@ const mapDispatchToProps = dispatch => {
   return {
     //addNewBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
+    getAllTestPlanReq: () => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ})
   }
 }
 
@@ -46,13 +48,16 @@ const mapDispatchToProps = dispatch => {
 const TestExecutionListPage = (props) => {
   const {classes} = props;
 
-  const {listTestExec, getAllTestExecReq} = props;
+  const {listTestExec, listTestPlan, getAllTestExecReq, getAllTestPlanReq} = props;
 
   const [listTestexec, setListTestExec] = useState([]);
 
+  const [TEST_EXEC_SEARCH_CONDITIONS, setSearchConditions] = useState(TEST_EXEC_SEARCH);
+
   const [searchConditions, setConditions] = useState({
-    username: '',
-    role: ''
+    testexecName: '',
+    testplanName: '',
+    status: ''
   });
 
   const history = useHistory();
@@ -75,9 +80,23 @@ const TestExecutionListPage = (props) => {
     setConditions({...searchConditions, [props]: data });
   }
 
+  const convertTestplanItem = (listTestPlan) => {
+    const arr = listTestPlan.slice();
+    arr.map(item => {item.value = item.testplanname; item.label = item.testplanname; return item;})
+    return arr;
+  }
+
   useEffect(()=>{
     getAllTestExecReq();
+    getAllTestPlanReq();
   },[]);
+
+  useEffect(()=>{
+    if (listTestPlan){
+      TEST_EXEC_SEARCH_CONDITIONS[1].listValues=convertTestplanItem(listTestPlan);
+    }
+  },[listTestPlan])
+
 
   useEffect(()=>{
     var tempArr = [];
@@ -129,7 +148,7 @@ const TestExecutionListPage = (props) => {
             rows={listTestexec}
             headerList = {TEST_EXECUTION_HEADERS}
             viewAction={navigateToDetailPage}
-            conditions={TEST_EXEC_SEARCH}
+            conditions={TEST_EXEC_SEARCH_CONDITIONS}
             setConditions={handleChangeConditions}
             searchMethod={searchTestExec}
           />
