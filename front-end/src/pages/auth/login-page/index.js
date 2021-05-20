@@ -139,11 +139,11 @@ const LoginPage = (props) => {
         <Grid item xs={5}>
             <form className = {classes.formLogin}>
               <div>
-                <img className={classes.logo} src="../img/Logo1zz.png" alt = "logo-banner"/>
+                <img className={classes.logo} src="../img/Logo1zz.jpg" alt = "logo-banner"/>
               </div>              
               <FormControl fullWidth variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
-                <OutlinedInput
+                <OutlinedInput 
                     id="outlined-adornment-username"
                     value={values.username || ''}
                     onChange={handleChange('username')}

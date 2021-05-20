@@ -20,7 +20,7 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 
 const  mapStateToProps = (state) => {
-  return { account: state.account, success: state.account.success }
+  return { account: state.account, success: state.account.success, errorMsg: state.account.errorMsg }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -37,13 +37,21 @@ const RegisterPage = (props) => {
     //SET STATES
     const {isOpen, setOpenState} = props;
 
-    const {account, registerReq,resetAddRedux, success, displayMsg} = props;
+    const {account, registerReq,resetAddRedux, success, displayMsg, errorMsg} = props;
 
     const [open,setOpen] = useState(isOpen);
     
     const classes = useStyles();
+    const [checkError, setCheckError] = useState(false);
+
+    const [error, setError] = useState({
+        fullname: 'ss',
+        username: 'ss',
+        password: 'ss',
+        email: 'ss',
+    });
     
-    const [values, setValues] = React.useState({
+    const [values, setValues] = useState({
         fullname: '',
         username: '',
         password: '',
@@ -54,14 +62,14 @@ const RegisterPage = (props) => {
     useEffect(()=>{
       if (success === false){
         displayMsg({
-          content: account.errorMsg,
+          content: "Register failed!",
           type: 'error'
         });
-        console.log('register error!');
+        console.log('register error!' + JSON.stringify(errorMsg));
         resetAddRedux();
       } else if (success == true) {
         displayMsg({
-          content: "Register successfully !",
+          content: "Register successfully!",
           type: 'success'
         });
         console.log('register sucessfully!');
@@ -82,7 +90,11 @@ const RegisterPage = (props) => {
 
 
   const handleChange = (prop) => (event) => {
+    //console.log('values: '+JSON.stringify(values));
     setValues({ ...values, [prop]: event.target.value });
+
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
   };
 
   const handleClickShowPassword = () => {
@@ -94,6 +106,41 @@ const RegisterPage = (props) => {
   };
 
   const handleRegister = (event) => {
+    //console.log('here: here');
+    //console.log('values: '+JSON.stringify(values));
+    setCheckError(true);
+
+    if(values.email === "")
+    setError({ ...values, email: "" });
+    //console.log('email empty');
+    // if(values.email.includes('@') === false){
+    //   setError({ ...values, email: "" });
+    //   setValues({ ...values, email:"" });
+    // }
+
+
+    if(values.fullname === "")
+    setError({ ...values, fullname: "" });
+    //console.log('fullname empty');
+
+    if(values.username === "")
+    setError({ ...values, username: "" });
+
+    if(values.password === "")
+    setError({ ...values, password: "" });
+
+    console.log('error object: '+JSON.stringify(error));
+
+    // if(TestplanInfo.description.trim().length == 0 || TestplanInfo.Testplanname.trim().length == 0
+    //     ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
+    //     || TestplanInfo.Testplanname.trim().length !== TestplanInfo.Testplanname.length){
+    //     displayMsg({
+    //       content: "Testplan name or description should not contain spaces or empty",
+    //       type: 'error'
+    //     });
+    // }
+
+    if(values.email !== "" && values.fullname !== "" && values.username !== "" && values.password !== "")
     registerReq(values);
   }
 
@@ -112,11 +159,12 @@ const RegisterPage = (props) => {
           <OutlinedInput
             id="outlined-adornment-fullname"
             value={values.amount}
+            error={!error.fullname && !values.fullname ? true : false}
             onChange={handleChange('fullname')}
             labelWidth={60}
             required={true}
           />
-          <FormHelperText></FormHelperText>
+          {!error.fullname && !values.fullname && <FormHelperText id="component-error-text" error={true}>fullname is required</FormHelperText>}
         </FormControl>
           
         {/*Username */}
@@ -125,11 +173,12 @@ const RegisterPage = (props) => {
           <OutlinedInput
             id="outlined-adornment-username"
             value={values.amount}
+            error={!error.username && !values.username ? true : false}
             onChange={handleChange('username')}
             labelWidth={60}
             required={true}
           />
-          <FormHelperText></FormHelperText>
+          {!error.username && !values.username && <FormHelperText id="component-error-text" error={true}>username is required</FormHelperText>}
         </FormControl>
 
         {/*PASSWORD */}        
@@ -139,6 +188,7 @@ const RegisterPage = (props) => {
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}
+            error={!error.password && !values.password ? true : false}
             onChange={handleChange('password')}
             required={true}
             endAdornment={
@@ -155,7 +205,7 @@ const RegisterPage = (props) => {
             }
             labelWidth={60}
           />
-          <FormHelperText></FormHelperText>
+          {!error.password && !values.password && <FormHelperText id="component-error-text" error={true}>password is required</FormHelperText>}
         </FormControl>
 
         {/*Email */}
@@ -163,14 +213,14 @@ const RegisterPage = (props) => {
           <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
           <OutlinedInput
             id="outlined-adornment-email"
-            error
             value={values.amount}
+            type="email"
+            error={!error.email && !values.email ? true : false}
             onChange={handleChange('email')}
             labelWidth={60}
-            required={true}
-            type="email"
+            required={true}   
           />
-          <FormHelperText></FormHelperText>
+          {!error.email && !values.email && <FormHelperText id="component-error-text" error={true}>email is required</FormHelperText>}
         </FormControl>
 
 
