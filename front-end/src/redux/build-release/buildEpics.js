@@ -198,7 +198,7 @@ import {API_ADDR} from '../constants';
 
     export  const getAllBuildByTestplan = (action$, state$) => action$.pipe(
       ofType(actions.GET_ALL_BUILD_TESTPLAN_REQ),
-      mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/api/build/'+localStorage.getItem('selectProject')+'/getallbuildoftestplan',payload,{
+      mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/api/'+localStorage.getItem('selectProject')+'/getallbuildoftestplan',payload,{
           headers: {
             "X-Auth-Token": localStorage.getItem("token"),
             "content-type": "application/json"

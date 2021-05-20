@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 import SelectBox from '../../../components/Selectbox';
-import {UPDATE_TESTPLAN_REQ, DELETE_TESTPLAN_REQ, RESET_UPDATE_TESTPLAN, RESET_DELETE_TESTPLAN} from '../../../redux/test-plan/constants';
+import {UPDATE_TESTPLAN_REQ, DELETE_TESTPLAN_REQ, RESET_UPDATE_TESTPLAN, RESET_DELETE_TESTPLAN, GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
@@ -42,13 +42,14 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllBuildActiveReq: (payload) => dispatch({ type: GET_ALL_BUILD_ACTIVE_REQ, payload }),
     resetUpdateRedux: () => dispatch({type: RESET_UPDATE_TESTPLAN}),
+    getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
     resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTPLAN})
   }
 }
 
 const TestPlanDetailPage = (props) => {
     const {classes, listTestPlans, name, match, updateTestplanReq, insTestplan,
-           displayMsg, deleteTestplanReq, insTestplanDelete, resetUpdateRedux, resetDeleteRedux} = props;
+           displayMsg, deleteTestplanReq, insTestplanDelete, resetUpdateRedux, resetDeleteRedux, getAllTestplanReq} = props;
     const history = useHistory();
     const [open, setOpen] = React.useState(false);
     const [checkError, setCheckError] = useState(false);
@@ -96,6 +97,7 @@ const TestPlanDetailPage = (props) => {
           content: "Delete testplan successfully !",
           type: 'success'
         });
+        getAllTestplanReq(props.match.params.projectName);
         resetDeleteRedux();
         history.goBack();
       }
