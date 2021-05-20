@@ -186,7 +186,7 @@ const NewTestExecutionPage = (props) => {
           labelId="build"
           id="build"
           label="build"
-          //onChange={handleChange('testplanname')}
+          onChange={handleChange('buildname')}
         >
           {listBuild.map((item, index) => <MenuItem key={index} value={item.buildname}>{item.buildname}</MenuItem>)}    
         </Select>
