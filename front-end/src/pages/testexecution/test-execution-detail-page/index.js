@@ -181,7 +181,7 @@ const TestExecutionDetailPage = (props) => {
           <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required value={testExecInfo.testexecutionname}/>
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} value={testExecInfo.description}/>
           <TextField id="testplanName" label="Test Plan" variant="outlined"  fullWidth required value={testExecInfo.testplan.testplanname}/>
-          <TextField id="buildName" label="Build/Release" variant="outlined"  fullWidth required value={testExecInfo.testplan.testplanname}/>
+          <TextField id="buildName" label="Build/Release" variant="outlined"  fullWidth required value={testExecInfo.build.buildname}/>
 
           <FormControl variant="outlined" className={classes.formControl} fullWidth>
               <InputLabel id="assignTester">Assign tester</InputLabel>
