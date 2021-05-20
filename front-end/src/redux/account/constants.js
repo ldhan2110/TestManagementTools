@@ -5,6 +5,7 @@ export const LOGIN_SUCESS = "LOGIN_SUCCESS";
 
 export const LOGIN_FAILED = "LOGIN_FAILED";
 
+
 //LOGOUT
 export const LOGOUT_REQ = "LOGOUT_REQ";
 
@@ -17,3 +18,5 @@ export const REGISTER_REQ = "REGISTER_REQ";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 
 export const REGISTER_FAILED = "REGISTER_FAILED";
+
+export const RESET_REGISTER = "RESET_REGISTER";

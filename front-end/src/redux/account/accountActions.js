@@ -20,3 +20,10 @@ export function registerReq (value){
     payload: value
   }
 }
+
+export function resetRegisterReq (value){
+  return{
+    type: types.RESET_REGISTER,
+    payload: value
+  }
+}

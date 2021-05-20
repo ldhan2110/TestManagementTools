@@ -15,17 +15,20 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import useStyles from './styles';
-import {REGISTER_REQ} from '../../../redux/account/constants';
+import {REGISTER_REQ, RESET_REGISTER} from '../../../redux/account/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 
 const  mapStateToProps = (state) => {
-  return { account: state.account }
+  return { account: state.account, success: state.account.success }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
     registerReq: (payload) => dispatch({ type: REGISTER_REQ, payload }),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    resetAddRedux: () => dispatch({type: RESET_REGISTER}) 
   }
 }
 
@@ -34,7 +37,7 @@ const RegisterPage = (props) => {
     //SET STATES
     const {isOpen, setOpenState} = props;
 
-    const {account, registerReq} = props;
+    const {account, registerReq,resetAddRedux, success, displayMsg} = props;
 
     const [open,setOpen] = useState(isOpen);
     
@@ -47,6 +50,25 @@ const RegisterPage = (props) => {
         email: '',
         showPassword: false,
     });
+
+    useEffect(()=>{
+      if (success === false){
+        displayMsg({
+          content: account.errorMsg,
+          type: 'error'
+        });
+        console.log('register error!');
+        resetAddRedux();
+      } else if (success == true) {
+        displayMsg({
+          content: "Register successfully !",
+          type: 'success'
+        });
+        console.log('register sucessfully!');
+        resetAddRedux();
+        handleClose();
+      }
+    },[success]);
 
     //LISTEN CHANGE TO "isOpen" prop
     useEffect(() => {
