@@ -56,11 +56,14 @@ const NewTestExecutionPage = (props) => {
     const {listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux, listBuildByTestPlan, getBuildByTestPlan} = props;
 
     const [open,setOpenPopup] = useState(false);
+
+    const [listBuild, setListBuild] = useState([]);
     
     const [testExecInfo, setTestExecInfo] = useState({
         testexecutionname: '',
         description: '',
         testplanname: '',
+        buildname: '',
         listexectestcases: [],
         is_public: false,
         is_active: false,
@@ -74,7 +77,7 @@ const NewTestExecutionPage = (props) => {
     },[])
 
     useEffect(()=>{
-      console.log(listBuildByTestPlan);
+      setListBuild(listBuildByTestPlan);
     },[listBuildByTestPlan])
 
 
@@ -185,7 +188,7 @@ const NewTestExecutionPage = (props) => {
           label="build"
           //onChange={handleChange('testplanname')}
         >
-          {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
+          {listBuild.map((item, index) => <MenuItem key={index} value={item.buildname}>{item.buildname}</MenuItem>)}    
         </Select>
       </FormControl>
 
