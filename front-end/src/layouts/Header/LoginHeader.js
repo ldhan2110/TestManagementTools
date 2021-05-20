@@ -64,7 +64,7 @@ const LoginHeader = (props) => {
           <Hidden mdDown>
              <Grid item xs = {10}>
               <IconButton onClick={handleLogoClick}>
-                <img src ="/img/Logo1zz.jpg" alt="logo"/>
+                <img src ="/img/Logo1zz.png" alt="logo"/>
               </IconButton>
           </Grid>
           </Hidden>
