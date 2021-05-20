@@ -49,6 +49,7 @@ export default combineEpics(
    buildEpics.deleteBuildEpic,
    buildEpics.getAllBuildActiveEpic,
    buildEpics.deleteBuildEpic,
+   buildEpics.getAllBuildByTestplan,
 
    //MILESTONE EPICS
    milestoneEpics.addNewMilestoneEpic,

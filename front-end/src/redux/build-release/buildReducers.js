@@ -13,6 +13,7 @@ var initialState = {
     errMsg: null
   },
   listBuilds: [],
+  listBuildsByTestplan: []
 }
 
 
@@ -199,6 +200,25 @@ const reducer = (state = initialState, actions) => {
           insBuilds: [],
           listBuilds: payload,
       }
+
+      case types.GET_ALL_BUILD_TESTPLAN_REQ:
+      return {
+        ...state
+      }
+
+    case types.GET_ALL_BUILD_TESTPLAN_FAILED:
+      return {
+        ...state,
+        error: true,
+        errorMsg: payload,
+      }
+    
+    case types.GET_ALL_BUILD_TESTPLAN_SUCCESS:
+        return {
+          ...state,
+          listBuildsByTestplan: payload
+      }
+
 
     default:
       return state

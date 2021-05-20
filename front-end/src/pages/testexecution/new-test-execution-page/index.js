@@ -23,6 +23,7 @@ import {GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
 import { ADD_TESTEXEC_REQ, GET_ALL_TESTEXEC_REQ, RESET_ADD_TEST_EXEC } from '../../../redux/test-execution/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { GET_ALL_ACTIVE_TESTPLAN_REQ } from "../../../redux/test-plan/constants";
+import { GET_ALL_BUILD_TESTPLAN_REQ } from "../../../redux/build-release/constants";
 
 
 //MAP STATES TO PROPS - REDUX
@@ -31,7 +32,8 @@ const  mapStateToProps = (state) => {
     listUser: state.user.listUsersOfProject,
     listtestcaseselect: state.testcase.listTestcaseSelect,
     insTestexec: state.testexec.insTestexec,
-    listActiveTestplan: state.testplan.listActiveTestplan
+    listActiveTestplan: state.testplan.listActiveTestplan,
+    listBuildByTestPlan: state.build.listBuildsByTestplan
    }
 }
 
@@ -43,6 +45,7 @@ const mapDispatchToProps = dispatch => {
     addNewTestexecReq: (payload) => dispatch({type: ADD_TESTEXEC_REQ, payload}),
     getAllTestExecReq: (payload) => dispatch({type: GET_ALL_TESTEXEC_REQ}),
     getAllActiveTestplanReq: (payload) => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
+    getBuildByTestPlan: (payload) => dispatch({type: GET_ALL_BUILD_TESTPLAN_REQ, payload}),
     resetAddRedux: () => dispatch({type: RESET_ADD_TEST_EXEC})
   }
 }
@@ -50,7 +53,7 @@ const mapDispatchToProps = dispatch => {
 const NewTestExecutionPage = (props) => {
     const {classes, listTestExecution, listtestcaseselect} = props;
 
-    const {listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux} = props;
+    const {listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux, listBuildByTestPlan, getBuildByTestPlan} = props;
 
     const [open,setOpenPopup] = useState(false);
     
@@ -70,7 +73,9 @@ const NewTestExecutionPage = (props) => {
       getAllActiveTestplanReq();
     },[])
 
-    
+    useEffect(()=>{
+      console.log(listBuildByTestPlan);
+    },[listBuildByTestPlan])
 
 
     useEffect(()=>{
@@ -117,7 +122,10 @@ const NewTestExecutionPage = (props) => {
       if (prop !== 'is_public' && prop !== 'is_active')
         setTestExecInfo({ ...testExecInfo, [prop]: event.target.value });
       else
-      setTestExecInfo({ ...testExecInfo, [prop]: !testExecInfo.prop });
+        setTestExecInfo({ ...testExecInfo, [prop]: !testExecInfo.prop });
+      if (prop === 'testplanname'){
+        getBuildByTestPlan({testplanname: event.target.value });
+      }
     };
 
     const handleCreateNewTestExec = () => {

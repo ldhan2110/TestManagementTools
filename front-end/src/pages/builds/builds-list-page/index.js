@@ -9,6 +9,7 @@ import {BUILDS_SEARCH} from '../../../components/Table/DefineSearch';
 import { connect } from 'react-redux';
 import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ} from '../../../redux/build-release/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import { GET_ALL_ACTIVE_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import {
   Grid,
   Typography,
@@ -25,7 +26,8 @@ import {
 function mapStateToProps(state) {
   return {
     listBuilds: state.build.listBuilds,
-    project: state.project.currentSelectedProject
+    project: state.project.currentSelectedProject,
+    listTestPlan: state.testplan.listActiveTestplan
   };
 }
 
@@ -34,7 +36,8 @@ const mapDispatchToProps = dispatch => {
   return {
     addNewBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
     getAllBuildReq: (payload) => dispatch({ type: GET_ALL_BUILDS_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    getAllTestPlanReq: () => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ})
   }
 }
 
@@ -45,15 +48,23 @@ const BuildListPage = (props) => {
 
   const {classes} = props;
 
-  const {listBuilds, getAllBuildReq, project} = props;
+  const {listBuilds, getAllBuildReq, project, getAllTestPlanReq, listTestPlan} = props;
+
+  const [BUILD_SEARCH_CONDITIONS, setSearchConditions] = useState(BUILDS_SEARCH);
 
   const [array, setArray] = React.useState([]);
 
   const [searchConditions, setConditions] = useState({
     buildName: '',
-    active: -1
+    active: -1,
+    testplanName: ''
   });
 
+  const convertTestplanItem = (listTestPlan) => {
+    const arr = listTestPlan.slice();
+    arr.map(item => {item.value = item.testplanname; item.label = item.testplanname; return item;})
+    return arr;
+  }
 
   const searchBuild = () => {
     if (searchConditions.active === -1 && searchConditions.buildName === ''){
@@ -102,6 +113,7 @@ const BuildListPage = (props) => {
 
   useEffect(()=>{
     getAllBuildReq(project);
+    getAllTestPlanReq();
     setArray([]);
   },[]);
 
@@ -109,8 +121,20 @@ const BuildListPage = (props) => {
     handleArray(listBuilds);
   },[listBuilds])
 
+
   useEffect(()=>{
-    console.log('keyword: '+searchConditions.buildName + '   ' + searchConditions.active);
+    if (listTestPlan){
+      BUILD_SEARCH_CONDITIONS[1].listValues=convertTestplanItem(listTestPlan);
+    }
+  },[listTestPlan])
+
+
+  useEffect(()=>{
+    console.log(BUILD_SEARCH_CONDITIONS);
+  },[BUILD_SEARCH_CONDITIONS])
+
+  useEffect(()=>{
+    console.log('keyword: '+searchConditions.buildName + '   ' + searchConditions.active+'  '+searchConditions.testplanName);
     if (searchConditions.active === -1 && searchConditions.buildName === ''){
       handleArray(listBuilds);
     } 
@@ -182,7 +206,7 @@ const BuildListPage = (props) => {
             headerList = {BUILDS_HEADERS}
             viewAction={navigateToDetailPage}
             onClick={navigateToDetailPage}
-            conditions={BUILDS_SEARCH}
+            conditions={BUILD_SEARCH_CONDITIONS}
             setConditions={handleChangeConditions}
             searchMethod={searchBuild}
           />

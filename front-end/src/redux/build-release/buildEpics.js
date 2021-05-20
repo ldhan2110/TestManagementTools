@@ -168,7 +168,7 @@ import {API_ADDR} from '../constants';
 
   export  const getAllBuildActiveEpic = (action$, state$) => action$.pipe(
     ofType(actions.GET_ALL_BUILD_ACTIVE_REQ),
-    mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/api/build/'+payload+'/getallbuildactive',{
+    mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload.projectid+'/api/getallbuildactive',{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
@@ -179,7 +179,7 @@ import {API_ADDR} from '../constants';
         if (data.success) {
           return ({
             type: actions.GET_ALL_BUILD_ACTIVE_SUCCESS,
-            payload: data.result[0].build
+            payload: data.result
           })
         } else {
           return ({
@@ -194,3 +194,33 @@ import {API_ADDR} from '../constants';
         payload: error.response
       }))
     )))
+
+
+    export  const getAllBuildByTestplan = (action$, state$) => action$.pipe(
+      ofType(actions.GET_ALL_BUILD_TESTPLAN_REQ),
+      mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/api/build/'+localStorage.getItem('selectProject')+'/getallbuildoftestplan',payload,{
+          headers: {
+            "X-Auth-Token": localStorage.getItem("token"),
+            "content-type": "application/json"
+          }
+        })).pipe(
+        map(response => {
+          const {data} = response;
+          if (data.success) {
+            return ({
+              type: actions.GET_ALL_BUILD_TESTPLAN_SUCCESS,
+              payload: data.result
+            })
+          } else {
+            return ({
+              type: actions.GET_ALL_BUILD_TESTPLAN_FAILED,
+              payload: data.errMsg
+            })
+          }
+        
+        }),
+        catchError (error => of({
+          type: actions.GET_ALL_BUILD_ACTIVE_FAILED,
+          payload:  error.response.data.errMsg
+        }))
+      )))

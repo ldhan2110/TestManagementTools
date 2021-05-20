@@ -73,3 +73,10 @@ export function resetDeleteBuild(value) {
     payload: value
   }
 }
+
+export function getAllBuildByTestplan(value) {
+  return {
+    type: types.GET_ALL_BUILD_TESTPLAN_REQ,
+    payload: value
+  }
+}
