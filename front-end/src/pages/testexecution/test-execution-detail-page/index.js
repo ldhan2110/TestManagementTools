@@ -8,6 +8,7 @@ import { green, orange, red } from "@material-ui/core/colors";
 import { spacing } from "@material-ui/system";
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import ExportExcel from '../../../components/ExportExcel/ExportExcel';
 import {
   Grid,
   Typography,
@@ -167,9 +168,20 @@ const TestExecutionDetailPage = (props) => {
         container 
       >
         <Grid item>
-          <Typography variant="h3" gutterBottom display="inline">
-            Test Execution Detail - {testExecInfo.testexecutionname}
-          </Typography>
+          <Grid container  direction="row" justify="space-between" >
+            <Grid item xs={6}>
+               <Typography variant="h3" gutterBottom display="inline">
+                  Test Execution Detail - {testExecInfo.testexecutionname}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <ExportExcel/>
+            </Grid>
+          </Grid>
+             
+
+          
+         
         </Grid>
       </Grid>
 

@@ -3,7 +3,6 @@ export const TEST_PLAN_HEADERS = {
   hasActions: true,
   hasCheckbox: true,
   headerCells: [  
-  { id: '_id', alignment: 'left', label: 'ID', type: "text" },
   { id: 'testplanname', alignment: 'left', label: 'Name', type: "text" },
   { id: 'description', alignment: 'left', label: 'Description', type: "text" },
   { id: 'is_active', alignment: 'left', label: 'Status' , type: "label"},
@@ -17,7 +16,8 @@ export const TEST_EXECUTION_HEADERS = {
   // { id: '_id', alignment: 'left', label: 'ID', type: "text" },
   { id: 'testexecutionname', alignment: 'left', label: 'Name', type: "text" },
   { id: 'description', alignment: 'left', label: 'Description', type: "text" },
-  { id: 'testplanname', alignment: 'left', label: 'Test Plan Name', type: "text" },
+  { id: 'testplanname', alignment: 'left', label: 'Test Plan', type: "text" },
+  { id: 'buildname', alignment: 'left', label: 'Build', type: "text" },
   { id: 'status', alignment: 'left', label: 'Status' , type: "label"},
   { id: 'tester', alignment: 'left', label: 'Assign Tester', type: "text" },
   // { id: 'testdate', alignment: 'left', label: 'Test Date', type: "text" },
@@ -27,7 +27,6 @@ export const BUILDS_HEADERS = {
   hasActions: true,
   hasCheckbox: true,
   headerCells: [  
-  { id: '_id', alignment: 'left', label: 'ID', type: 'text' },
   { id: 'buildname', alignment: 'left', label: 'Name',type: 'text' },
   { id: 'descriptions', alignment: 'left', label: 'Description',type: 'text' },
   { id: 'is_active', alignment: 'left', label: 'Status',type: 'label' },

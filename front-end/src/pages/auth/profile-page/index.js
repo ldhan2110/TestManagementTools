@@ -53,7 +53,6 @@ const ProfilePage = (props)=>{
 
   useEffect(()=>{
     getCurrentProfileReq();
-    //console.log('get data');
   },[]);
 
   useEffect(()=>{
@@ -65,41 +64,22 @@ const ProfilePage = (props)=>{
     });
   },[inforProfile])
 
-  /*useEffect(()=>{
-    if (insProfile.sucess === false){
-      displayMsg({
-        content: insProfile.errMsg,
-        type: 'error'
-      });
-    } else if (insProfile.sucess === true) {
-      displayMsg({
-        content: "Update Profile successfully !",
-        type: 'success'
-      });
-    }
-  },[insProfile.sucess]);*/
 
   const handleUpdateProfile = () => {
     setCheckError(true);
 
-    //if(milestoneInfo.description === "")
-    //setError({ ...milestoneInfo, description: "" });
 
     if(profileInfo.fullname === "")
     setError({ ...profileInfo, fullname: "" });
 
     if(profileInfo.fullname !== "")
     updateProfileReq(profileInfo);
-    console.log(JSON.stringify(profileInfo, null, '  ')); 
-    console.log('inforProfile: '+JSON.stringify(inforProfile, null, '  ')); 
-    //console.log('update profile');  
   };
 
   const handleUpdatePassword = () => {
     updatePasswordReq(passwordInfo);
     console.log(JSON.stringify(passwordInfo, null, '  ')); 
     console.log(JSON.stringify('insProfile: '+insProfile, null, '  ')); 
-    //console.log('update password');  
   };
 
   const handleChangeProfile = (prop) => (event) => {
@@ -119,15 +99,13 @@ const ProfilePage = (props)=>{
                 Profile
           </Typography>
           <Divider my={6}/>
-          <Grid container justify="space-between" className={classes.content}>
+          <Grid container justify="space-between" className={classes.content} spacing={5}>
               <Grid item xs={6}>
                 <form className={classes.formContent}>
-                  <div className={classes.nameContainer}>
                     <TextField id="fullname" label="Full Name" variant="outlined"  fullWidth
                     value={profileInfo.fullname || ''} onChange={handleChangeProfile('fullname')}
                     error={!profileInfo.fullname && !error.fullname ? true : false}
-                    helperText={!profileInfo.fullname && !error.fullname ? 'full name is required' : ' '}/>
-                  </div>
+                    />
 
                   <TextField id="email" label="Email" variant="outlined"  fullWidth required disabled={true}
                   value={profileInfo.email || ''} onChange={handleChangeProfile('email')}/>
@@ -140,21 +118,33 @@ const ProfilePage = (props)=>{
                   <div className = {classes.btnGroup}>
                       <Button variant="contained" color="primary" onClick={handleUpdateProfile}>Save Changes</Button>
                   </div>
-
-                  <TextField id="password" label="Password" variant="outlined" fullWidth required type="password"
-                  value={passwordInfo.password || ''} onChange={handleChangePassword('password')}/>
-
-                  <TextField id="confirmpassword" label="Confirm Password" variant="outlined" fullWidth type="password" 
-                  required value={passwordInfo.confirmpassword || ''} onChange={handleChangePassword('confirmpassword')}/>
-
-                  <div className = {classes.btnGroup}>
-                      <Button variant="contained" color="primary" onClick={handleUpdatePassword}>Change Password</Button>
-                  </div>
                 </form>
               </Grid>
-              <Grid item xs className={classes.avatarContainer}>
+              <Grid item xs={6} className={classes.avatarContainer}>
                 <Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} />
                 <UploadButton/>
+              </Grid>
+
+              <Grid item xs={6}> 
+              <Typography variant="h5" component="h5" gutterBottom className = {classes.title}>Change Password</Typography>
+                <Grid container spacing={3} >
+                  <Grid item xs={12}>
+                      <TextField id="password" label="Password" variant="outlined" fullWidth required type="password" value={passwordInfo.password || ''} onChange={handleChangePassword('password')}/>
+                  </Grid>
+                  <Grid item xs={12}>    
+                    <TextField id="confirmpassword" label="Confirm Password" variant="outlined" fullWidth type="password" required value={passwordInfo.confirmpassword || ''} onChange={handleChangePassword('confirmpassword')}/>
+                  </Grid>
+                  <Grid item xs={12}>   
+                      <div className = {classes.btnGroup}>
+                        <Button variant="contained" color="primary" onClick={handleUpdatePassword}>Change Password</Button>
+                    </div>
+                  </Grid>
+                </Grid>
+               
+
+                
+
+
               </Grid>
           </Grid>
       </div>
