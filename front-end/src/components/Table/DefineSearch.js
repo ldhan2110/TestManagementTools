@@ -13,7 +13,7 @@ export const TEST_PLANS_SEARCH = [
 
 export const MEMBER_SEARCH = [
   { id: 'username',  label: 'Username', type: "text" },
-  { id: 'role',  label: 'Role', type: "select", default: -1, listValues: [{value: -1, label: "ALL"}, {value: true, label: "Admin"}, {value: false, label: "Tester Lead"}, {value: false, label: "Tester"}]},
+  { id: 'role',  label: 'Role', type: "select", default: -1, listValues: [{value: -1, label: "ALL"}, {value: "projectmanager", label: "Project Manager"}, {value: "testlead", label: "Tester Lead"}, {value: "tester", label: "Tester"}]},
 ]
 
 

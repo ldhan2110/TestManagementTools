@@ -114,20 +114,21 @@ const MemberListPage = (props) => {
     //console.log('keyword: '+searchConditions.testplanName + '   ' + searchConditions.active);
     if (searchConditions.username === '' && searchConditions.role === -1){
       setListMember(array);
-      console.log(JSON.stringify(listMember));
-      console.log('role: ' + searchConditions.role);
+      //console.log(JSON.stringify(listMember));
+      //console.log('role: ' + searchConditions.role);
     } 
     else{
-      console.log(JSON.stringify(listMember));
-      console.log('role: ' + searchConditions.role);
+      //console.log('not empty');
+      //console.log(JSON.stringify(listMember));
+      //console.log('role: ' + searchConditions.role);
       if(searchConditions.role === -1)
-      setListMember(listMember.filter((item) => {
+      setListMember(array.filter((item) => {
         if(item.name.toLowerCase().includes(searchConditions.username.toLowerCase()))
-          return listMember;}))
+          return array;}))
       else
-      setListMember(listMember.filter((item) => {
+      setListMember(array.filter((item) => {
         if(item.name.toLowerCase().includes(searchConditions.username.toLowerCase()) && searchConditions.role === item.role)
-          return listMember;}))
+          return array;}))
     }
   },[searchConditions]);
 
