@@ -130,28 +130,25 @@ const SettingProjectPage = (props) => {
     setCheckError(true);
 
     if(projectInfo.description === "")
-    setError({ ...error, description: "" });
+    setError({ ...projectInfo, description: "" });
 
     if(projectInfo.projectname === "")
-    setError({ ...error, projectname: "" });
+    setError({ ...projectInfo, projectname: "" });
 
     if(projectInfo.description.trim().length == 0 || projectInfo.projectname.trim().length == 0
         ||projectInfo.description.trim().length !== projectInfo.description.length 
         || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
-          setError({ ...error, description: "" });
-          setError({ ...error, projectname: "" });
-          console.log('description ssssssss: '+projectInfo.description);
         displayMsg({
-          content: "Project name, description should not contain spaces or empty",
+          content: "Project name or description should not contain spaces or empty",
           type: 'error'
         });
     }
-
-    else if(projectInfo.projectname !== "" && projectInfo.description !== "")
+  
+    else
     updateProjectReq(projectInfo);
-    console.log('update successfully: '+JSON.stringify(projectInfo, null, '  '));    
-    console.log('error Object: '+JSON.stringify(error, null, '  '));    
-    console.log('description: '+projectInfo.description);
+    //console.log('update successfully: '+JSON.stringify(projectInfo, null, '  '));    
+    //console.log('error Object: '+JSON.stringify(error, null, '  '));    
+    //console.log('description: '+projectInfo.description);
   };
   
   const handleChange = (prop) => (event) => {
@@ -233,12 +230,12 @@ const SettingProjectPage = (props) => {
           <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  inputProps={{maxLength : 16}} 
            value={projectInfo.projectname || ''} onChange={handleChange('projectname')}
            error={!projectInfo.projectname && !error.projectname ? true : false}
-           helperText={!projectInfo.projectname && !error.projectname ? 'project name is required' : ' '}/>
+          helperText={!projectInfo.projectname && !error.projectname ? 'project name is required' : ' '}/>
 
           <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} 
           value={projectInfo.description || ''} onChange={handleChange('description')}
           error={!projectInfo.description && !error.description ? true : false}
-          helperText={!projectInfo.description && !error.description ? 'description name is required' : ' '}/>
+          helperText={!projectInfo.description && !error.description ? 'description is required' : ' '}/>
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}

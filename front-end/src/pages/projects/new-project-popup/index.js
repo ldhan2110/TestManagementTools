@@ -33,11 +33,16 @@ const mapDispatchToProps = dispatch => {
 
 const NewProjectPopup = (props) => {
 
-  const {isOpen, setOpen, classes} = props;
+  const {isOpen, setOpen, classes} = props; 
 
   const {insProjects, addProjectReq, displayMsg, getAllProjectReq} = props;
 
   const [open, setOpenPopup] = React.useState(isOpen); 
+  const [checkError, setCheckError] = useState(false);
+  const [error, setError] = useState({
+    projectname: 'ss',
+    description: 'ss',
+  });
 
 
   const [projectInfo, setProjectInfo] = useState({
@@ -79,11 +84,35 @@ const NewProjectPopup = (props) => {
   };
 
   const handleCreate = () => {
-    addProjectReq(projectInfo);
+    setCheckError(true);
+
+    if(projectInfo.description === "")
+    setError({ ...projectInfo, description: "" });
+
+    if(projectInfo.projectname === "")
+    setError({ ...projectInfo, projectname: "" });
+
+    if(projectInfo.description.trim().length == 0 || projectInfo.projectname.trim().length == 0
+        ||projectInfo.description.trim().length !== projectInfo.description.length 
+        || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
+        displayMsg({
+          content: "Project name or description should not contain spaces or empty",
+          type: 'error'
+        });
+    }
+  
+    else{
+      addProjectReq(projectInfo);
+      //console.log('not empty: '+ projectInfo.projectname + ' ' + projectInfo.description);
+    }
+
   }
 
   const handleChange = (prop) => (event) => {
     setProjectInfo({ ...projectInfo, [prop]: event.target.value });
+
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
   };
 
   const handlePublic = () =>{
@@ -107,8 +136,15 @@ const NewProjectPopup = (props) => {
           </Toolbar>
         </AppBar>
         <form className={classes.content}>
-          <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  value={projectInfo.projectname || ''} onChange={handleChange('projectname')} inputProps={{maxLength : 16}} />
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}  value={projectInfo.description || ''} onChange={handleChange('description')}/>
+          <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  
+          value={projectInfo.projectname || ''} onChange={handleChange('projectname')} inputProps={{maxLength : 16}} 
+          error={projectInfo.projectname.trim().length==0 && error.projectname.trim().length==0 ? true : false}
+          helperText={projectInfo.projectname.trim().length==0 && error.projectname.trim().length==0 ? 'project name is required' : ' '}/>
+
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}  
+          value={projectInfo.description || ''} onChange={handleChange('description')}
+          error={projectInfo.description.trim().length==0 && error.description.trim().length==0 ? true : false}
+          helperText={projectInfo.description.trim().length==0 && error.description.trim().length==0 ? 'description is required' : ' '}/>
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}
