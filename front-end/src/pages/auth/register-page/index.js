@@ -20,7 +20,7 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 
 const  mapStateToProps = (state) => {
-  return { account: state.account, success: state.account.success, errorMsg: state.account.errorMsg }
+  return { account: state.account, isRegister: state.account.isRegister, errorMsg: state.account.errorMsg }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -37,7 +37,7 @@ const RegisterPage = (props) => {
     //SET STATES
     const {isOpen, setOpenState} = props;
 
-    const {account, registerReq,resetAddRedux, success, displayMsg, errorMsg} = props;
+    const {account, registerReq,resetAddRedux, isRegister, displayMsg, errorMsg} = props;
 
     const [open,setOpen] = useState(isOpen);
     
@@ -60,14 +60,14 @@ const RegisterPage = (props) => {
     });
 
     useEffect(()=>{
-      if (success === false){
+      if (isRegister === false){
         displayMsg({
           content: "Register failed!",
           type: 'error'
         });
         console.log('register error!' + JSON.stringify(errorMsg));
         resetAddRedux();
-      } else if (success == true) {
+      } else if (isRegister == true) {
         displayMsg({
           content: "Register successfully!",
           type: 'success'
@@ -76,7 +76,7 @@ const RegisterPage = (props) => {
         resetAddRedux();
         handleClose();
       }
-    },[success]);
+    },[isRegister]);
 
     //LISTEN CHANGE TO "isOpen" prop
     useEffect(() => {

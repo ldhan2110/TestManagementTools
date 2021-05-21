@@ -5,6 +5,7 @@ import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
 
 const initialState = {
   success:"",
+  isRegister: "",
   error: "",
   errorMsg:"",
   accountInfo: {
@@ -34,6 +35,7 @@ const reducer = (state = initialState, actions) => {
       return {
         success: false,
         error: false,
+        isRegister: "",
         errorMsg: "",
         accountInfo: {
           username:  payload.username,
@@ -47,6 +49,7 @@ const reducer = (state = initialState, actions) => {
     case types.LOGIN_SUCESS: 
       return {
         success: true,
+        isRegister: "",
         error: "",
         errorMsg: "",
         accountInfo: {
@@ -61,6 +64,7 @@ const reducer = (state = initialState, actions) => {
       return {
         success:"",
         error: true,
+        isRegister: "",
         errorMsg: payload,
         accountInfo: {
           username:  "",
@@ -73,6 +77,7 @@ const reducer = (state = initialState, actions) => {
     case types.REGISTER_REQ:
       return {
         success: "",
+        isRegister: "",
         error: "",
         errorMsg: "",
         accountInfo: {
@@ -86,6 +91,7 @@ const reducer = (state = initialState, actions) => {
     case types.REGISTER_SUCCESS:
       return {
         success: true,
+        isRegister: true,
         error: "",
         errorMsg: "",
         accountInfo: {
@@ -100,6 +106,7 @@ const reducer = (state = initialState, actions) => {
       return {
         success:false,
         error: true,
+        isRegister: false,
         errorMsg: payload,
         accountInfo: {
           username:  "",
@@ -113,6 +120,7 @@ const reducer = (state = initialState, actions) => {
         return {
           success: null,
           error: "",
+          isRegister: "",
           errorMsg: "",
           accountInfo: {
             username:  "",
@@ -126,13 +134,15 @@ const reducer = (state = initialState, actions) => {
     //LOGOUT
     case types.LOGOUT_REQ:
       return {
-        ...state
+        ...state,
+        isRegister: ""
       }
 
     case types.LOGOUT_SUCESS:
       localStorage.clear();
       return{
         success:"",
+        isRegister: "",
         error: "",
         errorMsg:"",
         accountInfo: {

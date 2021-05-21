@@ -66,6 +66,7 @@
     "redux-persist": "^6.0.0",
     "rxjs": "^6.6.6",
     "sortablejs": "^1.13.0",
-    "styled-components": "5.1.1"
+    "styled-components": "5.1.1",
+    "xlsx": "^0.17.0"
   }
 }
