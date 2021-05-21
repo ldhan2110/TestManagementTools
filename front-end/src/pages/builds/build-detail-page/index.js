@@ -89,22 +89,26 @@ const BuildDetailPage = (props) => {
       setBuildInfor({ ...buildInfor, releasedate: selectedDateStart });
     },[selectedDateStart])
 
-    useEffect(()=>{
-    if (insBuilds.sucess === false){
-      displayMsg({
-        content: insBuilds.errMsg,
-        type: 'error'
-      });
-      resetUpdateRedux();
-    } else if (insBuilds.sucess == true) {
-      displayMsg({
-        content: "Update build successfully !",
-        type: 'success'
-      });
-      resetUpdateRedux();
-      history.goBack();
-      }
-  },[insBuilds.sucess]);
+    try {
+      useEffect(()=>{
+        if (insBuilds.sucess === false){
+          displayMsg({
+            content: insBuilds.errMsg,
+            type: 'error'
+          });
+          resetUpdateRedux();
+        } else if (insBuilds.sucess == true) {
+          displayMsg({
+            content: "Update build successfully !",
+            type: 'success'
+          });
+          resetUpdateRedux();
+          history.goBack();
+          }
+      },[insBuilds.sucess]);   
+    } catch (error) {
+      console.log("error: "+error);
+    }
 
   useEffect(()=>{
     if (insBuildsDelete.sucess === false){

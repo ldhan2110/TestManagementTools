@@ -90,65 +90,66 @@ const NewTestPlanPage = (props) => {
       setOpenPopup(isOpen);
   },[isOpen, open])
 
-  useEffect(()=>{
-    if (insTestplan.sucess === false){
-      displayMsg({
-        content: insTestplan.errMsg,
-        type: 'error'
-      });
-      resetAddRedux();
-    } else if (insTestplan.sucess == true) {
-      displayMsg({
-        content: "Create testplan successfully !",
-        type: 'success'
-      });
-      resetAddRedux();
-      getAllTestplanReq();
-      handleClose();
-    }
-  },[insTestplan.sucess]); 
-
-    const handleCreate = () => {
-      setCheckError(true);
-
-      if(TestplanInfo.description === "")
-      setError({ ...TestplanInfo, description: "" });
-  
-      if(TestplanInfo.Testplanname === "")
-      setError({ ...TestplanInfo, Testplanname: "" });
-
-      if(TestplanInfo.description.trim().length == 0 || TestplanInfo.Testplanname.trim().length == 0
-          ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
-          || TestplanInfo.Testplanname.trim().length !== TestplanInfo.Testplanname.length){
-          displayMsg({
-            content: "Testplan name or description should not contain spaces or empty",
-            type: 'error'
-          });
+  try {
+    useEffect(()=>{
+      if (insTestplan.sucess === false){
+        displayMsg({
+          content: insTestplan.errMsg,
+          type: 'error'
+        });
+        resetAddRedux();
+      } else if (insTestplan.sucess == true) {
+        displayMsg({
+          content: "Create testplan successfully !",
+          type: 'success'
+        });
+        resetAddRedux();
+        getAllTestplanReq();
+        handleClose();
       }
-  
-      else if(TestplanInfo.Testplanname !== "" && TestplanInfo.description !== "")
-      addNewTestplanReq(TestplanInfo);
-      //console.log(JSON.stringify(TestplanInfo));
+    },[insTestplan.sucess]);     
+  } catch (error) {
+    console.log('error: '+error);
+  }
+
+  const handleCreate = () => {
+    setCheckError(true);
+
+    if(TestplanInfo.description === "")
+    setError({ ...TestplanInfo, description: "" });
+
+    if(TestplanInfo.Testplanname === "")
+    setError({ ...TestplanInfo, Testplanname: "" });
+
+    if(TestplanInfo.description.trim().length == 0 || TestplanInfo.Testplanname.trim().length == 0
+        ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
+        || TestplanInfo.Testplanname.trim().length !== TestplanInfo.Testplanname.length){
+        displayMsg({
+          content: "Testplan name or description should not contain spaces or empty",
+          type: 'error'
+        });
     }
   
-    const handleChange = (prop) => (event) => {
-      setTestplanInfo({ ...TestplanInfo, [prop]: event.target.value });
+    else if(TestplanInfo.Testplanname !== "" && TestplanInfo.description !== "")
+    addNewTestplanReq(TestplanInfo);
+    //console.log(JSON.stringify(TestplanInfo));
+  }
 
-      if(checkError == true)
-      setError({ ...error, [prop]: event.target.value });
-    };
-  
-    const handlePublic = () =>{
-      setTestplanInfo({ ...TestplanInfo, is_public: !TestplanInfo.is_public });
-    };
-  
-    const handleActive = () => {
-      setTestplanInfo({ ...TestplanInfo, is_active: !TestplanInfo.is_active });
-    };
-  
-    
-     
+  const handleChange = (prop) => (event) => {
+    setTestplanInfo({ ...TestplanInfo, [prop]: event.target.value });
 
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
+  };
+
+  const handlePublic = () =>{
+    setTestplanInfo({ ...TestplanInfo, is_public: !TestplanInfo.is_public });
+  };
+
+  const handleActive = () => {
+    setTestplanInfo({ ...TestplanInfo, is_active: !TestplanInfo.is_active });
+  };
+  
     const listtestplan = [
       /*{ title: 'Monty Python and the Holy Grail', year: 1975 },
       { title: 'The Shawshank Redemption', year: 1994 },

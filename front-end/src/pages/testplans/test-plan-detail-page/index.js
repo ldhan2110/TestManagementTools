@@ -85,23 +85,27 @@ const TestPlanDetailPage = (props) => {
       }
     },[insTestplan.sucess]);
 
-    useEffect(()=>{
-      if (insTestplanDelete.sucess === false){
-        displayMsg({
-          content: insTestplanDelete.errMsg,
-          type: 'error'
-        });
-        resetDeleteRedux();
-      } else if (insTestplanDelete.sucess == true) {
-        displayMsg({
-          content: "Delete testplan successfully !",
-          type: 'success'
-        });
-        getAllTestplanReq(props.match.params.projectName);
-        resetDeleteRedux();
-        history.goBack();
-      }
-    },[insTestplanDelete.sucess]);
+    try {
+      useEffect(()=>{
+        if (insTestplanDelete.sucess === false){
+          displayMsg({
+            content: insTestplanDelete.errMsg,
+            type: 'error'
+          });
+          resetDeleteRedux();
+        } else if (insTestplanDelete.sucess == true) {
+          displayMsg({
+            content: "Delete testplan successfully !",
+            type: 'success'
+          });
+          getAllTestplanReq(props.match.params.projectName);
+          resetDeleteRedux();
+          history.goBack();
+        }
+      },[insTestplanDelete.sucess]);      
+    } catch (error) {
+      console.log('error: '+error);
+    }
 
     //useEffect(()=>{
       //getAllBuildActiveReq(project); 

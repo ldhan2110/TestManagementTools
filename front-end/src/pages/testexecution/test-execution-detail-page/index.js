@@ -76,9 +76,6 @@ const TestExecutionDetailPage = (props) => {
       return  listTestExec.find((item) => item._id === id);
     }
 
-
-
-
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
 
     const [viewMode,setViewMode] = useState(testExecInfo.status === 'Untest' ? false : true);
@@ -94,37 +91,36 @@ const TestExecutionDetailPage = (props) => {
       return execTest.listTestCase.find(item => item.status === 'Untest');
     }
 
-
     useEffect(()=> {
       selectTestExecReq({id: props.match.params.testExecutionId, listTestcase: testExecInfo.exectestcases});
       getAllUserReq(localStorage.getItem('selectProject'));
     },[])
 
-    
+    try {
+      useEffect(()=>{
+        if (updTestExec.sucess === false){
+          displayMsg({
+            content: updTestExec.errMsg,
+            type: 'error'
+          });
+          resetRedux();
+        } else if (updTestExec.sucess === true) {
+          displayMsg({
+            content: "Update result successfully !",
+            type: 'success'
+          });
+          getAllTestExecReq();
+          resetRedux();
+          handleClose();
+        }
+       } ,[updTestExec.sucess])    
+    } catch (error) {
+      console.log('error: '+error);
+    }
 
     useEffect(()=>{
-      if (updTestExec.sucess === false){
-        displayMsg({
-          content: updTestExec.errMsg,
-          type: 'error'
-        });
-        resetRedux();
-      } else if (updTestExec.sucess === true) {
-        displayMsg({
-          content: "Update result successfully !",
-          type: 'success'
-        });
-        getAllTestExecReq();
-        resetRedux();
-        handleClose();
-      }
-     } ,[updTestExec.sucess])
-
-     useEffect(()=>{
       console.log(listTestExec);
-     },[listTestExec])
-
-     
+     },[listTestExec])  
 
     const handleClose=()=>{
       var url;

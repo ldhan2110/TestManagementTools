@@ -81,25 +81,30 @@ const NewBuildPage = (props) => {
 
   useEffect(()=>{
     setBuildInfo({ ...buildInfo, releasedate: selectedDateStart });
-},[selectedDateStart])
+  },[selectedDateStart])
 
-  useEffect(()=>{
-    if (insBuilds.sucess === false){
-      displayMsg({
-        content: insBuilds.errMsg,
-        type: 'error'
-      });
-      resetAddRedux();
-    } else if (insBuilds.sucess == true) {
-      displayMsg({
-        content: "Create build successfully !",
-        type: 'success'
-      });
-      resetAddRedux();
-      getAllBuildReq();
-      handleClose();
-    }
-  },[insBuilds.sucess]);
+  try {
+    useEffect(()=>{
+      if (insBuilds.sucess === false){
+        displayMsg({
+          content: insBuilds.errMsg,
+          type: 'error'
+        });
+        resetAddRedux();
+      } else if (insBuilds.sucess == true) {
+        displayMsg({
+          content: "Create build successfully !",
+          type: 'success'
+        });
+        resetAddRedux();
+        getAllBuildReq();
+        handleClose();
+      }
+    },[insBuilds.sucess]);    
+  } catch (error) {
+    console.log("error: "+error);
+  }
+
     
   const handleClose = () => {
     setBuildInfo({

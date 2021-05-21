@@ -92,23 +92,28 @@ const NewTestExecutionPage = (props) => {
     },[listtestcaseselect]);
 
 
-    useEffect(()=>{
-      if (insTestexec.sucess === false){
-        displayMsg({
-          content: insTestexec.errMsg,
-          type: 'error'
-        });
-        resetAddRedux();
-      } else if (insTestexec.sucess === true) {
-        displayMsg({
-          content: "Create Test Execution successfully !",
-          type: 'success'
-        });
-        getAllTestExecReq();
-        resetAddRedux();
-        history.goBack();
-      }
-    },[insTestexec.sucess]);
+    try {
+      useEffect(()=>{
+        if (insTestexec.sucess === false){
+          displayMsg({
+            content: insTestexec.errMsg,
+            type: 'error'
+          });
+          resetAddRedux();
+        } else if (insTestexec.sucess === true) {
+          displayMsg({
+            content: "Create Test Execution successfully !",
+            type: 'success'
+          });
+          getAllTestExecReq();
+          resetAddRedux();
+          history.goBack();
+        }
+      },[insTestexec.sucess]);      
+    } catch (error) {
+      console.log("error: "+error);
+    }
+
 
 
 
