@@ -55,12 +55,14 @@ const MemberListPage = (props) => {
 
   const [searchConditions, setConditions] = useState({
     username: '',
-    role: ''
+    role: -1
   });
 
   const history = useHistory();
 
   const [array, setArray] = React.useState([]);
+
+  const [listMember, setListMember] = React.useState([]);
 
   const handleArray = () => {   
     if(listUsersOfProject !== undefined){
@@ -104,6 +106,30 @@ const MemberListPage = (props) => {
     handleArray();
   },[listUsersOfProject])
 
+  useEffect(()=>{
+    setListMember(array)
+  },[array])
+
+  useEffect(()=>{
+    //console.log('keyword: '+searchConditions.testplanName + '   ' + searchConditions.active);
+    if (searchConditions.username === '' && searchConditions.role === -1){
+      setListMember(array);
+      console.log(JSON.stringify(listMember));
+      console.log('role: ' + searchConditions.role);
+    } 
+    else{
+      console.log(JSON.stringify(listMember));
+      console.log('role: ' + searchConditions.role);
+      if(searchConditions.role === -1)
+      setListMember(listMember.filter((item) => {
+        if(item.name.toLowerCase().includes(searchConditions.username.toLowerCase()))
+          return listMember;}))
+      else
+      setListMember(listMember.filter((item) => {
+        if(item.name.toLowerCase().includes(searchConditions.username.toLowerCase()) && searchConditions.role === item.role)
+          return listMember;}))
+    }
+  },[searchConditions]);
 
   return(
     <div>
@@ -144,7 +170,7 @@ const MemberListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <EnhancedTable
-            rows={array}
+            rows={listMember}
             headerList = {MEMBERS_HEADERS}
             viewAction={navigateToDetailPage}
             conditions={MEMBER_SEARCH}

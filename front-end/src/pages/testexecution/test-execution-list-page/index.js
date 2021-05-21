@@ -52,12 +52,14 @@ const TestExecutionListPage = (props) => {
 
   const [listTestexec, setListTestExec] = useState([]);
 
+    const [array, setArray] = React.useState(listTestexec);
+
   const [TEST_EXEC_SEARCH_CONDITIONS, setSearchConditions] = useState(TEST_EXEC_SEARCH);
 
   const [searchConditions, setConditions] = useState({
     testexecName: '',
     testplanName: '',
-    status: ''
+    status: -1
   });
 
   const history = useHistory();
@@ -99,12 +101,40 @@ const TestExecutionListPage = (props) => {
 
 
   useEffect(()=>{
+    console.log('keyword: ' + searchConditions.status+'  '+searchConditions.testplanName+'  '+searchConditions.testexecName);
     var tempArr = [];
     listTestExec.forEach((item)=>{
       tempArr.push({_id: item._id, status: item.status, testexecutionname: item.testexecutionname, description: item.description, tester: item.tester.username, testplanname: item.testplan.testplanname })
     });
     setListTestExec(tempArr);
+    setArray(listTestexec)
   },[listTestExec]);
+
+
+  useEffect(()=>{
+      console.log('keyword: ' + searchConditions.status+'  '+searchConditions.testplanName+'  '+searchConditions.testexecName);
+      console.log(JSON.stringify(listTestexec));      
+      if (searchConditions.status === -1 && searchConditions.testplanName === '' && searchConditions.testexecName === ''){
+      setArray(listTestexec);
+    } 
+    else{
+      if(searchConditions.status === -1){
+        setArray(listTestexec.filter((item) => {
+          if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
+          && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
+            return listTestexec;}));
+            console.log(JSON.stringify(array));
+      }
+      else{
+        setArray(listTestexec.filter((item) => {
+          if(searchConditions.status === item.status
+          && item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
+          && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
+            return listTestexec;}));
+            console.log(JSON.stringify(array));
+      }
+    }
+  },[searchConditions]);
 
   return(
     <div>
@@ -145,7 +175,7 @@ const TestExecutionListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <EnhancedTable
-            rows={listTestexec}
+            rows={array}
             headerList = {TEST_EXECUTION_HEADERS}
             viewAction={navigateToDetailPage}
             conditions={TEST_EXEC_SEARCH_CONDITIONS}
