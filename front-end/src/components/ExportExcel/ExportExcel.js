@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react';
 import ReactExport from 'react-data-export';
-
+import { Button, } from '@material-ui/core';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -59,7 +59,7 @@ class ExportExcel extends Component {
     render() {
         return (
             <div>
-                <ExcelFile element={<button>Download Data With Styles</button>}>
+                <ExcelFile element={<Button color='primary' variant="contained">Export Excel</Button>}>
                     <ExcelSheet dataSet={multiDataSet} name="Organization"/>
                 </ExcelFile>
             </div>

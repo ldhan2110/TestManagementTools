@@ -150,16 +150,6 @@ const TestExecutionListPage = (props) => {
           <Typography variant="h3" gutterBottom display="inline">
             Test Execution List
           </Typography>
-
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-          </Breadcrumbs> */}
         </Grid>
         <Grid item>
           <div>

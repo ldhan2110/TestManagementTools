@@ -168,20 +168,13 @@ const TestExecutionDetailPage = (props) => {
         container 
       >
         <Grid item>
-          <Grid container  direction="row" justify="space-between" >
-            <Grid item xs={6}>
-               <Typography variant="h3" gutterBottom display="inline">
+
+              <Typography variant="h3" gutterBottom display="inline">
                   Test Execution Detail - {testExecInfo.testexecutionname}
               </Typography>
-            </Grid>
-            <Grid item>
-              <ExportExcel/>
-            </Grid>
-          </Grid>
-             
-
-          
-         
+        </Grid>
+        <Grid item>
+          <ExportExcel/>
         </Grid>
       </Grid>
 
