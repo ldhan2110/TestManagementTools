@@ -55,14 +55,20 @@ const ProfilePage = (props)=>{
     getCurrentProfileReq();
   },[]);
 
-  useEffect(()=>{
-    setProfileInfo({ ...profileInfo, 
-      fullname: inforProfile.fullname,
-      email: inforProfile.email,
-      phonenumber: inforProfile.phonenumber,
-      introduction: inforProfile.introduction
-    });
-  },[inforProfile])
+    useEffect(()=>{
+      try {
+      setProfileInfo({ ...profileInfo, 
+        fullname: inforProfile.fullname,
+        email: inforProfile.email,
+        phonenumber: inforProfile.phonenumber,
+        introduction: inforProfile.introduction
+      });
+    } catch (error) {
+      console.log('error: '+ error);
+    }
+    },[inforProfile])   
+
+
 
 
   const handleUpdateProfile = () => {

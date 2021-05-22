@@ -83,10 +83,6 @@ const NewTestPlanPage = (props) => {
     });
 
   useEffect(()=>{
-    getAllBuildActiveReq(project);
-  },[])
-
-  useEffect(()=>{
       setOpenPopup(isOpen);
   },[isOpen, open])
 

@@ -98,7 +98,7 @@ const TestPlanDetailPage = (props) => {
             content: "Delete testplan successfully !",
             type: 'success'
           });
-          getAllTestplanReq(props.match.params.projectName);
+          //getAllTestplanReq(props.match.params.projectName);
           resetDeleteRedux();
           history.goBack();
         }

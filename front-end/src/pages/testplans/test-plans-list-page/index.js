@@ -84,6 +84,10 @@ const TestPlanListPage = (props) => {
     getAllTestplanReq(project);
   },[])
 
+  useEffect(()=>{
+    setArray(listTestplan);
+  },[listTestplan])
+
   const handleChangeConditions = (props, data) => {
     setConditions({...searchConditions, [props]: data });
   }
