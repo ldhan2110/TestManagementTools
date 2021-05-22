@@ -71,8 +71,8 @@ const NewTestExecutionPage = (props) => {
     });
     const history = useHistory();
 
-    useEffect(async ()=>{
-      await getAllUserReq(localStorage.getItem('selectProject'));
+    useEffect(()=>{
+      getAllUserReq(localStorage.getItem('selectProject'));
       getAllActiveTestplanReq();
     },[])
 
