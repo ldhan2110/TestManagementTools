@@ -76,7 +76,7 @@ const ForgotPassword = (props) => {
           //getAllBuildReq();
           //handleClose();
         }
-      },[isSendMail.sucess]); 
+      },[isSendMail]); 
 
     return(
     <React.Fragment>
@@ -114,4 +114,4 @@ const ForgotPassword = (props) => {
 };
 
 //export default (ForgotPassword);
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(ForgotPassword));
+export default connect(mapStateToProps,mapDispatchToProps)(ForgotPassword);

@@ -41,6 +41,7 @@ const reducer = (state = initialState, actions) => {
     //LOGIN
     case types.LOGIN_REQ:
       return {
+        ...state,
         success: false,
         error: false,
         isRegister: "",
@@ -56,6 +57,7 @@ const reducer = (state = initialState, actions) => {
 
     case types.LOGIN_SUCESS: 
       return {
+        ...state,
         success: true,
         isRegister: "",
         error: "",
@@ -70,6 +72,7 @@ const reducer = (state = initialState, actions) => {
     
     case types.LOGIN_FAILED:
       return {
+        ...state,
         success:"",
         error: true,
         isRegister: "",
@@ -84,6 +87,7 @@ const reducer = (state = initialState, actions) => {
 
     case types.REGISTER_REQ:
       return {
+        ...state,
         success: "",
         isRegister: "",
         error: "",
@@ -98,6 +102,7 @@ const reducer = (state = initialState, actions) => {
 
     case types.REGISTER_SUCCESS:
       return {
+        ...state,
         success: true,
         isRegister: true,
         error: "",
@@ -112,6 +117,7 @@ const reducer = (state = initialState, actions) => {
 
     case types.REGISTER_FAILED:
       return {
+        ...state,
         success:false,
         error: true,
         isRegister: false,
@@ -126,6 +132,7 @@ const reducer = (state = initialState, actions) => {
 
     case types.RESET_REGISTER:
       return {
+        ...state,
         success: null,
         error: "",
         isRegister: "",
