@@ -35,6 +35,13 @@ export function sendMailResetPasswordReq (value){
   }
 }
 
+export function resetSendMailResetPasswordReq (value){
+  return{
+    type: types.RESET_SEND_MAIL_RESET_PASSWORD,
+    payload: value
+  }
+}
+
 export function confirmResetPasswordReq (value){
   return{
     type: types.CONFIRM_RESET_PASSWORD_REQ,
