@@ -83,16 +83,20 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
   );
 
   export  const sendMailResetPasswordReqEpic = (action$, state$) => action$.pipe(
-    ofType(actions.SEND_MAIL_RESET_PASSWORD_REQ),
-    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/users/forgotpassword',{
-      email: payload.email
-    })).pipe(
+      ofType(actions.SEND_MAIL_RESET_PASSWORD_REQ),
+      mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/users/forgotpassword',{
+        email: payload.email
+      } , {
+          headers: {
+            "content-type": "application/json"
+          }
+        })).pipe(
       map(response => {
         const {data} = response;
         if (data.success) {
           return ({
             type: actions.SEND_MAIL_RESET_PASSWORD_SUCCESS,
-            payload: data.result
+            payload: true
           })
         } else {
           return ({

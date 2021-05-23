@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
-import Helmet from 'react-helmet';
+import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import Helmet from 'react-helmet';
 import SelectBox from '../../../components/Selectbox';
 import DatePicker from '../../../components/DatePicker';
 import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ, RESET_ADD_NEW_BUILD} from '../../../redux/build-release/constants';
@@ -10,7 +11,6 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 
 
-import { connect } from 'react-redux';
 import {
   Grid,
   Typography,

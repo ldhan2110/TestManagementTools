@@ -160,79 +160,79 @@ const reducer = (state = initialState, actions) => {
         }
       }
  
-      case types.SEND_MAIL_RESET_PASSWORD_REQ:{      
-        return {
-          ...state,
-          isSendMail: initialState.isSendMail
-        };
-      }
-  
-      case types.SEND_MAIL_RESET_PASSWORD_SUCCESS:{
-        return {
-          ...state,
-          isSendMail: {
-            sucess: true,
-            errMsg: null
-          }
-        }
-      }
-  
-      case types.SEND_MAIL_RESET_PASSWORD_FAILED: {
-        return{
-          ...state,
-          isSendMail:{
-            sucess: false,
-            errMsg: payload
-          }
-        }    
-      }
+    case types.SEND_MAIL_RESET_PASSWORD_REQ:{      
+      return {
+        ...state,
+        isSendMail: initialState.isSendMail
+      };
+    }
 
-      case types.RESET_SEND_MAIL_RESET_PASSWORD:{
-        return {
-          ...state,
-          isSendMail: {
-            sucess: null,
-            errMsg: null
-          }
+    case types.SEND_MAIL_RESET_PASSWORD_SUCCESS:{
+      return {
+        ...state,
+        isSendMail: {
+          sucess: true,
+          errMsg: null
         }
       }
+    }
 
-      case types.CONFIRM_RESET_PASSWORD_REQ:{      
-        return {
-          ...state,
-          isConfirmPassword: initialState.isConfirmPassword
-        };
-      }
-  
-      case types.CONFIRM_RESET_PASSWORD_SUCCESS:{
-        return {
-          ...state,
-          isConfirmPassword: {
-            sucess: true,
-            errMsg: null
-          }
+    case types.SEND_MAIL_RESET_PASSWORD_FAILED: {
+      return{
+        ...state,
+        isSendMail:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
+
+    case types.RESET_SEND_MAIL_RESET_PASSWORD:{
+      return {
+        ...state,
+        isSendMail: {
+          sucess: null,
+          errMsg: null
         }
       }
-  
-      case types.CONFIRM_RESET_PASSWORD_FAILED: {
-        return{
-          ...state,
-          isConfirmPassword:{
-            sucess: false,
-            errMsg: payload
-          }
-        }    
-      }
-  
-      case types.RESET_CONFIRM_RESET_PASSWORD:{
-        return {
-          ...state,
-          isConfirmPassword: {
-            sucess: null,
-            errMsg: null
-          }
+    }
+
+    case types.CONFIRM_RESET_PASSWORD_REQ:{      
+      return {
+        ...state,
+        isConfirmPassword: initialState.isConfirmPassword
+      };
+    }
+
+    case types.CONFIRM_RESET_PASSWORD_SUCCESS:{
+      return {
+        ...state,
+        isConfirmPassword: {
+          sucess: true,
+          errMsg: null
         }
       }
+    }
+
+    case types.CONFIRM_RESET_PASSWORD_FAILED: {
+      return{
+        ...state,
+        isConfirmPassword:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
+
+    case types.RESET_CONFIRM_RESET_PASSWORD:{
+      return {
+        ...state,
+        isConfirmPassword: {
+          sucess: null,
+          errMsg: null
+        }
+      }
+    }
     
     default:
       return state
