@@ -69,17 +69,70 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
     )
     ))
     
-
-
  //LOGOUT EPIC
- export const logoutReqEpic = (action$, state$) => action$.pipe(
-  ofType(actions.LOGOUT_REQ),
-  map(()=>{
-    localStorage.clear();
-    return ({
-      type: actions.LOGOUT_SUCESS,
-      payload: {
-        isLogin: false
-      }
-    })})
- );
+  export const logoutReqEpic = (action$, state$) => action$.pipe(
+    ofType(actions.LOGOUT_REQ),
+    map(()=>{
+      localStorage.clear();
+      return ({
+        type: actions.LOGOUT_SUCESS,
+        payload: {
+          isLogin: false
+        }
+      })})
+  );
+
+  export  const sendMailResetPasswordReqEpic = (action$, state$) => action$.pipe(
+    ofType(actions.SEND_MAIL_RESET_PASSWORD_REQ),
+    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/users/forgotpassword',{
+      email: payload.email
+    })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.SEND_MAIL_RESET_PASSWORD_SUCCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.SEND_MAIL_RESET_PASSWORD_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error =>  of({
+        type: actions.SEND_MAIL_RESET_PASSWORD_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )
+    ))
+
+  export  const confirmResetPasswordReqEpic = (action$, state$) => action$.pipe(
+    ofType(actions.CONFIRM_RESET_PASSWORD_REQ),
+    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/users/reset/' + payload.resetpasstoken,{
+      newpassword: payload.newpassword,
+      confirmnewpassword: payload.confirmnewpassword
+    })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.CONFIRM_RESET_PASSWORD_SUCCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.CONFIRM_RESET_PASSWORD_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error =>  of({
+        type: actions.CONFIRM_RESET_PASSWORD_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )
+    ))

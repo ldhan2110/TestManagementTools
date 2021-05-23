@@ -27,3 +27,24 @@ export function resetRegisterReq (value){
     payload: value
   }
 }
+
+export function sendMailResetPasswordReq (value){
+  return{
+    type: types.SEND_MAIL_RESET_PASSWORD_REQ,
+    payload: value
+  }
+}
+
+export function confirmResetPasswordReq (value){
+  return{
+    type: types.CONFIRM_RESET_PASSWORD_REQ,
+    payload: value
+  }
+}
+
+export function resetConfirmResetPasswordReq (value){
+  return{
+    type: types.RESET_CONFIRM_RESET_PASSWORD,
+    payload: value
+  }
+}

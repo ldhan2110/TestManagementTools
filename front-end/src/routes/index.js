@@ -100,7 +100,7 @@ const forgotPasswordRoute = {
 }
 
 const resetPasswordRoute = {
-  path: "/auth/reset-password",
+  path: "/auth/reset-password/:token",
   name: "Reset Password",
   component: ResetPassword
 }

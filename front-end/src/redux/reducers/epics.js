@@ -14,6 +14,8 @@ export default combineEpics(
    accountEpics.loginReqEpic,
    accountEpics.logoutReqEpic,
    accountEpics.registerReqEpic,
+   accountEpics.sendMailResetPasswordReqEpic,
+   accountEpics.confirmResetPasswordReqEpic,
 
    //PROJECT EPICS
    projectEpics.getAllProjectEpic,
