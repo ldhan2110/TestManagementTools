@@ -98,9 +98,9 @@ const NewTestSuitePopup = (props) => {
 
       if(testSuiteInfo.description.trim().length == 0 || testSuiteInfo.testsuitename.trim().length == 0
           ||testSuiteInfo.description.trim().length !== testSuiteInfo.description.length 
-          || testSuiteInfo.testsuitename.trim().length !== testSuiteInfo.testsuitename.length){
+          ||testSuiteInfo.testsuitename.trim().length !== testSuiteInfo.testsuitename.length){
           displayMsg({
-            content: "testsuite name or description should not contain spaces or empty",
+            content: "Test Suite Name or Descriptions should not contain spaces or blanks",
             type: 'error'
           });
       }
@@ -127,14 +127,14 @@ const NewTestSuitePopup = (props) => {
             <Grid item xs={12}>
               <TextField id="name" label="Test Suite Name" variant="outlined"  fullWidth required  
               value={testSuiteInfo.testsuitename || ''} onChange={handleChange('testsuitename')} inputProps={{maxLength : 16}} 
-              error={!testSuiteInfo.testsuitename && !error.testsuitename ? true : false}
-              helperText={!testSuiteInfo.testsuitename && !error.testsuitename ? 'testsuite name is required' : ' '}/>
+              error={testSuiteInfo.testsuitename.trim().length == 0 && error.testsuitename.trim().length == 0? true : false}
+              helperText={testSuiteInfo.testsuitename.trim().length == 0 && error.testsuitename.trim().length == 0 ? 'Test Suite Name is required' : ' '}/>
             </Grid>
             <Grid item xs={12}>
               <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline rows={10}  
               value={testSuiteInfo.description || ''} onChange={handleChange('description')}
-              error={!testSuiteInfo.description && !error.description ? true : false}
-              helperText={!testSuiteInfo.description && !error.description ? 'description is required' : ' '}/>
+              error={testSuiteInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+              helperText={testSuiteInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Descriptions is required' : ' '}/>
             </Grid>
           </Grid>
         </DialogContent>
