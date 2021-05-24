@@ -8,6 +8,7 @@ import {UPDATE_TESTPLAN_REQ, DELETE_TESTPLAN_REQ, RESET_UPDATE_TESTPLAN, RESET_D
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
+import Box from '@material-ui/core/Box';
 
 import {
   Grid,
@@ -206,11 +207,7 @@ const TestPlanDetailPage = (props) => {
           <TextField id="testPlanName" label="Test Plan Name" variant="outlined"  fullWidth required
           value={testplanInfor.testplanname || ''} onChange={handleChange('testplanname')}
           error={!testplanInfor.testplanname && !error.testplanname ? true : false}
-          helperText={!testplanInfor.testplanname && !error.testplanname ? 'testplan name is required' : ' '}/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}
-          value={testplanInfor.description || ''} onChange={handleChange('description')}
-          error={!testplanInfor.description && !error.description ? true : false}
-          helperText={!testplanInfor.description && !error.description ? 'description name is required' : ' '}/> 
+          helperText={!testplanInfor.testplanname && !error.testplanname ? 'Testplan name is required' : ' '}/>           
 
           <div>
              <FormControlLabel
@@ -223,7 +220,7 @@ const TestPlanDetailPage = (props) => {
               checked={testplanInfor.isPublic}
             />
           </div>
-          <div>
+          <div className = {classes.btnSpacingDes}>
             <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
@@ -234,6 +231,13 @@ const TestPlanDetailPage = (props) => {
               checked={testplanInfor.isActive}
             />
           </div>
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={12}
+          value={testplanInfor.description || ''} onChange={handleChange('description')}
+          error={testplanInfor.description.trim().length==0 && error.description.trim().length==0 ? true : false}
+          helperText={testplanInfor.description.trim().length==0 && error.description.trim().length==0 ? 'Descriptions is required' : ' '}/>
+
+          
+          
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleUpdate}>
             Save

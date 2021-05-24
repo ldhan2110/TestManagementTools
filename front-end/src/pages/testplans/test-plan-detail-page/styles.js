@@ -7,7 +7,13 @@ const styles = {
       marginLeft: 10,
       flex: 1,
     },
-  
+    
+    btnSpacingDes: {
+      "& > *": {
+        marginBottom: 20
+      }
+    },
+
     content:{
         height: "100%",
         "& > *":{
