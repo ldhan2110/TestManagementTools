@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 import { rgba } from "polished";
 import { connect } from 'react-redux';
 import { NavLink as RouterNavLink, withRouter } from "react-router-dom";
@@ -18,7 +19,8 @@ import {
   List as MuiList,
   ListItem,
   ListItemText,
-  Typography
+  Typography,
+  IconButton as MuiIconButton
 } from "@material-ui/core";
 
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
@@ -26,6 +28,7 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { green } from "@material-ui/core/colors";
 
 import { sidebarRoutes as routes } from "../routes/index";
+import { ArrowLeftCircle } from "react-feather";
 
 
 const NavLink = React.forwardRef((props, ref) => (
@@ -39,6 +42,13 @@ const Drawer = styled(MuiDrawer)`
 
   > div {
     border-right: 0;
+  }
+`;
+
+const IconButton = styled(MuiIconButton)`
+  svg {
+    width: 22px;
+    height: 22px;
   }
 `;
 
@@ -277,7 +287,7 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject, dis
 
 
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes());
-
+  const history = useHistory();
   const toggle = index => {
     // Collapse all elements
     Object.keys(openRoutes).forEach(
@@ -288,10 +298,15 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject, dis
     setOpenRoutes(openRoutes => Object.assign({}, openRoutes, { [index]: !openRoutes[index] }));
   }
 
+  const handleClick = () => {
+    history.replace('/');
+  }
+
 
   return (
     <Drawer variant="permanent"  { ...rest}>
       <Brand>
+        <IconButton color="inherit" aria-label="Open drawer" onClick={handleClick}><ArrowLeftCircle/></IconButton>
         <Box ml={2}>Allium <BrandChip label="DEV" /></Box>
       </Brand>
       <Scrollbar>
