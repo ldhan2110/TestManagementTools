@@ -8,6 +8,7 @@ import {TEST_EXECUTION_HEADERS} from '../../../components/Table/DefineHeader';
 import {TEST_EXEC_SEARCH} from '../../../components/Table/DefineSearch';
 import { GET_ALL_TESTEXEC_REQ} from '../../../redux/test-execution/constants';
 import { GET_ALL_ACTIVE_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
+
 import { connect } from 'react-redux';
 import {
   Grid,
@@ -19,6 +20,7 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
+import { GET_ALL_BUILD_ACTIVE_REQ, GET_ALL_BUILD_TESTPLAN_REQ, RESET_BUILD_ACTIVE, RESET_BUILD_TESTPLAN } from "../../../redux/build-release/constants";
 
 
 // const NavLink = React.forwardRef((props, ref) => (
@@ -30,7 +32,9 @@ import {
 function mapStateToProps(state) {
   return {
     listTestExec: state.testexec.listTestExec,
-    listTestPlan: state.testplan.listActiveTestplan
+    listTestPlan: state.testplan.listActiveTestplan,
+    listBuild: state.build.listBuilds,
+    listBuildByTestPlan: state.build.listBuildsByTestplan
   };
 }
 
@@ -39,7 +43,11 @@ const mapDispatchToProps = dispatch => {
   return {
     //addNewBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
-    getAllTestPlanReq: () => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ})
+    getAllTestPlanReq: () => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
+    getAllBuildReq: (payload) => dispatch({type: GET_ALL_BUILD_ACTIVE_REQ, payload}),
+    getBuildByTestplan: (payload) => dispatch({type: GET_ALL_BUILD_TESTPLAN_REQ, payload}),
+    resetBuildActive: () => dispatch({type: RESET_BUILD_ACTIVE}),
+    resetBuildTestplan: () => dispatch({type: RESET_BUILD_TESTPLAN})
   }
 }
 
@@ -48,17 +56,18 @@ const mapDispatchToProps = dispatch => {
 const TestExecutionListPage = (props) => {
   const {classes} = props;
 
-  const {listTestExec, listTestPlan, getAllTestExecReq, getAllTestPlanReq} = props;
+  const {listTestExec, listTestPlan, getAllTestExecReq, getAllTestPlanReq, getAllBuildReq, getBuildByTestplan, listBuild, listBuildByTestPlan, resetBuildActive, resetBuildTestplan} = props;
 
   const [listTestexec, setListTestExec] = useState([]);
 
-    const [array, setArray] = React.useState(listTestexec);
+  const [array, setArray] = React.useState(listTestexec);
 
   const [TEST_EXEC_SEARCH_CONDITIONS, setSearchConditions] = useState(TEST_EXEC_SEARCH);
 
   const [searchConditions, setConditions] = useState({
     testexecName: '',
     testplanName: '',
+    buildName: '',
     status: -1
   });
 
@@ -88,16 +97,37 @@ const TestExecutionListPage = (props) => {
     return arr;
   }
 
+  const convertBuildItem = (listBuild) => {
+    const arr = listBuild.slice();
+      arr.map(item => {item.value = item.buildname; item.label = item.buildname; return item;})
+      console.log(arr);
+      return arr;
+ 
+  }
+
   useEffect(()=>{
     getAllTestExecReq();
     getAllTestPlanReq();
+    getAllBuildReq({projectid: localStorage.getItem('selectProject')});
   },[]);
 
   useEffect(()=>{
-    if (listTestPlan){
-      TEST_EXEC_SEARCH_CONDITIONS[1].listValues=convertTestplanItem(listTestPlan);
+    if (listTestPlan) {
+      TEST_EXEC_SEARCH_CONDITIONS[1].listValues = convertTestplanItem(listTestPlan);
     }
-  },[listTestPlan])
+    if (listBuild.length !== 0){
+      TEST_EXEC_SEARCH_CONDITIONS[2].listValues = convertBuildItem(listBuild[0].build);
+    }
+  },[listTestPlan, listBuild])
+  
+
+
+  useEffect(()=>{
+    console.log(TEST_EXEC_SEARCH_CONDITIONS);
+  },[TEST_EXEC_SEARCH_CONDITIONS])
+
+ 
+
 
 
   useEffect(()=>{
@@ -113,8 +143,6 @@ const TestExecutionListPage = (props) => {
 
 
   useEffect(()=>{
-      console.log('keyword: ' + searchConditions.status+'  '+searchConditions.testplanName+'  '+searchConditions.testexecName);
-      console.log(JSON.stringify(listTestexec));      
       if (searchConditions.status === -1 && searchConditions.testplanName === '' && searchConditions.testexecName === ''){
       setArray(listTestexec);
     } 
@@ -124,7 +152,6 @@ const TestExecutionListPage = (props) => {
           if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
           && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
             return listTestexec;}));
-            console.log(JSON.stringify(array));
       }
       else{
         setArray(listTestexec.filter((item) => {
@@ -132,7 +159,6 @@ const TestExecutionListPage = (props) => {
           && item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
           && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
             return listTestexec;}));
-            console.log(JSON.stringify(array));
       }
     }
   },[searchConditions]);

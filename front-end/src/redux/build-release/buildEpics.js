@@ -168,7 +168,7 @@ import {API_ADDR} from '../constants';
 
   export  const getAllBuildActiveEpic = (action$, state$) => action$.pipe(
     ofType(actions.GET_ALL_BUILD_ACTIVE_REQ),
-    mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload.projectid+'/api/getallbuildactive',{
+    mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/api/build/'+payload.projectid+'/getallbuildactive',{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"

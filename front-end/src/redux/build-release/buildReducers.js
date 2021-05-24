@@ -194,12 +194,20 @@ const reducer = (state = initialState, actions) => {
     
     case types.GET_ALL_BUILD_ACTIVE_SUCCESS:
         return {
+          ...state,
           error: "",
           errorMsg:"",
           currentSelectedBuild: "",
           insBuilds: [],
           listBuilds: payload,
       }
+
+    case types.RESET_BUILD_ACTIVE: 
+      return {
+        ...state,
+        listBuilds: []
+      }
+    
 
       case types.GET_ALL_BUILD_TESTPLAN_REQ:
       return {
@@ -217,6 +225,12 @@ const reducer = (state = initialState, actions) => {
         return {
           ...state,
           listBuildsByTestplan: payload
+      }
+
+      case types.RESET_BUILD_TESTPLAN: 
+      return {
+        ...state,
+        listBuildsByTestplan: []
       }
 
 

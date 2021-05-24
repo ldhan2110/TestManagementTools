@@ -80,3 +80,15 @@ export function getAllBuildByTestplan(value) {
     payload: value
   }
 }
+
+export function resetBuildActive() {
+  return {
+    type: types.RESET_BUILD_ACTIVE
+  }
+}
+
+export function resetBuildTestPlan() {
+  return {
+    type: types.RESET_BUILD_TESTPLAN
+  }
+}
