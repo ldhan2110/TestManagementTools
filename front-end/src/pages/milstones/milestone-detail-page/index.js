@@ -231,9 +231,6 @@ const DetailMileStonePage = (props) => {
           error={milestoneInfo.milestonetitle.trim().length == 0   && error.milestonetitle.trim().length == 0  ? true : false}
           helperText={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? 'Milestone Name is required' : ' '}/>
           
-          
-        
-
           <TextField id="descriptions" label="Descriptions" 
           variant="outlined" fullWidth required multiline rows={20} 
           value={milestoneInfo.description || ''} onChange={handleChange('description')}

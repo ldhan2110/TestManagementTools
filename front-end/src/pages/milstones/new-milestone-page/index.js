@@ -111,7 +111,7 @@ const NewMileStonePage = (props) => {
             ||milestoneInfo.description.trim().length !== milestoneInfo.description.length 
             || milestoneInfo.milestonetitle.trim().length !== milestoneInfo.milestonetitle.length){
             displayMsg({
-              content: "milestone name or description should not contain spaces or empty",
+              content: "Milestone Name or Descriptions should not contain spaces or blanks",
               type: 'error'
             });
     }
@@ -168,16 +168,16 @@ const NewMileStonePage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="milestoneName" label="Name" variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
+          <TextField id="milestoneName" label="Milestone Name" variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
           value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')} 
           error={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? true : false}
-          helperText={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? 'milestone name is required' : ' '}/>
+          helperText={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? 'Milestone Name is required' : ' '}/>
 
           <TextField id="descriptions" label="Descriptions" 
           variant="outlined"  fullWidth required multiline rows={20} 
           value={milestoneInfo.description || ''} onChange={handleChange('description')} 
           error={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-          helperText={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'description is required' : ' '}/>                      
+          helperText={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Descriptions is required' : ' '}/>                      
 
           <Grid container spacing={3}> 
               <Grid item xs={12}>
