@@ -1,12 +1,18 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 import useStyles from './styles';
+import { useHistory } from "react-router-dom";
+import styles from "./styles";
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import {CONFIRM_RESET_PASSWORD_REQ, RESET_CONFIRM_RESET_PASSWORD} from '../../../redux/account/constants';
+import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 
 import {
     FormControl,
@@ -17,13 +23,29 @@ import {
     Typography
   } from "@material-ui/core";
 
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { isConfirmPassword: state.account.isConfirmPassword }
+}
 
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    confirmResetPasswordReq: (payload) => dispatch({ type: CONFIRM_RESET_PASSWORD_REQ, payload }),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload,}),
+    resetAddRedux: () => dispatch({type: RESET_CONFIRM_RESET_PASSWORD})
+  }
+}
 
 
 const ResetPassword = (props) => {
     const {isOpen, setOpenState} = props;
 
+    const {isConfirmPassword, confirmResetPasswordReq, displayMsg, resetAddRedux } = props;
+
     const [open,setOpen] = useState(isOpen);
+
+    const history = useHistory();
     
     const [isShowPassword,setShowPassword] = useState(false);
     const classes = useStyles();
@@ -35,7 +57,25 @@ const ResetPassword = (props) => {
         weightRange: '',
         showPassword: false,
         showPasswordd: false,
+        resettoken: window.location.pathname.split('/')[3]
     });
+
+    useEffect(()=>{
+      if (isConfirmPassword.sucess === false){
+        displayMsg({
+          content: isConfirmPassword.errMsg,
+          type: 'error'
+        });
+        resetAddRedux();
+      } else if (isConfirmPassword.sucess == true) {
+        displayMsg({
+          content: "Reset password successfully !",
+          type: 'success'
+        });
+        //history.push('/login');
+        resetAddRedux();
+      }
+    },[isConfirmPassword.sucess]); 
     
   
       //HANDLE CLOSE POPUP
@@ -57,7 +97,14 @@ const ResetPassword = (props) => {
     
     const handleClickShowPasswordd = () => {
        setValues({ ...values, showPasswordd: !values.showPasswordd });
+       console.log('new password: '+ JSON.stringify(values, null, ' '));
+       console.log('show pass');
       };
+
+      const handleClickResetPassword = () => {
+        confirmResetPasswordReq(values);
+        console.log('new password: '+ JSON.stringify(values, null, ' '));
+       };
     
     const handleMouseDownPasswordd = (event) => {
        event.preventDefault();
@@ -108,13 +155,13 @@ const ResetPassword = (props) => {
                     id="confirm new password"
                     error
                 //    value={values.amount}
-                //    onChange={handleChange('username')}
+                    onChange={handleChange('username')}
                     labelWidth={150}
                     fullWidth
                     type="confirm new password"
                     value={values.confirmnewPassword}
                     type={values.showPasswordd ? 'text' : 'password'}
-                    onChange={handleChange('password')}
+                    onChange={handleChange('confirmPassword')}
                     required={true}
                     endAdornment={
                       <InputAdornment position="end">
@@ -134,13 +181,16 @@ const ResetPassword = (props) => {
 
             
             <div className = {classes.btnGroup}>
-                <Button variant="contained" color="primary" >
+                <Button variant="contained" color="primary" onClick={handleClickResetPassword}>
                     Reset Password
                 </Button>  
                 <Button variant="contained" color="gray" > 
                     Cancel
-                </Button>      
+                </Button>  
             </div>
+            <span>
+          <a href="/login">Back to login</a>
+        </span>
 
         </form>
         
@@ -148,5 +198,5 @@ const ResetPassword = (props) => {
           
     );
 };
-
-export default (ResetPassword);
+export default connect(mapStateToProps,mapDispatchToProps)(ResetPassword);
+//export default (ResetPassword);

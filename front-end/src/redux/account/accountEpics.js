@@ -115,9 +115,14 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
 
   export  const confirmResetPasswordReqEpic = (action$, state$) => action$.pipe(
     ofType(actions.CONFIRM_RESET_PASSWORD_REQ),
-    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/users/reset/' + payload.resetpasstoken,{
-      newpassword: payload.newpassword,
-      confirmnewpassword: payload.confirmnewpassword
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/users/api/resetpassword',{
+      newpassword: payload.password,
+      confirmnewpassword: payload.confirmPassword
+    }, {
+      headers: {
+        "reset-token": payload.resettoken,
+        "content-type": "application/json"
+      }
     })).pipe(
       map(response => {
         const {data} = response;
