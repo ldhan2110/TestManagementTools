@@ -191,13 +191,10 @@ const NewTestPlanPage = (props) => {
         <form className={classes.content}>
           <TextField id="TestplanName" label="Testplan Name" variant="outlined" fullWidth required inputProps={{maxLength : 16}}
           value={TestplanInfo.Testplanname || ''} onChange={handleChange('Testplanname')}  
-          error={!TestplanInfo.Testplanname && !error.Testplanname ? true : false}
-          helperText={!TestplanInfo.Testplanname && !error.Testplanname ? 'testplan name is required' : ' '}/>
+          error={TestplanInfo.Testplanname.trim().length==0 && error.Testplanname.trim().length==0 ? true : false}
+          helperText={TestplanInfo.Testplanname.trim().length==0 && error.Testplanname.trim().length==0 ? 'testplan name is required' : ' '}/>
 
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}  
-          value={TestplanInfo.description || ''} onChange={handleChange('description')}
-          error={!TestplanInfo.description && !error.description ? true : false}
-          helperText={!TestplanInfo.description && !error.description ? 'description is required' : ' '}/>
+          
 
           <Grid container fullWidth>
            {/*<Grid item xs={3}>
@@ -257,6 +254,12 @@ const NewTestPlanPage = (props) => {
               checked={TestplanInfo.is_active}
             />
           </div>
+
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={9}  
+          value={TestplanInfo.description || ''} onChange={handleChange('description')}
+          error={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? true : false}
+          helperText={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? 'descriptions is required' : ' '}/>
+
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleCreate}>
             Create
