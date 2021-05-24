@@ -299,7 +299,7 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject, dis
   }
 
   const handleClick = () => {
-    history.replace('/');
+    history.replace('/projects');
   }
 
 
