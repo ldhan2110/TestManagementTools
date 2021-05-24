@@ -55,7 +55,10 @@ const TestPlanListPage = (props) => {
   const history = useHistory();
 
   const handleClickNewTestPlan = () => {
-    history.push(window.location.pathname+"/create-test-plan");
+    console.log('array before: ');
+    history.push({
+      pathname: window.location.pathname+"/create-test-plan",
+      state: array});
   }
 
   const navigateToDetailPage = (params) => {

@@ -57,6 +57,7 @@ const NewTestPlanPage = (props) => {
     const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project, listBuilds, getAllBuildActiveReq, resetAddRedux} = props;
     const [open, setOpenPopup] = React.useState(isOpen);
     const history = useHistory();
+    const [existTestplans, setExistTestplans] = React.useState(props.history.location.state);
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
       Testplanname: 'ss',
@@ -70,6 +71,7 @@ const NewTestPlanPage = (props) => {
         description: '',
         is_public: false,
         is_active: false,
+        existtestplan: ''
       });
       history.goBack(); 
     };
@@ -80,6 +82,7 @@ const NewTestPlanPage = (props) => {
       buildname: '',
       is_public: false,
       is_active: false,
+      existtestplan: ''
     });
 
   useEffect(()=>{
@@ -224,14 +227,18 @@ const NewTestPlanPage = (props) => {
                         {listItems }
                       </div>
                          );
-                }*/}         
-          <Autocomplete
-              id="Create from existing test plan ?"
-              options={listtestplan}
-              getOptionLabel={(option) => option.title}
-              style={{ width: 300 }}
-              renderInput={(params) => <TextField {...params} label="Create from existing test plan ?" variant="outlined"  />}              
-          />
+                }*/}  
+          <FormControl variant="outlined" fullWidth>
+           <InputLabel id="demo-simple-select-outlined-label">Create from existing test plan ?</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              label="testplan"
+              onChange={handleChange('testplanname')}
+            >
+          {existTestplans.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
+           </Select>
+          </FormControl>       
           </Grid>
 
           <div>
