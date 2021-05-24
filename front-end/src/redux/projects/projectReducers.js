@@ -4,6 +4,7 @@ var initialState = {
   error: "",
   errorMsg:"",
   currentSelectedProject: "",
+  currentSelectedProjectName: '',
   insProjects: {
     sucess: null,
     errMsg: null
@@ -84,7 +85,8 @@ const reducer = (state = initialState, actions) => {
       localStorage.setItem("selectProject",actions.value);
       return {
         ...state,
-        currentSelectedProject: actions.value
+        currentSelectedProject: actions.value.id,
+        currentSelectedProjectName: actions.value.name
     }
 
     case types.UPDATE_PROJECT_REQ:{      

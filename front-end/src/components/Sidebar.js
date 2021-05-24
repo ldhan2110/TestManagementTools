@@ -262,11 +262,11 @@ function getRoute(path) {
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return { currentSelectedProject: state.project.currentSelectedProject }
+  return { currentSelectedProject: state.project.currentSelectedProject, currentSelectedProjectName: state.project.currentSelectedProjectName}
 }
 
 
-function Sidebar({ classes, staticContext, location, currentSelectedProject, dispatch, ...rest }) {
+function Sidebar({ classes, staticContext, location, currentSelectedProject,currentSelectedProjectName, dispatch, ...rest }) {
   const initOpenRoutes = () => {
     /* Open collapse element that matches current url */
     const pathName = location.pathname;
@@ -307,7 +307,7 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject, dis
     <Drawer variant="permanent"  { ...rest}>
       <Brand>
         <IconButton color="inherit" aria-label="Open drawer" onClick={handleClick}><ArrowLeftCircle/></IconButton>
-        <Box ml={2}>Allium <BrandChip label="DEV" /></Box>
+        <Box ml={2}>{currentSelectedProjectName} <BrandChip label="DEV" /></Box>
       </Brand>
       <Scrollbar>
         <List disablePadding>
