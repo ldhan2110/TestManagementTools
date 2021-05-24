@@ -170,14 +170,14 @@ const NewMileStonePage = (props) => {
         <form className={classes.content}>
           <TextField id="milestoneName" label="Name" variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
           value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')} 
-          error={!milestoneInfo.milestonetitle && !error.milestonetitle ? true : false}
-          helperText={!milestoneInfo.milestonetitle && !error.milestonetitle ? 'milestone name is required' : ' '}/>
+          error={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? true : false}
+          helperText={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? 'milestone name is required' : ' '}/>
 
           <TextField id="descriptions" label="Descriptions" 
           variant="outlined"  fullWidth required multiline rows={20} 
           value={milestoneInfo.description || ''} onChange={handleChange('description')} 
-          error={!milestoneInfo.description && !error.description ? true : false}
-          helperText={!milestoneInfo.description && !error.description ? 'description is required' : ' '}/>                      
+          error={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+          helperText={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'description is required' : ' '}/>                      
 
           <Grid container spacing={3}> 
               <Grid item xs={12}>
