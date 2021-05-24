@@ -24,6 +24,7 @@ import { ADD_TESTEXEC_REQ, GET_ALL_TESTEXEC_REQ, RESET_ADD_TEST_EXEC } from '../
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { GET_ALL_ACTIVE_TESTPLAN_REQ } from "../../../redux/test-plan/constants";
 import { GET_ALL_BUILD_TESTPLAN_REQ } from "../../../redux/build-release/constants";
+import build from "@date-io/date-fns";
 
 
 //MAP STATES TO PROPS - REDUX
@@ -58,7 +59,7 @@ const NewTestExecutionPage = (props) => {
     const [open,setOpenPopup] = useState(false);
 
     const [listBuild, setListBuild] = useState([]);
-    
+    const [checkError, setCheckError] = useState(false);
     const [testExecInfo, setTestExecInfo] = useState({
         testexecutionname: '',
         description: '',
@@ -70,7 +71,12 @@ const NewTestExecutionPage = (props) => {
         assigntester: ''
     });
     const history = useHistory();
-
+    const [error, setError] = useState({
+      testexecutionname: 'ss',
+      description: 'ss',
+      testplanname: 'ss',
+      buildname: 'ss'
+    });
     useEffect(()=>{
       getAllUserReq(localStorage.getItem('selectProject'));
       getAllActiveTestplanReq();
@@ -134,9 +140,54 @@ const NewTestExecutionPage = (props) => {
       if (prop === 'testplanname'){
         getBuildByTestPlan({testplanname: event.target.value });
       }
+    if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
     };
 
     const handleCreateNewTestExec = () => {
+      console.log('testExecInfo: '+JSON.stringify(testExecInfo));
+      console.log('error: '+JSON.stringify(error));
+      setCheckError(true);
+
+    if(testExecInfo.description === "")
+    setError({ ...testExecInfo, description: "" });
+
+    if(testExecInfo.testexecutionname === "")
+    setError({ ...testExecInfo, testexecutionname: "" });
+
+    if(testExecInfo.description.trim().length == 0 || testExecInfo.testexecutionname.trim().length == 0
+        ||testExecInfo.description.trim().length !== testExecInfo.description.length 
+        || testExecInfo.testexecutionname.trim().length !== testExecInfo.testexecutionname.length){
+          /*console.log('testExecInfo.description.length: '+testExecInfo.description.trim().length ==0 );
+          console.log('testExecInfo.testexecutionname.length: '+testExecInfo.testexecutionname.trim().length);
+          console.log('testExecInfo.description.length: '+testExecInfo.description.trim().length);
+          console.log('testExecInfo.description.length: '+testExecInfo.description.length );
+          console.log('testExecInfo.testexecutionname.length: '+testExecInfo.testexecutionname.trim().length );
+          console.log('testExecInfo.testexecutionname.length: '+testExecInfo.testexecutionname.length );*/
+        displayMsg({
+          content: "Test Execution Name or Descriptions should not contain spaces or blanks",
+          type: 'error'
+        }); 
+    }
+
+    else if(testExecInfo.testplanname === ""){
+      displayMsg({
+        content: "Test Plan is required!",
+        type: 'error'
+      });
+    }
+
+    else if(testExecInfo.buildname=== ""){
+      displayMsg({
+        content: "Build/Release is required!",
+        type: 'error'
+      });
+    }
+
+    
+    
+
+    else if(testExecInfo.testexecutionname !== "" && testExecInfo.description !== "")
       addNewTestexecReq(testExecInfo);
     }
     
@@ -170,16 +221,36 @@ const NewTestExecutionPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth  value={testExecInfo.testexecName} onChange={handleChange('testexecutionname')}/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={15} value={testExecInfo.description} onChange={handleChange('description')}/>
+          {/*<TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth  value={testExecInfo.testexecName} onChange={handleChange('testexecutionname')}/>
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth  value={testExecInfo.description} onChange={handleChange('description')}/> */}
+          
+          <TextField id="testExecutionName" label="Test Execution Name" 
+          variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
+          value={testExecInfo.testexecutionname || ''} onChange={handleChange('testexecutionname')} 
+          error={testExecInfo.testexecutionname.trim().length == 0  && error.testexecutionname.trim().length == 0  ? true : false}
+          helperText={testExecInfo.testexecutionname.trim().length == 0 && error.testexecutionname.trim().length == 0 ? 'Test Execution Name is required' : ' '}/>
 
+          <TextField id="descriptions" label="Descriptions" 
+          variant="outlined"  fullWidth required multiline rows={20} 
+          value={testExecInfo.description || ''} onChange={handleChange('description')} 
+          error={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+          helperText={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Descriptions is required' : ' '}/>                      
+        
         <FormControl variant="outlined" fullWidth>
            <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
             <Select
-          labelId="demo-simple-select-outlined-label"
+          labelId="testPlan"
+          id="testPlan"
+          value={testExecInfo.testplanname || ''}
+          onChange={handleChange('testplanname')}
+          label="testplanname"
+          error={!testExecInfo.testplanname && !error.testplanname ? true : false}
+          helperText={!testExecInfo.testplanname && !error.testplanname ? 'Test Plan is required' : ' '}
+
+          /*labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
           label="testplan"
-          onChange={handleChange('testplanname')}
+          onChange={handleChange('testplanname')}*/
         >
           {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
         </Select>
@@ -190,8 +261,16 @@ const NewTestExecutionPage = (props) => {
             <Select
           labelId="build"
           id="build"
-          label="build"
+          value={testExecInfo.buildname || ''}
           onChange={handleChange('buildname')}
+          label="buildname"
+          error={!testExecInfo.buildname && !error.buildname ? true : false}
+          helperText={!testExecInfo.buildname && !error.buildname ? 'Build/Release is required' : ' '}
+
+          /*labelId="build"
+          id="build"
+          label="build"
+          onChange={handleChange('buildname')}*/
         >
           {listBuild.map((item, index) => <MenuItem key={index} value={item.buildname}>{item.buildname}</MenuItem>)}    
         </Select>
@@ -221,7 +300,7 @@ const NewTestExecutionPage = (props) => {
           </div>
             
           <div>
-             <FormControlLabel
+             <FormControlLabel 
               classes= {{label: classes.titleContent}}
               value="start"
               control={<Checkbox color="primary" value = {testExecInfo.is_public} onChange={handleChange('is_public')} />}
@@ -237,11 +316,11 @@ const NewTestExecutionPage = (props) => {
               label="Active"
               labelPlacement="start"
             />
-          </div>
+          </div> 
 
 
           <FormControl variant="outlined" fullWidth>
-           <InputLabel id="tester">Assign Tester</InputLabel>
+           <InputLabel id="tester" >Assign Tester</InputLabel>
             <Select
           labelId="tester"
           id="tester"
@@ -254,6 +333,8 @@ const NewTestExecutionPage = (props) => {
           ))}
         </Select>
         </FormControl>
+
+    
 
         
           <div className = {classes.btnGroup}>
