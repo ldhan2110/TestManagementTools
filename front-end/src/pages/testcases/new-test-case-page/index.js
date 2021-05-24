@@ -102,7 +102,7 @@ const TestCaseDetail = (props) => {
         ||testcase.description.trim().length !== testcase.description.length 
         || testcase.testcaseName.trim().length !== testcase.testcaseName.length){
         displayMsg({
-          content: "testcase name or description should not contain spaces or empty",
+          content: "Test Case Name or Descriptions should not contain spaces or blanks",
           type: 'error'
         });
     }
@@ -130,13 +130,13 @@ const TestCaseDetail = (props) => {
 
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" 
             value={testcase.testcaseName}  onChange={handleChange('testcaseName')} fullWidth required
-            error={!testcase.testcaseName && !error.testcaseName ? true : false}
-            helperText={!testcase.testcaseName && !error.testcaseName ? 'testcase name is required' : ' '}/></Grid>
+            error={testcase.testcaseName.trim().length == 0 && error.testcaseName.trim().length == 0 ? true : false}
+            helperText={testcase.testcaseName.trim().length == 0 && error.testcaseName.trim().length == 0 ? 'Test Case Name is required' : ' '}/></Grid>
 
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" 
             value={testcase.description} onChange={handleChange('description')} fullWidth required
-            error={!testcase.description && !error.description ? true : false}
-            helperText={!testcase.description && !error.description ? 'description is required' : ' '}/></Grid>
+            error={testcase.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+            helperText={testcase.description.trim().length == 0 && error.description.trim().length == 0 ? 'Descriptions is required' : ' '}/></Grid>
 
             <Grid item xs={12}>
              <FormControl variant="outlined"  fullWidth>
