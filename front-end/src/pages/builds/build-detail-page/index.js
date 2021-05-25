@@ -234,14 +234,9 @@ const BuildDetailPage = (props) => {
         <form className={classes.content}>
           <TextField id="buildName" label="Name" variant="outlined"  fullWidth 
           required value={buildInfor.buildname || ''} onChange={handleChange('buildname')}
-          error={!buildInfor.buildname && !error.buildname ? true : false}
-          helperText={!buildInfor.buildname && !error.buildname ? 'build name is required' : ' '}/>
-
-          <TextField id="description" label="Descriptions" variant="outlined"  fullWidth 
-          required multiline rows={20} value={buildInfor.description || ''} onChange={handleChange('description')}
-          error={!buildInfor.description && !error.description ? true : false}
-          helperText={!buildInfor.description && !error.description ? 'description is required' : ' '}/>
-
+          error={buildInfor.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? true : false}
+          helperText={buildInfor.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? 'build name is required' : ' '}/>
+          
           <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testPlan">Testplan</InputLabel>
                                 <Select
@@ -290,8 +285,15 @@ const BuildDetailPage = (props) => {
               </Grid>
               </Grid>
          
-          
-          
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TextField id="description" label="Descriptions" variant="outlined"  fullWidth 
+              required multiline rows={2} value={buildInfor.description || ''} onChange={handleChange('description')}
+              error={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+              helperText={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? 'description is required' : ' '}/>
+            </Grid>
+          </Grid>
+
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleUpdate}>
             Update

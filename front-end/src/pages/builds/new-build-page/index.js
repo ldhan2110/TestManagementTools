@@ -133,14 +133,14 @@ const NewBuildPage = (props) => {
     ||buildInfo.description.trim().length !== buildInfo.description.length 
     || buildInfo.buildname.trim().length !== buildInfo.buildname.length){
       displayMsg({
-        content: "buildname or description should not contain spaces or empty",
+        content: "Build name or Descriptions should not contain spaces or empty",
         type: 'error'
       });
     }
 
     else if(buildInfo.testplan === ""){
       displayMsg({
-        content: "testplan should not be empty!",
+        content: "Testplan should not be empty!",
         type: 'error'
       });
     }
@@ -199,13 +199,8 @@ const NewBuildPage = (props) => {
         <form className={classes.content}>
           <TextField id="buildName" label="Build name" variant="outlined" fullWidth required 
           value={buildInfo.buildname || ''} onChange={handleChange('buildname')}
-          error={!buildInfo.buildname && !error.buildname ? true : false}
-          helperText={!buildInfo.buildname && !error.buildname ? 'build name is required' : ' '}/>
-
-          <TextField id="descriptions" label="Descriptions" variant="outlined" fullWidth required multiline 
-          rows={20} value={buildInfo.description || ''} onChange={handleChange('description')}
-          error={!buildInfo.description && !error.description ? true : false}
-          helperText={!buildInfo.description && !error.description ? 'description is required' : ' '}/>
+          error={buildInfo.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? true : false}
+          helperText={buildInfo.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? 'Build name is required' : null}/>
 
           <Grid container fullWidth>
               <Grid item xs={2}>
@@ -267,9 +262,15 @@ const NewBuildPage = (props) => {
                 <TextField id="buildName" label="Name" variant="outlined" fullWidth/>
               </Grid> */}
           </Grid>
-         
-          
-          
+          <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <TextField id="descriptions" label="Descriptions" variant="outlined" fullWidth required multiline 
+                rows={2} value={buildInfo.description || ''} onChange={handleChange('description')}
+                error={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+                helperText={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Descriptions is required' : null}/>
+             </Grid>             
+          </Grid>
+                   
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleCreate}>
             Create
