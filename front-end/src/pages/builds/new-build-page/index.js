@@ -141,7 +141,6 @@ const NewBuildPage = (props) => {
     else if(buildInfo.testplan === ""){
       displayMsg({
         content: "Test Plan is required !",
-        content: "Testplan should not be empty!",
         type: 'error'
       });
     }
@@ -201,7 +200,7 @@ const NewBuildPage = (props) => {
           <TextField id="buildName" label="Build Name" variant="outlined" fullWidth required 
           value={buildInfo.buildname || ''} onChange={handleChange('buildname')}
           error={buildInfo.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? true : false}
-          helperText={buildInfo.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? 'Build name is required' : null}/>
+          helperText={buildInfo.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? 'Build Name is required' : null}/>
 
           <Grid container fullWidth>
               <Grid item xs={2}>
@@ -265,10 +264,10 @@ const NewBuildPage = (props) => {
           </Grid>
           <Grid container spacing={3}>
               <Grid item xs={12}>
-                <TextField id="descriptions" label="Descriptions" variant="outlined" fullWidth required multiline 
+                <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline 
                 rows={2} value={buildInfo.description || ''} onChange={handleChange('description')}
                 error={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-                helperText={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Descriptions is required' : null}/>
+                helperText={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : null}/>
              </Grid>             
           </Grid>
                    

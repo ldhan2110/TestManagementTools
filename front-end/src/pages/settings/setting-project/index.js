@@ -271,10 +271,10 @@ const SettingProjectPage = (props) => {
           </FormControl>
           </div>
 
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={6} 
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={6} 
           value={projectInfo.description || ''} onChange={handleChange('description')}
-          error={projectInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-          helperText={projectInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Descriptions is required!' : ' '}/>
+          error={projectInfo.description == 0 && error.description == 0 ? true : false}
+          helperText={projectInfo.description == 0 && error.description == 0 ? 'Description is required!' : ' '}/>
           
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleUpdate}>

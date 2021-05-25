@@ -33,7 +33,6 @@ const  mapStateToProps = (state) => {
     listUser: state.user.listUsersOfProject,
     listtestcaseselect: state.testcase.listTestcaseSelect,
     insTestexec: state.testexec.insTestexec,
-    listTestExec: state.testexec.listTestExec,
     listActiveTestplan: state.testplan.listActiveTestplan,
     listBuildByTestPlan: state.build.listBuildsByTestplan
    }
@@ -55,7 +54,7 @@ const mapDispatchToProps = dispatch => {
 const NewTestExecutionPage = (props) => {
     const {classes, listTestExecution, listtestcaseselect} = props;
 
-    const {listUser, listActiveTestplan, listTestExec, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux, listBuildByTestPlan, getBuildByTestPlan} = props;
+    const {listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux, listBuildByTestPlan, getBuildByTestPlan} = props;
 
     const [open,setOpenPopup] = useState(false);
 
@@ -69,8 +68,7 @@ const NewTestExecutionPage = (props) => {
         listexectestcases: [],
         is_public: false,
         is_active: false,
-        assigntester: '',
-        exist_testexecution: ''
+        assigntester: ''
     });
     const history = useHistory();
     const [error, setError] = useState({
@@ -83,7 +81,6 @@ const NewTestExecutionPage = (props) => {
     useEffect(()=>{
       getAllUserReq(localStorage.getItem('selectProject'));
       getAllActiveTestplanReq();
-      getAllTestExecReq();
     },[])
 
     useEffect(()=>{
@@ -124,9 +121,6 @@ const NewTestExecutionPage = (props) => {
       console.log("error: "+error);
     }
 
-    useEffect(()=>{
-      console.log(listTestExec);
-    },[listTestExec]);
 
 
 
@@ -172,7 +166,7 @@ const NewTestExecutionPage = (props) => {
           console.log('testExecInfo.testexecutionname.length: '+testExecInfo.testexecutionname.trim().length );
           console.log('testExecInfo.testexecutionname.length: '+testExecInfo.testexecutionname.length );*/
         displayMsg({
-          content: "Test Execution Name or Descriptions should not contain spaces or blanks",
+          content: "Test Execution Name or Description should not contain spaces !",
           type: 'error'
         }); 
     }
@@ -241,11 +235,11 @@ const NewTestExecutionPage = (props) => {
           error={testExecInfo.testexecutionname.trim().length == 0  && error.testexecutionname.trim().length == 0  ? true : false}
           helperText={testExecInfo.testexecutionname.trim().length == 0 && error.testexecutionname.trim().length == 0 ? 'Test Execution Name is required' : ' '}/>
 
-          <TextField id="descriptions" label="Descriptions" 
+          <TextField id="descriptions" label="Description" 
           variant="outlined"  fullWidth required multiline rows={20} 
           value={testExecInfo.description || ''} onChange={handleChange('description')} 
           error={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-          helperText={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Descriptions is required' : ' '}/>                      
+          helperText={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/>                      
         
         <FormControl variant="outlined" fullWidth>
            <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
@@ -268,7 +262,7 @@ const NewTestExecutionPage = (props) => {
       </FormControl>
 
       <FormControl variant="outlined" fullWidth>
-           <InputLabel id="build">Build/Release</InputLabel>
+           <InputLabel id="build" >Build/Release </InputLabel>
             <Select
           labelId="build"
           id="build"
@@ -294,24 +288,7 @@ const NewTestExecutionPage = (props) => {
                 <p>Create from existing test execution ?</p>
               </Grid>
               <Grid item xs={9}>
-              <FormControl variant="outlined" fullWidth>
-           
-            <Select
-          labelId="testExec"
-          id="testExec"
-          value={testExecInfo.exist_testexecution || ''}
-          onChange={handleChange('exist_testexecution')}
-          label="testExec"
-          
-
-          /*labelId="build"
-          id="build"
-          label="build"
-          onChange={handleChange('buildname')}*/
-        >
-          {listTestExec.map((item, index) => <MenuItem key={index} value={item.testexecutionname}>{item.testexecutionname}</MenuItem>)}    
-        </Select>
-      </FormControl>
+                <SelectBox labelTitle="Create from existing test execution ?" listItems={listTestExecution ? listTestExecution : null} />
               </Grid>
           </Grid>
 

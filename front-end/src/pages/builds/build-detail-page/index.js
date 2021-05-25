@@ -289,10 +289,10 @@ const BuildDetailPage = (props) => {
          
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <TextField id="description" label="Descriptions" variant="outlined"  fullWidth 
+              <TextField id="description" label="Description" variant="outlined"  fullWidth 
               required multiline rows={2} value={buildInfor.description || ''} onChange={handleChange('description')}
               error={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-              helperText={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? 'description is required' : ' '}/>
+              helperText={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/>
             </Grid>
           </Grid>
 
