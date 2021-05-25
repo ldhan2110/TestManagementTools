@@ -13,7 +13,8 @@ var initialState = {
     errMsg: null
   },
   listBuilds: [],
-  listBuildsByTestplan: []
+  listBuildsByTestplan: [],
+  listBuildActive: []
 }
 
 
@@ -182,7 +183,7 @@ const reducer = (state = initialState, actions) => {
 
     case types.GET_ALL_BUILD_ACTIVE_REQ:
       return {
-        ...state, listBuilds: []
+        ...state
       }
 
     case types.GET_ALL_BUILD_ACTIVE_FAILED:
@@ -200,6 +201,7 @@ const reducer = (state = initialState, actions) => {
           currentSelectedBuild: "",
           insBuilds: [],
           listBuilds: payload,
+          listBuildActive: payload
       }
 
     case types.RESET_BUILD_ACTIVE: 

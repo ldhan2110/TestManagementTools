@@ -11,7 +11,7 @@ const styles = {
     content:{
         height: "100%",
         "& > *":{
-          marginTop: 15
+          marginTop: 10
         }
     },
   
@@ -23,7 +23,8 @@ const styles = {
       display: 'flex',
       flexDirection: 'row',
       "& > *": {
-        marginRight: 5
+        marginRight: 5,
+        marginTop: 25,
       }
     },
 

@@ -237,10 +237,7 @@ const BuildDetailPage = (props) => {
           error={buildInfor.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? true : false}
           helperText={buildInfor.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? 'Build Name is required' : ' '}/>
 
-          <TextField id="description" label="Description" variant="outlined"  fullWidth 
-          required multiline rows={20} value={buildInfor.description || ''} onChange={handleChange('description')}
-          error={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-          helperText={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/>
+        
 
           <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testPlan">Test Plan</InputLabel>
@@ -290,8 +287,15 @@ const BuildDetailPage = (props) => {
               </Grid>
               </Grid>
          
-          
-          
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TextField id="description" label="Descriptions" variant="outlined"  fullWidth 
+              required multiline rows={2} value={buildInfor.description || ''} onChange={handleChange('description')}
+              error={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+              helperText={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? 'description is required' : ' '}/>
+            </Grid>
+          </Grid>
+
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleUpdate}>
             Update

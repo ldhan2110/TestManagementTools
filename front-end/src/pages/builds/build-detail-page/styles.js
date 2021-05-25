@@ -23,7 +23,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     "& > *": {
-      marginRight: 5
+      marginRight: 5,
+      marginTop: 5
     }
   },
 

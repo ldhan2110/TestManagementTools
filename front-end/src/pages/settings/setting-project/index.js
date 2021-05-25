@@ -28,6 +28,8 @@ import {
   Add as AddIcon,
 } from "@material-ui/icons";
 
+import DeleteIcon from '@material-ui/icons/Delete';
+
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
@@ -184,7 +186,6 @@ const SettingProjectPage = (props) => {
   const handleClose = () => {
     setOpen(false);
   }
-
   
   return(
     <div>
@@ -202,10 +203,9 @@ const SettingProjectPage = (props) => {
 
           
         </Grid>
-        <Grid item>
-          <div>
-            <Button variant="contained"  styles={{color: 'red'}} onClick={handleOpen}>
-              <AddIcon />
+        <Grid item xs={3}>
+        <div>
+            <Button variant="contained" color="primary" startIcon={<DeleteIcon />} size="large" onClick={handleOpen}>              
               Delete Project
             </Button>
           </div>
@@ -232,10 +232,6 @@ const SettingProjectPage = (props) => {
            error={projectInfo.projectname == 0 && error.projectname == 0 ? true : false}
           helperText={projectInfo.projectname == 0 && error.projectname == 0 ? 'Project Name is required' : ' '}/>
 
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={20} 
-          value={projectInfo.description || ''} onChange={handleChange('description')}
-          error={projectInfo.description == 0 && error.description == 0 ? true : false}
-          helperText={projectInfo.description == 0 && error.description == 0 ? 'Description is required' : ' '}/>
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}
@@ -274,14 +270,20 @@ const SettingProjectPage = (props) => {
                   </Select>
           </FormControl>
           </div>
+
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={6} 
+          value={projectInfo.description || ''} onChange={handleChange('description')}
+          error={projectInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+          helperText={projectInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Descriptions is required!' : ' '}/>
+          
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleUpdate}>
             Update
           </Button>
-          <Button variant="contained" >
+          <Button variant="contained">
             Cancel
           </Button>
-        </div>
+        </div>               
         </form>
         </Grid>
       </Grid>

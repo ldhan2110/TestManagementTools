@@ -33,7 +33,7 @@ function mapStateToProps(state) {
   return {
     listTestExec: state.testexec.listTestExec,
     listTestPlan: state.testplan.listActiveTestplan,
-    listBuild: state.build.listBuilds,
+    listBuild: state.build.listBuildActive,
     listBuildByTestPlan: state.build.listBuildsByTestplan
   };
 }
