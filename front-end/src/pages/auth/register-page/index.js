@@ -62,7 +62,7 @@ const RegisterPage = (props) => {
     useEffect(()=>{
       if (isRegister === false){
         displayMsg({
-          content: "Register failed!",
+          content: "Register failed, please try again !",
           type: 'error'
         });
         console.log('register error!' + JSON.stringify(errorMsg));
@@ -159,12 +159,12 @@ const RegisterPage = (props) => {
           <OutlinedInput
             id="outlined-adornment-fullname"
             value={values.amount}
-            error={!error.fullname && !values.fullname ? true : false}
+            error={error.fullname.trim().length == 0 && values.fullname.trim().length == 0 ? true : false}
             onChange={handleChange('fullname')}
             labelWidth={60}
             required={true}
           />
-          {!error.fullname && !values.fullname && <FormHelperText id="component-error-text" error={true}>fullname is required</FormHelperText>}
+          {error.fullname.trim().length == 0 && values.fullname.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Full Name is required</FormHelperText>}
         </FormControl>
           
         {/*Username */}
@@ -173,12 +173,12 @@ const RegisterPage = (props) => {
           <OutlinedInput
             id="outlined-adornment-username"
             value={values.amount}
-            error={!error.username && !values.username ? true : false}
+            error={error.username.trim().length == 0 && values.username.trim().length == 0 ? true : false}
             onChange={handleChange('username')}
             labelWidth={60}
             required={true}
           />
-          {!error.username && !values.username && <FormHelperText id="component-error-text" error={true}>username is required</FormHelperText>}
+          {error.username.trim().length == 0 && values.username.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Username is required</FormHelperText>}
         </FormControl>
 
         {/*PASSWORD */}        
@@ -188,7 +188,7 @@ const RegisterPage = (props) => {
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}
-            error={!error.password && !values.password ? true : false}
+            error={error.password.trim().length == 0 && values.password.trim().length == 0 ? true : false}
             onChange={handleChange('password')}
             required={true}
             endAdornment={
@@ -205,7 +205,7 @@ const RegisterPage = (props) => {
             }
             labelWidth={60}
           />
-          {!error.password && !values.password && <FormHelperText id="component-error-text" error={true}>password is required</FormHelperText>}
+          {error.password.trim().length == 0 && values.password.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
         </FormControl>
 
         {/*Email */}
@@ -215,12 +215,12 @@ const RegisterPage = (props) => {
             id="outlined-adornment-email"
             value={values.amount}
             type="email"
-            error={!error.email && !values.email ? true : false}
+            error={error.email.trim().length == 0 && values.email.trim().length == 0 ? true : false}
             onChange={handleChange('email')}
             labelWidth={60}
             required={true}   
           />
-          {!error.email && !values.email && <FormHelperText id="component-error-text" error={true}>email is required</FormHelperText>}
+          {error.email.trim().length == 0 && values.email.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>}
         </FormControl>
 
 

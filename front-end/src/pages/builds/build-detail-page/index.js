@@ -145,7 +145,7 @@ const BuildDetailPage = (props) => {
             ||buildInfor.description.trim().length !== buildInfor.description.length 
             || buildInfor.buildname.trim().length !== buildInfor.buildname.length){
             displayMsg({
-              content: "buildname or description should not contain spaces or empty",
+              content: "Build Name or Description should not contain spaces !",
               type: 'error'
             });
         }
@@ -232,24 +232,24 @@ const BuildDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="buildName" label="Name" variant="outlined"  fullWidth 
+          <TextField id="buildName" label="Build Name" variant="outlined"  fullWidth 
           required value={buildInfor.buildname || ''} onChange={handleChange('buildname')}
-          error={!buildInfor.buildname && !error.buildname ? true : false}
-          helperText={!buildInfor.buildname && !error.buildname ? 'build name is required' : ' '}/>
+          error={buildInfor.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? true : false}
+          helperText={buildInfor.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? 'Build Name is required' : ' '}/>
 
-          <TextField id="description" label="Descriptions" variant="outlined"  fullWidth 
+          <TextField id="description" label="Description" variant="outlined"  fullWidth 
           required multiline rows={20} value={buildInfor.description || ''} onChange={handleChange('description')}
-          error={!buildInfor.description && !error.description ? true : false}
-          helperText={!buildInfor.description && !error.description ? 'description is required' : ' '}/>
+          error={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+          helperText={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/>
 
           <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="testPlan">Testplan</InputLabel>
+                              <InputLabel id="testPlan">Test Plan</InputLabel>
                                 <Select
                                   labelId="testPlan"
                                   id="testPlan"
                                   value={buildInfor.testplan || ''}
                                   onChange={handleChange('testplan')}
-                                  label="Testplan"
+                                  label="Test Plan"
                                   disabled={true}
                                 >
                                {listTestplan.map((item) => (

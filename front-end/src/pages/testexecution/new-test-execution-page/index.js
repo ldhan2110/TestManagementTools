@@ -75,7 +75,8 @@ const NewTestExecutionPage = (props) => {
       testexecutionname: 'ss',
       description: 'ss',
       testplanname: 'ss',
-      buildname: 'ss'
+      buildname: 'ss',
+      assigntester: 'ss'
     });
     useEffect(()=>{
       getAllUserReq(localStorage.getItem('selectProject'));
@@ -184,8 +185,12 @@ const NewTestExecutionPage = (props) => {
       });
     }
 
-    
-    
+    else if(testExecInfo.assigntester=== ""){
+      displayMsg({
+        content: "Assign Tester is required!",
+        type: 'error'
+      });
+    }
 
     else if(testExecInfo.testexecutionname !== "" && testExecInfo.description !== "")
       addNewTestexecReq(testExecInfo);
@@ -290,7 +295,7 @@ const NewTestExecutionPage = (props) => {
           <div>
             <Grid container spacing={3}>
               <Grid item>
-                <p>Select Test Case: <b>{testExecInfo.listexectestcases.length} selected</b></p>
+                <p>Select Test Case: <b> {testExecInfo.listexectestcases.length} selected</b></p>
               </Grid>
               <Grid item>
                 <SelectTestCasePopup isOpen={open} setOpen={setOpenPopup} selected={testExecInfo.listExecTestcase}/>
@@ -324,9 +329,17 @@ const NewTestExecutionPage = (props) => {
             <Select
           labelId="tester"
           id="tester"
+          value={testExecInfo.assigntester || ''}
+          onChange={handleChange('assigntester')}
+          label="Tester"
+          error={!testExecInfo.assigntester && !error.assigntester ? true : false}
+          helperText={!testExecInfo.assigntester && !error.assigntester ? 'Assign Tester is required' : ' '}
+
+          /*labelId="tester"
+          id="tester"
           label="Tester"
           value={testExecInfo.assigntester}
-          onChange={handleChange('assigntester')}
+          onChange={handleChange('assigntester')}*/
         >
            {listUser.map((item,index) => (
               <MenuItem key={index} value={item.username}>{item.username}</MenuItem>

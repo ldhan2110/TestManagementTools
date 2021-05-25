@@ -35,18 +35,34 @@ const ForgotPassword = (props) => {
     const classes = useStyles();
     const [values, setValues] = useState({
         email: "",
-        error: "",
+        /*error: "", */
     });
+
+    const [checkError, setCheckError] = useState(false);
+    const [error, setError] = useState({
+      email: 'ss',
+  });
+
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
+
+        if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
       };
 
     const handleClickConfirm = (event) => {      
         //if(values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
             //setValues({email: values.email, error: null});
-            sendMailReq(values);
+           
+            setCheckError(true);
+
+    if(values.email === "")
+    setError({ ...values, email: "" });
             console.log('email: '+ values.email);
+
+            if(values.email !== "" )
+            sendMailReq(values);
         //}
         //else{
        //     setValues({email: values.email, error: "Invalid email!"}); 
@@ -57,6 +73,7 @@ const ForgotPassword = (props) => {
     const handleClose = () =>{
         history.goBack();
     };
+
 
     useEffect(()=>{
         if (isSendMail.sucess === false){
@@ -89,7 +106,8 @@ const ForgotPassword = (props) => {
                 <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-email"
-                    error={values.error? true : false}
+                    error={error.email == 0 && values.email == 0 ? true : false}
+                    /*error={values.error ? true : false} */
                     value={values.email}
                     onChange={handleChange('email')}
                     labelWidth={40}
@@ -97,7 +115,8 @@ const ForgotPassword = (props) => {
                     required={true}
                     type="email"
                 />
-                {values.error && <FormHelperText id="component-error-text" error={true}>{values.error}</FormHelperText>}
+                {error.email.trim().length == 0 && values.email.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>}
+               {/* {values.error == 0 && <FormHelperText id="component-error-text" error={true}>{values.error}</FormHelperText>} */}
             </FormControl>
             <div className = {classes.btnGroup}>
                 <Button variant="contained" color="primary" onClick={handleClickConfirm}>

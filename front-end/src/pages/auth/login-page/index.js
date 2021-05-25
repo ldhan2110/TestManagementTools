@@ -53,10 +53,14 @@ const LoginPage = (props) => {
       isKeepedLogin: false,
       showPassword: false,
     });
+    const [checkError, setCheckError] = useState(false);
+
+    const [error, setError] = useState({
+        
+    });
 
     const [openMsg, setOpenMsg] = useState(false);
     
-    const [error, setError] = useState({});
     
 
      useEffect(()=>{
@@ -111,11 +115,14 @@ const LoginPage = (props) => {
     };
 
     //HANDLE LOGIN REQUEST BUTTON
-    const handleClickLogin = (event) => {      
+    const handleClickLogin = (event) => {     
       if(values.username == "" && values.password == ""){
         setError({username: "Username is required",
                   password: "Password is required"})
       }
+
+      
+
       else if(values.username == ""){ 
         setError({username: "Username is required", password: null});
       }
@@ -124,6 +131,7 @@ const LoginPage = (props) => {
       }      
       else {
       setError({username: null, password: null, error: null});
+
       loginReq({username: values.username, password: values.password}); 
       }     
     };
@@ -140,19 +148,21 @@ const LoginPage = (props) => {
             <form className = {classes.formLogin}>
               <div>
                 <img className={classes.logo} src="../img/Logo1zz.jpg" alt = "logo-banner"/>
-              </div>              
-              <FormControl fullWidth variant="outlined">
+              </div>  
+
+                <FormControl fullWidth variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
                 <OutlinedInput 
                     id="outlined-adornment-username"
                     value={values.username || ''}
                     onChange={handleChange('username')}
-                    error={error.username ? true : false}
+                    error={error.username ? true : false} 
                     labelWidth={60}
                     required={true}                    
                 />
-                {error && error.username && <FormHelperText id="component-error-text" error={true}>{error.username}</FormHelperText>}
-              </FormControl>
+                
+                {error && error.username && <FormHelperText id="component-error-text" error={true}>{error.username}</FormHelperText>} 
+              </FormControl> 
 
         <FormControl fullWidth variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>

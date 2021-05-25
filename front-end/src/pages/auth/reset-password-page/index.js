@@ -60,6 +60,12 @@ const ResetPassword = (props) => {
         resettoken: window.location.pathname.split('/')[3]
     });
 
+    const [checkError, setCheckError] = useState(false);
+    const [error, setError] = useState({
+      password: 'ss',
+      confirmPassword: 'ss',
+  });
+
     useEffect(()=>{
       if (isConfirmPassword.sucess === false){
         displayMsg({
@@ -67,7 +73,17 @@ const ResetPassword = (props) => {
           type: 'error'
         });
         resetAddRedux();
-      } else if (isConfirmPassword.sucess == true) {
+          } 
+        
+        else if (isConfirmPassword.sucess == true && values.password.trim().length == 0  && values.confirmPassword.trim().length == 0) {
+          displayMsg({
+            content: "Password should not contain spaces !",
+            type: 'error'
+          });
+          resetAddRedux();
+          } 
+          
+        else if (isConfirmPassword.sucess == true) {
         displayMsg({
           content: "Reset password successfully !",
           type: 'success'
@@ -75,7 +91,7 @@ const ResetPassword = (props) => {
         //history.push('/login');
         resetAddRedux();
       }
-    },[isConfirmPassword.sucess]); 
+    },[isConfirmPassword]); 
     
   
       //HANDLE CLOSE POPUP
@@ -84,7 +100,10 @@ const ResetPassword = (props) => {
     };
     
     const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value })
+      setValues({ ...values, [prop]: event.target.value });
+
+        if(checkError == true)
+    setError({ ...error, [prop]: event.target.value });
       };
     
     const handleClickShowPassword = () => {
@@ -102,6 +121,22 @@ const ResetPassword = (props) => {
       };
 
       const handleClickResetPassword = () => {
+        setCheckError(true);
+        if(values.password === "")
+        setError({ ...values, password: "" });
+
+        if(values.confirmPassword === "")
+        setError({ ...values, confirmPassword: "" });
+
+       /* if(values.password === "" && values.confirmPassword === "" && values.password.trim().length == values.confirmPassword.trim().length)
+        setError({ ...values, password: "" }); */
+
+        /*if(values.password.trim().length == 0 && values.confirmPassword.trim().length == 0
+         && isConfirmPassword.sucess == true ){
+          setError({ ...values, password: "" });
+    }*/
+        
+        if(values.password !== "" && values.confirmPassword !== "")
         confirmResetPasswordReq(values);
         console.log('new password: '+ JSON.stringify(values, null, ' '));
        };
@@ -121,6 +156,32 @@ const ResetPassword = (props) => {
             <FormControl className = {classes.form}  variant="outlined" >
                 <InputLabel htmlFor="new password">New Password</InputLabel>
                 <OutlinedInput
+                    id="new password"
+                    error={error.password == 0 && values.password == 0 ? true : false}
+                    /*error={values.error ? true : false} */
+                    value={values.newpassword}
+                    onChange={handleChange('password')}
+                    labelWidth={100}
+                    fullWidth
+                    required={true}
+                    type="password"
+                    type={values.showPassword ? 'text' : 'password'}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    } 
+                />
+                {error.password.trim().length == 0 && values.password.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
+                
+               {/*} <OutlinedInput
                     id="new password"
                     error
                 //    value={values.amount}
@@ -145,13 +206,39 @@ const ResetPassword = (props) => {
                       </InputAdornment>
                     } 
                     
-                /> 
+                /> */}
                 <FormHelperText></FormHelperText>                
                 </FormControl>
 
             <FormControl  className = {classes.form} variant="outlined">
                 <InputLabel htmlFor="confirm new password">Confirm New Password</InputLabel>
                 <OutlinedInput
+                    id="confirm new password"
+                    error={error.confirmPassword == 0 && values.confirmPassword == 0 ? true : false}
+                    /*error={values.error ? true : false} */
+                    value={values.confirmPassword}
+                    onChange={handleChange('confirmPassword')}
+                    labelWidth={150}
+                    fullWidth
+                    required={true}
+                    type="confirmPassword"
+                    type={values.showPasswordd ? 'text' : 'password'}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPasswordd}
+                          onMouseDown={handleMouseDownPasswordd}
+                          edge="end"
+                        >
+                          {values.showPasswordd ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    } 
+                />
+                {error.confirmPassword.trim().length == 0 && values.confirmPassword.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required</FormHelperText>}
+                
+               {/*} <OutlinedInput
                     id="confirm new password"
                     error
                 //    value={values.amount}
@@ -175,7 +262,7 @@ const ResetPassword = (props) => {
                         </IconButton>
                       </InputAdornment>
                     }          
-                /> 
+                /> */}
                 <FormHelperText></FormHelperText>                
                 </FormControl>
 

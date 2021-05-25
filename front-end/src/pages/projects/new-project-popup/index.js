@@ -96,7 +96,7 @@ const NewProjectPopup = (props) => {
         ||projectInfo.description.trim().length !== projectInfo.description.length 
         || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
         displayMsg({
-          content: "Project name or description should not contain spaces or empty",
+          content: "Project Name or Description should not contain spaces !",
           type: 'error'
         });
     }
@@ -139,12 +139,12 @@ const NewProjectPopup = (props) => {
           <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  
           value={projectInfo.projectname || ''} onChange={handleChange('projectname')} inputProps={{maxLength : 16}} 
           error={projectInfo.projectname.trim().length==0 && error.projectname.trim().length==0 ? true : false}
-          helperText={projectInfo.projectname.trim().length==0 && error.projectname.trim().length==0 ? 'project name is required' : ' '}/>
+          helperText={projectInfo.projectname.trim().length==0 && error.projectname.trim().length==0 ? 'Project Name is required' : ' '}/>
 
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20}  
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={20}  
           value={projectInfo.description || ''} onChange={handleChange('description')}
           error={projectInfo.description.trim().length==0 && error.description.trim().length==0 ? true : false}
-          helperText={projectInfo.description.trim().length==0 && error.description.trim().length==0 ? 'description is required' : ' '}/>
+          helperText={projectInfo.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}

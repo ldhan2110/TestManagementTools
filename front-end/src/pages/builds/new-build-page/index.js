@@ -133,14 +133,14 @@ const NewBuildPage = (props) => {
     ||buildInfo.description.trim().length !== buildInfo.description.length 
     || buildInfo.buildname.trim().length !== buildInfo.buildname.length){
       displayMsg({
-        content: "buildname or description should not contain spaces or empty",
+        content: "Build Name or Description should not contain spaces !",
         type: 'error'
       });
     }
 
     else if(buildInfo.testplan === ""){
       displayMsg({
-        content: "testplan should not be empty!",
+        content: "Test Plan is required !",
         type: 'error'
       });
     }
@@ -197,15 +197,15 @@ const NewBuildPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="buildName" label="Build name" variant="outlined" fullWidth required 
+          <TextField id="buildName" label="Build Name" variant="outlined" fullWidth required 
           value={buildInfo.buildname || ''} onChange={handleChange('buildname')}
-          error={!buildInfo.buildname && !error.buildname ? true : false}
-          helperText={!buildInfo.buildname && !error.buildname ? 'build name is required' : ' '}/>
+          error={buildInfo.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? true : false}
+          helperText={buildInfo.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? 'Build Name is required' : ' '}/>
 
-          <TextField id="descriptions" label="Descriptions" variant="outlined" fullWidth required multiline 
+          <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline 
           rows={20} value={buildInfo.description || ''} onChange={handleChange('description')}
-          error={!buildInfo.description && !error.description ? true : false}
-          helperText={!buildInfo.description && !error.description ? 'description is required' : ' '}/>
+          error={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+          helperText={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/>
 
           <Grid container fullWidth>
               <Grid item xs={2}>
@@ -217,15 +217,15 @@ const NewBuildPage = (props) => {
           </Grid>
 
           <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="testPlan">Testplan</InputLabel>
+                              <InputLabel id="testPlan">Test Plan</InputLabel>
                                 <Select
                                   labelId="testPlan"
                                   id="testPlan"
                                   value={buildInfo.testplan || ''}
                                   onChange={handleChange('testplan')}
-                                  label="Testplan"
+                                  label="Test Plan"
                                   error={!buildInfo.testplan && !error.testplan ? true : false}
-                                  helperText={!buildInfo.testplan && !error.testplan ? 'testplan is required' : ' '}
+                                  helperText={!buildInfo.testplan && !error.testplan ? 'Test Plan is required' : ' '}
                                 >
                                {listTestplan.map((item) => (
                                     <MenuItem value={item.testplanname}>{item.testplanname}</MenuItem>

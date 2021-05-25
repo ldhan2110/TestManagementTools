@@ -139,7 +139,7 @@ const SettingProjectPage = (props) => {
         ||projectInfo.description.trim().length !== projectInfo.description.length 
         || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
         displayMsg({
-          content: "Project name or description should not contain spaces or empty",
+          content: "Project Name or Description should not contain spaces !",
           type: 'error'
         });
     }
@@ -229,13 +229,13 @@ const SettingProjectPage = (props) => {
         <form className={classes.content}>
           <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  inputProps={{maxLength : 16}} 
            value={projectInfo.projectname || ''} onChange={handleChange('projectname')}
-           error={!projectInfo.projectname && !error.projectname ? true : false}
-          helperText={!projectInfo.projectname && !error.projectname ? 'project name is required' : ' '}/>
+           error={projectInfo.projectname == 0 && error.projectname == 0 ? true : false}
+          helperText={projectInfo.projectname == 0 && error.projectname == 0 ? 'Project Name is required' : ' '}/>
 
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} 
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={20} 
           value={projectInfo.description || ''} onChange={handleChange('description')}
-          error={!projectInfo.description && !error.description ? true : false}
-          helperText={!projectInfo.description && !error.description ? 'description is required' : ' '}/>
+          error={projectInfo.description == 0 && error.description == 0 ? true : false}
+          helperText={projectInfo.description == 0 && error.description == 0 ? 'Description is required' : ' '}/>
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}

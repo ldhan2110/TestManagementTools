@@ -124,7 +124,7 @@ const NewTestPlanPage = (props) => {
         ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
         || TestplanInfo.Testplanname.trim().length !== TestplanInfo.Testplanname.length){
         displayMsg({
-          content: "Testplan name or description should not contain spaces or empty",
+          content: "Test Plan Name or Description should not contain spaces !",
           type: 'error'
         });
     }
@@ -192,10 +192,10 @@ const NewTestPlanPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="TestplanName" label="Testplan Name" variant="outlined" fullWidth required inputProps={{maxLength : 16}}
+          <TextField id="TestplanName" label="Test Plan Name" variant="outlined" fullWidth required inputProps={{maxLength : 16}}
           value={TestplanInfo.Testplanname || ''} onChange={handleChange('Testplanname')}  
           error={TestplanInfo.Testplanname.trim().length==0 && error.Testplanname.trim().length==0 ? true : false}
-          helperText={TestplanInfo.Testplanname.trim().length==0 && error.Testplanname.trim().length==0 ? 'testplan name is required' : ' '}/>
+          helperText={TestplanInfo.Testplanname.trim().length==0 && error.Testplanname.trim().length==0 ? 'Test Plan Name is required' : ' '}/>
 
           
 
@@ -262,10 +262,10 @@ const NewTestPlanPage = (props) => {
             />
           </div>
 
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={9}  
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={9}  
           value={TestplanInfo.description || ''} onChange={handleChange('description')}
           error={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? true : false}
-          helperText={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? 'descriptions is required' : ' '}/>
+          helperText={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>
 
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" onClick={handleCreate}>

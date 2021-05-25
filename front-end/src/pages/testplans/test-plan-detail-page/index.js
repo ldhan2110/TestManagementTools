@@ -130,7 +130,7 @@ const TestPlanDetailPage = (props) => {
           ||testplanInfor.description.trim().length !== testplanInfor.description.length 
           || testplanInfor.testplanname.trim().length !== testplanInfor.testplanname.length){
           displayMsg({
-            content: "Testplan name or description should not contain spaces or empty",
+            content: "Test Plan Name or Description should not contain spaces !",
             type: 'error'
           });
       }
@@ -206,8 +206,8 @@ const TestPlanDetailPage = (props) => {
         <form className={classes.content}>
           <TextField id="testPlanName" label="Test Plan Name" variant="outlined"  fullWidth required
           value={testplanInfor.testplanname || ''} onChange={handleChange('testplanname')}
-          error={!testplanInfor.testplanname && !error.testplanname ? true : false}
-          helperText={!testplanInfor.testplanname && !error.testplanname ? 'Testplan name is required' : ' '}/>           
+          error={testplanInfor.testplanname.trim().length==0 && error.testplanname.trim().length==0 ? true : false}
+          helperText={testplanInfor.testplanname.trim().length==0 && error.testplanname.trim().length==0 ? 'Test Plan Name is required' : ' '}/>           
 
           <div>
              <FormControlLabel
@@ -231,10 +231,10 @@ const TestPlanDetailPage = (props) => {
               checked={testplanInfor.isActive}
             />
           </div>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={12}
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={12}
           value={testplanInfor.description || ''} onChange={handleChange('description')}
           error={testplanInfor.description.trim().length==0 && error.description.trim().length==0 ? true : false}
-          helperText={testplanInfor.description.trim().length==0 && error.description.trim().length==0 ? 'Descriptions is required' : ' '}/>
+          helperText={testplanInfor.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>
 
           
           

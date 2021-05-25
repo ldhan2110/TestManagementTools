@@ -56,7 +56,11 @@ const DetailMileStonePage = (props) => {
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
   const [checkError, setCheckError] = useState(false);
-
+  const [error, setError] = useState({
+    milestonetitle: 'ss',
+    description: 'ss',
+  });
+  
   const [milestoneInfo, setMilestoneInfo] = useState({
     milestonetitle: '',
     projectid: project,
@@ -69,10 +73,7 @@ const DetailMileStonePage = (props) => {
 
   const history = useHistory();
 
-  const [error, setError] = useState({
-    milestonetitle: 'ss',
-    description: 'ss',
-  });
+  
 
   const [milestonebyid, setMilestonebyid] = useState({
     projectid: project,
@@ -143,9 +144,7 @@ const DetailMileStonePage = (props) => {
   };
 
   const handleUpdate = () => {
-    console.log('milestoneInfo: '+JSON.stringify(milestoneInfo));
-      console.log('error: '+JSON.stringify(error));
-      setCheckError(true);
+    setCheckError(true);
 
     if(milestoneInfo.description === "")
     setError({ ...milestoneInfo, description: "" });
@@ -157,14 +156,14 @@ const DetailMileStonePage = (props) => {
         ||milestoneInfo.description.trim().length !== milestoneInfo.description.length 
         || milestoneInfo.milestonetitle.trim().length !== milestoneInfo.milestonetitle.length){
         displayMsg({
-          content: "milestone name or description should not contain spaces or empty",
+          content: "Milestone Name or Description should not contain spaces !",
           type: 'error'
         });
     }
 
     else if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== "")
     updateMilestoneReq(milestoneInfo);
-    //console.log(JSON.stringify(milestoneInfo, null, '  '));   
+    //console.log(JSON.stringify(milestoneInfo, null, '  '));    
   };
 
   const handleChange = (prop) => (event) => {
@@ -204,7 +203,7 @@ const DetailMileStonePage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Detail Milestone
+            Detail Milestone - {props.match.params.milestonetitle}
           </Typography>
 
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
@@ -224,18 +223,17 @@ const DetailMileStonePage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-
-          <TextField id="milestoneName" label="Name" 
+          <TextField id="milestonetitle" label="Milestone Name" 
           variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
-          value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')} 
-          error={milestoneInfo.milestonetitle.trim().length == 0   && error.milestonetitle.trim().length == 0  ? true : false}
-          helperText={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? 'Milestone Name is required' : ' '}/>
+          value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')}
+          error={milestoneInfo.milestonetitle ==0 && error.milestonetitle ==0 ? true : false}
+          helperText={milestoneInfo.milestonetitle ==0 && error.milestonetitle ==0 ? 'Milestone Name is required' : ' '}/>  
           
-          <TextField id="descriptions" label="Descriptions" 
+          <TextField id="descriptions" label="Description" 
           variant="outlined" fullWidth required multiline rows={20} 
           value={milestoneInfo.description || ''} onChange={handleChange('description')}
-          error={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-          helperText={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'description is required' : ' '}/>                      
+          error={milestoneInfo.description ==0 && error.description ==0 ? true : false}
+          helperText={milestoneInfo.description ==0 && error.description ==0 ? 'Description is required' : ' '}/>                      
                   
           <Grid container spacing={3}> 
               <Grid item xs={12}>

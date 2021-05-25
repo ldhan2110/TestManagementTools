@@ -111,7 +111,7 @@ const NewMileStonePage = (props) => {
             ||milestoneInfo.description.trim().length !== milestoneInfo.description.length 
             || milestoneInfo.milestonetitle.trim().length !== milestoneInfo.milestonetitle.length){
             displayMsg({
-              content: "Milestone Name or Descriptions should not contain spaces or blanks",
+              content: "Milestone Name or Description should not contain spaces !",
               type: 'error'
             });
     }
@@ -173,11 +173,11 @@ const NewMileStonePage = (props) => {
           error={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? true : false}
           helperText={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? 'Milestone Name is required' : ' '}/>
 
-          <TextField id="descriptions" label="Descriptions" 
+          <TextField id="descriptions" label="Description" 
           variant="outlined"  fullWidth required multiline rows={20} 
           value={milestoneInfo.description || ''} onChange={handleChange('description')} 
           error={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-          helperText={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Descriptions is required' : ' '}/>                      
+          helperText={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/>                      
 
           <Grid container spacing={3}> 
               <Grid item xs={12}>
