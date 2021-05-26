@@ -143,21 +143,23 @@ const TestExecutionListPage = (props) => {
 
 
   useEffect(()=>{
-      if (searchConditions.status === -1 && searchConditions.testplanName === '' && searchConditions.testexecName === ''){
+      if (searchConditions.status === -1 && searchConditions.testplanName === '' && searchConditions.testexecName === '' && searchConditions.buildName === ''){
       setArray(listTestexec);
     } 
     else{
       if(searchConditions.status === -1){
         setArray(listTestexec.filter((item) => {
           if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
-          && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
+          && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+          && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
             return listTestexec;}));
       }
       else{
         setArray(listTestexec.filter((item) => {
           if(searchConditions.status === item.status
           && item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
-          && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
+          && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+          && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
             return listTestexec;}));
       }
     }
