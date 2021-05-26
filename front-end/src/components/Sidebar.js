@@ -307,7 +307,7 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject,curr
     <Drawer variant="permanent"  { ...rest}>
       <Brand>
         <IconButton color="inherit" aria-label="Open drawer" onClick={handleClick}><ArrowLeftCircle/></IconButton>
-        <Box ml={2}>{currentSelectedProjectName} <BrandChip label="DEV" /></Box>
+        <Box ml={2}>{currentSelectedProjectName}</Box>
       </Brand>
       <Scrollbar>
         <List disablePadding>
