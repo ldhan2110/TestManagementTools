@@ -274,7 +274,7 @@ const  Dashboard = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-           <MultiChart datasets={multiChart}/>
+           <MultiChart datasets={dataMultiChart}/>
         </Grid>
         <Grid item xs={12} lg={6}>
           <DoughnutChart dataset={dataExecOverview} overviewData={execOverviewData.data ? execOverviewData.data.overviewdata : 0}/>
