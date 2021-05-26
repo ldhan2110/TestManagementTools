@@ -134,7 +134,7 @@ const TestExecutionListPage = (props) => {
     console.log('keyword: ' + searchConditions.status+'  '+searchConditions.testplanName+'  '+searchConditions.testexecName);
     var tempArr = [];
     listTestExec.forEach((item)=>{
-      tempArr.push({_id: item._id, status: item.status, testexecutionname: item.testexecutionname, description: item.description, tester: item.tester.username, testplanname: item.testplan.testplanname, buildname: item.build.buildname })
+      tempArr.push({_id: item._id, status: item.status, testexecutionname: item.testexecutionname, description: item.description, tester: item.tester ? item.tester.username : '', testplanname: item.testplan.testplanname, buildname: item.build.buildname })
     });
     setListTestExec(tempArr);
     setArray(listTestexec);

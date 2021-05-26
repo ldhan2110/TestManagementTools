@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled, { withTheme } from "styled-components";
 
 import {green, red, yellow } from "@material-ui/core/colors";
@@ -76,22 +76,34 @@ const YellowText =  styled.span`
   font-weight: ${props => props.theme.typography.fontWeightMedium};
 `;
 
-const PieChart = ({ theme }) => {
-  const data = {
-    labels: ["Passed", "Failed", "Blocked", "Not Executed"],
-    datasets: [
-      {
-        data: [260, 125, 164,549],
-        backgroundColor: [
-          PASSED,
-          FAILED,
-          BLOCKED,
-          NOT_EXECUTE
-        ],
-        borderWidth: 5
-      }
-    ]
-  };
+const PieChart = (props) => {
+
+  const {theme} = props;
+
+  const {dataset, overviewData} = props;
+
+  // const [dataset, setData] = useState({
+  //   labels: ["Passed", "Failed", "Blocked", "Not Executed"],
+  //   datasets: [
+  //     {
+  //       data: data,
+  //       backgroundColor: [
+  //         PASSED,
+  //         FAILED,
+  //         BLOCKED,
+  //         NOT_EXECUTE
+  //       ],
+  //       borderWidth: 5
+  //     }
+  //   ]
+  // })
+
+  useEffect(()=>{
+    console.log(overviewData);
+    console.log(dataset);
+  },[overviewData,dataset])
+
+ 
 
   const options = {
     maintainAspectRatio: false,
@@ -115,10 +127,10 @@ const PieChart = ({ theme }) => {
       <CardContent>
         <ChartWrapper>
           <DoughnutInner variant="h4">
-            <Typography variant="h4">+23%</Typography>
+            <Typography variant="h4">{overviewData}</Typography>
             <Typography variant="caption">new test executed</Typography>
           </DoughnutInner>
-          <Doughnut data={data} options={options} />
+          <Doughnut data={dataset} options={options} />
         </ChartWrapper>
         <Table>
           <TableHead>

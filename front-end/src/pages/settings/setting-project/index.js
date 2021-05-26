@@ -118,7 +118,7 @@ const SettingProjectPage = (props) => {
         type: 'success'
       });
       resetDeleteRedux();
-      history.goBack();
+      history.replace('/projects');
     }
   },[insProjectsDelete.sucess]);
 

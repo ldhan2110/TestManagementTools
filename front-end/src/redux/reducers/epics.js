@@ -7,9 +7,14 @@ import * as buildEpics from '../build-release/buildEpics';
 import * as milestoneEpics from '../milestones/milestoneEpics';
 import * as userEpics from '../users/userEpics';
 import * as testexecEpics from '../test-execution/testexecEpics';
+import * as dashboardEpics from '../dashboard/dasboardEpics';
 
 
 export default combineEpics(
+   //DASHBOARD EPICS
+   dashboardEpics.getEffortEpic,
+   dashboardEpics.getExecOverviewEpic,
+
    //ACCOUNT EPICS
    accountEpics.loginReqEpic,
    accountEpics.logoutReqEpic,

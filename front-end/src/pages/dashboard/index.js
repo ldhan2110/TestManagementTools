@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled, { withTheme } from 'styled-components'
 import Helmet from 'react-helmet'
 import {generateColor} from '../../utils/index';
@@ -7,16 +7,36 @@ import {
   Divider as MuiDivider,
   Typography as MuiTypography
 } from '@material-ui/core'
-import {PASSED, FAILED, BLOCKED, BUGS} from '../../components/Charts/Constants';
+import {PASSED, FAILED, BLOCKED, NOT_EXECUTE} from '../../components/Charts/Constants';
 import {rand} from '../../utils/index';
 
 import { spacing } from '@material-ui/system'
-
+import { connect } from 'react-redux';
 import Actions from './Actions'
 import DoughnutChart from '../../components/Charts/DoughnutChart'
 import UnpaidTable from '../../components/Charts/UnpaidTable'
 import MultiChart from '../../components/Charts/MultiChart';
 import HorizontalBarChart from '../../components/Charts/HorizontalChart';
+import { GET_EFFORT_REQ, GET_EXEC_OVERVIEW_REQ } from '../../redux/dashboard/constants';
+
+//MAP STATES TO PROPS - REDUX
+function mapStateToProps(state) {
+  return {
+    effortsData: state.dashboard.efforts,
+    execOverviewData: state.dashboard.execOverview
+  };
+}
+
+//MAP DISPATCH ACTIONS TO PROPS - REDUX
+const mapDispatchToProps = dispatch => {
+  return {
+    getEffortReq: () => dispatch({ type: GET_EFFORT_REQ }),
+    getExecOverviewReq: ()=>dispatch({type: GET_EXEC_OVERVIEW_REQ})
+  }
+}
+
+
+
 const Divider = styled(MuiDivider)(spacing)
 
 const Typography = styled(MuiTypography)(spacing)
@@ -36,36 +56,17 @@ function getCurrentDate() {
 
 }
 
-const dataHorizontalChart = {
-  labels: ['An Le', 'Kha Dang', 'Doan Phan', 'Tuc Tran', 'Bach Khoa', 'Cuong Nguyen'],
-  datasets: [
-    {
-      label: 'Efforts',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        generateColor(),
-        generateColor(),
-        generateColor(),
-        generateColor(),
-        generateColor(),
-        generateColor(),
-      ],
-    },
-  ],
-}
-
-
 const dataMultiChart =  {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [
-    {
-      type: 'line',
-      label: 'Bugs',
-      borderColor: BUGS,
-      borderWidth: 2,
-      fill: false,
-      data: [rand(), rand(), rand(), rand(), rand(), rand()],
-    },
+    // {
+    //   type: 'line',
+    //   label: 'Bugs',
+    //   borderColor: BUGS,
+    //   borderWidth: 2,
+    //   fill: false,
+    //   data: [rand(), rand(), rand(), rand(), rand(), rand()],
+    // },
     {
       type: 'bar',
       label: 'Test Failed',
@@ -89,14 +90,106 @@ const dataMultiChart =  {
   ],
 }
 
-function Dashboard({ theme }) {
+const data = {
+  labels: ["Passed", "Failed", "Blocked", "Not Executed"],
+  datasets: [
+    {
+      data: [260, 125, 164,549],
+      backgroundColor: [
+        PASSED,
+        FAILED,
+        BLOCKED,
+        NOT_EXECUTE
+      ],
+      borderWidth: 5
+    }
+  ]
+};
+
+const  Dashboard = (props) => {
+
+  const {theme} = props;
+
+  const {getEffortReq,effortsData, execOverviewData, getExecOverviewReq} = props;
+
+  const [dataEfforts,setEfforts] = useState({
+    labels: [],
+    datasets: [
+    {
+      label: 'Efforts',
+      data: [],
+      backgroundColor: [
+      ],
+    },
+  ],
+  })
+
+  const [dataExecOverview, setExecOverview] = useState({
+    labels: ["Passed", "Failed", "Blocked", "Not Executed"],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: [
+          PASSED,
+          FAILED,
+          BLOCKED,
+          NOT_EXECUTE
+        ],
+        borderWidth: 5
+      }
+    ]
+  })
+
+  useEffect(()=> {
+    getEffortReq();
+    getExecOverviewReq();
+  },[])
+
+  useEffect(()=> {
+  if (effortsData.data !== null){
+    setEfforts({
+      labels:  effortsData.data.labels,
+      datasets: [
+        {
+          label: 'Efforts',
+          data: effortsData.data.data,
+          backgroundColor: effortsData.data.data.map(()=>generateColor()),
+        },
+  ],
+    })
+  }
+  },[effortsData.data])
+
+  useEffect(()=> {
+   if (execOverviewData.data != null) {
+    console.log(execOverviewData.data);
+    setExecOverview({
+      labels: ["Passed", "Failed", "Blocked", "Not Executed"],
+      datasets: [
+        {
+          data: execOverviewData.data.data,
+          backgroundColor: [
+            PASSED,
+            FAILED,
+            BLOCKED,
+            NOT_EXECUTE
+          ],
+          borderWidth: 5
+        }
+      ]
+    })
+   }
+  },[execOverviewData.data])
+
+
+
   return (
     <React.Fragment>
       <Helmet title="Thống kê" />
       <Grid container justify="space-between" spacing={6}>
         <Grid item>
           <Typography variant="h3" display="inline">
-            Welcome back, Lucy
+            Welcome back
           </Typography>
           <Typography variant="body2" ml={2} display="inline">
             {`${getCurrentDate()}`}
@@ -115,7 +208,7 @@ function Dashboard({ theme }) {
            <MultiChart datasets={dataMultiChart}/>
         </Grid>
         <Grid item xs={12} lg={6}>
-          <DoughnutChart />
+          <DoughnutChart dataset={dataExecOverview} overviewData={execOverviewData.data ? execOverviewData.data.overviewdata : 0}/>
         </Grid>
       </Grid>
 
@@ -124,11 +217,11 @@ function Dashboard({ theme }) {
           <UnpaidTable />
         </Grid>
         <Grid item xs={12} lg={6}>
-          <HorizontalBarChart datasets={dataHorizontalChart}/>
+          <HorizontalBarChart datasets={dataEfforts}/>
         </Grid>
       </Grid>
     </React.Fragment>
   )
 }
 
-export default withTheme(Dashboard)
+export default  connect(mapStateToProps,mapDispatchToProps)(withTheme(Dashboard))

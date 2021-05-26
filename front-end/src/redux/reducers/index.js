@@ -10,9 +10,11 @@ import buildReducers from '../build-release/buildReducers';
 import milestoneReducers from '../milestones/milestoneReducers';
 import userReducers from '../users/userReducers';
 import testexecReducers from '../test-execution/testexecReducers';
+import dashboardReducers from '../dashboard/dashboardReducers';
 
 export default combineReducers({
 	themeReducer,
+	dashboard: dashboardReducers,
 	account: accountReducer,
   project: projectReducers,
   testplan: testplanReducers,
