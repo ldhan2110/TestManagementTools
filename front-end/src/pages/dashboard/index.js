@@ -17,13 +17,14 @@ import DoughnutChart from '../../components/Charts/DoughnutChart'
 import UnpaidTable from '../../components/Charts/UnpaidTable'
 import MultiChart from '../../components/Charts/MultiChart';
 import HorizontalBarChart from '../../components/Charts/HorizontalChart';
-import { GET_EFFORT_REQ, GET_EXEC_OVERVIEW_REQ } from '../../redux/dashboard/constants';
+import { GET_EFFORT_REQ, GET_EXEC_OVERVIEW_REQ, GET_MULTI_CHART_REQ } from '../../redux/dashboard/constants';
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
     effortsData: state.dashboard.efforts,
-    execOverviewData: state.dashboard.execOverview
+    execOverviewData: state.dashboard.execOverview,
+    multiChart: state.dashboard.multiChart
   };
 }
 
@@ -31,7 +32,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch => {
   return {
     getEffortReq: () => dispatch({ type: GET_EFFORT_REQ }),
-    getExecOverviewReq: ()=>dispatch({type: GET_EXEC_OVERVIEW_REQ})
+    getExecOverviewReq: ()=>dispatch({type: GET_EXEC_OVERVIEW_REQ}),
+    getMultiChartReq: () => dispatch({type: GET_MULTI_CHART_REQ})
   }
 }
 
@@ -56,61 +58,61 @@ function getCurrentDate() {
 
 }
 
-const dataMultiChart =  {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-  datasets: [
-    // {
-    //   type: 'line',
-    //   label: 'Bugs',
-    //   borderColor: BUGS,
-    //   borderWidth: 2,
-    //   fill: false,
-    //   data: [rand(), rand(), rand(), rand(), rand(), rand()],
-    // },
-    {
-      type: 'bar',
-      label: 'Test Failed',
-      backgroundColor: FAILED,
-      data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
-      borderColor: 'white',
-      borderWidth: 2,
-    },
-    {
-      type: 'bar',
-      label: 'Test Passed',
-      backgroundColor: PASSED,
-      data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
-    },
-    {
-      type: 'bar',
-      label: 'Test Blocked',
-      backgroundColor: BLOCKED,
-      data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
-    },
-  ],
-}
+// const dataMultiChart =  {
+//   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+//   datasets: [
+//     // {
+//     //   type: 'line',
+//     //   label: 'Bugs',
+//     //   borderColor: BUGS,
+//     //   borderWidth: 2,
+//     //   fill: false,
+//     //   data: [rand(), rand(), rand(), rand(), rand(), rand()],
+//     // },
+//     {
+//       type: 'bar',
+//       label: 'Test Failed',
+//       backgroundColor: FAILED,
+//       data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
+//       borderColor: 'white',
+//       borderWidth: 2,
+//     },
+//     {
+//       type: 'bar',
+//       label: 'Test Passed',
+//       backgroundColor: PASSED,
+//       data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
+//     },
+//     {
+//       type: 'bar',
+//       label: 'Test Blocked',
+//       backgroundColor: BLOCKED,
+//       data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
+//     },
+//   ],
+// }
 
-const data = {
-  labels: ["Passed", "Failed", "Blocked", "Not Executed"],
-  datasets: [
-    {
-      data: [260, 125, 164,549],
-      backgroundColor: [
-        PASSED,
-        FAILED,
-        BLOCKED,
-        NOT_EXECUTE
-      ],
-      borderWidth: 5
-    }
-  ]
-};
+// const data = {
+//   labels: ["Passed", "Failed", "Blocked", "Not Executed"],
+//   datasets: [
+//     {
+//       data: [260, 125, 164,549],
+//       backgroundColor: [
+//         PASSED,
+//         FAILED,
+//         BLOCKED,
+//         NOT_EXECUTE
+//       ],
+//       borderWidth: 5
+//     }
+//   ]
+// };
 
 const  Dashboard = (props) => {
 
   const {theme} = props;
 
-  const {getEffortReq,effortsData, execOverviewData, getExecOverviewReq} = props;
+  const {getEffortReq,effortsData, execOverviewData, getExecOverviewReq, getMultiChartReq, multiChart} = props;
 
   const [dataEfforts,setEfforts] = useState({
     labels: [],
@@ -140,11 +142,47 @@ const  Dashboard = (props) => {
     ]
   })
 
+  const [dataMultiChart,setDataMultiChart] = useState({
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    datasets: [
+    // {
+    //   type: 'line',
+    //   label: 'Bugs',
+    //   borderColor: BUGS,
+    //   borderWidth: 2,
+    //   fill: false,
+    //   data: [rand(), rand(), rand(), rand(), rand(), rand()],
+    // },
+    {
+      type: 'bar',
+      label: 'Test Failed',
+      backgroundColor: FAILED,
+      data: [],
+      borderColor: 'white',
+      borderWidth: 2,
+    },
+    {
+      type: 'bar',
+      label: 'Test Passed',
+      backgroundColor: PASSED,
+      data: [],
+    },
+    {
+      type: 'bar',
+      label: 'Test Blocked',
+      backgroundColor: BLOCKED,
+      data: [],
+    },
+  ],
+  })
+
   useEffect(()=> {
     getEffortReq();
     getExecOverviewReq();
+    getMultiChartReq();
   },[])
 
+  //EFFORT
   useEffect(()=> {
   if (effortsData.data !== null){
     setEfforts({
@@ -160,6 +198,7 @@ const  Dashboard = (props) => {
   }
   },[effortsData.data])
 
+  //EXEC OVERVIEW
   useEffect(()=> {
    if (execOverviewData.data != null) {
     console.log(execOverviewData.data);
@@ -181,6 +220,36 @@ const  Dashboard = (props) => {
    }
   },[execOverviewData.data])
 
+  //MULTI-CHART
+  useEffect(()=>{
+    if (multiChart != null) {
+      setDataMultiChart({
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [
+    {
+      type: 'bar',
+      label: 'Test Failed',
+      backgroundColor: FAILED,
+      data: multiChart.fail,
+      borderColor: 'white',
+      borderWidth: 2,
+    },
+    {
+      type: 'bar',
+      label: 'Test Passed',
+      backgroundColor: PASSED,
+      data: multiChart.pass,
+    },
+    {
+      type: 'bar',
+      label: 'Test Blocked',
+      backgroundColor: BLOCKED,
+      data: multiChart.block,
+    },
+  ],
+      })
+    }
+  },[multiChart])
 
 
   return (
@@ -205,7 +274,7 @@ const  Dashboard = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-           <MultiChart datasets={dataMultiChart}/>
+           <MultiChart datasets={multiChart}/>
         </Grid>
         <Grid item xs={12} lg={6}>
           <DoughnutChart dataset={dataExecOverview} overviewData={execOverviewData.data ? execOverviewData.data.overviewdata : 0}/>

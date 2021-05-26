@@ -11,3 +11,9 @@ export function getExecOverview() {
     type: types.GET_EXEC_OVERVIEW_REQ
   }
 }
+
+export function getMultiChart() {
+  return {
+    type: types.GET_MULTI_CHART_REQ
+  }
+}

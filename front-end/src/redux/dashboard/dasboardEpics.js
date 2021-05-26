@@ -37,8 +37,7 @@ export  const getEffortEpic = (action$, state$) => action$.pipe(
   ))
 
 
-  //EXEC OVERVIEW
-//EFFORT
+//EXEC OVERVIEW
 export  const getExecOverviewEpic = (action$, state$) => action$.pipe(
   ofType(actions.GET_EXEC_OVERVIEW_REQ),
   mergeMap(() =>  from(axios.get(API_ADDR+'/project/'+localStorage.getItem('selectProject')+'/dataoverview',{
@@ -64,6 +63,38 @@ export  const getExecOverviewEpic = (action$, state$) => action$.pipe(
     }),
     catchError (error =>  of({
       type: actions.GET_EXEC_OVERVIEW_FAILED,
+      payload: error.response.data.errMsg
+    }))
+  )
+  ))
+
+
+  //
+export const getMultiChart = (action$, state$) => action$.pipe(
+  ofType(actions.GET_MULTI_CHART_REQ),
+  mergeMap(() =>  from(axios.get(API_ADDR+'/project/'+localStorage.getItem('selectProject')+'/numberofexecuteineachmonth',{
+    headers: {
+      "X-Auth-Token": localStorage.getItem("token"),
+      "content-type": "application/json"
+    }
+  })).pipe(
+    map(response => {
+      const {data} = response;
+      if (data.success) {
+        return ({
+          type: actions.GET_MULTI_CHART_SUCESS,
+          payload: data.result
+        })
+      } else {
+        return ({
+          type: actions.GET_MULTI_CHART_FAILED,
+          payload: data.errMsg
+        })
+      }
+    
+    }),
+    catchError (error =>  of({
+      type: actions.GET_MULTI_CHART_FAILED,
       payload: error.response.data.errMsg
     }))
   )

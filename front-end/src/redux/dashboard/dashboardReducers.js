@@ -11,6 +11,12 @@ var initialState = {
     sucess: null,
     errMsg: null,
     data: null
+  },
+
+  multiChart:{
+    sucess: null,
+    errMsg: null,
+    data: null
   }
 }
 
@@ -62,6 +68,32 @@ const reducer = (state = initialState, actions) => {
         }
 
     case types.GET_EXEC_OVERVIEW_SUCESS:
+          return {
+            ...state,
+            execOverview: {
+              sucess: true,
+              errMsg: null,
+              data: payload
+            },
+          }
+    
+    //OVERVIEW EXEC
+    case types.GET_MULTI_CHART_REQ:
+      return {
+        ...state,
+      }
+
+    case types.GET_MULTI_CHART_FAILED:
+        return {
+          ...state,
+          execOverview: {
+            sucess: false,
+            errMsg: payload,
+            data: null
+          },
+        }
+
+    case types.GET_MULTI_CHART_SUCESS:
           return {
             ...state,
             execOverview: {

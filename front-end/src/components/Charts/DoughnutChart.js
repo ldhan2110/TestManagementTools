@@ -98,11 +98,6 @@ const PieChart = (props) => {
   //   ]
   // })
 
-  useEffect(()=>{
-    console.log(overviewData);
-    console.log(dataset);
-  },[overviewData,dataset])
-
  
 
   const options = {
