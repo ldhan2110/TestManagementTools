@@ -137,7 +137,6 @@ const PieChart = (props) => {
             <TableRow>
               <TableCell>Status</TableCell>
               <TableCell align="right">Number</TableCell>
-              <TableCell align="right">Value</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -146,27 +145,18 @@ const PieChart = (props) => {
                 Pass
               </TableCell>
               <TableCell align="right">260</TableCell>
-              <TableCell align="right">
-                <GreenText>+35%</GreenText>
-              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row">
                 Fail
               </TableCell>
               <TableCell align="right">125</TableCell>
-              <TableCell align="right">
-                <RedText>+12%</RedText>
-              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row">
                 Blocked
               </TableCell>
               <TableCell align="right">164</TableCell>
-              <TableCell align="right">
-                <YellowText>+46%</YellowText>
-              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
