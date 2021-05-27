@@ -227,13 +227,7 @@ const DetailMileStonePage = (props) => {
           variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
           value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')}
           error={milestoneInfo.milestonetitle ==0 && error.milestonetitle ==0 ? true : false}
-          helperText={milestoneInfo.milestonetitle ==0 && error.milestonetitle ==0 ? 'Milestone Name is required' : ' '}/>  
-          
-          <TextField id="descriptions" label="Description" 
-          variant="outlined" fullWidth required multiline rows={20} 
-          value={milestoneInfo.description || ''} onChange={handleChange('description')}
-          error={milestoneInfo.description ==0 && error.description ==0 ? true : false}
-          helperText={milestoneInfo.description ==0 && error.description ==0 ? 'Description is required' : ' '}/>                      
+          helperText={milestoneInfo.milestonetitle ==0 && error.milestonetitle ==0 ? 'Milestone Name is required' : ' '}/>                     
                   
           <Grid container spacing={3}> 
               <Grid item xs={12}>
@@ -249,6 +243,12 @@ const DetailMileStonePage = (props) => {
                   />
               </Grid>
           </Grid>
+
+          <TextField id="descriptions" label="Description" 
+          variant="outlined" fullWidth required multiline rows={10} 
+          value={milestoneInfo.description || ''} onChange={handleChange('description')}
+          error={milestoneInfo.description ==0 && error.description ==0 ? true : false}
+          helperText={milestoneInfo.description ==0 && error.description ==0 ? 'Description is required' : ' '}/>   
 
           <div>
              <FormControlLabel

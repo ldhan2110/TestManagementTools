@@ -234,29 +234,23 @@ const NewTestExecutionPage = (props) => {
           value={testExecInfo.testexecutionname || ''} onChange={handleChange('testexecutionname')} 
           error={testExecInfo.testexecutionname.trim().length == 0  && error.testexecutionname.trim().length == 0  ? true : false}
           helperText={testExecInfo.testexecutionname.trim().length == 0 && error.testexecutionname.trim().length == 0 ? 'Test Execution Name is required' : ' '}/>
-
-          <TextField id="descriptions" label="Description" 
-          variant="outlined"  fullWidth required multiline rows={20} 
-          value={testExecInfo.description || ''} onChange={handleChange('description')} 
-          error={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-          helperText={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/>                      
         
-        <FormControl variant="outlined" fullWidth>
-           <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
-            <Select
+          <FormControl variant="outlined" fullWidth >   
+          <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
+          <Select
           labelId="testPlan"
           id="testPlan"
           value={testExecInfo.testplanname || ''}
           onChange={handleChange('testplanname')}
           label="testplanname"
           error={!testExecInfo.testplanname && !error.testplanname ? true : false}
-          helperText={!testExecInfo.testplanname && !error.testplanname ? 'Test Plan is required' : ' '}
+          helperText={!testExecInfo.testplanname && !error.testplanname ? 'Test Plan is required' : ' '}>
 
-          /*labelId="demo-simple-select-outlined-label"
+          {/*labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
           label="testplan"
-          onChange={handleChange('testplanname')}*/
-        >
+        onChange={handleChange('testplanname')}*/}
+       
           {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
         </Select>
       </FormControl>
@@ -347,7 +341,11 @@ const NewTestExecutionPage = (props) => {
         </Select>
         </FormControl>
 
-    
+        <TextField id="descriptions" label="Description" 
+        variant="outlined"  fullWidth required multiline rows={5} 
+        value={testExecInfo.description || ''} onChange={handleChange('description')} 
+        error={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
+        helperText={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/> 
 
         
           <div className = {classes.btnGroup}>

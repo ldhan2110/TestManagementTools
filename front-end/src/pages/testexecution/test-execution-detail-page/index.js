@@ -180,7 +180,6 @@ const TestExecutionDetailPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
           <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required value={testExecInfo.testexecutionname}/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={20} value={testExecInfo.description}/>
           <TextField id="testplanName" label="Test Plan" variant="outlined"  fullWidth required value={testExecInfo.testplan.testplanname}/>
           <TextField id="buildName" label="Build/Release" variant="outlined"  fullWidth required value={testExecInfo.build.buildname}/>
 
@@ -232,6 +231,7 @@ const TestExecutionDetailPage = (props) => {
               labelPlacement="start"
             />
           </div>
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={5} value={testExecInfo.description}/>                
 
             <Grid container spacing={1}>
               <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Executed Test Cases</Typography></Grid> 
