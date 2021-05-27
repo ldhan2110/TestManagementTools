@@ -58,8 +58,7 @@ const detailMileStonePage = async(()=>import('../pages/milstones/milestone-detai
 const TestCasePage = async(()=>import('../pages/testcases/test-cases-list-page/index'));
 const NewTestCasePage = async(()=>import('../pages/testcases/new-test-case-page/index'));
 
-//Issue components
-const IssueListPage = async(()=> import('../pages/issues/issue-list-page/index'));
+
 
 const dashboardRoute = {
   id: "Dashboard",
@@ -302,16 +301,6 @@ const newTestcaseRoute = {
   component: NewTestCasePage
 }
 
-// Issues
-const issuesRoute = {
-  id: "Issues",
-  path: "/projects/:projectName/issues",
-  name: "Issues",
-  icon: <AlertOctagon/>,
-  restrict: true,
-  exact: true,
-  component: IssueListPage
-}
 
 
 // Routes using the Dashboard layout
@@ -333,7 +322,6 @@ export const primaryLayoutRoutes = [
   newTestcaseRoute,
   newMilestoneRoute,
   detailMilestoneRoute,
-  issuesRoute,
   executeResultRoutes,
   testCaseExecResultRoute
 ];
@@ -354,7 +342,6 @@ export const sidebarRoutes = [
   testCaseRoute,
   buildListRoute,
   milestoneRoute,
-  issuesRoute,
   projectSettingRoutes,
 ];
 
