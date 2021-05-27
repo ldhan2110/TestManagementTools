@@ -221,7 +221,7 @@ const  Dashboard = (props) => {
 
   //MULTI-CHART
   useEffect(()=>{
-    if (multiChart != null) {
+    if (multiChart.data != null) {
       setDataMultiChart({
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [
@@ -229,7 +229,7 @@ const  Dashboard = (props) => {
       type: 'bar',
       label: 'Test Failed',
       backgroundColor: FAILED,
-      data: multiChart.data.fail,
+      data: multiChart.data.fail === null ? [] : multiChart.data.fail,
       borderColor: 'white',
       borderWidth: 2,
     },
@@ -237,13 +237,13 @@ const  Dashboard = (props) => {
       type: 'bar',
       label: 'Test Passed',
       backgroundColor: PASSED,
-      data: multiChart.data.pass,
+      data: multiChart.data.pass === null ? [] : multiChart.data.pass,
     },
     {
       type: 'bar',
       label: 'Test Blocked',
       backgroundColor: BLOCKED,
-      data: multiChart.data.block,
+      data: multiChart.data.block === null ? [] : multiChart.data.block,
     },
   ],
       })
@@ -252,8 +252,8 @@ const  Dashboard = (props) => {
   },[multiChart])
 
   useEffect(()=>{
-    console.log(dataMultiChart);
-  },[dataMultiChart])
+    console.log(execOverviewData.data);
+  },[execOverviewData.data])
 
 
   return (
