@@ -82,6 +82,8 @@ const PieChart = (props) => {
 
   const {dataset, overviewData} = props;
 
+  const {data, setData} = useState([0,0,0,0]);
+
   // const [dataset, setData] = useState({
   //   labels: ["Passed", "Failed", "Blocked", "Not Executed"],
   //   datasets: [
@@ -139,19 +141,25 @@ const PieChart = (props) => {
               <TableCell component="th" scope="row">
                 Pass
               </TableCell>
-              <TableCell align="right">260</TableCell>
+              <TableCell align="right">{dataset ? dataset.datasets[0].data[0] : 0}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row">
                 Fail
               </TableCell>
-              <TableCell align="right">125</TableCell>
+              <TableCell align="right">{dataset ? dataset.datasets[0].data[1] : 0}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row">
                 Blocked
               </TableCell>
-              <TableCell align="right">164</TableCell>
+              <TableCell align="right">{dataset ? dataset.datasets[0].data[2] : 0}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell component="th" scope="row">
+                Not Executed
+              </TableCell>
+              <TableCell align="right">{dataset ? dataset.datasets[0].data[3] : 0}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
