@@ -10,6 +10,8 @@ import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ, RESET_ADD_NEW_BUILD} from '../../
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 
+import AddIcon from '@material-ui/icons/Add';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import {
   Grid,
@@ -262,20 +264,18 @@ const NewBuildPage = (props) => {
                 <TextField id="buildName" label="Name" variant="outlined" fullWidth/>
               </Grid> */}
           </Grid>
-          <Grid container spacing={3}>
-              <Grid item xs={12}>
+
                 <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline 
                 rows={2} value={buildInfo.description || ''} onChange={handleChange('description')}
                 error={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
                 helperText={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : null}/>
-             </Grid>             
-          </Grid>
+
                    
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleCreate}>
+          <Button variant="contained" color="primary" startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleClose}>
             Back
           </Button>
         </div>

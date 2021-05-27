@@ -10,6 +10,11 @@ import {GET_ALL_BUILDS_REQ, GET_BUILD_BYID_REQ, UPDATE_BUILD_REQ, DELETE_BUILD_R
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { red } from '@material-ui/core/colors';
+
 
 import {
   Grid,
@@ -200,7 +205,10 @@ const BuildDetailPage = (props) => {
     setOpen(false);
   }
 
-
+  const handleBack = () => {    
+    history.goBack();
+    //setOpen(false);
+  };
 
     return (
     <div>
@@ -225,7 +233,25 @@ const BuildDetailPage = (props) => {
             <Typography>Invoices</Typography>
           </Breadcrumbs> */}
         </Grid>
+        <Grid item>
+        <div>
+          <Button variant="contained" startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+            Delete Build
+          </Button>
+          </div>
+          <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this build?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+            </Grid>
+        </Grid>
       </Grid>
+      
 
       <Divider my={6} />
 
@@ -285,34 +311,26 @@ const BuildDetailPage = (props) => {
                  value={buildInfor.releasedate}
                  onChange={handleDateStart}/>
               </Grid>
-              </Grid>
+          </Grid>
          
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
+          
               <TextField id="description" label="Description" variant="outlined"  fullWidth 
               required multiline rows={2} value={buildInfor.description || ''} onChange={handleChange('description')}
               error={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
               helperText={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/>
-            </Grid>
-          </Grid>
+
 
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleUpdate}>
+          <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={handleUpdate}>
             Update
           </Button>
-          <Button variant="contained" onClick={handleOpen}>
-            Delete
+          <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={handleBack}>
+            Back
           </Button>
-            <Grid item>
-                <Dialog open={open} >
-                  <DialogTitle>Confirm</DialogTitle>
-                  <DialogContent>Are you sure want to delete this build?</DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleDelete} color="primary">Yes</Button>
-                    <Button onClick={handleClose} color="primary">No</Button>
-                  </DialogActions>
-                </Dialog>
-            </Grid>
+
+          
+          
+            
         </div>
         </form>
         </Grid>

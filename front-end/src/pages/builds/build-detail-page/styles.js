@@ -24,7 +24,6 @@ const styles = {
     flexDirection: 'row',
     "& > *": {
       marginRight: 5,
-      marginTop: 5
     }
   },
 

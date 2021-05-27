@@ -28,6 +28,7 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 
@@ -268,11 +269,11 @@ const NewTestPlanPage = (props) => {
           helperText={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>
 
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleCreate}>
+          <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleCreate}>
             Create
           </Button>
-          <Button variant="contained" onClick={handleClose}>
-            Cancel
+          <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleClose}>
+            Back
           </Button>
         </div>       
         </form>
