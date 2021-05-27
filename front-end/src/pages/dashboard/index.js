@@ -201,7 +201,6 @@ const  Dashboard = (props) => {
   //EXEC OVERVIEW
   useEffect(()=> {
    if (execOverviewData.data != null) {
-    console.log(execOverviewData.data);
     setExecOverview({
       labels: ["Passed", "Failed", "Blocked", "Not Executed"],
       datasets: [
@@ -230,7 +229,7 @@ const  Dashboard = (props) => {
       type: 'bar',
       label: 'Test Failed',
       backgroundColor: FAILED,
-      data: multiChart.fail,
+      data: multiChart.data.fail,
       borderColor: 'white',
       borderWidth: 2,
     },
@@ -238,18 +237,23 @@ const  Dashboard = (props) => {
       type: 'bar',
       label: 'Test Passed',
       backgroundColor: PASSED,
-      data: multiChart.pass,
+      data: multiChart.data.pass,
     },
     {
       type: 'bar',
       label: 'Test Blocked',
       backgroundColor: BLOCKED,
-      data: multiChart.block,
+      data: multiChart.data.block,
     },
   ],
       })
     }
+    console.log(multiChart);
   },[multiChart])
+
+  useEffect(()=>{
+    console.log(dataMultiChart);
+  },[dataMultiChart])
 
 
   return (

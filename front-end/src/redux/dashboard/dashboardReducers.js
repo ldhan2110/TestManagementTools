@@ -86,7 +86,7 @@ const reducer = (state = initialState, actions) => {
     case types.GET_MULTI_CHART_FAILED:
         return {
           ...state,
-          execOverview: {
+          multiChart: {
             sucess: false,
             errMsg: payload,
             data: null
@@ -94,9 +94,10 @@ const reducer = (state = initialState, actions) => {
         }
 
     case types.GET_MULTI_CHART_SUCESS:
+      console.log(payload);
           return {
             ...state,
-            execOverview: {
+            multiChart: {
               sucess: true,
               errMsg: null,
               data: payload
