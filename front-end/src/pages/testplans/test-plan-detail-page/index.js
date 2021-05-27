@@ -9,6 +9,10 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
 import Box from '@material-ui/core/Box';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { red } from '@material-ui/core/colors';
 
 import {
   Grid,
@@ -168,11 +172,16 @@ const TestPlanDetailPage = (props) => {
 
     const handleOpen = () => {
       setOpen(true);
-    }
+    };
   
     const handleClose = () => {
       setOpen(false);
-    }
+    };
+
+    const handleBack = () => {    
+      history.goBack();
+      //setOpen(false);
+    };
 
     return (
     <div>
@@ -184,9 +193,10 @@ const TestPlanDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Test Plan Detail - {props.match.params.testPlanName}
+            Test Plan Detail - {props.history.location.state.testplanname}
+            {/* {props.match.params.testPlanName} */}
           </Typography>
-
+        
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
             <Link component={NavLink} exact to="/">
               Dashboard
@@ -196,6 +206,23 @@ const TestPlanDetailPage = (props) => {
             </Link>
             <Typography>Invoices</Typography>
           </Breadcrumbs> */}
+        </Grid>
+        <Grid item>
+        <div>
+          <Button variant="contained" startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+            Delete Test Plan
+          </Button>
+          </div>
+          <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this testplan?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+          </Grid>
         </Grid>
       </Grid>
 
@@ -231,7 +258,7 @@ const TestPlanDetailPage = (props) => {
               checked={testplanInfor.isActive}
             />
           </div>
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={12}
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={11}
           value={testplanInfor.description || ''} onChange={handleChange('description')}
           error={testplanInfor.description.trim().length==0 && error.description.trim().length==0 ? true : false}
           helperText={testplanInfor.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>
@@ -239,22 +266,13 @@ const TestPlanDetailPage = (props) => {
           
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleUpdate}>
+          <Button variant="contained" color="primary" startIcon={<SaveIcon/>} onClick={handleUpdate}>
             Save
           </Button>
-          <Button variant="contained" onClick={handleOpen}>
-            Delete
+          <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleBack}>
+            Back
           </Button>
-          <Grid item>
-                <Dialog open={open} >
-                  <DialogTitle>Confirm</DialogTitle>
-                  <DialogContent>Are you sure want to delete this testplan?</DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleDelete} color="primary">Yes</Button>
-                    <Button onClick={handleClose} color="primary">No</Button>
-                  </DialogActions>
-                </Dialog>
-          </Grid>
+          
         </div>
         </form>
         </Grid>

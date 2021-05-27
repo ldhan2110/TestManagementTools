@@ -29,6 +29,9 @@ import {
 } from "@material-ui/icons";
 
 import DeleteIcon from '@material-ui/icons/Delete';
+import UpdateIcon from '@material-ui/icons/Update';
+import CloseIcon from '@material-ui/icons/Close';
+import { red } from '@material-ui/core/colors';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -203,9 +206,9 @@ const SettingProjectPage = (props) => {
 
           
         </Grid>
-        <Grid item xs={3}>
+        <Grid item>
         <div>
-            <Button variant="contained" color="primary" startIcon={<DeleteIcon />} size="large" onClick={handleOpen}>              
+            <Button variant="contained" startIcon={<DeleteIcon />} size="large" style={{ color: red[500]}} onClick={handleOpen}>              
               Delete Project
             </Button>
           </div>
@@ -277,10 +280,10 @@ const SettingProjectPage = (props) => {
           helperText={projectInfo.description == 0 && error.description == 0 ? 'Description is required!' : ' '}/>
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleUpdate}>
+          <Button variant="contained" startIcon={<UpdateIcon/>} color="primary" onClick={handleUpdate}>
             Update
           </Button>
-          <Button variant="contained">
+          <Button variant="contained" startIcon={<CloseIcon/>}>
             Cancel
           </Button>
         </div>               
