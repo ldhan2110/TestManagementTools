@@ -39,14 +39,14 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const InviteNewMemberDialog = (props) => {
+const ChangRolePopup = (props) => {
 
   const {isOpen, openMethod} = props;
 
   const {insUsers, listUsers, addUserToProjectReq, project, getAllUserReq, getAllUserOfProjectReq, displayMsg} = props;
 
 
-  const [open, setOpen] = useState(isOpen);
+  const [open, setOpen] = useState(true);
 
   const [inputData, setInput] = useState('');
 
@@ -173,4 +173,4 @@ const InviteNewMemberDialog = (props) => {
     );
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(InviteNewMemberDialog));
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(ChangRolePopup));

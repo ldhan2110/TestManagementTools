@@ -3,6 +3,7 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
+import ChangeRolePopup from './ChangeRolePopup';
 import Helmet from 'react-helmet';
 import {MEMBERS_HEADERS} from '../../../components/Table/DefineHeader';
 import {MEMBER_SEARCH} from '../../../components/Table/DefineSearch';
@@ -53,6 +54,8 @@ const MemberListPage = (props) => {
 
   const [openDialog,setOpenDialog] = useState(false);
 
+  const [openRoleDialog,setOpenRoleDialog] = useState(false);
+
   const [searchConditions, setConditions] = useState({
     username: '',
     role: -1
@@ -84,10 +87,10 @@ const MemberListPage = (props) => {
     setOpenDialog(true);
   }
 
-  const navigateToDetailPage = (params) => {
-    if (params)
-      history.push(window.location.pathname+"/"+params);
+  const handleOpenChangeRole = () => {
+    setOpenRoleDialog(true);
   }
+
 
   const handleChangeConditions = (props, data) => {
     setConditions({...searchConditions, [props]: data });
@@ -134,8 +137,9 @@ const MemberListPage = (props) => {
 
   return(
     <div>
-
+      <ChangeRolePopup/>
       <Helmet title="Service Management" />
+      <ChangeRolePopup isOpen={openRoleDialog} openMethod={setOpenRoleDialog}/>
       <NewMemberDialog isOpen={openDialog} openMethod={setOpenDialog}/>
       <Grid
         justify="space-between"
@@ -173,7 +177,7 @@ const MemberListPage = (props) => {
           <EnhancedTable
             rows={listMember}
             headerList = {MEMBERS_HEADERS}
-            viewAction={navigateToDetailPage}
+            viewAction={handleOpenChangeRole}
             conditions={MEMBER_SEARCH}
             setConditions={handleChangeConditions}
             searchMethod={searchMember}

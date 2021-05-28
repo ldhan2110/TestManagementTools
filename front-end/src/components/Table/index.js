@@ -110,8 +110,8 @@ const EnhancedTable = (props) => {
   };
 
   const handleDefaultViewAction = (event,row) => {
-          if (viewAction){
-        //viewAction(row);
+    if (viewAction) viewAction();
+    else {
         history.push({
           pathname: window.location.pathname+"/"+row._id,
           state: row

@@ -196,7 +196,6 @@ const TestExecutionListPage = (props) => {
           <EnhancedTable
             rows={array}
             headerList = {TEST_EXECUTION_HEADERS}
-            viewAction={navigateToDetailPage}
             conditions={TEST_EXEC_SEARCH_CONDITIONS}
             setConditions={handleChangeConditions}
             searchMethod={searchTestExec}
