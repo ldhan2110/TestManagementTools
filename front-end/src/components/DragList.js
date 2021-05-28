@@ -13,7 +13,9 @@ import {
   List,
   ListItem,
   Button,
+  IconButton
 } from '@material-ui/core';
+import { MinusCircle } from "react-feather";
 
 
 
@@ -47,6 +49,15 @@ const DragList = (props) => {
     parentCallback(tempArr);
   };
 
+  const removeStep = (prop) => {
+    var tempArr = listData.slice();
+    var id = prop.id;
+    var objIndex = tempArr.findIndex((obj => obj.id === id));
+    tempArr.splice(objIndex,1);
+    setListData(tempArr);
+    parentCallback(tempArr);
+  }
+
 
   return(
       <Paper style={{maxHeight: 500, overflow: 'auto'}}>
@@ -71,6 +82,7 @@ const DragList = (props) => {
                                <MenuItem value={"auto"}>Auto</MenuItem>
                               </Select>
                     </FormControl></Grid>
+                        <Grid><IconButton onClick={(event)=>{ removeStep({id: item.id}) }}><MinusCircle/></IconButton></Grid>
                       </Grid>
                     </ListItem>
                 ))}
