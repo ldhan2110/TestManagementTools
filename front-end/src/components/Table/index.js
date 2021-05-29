@@ -170,7 +170,7 @@ const EnhancedTable = (props) => {
                         if (headerList.headerCells[index] !== undefined && !headerList.headerCells[index].hidden){
                           switch(headerList.headerCells[index].type){
                             case 'text':
-                              return (<TableCell style={{overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 230, whiteSpace: 'nowrap'}} 
+                              return (<TableCell style={{overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 200, whiteSpace: 'nowrap'}} 
                               component="th" id={labelId} scope="row" key={index} align={headerList.headerCells[index].alignment}>
 
                                         {row[headerList.headerCells[index].id]}

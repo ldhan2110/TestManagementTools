@@ -24,7 +24,7 @@ import {
   Select,
   Checkbox
 } from '@material-ui/core';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
@@ -64,6 +64,10 @@ const NewTestPlanPage = (props) => {
       Testplanname: 'ss',
       description: 'ss',
     });
+    const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+    const [loading, setLoading] = useState(false);
+
+
     const handleClose = () =>{   
       setTestplanInfo({
         Testplanname: '', 
@@ -96,13 +100,17 @@ const NewTestPlanPage = (props) => {
         displayMsg({
           content: insTestplan.errMsg,
           type: 'error'
-        });
+        });        
+      setEnableCreateBtn(true);
+      setLoading(false);
         resetAddRedux();
       } else if (insTestplan.sucess == true) {
         displayMsg({
           content: "Create testplan successfully !",
           type: 'success'
         });
+      setEnableCreateBtn(true);
+      setLoading(false);
         resetAddRedux();
         getAllTestplanReq();
         handleClose();
@@ -130,10 +138,17 @@ const NewTestPlanPage = (props) => {
         });
     }
   
-    else if(TestplanInfo.Testplanname !== "" && TestplanInfo.description !== "")
-    addNewTestplanReq(TestplanInfo);
+    else if(TestplanInfo.Testplanname !== "" && TestplanInfo.description !== "") {        
+        setEnableCreateBtn(false);
+        setLoading(true);
+        addNewTestplanReq(TestplanInfo);
+    }
     //console.log(JSON.stringify(TestplanInfo));
   }
+
+  const handleCloseBackDrop = () => {
+    setOpen(false);
+  };
 
   const handleChange = (prop) => (event) => {
     setTestplanInfo({ ...TestplanInfo, [prop]: event.target.value });
@@ -269,13 +284,15 @@ const NewTestPlanPage = (props) => {
           helperText={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>
 
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon />} onClick={handleCreate}>
             Create
           </Button>
+          {loading && <CircularProgress size={30} style={{marginTop: 2, marginLeft:-140, marginRight:110}}/>}
+          
           <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleClose}>
             Back
-          </Button>
-        </div>       
+          </Button>   
+          </div>
         </form>
         </Grid>
       </Grid>
