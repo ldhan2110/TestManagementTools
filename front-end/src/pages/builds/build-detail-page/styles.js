@@ -1,3 +1,4 @@
+import { blue } from '@material-ui/core/colors';
 const styles = {
   appBar: {
     position: 'relative',
@@ -32,7 +33,16 @@ const styles = {
     display: "flex",
     flexFlow: "column wrap",
     //justifyContent: "flex-start"
-  }
+  },
+
+  buttonProgress: {
+    color: blue[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 };
 
 export default styles;

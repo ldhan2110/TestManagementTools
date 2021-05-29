@@ -140,11 +140,11 @@ const NewTestSuitePopup = (props) => {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
           <Button color="primary" onClick={handleCreate}>
             Create
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>

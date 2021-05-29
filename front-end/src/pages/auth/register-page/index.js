@@ -113,11 +113,10 @@ const RegisterPage = (props) => {
     if(values.email === "")
     setError({ ...values, email: "" });
     //console.log('email empty');
-    // if(values.email.includes('@') === false){
-    //   setError({ ...values, email: "" });
-    //   setValues({ ...values, email:"" });
-    // }
-
+    /*if(values.email.includes('@') !== "")
+      setError({ ...values, email: "" });
+      setValues({ ...values, email:"" });*/
+     
 
     if(values.fullname === "")
     setError({ ...values, fullname: "" });

@@ -179,11 +179,11 @@ const TestExecutionDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required value={testExecInfo.testexecutionname}/>
-          <TextField id="testplanName" label="Test Plan" variant="outlined"  fullWidth required value={testExecInfo.testplan.testplanname}/>
-          <TextField id="buildName" label="Build/Release" variant="outlined"  fullWidth required value={testExecInfo.build.buildname}/>
+          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required disabled={true} value={testExecInfo.testexecutionname}/>
+          <TextField id="testplanName" label="Test Plan" variant="outlined"  fullWidth required disabled={true} value={testExecInfo.testplan.testplanname}/>
+          <TextField id="buildName" label="Build/Release" variant="outlined"  fullWidth required disabled={true} value={testExecInfo.build.buildname}/>
 
-          <FormControl variant="outlined" className={classes.formControl} fullWidth>
+          <FormControl variant="outlined" className={classes.formControl} fullWidth required disabled={true}>
               <InputLabel id="assignTester">Assign tester</InputLabel>
                   <Select
                     labelId="assignTesters"
@@ -197,8 +197,27 @@ const TestExecutionDetailPage = (props) => {
                   </Select>
           </FormControl>
 
+          <div>
+             <FormControlLabel
+              classes= {{label: classes.titleContent}}
+              value="start"
+              control={<Checkbox color="primary" required disabled={true} checked={testExecInfo.is_public}/>}
+              label="Public"
+              labelPlacement="start"
+            />
+          </div>
+          <div>
+            <FormControlLabel
+              classes= {{label: classes.titleContent}}
+              value="start"
+              control={<Checkbox color="primary" required disabled={true} checked={testExecInfo.is_active}/>}
+              label="Active"
+              labelPlacement="start"
+            />
+          </div>
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required disabled={true} multiline rows={5} value={testExecInfo.description}/>                
 
-          <FormControl variant="outlined" className={classes.formControl} fullWidth>
+          <FormControl variant="outlined" className={classes.formControl} fullWidth >
               <InputLabel id="status">Status</InputLabel>
                   <Select
                     labelId="status"
@@ -212,26 +231,6 @@ const TestExecutionDetailPage = (props) => {
                         <MenuItem value={"Fail"}>Fail</MenuItem>
                   </Select>
           </FormControl>
-
-          <div>
-             <FormControlLabel
-              classes= {{label: classes.titleContent}}
-              value="start"
-              control={<Checkbox color="primary" checked={testExecInfo.is_public}/>}
-              label="Public"
-              labelPlacement="start"
-            />
-          </div>
-          <div>
-            <FormControlLabel
-              classes= {{label: classes.titleContent}}
-              value="start"
-              control={<Checkbox color="primary" checked={testExecInfo.is_active}/>}
-              label="Active"
-              labelPlacement="start"
-            />
-          </div>
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={5} value={testExecInfo.description}/>                
 
             <Grid container spacing={1}>
               <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Executed Test Cases</Typography></Grid> 

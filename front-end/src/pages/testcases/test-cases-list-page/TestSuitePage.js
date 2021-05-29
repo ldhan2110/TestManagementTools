@@ -201,7 +201,7 @@ const TestSuiteDetail = (props) => {
       <Grid container spacing={3} >
         <Grid item xs={12}>
               <Typography variant="h4" gutterBottom display="inline">
-                Test Suite Detail
+                Test Suite Detail - {testSuite.name}
               </Typography>
               <Divider/>
           </Grid>

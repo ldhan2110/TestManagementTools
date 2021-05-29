@@ -203,7 +203,8 @@ const DetailMileStonePage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Detail Milestone - {props.match.params.milestonetitle}
+            Milestone Detail - {milestoneInfo.milestonetitle}
+            {/*{props.match.params.milestonetitle}*/}
           </Typography>
 
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>

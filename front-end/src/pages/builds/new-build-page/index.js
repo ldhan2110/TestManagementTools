@@ -9,7 +9,7 @@ import DatePicker from '../../../components/DatePicker';
 import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ, RESET_ADD_NEW_BUILD} from '../../../redux/build-release/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import AddIcon from '@material-ui/icons/Add';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
@@ -73,6 +73,9 @@ const NewBuildPage = (props) => {
     testplan: ''
   });
 
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   useEffect(()=>{
     getAllTestplanReq(project);
   },[])
@@ -88,16 +91,22 @@ const NewBuildPage = (props) => {
   try {
     useEffect(()=>{
       if (insBuilds.sucess === false){
+        setLoading(false);
         displayMsg({
           content: insBuilds.errMsg,
           type: 'error'
         });
+        setEnableCreateBtn(true);
+        setLoading(false);
         resetAddRedux();
       } else if (insBuilds.sucess == true) {
+        setLoading(false);
         displayMsg({
           content: "Create build successfully !",
           type: 'success'
         });
+        setEnableCreateBtn(true);
+        setLoading(false);
         resetAddRedux();
         getAllBuildReq();
         handleClose();
@@ -147,8 +156,11 @@ const NewBuildPage = (props) => {
       });
     }
 
-    else if(buildInfo.buildname !== "" && buildInfo.description !== "")
-    addBuildReq(buildInfo);
+    else if(buildInfo.buildname !== "" && buildInfo.description !== ""){
+      setEnableCreateBtn(false);
+      setLoading(true);
+      addBuildReq(buildInfo);
+    }
   }
 
   const handleChange = (prop) => (event) => {
@@ -272,8 +284,9 @@ const NewBuildPage = (props) => {
 
                    
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" startIcon={<AddIcon/>} onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
           <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleClose}>
             Back

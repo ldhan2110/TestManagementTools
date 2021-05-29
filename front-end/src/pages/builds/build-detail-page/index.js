@@ -14,6 +14,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { red } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 import {
@@ -82,6 +83,11 @@ const BuildDetailPage = (props) => {
       testplan: props.history.location.state.testplanname.testplanname
     });
 
+    const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+    const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [loadingg, setLoadingg] = useState(false);
+
     useEffect(()=>{
       //if(props.history.location.state.testplanname !== undefined && props.history.location.state.testplanname !== null){ 
         //setBuildInfor({ ...buildInfor, testplan: props.history.location.state.testplanname.testplanname }); 
@@ -97,16 +103,22 @@ const BuildDetailPage = (props) => {
     try {
       useEffect(()=>{
         if (insBuilds.sucess === false){
+          setLoading(false);
           displayMsg({
             content: insBuilds.errMsg,
             type: 'error'
           });
+          setEnableCreateBtn(true);
+          setLoading(false);
           resetUpdateRedux();
         } else if (insBuilds.sucess == true) {
+          setLoading(false);
           displayMsg({
             content: "Update build successfully !",
             type: 'success'
           });
+          setEnableCreateBtn(true);
+          setLoading(false);
           resetUpdateRedux();
           history.goBack();
           }
@@ -117,16 +129,22 @@ const BuildDetailPage = (props) => {
 
   useEffect(()=>{
     if (insBuildsDelete.sucess === false){
-      displayMsg({
+      setLoadingg(false);
+      /*displayMsg({
         content: insBuildsDelete.errMsg,
         type: 'error'
-      });
+      }); */
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
       resetDeleteRedux();
     } else if (insBuildsDelete.sucess == true) {
+      setLoadingg(false);
       displayMsg({
         content: "Delete build successfully !",
         type: 'success'
       });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
       resetDeleteRedux();
       history.goBack();
       }
@@ -155,14 +173,17 @@ const BuildDetailPage = (props) => {
             });
         }
     
-        else if(buildInfor.buildname !== "" && buildInfor.description !== "")
-        updateBuildReq(buildInfor);
-      console.log('buildInfor: '+JSON.stringify(buildInfor));     
+        else if(buildInfor.buildname !== "" && buildInfor.description !== ""){
+          setEnableCreateBtn(false);
+          setLoading(true);
+          updateBuildReq(buildInfor);
+        }
+      //console.log('buildInfor: '+JSON.stringify(buildInfor));     
       } catch (error) {
-        displayMsg({
+      displayMsg({
           content: 'Build error',
           type: 'error'
-        });
+        }); 
       }
       
     };
@@ -192,9 +213,11 @@ const BuildDetailPage = (props) => {
   };
 
   const handleDelete = () =>{
+    setEnableDeleteBtn(false);
+    setLoadingg(true);
     deleteBuildReq(buildbyid);
     setOpen(false);
-    console.log('buildid and projectid: '+buildbyid);
+    //console.log('buildid and projectid: '+buildbyid);
   }
 
   const handleOpen = () => {
@@ -220,7 +243,7 @@ const BuildDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Build/Release - {props.history.location.state.buildname}
+            Build Detail - {props.history.location.state.buildname}
           </Typography>
 
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
@@ -235,8 +258,9 @@ const BuildDetailPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-          <Button variant="contained" startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+          <Button variant="contained" disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
             Delete Build
+            {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
           </div>
           <Grid item>
@@ -321,8 +345,9 @@ const BuildDetailPage = (props) => {
 
 
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={handleUpdate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<SaveIcon />} onClick={handleUpdate}>
             Update
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
           <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={handleBack}>
             Back

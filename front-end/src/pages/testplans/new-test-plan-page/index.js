@@ -8,6 +8,7 @@ import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ, RESET_ADD_NEW_TESTPLAN} from
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Slide from '@material-ui/core/Slide';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
@@ -64,6 +65,12 @@ const NewTestPlanPage = (props) => {
       Testplanname: 'ss',
       description: 'ss',
     });
+
+    const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+    const [loading, setLoading] = useState(false);
+  
+
+  
     const handleClose = () =>{   
       setTestplanInfo({
         Testplanname: '', 
@@ -93,16 +100,26 @@ const NewTestPlanPage = (props) => {
   try {
     useEffect(()=>{
       if (insTestplan.sucess === false){
+        setLoading(false);
         displayMsg({
           content: insTestplan.errMsg,
           type: 'error'
         });
+        setEnableCreateBtn(true);
+        setLoading(false);
+         //setLoading(false);
+        // Tat thanh loading, tat disable button
         resetAddRedux();
       } else if (insTestplan.sucess == true) {
+        setLoading(false);
         displayMsg({
           content: "Create testplan successfully !",
           type: 'success'
         });
+        setEnableCreateBtn(true);
+        setLoading(false);
+        //setLoading(false);
+        // Tat thanh loading, tat disable button
         resetAddRedux();
         getAllTestplanReq();
         handleClose();
@@ -114,6 +131,12 @@ const NewTestPlanPage = (props) => {
 
   const handleCreate = () => {
     setCheckError(true);
+    // Diable button , them thanh loading 
+    //setDisableButton(false);
+    //if(disableButton === false){
+        // disableButton 
+        // them thanh loading
+        // check dieu kien
 
     if(TestplanInfo.description === "")
     setError({ ...TestplanInfo, description: "" });
@@ -130,8 +153,11 @@ const NewTestPlanPage = (props) => {
         });
     }
   
-    else if(TestplanInfo.Testplanname !== "" && TestplanInfo.description !== "")
-    addNewTestplanReq(TestplanInfo);
+    else if(TestplanInfo.Testplanname !== "" && TestplanInfo.description !== ""){
+      setEnableCreateBtn(false);
+        setLoading(true);
+        addNewTestplanReq(TestplanInfo);
+    }
     //console.log(JSON.stringify(TestplanInfo));
   }
 
@@ -268,10 +294,12 @@ const NewTestPlanPage = (props) => {
           error={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? true : false}
           helperText={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>
 
+          
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon />} onClick={handleCreate}>
             Create
-          </Button>
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+          </Button> 
           <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleClose}>
             Back
           </Button>

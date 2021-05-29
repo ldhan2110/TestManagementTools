@@ -61,6 +61,7 @@ const NewTestExecutionPage = (props) => {
     const [listBuild, setListBuild] = useState([]);
     const [checkError, setCheckError] = useState(false);
     const [testExecInfo, setTestExecInfo] = useState({
+        //existexecution: 'abcd',
         testexecutionname: '',
         description: '',
         testplanname: '',
@@ -194,6 +195,7 @@ const NewTestExecutionPage = (props) => {
 
     else if(testExecInfo.testexecutionname !== "" && testExecInfo.description !== "")
       addNewTestexecReq(testExecInfo);
+      //console.log(testExecInfo.existexecution);
     }
     
     return (
