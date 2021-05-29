@@ -10,9 +10,10 @@ import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
 import Box from '@material-ui/core/Box';
 import DeleteIcon from '@material-ui/icons/Delete';
-import SaveIcon from '@material-ui/icons/Save';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import UpdateIcon from '@material-ui/icons/Update';
+import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
+
 
 import {
   Grid,
@@ -266,11 +267,11 @@ const TestPlanDetailPage = (props) => {
           
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" startIcon={<SaveIcon/>} onClick={handleUpdate}>
-            Save
+          <Button variant="contained" color="primary" startIcon={<UpdateIcon/>} onClick={handleUpdate}>
+            Update
           </Button>
-          <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleBack}>
-            Back
+          <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleBack}>
+            Cancel
           </Button>
           
         </div>

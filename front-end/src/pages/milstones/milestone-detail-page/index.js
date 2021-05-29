@@ -12,7 +12,11 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useHistory } from "react-router";
-
+import DeleteIcon from '@material-ui/icons/Delete';
+import UpdateIcon from '@material-ui/icons/Update';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { red } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
   Grid,
@@ -72,7 +76,10 @@ const DetailMileStonePage = (props) => {
   });
 
   const history = useHistory();
-
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loadingg, setLoadingg] = useState(false);
   
 
   const [milestonebyid, setMilestonebyid] = useState({
@@ -106,16 +113,22 @@ const DetailMileStonePage = (props) => {
 
   useEffect(()=>{
     if (insMilestones.sucess === false){
+      setLoading(false);
       displayMsg({
         content: insMilestones.errMsg,
         type: 'error'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetUpdateRedux();
     } else if (insMilestones.sucess == true) {
+      setLoading(false);
       displayMsg({
         content: "Update milestone successfully !",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetUpdateRedux();
       history.goBack();
     }
@@ -123,22 +136,30 @@ const DetailMileStonePage = (props) => {
 
   useEffect(()=>{
     if (insMilestonesDelete.sucess === false){
+      setLoadingg(false);
       displayMsg({
         content: insMilestonesDelete.errMsg,
         type: 'error'
       });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
       resetDeleteRedux();
     } else if (insMilestonesDelete.sucess == true) {
+      setLoadingg(false);
       displayMsg({
         content: "Delete milestone successfully !",
         type: 'success'
       });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
       resetDeleteRedux();
       history.goBack();
     }
   },[insMilestonesDelete.sucess]);
 
   const handleDelete = async () => {
+    setEnableDeleteBtn(false);
+    setLoadingg(true);
     await deleteMilestoneReq(milestonebyid);
     setOpen(false);
   };
@@ -161,8 +182,11 @@ const DetailMileStonePage = (props) => {
         });
     }
 
-    else if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== "")
-    updateMilestoneReq(milestoneInfo);
+    else if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== ""){
+      setEnableCreateBtn(false);
+      setLoading(true);
+      updateMilestoneReq(milestoneInfo);
+    }
     //console.log(JSON.stringify(milestoneInfo, null, '  '));    
   };
 
@@ -171,6 +195,11 @@ const DetailMileStonePage = (props) => {
 
     if(checkError == true)
     setError({ ...error, [prop]: event.target.value });
+  };
+
+  const handleBack = () => {    
+    history.goBack();
+    //setOpen(false);
   };
 
   const handleDateStart = (date) => {
@@ -207,6 +236,24 @@ const DetailMileStonePage = (props) => {
             {/*{props.match.params.milestonetitle}*/}
           </Typography>
 
+          </Grid>
+        <Grid item>
+        <div>
+          <Button variant="contained" disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+            Delete Milestone
+            {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
+          </Button>
+          </div>
+          <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this milestone?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+            </Grid>
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
             <Link component={NavLink} exact to="/">
               Dashboard
@@ -263,22 +310,13 @@ const DetailMileStonePage = (props) => {
           </div>                  
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleUpdate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
             Update
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
-          <Button variant="contained" onClick={handleOpen}>
-            Delete
+          <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleBack}>
+            Cancel
           </Button>
-          <Grid item>
-                <Dialog open={open} >
-                  <DialogTitle>Confirm</DialogTitle>
-                  <DialogContent>Are you sure want to delete this milestone?</DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleDelete} color="primary">Yes</Button>
-                    <Button onClick={handleClose} color="primary">No</Button>
-                  </DialogActions>
-                </Dialog>
-            </Grid>
         </div>
         </form>
         </Grid>

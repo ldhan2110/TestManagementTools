@@ -11,7 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
+import AddIcon from '@material-ui/icons/Add';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 import {
   Grid,
@@ -43,6 +45,8 @@ const NewMileStonePage = (props) => {
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
   const [checkError, setCheckError] = useState(false);
   const history = useHistory();
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [milestoneInfo, setMilestoneInfo] = useState({
     milestonetitle: '',
     projectid: project,
@@ -55,6 +59,7 @@ const NewMileStonePage = (props) => {
     milestonetitle: 'ss',
     description: 'ss',
   });
+
 
   useEffect(()=>{
       setOpenPopup(isOpen);
@@ -70,16 +75,23 @@ const NewMileStonePage = (props) => {
 
   useEffect(()=>{
     if (insMilestones.sucess === false){
+      setLoading(false);
       displayMsg({
-        content: insMilestones.errMsg,
+        content: "Milestone name already exists !",
+        //content: insMilestones.errMsg,
         type: 'error'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetAddRedux();
     } else if (insMilestones.sucess == true) {
+      setLoading(false);
       displayMsg({
         content: "Create milestone successfully !",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetAddRedux();
       getAllMilestoneReq();
       handleClose();
@@ -116,8 +128,11 @@ const NewMileStonePage = (props) => {
             });
     }
 
-    else if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== "")
-    addMilestoneReq(milestoneInfo);
+    else if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== ""){
+      setEnableCreateBtn(false);
+      setLoading(true);
+      addMilestoneReq(milestoneInfo);
+    }
   }
 
   const handleChange = (prop) => (event) => {
@@ -205,11 +220,12 @@ const NewMileStonePage = (props) => {
           </div>                  
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
-          <Button variant="contained" onClick={handleClose}>
-            Back
+          <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose}>
+            Cancel
           </Button>
         </div>
         </form>

@@ -12,6 +12,8 @@ import {
 } from '@material-ui/core'
 import {GET_ALL_TESTCASE_REQ, ADD_TEST_SUITE_REQ, RESET_ADD_TEST_SUITE} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import AddIcon from '@material-ui/icons/Add';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -140,10 +142,10 @@ const NewTestSuitePopup = (props) => {
         </DialogContent>
 
         <DialogActions>
-          <Button color="primary" onClick={handleCreate}>
+          <Button variant="contained" color="primary"  startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose} >
             Cancel
           </Button>
         </DialogActions>

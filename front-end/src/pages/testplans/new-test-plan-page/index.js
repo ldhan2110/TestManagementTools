@@ -25,11 +25,11 @@ import {
   Select,
   Checkbox
 } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 
 
@@ -304,8 +304,8 @@ const NewTestPlanPage = (props) => {
             Create
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button> 
-          <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleClose}>
-            Back
+          <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose}>
+            Cancel
           </Button>   
           </div>
         </form>

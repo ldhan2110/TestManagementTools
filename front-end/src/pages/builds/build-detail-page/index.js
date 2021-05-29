@@ -11,8 +11,8 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 
 import DeleteIcon from '@material-ui/icons/Delete';
-import SaveIcon from '@material-ui/icons/Save';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import UpdateIcon from '@material-ui/icons/Update';
+import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -105,7 +105,7 @@ const BuildDetailPage = (props) => {
         if (insBuilds.sucess === false){
           setLoading(false);
           displayMsg({
-            content: insBuilds.errMsg,
+            content: "Build name already exists in this test plan !" ,
             type: 'error'
           });
           setEnableCreateBtn(true);
@@ -345,12 +345,12 @@ const BuildDetailPage = (props) => {
 
 
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<SaveIcon />} onClick={handleUpdate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon />} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
-          <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={handleBack}>
-            Back
+          <Button variant="contained" startIcon={<CancelIcon />} onClick={handleBack}>
+            Cancel
           </Button>
 
           

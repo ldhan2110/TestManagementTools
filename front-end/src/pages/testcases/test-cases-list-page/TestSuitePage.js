@@ -9,6 +9,10 @@ import {TEST_SUITE_DETAIL_HEADERS} from '../../../components/Table/DefineHeader'
 import { connect } from 'react-redux';
 import {UPDATE_TESTSUITE_REQ, DELETE_TESTSUITE_REQ, RESET_UPDATE_TESTSUITE, RESET_DELETE_TESTSUITE, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import DeleteIcon from '@material-ui/icons/Delete';
+import UpdateIcon from '@material-ui/icons/Update';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { red } from '@material-ui/core/colors';
 import {
   Grid,
   Typography,
@@ -282,10 +286,10 @@ const TestSuiteDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end'>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth onClick={handleSave}>Save</Button>
+              <Button variant="contained" color="primary" startIcon={<UpdateIcon />} fullWidth onClick={handleSave}>Update</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth onClick={handleOpen}>Delete</Button>
+              <Button variant="contained" startIcon={<DeleteIcon />} fullWidth  style={{ color: red[500] }} onClick={handleOpen}>Delete</Button>
             </Grid>
             <Grid item>
                 <Dialog open={open} >

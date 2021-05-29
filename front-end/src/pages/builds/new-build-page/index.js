@@ -11,7 +11,7 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AddIcon from '@material-ui/icons/Add';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 import {
   Grid,
@@ -93,7 +93,7 @@ const NewBuildPage = (props) => {
       if (insBuilds.sucess === false){
         setLoading(false);
         displayMsg({
-          content: insBuilds.errMsg,
+          content: "Build name already exists in this test plan !",
           type: 'error'
         });
         setEnableCreateBtn(true);
@@ -288,8 +288,8 @@ const NewBuildPage = (props) => {
             Create
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
-          <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleClose}>
-            Back
+          <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose}>
+            Cancel
           </Button>
         </div>
         </form>

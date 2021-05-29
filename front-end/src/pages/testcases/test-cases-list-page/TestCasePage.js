@@ -7,6 +7,10 @@ import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ, RESET_UPDATE_TESTCASE, RESET_DELETE_TESTCASE, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
+import DeleteIcon from '@material-ui/icons/Delete';
+import UpdateIcon from '@material-ui/icons/Update';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { red } from '@material-ui/core/colors';
 import {
   Grid,
   Typography,
@@ -259,10 +263,10 @@ const TestCaseDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth onClick={handleUpdate}>Save</Button>
+              <Button variant="contained" color="primary" startIcon={<UpdateIcon/>}  fullWidth onClick={handleUpdate}>Update</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth onClick={handleOpen}>Delete</Button>
+              <Button variant="contained"  startIcon={<DeleteIcon />}  fullWidth  style={{ color: red[500] }} onClick={handleOpen}>Delete</Button>
             </Grid>
             <Grid item>
                 <Dialog open={open} >

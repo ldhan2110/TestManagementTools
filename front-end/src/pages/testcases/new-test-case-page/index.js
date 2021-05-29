@@ -6,6 +6,8 @@ import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
 import {ADD_TEST_CASE_REQ, GET_ALL_TESTCASE_REQ, RESET_ADD_TEST_CASE} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import AddIcon from '@material-ui/icons/Add';
+import CancelIcon from '@material-ui/icons/Cancel';
 import {
   Grid,
   Typography,
@@ -211,10 +213,10 @@ const TestCaseDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
-              <Button variant="contained" color="primary" fullWidth onClick={handleSave}>Save</Button>
+              <Button variant="contained" color="primary" startIcon={<AddIcon/>}onClick={handleSave}>Create</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained"  fullWidth onClick={handleCancel}>Cancel</Button>
+              <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleCancel}>Cancel</Button>
             </Grid>
           </Grid>
         </Grid>
