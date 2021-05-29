@@ -17,6 +17,7 @@ import {
   TableCell,
   TableContainer,
   TablePagination,
+  Typography,
   TableRow} from "@material-ui/core";
 
 import { green, orange, red } from "@material-ui/core/colors";
@@ -169,8 +170,11 @@ const EnhancedTable = (props) => {
                         if (headerList.headerCells[index] !== undefined && !headerList.headerCells[index].hidden){
                           switch(headerList.headerCells[index].type){
                             case 'text':
-                              return (<TableCell component="th" id={labelId} scope="row" key={index} align={headerList.headerCells[index].alignment}>
-                                      {row[headerList.headerCells[index].id]}
+                              return (<TableCell style={{overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 230, whiteSpace: 'nowrap'}} 
+                              component="th" id={labelId} scope="row" key={index} align={headerList.headerCells[index].alignment}>
+
+                                        {row[headerList.headerCells[index].id]}
+
                                   </TableCell>)
 
                             case 'label':
