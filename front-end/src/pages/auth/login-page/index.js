@@ -17,6 +17,10 @@ import Button from '@material-ui/core/Button';
 import useStyles from './styles';
 import MessagePopup from '../../../components/MessageBox';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import {
+  Typography
+} from "@material-ui/core";
+import LockIcon from '@material-ui/icons/Lock';
 
 //IMPORT REGISTER
 import RegisterPage from '../register-page/index';
@@ -202,15 +206,20 @@ const LoginPage = (props) => {
         label="Keep me sign in"
       />
         <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleClickLogin}>
+          <Button variant="contained" color="primary" startIcon={<LockIcon />} onClick={handleClickLogin}>
             Sign In
-          </Button>
+          </Button>          
+        </div>
+        <div className = {classes.btnGroup}>
+          <Typography component="h1" variant="subtitle1" gutterBottom>
+              Don't have an account?
+          </Typography>
           <Button variant="contained" onClick={handleOpenRegister}>
-            Register
+            Register now
           </Button>
         </div>
         <span>
-          <a href="auth/forgot-password">Forgot Password</a>
+          <a href="auth/forgot-password">Forgot your password?</a>
         </span>
           </form>
         </Grid>

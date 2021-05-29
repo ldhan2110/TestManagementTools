@@ -227,7 +227,7 @@ const RegisterPage = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            Close
           </Button>
           <Button onClick={handleRegister} color="primary">
             Register
