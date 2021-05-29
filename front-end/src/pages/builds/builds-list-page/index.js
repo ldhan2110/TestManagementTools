@@ -210,7 +210,6 @@ const BuildListPage = (props) => {
           <EnhancedTable
             rows={array}
             headerList = {BUILDS_HEADERS}
-            viewAction={navigateToDetailPage}
             onClick={navigateToDetailPage}
             conditions={BUILD_SEARCH_CONDITIONS}
             setConditions={handleChangeConditions}

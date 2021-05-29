@@ -12,7 +12,8 @@ export default makeStyles((theme) => ({
     },
 
     form:{
-        width: "70%"
+        width: "70%",
+        marginTop: 10
     },
 
     btnGroup: {

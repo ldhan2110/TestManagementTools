@@ -155,7 +155,6 @@ const TestPlanListPage = (props) => {
           <EnhancedTable
             rows={array}
             headerList = {TEST_PLAN_HEADERS}
-            viewAction={navigateToDetailPage}
             conditions={TEST_PLANS_SEARCH}
             setConditions={handleChangeConditions}
             searchMethod={searchTestPlan}

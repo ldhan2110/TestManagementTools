@@ -25,7 +25,7 @@ import {
   Select,
   Checkbox
 } from '@material-ui/core';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
@@ -160,6 +160,10 @@ const NewTestPlanPage = (props) => {
     }
     //console.log(JSON.stringify(TestplanInfo));
   }
+
+  const handleCloseBackDrop = () => {
+    setOpen(false);
+  };
 
   const handleChange = (prop) => (event) => {
     setTestplanInfo({ ...TestplanInfo, [prop]: event.target.value });
@@ -302,8 +306,8 @@ const NewTestPlanPage = (props) => {
           </Button> 
           <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleClose}>
             Back
-          </Button>
-        </div>       
+          </Button>   
+          </div>
         </form>
         </Grid>
       </Grid>

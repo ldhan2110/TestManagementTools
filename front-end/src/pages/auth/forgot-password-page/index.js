@@ -35,7 +35,7 @@ const ForgotPassword = (props) => {
     const classes = useStyles();
     const [values, setValues] = useState({
         email: "",
-        /*error: "", */
+        error: "", 
     });
 
     const [checkError, setCheckError] = useState(false);
@@ -51,22 +51,29 @@ const ForgotPassword = (props) => {
     setError({ ...error, [prop]: event.target.value });
       };
 
-    const handleClickConfirm = (event) => {      
-        //if(values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
-            //setValues({email: values.email, error: null});
-           
+    const handleClickConfirm = (event) => {     
+        if(values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
+            setValues({email: values.email, error: null});           
             setCheckError(true);
+            sendMailReq(values); 
+            //console.log(values);
+        }
 
-    if(values.email === "")
-    setError({ ...values, email: "" });
+        /* if(values.email === "") {
+          setError({ ...values, email: "" });
             console.log('email: '+ values.email);
 
             if(values.email !== "" )
-            sendMailReq(values);
-        //}
-        //else{
-       //     setValues({email: values.email, error: "Invalid email!"}); 
-       // }
+            sendMailReq(values); 
+         } */
+        else if(values.email === ""){
+          setValues({email: values.email, error: "* Enter your email"}); 
+          //console.log(values);
+        }
+        else{
+          setValues({email: values.email, error: "Please enter a valid email!"}); 
+          //console.log(values);
+        }
     };
 
     const history = useHistory();
@@ -101,13 +108,16 @@ const ForgotPassword = (props) => {
             <Typography component="h1" variant="h1" gutterBottom className = {classes.title}>
                 Forgot Password
             </Typography>
+            <Typography component="h1" variant="body2" gutterBottom>
+            If you have forgotten your password, you can use this form to reset your password. You will receive an email with instructions.
+            </Typography>
 
             <FormControl  className = {classes.form} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-email"
-                    error={error.email == 0 && values.email == 0 ? true : false}
-                    /*error={values.error ? true : false} */
+                    // error={error.email == 0 && values.email == 0 ? true : false}
+                    error={values.error ? true : false}
                     value={values.email}
                     onChange={handleChange('email')}
                     labelWidth={40}
@@ -115,15 +125,15 @@ const ForgotPassword = (props) => {
                     required={true}
                     type="email"
                 />
-                {error.email.trim().length == 0 && values.email.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>}
-               {/* {values.error == 0 && <FormHelperText id="component-error-text" error={true}>{values.error}</FormHelperText>} */}
+                {/* {error.email.trim().length == 0 && values.email.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>} */}
+               {values.error !== 0 && <FormHelperText id="component-error-text" error={true}>{values.error}</FormHelperText>}
             </FormControl>
             <div className = {classes.btnGroup}>
                 <Button variant="contained" color="primary" onClick={handleClickConfirm}>
-                    Confirm
+                    Reset
                 </Button>
                 <Button variant="contained" onClick={handleClose}>
-                    Cancel
+                    Back
                 </Button>
             </div>
         </div>
