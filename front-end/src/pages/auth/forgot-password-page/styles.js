@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-
+import { blue } from '@material-ui/core/colors';
 export default makeStyles((theme) => ({
     title: {
         opacity: '0.65'
@@ -24,4 +24,13 @@ export default makeStyles((theme) => ({
           marginTop: theme.spacing(2)
         }
     },
+
+    buttonProgress: {
+        color: blue[500],
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+      },
 }));

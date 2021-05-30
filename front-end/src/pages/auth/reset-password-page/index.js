@@ -13,6 +13,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import {CONFIRM_RESET_PASSWORD_REQ, RESET_CONFIRM_RESET_PASSWORD} from '../../../redux/account/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ReplayIcon from '@material-ui/icons/Replay';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 import {
     FormControl,
@@ -46,7 +49,9 @@ const ResetPassword = (props) => {
     const [open,setOpen] = useState(isOpen);
 
     const history = useHistory();
-    
+    const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+    const [loading, setLoading] = useState(false);
+
     const [isShowPassword,setShowPassword] = useState(false);
     const classes = useStyles();
     const [values, setValues] = React.useState({
@@ -68,35 +73,45 @@ const ResetPassword = (props) => {
 
     useEffect(()=>{
       if (isConfirmPassword.sucess === false){
+        setLoading(false);
         displayMsg({
           content: isConfirmPassword.errMsg,
           type: 'error'
         });
+        setEnableCreateBtn(true);
+        setLoading(false);
         resetAddRedux();
           } 
         
         else if (isConfirmPassword.sucess == true && values.password.trim().length == 0  && values.confirmPassword.trim().length == 0) {
+          setLoading(false);
           displayMsg({
             content: "Password should not contain spaces !",
             type: 'error'
           });
+          setEnableCreateBtn(true);
+          setLoading(false);
           resetAddRedux();
           } 
           
         else if (isConfirmPassword.sucess == true) {
+        setLoading(false);
         displayMsg({
           content: "Reset password successfully !",
           type: 'success'
         });
+        setEnableCreateBtn(true);
+        setLoading(false);
         //history.push('/login');
         resetAddRedux();
+        history.replace('/login');
       }
     },[isConfirmPassword]); 
     
   
       //HANDLE CLOSE POPUP
     const handleClose = () => { 
-        setOpenState(false);
+      history.replace('/login');
     };
     
     const handleChange = (prop) => (event) => {
@@ -136,8 +151,13 @@ const ResetPassword = (props) => {
           setError({ ...values, password: "" });
     }*/
         
-        if(values.password !== "" && values.confirmPassword !== "")
-        confirmResetPasswordReq(values);
+        if(values.password !== "" && values.confirmPassword !== "" 
+        && values.password.match(/^.{8,16}$/)
+        && values.confirmPassword.match(/^.{8,16}$/)){
+          setEnableCreateBtn(false);
+          setLoading(true);
+          confirmResetPasswordReq(values);
+        }
         console.log('new password: '+ JSON.stringify(values, null, ' '));
        };
     
@@ -158,7 +178,6 @@ const ResetPassword = (props) => {
                 <OutlinedInput
                     id="new password"
                     error={error.password == 0 && values.password == 0 ? true : false}
-                    /*error={values.error ? true : false} */
                     value={values.newpassword}
                     onChange={handleChange('password')}
                     labelWidth={100}
@@ -180,7 +199,7 @@ const ResetPassword = (props) => {
                     } 
                 />
                 {error.password.trim().length == 0 && values.password.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
-                
+               {/* {!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>} */}
                {/*} <OutlinedInput
                     id="new password"
                     error
@@ -215,6 +234,8 @@ const ResetPassword = (props) => {
                 <OutlinedInput
                     id="confirm new password"
                     error={error.confirmPassword == 0 && values.confirmPassword == 0 ? true : false}
+                   // error={!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) ? true : false}
+                    
                     /*error={values.error ? true : false} */
                     value={values.confirmPassword}
                     onChange={handleChange('confirmPassword')}
@@ -236,8 +257,8 @@ const ResetPassword = (props) => {
                       </InputAdornment>
                     } 
                 />
-                {error.confirmPassword.trim().length == 0 && values.confirmPassword.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required</FormHelperText>}
-                
+                {error.confirmPassword.trim().length == 0 && values.confirmPassword.trim().length == 0  && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required</FormHelperText>} 
+                {/* {!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required at least 8 characters (8-16)</FormHelperText>} */}
                {/*} <OutlinedInput
                     id="confirm new password"
                     error
@@ -268,17 +289,17 @@ const ResetPassword = (props) => {
 
             
             <div className = {classes.btnGroup}>
-                <Button variant="contained" color="primary" onClick={handleClickResetPassword}>
+                <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<ReplayIcon/>} onClick={handleClickResetPassword}>
                     Reset Password
+                    {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </Button>  
-                <Button variant="contained" color="gray" > 
+                <Button variant="contained" startIcon={<CancelIcon/>} color="gray" onClick={handleClose} > 
                     Cancel
                 </Button>  
             </div>
-            <span>
+            {/*<span>
           <a href="/login">Back to login</a>
-        </span>
-
+        </span> */}
         </form>
         
 

@@ -17,6 +17,9 @@ import Button from '@material-ui/core/Button';
 import useStyles from './styles';
 import MessagePopup from '../../../components/MessageBox';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { blue } from '@material-ui/core/colors';
 import {
   Typography
 } from "@material-ui/core";
@@ -58,7 +61,8 @@ const LoginPage = (props) => {
       showPassword: false,
     });
     const [checkError, setCheckError] = useState(false);
-
+    const [loading, setLoading] = useState(false);
+    const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [error, setError] = useState({
         
     });
@@ -70,13 +74,20 @@ const LoginPage = (props) => {
      useEffect(()=>{
       if(account.error === true)// && account.errorMsg.errMsg == "Password is not valid")
       {
+        setLoading(false);
         setError({error: "Wrong username or password"});
+        setEnableCreateBtn(true);
+        setLoading(false);
       }
+      
       else if (account.success == true) {
+        setLoading(false);
         displayMsg({
           content: "Logged in successfully!",
           type: 'success'
         });
+        setEnableCreateBtn(true);
+        setLoading(false);
       }
     },[account]);
 
@@ -135,7 +146,8 @@ const LoginPage = (props) => {
       }      
       else {
       setError({username: null, password: null, error: null});
-
+      setEnableCreateBtn(false);
+      setLoading(true);
       loginReq({username: values.username, password: values.password}); 
       }     
     };
@@ -206,15 +218,16 @@ const LoginPage = (props) => {
         label="Keep me sign in"
       />
         <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" startIcon={<LockIcon />} onClick={handleClickLogin}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<LockIcon />} onClick={handleClickLogin}>
             Sign In
+            {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}
           </Button>          
         </div>
         <div className = {classes.btnGroup}>
           <Typography component="h1" variant="subtitle1" gutterBottom>
               Don't have an account?
           </Typography>
-          <Button variant="contained" onClick={handleOpenRegister}>
+          <Button variant="contained" startIcon={<VpnKeyIcon/>} onClick={handleOpenRegister}>
             Register now
           </Button>
         </div>

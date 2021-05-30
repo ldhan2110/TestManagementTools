@@ -18,6 +18,10 @@ import useStyles from './styles';
 import {REGISTER_REQ, RESET_REGISTER} from '../../../redux/account/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { blue } from '@material-ui/core/colors';
+import ReplayIcon from '@material-ui/icons/Replay';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const  mapStateToProps = (state) => {
   return { account: state.account, isRegister: state.account.isRegister, errorMsg: state.account.errorMsg }
@@ -43,7 +47,8 @@ const RegisterPage = (props) => {
     
     const classes = useStyles();
     const [checkError, setCheckError] = useState(false);
-
+    const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState({
         fullname: 'ss',
         username: 'ss',
@@ -61,17 +66,23 @@ const RegisterPage = (props) => {
 
     useEffect(()=>{
       if (isRegister === false){
+        setLoading(false);
         displayMsg({
-          content: "Register failed, please try again !",
+          content: "This email already exists !",
           type: 'error'
         });
+        setEnableCreateBtn(true);
+        setLoading(false);
         console.log('register error!' + JSON.stringify(errorMsg));
         resetAddRedux();
       } else if (isRegister == true) {
+        setLoading(false);
         displayMsg({
           content: "Register successfully!",
           type: 'success'
         });
+        setEnableCreateBtn(true);
+        setLoading(false);
         console.log('register sucessfully!');
         resetAddRedux();
         handleClose();
@@ -116,12 +127,11 @@ const RegisterPage = (props) => {
     /*if(values.email.includes('@') !== "")
       setError({ ...values, email: "" });
       setValues({ ...values, email:"" });*/
-     
+
 
     if(values.fullname === "")
     setError({ ...values, fullname: "" });
     //console.log('fullname empty');
-
     if(values.username === "")
     setError({ ...values, username: "" });
 
@@ -139,8 +149,13 @@ const RegisterPage = (props) => {
     //     });
     // }
 
-    if(values.email !== "" && values.fullname !== "" && values.username !== "" && values.password !== "")
-    registerReq(values);
+    if(values.fullname !== "" && values.username !== "" 
+    && values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) 
+    && values.password.match(/^.{8,16}$/)){ //Password tu 8-32 ky tu, bao gom 1 Uppercase, 1 Lowercase, va 1 number /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/
+      setEnableCreateBtn(false);
+      setLoading(true);
+      registerReq(values);
+    }
   }
 
   //RENDER
@@ -188,6 +203,7 @@ const RegisterPage = (props) => {
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}
             error={error.password.trim().length == 0 && values.password.trim().length == 0 ? true : false}
+            error={!error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) ? true : false}
             onChange={handleChange('password')}
             required={true}
             endAdornment={
@@ -204,6 +220,8 @@ const RegisterPage = (props) => {
             }
             labelWidth={60}
           />
+          
+          {!error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password is required 8-16</FormHelperText>} 
           {error.password.trim().length == 0 && values.password.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
         </FormControl>
 
@@ -215,11 +233,13 @@ const RegisterPage = (props) => {
             value={values.amount}
             type="email"
             error={error.email.trim().length == 0 && values.email.trim().length == 0 ? true : false}
+            error={!error.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && !values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)  ?  true : false}
             onChange={handleChange('email')}
-            labelWidth={60}
+            labelWidth={35}
             required={true}   
           />
-          {error.email.trim().length == 0 && values.email.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>}
+          {!error.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) &&!values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && <FormHelperText id="component-error-text" error={true}>Invalid email (example: vuilongdeokhautrang@gmail.com)</FormHelperText>}
+          {error.email.trim().length == 0 && values.email.trim().length == 0 &&  <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>} 
         </FormControl>
 
 
@@ -228,8 +248,9 @@ const RegisterPage = (props) => {
           <Button onClick={handleClose} color="primary">
             Close
           </Button>
-          <Button onClick={handleRegister} color="primary">
+          <Button onClick={handleRegister} disabled={enableCreateBtn == true ? false : true } color="primary">
             Register
+            {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}
           </Button>
         </DialogActions>
       </Dialog>

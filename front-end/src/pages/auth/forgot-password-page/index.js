@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {SEND_MAIL_RESET_PASSWORD_REQ, RESET_SEND_MAIL_RESET_PASSWORD} from '../../../redux/account/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ReplayIcon from '@material-ui/icons/Replay';
+import CancelIcon from '@material-ui/icons/Cancel';
 import {
     FormControl,
     InputLabel,
@@ -43,6 +46,8 @@ const ForgotPassword = (props) => {
       email: 'ss',
   });
 
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -53,9 +58,11 @@ const ForgotPassword = (props) => {
 
     const handleClickConfirm = (event) => {     
         if(values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
-            setValues({email: values.email, error: null});           
-            setCheckError(true);
-            sendMailReq(values); 
+          setEnableCreateBtn(false);
+          setLoading(true);
+          setValues({email: values.email, error: null});           
+          setCheckError(true);
+          sendMailReq(values); 
             //console.log(values);
         }
 
@@ -84,17 +91,23 @@ const ForgotPassword = (props) => {
 
     useEffect(()=>{
         if (isSendMail.sucess === false){
+          setLoading(false);
           displayMsg({
-            content: isSendMail.errMsg,
+            content: "Unregistered email !",
             type: 'error'
           });
+          setEnableCreateBtn(true);
+          setLoading(false);
           //resetAddRedux();
           console.log('send mail: fail');
         } else if (isSendMail.sucess == true) {
+          setLoading(false);
           displayMsg({
             content: "Send mail successfully !",
             type: 'success'
           });
+          setEnableCreateBtn(true);
+          setLoading(false);
           console.log('send mail: successfully!')
           //resetAddRedux();
           //getAllBuildReq();
@@ -126,14 +139,16 @@ const ForgotPassword = (props) => {
                     type="email"
                 />
                 {/* {error.email.trim().length == 0 && values.email.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>} */}
+               
                {values.error !== 0 && <FormHelperText id="component-error-text" error={true}>{values.error}</FormHelperText>}
             </FormControl>
             <div className = {classes.btnGroup}>
-                <Button variant="contained" color="primary" onClick={handleClickConfirm}>
+                <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<ReplayIcon/>} onClick={handleClickConfirm}>
                     Reset
+                    {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </Button>
-                <Button variant="contained" onClick={handleClose}>
-                    Back
+                <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose}>
+                    Cancel
                 </Button>
             </div>
         </div>
