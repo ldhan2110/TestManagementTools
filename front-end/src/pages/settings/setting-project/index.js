@@ -6,6 +6,11 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {UPDATE_PROJECT_REQ, DELETE_PROJECT_REQ, RESET_UPDATE_PROJECT, RESET_DELETE_PROJECT, GET_PROJECTS_BY_ID_REQ} from '../../../redux/projects/constants';
+import DeleteIcon from '@material-ui/icons/Delete';
+import UpdateIcon from '@material-ui/icons/Update';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { red } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Grid,
   Typography,
@@ -28,10 +33,6 @@ import {
   Add as AddIcon,
 } from "@material-ui/icons";
 
-import DeleteIcon from '@material-ui/icons/Delete';
-import UpdateIcon from '@material-ui/icons/Update';
-import CloseIcon from '@material-ui/icons/Close';
-import { red } from '@material-ui/core/colors';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -75,6 +76,11 @@ const SettingProjectPage = (props) => {
     projectid: project
   });
 
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loadingg, setLoadingg] = useState(false);
+
   useEffect(()=>{
     getProjectByIdReq(project);
   },[]);
@@ -93,16 +99,22 @@ const SettingProjectPage = (props) => {
 
   useEffect(()=>{
     if (insProjects.sucess === false){
+      setLoading(false);
       displayMsg({
         content: insProjects.errMsg,
         type: 'error'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetUpdateRedux();
     } else if (insProjects.sucess == true) {
+      setLoading(false);
       displayMsg({
         content: "Update project successfully !",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetUpdateRedux();
       history.goBack();
     }
@@ -110,16 +122,22 @@ const SettingProjectPage = (props) => {
 
   useEffect(()=>{
     if (insProjectsDelete.sucess === false){
+      setLoadingg(false);
       displayMsg({
         content: insProjectsDelete.errMsg,
         type: 'error'
       });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
       resetDeleteRedux();
     } else if (insProjectsDelete.sucess == true) {
+      setLoadingg(false);
       displayMsg({
         content: "Delete project successfully !",
         type: 'success'
       });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
       resetDeleteRedux();
       history.replace('/projects');
     }
@@ -127,6 +145,8 @@ const SettingProjectPage = (props) => {
 
   const handleDelete=()=>{
     //console.log('delete successfully!'+JSON.stringify(projectInfo, null, '  '));
+    setEnableDeleteBtn(false);
+    setLoadingg(true);
     deleteProjectReq(projectInfo);
     setOpen(false);
   }
@@ -149,8 +169,11 @@ const SettingProjectPage = (props) => {
         });
     }
   
-    else
-    updateProjectReq(projectInfo);
+    else{
+      setEnableCreateBtn(false);
+      setLoading(true);
+      updateProjectReq(projectInfo);
+    }
     //console.log('update successfully: '+JSON.stringify(projectInfo, null, '  '));    
     //console.log('error Object: '+JSON.stringify(error, null, '  '));    
     //console.log('description: '+projectInfo.description);
@@ -189,6 +212,11 @@ const SettingProjectPage = (props) => {
   const handleClose = () => {
     setOpen(false);
   }
+
+  const handleBack = () => {    
+    history.goBack();
+    //setOpen(false);
+  };
   
   return(
     <div>
@@ -208,8 +236,9 @@ const SettingProjectPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-            <Button variant="contained" startIcon={<DeleteIcon />} size="large" style={{ color: red[500]}} onClick={handleOpen}>              
+            <Button variant="contained" disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>              
               Delete Project
+              {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Button>
           </div>
           <Grid item>
@@ -280,10 +309,11 @@ const SettingProjectPage = (props) => {
           helperText={projectInfo.description == 0 && error.description == 0 ? 'Description is required!' : ' '}/>
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" startIcon={<UpdateIcon/>} color="primary" onClick={handleUpdate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon />}  onClick={handleUpdate}>
             Update
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
-          <Button variant="contained" startIcon={<CloseIcon/>}>
+          <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleBack}>
             Cancel
           </Button>
         </div>               

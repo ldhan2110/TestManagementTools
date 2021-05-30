@@ -8,6 +8,8 @@ import {ADD_TEST_CASE_REQ, GET_ALL_TESTCASE_REQ, RESET_ADD_TEST_CASE} from '../.
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
+import { blue } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Grid,
   Typography,
@@ -57,6 +59,8 @@ const TestCaseDetail = (props) => {
     listStep:[]
   });
   const [listSteps, setListSteps] = useState([]);
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
     setTestcase({...testcase, listStep: listSteps});
@@ -64,16 +68,22 @@ const TestCaseDetail = (props) => {
 
   useEffect(()=>{
     if (insTestcase.sucess === false){
+      setLoading(false);
       displayMsg({
         content: insTestcase.errMsg,
         type: 'error'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetAddRedux();
     } else if (insTestcase.sucess === true) {
+      setLoading(false);
       displayMsg({
         content: "Create Testcase successfully !",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       getAllTestcaseReq();
       resetAddRedux();
       history.goBack();
@@ -109,8 +119,11 @@ const TestCaseDetail = (props) => {
         });
     }
 
-    else if(testcase.testcaseName !== "" && testcase.description !== "")
-    addTestcaseReq(testcase);
+    else if(testcase.testcaseName !== "" && testcase.description !== ""){
+      setEnableCreateBtn(false);
+      setLoading(true);
+      addTestcaseReq(testcase);
+    }
   }
 
   const updateListStep = (Data) => {
@@ -213,7 +226,8 @@ const TestCaseDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
-              <Button variant="contained" color="primary" startIcon={<AddIcon/>}onClick={handleSave}>Create</Button>
+              <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleSave}>Create
+              {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}</Button>
             </Grid>
             <Grid item>
               <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleCancel}>Cancel</Button>

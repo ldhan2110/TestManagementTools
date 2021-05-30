@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import { blue } from '@material-ui/core/colors';
 import {
   Dialog,
   DialogActions,
@@ -14,7 +15,7 @@ import {GET_ALL_TESTCASE_REQ, ADD_TEST_SUITE_REQ, RESET_ADD_TEST_SUITE} from '..
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
@@ -49,6 +50,9 @@ const NewTestSuitePopup = (props) => {
       parent: ''
     });
 
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
+  
   useEffect(()=>{
       setOpenPopup(isOpen);
   },[isOpen, open])
@@ -63,16 +67,22 @@ const NewTestSuitePopup = (props) => {
 
   useEffect(()=>{
      if (insTestsuiteCreate.sucess === false){
+      setLoading(false);
       displayMsg({
-        content: insTestsuiteCreate.errMsg,
+        content: "Test Suite name already exists in this project !",
         type: 'error'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetAddRedux();
     } else if (insTestsuiteCreate.sucess === true) {
+      setLoading(false);
       displayMsg({
         content: "Create test suite successfully!",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       handleClose();
       console.log('here');
       getAllTestcaseReq();
@@ -107,8 +117,11 @@ const NewTestSuitePopup = (props) => {
           });
       }
   
-      else if(testSuiteInfo.testsuitename !== "" && testSuiteInfo.description !== "")
-       addTestsuiteReq(testSuiteInfo);
+      else if(testSuiteInfo.testsuitename !== "" && testSuiteInfo.description !== ""){
+        setEnableCreateBtn(false);
+        setLoading(true);
+        addTestsuiteReq(testSuiteInfo);
+      }
     }
 
     const handleClose = () =>{
@@ -142,8 +155,9 @@ const NewTestSuitePopup = (props) => {
         </DialogContent>
 
         <DialogActions>
-          <Button variant="contained" color="primary"  startIcon={<AddIcon/>} onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
+            {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
           </Button>
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose} >
             Cancel

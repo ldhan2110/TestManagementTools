@@ -115,7 +115,7 @@ const DetailMileStonePage = (props) => {
     if (insMilestones.sucess === false){
       setLoading(false);
       displayMsg({
-        content: insMilestones.errMsg,
+        content: "Milestone name already exists !",
         type: 'error'
       });
       setEnableCreateBtn(true);

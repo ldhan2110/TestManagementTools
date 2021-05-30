@@ -13,6 +13,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
+import { blue } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Grid,
   Typography,
@@ -44,7 +46,6 @@ const  mapStateToProps = (state) => {
     insTestsuiteDelete: state.testcase.insTestsuiteDelete
    }
 }
-
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
@@ -59,7 +60,6 @@ const mapDispatchToProps = dispatch => {
 
 const TestSuiteDetail = (props) => {
   const {node, listTestsuite, project, updateTestsuiteReq, getAllTestcaseReq, deleteTestsuiteReq, displayMsg, insTestsuite, resetUpdateRedux, resetDeleteRedux, insTestsuiteDelete} = props;
-  
   const [testSuite, setTestSuite] = useState({
     id: '',
     name: '',
@@ -79,6 +79,10 @@ const TestSuiteDetail = (props) => {
     description: 'ss',
   });
   const history = useHistory();
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loadingg, setLoadingg] = useState(false);
 
   useEffect(()=>{
     if (node && node.parent === undefined){
@@ -111,32 +115,44 @@ const TestSuiteDetail = (props) => {
 
   useEffect(()=>{
     if (insTestsuite.sucess === false){
+      setLoading(false);
       displayMsg({
-        content: insTestsuite.errMsg,
+        content: "Test Suite name already exists in this project !",
         type: 'error'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetUpdateRedux();
     } else if (insTestsuite.sucess === true) {
+      setLoading(false);
       displayMsg({
         content: "Update testsuite successfully !",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetUpdateRedux();
     }
   },[insTestsuite.sucess]);
 
   useEffect(()=>{
     if (insTestsuiteDelete.sucess === false){
+      setLoadingg(false);
       displayMsg({
         content: insTestsuiteDelete.errMsg,
         type: 'error'
       });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
       resetDeleteRedux();
     } else if (insTestsuiteDelete.sucess === true) {
+      setLoadingg(false);
       displayMsg({
         content: "Delete testsuite successfully !",
         type: 'success'
       });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
       getAllTestcaseReq();
       resetDeleteRedux();
     }
@@ -175,7 +191,9 @@ const TestSuiteDetail = (props) => {
 
     if(testSuite.testsuitename !== "" && testSuite.description !== ""){
       if(testSuite.name !== testSuite.parent)
-        updateTestsuiteReq(testSuite);
+      setEnableCreateBtn(false);
+      setLoading(true);
+      updateTestsuiteReq(testSuite);
     }
     //console.log('testsuite_infor: ' + JSON.stringify(testSuite));
 
@@ -184,6 +202,8 @@ const TestSuiteDetail = (props) => {
   const handleDelete = ()=>{
     console.log('testsuite_infor: ' + JSON.stringify(testSuite));
     //if(testSuite.name !== testSuite.parent){
+      setEnableDeleteBtn(false);
+      setLoadingg(true);
       deleteTestsuiteReq(testSuite);
       setOpen(false);
     //}
@@ -286,10 +306,12 @@ const TestSuiteDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end'>
             <Grid item>
-              <Button variant="contained" color="primary" startIcon={<UpdateIcon />} fullWidth onClick={handleSave}>Update</Button>
+              <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon />} fullWidth onClick={handleSave}>Update
+              {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" startIcon={<DeleteIcon />} fullWidth  style={{ color: red[500] }} onClick={handleOpen}>Delete</Button>
+              <Button variant="contained" startIcon={<DeleteIcon />} disabled={enableDeleteBtn == true ? false : true } fullWidth  style={{ color: red[500] }} onClick={handleOpen}>Delete
+              {loadingg && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>
                 <Dialog open={open} >

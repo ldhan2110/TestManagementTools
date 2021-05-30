@@ -1,3 +1,4 @@
+import { blue } from '@material-ui/core/colors';
 const styles = {
   appBar: {
     position: 'relative',
@@ -28,6 +29,15 @@ const styles = {
     "& > *": {
       marginRight: 5
     }
+  },
+
+  buttonProgress: {
+    color: blue[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
   },
 };
 

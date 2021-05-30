@@ -16,6 +16,9 @@ import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Snackbar from '../../../components/SnackBar';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import AddIcon from '@material-ui/icons/Add';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -52,21 +55,31 @@ const NewProjectPopup = (props) => {
     active: false
   });
 
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   useEffect(()=>{
       setOpenPopup(isOpen);
   },[isOpen, open])
 
+  
   useEffect(()=>{
     if (insProjects.sucess === false){
+      setLoading(false);
       displayMsg({
-        content: insProjects.errMsg,
+        content: "Project name already exists !",
         type: 'error'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
     } else if (insProjects.sucess == true) {
+      setLoading(false);
       displayMsg({
         content: "Create project successfully !",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       getAllProjectReq();
       handleClose();
     }
@@ -102,6 +115,8 @@ const NewProjectPopup = (props) => {
     }
   
     else{
+      setEnableCreateBtn(false);
+      setLoading(true);
       addProjectReq(projectInfo);
       //console.log('not empty: '+ projectInfo.projectname + ' ' + projectInfo.description);
     }
@@ -164,10 +179,11 @@ const NewProjectPopup = (props) => {
             />
           </div>
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose}>
             Cancel
           </Button>
         </div>

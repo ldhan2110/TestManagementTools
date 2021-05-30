@@ -11,6 +11,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
+import { blue } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Grid,
   Typography,
@@ -77,6 +79,10 @@ const TestCaseDetail = (props) => {
 
   const [listSteps, setListSteps] = useState(node.listStep);
   const [open, setOpen] = React.useState(false);
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loadingg, setLoadingg] = useState(false);
 
   useEffect(()=>{
     if (node){
@@ -90,32 +96,44 @@ const TestCaseDetail = (props) => {
 
   useEffect(()=>{ 
     if (insTestcase.sucess === false){
+      setLoading(false);
       displayMsg({
-        content: insTestcase.errMsg,
+        content: "Test Case name already exists in this project !",
         type: 'error'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetUpdateRedux();
     } else if (insTestcase.sucess === true) {
+      setLoading(false);
       displayMsg({
         content: "Update testcase successfully !",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetUpdateRedux();
     }
   },[insTestcase.sucess]);
 
   useEffect(()=>{
     if (insTestcaseDelete.sucess === false){
+      setLoadingg(false);
       displayMsg({
         content: insTestcaseDelete.errMsg,
         type: 'error'
       });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
       resetDeleteRedux();
     } else if (insTestcaseDelete.sucess === true) {
+      setLoadingg(false);
       displayMsg({
         content: "Delete testcase successfully !",
         type: 'success'
       });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
       getAllTestcaseReq();
       resetDeleteRedux();
     }
@@ -140,11 +158,16 @@ const TestCaseDetail = (props) => {
         });
     }
 
-    else if(newtestCase.testcasename !== "" && newtestCase.description !== "")
-    updateTestcaseReq(newtestCase);
+    else if(newtestCase.testcasename !== "" && newtestCase.description !== ""){
+      setEnableCreateBtn(false);
+      setLoading(true);
+      updateTestcaseReq(newtestCase);
+    }
   };
 
   const handleDelete = () => {
+    setEnableDeleteBtn(false);
+    setLoadingg(true);
     deleteTestcaseReq(newtestCase);
     setOpen(false);
   }
@@ -263,10 +286,12 @@ const TestCaseDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
-              <Button variant="contained" color="primary" startIcon={<UpdateIcon/>}  fullWidth onClick={handleUpdate}>Update</Button>
+              <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon/>}  fullWidth onClick={handleUpdate}>Update
+              {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained"  startIcon={<DeleteIcon />}  fullWidth  style={{ color: red[500] }} onClick={handleOpen}>Delete</Button>
+              <Button variant="contained"  disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />}  fullWidth  style={{ color: red[500] }} onClick={handleOpen}>Delete
+              {loadingg && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>
                 <Dialog open={open} >
