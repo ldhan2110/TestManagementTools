@@ -128,7 +128,7 @@ const ChangRolePopup = (props) => {
     setResultData([]);
     setInput('');
     setOpen(false);
-    openMethod(false);
+    //openMethod(false);
   }
 
   const handleSendButton = () => {
