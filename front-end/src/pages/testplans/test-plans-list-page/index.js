@@ -26,7 +26,8 @@ import {
 function mapStateToProps(state) {
   return {
     listTestplan: state.testplan.listTestplan,
-    project: state.project.currentSelectedProject
+    project: state.project.currentSelectedProject,
+    role: state.project.currentRole
   };
 }
 
@@ -43,7 +44,7 @@ const mapDispatchToProps = dispatch => {
 const TestPlanListPage = (props) => {
   const {classes} = props;
 
-  const {listTestplan, getAllTestplanReq, project} = props;
+  const {listTestplan, getAllTestplanReq, project, role} = props;
 
   const [array, setArray] = React.useState(listTestplan);
 
@@ -55,7 +56,6 @@ const TestPlanListPage = (props) => {
   const history = useHistory();
 
   const handleClickNewTestPlan = () => {
-    console.log('array before: ');
     history.push({
       pathname: window.location.pathname+"/create-test-plan",
       state: array});
@@ -140,10 +140,10 @@ const TestPlanListPage = (props) => {
         </Grid>
         <Grid item>
           <div>
-            <Button variant="contained" color="primary" onClick={handleClickNewTestPlan}>
+            {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" onClick={handleClickNewTestPlan}>
               <AddIcon />
               New Test Plan
-            </Button>
+            </Button>}
           </div>
         </Grid>
       </Grid>

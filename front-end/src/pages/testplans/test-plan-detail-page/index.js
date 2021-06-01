@@ -37,7 +37,8 @@ import {
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { insTestplan: state.testplan.insTestplan,  project:state.project.currentSelectedProject,
-    listBuilds: state.build.listBuilds, insTestplanDelete: state.testplan.insTestplanDelete }
+    listBuilds: state.build.listBuilds, insTestplanDelete: state.testplan.insTestplanDelete,
+    role: state.project.currentRole }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -54,7 +55,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestPlanDetailPage = (props) => {
-    const {classes, listTestPlans, name, match, updateTestplanReq, insTestplan,
+    const {classes, listTestPlans, name, match, updateTestplanReq, insTestplan, role,
            displayMsg, deleteTestplanReq, insTestplanDelete, resetUpdateRedux, resetDeleteRedux, getAllTestplanReq} = props;
     const history = useHistory();
     const [open, setOpen] = React.useState(false);
@@ -220,9 +221,9 @@ const TestPlanDetailPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-          <Button variant="contained" startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
             Delete Test Plan
-          </Button>
+          </Button>}
           </div>
           <Grid item>
                 <Dialog open={open} >
@@ -277,10 +278,10 @@ const TestPlanDetailPage = (props) => {
           
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
+          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>
+          </Button>}
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleBack}>
             Cancel
           </Button>

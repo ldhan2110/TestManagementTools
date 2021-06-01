@@ -27,7 +27,8 @@ function mapStateToProps(state) {
   return {
     listBuilds: state.build.listBuilds,
     project: state.project.currentSelectedProject,
-    listTestPlan: state.testplan.listActiveTestplan
+    listTestPlan: state.testplan.listActiveTestplan,
+    role: state.project.currentRole
   };
 }
 
@@ -48,7 +49,7 @@ const BuildListPage = (props) => {
 
   const {classes} = props;
 
-  const {listBuilds, getAllBuildReq, project, getAllTestPlanReq, listTestPlan} = props;
+  const {listBuilds, getAllBuildReq, project, getAllTestPlanReq, listTestPlan, role} = props;
 
   const [BUILD_SEARCH_CONDITIONS, setSearchConditions] = useState(BUILDS_SEARCH);
 
@@ -204,10 +205,10 @@ const BuildListPage = (props) => {
         </Grid>
         <Grid item>
           <div>
-            <Button variant="contained" color="primary" onClick={handleClickNewBuild}>
+            {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" onClick={handleClickNewBuild}>
               <AddIcon />
               New Build
-            </Button>
+            </Button>}
           </div>
         </Grid>
       </Grid>

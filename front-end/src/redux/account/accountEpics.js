@@ -5,12 +5,6 @@ import { Observable, from, of} from 'rxjs';
 import axios from 'axios';
 import {API_ADDR} from '../constants';
 
-const temp_account = {
-  username: "hayateazuma23",
-  password: "I am an idiot",
-  isLogin: "true"
-};
-
 
 //LOGIN
 export  const loginReqEpic = (action$, state$) => action$.pipe(
@@ -19,12 +13,12 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
     map(response => {
       const {data} = response;
       const {token} = data.result;
-      console.log(token);
+      console.log(data.result);
       localStorage.setItem("token",token);
       if (data.success) {
         return ({
           type: actions.LOGIN_SUCESS,
-          payload: temp_account
+          payload: data.result
         })
       } else {
         return ({
@@ -36,7 +30,7 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
     }),
     catchError (error =>  of({
       type: actions.LOGIN_FAILED,
-      payload: error.response.data
+      payload: error.response.data.errMsg
     }))
   )
   ))
@@ -53,7 +47,7 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
         if (data.success) {
           return ({
             type: actions.REGISTER_SUCCESS,
-            payload: temp_account
+            payload: data.result
           })
         } else {
           return ({
@@ -65,7 +59,7 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
       }),
       catchError (error =>  of({
         type: actions.REGISTER_FAILED,
-        payload: error.response.data
+        payload: error.response.data.errMsg
       }))
     )
     ))

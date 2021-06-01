@@ -40,7 +40,9 @@ import {
 const  mapStateToProps = (state) => {
   return { insBuilds: state.build.insBuilds,  project:state.project.currentSelectedProject,
     build:state.build.currentSelectedBuild, listBuilds: state.build.listBuilds,
-    listTestplan: state.testplan.listTestplan, insBuildsDelete: state.build.insBuildsDelete}
+    listTestplan: state.testplan.listTestplan, insBuildsDelete: state.build.insBuildsDelete,
+    role: state.project.currentRole
+  }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -58,7 +60,7 @@ const mapDispatchToProps = dispatch => {
 
 const BuildDetailPage = (props) => {
     const {classes, name} = props;
-    const {insBuilds, updateBuildReq, displayMsg,listBuilds,deleteBuildReq, getBuildByIdReq, project, build, listTestplan, getAllTestplanReq, resetUpdateRedux, resetDeleteRedux, insBuildsDelete} = props;
+    const {insBuilds, updateBuildReq, displayMsg,listBuilds,deleteBuildReq, getBuildByIdReq, project, build, listTestplan, getAllTestplanReq, resetUpdateRedux, resetDeleteRedux, insBuildsDelete, role} = props;
     const history = useHistory();
     const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
     const [checkError, setCheckError] = useState(false);
@@ -258,10 +260,10 @@ const BuildDetailPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-          <Button variant="contained" disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
             Delete Build
             {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>
+          </Button>}
           </div>
           <Grid item>
                 <Dialog open={open} >
@@ -345,10 +347,10 @@ const BuildDetailPage = (props) => {
 
 
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon />} onClick={handleUpdate}>
+          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon />} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>
+          </Button>}
           <Button variant="contained" startIcon={<CancelIcon />} onClick={handleBack}>
             Cancel
           </Button>

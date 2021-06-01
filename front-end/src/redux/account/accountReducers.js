@@ -56,7 +56,6 @@ const reducer = (state = initialState, actions) => {
       }
 
     case types.LOGIN_SUCESS: 
-      console.log(localStorage.getItem('token'));
       return {
         ...state,
         success: true,

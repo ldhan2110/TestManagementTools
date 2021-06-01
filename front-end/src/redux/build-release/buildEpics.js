@@ -31,7 +31,7 @@ import {API_ADDR} from '../constants';
       }),
       catchError (error => of({
         type: actions.GET_ALL_BUILDS_FAILED,
-        payload: error.response
+        payload: error.response.data.errMsg
       }))
     )))
 
