@@ -156,7 +156,7 @@ const TestExecutionListPage = (props) => {
         if(item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
         && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
           return listTestexec;}));
-  }
+    }
     else if(searchConditions.status === -1 && searchConditions.testplanName !== -1 && searchConditions.buildName !== -1){
         setArray(listTestexec.filter((item) => {
           if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
@@ -190,7 +190,7 @@ const TestExecutionListPage = (props) => {
         if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
         && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
           return listTestexec;}));
-  }
+    }
     else if(searchConditions.status !== -1 && searchConditions.testplanName === -1  && searchConditions.buildName !== -1){
         setArray(listTestexec.filter((item) => {
           if(searchConditions.status === item.status

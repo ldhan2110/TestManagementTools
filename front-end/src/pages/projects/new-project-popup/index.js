@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
-import {ADD_NEW_PROJECT_REQ, GET_ALL_PROJECTS_REQ} from '../../../redux/projects/constants';
+import {ADD_NEW_PROJECT_REQ, GET_ALL_PROJECTS_REQ, RESET_ADD_NEW_PROJECT} from '../../../redux/projects/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
@@ -30,7 +30,8 @@ const mapDispatchToProps = dispatch => {
   return {
     addProjectReq: (payload) => dispatch({ type: ADD_NEW_PROJECT_REQ, payload }),
     getAllProjectReq: () => dispatch({ type: GET_ALL_PROJECTS_REQ}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    resetAddRedux: () => dispatch({type: RESET_ADD_NEW_PROJECT}),
   }
 }
 
@@ -38,7 +39,7 @@ const NewProjectPopup = (props) => {
 
   const {isOpen, setOpen, classes} = props; 
 
-  const {insProjects, addProjectReq, displayMsg, getAllProjectReq} = props;
+  const {insProjects, addProjectReq, displayMsg, getAllProjectReq, resetAddRedux} = props;
 
   const [open, setOpenPopup] = React.useState(isOpen); 
   const [checkError, setCheckError] = useState(false);
@@ -70,6 +71,7 @@ const NewProjectPopup = (props) => {
         content: "Project name already exists !",
         type: 'error'
       });
+      resetAddRedux(); 
       setEnableCreateBtn(true);
       setLoading(false);
     } else if (insProjects.sucess == true) {
@@ -78,6 +80,7 @@ const NewProjectPopup = (props) => {
         content: "Create project successfully !",
         type: 'success'
       });
+      resetAddRedux();
       setEnableCreateBtn(true);
       setLoading(false);
       getAllProjectReq();
