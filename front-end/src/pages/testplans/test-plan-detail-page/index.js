@@ -13,7 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
   Grid,
@@ -74,6 +74,9 @@ const TestPlanDetailPage = (props) => {
       created_date: props.history.location.state.created_date  
     });
     
+    const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+    const [loading, setLoading] = useState(false);
+
     useEffect(()=>{
       if (insTestplan.sucess === false){
         displayMsg({
@@ -98,6 +101,8 @@ const TestPlanDetailPage = (props) => {
             content: insTestplanDelete.errMsg,
             type: 'error'
           });
+          setEnableCreateBtn(true);
+          setLoading(false);
           resetDeleteRedux();
         } else if (insTestplanDelete.sucess == true) {
           displayMsg({
@@ -105,6 +110,8 @@ const TestPlanDetailPage = (props) => {
             type: 'success'
           });
           //getAllTestplanReq(props.match.params.projectName);
+          setEnableCreateBtn(true);
+          setLoading(false);
           resetDeleteRedux();
           history.goBack();
         }
@@ -140,9 +147,12 @@ const TestPlanDetailPage = (props) => {
           });
       }
   
-      else if(testplanInfor.testplanname !== "" && testplanInfor.description !== "")
-      updateTestplanReq(testplanInfor);
-      //console.log(JSON.stringify(testplanInfor, null, '  '));    
+      else if(testplanInfor.testplanname !== "" && testplanInfor.description !== "") {
+        setEnableCreateBtn(false);
+        setLoading(true);
+        updateTestplanReq(testplanInfor);
+      }
+      //console.log(JSON.stringify(testplanInfor, null, '  '));     
     };
     
     const handleChange = (prop) => (event) => {
@@ -267,8 +277,9 @@ const TestPlanDetailPage = (props) => {
           
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" startIcon={<UpdateIcon/>} onClick={handleUpdate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
             Update
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleBack}>
             Cancel

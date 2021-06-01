@@ -27,6 +27,7 @@ import { GET_ALL_BUILD_TESTPLAN_REQ } from "../../../redux/build-release/constan
 import build from "@date-io/date-fns";
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -80,6 +81,10 @@ const NewTestExecutionPage = (props) => {
       buildname: 'ss',
       assigntester: 'ss'
     });
+
+    const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+    const [loading, setLoading] = useState(false);
+
     useEffect(()=>{
       getAllUserReq(localStorage.getItem('selectProject'));
       getAllActiveTestplanReq();
@@ -108,14 +113,18 @@ const NewTestExecutionPage = (props) => {
             content: insTestexec.errMsg,
             type: 'error'
           });
+          setEnableCreateBtn(true);
+          setLoading(false);
           resetAddRedux();
         } else if (insTestexec.sucess === true) {
           displayMsg({
             content: "Create Test Execution successfully !",
             type: 'success'
-          });
+          });          
           getAllTestExecReq();
           resetAddRedux();
+          setEnableCreateBtn(true);
+          setLoading(false);
           history.goBack();
         }
       },[insTestexec.sucess]);      
@@ -194,8 +203,11 @@ const NewTestExecutionPage = (props) => {
       });
     }
 
-    else if(testExecInfo.testexecutionname !== "" && testExecInfo.description !== "")
+    else if(testExecInfo.testexecutionname !== "" && testExecInfo.description !== ""){
+      setEnableCreateBtn(false);
+      setLoading(true);
       addNewTestexecReq(testExecInfo);
+    }
       //console.log(testExecInfo.existexecution);
     }
     
@@ -352,8 +364,9 @@ const NewTestExecutionPage = (props) => {
 
         
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" startIcon={<AddIcon/>} onClick={handleCreateNewTestExec}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleCreateNewTestExec}>
             Create
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose}>
             Cancel
