@@ -62,6 +62,7 @@ const TestCaseExecDetail = (props) => {
     return subItem;
   }
 
+
   const filterTestExec = (execId) => {
     return listTestExec.find((item) => item._id === execId);
   }
@@ -183,19 +184,19 @@ const TestCaseExecDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  value={testCaseDetail.testcaseName} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined"  value = {testCaseDetail.description} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="parent" label="Test Suite" variant="outlined"  fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" disabled={true} variant="outlined"  value={testCaseDetail.testcaseName} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="description" label="Description" disabled={true} variant="outlined"  value = {testCaseDetail.description} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="parent" label="Test Suite" disabled={true} variant="outlined" value = {testCaseDetail.testsuite} fullWidth required/></Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
-                  <TextField id="description" label="Importance" variant="outlined" value={testCaseDetail.priority}  fullWidth required/>
+                  <TextField id="description" label="Importance" disabled={true} variant="outlined" value={testCaseDetail.priority} fullWidth required/>
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField id="description" label="Type" variant="outlined"  fullWidth required/>
+                  <TextField id="description" label="Type" variant="outlined" disabled={true} value={testCaseDetail.priority} fullWidth required/>
                 </Grid>
-                <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
-                <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
+                <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" disabled={true} variant="outlined" value = {testCaseDetail.precondition} fullWidth multiline rows={3} rowsMax={3}/></Grid>
+                <Grid item xs={12}><TextField id="postCondition" label="Post-condition" disabled={true} variant="outlined" value = {testCaseDetail.postcondition} fullWidth multiline rows={3} rowsMax={3}/></Grid>
               </Grid>
               
             </Grid>
@@ -215,23 +216,25 @@ const TestCaseExecDetail = (props) => {
                     <ListItem key={item.id}>
                       <Grid container spacing={1}>
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
-                        <Grid item xs={3}><TextField id="definition" variant="outlined" label='Definition' value={item.stepDefine} required  fullWidth multiline rows={3}/></Grid>
-                        <Grid item xs={3}><TextField id="expectResult"  variant="outlined" label='Expected Result' required value={item.expectResult}  multiline fullWidth rows={3}/></Grid>
-                        <Grid item xs={1}><FormControl variant="outlined" fullWidth>
+                        <Grid item xs={2.5}><TextField id="definition" variant="outlined" label='Definition' disabled={true} value={item.stepDefine} required  fullWidth multiline rows={3}/></Grid>
+                        <Grid item xs={2.5}><TextField id="expectResult"  variant="outlined" label='Expected Result' disabled={true} required value={item.expectResult}  multiline fullWidth rows={3}/></Grid>
+                        <Grid item xs={1.5}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select
                                   labelId="type"
                                   id="type"
                                   value={item.type}
                                   //onChange={handleChange}
-                                  label="Type"
+                                  label="Type" 
+                                  disabled={true}
+                                  
                                 >
                                <MenuItem value='manual'><em>Manual</em></MenuItem>
                                <MenuItem value='auto'>Auto</MenuItem>
                               </Select>
                         </FormControl></Grid>
-                        <Grid item xs={3}><TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} multiline fullWidth rows={3}/></Grid>
-                        <Grid item xs={1}><FormControl variant="outlined" fullWidth>
+                        <Grid item xs={2.5}><TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} multiline fullWidth rows={3}/></Grid>
+                        <Grid item xs={1.5}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="status">Result</InputLabel>
                                 <Select
                                   labelId="status"
@@ -273,7 +276,7 @@ const TestCaseExecDetail = (props) => {
                     id="status"
                     value={testCaseDetail.status}
                     onChange={handleChange}
-                    label="status">
+                    label="status" >
                         <MenuItem value={'Untest'}>Untest</MenuItem>
                         <MenuItem value={"Pass"}>Pass</MenuItem>
                         <MenuItem value={"Blocked"}>Blocked</MenuItem>

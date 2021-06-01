@@ -70,7 +70,7 @@ const TestCaseDetail = (props) => {
     if (insTestcase.sucess === false){
       setLoading(false);
       displayMsg({
-        content: insTestcase.errMsg,
+        content: "Test Case name already exists in this project !",
         type: 'error'
       });
       setEnableCreateBtn(true);
@@ -154,7 +154,7 @@ const TestCaseDetail = (props) => {
             helperText={testcase.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/></Grid>
 
             <Grid item xs={12}>
-             <FormControl variant="outlined"  fullWidth>
+             <FormControl variant="outlined"  fullWidth required>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
                                 <Select
                                   labelId="testSuite"
@@ -162,6 +162,7 @@ const TestCaseDetail = (props) => {
                                   value={testcase.testsuite}
                                   onChange={handleChange('testsuite')}
                                   label="Test Suite"
+                                  disabled = {true}
                                 >
                                {listTestsuite.map((item) => (
                                     <MenuItem value={item.name}>{item.name}</MenuItem>

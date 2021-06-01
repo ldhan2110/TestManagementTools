@@ -79,7 +79,6 @@ const NewTestExecutionPage = (props) => {
       description: 'ss',
       testplanname: 'ss',
       buildname: 'ss',
-      assigntester: 'ss'
     });
 
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
@@ -196,12 +195,6 @@ const NewTestExecutionPage = (props) => {
       });
     }
 
-    else if(testExecInfo.assigntester=== ""){
-      displayMsg({
-        content: "Assign Tester is required!",
-        type: 'error'
-      });
-    }
 
     else if(testExecInfo.testexecutionname !== "" && testExecInfo.description !== ""){
       setEnableCreateBtn(false);
@@ -250,7 +243,7 @@ const NewTestExecutionPage = (props) => {
           error={testExecInfo.testexecutionname.trim().length == 0  && error.testexecutionname.trim().length == 0  ? true : false}
           helperText={testExecInfo.testexecutionname.trim().length == 0 && error.testexecutionname.trim().length == 0 ? 'Test Execution Name is required' : ' '}/>
         
-          <FormControl variant="outlined" fullWidth >   
+          <FormControl variant="outlined" fullWidth required>   
           <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
           <Select
           labelId="testPlan"
@@ -270,7 +263,7 @@ const NewTestExecutionPage = (props) => {
         </Select>
       </FormControl>
 
-      <FormControl variant="outlined" fullWidth>
+      <FormControl variant="outlined" fullWidth required>
            <InputLabel id="build" >Build/Release </InputLabel>
             <Select
           labelId="build"
@@ -333,22 +326,22 @@ const NewTestExecutionPage = (props) => {
           </div> 
 
 
-          <FormControl variant="outlined" fullWidth>
+           <FormControl variant="outlined" fullWidth>
            <InputLabel id="tester" >Assign Tester</InputLabel>
             <Select
-          labelId="tester"
+          /* labelId="tester"
           id="tester"
           value={testExecInfo.assigntester || ''}
           onChange={handleChange('assigntester')}
           label="Tester"
           error={!testExecInfo.assigntester && !error.assigntester ? true : false}
-          helperText={!testExecInfo.assigntester && !error.assigntester ? 'Assign Tester is required' : ' '}
+      helperText={!testExecInfo.assigntester && !error.assigntester ? 'Assign Tester is required' : ' '} */
 
-          /*labelId="tester"
+          labelId="tester"
           id="tester"
           label="Tester"
           value={testExecInfo.assigntester}
-          onChange={handleChange('assigntester')}*/
+          onChange={handleChange('assigntester')}
         >
            {listUser.map((item,index) => (
               <MenuItem key={index} value={item.username}>{item.username}</MenuItem>

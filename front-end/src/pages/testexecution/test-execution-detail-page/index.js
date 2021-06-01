@@ -142,7 +142,7 @@ const TestExecutionDetailPage = (props) => {
       }
     };
 
-    const handleSave = () => {
+    const handleSave = (prop) => {
       updateTestExecReq(resultTestExec);
     }
 
