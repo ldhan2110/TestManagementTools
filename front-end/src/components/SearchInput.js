@@ -106,7 +106,7 @@ const SearchInput = (props) => {
               })
             }
 
-            <Button variant="contained" color="primary" onClick={handleSearch}>Search</Button>
+            <Button variant="contained" color="primary" style={{ opacity: 0 }} disabled={true}  onClick={handleSearch}>Search</Button>
           </div>
         </React.Fragment>
     )
