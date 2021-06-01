@@ -106,7 +106,11 @@ const SearchInput = (props) => {
               })
             }
 
+<<<<<<< HEAD
             <Button variant="contained" color="primary" onClick={handleSearch} hide = {true}>Search</Button>
+=======
+            <Button variant="contained" color="primary" style={{ opacity: 0 }} disabled={true}  onClick={handleSearch}>Search</Button>
+>>>>>>> 6c5ce0b24d51a0ec9d039328aee26e9c5c0b39f6
           </div>
         </React.Fragment>
     )

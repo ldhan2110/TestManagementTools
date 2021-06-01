@@ -37,7 +37,8 @@ const  mapStateToProps = (state) => {
     milestone:state.milestone.currentSelectedMilestone, 
     listMilestones: state.milestone.listMilestones,
     milestones: state.milestone,
-    insMilestonesDelete: state.milestone.insMilestonesDelete
+    insMilestonesDelete: state.milestone.insMilestonesDelete,
+    role: state.project.currentRole
   }
 }
 
@@ -56,7 +57,7 @@ const mapDispatchToProps = dispatch => {
 const DetailMileStonePage = (props) => {
   const {classes} = props;
   const [open, setOpen] = React.useState(false);
-  const {insMilestones, updateMilestoneReq, displayMsg,listMilestones,deleteMilestoneReq, getMilestoneByIdReq, project, milestone, resetUpdateRedux, resetDeleteRedux, insMilestonesDelete, milestones} = props;
+  const {insMilestones, updateMilestoneReq, displayMsg,listMilestones,deleteMilestoneReq, getMilestoneByIdReq, project, milestone, resetUpdateRedux, resetDeleteRedux, insMilestonesDelete, milestones, role} = props;
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
   const [checkError, setCheckError] = useState(false);
@@ -309,11 +310,12 @@ const DetailMileStonePage = (props) => {
             />
           </div>                  
           
-          <div className = {classes.btnGroup}>
+        <div className = {classes.btnGroup}>
+        {(role === 'projectmanager' || role === 'testlead')  && 
           <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>
+          </Button>}
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleBack}>
             Cancel
           </Button>
