@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 function mapStateToProps(state) {
   return {
     listMilestones: state.milestone.listMilestones,
-    project: state.project.currentSelectedProject
+    project: state.project.currentSelectedProject,
+    role: state.project.currentRole
   };
 }
 
@@ -62,7 +63,7 @@ const CustomizedTimeline = (props) => {
   }
   const {classes} = props;
 
-  const {listMilestones, getAllMilestoneReq, project} = props;
+  const {listMilestones, getAllMilestoneReq, project, role} = props;
 
   const [array, setArray] = React.useState([]);
 
@@ -124,12 +125,12 @@ const CustomizedTimeline = (props) => {
         </Grid>
 
         <Grid item>
-          <div>
+          {role === 'projectmanager' &&<div>
             <Button variant="contained" color="primary" onClick={handleClickNewMilestone}>
               <AddIcon />
               New Milestone
             </Button>
-          </div>
+          </div>}
         </Grid>
       </Grid>
       

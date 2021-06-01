@@ -103,6 +103,7 @@ const ProjectList = (props)=>{
                              name={item.projectname}
                              descriptions={item.description}
                              status={item.status}
+                             role={item.role}
                             /> 
                         </Grid>
                     )})}

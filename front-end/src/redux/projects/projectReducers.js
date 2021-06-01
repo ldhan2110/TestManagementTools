@@ -5,6 +5,7 @@ var initialState = {
   errorMsg:"",
   currentSelectedProject: "",
   currentSelectedProjectName: '',
+  currentRole: '',
   insProjects: {
     sucess: null,
     errMsg: null
@@ -86,7 +87,8 @@ const reducer = (state = initialState, actions) => {
       return {
         ...state,
         currentSelectedProject: actions.value.id,
-        currentSelectedProjectName: actions.value.name
+        currentSelectedProjectName: actions.value.name,
+        currentRole: actions.value.role
     }
 
     case types.UPDATE_PROJECT_REQ:{      

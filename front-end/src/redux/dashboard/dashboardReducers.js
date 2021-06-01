@@ -94,7 +94,6 @@ const reducer = (state = initialState, actions) => {
         }
 
     case types.GET_MULTI_CHART_SUCESS:
-      console.log(payload);
           return {
             ...state,
             multiChart: {
