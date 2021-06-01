@@ -57,7 +57,7 @@ const BuildListPage = (props) => {
   const [searchConditions, setConditions] = useState({
     buildName: '',
     active: -1,
-    testplanName: ''
+    testplanName: -1
   });
 
   const convertTestplanItem = (listTestPlan) => {
@@ -136,7 +136,7 @@ const BuildListPage = (props) => {
   },[BUILD_SEARCH_CONDITIONS])
 
   useEffect(()=>{
-    console.log('keyword: '+searchConditions.buildName + '   ' + searchConditions.active+'  '+searchConditions.testplanName);
+    console.log('keyword: '+ 'buildname: '+searchConditions.buildName + '   ' +'active: '+ searchConditions.active+'  '+ 'testplanName: '+searchConditions.testplanName);
     if (searchConditions.active === -1 && searchConditions.buildName === '' && searchConditions.testplanName === -1){
       handleArray(listBuilds);
     } 

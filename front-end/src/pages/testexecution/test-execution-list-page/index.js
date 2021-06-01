@@ -66,8 +66,8 @@ const TestExecutionListPage = (props) => {
 
   const [searchConditions, setConditions] = useState({
     testexecName: '',
-    testplanName: '',
-    buildName: '',
+    testplanName: -1,
+    buildName: -1,
     status: -1
   });
 
@@ -143,26 +143,65 @@ const TestExecutionListPage = (props) => {
 
 
   useEffect(()=>{
-      if (searchConditions.status === -1 && searchConditions.testplanName === '' && searchConditions.testexecName === '' && searchConditions.buildName === ''){
+      if (searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.testexecName === '' && searchConditions.buildName === -1){
       setArray(listTestexec);
     } 
-    else{
-      if(searchConditions.status === -1){
+    else if(searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.buildName === -1){
+        setArray(listTestexec.filter((item) => {
+          if(item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
+            return listTestexec;}));
+    }
+    else if(searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.buildName !== -1){
+      setArray(listTestexec.filter((item) => {
+        if(item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+        && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
+          return listTestexec;}));
+  }
+    else if(searchConditions.status === -1 && searchConditions.testplanName !== -1 && searchConditions.buildName !== -1){
         setArray(listTestexec.filter((item) => {
           if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
           && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
           && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
             return listTestexec;}));
-      }
-      else{
+    }
+    else if(searchConditions.status !== -1 && searchConditions.testplanName !== -1 && searchConditions.buildName !== -1){
         setArray(listTestexec.filter((item) => {
           if(searchConditions.status === item.status
           && item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
           && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
           && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
             return listTestexec;}));
-      }
     }
+    else if(searchConditions.status !== -1 && searchConditions.testplanName === -1 && searchConditions.buildName === -1){
+        setArray(listTestexec.filter((item) => {
+          if(searchConditions.status === item.status
+          && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
+            return listTestexec;}));
+    }
+    else if(searchConditions.status !== -1 && searchConditions.testplanName !== -1 && searchConditions.buildName === -1){
+        setArray(listTestexec.filter((item) => {
+          if(searchConditions.status === item.status
+          && item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
+          && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
+            return listTestexec;}));
+    }
+    else if(searchConditions.status === -1 && searchConditions.testplanName !== -1 && searchConditions.buildName === -1){
+      setArray(listTestexec.filter((item) => {
+        if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
+        && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
+          return listTestexec;}));
+  }
+    else if(searchConditions.status !== -1 && searchConditions.testplanName === -1  && searchConditions.buildName !== -1){
+        setArray(listTestexec.filter((item) => {
+          if(searchConditions.status === item.status
+          && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+          && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
+            return listTestexec;}));
+    }
+    else {
+      setArray(listTestexec);
+    }
+
   },[searchConditions]);
 
   return(
