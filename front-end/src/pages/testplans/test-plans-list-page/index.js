@@ -95,7 +95,7 @@ const TestPlanListPage = (props) => {
     setConditions({...searchConditions, [props]: data });
   }
 
-  useEffect(()=>{
+  useEffect(()=>{ 
     console.log('keyword: '+searchConditions.testplanName + '   ' + searchConditions.active);
     if (searchConditions.active === -1 && searchConditions.testplanName === ''){
       setArray(listTestplan);

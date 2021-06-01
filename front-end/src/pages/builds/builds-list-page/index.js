@@ -137,22 +137,31 @@ const BuildListPage = (props) => {
 
   useEffect(()=>{
     console.log('keyword: '+searchConditions.buildName + '   ' + searchConditions.active+'  '+searchConditions.testplanName);
-    if (searchConditions.active === -1 && searchConditions.buildName === '' && searchConditions.testplanName === ''){
+    if (searchConditions.active === -1 && searchConditions.buildName === '' && searchConditions.testplanName === -1){
       handleArray(listBuilds);
     } 
-    else{
-      if(searchConditions.active === -1){
+    else if(searchConditions.active === -1 && searchConditions.buildName !== '' && searchConditions.testplanName === -1){
+        handleArray(listBuilds.filter((item) => {
+          if(item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
+            return listBuilds;}))  
+    }
+    else if(searchConditions.active === -1 && searchConditions.testplanName !== -1){
         handleArray(listBuilds.filter((item) => {
           if(item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase())
           && item.testplan.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()))
             return listBuilds;}))
-      }
-      else{
+    }
+    else if(searchConditions.active !== -1 && searchConditions.testplanName === -1){
+        handleArray(listBuilds.filter((item) => {
+          if(item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()) 
+          && searchConditions.active === item.is_active)
+            return listBuilds;}))
+    }
+    else{
         handleArray(listBuilds.filter((item) => {
           if(item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()) && searchConditions.active === item.is_active
           && item.testplan.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()))
-            return listBuilds;}))
-      }
+            return listBuilds;}))  
     }
   },[searchConditions]);
 
