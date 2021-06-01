@@ -1,6 +1,6 @@
 export const BUILDS_SEARCH = [
   { id: 'buildName',  label: 'Build Name', type: "text" },
-  { id: 'testplanName',  label: 'Test Plan', type: "select", listValues: []},
+  { id: 'testplanName',  label: 'Test Plan', type: "select", default: -1, listValues: []},
   { id: 'active',  label: 'Active', type: "select", default: -1, listValues: [{value: true, label: "Active"}, {value: false, label: "Inactive"}]},
 ]
 
@@ -19,8 +19,8 @@ export const MEMBER_SEARCH = [
 
 export let TEST_EXEC_SEARCH = [
   { id: 'testexecName',  label: 'Name', type: "text" },
-  { id: 'testplanName',  label: 'Test Plan', type: "select", listValues: []},
-  { id: 'buildName',  label: 'Build', type: "select", listValues: [] },
+  { id: 'testplanName',  label: 'Test Plan', type: "select", default: -1, listValues: []},
+  { id: 'buildName',  label: 'Build', type: "select", default: -1, listValues: [] },
   { id: 'status',  label: 'Status', type: "select", default: -1, listValues: [{value: "Untest", label: "Untest"},{value: "Pass", label: "Pass"}, {value: "Blocked", label: "Blocked"}, {value: "Fail", label: "Fail"}]},
 ]
 
