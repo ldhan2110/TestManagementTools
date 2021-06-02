@@ -64,7 +64,7 @@ const NewTestExecutionPage = (props) => {
     const [listBuild, setListBuild] = useState([]);
     const [checkError, setCheckError] = useState(false);
     const [testExecInfo, setTestExecInfo] = useState({
-        //existexecution: 'abcd',
+        exist_testexecution: '',
         testexecutionname: '',
         description: '',
         testplanname: '',
@@ -293,7 +293,7 @@ const NewTestExecutionPage = (props) => {
             <Select
           labelId="testexec"
           id="testexec"
-          onChange={handleChange('existexecution')}
+          onChange={handleChange('exist_testexecution')}
           label="testexec">
           <MenuItem key={''} value={''}></MenuItem>
           {listTestExec.map((item, index) => <MenuItem key={index} value={item._id}>{item.testexecutionname}</MenuItem>)}    
