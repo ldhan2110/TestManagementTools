@@ -132,10 +132,10 @@ const BuildDetailPage = (props) => {
   useEffect(()=>{
     if (insBuildsDelete.sucess === false){
       setLoadingg(false);
-      displayMsg({
-        content: insBuildsDelete.errMsg,
-        type: 'error'
-      }); 
+      // displayMsg({
+      //   content: insBuildsDelete.errMsg,
+      //   type: 'error'
+      // }); 
       setEnableDeleteBtn(true);
       setLoadingg(false);
       resetDeleteRedux();
