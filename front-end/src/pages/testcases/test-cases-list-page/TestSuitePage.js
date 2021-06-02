@@ -15,6 +15,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
 import { blue } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import UploadTestcasePopup from './UploadTestCase';
 import {
   Grid,
   Typography,
@@ -35,6 +36,7 @@ import {
   Add as AddIcon,
 } from "@material-ui/icons";
 import SelectTestCasePopup from "../select-test-case-page";
+import { Upload } from "react-feather";
 
 
 //MAP STATES TO PROPS - REDUX
@@ -83,6 +85,7 @@ const TestSuiteDetail = (props) => {
   const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
   const [loading, setLoading] = useState(false);
   const [loadingg, setLoadingg] = useState(false);
+  const [openUpload, setOpenUpload] = useState(false);
 
   useEffect(()=>{
     if (node && node.parent === undefined){
@@ -217,19 +220,37 @@ const TestSuiteDetail = (props) => {
     setOpen(false);
   }
 
+  const handleUpload = () => {
+    setOpenUpload(true);
+  }
+
 
   return(
     <React.Fragment>
       <NewTestSuitePopup isOpen={openNewTS} setOpen={setOpenTS} selected={node.type !== 'root' ? node.name : ''}/>
-      {/* <SelectTestCasePopup isOpen={openNewTS} setOpen = {setOpenTS}/> */}
+      <UploadTestcasePopup isOpen={openUpload} setOpen={setOpenUpload}/>}
       <Grid container spacing={3} >
         <Grid item xs={12}>
-              <Typography variant="h4" gutterBottom display="inline">
-                Test Suite Detail - {testSuite.name}
-              </Typography>
+        <Grid container spacing={1}>
+             <Grid item xs={8}>
+                <Typography variant="h4" gutterBottom display="inline">
+                    Test Suite Detail - {testSuite.name}
+                </Typography>
+              </Grid>
+
+              <Grid item  xs={4}>
+                <div>
+                    {testSuite.type !== "root" &&
+                    <Button variant="contained" color="primary" onClick={handleUpload}>
+                    <Upload/>
+                        Import Test Case
+                    </Button>}
+                </div>
+              </Grid>
               <Divider/>
-          </Grid>
-            
+        </Grid>
+
+        </Grid>
         
         <Grid item xs={12}>
           <Grid container spacing={3}>

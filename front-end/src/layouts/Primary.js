@@ -62,7 +62,7 @@ const Paper = styled(MuiPaper)(spacing);
 const MainContent = styled(Paper)`
   flex: 1;
   background: ${props => props.theme.body.background};
-  margin-right: 10vw;
+  margin-right: 8vw;
   margin-left: 1vw;
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     flex: none;
