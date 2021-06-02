@@ -6,7 +6,6 @@ import {
   Card as MuiCard,
   CardHeader,
   Chip as MuiChip,
-  IconButton,
   Paper,
   Table,
   TableBody,

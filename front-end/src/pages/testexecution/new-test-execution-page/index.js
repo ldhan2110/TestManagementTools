@@ -296,7 +296,7 @@ const NewTestExecutionPage = (props) => {
           onChange={handleChange('existexecution')}
           label="testexec">
           <MenuItem key={''} value={''}></MenuItem>
-          {listTestExec.map((item, index) => <MenuItem key={index} value={item.testexecutionname}>{item.testexecutionname}</MenuItem>)}    
+          {listTestExec.map((item, index) => <MenuItem key={index} value={item._id}>{item.testexecutionname}</MenuItem>)}    
         </Select>
       </FormControl>
 
