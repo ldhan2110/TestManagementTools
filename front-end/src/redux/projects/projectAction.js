@@ -46,3 +46,11 @@ export function getProjectById(value){
     payload: value
   }
 }
+
+export function changeRoleMember(value){
+
+  return {
+    type: types.CHANGE_ROLE_MEMBER_REQ,
+    payload: value
+  }
+}

@@ -150,3 +150,32 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
         payload: error.response.data.errMsg
       }))
     )))
+
+  export  const changeRoleMemberEpic = (action$, state$) => action$.pipe(
+    ofType(actions.CHANGE_ROLE_MEMBER_REQ),
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/project/changerole/'+payload.projectid,payload,{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.CHANGE_ROLE_MEMBER_SUCCESS,
+            payload: true
+          })
+        } else {
+          return ({
+            type: actions.CHANGE_ROLE_MEMBER_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.CHANGE_ROLE_MEMBER_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )))
