@@ -1,5 +1,4 @@
 import React, {useState,useEffect} from 'react';
-import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import styles from "./styles";
@@ -19,36 +18,45 @@ import {
 
 function mapStateToProps(state) {
   return {
-    insUsers: state.user.insUsers,
-    listUsers: state.user.listUsers,
-    project: state.project.currentSelectedProject
+   
   };
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-    addUserToProjectReq: (payload) => dispatch({ type: ADD_USERS_TO_PROJECT_REQ, payload }),
-    getAllUserReq: (payload) => dispatch({ type: GET_ALL_USERS_REQ, payload}),
-    getAllUserOfProjectReq: (payload) => dispatch({ type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+  
   }
 }
 
 const ChangRolePopup = (props) => {
 
-  const {isOpen, openMethod} = props;
+  const {isOpen, openMethod, selected} = props;
 
   const [open, setOpen] = useState(isOpen);
+
+  const [userInfo, setUserInfo] = useState(selected);
   
 
   useEffect(()=>{
     setOpen(isOpen);
   },[isOpen])
 
+  useEffect(()=>{
+    setUserInfo(selected);
+  },[selected])
+
+  useEffect(()=>{
+    console.log(userInfo);
+  },[userInfo])
+
   const handleClose = () => {
     setOpen(false);
     openMethod(false);
+  }
+
+  const handleChangeRole = (event) => {
+    setUserInfo({...userInfo, role: event.target.value});
   }
 
  
@@ -65,7 +73,11 @@ const ChangRolePopup = (props) => {
                   <Select
                     labelId="role"
                     id="role"
-                    label="role">
+                    label="role"
+                    value={userInfo ? userInfo.role : ''}
+                    onChange={handleChangeRole}
+                   >
+                        <MenuItem value={'projectmanager'}>Project Manager</MenuItem>
                         <MenuItem value={'testlead'}>Test Lead</MenuItem>
                         <MenuItem value={"tester"}>Tester</MenuItem>
                   </Select>

@@ -67,6 +67,8 @@ const MemberListPage = (props) => {
 
   const [listMember, setListMember] = React.useState([]);
 
+  const [selected,setSelected] = useState({});
+
   const handleArray = () => {   
     if(listUsersOfProject !== undefined){
       setArray([]);
@@ -87,7 +89,8 @@ const MemberListPage = (props) => {
     setOpenDialog(true);
   }
 
-  const handleOpenChangeRole = () => {
+  const handleOpenChangeRole = (props) => {
+    setSelected(props);
     setOpenRoleDialog(true);
   }
 
@@ -114,16 +117,10 @@ const MemberListPage = (props) => {
   },[array])
 
   useEffect(()=>{
-    //console.log('keyword: '+searchConditions.testplanName + '   ' + searchConditions.active);
     if (searchConditions.username === '' && searchConditions.role === -1){
       setListMember(array);
-      //console.log(JSON.stringify(listMember));
-      //console.log('role: ' + searchConditions.role);
     } 
     else{
-      //console.log('not empty');
-      //console.log(JSON.stringify(listMember));
-      //console.log('role: ' + searchConditions.role);
       if(searchConditions.role === -1)
       setListMember(array.filter((item) => {
         if(item.name.toLowerCase().includes(searchConditions.username.toLowerCase()))
@@ -139,7 +136,7 @@ const MemberListPage = (props) => {
     <div>
       <ChangeRolePopup/>
       <Helmet title="Service Management" />
-      <ChangeRolePopup isOpen={openRoleDialog} openMethod={setOpenRoleDialog}/>
+      <ChangeRolePopup isOpen={openRoleDialog} openMethod={setOpenRoleDialog} selected={selected}/>
       <NewMemberDialog isOpen={openDialog} openMethod={setOpenDialog}/>
       <Grid
         justify="space-between"
@@ -150,15 +147,6 @@ const MemberListPage = (props) => {
             Members
           </Typography>
 
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-          </Breadcrumbs> */}
         </Grid>
         <Grid item>
           <div>
