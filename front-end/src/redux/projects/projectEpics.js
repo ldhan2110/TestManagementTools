@@ -153,7 +153,10 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
 
   export  const changeRoleMemberEpic = (action$, state$) => action$.pipe(
     ofType(actions.CHANGE_ROLE_MEMBER_REQ),
-    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/project/changerole/'+payload.projectid,payload,{
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/project/changerole/'+payload.projectid,{
+      role: payload.role,
+      userid: payload.id
+  } ,{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"

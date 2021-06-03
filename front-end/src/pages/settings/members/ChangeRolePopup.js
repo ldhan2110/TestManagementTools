@@ -3,6 +3,8 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
+import {CHANGE_ROLE_MEMBER_REQ, RESET_CHANGE_ROLE_MEMBER} from '../../../redux/projects/constants';
+import {GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
 import {
   Button,
   Dialog,
@@ -18,20 +20,24 @@ import {
 
 function mapStateToProps(state) {
   return {
-   
+    insProjects: state.project.insProjects,
+    project: state.project.currentSelectedProject
   };
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-  
+    changeRoleMember: (payload) => dispatch({ type: CHANGE_ROLE_MEMBER_REQ, payload }),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    ResetRedux: (payload) => dispatch({ type: RESET_CHANGE_ROLE_MEMBER, payload }),
+    getAllUserOfProjectReq: (payload) => dispatch({ type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
   }
 }
 
 const ChangRolePopup = (props) => {
 
-  const {isOpen, openMethod, selected} = props;
+  const {isOpen, openMethod, selected, changeRoleMember, displayMsg, insProjects, ResetRedux, getAllUserOfProjectReq, project} = props;
 
   const [open, setOpen] = useState(isOpen);
 
@@ -47,13 +53,45 @@ const ChangRolePopup = (props) => {
   },[selected])
 
   useEffect(()=>{
-    console.log(userInfo);
+    console.log('infor: '+JSON.stringify(userInfo, null, ' '));
   },[userInfo])
+
+  useEffect(()=>{
+    if (insProjects.sucess === false){
+      //setLoading(false);
+      displayMsg({
+        content: insProjects.errMsg,
+        type: 'error'
+      });
+      ResetRedux(); 
+      //setEnableCreateBtn(true);
+      //setLoading(false);
+    } else if (insProjects.sucess == true) {
+      //setLoading(false);
+      displayMsg({
+        content: "Change role member successfully !",
+        type: 'success'
+      });
+      ResetRedux();
+      //setEnableCreateBtn(true);
+      //setLoading(false);
+      //handleClose();
+      getAllUserOfProjectReq(project);
+      setOpen(false);
+    }
+  },[insProjects.sucess]);
 
   const handleClose = () => {
     setOpen(false);
     openMethod(false);
   }
+
+  const handleConfirm = () => {
+    changeRoleMember(userInfo);
+    //setOpen(false);
+    //openMethod(false);
+  }
+
 
   const handleChangeRole = (event) => {
     setUserInfo({...userInfo, role: event.target.value});
@@ -84,7 +122,7 @@ const ChangRolePopup = (props) => {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleConfirm} color="primary">
             Confirm
           </Button>
           <Button onClick={handleClose} color="primary">

@@ -74,9 +74,10 @@ const MemberListPage = (props) => {
       setArray([]);
       for(let i in listUsersOfProject){
         setArray(array => [...array, { 
-          id: listUsersOfProject[i]._id,
+          id: listUsersOfProject[i].user,
           name: listUsersOfProject[i].username,
-          role: listUsersOfProject[i].role
+          role: listUsersOfProject[i].role,
+          projectid: project
         }]);
       }
     }
