@@ -77,8 +77,8 @@ const NewMileStonePage = (props) => {
     if (insMilestones.sucess === false){
       setLoading(false);
       displayMsg({
-        content: "Milestone name already exists !",
-        //content: insMilestones.errMsg,
+        // content: "Milestone name already exists !",
+        content: insMilestones.errMsg,
         type: 'error'
       });
       setEnableCreateBtn(true);
@@ -127,6 +127,8 @@ const NewMileStonePage = (props) => {
               type: 'error'
             });
     }
+
+    
 
     else if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== ""){
       setEnableCreateBtn(false);

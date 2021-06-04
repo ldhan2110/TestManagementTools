@@ -10,12 +10,13 @@ const Footer = (props) => {
         <React.Fragment>
         <Hidden lgDown>
             <div className={classes.footer}>
-                <p>2020 KHTN</p>
+                <p>Test Control - Copyright © 2021</p>
+                
             </div>
         </Hidden>
         <Hidden only={['lg','xl']}>
             <div className={classes.smallFooter}>
-                <p>2020 KHTN</p>
+            <p>Test Control - Copyright © 2021</p>
             </div>
         </Hidden>
         </React.Fragment>

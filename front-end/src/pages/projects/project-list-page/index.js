@@ -26,7 +26,7 @@ const MAX_PER_PAGE = 6;
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-    return { project: state.project }
+    return { project: state.project}
   }
   
   //MAP DISPATCH ACTIONS TO PROPS - REDUX
