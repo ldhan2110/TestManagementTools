@@ -64,7 +64,7 @@ const TestCaseListPage = (props) => {
 
     const [openNewTS, setOpenTS] = useState(false);
 
-
+    const [suiteNum, setSuiteNum] = useState(0);
 
     useEffect(()=>{
       setDisplayNode(searchTree(testcase.listTestcase,selectedNode));
@@ -79,7 +79,15 @@ const TestCaseListPage = (props) => {
 
     useEffect(()=>{
       setListTestCase(testcase.listTestcase);
+      if(listTestCase.length !== 0)
+        setSuiteNum(listTestCase.children.length);
     },[testcase.listTestcase]);
+
+    //refresh newly added suite
+    useEffect(()=>{
+      getAllTestsuiteReq(project);
+      getAllTestsuiteNoTreeReq(project);
+    },[suiteNum]);
 
     useEffect(()=>{
       setListTestCaseNoTree(testcase.listTestcase);
@@ -212,7 +220,7 @@ const TestCaseListPage = (props) => {
 
               <Grid item xs={8}>
                 {displayNode !== null && (displayNode.type === 'TS' || displayNode.type === 'root') && <TestSuiteDetail node={displayNode}/>}
-                {displayNode !== null && displayNode.type === 'TC' && <TestCaseDetail node={displayNode}/>}
+                {displayNode !== null && displayNode.type === 'TC' && <TestCaseDetail key={displayNode._id} node={displayNode}/>}
               </Grid>
             </Grid>
           </Grid> 

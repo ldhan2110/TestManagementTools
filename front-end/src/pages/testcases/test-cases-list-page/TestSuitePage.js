@@ -228,7 +228,7 @@ const TestSuiteDetail = (props) => {
   return(
     <React.Fragment>
       <NewTestSuitePopup isOpen={openNewTS} setOpen={setOpenTS} selected={node.type !== 'root' ? node.name : ''}/>
-      <UploadTestcasePopup isOpen={openUpload} setOpen={setOpenUpload}/>}
+      <UploadTestcasePopup isOpen={openUpload} setOpen={setOpenUpload}/>
       <Grid container spacing={3} >
         <Grid item xs={12}>
         <Grid container spacing={1}>
@@ -288,7 +288,7 @@ const TestSuiteDetail = (props) => {
         <Grid item xs={12} style={{marginTop: '17vh'}}>
             <Grid container spacing={1}>
               <Grid item xs={6}>
-                <Typography variant="h6" gutterBottom display="inline">Detail</Typography>
+                <Typography variant="h6" gutterBottom display="inline">Project's Test Suites Details</Typography>
               </Grid>
 
               <Grid item xs={6}> 
