@@ -1,30 +1,26 @@
 import React, {useState,useEffect} from 'react';
-import SearchInput from '../../../components/SearchInput';
-import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
+import {CHANGE_ROLE_MEMBER_REQ, RESET_CHANGE_ROLE_MEMBER} from '../../../redux/projects/constants';
+import {GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
 import {
   Button,
-  List,
-  ListItem,
-  ListItemSecondaryAction,
-  IconButton,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  ListItemText
+  FormControl,
+  InputLabel,
+  MenuItem, Select
 } from '@material-ui/core'
 
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 function mapStateToProps(state) {
   return {
-    insUsers: state.user.insUsers,
-    listUsers: state.user.listUsers,
+    insProjects: state.project.insProjects,
     project: state.project.currentSelectedProject
   };
 }
@@ -32,139 +28,103 @@ function mapStateToProps(state) {
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-    addUserToProjectReq: (payload) => dispatch({ type: ADD_USERS_TO_PROJECT_REQ, payload }),
-    getAllUserReq: (payload) => dispatch({ type: GET_ALL_USERS_REQ, payload}),
+    changeRoleMember: (payload) => dispatch({ type: CHANGE_ROLE_MEMBER_REQ, payload }),
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    ResetRedux: (payload) => dispatch({ type: RESET_CHANGE_ROLE_MEMBER, payload }),
     getAllUserOfProjectReq: (payload) => dispatch({ type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
   }
 }
 
 const ChangRolePopup = (props) => {
 
-  const {isOpen, openMethod} = props;
+  const {isOpen, openMethod, selected, changeRoleMember, displayMsg, insProjects, ResetRedux, getAllUserOfProjectReq, project} = props;
 
-  const {insUsers, listUsers, addUserToProjectReq, project, getAllUserReq, getAllUserOfProjectReq, displayMsg} = props;
+  const [open, setOpen] = useState(isOpen);
 
-
-  const [open, setOpen] = useState(true);
-
-  const [inputData, setInput] = useState('');
-
-  const [resultData, setResultData] = useState([]);
-
-  const [userInfo, setUserInfo] = useState({
-    email: '',
-    role: 'tester',
-    projectid: project,
-  });
-
-  const [array, setArray] = React.useState([]);
-
-  const handleArray = () => {   
-
-  setArray([]);
-  for(let i in listUsers){
-    setArray(array => [...array, {
-      name: listUsers[i].username,
-      email: listUsers[i].email
-    }]);
-  }
- }
-
-
-  const checkValidCollab = (queryString) => {
-    var result = [];
-    if (queryString !== '') {
-      for (let idx of array){
-        if (idx.email === queryString){
-          result.push(idx);
-        }          
-      }
-    }
-    return result;
-  }
-
-  const handleSearch = () => {
-    if (inputData ==='') {
-      setResultData([]);
-    }
-   setResultData(checkValidCollab(inputData));
-  }
-
+  const [userInfo, setUserInfo] = useState(selected);
+  
 
   useEffect(()=>{
     setOpen(isOpen);
   },[isOpen])
 
   useEffect(()=>{
-    getAllUserReq(project);
-    setArray([]);
-  },[]);
+    setUserInfo(selected);
+  },[selected])
 
   useEffect(()=>{
-    handleArray();
-  },[listUsers])
+    console.log('infor: '+JSON.stringify(userInfo, null, ' '));
+  },[userInfo])
 
   useEffect(()=>{
- if (insUsers.sucess === true) {
+    if (insProjects.sucess === false){
+      //setLoading(false);
       displayMsg({
-        content: "Add user to project successfully !",
+        content: insProjects.errMsg,
+        type: 'error'
+      });
+      ResetRedux(); 
+      //setEnableCreateBtn(true);
+      //setLoading(false);
+    } else if (insProjects.sucess == true) {
+      //setLoading(false);
+      displayMsg({
+        content: "Change role member successfully !",
         type: 'success'
       });
+      ResetRedux();
+      //setEnableCreateBtn(true);
+      //setLoading(false);
+      //handleClose();
       getAllUserOfProjectReq(project);
-      handleClose();
+      setOpen(false);
     }
-  else if(insUsers.sucess === false){
-    displayMsg({
-      content: insUsers.errMsg,
-      type: 'error'
-    });
-    handleClose();
-  }
-  },[insUsers.sucess]);
-  
+  },[insProjects.sucess]);
 
   const handleClose = () => {
-    setResultData([]);
-    setInput('');
     setOpen(false);
+    openMethod(false);
+  }
+
+  const handleConfirm = () => {
+    changeRoleMember(userInfo);
+    //setOpen(false);
     //openMethod(false);
   }
 
-  const handleSendButton = () => {
-    addUserToProjectReq(userInfo);
+
+  const handleChangeRole = (event) => {
+    setUserInfo({...userInfo, role: event.target.value});
   }
 
-  const handleInputChange = (values) => {
-    setInput(values);
-    setUserInfo({ ...userInfo, email: values });
-  }
+ 
 
     return(
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Invite new collaborator</DialogTitle>
+        <DialogTitle>Change Role</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To invite new collaborator, please enter username or email to send invitation.
+            Please select a role for this member
           </DialogContentText>
-          <SearchInput inputMethod={handleInputChange} searchMethod={handleSearch}/>
-          <List>
-          {resultData.length !==0 ? resultData.map((item,index) =>(
-              <ListItem key={index}>
-                <ListItemText
-                  primary={item.name}
-                  secondary={item.email}/>
-                  <ListItemSecondaryAction>
-
-                    <IconButton edge="end" aria-label="delete" onClick={handleSendButton}>
-                      <MailOutlineIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-              </ListItem>
-          )):<ListItem><ListItemText secondary={"No Result"}/></ListItem>}
-          </List>
+          <FormControl variant="outlined"  fullWidth>
+              <InputLabel id="status">Role</InputLabel>
+                  <Select
+                    labelId="role"
+                    id="role"
+                    label="role"
+                    value={userInfo ? userInfo.role : ''}
+                    onChange={handleChangeRole}
+                   >
+                        <MenuItem value={'projectmanager'}>Project Manager</MenuItem>
+                        <MenuItem value={'testlead'}>Test Lead</MenuItem>
+                        <MenuItem value={"tester"}>Tester</MenuItem>
+                  </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
+          <Button onClick={handleConfirm} color="primary">
+            Confirm
+          </Button>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>

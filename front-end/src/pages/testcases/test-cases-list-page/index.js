@@ -22,31 +22,7 @@ import {
   InputLabel,
   IconButton
 } from '@material-ui/core';
-import { Folder, FolderPlus } from "react-feather";
 
-
-
-
-// const tempData = {
-//   id: 'root',
-//   name: "Test Project",
-//   type: 'F',
-//   children: [
-//     {id: 'TF-01', name: 'Test Suite 01', type: 'F', children:[]},
-//     {id: 'TF-02', name: 'Test Suite 02', type: 'F', children:[
-//       {id: 'TC-01', name: 'Test Login Page', type: 'C'},
-//       {id: 'TC-02', name: 'Test Register Page', type: 'C'},
-//       {id: 'TC-03', name: 'Test Forgot Password  Page', type: 'C'},
-//       {id: 'TC-04', name: 'Test Login API', type: 'C'},
-//     ]},
-//     {id: 'TF-03', name: 'Test Suite 03', type: 'F', children:[
-//       {id: 'TC-05', name: 'Test Back-end', type: 'C'},
-//       {id: 'TC-06', name: 'Test UI', type: 'C'},
-//       {id: 'TC-07', name: 'Test Performance', type: 'C'},
-//       {id: 'TC-08', name: 'Test Responsive', type: 'C'},
-//     ]},
-//   ]
-// }
 
 
 //MAP STATES TO PROPS - REDUX
@@ -136,6 +112,8 @@ const TestCaseListPage = (props) => {
     const handleAddTestSuite = () => {
       setOpenTS(true);
     }
+
+
   
     return(
       <div> 

@@ -185,6 +185,43 @@ const reducer = (state = initialState, actions) => {
           projectInfo: payload,
         }
 
+    case types.CHANGE_ROLE_MEMBER_REQ:{      
+      return {
+        ...state,
+        insProjects: initialState.insProjects
+      };
+    }
+
+    case types.CHANGE_ROLE_MEMBER_SUCCESS:{
+      return {
+        ...state,
+        insProjects: {
+          sucess: true,
+          errMsg: null
+        }
+      }
+    }
+
+    case types.CHANGE_ROLE_MEMBER_FAILED: {
+      return{
+        ...state,
+        insProjects:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
+
+    case types.RESET_CHANGE_ROLE_MEMBER:{
+      return {
+        ...state,
+        insProjects: {
+          sucess: null,
+          errMsg: null
+        }
+      }
+    }
+
     default:
       return state
   }

@@ -29,6 +29,7 @@ export default combineEpics(
    projectEpics.updateProjectEpic,
    projectEpics.deleteProjectEpic,
    projectEpics.getProjectByIdEpic,
+   projectEpics.changeRoleMemberEpic,
 
    //TEST PLAN EPICS
    testplanEpics.getAllTestplanEpic,

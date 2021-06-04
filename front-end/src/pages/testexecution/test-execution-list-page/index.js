@@ -62,6 +62,8 @@ const TestExecutionListPage = (props) => {
 
   const [array, setArray] = React.useState(listTestexec);
 
+  const [arrayExec, setArrayExec] = React.useState([]);
+
   const [TEST_EXEC_SEARCH_CONDITIONS, setSearchConditions] = useState(TEST_EXEC_SEARCH);
 
   const [searchConditions, setConditions] = useState({
@@ -137,9 +139,14 @@ const TestExecutionListPage = (props) => {
       tempArr.push({_id: item._id, status: item.status, testexecutionname: item.testexecutionname, description: item.description, tester: item.tester ? item.tester.username : '', testplanname: item.testplan.testplanname, buildname: item.build.buildname })
     });
     setListTestExec(tempArr);
-    setArray(listTestexec);
-
+    setArrayExec(tempArr);
   },[listTestExec]);
+
+  useEffect(()=>{
+    setArray(arrayExec);
+    console.log('array: '+ JSON.stringify(array));
+
+  },[arrayExec]);
 
 
   useEffect(()=>{

@@ -36,7 +36,8 @@ const  mapStateToProps = (state) => {
     listtestcaseselect: state.testcase.listTestcaseSelect,
     insTestexec: state.testexec.insTestexec,
     listActiveTestplan: state.testplan.listActiveTestplan,
-    listBuildByTestPlan: state.build.listBuildsByTestplan
+    listBuildByTestPlan: state.build.listBuildsByTestplan,
+    listTestExec: state.testexec.listTestExec
    }
 }
 
@@ -56,14 +57,14 @@ const mapDispatchToProps = dispatch => {
 const NewTestExecutionPage = (props) => {
     const {classes, listTestExecution, listtestcaseselect} = props;
 
-    const {listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux, listBuildByTestPlan, getBuildByTestPlan} = props;
+    const {listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux, listBuildByTestPlan, getBuildByTestPlan, listTestExec} = props;
 
     const [open,setOpenPopup] = useState(false);
 
     const [listBuild, setListBuild] = useState([]);
     const [checkError, setCheckError] = useState(false);
     const [testExecInfo, setTestExecInfo] = useState({
-        //existexecution: 'abcd',
+        exist_testexecution: '',
         testexecutionname: '',
         description: '',
         testplanname: '',
@@ -87,11 +88,16 @@ const NewTestExecutionPage = (props) => {
     useEffect(()=>{
       getAllUserReq(localStorage.getItem('selectProject'));
       getAllActiveTestplanReq();
+      getAllTestExecReq();
     },[])
 
     useEffect(()=>{
       setListBuild(listBuildByTestPlan);
     },[listBuildByTestPlan])
+
+    useEffect(()=>{
+      console.log(listTestExec);
+    },[listTestExec])
 
 
     useEffect(()=>{
@@ -169,12 +175,6 @@ const NewTestExecutionPage = (props) => {
     if(testExecInfo.description.trim().length == 0 || testExecInfo.testexecutionname.trim().length == 0
         ||testExecInfo.description.trim().length !== testExecInfo.description.length 
         || testExecInfo.testexecutionname.trim().length !== testExecInfo.testexecutionname.length){
-          /*console.log('testExecInfo.description.length: '+testExecInfo.description.trim().length ==0 );
-          console.log('testExecInfo.testexecutionname.length: '+testExecInfo.testexecutionname.trim().length);
-          console.log('testExecInfo.description.length: '+testExecInfo.description.trim().length);
-          console.log('testExecInfo.description.length: '+testExecInfo.description.length );
-          console.log('testExecInfo.testexecutionname.length: '+testExecInfo.testexecutionname.trim().length );
-          console.log('testExecInfo.testexecutionname.length: '+testExecInfo.testexecutionname.length );*/
         displayMsg({
           content: "Test Execution Name or Description should not contain spaces !",
           type: 'error'
@@ -201,7 +201,6 @@ const NewTestExecutionPage = (props) => {
       setLoading(true);
       addNewTestexecReq(testExecInfo);
     }
-      //console.log(testExecInfo.existexecution);
     }
     
     return (
@@ -290,7 +289,17 @@ const NewTestExecutionPage = (props) => {
                 <p>Create from existing test execution ?</p>
               </Grid>
               <Grid item xs={9}>
-                <SelectBox labelTitle="Create from existing test execution ?" listItems={listTestExecution ? listTestExecution : null} />
+              <FormControl variant="outlined" fullWidth required>
+            <Select
+          labelId="testexec"
+          id="testexec"
+          onChange={handleChange('exist_testexecution')}
+          label="testexec">
+          <MenuItem key={''} value={''}></MenuItem>
+          {listTestExec.map((item, index) => <MenuItem key={index} value={item._id}>{item.testexecutionname}</MenuItem>)}    
+        </Select>
+      </FormControl>
+
               </Grid>
           </Grid>
 

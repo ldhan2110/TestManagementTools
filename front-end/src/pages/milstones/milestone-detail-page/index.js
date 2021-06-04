@@ -240,10 +240,11 @@ const DetailMileStonePage = (props) => {
           </Grid>
         <Grid item>
         <div>
+        {(role === 'projectmanager' || role === 'testlead')  &&
           <Button variant="contained" disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
             Delete Milestone
             {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>
+          </Button>}
           </div>
           <Grid item>
                 <Dialog open={open} >
