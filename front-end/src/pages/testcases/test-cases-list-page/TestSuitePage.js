@@ -228,7 +228,7 @@ const TestSuiteDetail = (props) => {
   return(
     <React.Fragment>
       <NewTestSuitePopup isOpen={openNewTS} setOpen={setOpenTS} selected={node.type !== 'root' ? node.name : ''}/>
-      <UploadTestcasePopup isOpen={openUpload} setOpen={setOpenUpload}/>}
+      <UploadTestcasePopup isOpen={openUpload} setOpen={setOpenUpload} testsuite={testSuite.name || ''}/>
       <Grid container spacing={3} >
         <Grid item xs={12}>
         <Grid container spacing={1}>

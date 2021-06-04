@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-import Helmet from 'react-helmet';
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
 import {ADD_TEST_CASE_REQ, GET_ALL_TESTCASE_REQ, RESET_ADD_TEST_CASE} from '../../../redux/test-case/constants';
@@ -41,7 +40,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestCaseDetail = (props) => {
-  const {node, addTestcaseReq, displayMsg, insTestcase, getAllTestcaseReq, listTestsuite, resetAddRedux} = props;
+  const {addTestcaseReq, displayMsg, insTestcase, getAllTestcaseReq, listTestsuite, resetAddRedux} = props;
   const history = useHistory();
   const [checkError, setCheckError] = useState(false);
   const [error, setError] = useState({
