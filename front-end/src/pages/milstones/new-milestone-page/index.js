@@ -77,11 +77,7 @@ const NewMileStonePage = (props) => {
     if (insMilestones.sucess === false){
       setLoading(false);
       displayMsg({
-<<<<<<< HEAD
-        // content: "Milestone name already exists !",
-=======
         //content: "Milestone name already exists !",
->>>>>>> 61c442739d050f9beba65a1c8d77c4b63e0ac9eb
         content: insMilestones.errMsg,
         type: 'error'
       });

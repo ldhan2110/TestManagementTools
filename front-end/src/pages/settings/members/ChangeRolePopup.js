@@ -5,6 +5,9 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import {CHANGE_ROLE_MEMBER_REQ, RESET_CHANGE_ROLE_MEMBER} from '../../../redux/projects/constants';
 import {GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
+import { useHistory } from "react-router";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { blue } from '@material-ui/core/colors';
 import {
   Button,
   Dialog,
@@ -42,7 +45,10 @@ const ChangRolePopup = (props) => {
   const [open, setOpen] = useState(isOpen);
 
   const [userInfo, setUserInfo] = useState(selected);
-  
+  const history = useHistory();
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(()=>{
     setOpen(isOpen);
@@ -58,26 +64,27 @@ const ChangRolePopup = (props) => {
 
   useEffect(()=>{
     if (insProjects.sucess === false){
-      //setLoading(false);
+      setLoading(false);
       displayMsg({
         content: insProjects.errMsg,
         type: 'error'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       ResetRedux(); 
-      //setEnableCreateBtn(true);
-      //setLoading(false);
     } else if (insProjects.sucess == true) {
-      //setLoading(false);
+      setLoading(false);
       displayMsg({
         content: "Change role member successfully !",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       ResetRedux();
-      //setEnableCreateBtn(true);
-      //setLoading(false);
       //handleClose();
       getAllUserOfProjectReq(project);
       setOpen(false);
+      //history.goBack();
     }
   },[insProjects.sucess]);
 
@@ -87,6 +94,8 @@ const ChangRolePopup = (props) => {
   }
 
   const handleConfirm = () => {
+    setEnableCreateBtn(false);
+    setLoading(true);
     changeRoleMember(userInfo);
     //setOpen(false);
     //openMethod(false);
@@ -122,10 +131,11 @@ const ChangRolePopup = (props) => {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleConfirm} color="primary">
+          <Button onClick={handleConfirm} color="primary" disabled={enableCreateBtn == true ? false : true }>
             Confirm
+            {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button  onClick={handleClose} color="primary">
             Cancel
           </Button>
         </DialogActions>
