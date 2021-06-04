@@ -159,7 +159,7 @@ const NewProjectPopup = (props) => {
           error={projectInfo.projectname.trim().length==0 && error.projectname.trim().length==0 ? true : false}
           helperText={projectInfo.projectname.trim().length==0 && error.projectname.trim().length==0 ? 'Project Name is required' : ' '}/>
 
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={20}  
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={15}  
           value={projectInfo.description || ''} onChange={handleChange('description')}
           error={projectInfo.description.trim().length==0 && error.description.trim().length==0 ? true : false}
           helperText={projectInfo.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>

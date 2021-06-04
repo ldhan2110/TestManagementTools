@@ -6,6 +6,12 @@ import { connect } from 'react-redux';
 import DragList from '../../../components/DragList';
 import Selectbox from '../../../components/Selectbox';
 import { useLocation } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { blue } from '@material-ui/core/colors';
+import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
+import ArrorBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
 import {
   Grid,
   Typography,
@@ -20,7 +26,7 @@ import {
 } from '@material-ui/core';
 
 import {
-  Add as AddIcon,
+  Save as SaveIcon
 } from "@material-ui/icons";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 import { EXECUTE_TEST_CASE_REQ, GET_ALL_TESTEXEC_REQ, SELECT_TEST_CASE_REQ, RESET_EXECUTE_TEST_CASE } from "../../../redux/test-execution/constants";
@@ -82,6 +88,8 @@ const TestCaseExecDetail = (props) => {
     return -1;
   }
 
+
+
   const [testCaseDetail, setTestcaseDetail] = useState(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
 
   const [testExecDetail, setTestExecDetail] = useState(filterTestExec(props.match.params.testExecutionId));
@@ -90,6 +98,8 @@ const TestCaseExecDetail = (props) => {
 
   const [viewMode,setViewMode] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? false : true);
 
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
     if (currentIdx > execTest.listTestCase.length || currentIdx < 0) return;
@@ -104,18 +114,24 @@ const TestCaseExecDetail = (props) => {
 
   useEffect(()=>{
     if (updTestCaseExec.sucess===true){
+      setLoading(false);
       displayMsg({
         content: "Update result successfully !",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       getAllTestExecReq();
       resetRedux();
      // history.goBack();
     } else if (updTestCaseExec.sucess === false) {
+      setLoading(false);
       displayMsg({
         content: updTestCaseExec.errMsg,
         type: 'error'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       resetRedux();
     }
   },[updTestCaseExec.sucess])
@@ -140,6 +156,8 @@ const TestCaseExecDetail = (props) => {
       note: 'Test',
       listStep: testCaseDetail.listStep
     }
+    setEnableCreateBtn(false);
+    setLoading(true);
     updTestcaseResultReq(submitResult);
   }
 
@@ -186,7 +204,7 @@ const TestCaseExecDetail = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" disabled={true} variant="outlined"  value={testCaseDetail.testcaseName} fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" disabled={true} variant="outlined"  value = {testCaseDetail.description} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="parent" label="Test Suite" disabled={true} variant="outlined" value = {testCaseDetail.testsuite} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuite" label="Test Suite" disabled={true} variant="outlined" value = {testCaseDetail.testsuite} fullWidth required/></Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
@@ -195,8 +213,8 @@ const TestCaseExecDetail = (props) => {
                 <Grid item xs={6}>
                   <TextField id="description" label="Type" variant="outlined" disabled={true} value={testCaseDetail.priority} fullWidth required/>
                 </Grid>
-                <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" disabled={true} variant="outlined" value = {testCaseDetail.precondition} fullWidth multiline rows={3} rowsMax={3}/></Grid>
-                <Grid item xs={12}><TextField id="postCondition" label="Post-condition" disabled={true} variant="outlined" value = {testCaseDetail.postcondition} fullWidth multiline rows={3} rowsMax={3}/></Grid>
+                <Grid item xs={6}><TextField id="preCondition" label="Pre-condition" disabled={true} variant="outlined" value = {testCaseDetail.precondition} fullWidth multiline rows={2.5} rowsMax={3}/></Grid>
+                <Grid item xs={6}><TextField id="postCondition" label="Post-condition" disabled={true} variant="outlined" value = {testCaseDetail.postcondition} fullWidth multiline rows={2.5} rowsMax={3}/></Grid>
               </Grid>
               
             </Grid>
@@ -216,9 +234,9 @@ const TestCaseExecDetail = (props) => {
                     <ListItem key={item.id}>
                       <Grid container spacing={1}>
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
-                        <Grid item xs={2.5}><TextField id="definition" variant="outlined" label='Definition' disabled={true} value={item.stepDefine} required  fullWidth multiline rows={3}/></Grid>
-                        <Grid item xs={2.5}><TextField id="expectResult"  variant="outlined" label='Expected Result' disabled={true} required value={item.expectResult}  multiline fullWidth rows={3}/></Grid>
-                        <Grid item xs={1.5}><FormControl variant="outlined" fullWidth>
+                        <Grid item xs={2.5}><TextField id="definition" variant="outlined" label='Definition' disabled={true} value={item.stepDefine} required  fullWidth multiline rows={2.5}/></Grid>
+                        <Grid item xs={2.5}><TextField id="expectResult"  variant="outlined" label='Expected Result' disabled={true} required value={item.expectResult}  multiline fullWidth rows={2.5}/></Grid>
+                        <Grid item xs={2}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select
                                   labelId="type"
@@ -233,8 +251,8 @@ const TestCaseExecDetail = (props) => {
                                <MenuItem value='auto'>Auto</MenuItem>
                               </Select>
                         </FormControl></Grid>
-                        <Grid item xs={2.5}><TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} multiline fullWidth rows={3}/></Grid>
-                        <Grid item xs={1.5}><FormControl variant="outlined" fullWidth>
+                        <Grid item xs={2.5}><TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} multiline fullWidth rows={2.5}/></Grid>
+                        <Grid item xs={2}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="status">Result</InputLabel>
                                 <Select
                                   labelId="status"
@@ -260,11 +278,9 @@ const TestCaseExecDetail = (props) => {
                    Result
                 </Typography>
               </Grid>
-              {!viewMode && <Grid item>
-                    <Button variant="contained" color="primary" onClick={handleSave}>
-                      <AddIcon />Save Result
-                    </Button>
-                </Grid>}
+
+              
+            
                
           </Grid>
         </Grid>
@@ -284,18 +300,24 @@ const TestCaseExecDetail = (props) => {
                   </Select>
           </FormControl>
         </Grid>
-
+        {!viewMode && <Grid item>
+                    <Button variant="contained"  color="primary" disabled={enableCreateBtn == true ? false : true } fullWidth startIcon={<SaveIcon />} onClick={handleSave}>
+                       Save Result
+                      {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}
+                    </Button>
+                </Grid>}
 
         <Grid item xs={12} style={{marginTop: 10}}>
           {!viewMode && <Grid container justify ='space-between'>
             <Grid item>
-              {currentIdx !== 0 && findPrevIdx(currentIdx) !== -1 && <Button variant="contained" color="primary" fullWidth onClick={handleNavigateBackward}> Previous Test Case</Button>}  
+              {currentIdx !== 0 && findPrevIdx(currentIdx) !== -1 && <Button variant="contained" color="primary" fullWidth startIcon={<ArrorBackIcon />} onClick={handleNavigateBackward}> Previous Test Case</Button>}  
             </Grid>
+
             <Grid item>
-             <Button variant="contained" color="primary" fullWidth onClick={handleNavigateForward}> {currentIdx !== execTest.listTestCase.length-1  && findNextIdx(currentIdx) ? 'Next Test Case': 'Finish'}</Button>
+             <Button variant="contained" color="primary" fullWidth endIcon={<ArrowForwardIcon />} onClick={handleNavigateForward}> {currentIdx !== execTest.listTestCase.length-1  && findNextIdx(currentIdx) ? 'Next Test Case': 'Finish'}</Button>
             </Grid>
           </Grid>}
-          { viewMode &&  <Grid container justify ='flex-end'><Grid item xs={1}> <Button variant="contained"  fullWidth onClick={handleClose}>Return</Button></Grid></Grid>}
+          { viewMode &&  <Grid container justify ='flex-end'><Grid item xs={1}> <Button variant="contained"  fullWidth startIcon={<KeyboardReturnIcon />} onClick={handleClose}>Return</Button></Grid></Grid>}
         </Grid>
         
       </Grid>

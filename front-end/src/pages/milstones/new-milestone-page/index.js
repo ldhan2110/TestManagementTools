@@ -128,6 +128,8 @@ const NewMileStonePage = (props) => {
             });
     }
 
+    
+
     else if(milestoneInfo.milestonetitle !== "" && milestoneInfo.description !== ""){
       setEnableCreateBtn(false);
       setLoading(true);

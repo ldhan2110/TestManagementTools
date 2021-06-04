@@ -105,13 +105,13 @@ const TestCaseDetail = (props) => {
       setLoading(false);
       resetUpdateRedux();
     } else if (insTestcase.sucess === true) {
-      setLoading(false);
+      getAllTestcaseReq();
       displayMsg({
         content: "Update testcase successfully !",
         type: 'success'
       });
       setEnableCreateBtn(true);
-      setLoading(false);
+      setLoading(false);      
       resetUpdateRedux();
     }
   },[insTestcase.sucess]);
@@ -290,7 +290,7 @@ const TestCaseDetail = (props) => {
               {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained"  disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />}  fullWidth  style={{ color: red[500] }} onClick={handleOpen}>Delete
+              <Button variant="contained"  disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />}  fullWidth  style={enableDeleteBtn ? { color: red[500] } : {} } onClick={handleOpen}>Delete
               {loadingg && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>

@@ -1,3 +1,4 @@
+import { blue } from '@material-ui/core/colors';
 const styles = {
   title: {
     opacity: '0.65'
@@ -36,7 +37,16 @@ const styles = {
     display: "flex",
     justifyItems: "space-between",
     gap:"10px"
-  }
+  },
+
+  buttonProgress: {
+    color: blue[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 
 };
 

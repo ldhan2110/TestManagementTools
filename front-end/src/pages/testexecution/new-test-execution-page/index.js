@@ -115,7 +115,7 @@ const NewTestExecutionPage = (props) => {
       useEffect(()=>{
         if (insTestexec.sucess === false){
           displayMsg({
-            content: insTestexec.errMsg,
+            content: "Test execution name already exists in this build !",
             type: 'error'
           });
           setEnableCreateBtn(true);
@@ -359,7 +359,7 @@ const NewTestExecutionPage = (props) => {
         </FormControl>
 
         <TextField id="descriptions" label="Description" 
-        variant="outlined"  fullWidth required multiline rows={5} 
+        variant="outlined"  fullWidth required multiline rows={3} 
         value={testExecInfo.description || ''} onChange={handleChange('description')} 
         error={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
         helperText={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/> 

@@ -9,6 +9,10 @@ import { spacing } from "@material-ui/system";
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import ExportExcel from '../../../components/ExportExcel/ExportExcel';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/Cancel';
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import {
   Grid,
   Typography,
@@ -91,6 +95,9 @@ const TestExecutionDetailPage = (props) => {
       return execTest.listTestCase.find(item => item.status === 'Untest');
     }
 
+    const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+    const [loading, setLoading] = useState(false);
+
     useEffect(()=> {
       selectTestExecReq({id: props.match.params.testExecutionId, listTestcase: testExecInfo.exectestcases});
       getAllUserReq(localStorage.getItem('selectProject'));
@@ -99,16 +106,22 @@ const TestExecutionDetailPage = (props) => {
     try {
       useEffect(()=>{
         if (updTestExec.sucess === false){
+          setLoading(false);
           displayMsg({
             content: updTestExec.errMsg,
             type: 'error'
           });
+          setEnableCreateBtn(true);
+          setLoading(false);
           resetRedux();
         } else if (updTestExec.sucess === true) {
+          setLoading(false);
           displayMsg({
             content: "Update result successfully !",
             type: 'success'
           });
+          setEnableCreateBtn(true);
+          setLoading(false);
           getAllTestExecReq();
           resetRedux();
           handleClose();
@@ -143,6 +156,8 @@ const TestExecutionDetailPage = (props) => {
     };
 
     const handleSave = (prop) => {
+      setEnableCreateBtn(false);
+      setLoading(true);
       updateTestExecReq(resultTestExec);
     }
 
@@ -215,7 +230,7 @@ const TestExecutionDetailPage = (props) => {
               labelPlacement="start"
             />
           </div>
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required disabled={true} multiline rows={5} value={testExecInfo.description}/>                
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required disabled={true} multiline rows={3} value={testExecInfo.description}/>                
 
           <FormControl variant="outlined" className={classes.formControl} fullWidth >
               <InputLabel id="status">Status</InputLabel>
@@ -257,13 +272,14 @@ const TestExecutionDetailPage = (props) => {
           {/* <Typography variant="subtitle1" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography> */}
 
           <div className = {classes.btnGroup}>
-          {isExecute && <Button variant="contained" color="primary" onClick={handleSave}>
+          {isExecute && <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<SaveIcon />} onClick={handleSave}>
             Save
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
-          {!isExecute && testExecInfo.status === 'Untest' && <Button variant="contained" color="primary" onClick={handleExecute}>
+          {!isExecute && testExecInfo.status === 'Untest' && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleExecute}>
             Execute
           </Button>}
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" startIcon={<CancelIcon />} onClick={handleClose}>
             Cancel
           </Button>
         </div>
