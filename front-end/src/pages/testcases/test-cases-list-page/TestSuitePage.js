@@ -127,11 +127,11 @@ const TestSuiteDetail = (props) => {
       setLoading(false);
       resetUpdateRedux();
     } else if (insTestsuite.sucess === true) {
-      setLoading(false);
+      getAllTestcaseReq();
       displayMsg({
         content: "Update testsuite successfully !",
         type: 'success'
-      });
+      });      
       setEnableCreateBtn(true);
       setLoading(false);
       resetUpdateRedux();
@@ -326,13 +326,13 @@ const TestSuiteDetail = (props) => {
         
 
         <Grid item xs={12}>
-          <Grid container justify ='flex-end'>
+          <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
               <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon />} fullWidth onClick={handleSave}>Update
               {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" startIcon={<DeleteIcon />} disabled={enableDeleteBtn == true ? false : true } fullWidth  style={{ color: red[500] }} onClick={handleOpen}>Delete
+              <Button variant="contained" startIcon={<DeleteIcon />} disabled={enableDeleteBtn == true ? false : true } fullWidth  style={enableDeleteBtn ? { color: red[500] } : {} } onClick={handleOpen}>Delete
               {loadingg && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>
