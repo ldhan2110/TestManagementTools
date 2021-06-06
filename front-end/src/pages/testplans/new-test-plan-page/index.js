@@ -3,17 +3,17 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
-import SelectBox from '../../../components/Selectbox';
+//import SelectBox from '../../../components/Selectbox';
 import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ, RESET_ADD_NEW_TESTPLAN} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
-import Slide from '@material-ui/core/Slide';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+//import Slide from '@material-ui/core/Slide';
+//import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
   Grid,
   Typography,
-  Breadcrumbs,
+  //Breadcrumbs,
   Button,
   Divider,
   TextField,
@@ -27,7 +27,7 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+//import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -110,7 +110,7 @@ const NewTestPlanPage = (props) => {
          //setLoading(false);
         // Tat thanh loading, tat disable button
         resetAddRedux();
-      } else if (insTestplan.sucess == true) {
+      } else if (insTestplan.sucess === true) {
         setLoading(false);
         displayMsg({
           content: "Create testplan successfully !",
@@ -144,7 +144,7 @@ const NewTestPlanPage = (props) => {
     if(TestplanInfo.Testplanname === "")
     setError({ ...TestplanInfo, Testplanname: "" });
 
-    if(TestplanInfo.description.trim().length == 0 || TestplanInfo.Testplanname.trim().length == 0
+    if(TestplanInfo.description.trim().length === 0 || TestplanInfo.Testplanname.trim().length === 0
         ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
         || TestplanInfo.Testplanname.trim().length !== TestplanInfo.Testplanname.length){
         displayMsg({
@@ -168,7 +168,7 @@ const NewTestPlanPage = (props) => {
   const handleChange = (prop) => (event) => {
     setTestplanInfo({ ...TestplanInfo, [prop]: event.target.value });
 
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
@@ -180,13 +180,13 @@ const NewTestPlanPage = (props) => {
     setTestplanInfo({ ...TestplanInfo, is_active: !TestplanInfo.is_active });
   };
   
-    const listtestplan = [
+    //const listtestplan = [
       /*{ title: 'Monty Python and the Holy Grail', year: 1975 },
       { title: 'The Shawshank Redemption', year: 1994 },
     { title: 'The Godfather', year: 1972 },*/
       
     
-    ];
+    //];
 
     /*const listtestplan =[{"testplanname":"test1"},{"testplanname":"test2"}];*/
   
@@ -225,8 +225,8 @@ const NewTestPlanPage = (props) => {
         <form className={classes.content}>
           <TextField id="TestplanName" label="Test Plan Name" variant="outlined" fullWidth required inputProps={{maxLength : 16}}
           value={TestplanInfo.Testplanname || ''} onChange={handleChange('Testplanname')}  
-          error={TestplanInfo.Testplanname.trim().length==0 && error.Testplanname.trim().length==0 ? true : false}
-          helperText={TestplanInfo.Testplanname.trim().length==0 && error.Testplanname.trim().length==0 ? 'Test Plan Name is required' : ' '}/>
+          error={TestplanInfo.Testplanname.trim().length === 0 && error.Testplanname.trim().length === 0 ? true : false}
+          helperText={TestplanInfo.Testplanname.trim().length === 0 && error.Testplanname.trim().length === 0 ? 'Test Plan Name is required' : ' '}/>
 
           
 
@@ -295,12 +295,12 @@ const NewTestPlanPage = (props) => {
 
           <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={9}  
           value={TestplanInfo.description || ''} onChange={handleChange('description')}
-          error={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? true : false}
-          helperText={TestplanInfo.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>
+          error={TestplanInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+          helperText={TestplanInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
 
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon />} onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon />} onClick={handleCreate}>
             Create
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button> 

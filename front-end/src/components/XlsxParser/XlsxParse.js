@@ -33,7 +33,7 @@ export default function handleFile(e, setMethod) {
 
       workbook.SheetNames.forEach(function(sheetName) {
         var worksheet = workbook.Sheets[sheetName];
-        if (idx == 0) {
+        if (idx === 0) {
           result= readHeader(worksheet);
         } else {
           var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);

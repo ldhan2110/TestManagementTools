@@ -26,7 +26,7 @@ import {
   InputLabel,
   Select,
 } from '@material-ui/core';
-import build from '@date-io/date-fns';
+//import build from '@date-io/date-fns';
 
 
 //MAP STATES TO PROPS - REDUX
@@ -99,7 +99,7 @@ const NewBuildPage = (props) => {
         setEnableCreateBtn(true);
         setLoading(false);
         resetAddRedux();
-      } else if (insBuilds.sucess == true) {
+      } else if (insBuilds.sucess === true) {
         setLoading(false);
         displayMsg({
           content: "Create build successfully !",
@@ -140,7 +140,7 @@ const NewBuildPage = (props) => {
     if(buildInfo.buildname === "")
     setError({ ...buildInfo, buildname: "" });
 
-    if(buildInfo.description.trim().length == 0 || buildInfo.buildname.trim().length == 0
+    if(buildInfo.description.trim().length === 0 || buildInfo.buildname.trim().length === 0
     ||buildInfo.description.trim().length !== buildInfo.description.length 
     || buildInfo.buildname.trim().length !== buildInfo.buildname.length){
       displayMsg({
@@ -165,7 +165,7 @@ const NewBuildPage = (props) => {
 
   const handleChange = (prop) => (event) => {
     setBuildInfo({ ...buildInfo, [prop]: event.target.value });
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
@@ -204,14 +204,14 @@ const NewBuildPage = (props) => {
         <form className={classes.content}>
           <TextField id="buildName" label="Build Name" variant="outlined" fullWidth required 
           value={buildInfo.buildname || ''} onChange={handleChange('buildname')}
-          error={buildInfo.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? true : false}
-          helperText={buildInfo.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? 'Build Name is required' : null}/>
+          error={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? true : false}
+          helperText={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? 'Build Name is required' : null}/>
 
           <Grid container fullWidth>
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <p>Create from existing build ?</p>
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={9}>
                 <SelectBox labelTitle="Create from existing build ?" listItems={listBuilds ? listBuilds : null} />
               </Grid>
           </Grid>
@@ -270,12 +270,12 @@ const NewBuildPage = (props) => {
 
                 <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline 
                 rows={2} value={buildInfo.description || ''} onChange={handleChange('description')}
-                error={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-                helperText={buildInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : null}/>
+                error={buildInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+                helperText={buildInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : null}/>
 
                    
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>

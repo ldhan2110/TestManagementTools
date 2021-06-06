@@ -3,8 +3,8 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 import useStyles from './styles';
-import styles from "./styles";
-import { withStyles } from '@material-ui/core/styles';
+//import styles from "./styles";
+//import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {SEND_MAIL_RESET_PASSWORD_REQ, RESET_SEND_MAIL_RESET_PASSWORD} from '../../../redux/account/constants';
@@ -52,7 +52,7 @@ const ForgotPassword = (props) => {
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
 
-        if(checkError == true)
+        if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
       };
 
@@ -91,7 +91,6 @@ const ForgotPassword = (props) => {
 
     useEffect(()=>{
         if (isSendMail.sucess === false){
-          setLoading(false);
           displayMsg({
             content: "Unregistered email !",
             type: 'error'
@@ -99,16 +98,15 @@ const ForgotPassword = (props) => {
           setEnableCreateBtn(true);
           setLoading(false);
           //resetAddRedux();
-          console.log('send mail: fail');
-        } else if (isSendMail.sucess == true) {
-          setLoading(false);
+          //console.log('send mail: fail');
+        } else if (isSendMail.sucess === true) {
           displayMsg({
             content: "Send mail successfully !",
             type: 'success'
           });
           setEnableCreateBtn(true);
           setLoading(false);
-          console.log('send mail: successfully!')
+          //console.log('send mail: successfully!')
           //resetAddRedux();
           //getAllBuildReq();
           //handleClose();
@@ -143,7 +141,7 @@ const ForgotPassword = (props) => {
                {values.error !== 0 && <FormHelperText id="component-error-text" error={true}>{values.error}</FormHelperText>}
             </FormControl>
             <div className = {classes.btnGroup}>
-                <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<ReplayIcon/>} onClick={handleClickConfirm}>
+                <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<ReplayIcon/>} onClick={handleClickConfirm}>
                     Reset
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </Button>

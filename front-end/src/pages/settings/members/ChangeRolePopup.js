@@ -45,7 +45,7 @@ const ChangRolePopup = (props) => {
   const [open, setOpen] = useState(isOpen);
 
   const [userInfo, setUserInfo] = useState(selected);
-  const history = useHistory();
+  //const history = useHistory();
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -72,7 +72,7 @@ const ChangRolePopup = (props) => {
       setEnableCreateBtn(true);
       setLoading(false);
       ResetRedux(); 
-    } else if (insProjects.sucess == true) {
+    } else if (insProjects.sucess === true) {
       setLoading(false);
       displayMsg({
         content: "Change role member successfully !",
@@ -131,7 +131,7 @@ const ChangRolePopup = (props) => {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleConfirm} color="primary" disabled={enableCreateBtn == true ? false : true }>
+          <Button onClick={handleConfirm} color="primary" disabled={enableCreateBtn ? false : true }>
             Confirm
             {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
           </Button>

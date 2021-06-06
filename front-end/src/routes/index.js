@@ -1,17 +1,17 @@
 import React from "react";
 import {
-  Grid,
+  //Grid,
   Users,
   Flag,
   PieChart,
-  Package,
+  //Package,
   Layers,
-  Home,
+  //Home,
   Settings,
   Briefcase,
   Trello,
   Radio,
-  AlertOctagon
+  //AlertOctagon
 } from "react-feather";
 import async from "../components/Async";
 

@@ -3,12 +3,12 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
-import SelectBox from '../../../components/Selectbox';
+//import SelectBox from '../../../components/Selectbox';
 import {UPDATE_TESTPLAN_REQ, DELETE_TESTPLAN_REQ, RESET_UPDATE_TESTPLAN, RESET_DELETE_TESTPLAN, GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
-import Box from '@material-ui/core/Box';
+//import Box from '@material-ui/core/Box';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -18,14 +18,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Grid,
   Typography,
-  Breadcrumbs,
+  //Breadcrumbs,
   Button,
   Divider,
   TextField,
-  FormControl,
-  MenuItem,
-  InputLabel,
-  Select,
+  //FormControl,
+  //MenuItem,
+  //InputLabel,
+  //Select,
   FormControlLabel,
   Checkbox,
   DialogContent,
@@ -85,7 +85,7 @@ const TestPlanDetailPage = (props) => {
           type: 'error'
         });
         resetUpdateRedux();
-      } else if (insTestplan.sucess == true) {
+      } else if (insTestplan.sucess === true) {
         displayMsg({
           content: "Update testplan successfully !",
           type: 'success'
@@ -105,7 +105,7 @@ const TestPlanDetailPage = (props) => {
           setEnableCreateBtn(true);
           setLoading(false);
           resetDeleteRedux();
-        } else if (insTestplanDelete.sucess == true) {
+        } else if (insTestplanDelete.sucess === true) {
           displayMsg({
             content: "Delete testplan successfully !",
             type: 'success'
@@ -139,7 +139,7 @@ const TestPlanDetailPage = (props) => {
       if(testplanInfor.testplanname === "")
       setError({ ...testplanInfor, testplanname: "" });
 
-      if(testplanInfor.description.trim().length == 0 || testplanInfor.testplanname.trim().length == 0
+      if(testplanInfor.description.trim().length === 0 || testplanInfor.testplanname.trim().length === 0
           ||testplanInfor.description.trim().length !== testplanInfor.description.length 
           || testplanInfor.testplanname.trim().length !== testplanInfor.testplanname.length){
           displayMsg({
@@ -159,7 +159,7 @@ const TestPlanDetailPage = (props) => {
     const handleChange = (prop) => (event) => {
       setTestplanInfor({ ...testplanInfor, [prop]: event.target.value });
 
-      if(checkError == true)
+      if(checkError === true)
       setError({ ...error, [prop]: event.target.value });
     }
   
@@ -245,8 +245,8 @@ const TestPlanDetailPage = (props) => {
         <form className={classes.content}>
           <TextField id="testPlanName" label="Test Plan Name" variant="outlined"  fullWidth required
           value={testplanInfor.testplanname || ''} onChange={handleChange('testplanname')}
-          error={testplanInfor.testplanname.trim().length==0 && error.testplanname.trim().length==0 ? true : false}
-          helperText={testplanInfor.testplanname.trim().length==0 && error.testplanname.trim().length==0 ? 'Test Plan Name is required' : ' '}/>           
+          error={testplanInfor.testplanname.trim().length === 0 && error.testplanname.trim().length === 0 ? true : false}
+          helperText={testplanInfor.testplanname.trim().length === 0 && error.testplanname.trim().length === 0 ? 'Test Plan Name is required' : ' '}/>           
 
           <div>
              <FormControlLabel
@@ -272,13 +272,13 @@ const TestPlanDetailPage = (props) => {
           </div>
           <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={11}
           value={testplanInfor.description || ''} onChange={handleChange('description')}
-          error={testplanInfor.description.trim().length==0 && error.description.trim().length==0 ? true : false}
-          helperText={testplanInfor.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>
+          error={testplanInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+          helperText={testplanInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
 
           
           
           <div className = {classes.btnGroup}>
-          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
+          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}

@@ -3,7 +3,7 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
-import SelectBox from '../../../components/Selectbox';
+//import SelectBox from '../../../components/Selectbox';
 import SelectTestCasePopup from '../../testcases/select-test-case-page/index';
 import { connect } from 'react-redux';
 import {
@@ -24,7 +24,7 @@ import { ADD_TESTEXEC_REQ, GET_ALL_TESTEXEC_REQ, RESET_ADD_TEST_EXEC } from '../
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { GET_ALL_ACTIVE_TESTPLAN_REQ } from "../../../redux/test-plan/constants";
 import { GET_ALL_BUILD_TESTPLAN_REQ } from "../../../redux/build-release/constants";
-import build from "@date-io/date-fns";
+//import build from "@date-io/date-fns";
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -157,7 +157,7 @@ const NewTestExecutionPage = (props) => {
       if (prop === 'testplanname'){
         getBuildByTestPlan({testplanname: event.target.value });
       }
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
     };
 
@@ -172,7 +172,7 @@ const NewTestExecutionPage = (props) => {
     if(testExecInfo.testexecutionname === "")
     setError({ ...testExecInfo, testexecutionname: "" });
 
-    if(testExecInfo.description.trim().length == 0 || testExecInfo.testexecutionname.trim().length == 0
+    if(testExecInfo.description.trim().length === 0 || testExecInfo.testexecutionname.trim().length === 0
         ||testExecInfo.description.trim().length !== testExecInfo.description.length 
         || testExecInfo.testexecutionname.trim().length !== testExecInfo.testexecutionname.length){
         displayMsg({
@@ -239,8 +239,8 @@ const NewTestExecutionPage = (props) => {
           <TextField id="testExecutionName" label="Test Execution Name" 
           variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
           value={testExecInfo.testexecutionname || ''} onChange={handleChange('testexecutionname')} 
-          error={testExecInfo.testexecutionname.trim().length == 0  && error.testexecutionname.trim().length == 0  ? true : false}
-          helperText={testExecInfo.testexecutionname.trim().length == 0 && error.testexecutionname.trim().length == 0 ? 'Test Execution Name is required' : ' '}/>
+          error={testExecInfo.testexecutionname.trim().length === 0  && error.testexecutionname.trim().length === 0  ? true : false}
+          helperText={testExecInfo.testexecutionname.trim().length === 0 && error.testexecutionname.trim().length === 0 ? 'Test Execution Name is required' : ' '}/>
         
           <FormControl variant="outlined" fullWidth required>   
           <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
@@ -361,12 +361,12 @@ const NewTestExecutionPage = (props) => {
         <TextField id="descriptions" label="Description" 
         variant="outlined"  fullWidth required multiline rows={3} 
         value={testExecInfo.description || ''} onChange={handleChange('description')} 
-        error={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-        helperText={testExecInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/> 
+        error={testExecInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+        helperText={testExecInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/> 
 
         
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleCreateNewTestExec}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon/>} onClick={handleCreateNewTestExec}>
             Create
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>

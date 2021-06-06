@@ -20,7 +20,7 @@ import {
   Select,
   FormControl,
   InputLabel,
-  IconButton
+  //IconButton
 } from '@material-ui/core';
 
 
@@ -56,7 +56,8 @@ const TestCaseListPage = (props) => {
 
     const[selected,setSelected] = useState('');
 
-    const {project, testcase, displayMsg, getAllTestcaseReq, getAllTestsuiteReq, getAllTestsuiteNoTreeReq} = props;
+    const {project, testcase, getAllTestcaseReq, 
+      getAllTestsuiteReq, getAllTestsuiteNoTreeReq} = props; //displayMsg
 
     const [listTestCase, setListTestCase] = useState([]);
 
@@ -100,7 +101,7 @@ const TestCaseListPage = (props) => {
 
       while (stack.length > 0) {
         node = stack.pop();
-        if (node._id == selectedNode) {
+        if (node._id === selectedNode) {
         // Found it!
           return node;
         } else if (node.children && node.children.length) {

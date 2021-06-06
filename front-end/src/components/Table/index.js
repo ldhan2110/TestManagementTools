@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import { Link as RouterLink } from "react-router-dom";
+//import { Link as RouterLink } from "react-router-dom";
 import EnhancedTableHead from './TableHead';
 import EnhancedTableToolbar from './TableToolbar';
 import {getComparator,stableSort} from './utils';
@@ -17,7 +17,7 @@ import {
   TableCell,
   TableContainer,
   TablePagination,
-  Typography,
+  //Typography,
   TableRow} from "@material-ui/core";
 
 import { green, orange, red } from "@material-ui/core/colors";
@@ -28,7 +28,7 @@ import {
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
-import { retinaImage } from "polished";
+//import { retinaImage } from "polished";
 
 const Paper = styled(MuiPaper)(spacing);
 

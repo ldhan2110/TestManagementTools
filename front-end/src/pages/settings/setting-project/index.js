@@ -29,10 +29,10 @@ import {
   Dialog
 } from '@material-ui/core';
 
-import {
+/* import {
   Add as AddIcon,
 } from "@material-ui/icons";
-
+ */
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -107,7 +107,7 @@ const SettingProjectPage = (props) => {
       setEnableCreateBtn(true);
       setLoading(false);
       resetUpdateRedux();
-    } else if (insProjects.sucess == true) {
+    } else if (insProjects.sucess === true) {
       setLoading(false);
       displayMsg({
         content: "Update project successfully !",
@@ -130,7 +130,7 @@ const SettingProjectPage = (props) => {
       setEnableDeleteBtn(true);
       setLoadingg(false);
       resetDeleteRedux();
-    } else if (insProjectsDelete.sucess == true) {
+    } else if (insProjectsDelete.sucess === true) {
       setLoadingg(false);
       displayMsg({
         content: "Delete project successfully !",
@@ -160,7 +160,7 @@ const SettingProjectPage = (props) => {
     if(projectInfo.projectname === "")
     setError({ ...projectInfo, projectname: "" });
 
-    if(projectInfo.description.trim().length == 0 || projectInfo.projectname.trim().length == 0
+    if(projectInfo.description.trim().length === 0 || projectInfo.projectname.trim().length === 0
         ||projectInfo.description.trim().length !== projectInfo.description.length 
         || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
         displayMsg({
@@ -182,7 +182,7 @@ const SettingProjectPage = (props) => {
   const handleChange = (prop) => (event) => {
     setProjectInfo({ ...projectInfo, [prop]: event.target.value });
 
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   }
 
@@ -236,7 +236,7 @@ const SettingProjectPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-            <Button variant="contained" disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>              
+            <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>              
               Delete Project
               {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Button>
@@ -261,8 +261,8 @@ const SettingProjectPage = (props) => {
         <form className={classes.content}>
           <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  inputProps={{maxLength : 16}} 
            value={projectInfo.projectname || ''} onChange={handleChange('projectname')}
-           error={projectInfo.projectname == 0 && error.projectname == 0 ? true : false}
-          helperText={projectInfo.projectname == 0 && error.projectname == 0 ? 'Project Name is required' : ' '}/>
+           error={projectInfo.projectname === 0 && error.projectname === 0 ? true : false}
+          helperText={projectInfo.projectname === 0 && error.projectname === 0 ? 'Project Name is required' : ' '}/>
 
           <div>
              <FormControlLabel
@@ -305,11 +305,11 @@ const SettingProjectPage = (props) => {
 
           <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={6} 
           value={projectInfo.description || ''} onChange={handleChange('description')}
-          error={projectInfo.description == 0 && error.description == 0 ? true : false}
-          helperText={projectInfo.description == 0 && error.description == 0 ? 'Description is required!' : ' '}/>
+          error={projectInfo.description === 0 && error.description === 0 ? true : false}
+          helperText={projectInfo.description === 0 && error.description === 0 ? 'Description is required!' : ' '}/>
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon />}  onClick={handleUpdate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />}  onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>

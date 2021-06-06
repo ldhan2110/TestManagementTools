@@ -21,7 +21,7 @@ export let TEST_EXEC_SEARCH = [
   { id: 'testexecName',  label: 'Name', type: "text" },
   { id: 'testplanName',  label: 'Test Plan', type: "select", default: -1, listValues: []},
   { id: 'buildName',  label: 'Build', type: "select", default: -1, listValues: [] },
-  { id: 'status',  label: 'Status', type: "select", default: -1, listValues: [{value: "Untest", label: "Untest"},{value: "Pass", label: "Pass"}, {value: "Blocked", label: "Blocked"}, {value: "Fail", label: "Fail"}]},
+  { id: 'status',  label: 'Status', type: "select", default: -1, listValues: [{value: "Untest", label: "Untest"},{value: "Pass", label: "Pass"}, {value: "Block", label: "Blocked"}, {value: "Fail", label: "Fail"}]},
 ]
 
 

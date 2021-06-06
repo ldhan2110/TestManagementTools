@@ -20,8 +20,8 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { blue } from '@material-ui/core/colors';
-import ReplayIcon from '@material-ui/icons/Replay';
-import CancelIcon from '@material-ui/icons/Cancel';
+//import ReplayIcon from '@material-ui/icons/Replay';
+//import CancelIcon from '@material-ui/icons/Cancel';
 
 const  mapStateToProps = (state) => {
   return { account: state.account, isRegister: state.account.isRegister, errorMsg: state.account.errorMsg }
@@ -66,24 +66,22 @@ const RegisterPage = (props) => {
 
     useEffect(()=>{
       if (isRegister === false){
-        setLoading(false);
         displayMsg({
           content: "This email already exists !",
           type: 'error'
         });
         setEnableCreateBtn(true);
         setLoading(false);
-        console.log('register error!' + JSON.stringify(errorMsg));
+        //console.log('register error!' + JSON.stringify(errorMsg));
         resetAddRedux();
-      } else if (isRegister == true) {
-        setLoading(false);
+      } else if (isRegister === true) {
         displayMsg({
           content: "Register successfully!",
           type: 'success'
         });
         setEnableCreateBtn(true);
         setLoading(false);
-        console.log('register sucessfully!');
+        //console.log('register sucessfully!');
         resetAddRedux();
         handleClose();
       }
@@ -104,7 +102,7 @@ const RegisterPage = (props) => {
     //console.log('values: '+JSON.stringify(values));
     setValues({ ...values, [prop]: event.target.value });
 
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
@@ -173,12 +171,12 @@ const RegisterPage = (props) => {
           <OutlinedInput
             id="outlined-adornment-fullname"
             value={values.amount}
-            error={error.fullname.trim().length == 0 && values.fullname.trim().length == 0 ? true : false}
+            error={error.fullname.trim().length === 0 && values.fullname.trim().length === 0 ? true : false}
             onChange={handleChange('fullname')}
             labelWidth={60}
             required={true}
           />
-          {error.fullname.trim().length == 0 && values.fullname.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Full Name is required</FormHelperText>}
+          {error.fullname.trim().length === 0 && values.fullname.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Full Name is required</FormHelperText>}
         </FormControl>
           
         {/*Username */}
@@ -187,12 +185,12 @@ const RegisterPage = (props) => {
           <OutlinedInput
             id="outlined-adornment-username"
             value={values.amount}
-            error={error.username.trim().length == 0 && values.username.trim().length == 0 ? true : false}
+            error={error.username.trim().length === 0 && values.username.trim().length === 0 ? true : false}
             onChange={handleChange('username')}
             labelWidth={60}
             required={true}
           />
-          {error.username.trim().length == 0 && values.username.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Username is required</FormHelperText>}
+          {error.username.trim().length === 0 && values.username.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Username is required</FormHelperText>}
         </FormControl>
 
         {/*PASSWORD */}        
@@ -202,7 +200,7 @@ const RegisterPage = (props) => {
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}
-            error={error.password.trim().length == 0 && values.password.trim().length == 0 ? true : false}
+            error={error.password.trim().length === 0 && values.password.trim().length === 0 ? true : false}
             error={!error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) ? true : false}
             onChange={handleChange('password')}
             required={true}
@@ -222,7 +220,7 @@ const RegisterPage = (props) => {
           />
           
           {!error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password is required 8-16</FormHelperText>} 
-          {error.password.trim().length == 0 && values.password.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
+          {error.password.trim().length === 0 && values.password.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
         </FormControl>
 
         {/*Email */}
@@ -232,14 +230,14 @@ const RegisterPage = (props) => {
             id="outlined-adornment-email"
             value={values.amount}
             type="email"
-            error={error.email.trim().length == 0 && values.email.trim().length == 0 ? true : false}
+            error={error.email.trim().length === 0 && values.email.trim().length === 0 ? true : false}
             error={!error.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && !values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)  ?  true : false}
             onChange={handleChange('email')}
             labelWidth={35}
             required={true}   
           />
           {!error.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) &&!values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && <FormHelperText id="component-error-text" error={true}>Invalid email (example: vuilongdeokhautrang@gmail.com)</FormHelperText>}
-          {error.email.trim().length == 0 && values.email.trim().length == 0 &&  <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>} 
+          {error.email.trim().length === 0 && values.email.trim().length === 0 &&  <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>} 
         </FormControl>
 
 
@@ -248,7 +246,7 @@ const RegisterPage = (props) => {
           <Button onClick={handleClose} color="primary">
             Close
           </Button>
-          <Button onClick={handleRegister} disabled={enableCreateBtn == true ? false : true } color="primary">
+          <Button onClick={handleRegister} disabled={enableCreateBtn ? false : true } color="primary">
             Register
             {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}
           </Button>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { withStyles } from '@material-ui/core/styles';
+//import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { blue } from '@material-ui/core/colors';
 import {
@@ -95,7 +95,7 @@ const NewTestSuitePopup = (props) => {
     const handleChange = (prop) => (event) => {
       setTestSuite({ ...testSuiteInfo, [prop]: event.target.value });
 
-      if(checkError == true)
+      if(checkError === true)
       setError({ ...error, [prop]: event.target.value });
     };
 
@@ -108,7 +108,7 @@ const NewTestSuitePopup = (props) => {
       if(testSuiteInfo.testsuitename === "")
       setError({ ...testSuiteInfo, testsuitename: "" });
 
-      if(testSuiteInfo.description.trim().length == 0 || testSuiteInfo.testsuitename.trim().length == 0
+      if(testSuiteInfo.description.trim().length === 0 || testSuiteInfo.testsuitename.trim().length === 0
           ||testSuiteInfo.description.trim().length !== testSuiteInfo.description.length 
           ||testSuiteInfo.testsuitename.trim().length !== testSuiteInfo.testsuitename.length){
           displayMsg({
@@ -142,20 +142,20 @@ const NewTestSuitePopup = (props) => {
             <Grid item xs={12}>
               <TextField id="name" label="Test Suite Name" variant="outlined"  fullWidth required  
               value={testSuiteInfo.testsuitename || ''} onChange={handleChange('testsuitename')} inputProps={{maxLength : 16}} 
-              error={testSuiteInfo.testsuitename.trim().length == 0 && error.testsuitename.trim().length == 0? true : false}
-              helperText={testSuiteInfo.testsuitename.trim().length == 0 && error.testsuitename.trim().length == 0 ? 'Test Suite Name is required' : ' '}/>
+              error={testSuiteInfo.testsuitename.trim().length === 0 && error.testsuitename.trim().length === 0 ? true : false}
+              helperText={testSuiteInfo.testsuitename.trim().length === 0 && error.testsuitename.trim().length === 0 ? 'Test Suite Name is required' : ' '}/>
             </Grid>
             <Grid item xs={12}>
               <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline rows={10}  
               value={testSuiteInfo.description || ''} onChange={handleChange('description')}
-              error={testSuiteInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-              helperText={testSuiteInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/>
+              error={testSuiteInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+              helperText={testSuiteInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
             </Grid>
           </Grid>
         </DialogContent>
 
         <DialogActions>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
             {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
           </Button>

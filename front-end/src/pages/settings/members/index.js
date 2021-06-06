@@ -47,9 +47,9 @@ const mapDispatchToProps = dispatch => {
 
 
 const MemberListPage = (props) => {
-  const {classes} = props;
+  //const {classes} = props;
 
-  const {listUsers, listUsersOfProject, addUserToProjectReq, project, getAllUserReq, getAllUserOfProjectReq, displayMsg} = props;
+  const {listUsersOfProject, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg} = props;
 
 
   const [openDialog,setOpenDialog] = useState(false);
@@ -61,7 +61,7 @@ const MemberListPage = (props) => {
     role: -1
   });
 
-  const history = useHistory();
+  //const history = useHistory();
 
   const [array, setArray] = React.useState([]);
 

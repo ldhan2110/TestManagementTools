@@ -272,7 +272,7 @@ const TestExecutionDetailPage = (props) => {
           {/* <Typography variant="subtitle1" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography> */}
 
           <div className = {classes.btnGroup}>
-          {isExecute && <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<SaveIcon />} onClick={handleSave}>
+          {isExecute && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<SaveIcon />} onClick={handleSave}>
             Save
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}

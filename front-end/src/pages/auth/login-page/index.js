@@ -27,7 +27,7 @@ import LockIcon from '@material-ui/icons/Lock';
 
 //IMPORT REGISTER
 import RegisterPage from '../register-page/index';
-import { TrendingUpOutlined } from "@material-ui/icons";
+//import { TrendingUpOutlined } from "@material-ui/icons";
 
 
 //MAP STATES TO PROPS - REDUX
@@ -60,7 +60,7 @@ const LoginPage = (props) => {
       isKeepedLogin: false,
       showPassword: false,
     });
-    const [checkError, setCheckError] = useState(false);
+    //const [checkError, setCheckError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [error, setError] = useState({
@@ -80,7 +80,7 @@ const LoginPage = (props) => {
         setLoading(false);
       }
       
-      else if (account.success == true) {
+      else if (account.success === true) {
         setLoading(false);
         displayMsg({
           content: "Logged in successfully!",
@@ -106,9 +106,9 @@ const LoginPage = (props) => {
       setValues({ ...values, [prop]: event.target.value });
     };
 
-    const showError= () =>{
+/*     const showError= () =>{
       return (<FormHelperText error>Error</FormHelperText>);
-    }
+    } */
 
     //CHANGE PASSWORD
     const handleClickShowPassword = () => {
@@ -131,17 +131,17 @@ const LoginPage = (props) => {
 
     //HANDLE LOGIN REQUEST BUTTON
     const handleClickLogin = (event) => {     
-      if(values.username == "" && values.password == ""){
+      if(values.username === "" && values.password === ""){
         setError({username: "Username is required",
                   password: "Password is required"})
       }
 
       
 
-      else if(values.username == ""){ 
+      else if(values.username === ""){ 
         setError({username: "Username is required", password: null});
       }
-      else if (values.password == ""){
+      else if (values.password === ""){
         setError({username: null, password: "Password is required"});
       }      
       else {
@@ -218,7 +218,7 @@ const LoginPage = (props) => {
         label="Keep me sign in"
       />
         <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<LockIcon />} onClick={handleClickLogin}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<LockIcon />} onClick={handleClickLogin}>
             Sign In
             {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}
           </Button>          

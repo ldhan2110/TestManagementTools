@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from '@material-ui/core/styles';
+//import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
@@ -92,7 +92,7 @@ const TestCaseDetail = (props) => {
   const handleChange = (prop) => (event) => {
     setTestcase({ ...testcase, [prop]: event.target.value });
 
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
@@ -109,7 +109,7 @@ const TestCaseDetail = (props) => {
     if(testcase.testcaseName === "")
     setError({ ...testcase, testcaseName: "" });
 
-    if(testcase.description.trim().length == 0 || testcase.testcaseName.trim().length == 0
+    if(testcase.description.trim().length === 0 || testcase.testcaseName.trim().length === 0
         ||testcase.description.trim().length !== testcase.description.length 
         || testcase.testcaseName.trim().length !== testcase.testcaseName.length){
         displayMsg({
@@ -144,13 +144,13 @@ const TestCaseDetail = (props) => {
 
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" 
             value={testcase.testcaseName}  onChange={handleChange('testcaseName')} fullWidth required
-            error={testcase.testcaseName.trim().length == 0 && error.testcaseName.trim().length == 0 ? true : false}
-            helperText={testcase.testcaseName.trim().length == 0 && error.testcaseName.trim().length == 0 ? 'Test Case Name is required' : ' '}/></Grid>
+            error={testcase.testcaseName.trim().length === 0 && error.testcaseName.trim().length === 0 ? true : false}
+            helperText={testcase.testcaseName.trim().length === 0 && error.testcaseName.trim().length === 0 ? 'Test Case Name is required' : ' '}/></Grid>
 
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" 
             value={testcase.description} onChange={handleChange('description')} fullWidth required
-            error={testcase.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-            helperText={testcase.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/></Grid>
+            error={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+            helperText={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/></Grid>
 
             <Grid item xs={12}>
              <FormControl variant="outlined"  fullWidth required>
@@ -226,7 +226,7 @@ const TestCaseDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
-              <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleSave}>Create
+              <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon/>} onClick={handleSave}>Create
               {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}</Button>
             </Grid>
             <Grid item>

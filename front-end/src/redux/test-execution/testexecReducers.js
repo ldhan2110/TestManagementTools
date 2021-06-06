@@ -1,4 +1,4 @@
-import { SignalCellularNull } from '@material-ui/icons';
+//import { SignalCellularNull } from '@material-ui/icons';
 import * as types from './constants';
 
 var initialState = {
