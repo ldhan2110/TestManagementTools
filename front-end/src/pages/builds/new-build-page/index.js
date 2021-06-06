@@ -108,7 +108,7 @@ const NewBuildPage = (props) => {
         setEnableCreateBtn(true);
         setLoading(false);
         resetAddRedux();
-        getAllBuildReq();
+        //getAllBuildReq();
         handleClose();
       }
     },[insBuilds.sucess]);    
@@ -194,15 +194,6 @@ const NewBuildPage = (props) => {
             New Build/Release
           </Typography>
 
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-          </Breadcrumbs> */}
         </Grid>
       </Grid>
 
