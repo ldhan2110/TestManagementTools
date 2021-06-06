@@ -17,7 +17,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 
 import {
   Grid,
-  Breadcrumbs,
+  //Breadcrumbs,
   Divider,
 } from '@material-ui/core';
 import { useHistory } from "react-router";
@@ -38,7 +38,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const NewMileStonePage = (props) => {
-  const {isOpen, setOpen, classes} = props;
+  const {isOpen, classes} = props; //,setOpen
   const {insMilestones, addMilestoneReq, displayMsg, getAllMilestoneReq, project, resetAddRedux} = props;
   const [open, setOpenPopup] = React.useState(isOpen);
   const [selectedDateStart, setSelectedDateStart] = React.useState(new Date());
@@ -84,7 +84,7 @@ const NewMileStonePage = (props) => {
       setEnableCreateBtn(true);
       setLoading(false);
       resetAddRedux();
-    } else if (insMilestones.sucess == true) {
+    } else if (insMilestones.sucess === true) {
       setLoading(false);
       displayMsg({
         content: "Create milestone successfully !",
@@ -119,7 +119,7 @@ const NewMileStonePage = (props) => {
     if(milestoneInfo.milestonetitle === "")
     setError({ ...milestoneInfo, milestonetitle: "" });
 
-    if(milestoneInfo.description.trim().length == 0 || milestoneInfo.milestonetitle.trim().length == 0
+    if(milestoneInfo.description.trim().length === 0 || milestoneInfo.milestonetitle.trim().length === 0
             ||milestoneInfo.description.trim().length !== milestoneInfo.description.length 
             || milestoneInfo.milestonetitle.trim().length !== milestoneInfo.milestonetitle.length){
             displayMsg({
@@ -139,7 +139,7 @@ const NewMileStonePage = (props) => {
 
   const handleChange = (prop) => (event) => {
     setMilestoneInfo({ ...milestoneInfo, [prop]: event.target.value });
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
@@ -187,8 +187,8 @@ const NewMileStonePage = (props) => {
         <form className={classes.content}>
           <TextField id="milestoneName" label="Milestone Name" variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
           value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')} 
-          error={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? true : false}
-          helperText={milestoneInfo.milestonetitle.trim().length == 0 && error.milestonetitle.trim().length == 0 ? 'Milestone Name is required' : ' '}/>                     
+          error={milestoneInfo.milestonetitle.trim().length === 0 && error.milestonetitle.trim().length === 0 ? true : false}
+          helperText={milestoneInfo.milestonetitle.trim().length === 0 && error.milestonetitle.trim().length === 0 ? 'Milestone Name is required' : ' '}/>                     
 
           <Grid container spacing={3}> 
               <Grid item xs={12}>
@@ -206,10 +206,10 @@ const NewMileStonePage = (props) => {
           </Grid>
           
           <TextField id="descriptions" label="Description" 
-          variant="outlined"  fullWidth required multiline rows={10} 
+          variant="outlined"  fullWidth required multiline rows={3} 
           value={milestoneInfo.description || ''} onChange={handleChange('description')} 
-          error={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-          helperText={milestoneInfo.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/> 
+          error={milestoneInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+          helperText={milestoneInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/> 
           
           <div>
              <FormControlLabel
@@ -222,7 +222,7 @@ const NewMileStonePage = (props) => {
           </div>                  
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>

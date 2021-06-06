@@ -1,7 +1,9 @@
 import * as actions from './constants';
 import { ofType} from 'redux-observable';
-import {mergeMap, map, filter,catchError} from 'rxjs/operators';
-import { Observable, from, of } from 'rxjs';
+import {mergeMap, map, //filter,
+  catchError} from 'rxjs/operators';
+import { //Observable, 
+  from, of } from 'rxjs';
 import axios from 'axios';
 import {API_ADDR} from '../constants';
 

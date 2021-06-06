@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from '@material-ui/core/styles';
+//import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-import Helmet from 'react-helmet';
+//import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import DragList from '../../../components/DragList';
-import Selectbox from '../../../components/Selectbox';
+//import DragList from '../../../components/DragList';
+//import Selectbox from '../../../components/Selectbox';
 import { useLocation } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { blue } from '@material-ui/core/colors';
@@ -301,7 +301,7 @@ const TestCaseExecDetail = (props) => {
           </FormControl>
         </Grid>
         {!viewMode && <Grid item>
-                    <Button variant="contained"  color="primary" disabled={enableCreateBtn == true ? false : true } fullWidth startIcon={<SaveIcon />} onClick={handleSave}>
+                    <Button variant="contained"  color="primary" disabled={enableCreateBtn ? false : true } fullWidth startIcon={<SaveIcon />} onClick={handleSave}>
                        Save Result
                       {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}
                     </Button>

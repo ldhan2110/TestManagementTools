@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => {
 
 const ProfilePage = (props)=>{
 
-  const {insProfile, insPassword, updateProfileReq, updatePasswordReq, displayMsg, inforProfile, getCurrentProfileReq} = props;
+  const {insProfile, updateProfileReq, updatePasswordReq, inforProfile, getCurrentProfileReq, insPassword, displayMsg,} = props;
   const {classes} = props;
   const [error, setError] = useState({
     fullname: 'ss',
@@ -89,7 +89,7 @@ const ProfilePage = (props)=>{
   };
 
   const handleChangeProfile = (prop) => (event) => {
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
 
     setProfileInfo({ ...profileInfo, [prop]: event.target.value });
@@ -111,8 +111,8 @@ const ProfilePage = (props)=>{
                     <TextField id="fullname" label="Full Name" 
                     variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
                     value={profileInfo.fullname || ''} onChange={handleChangeProfile('fullname')}
-                    error={profileInfo.fullname ==0 && error.fullname ==0 ? true : false}
-                    helperText={profileInfo.fullname ==0 && error.fullname ==0 ? 'Full Name is required' : ' '}/>  
+                    error={profileInfo.fullname === 0 && error.fullname === 0 ? true : false}
+                    helperText={profileInfo.fullname === 0 && error.fullname === 0 ? 'Full Name is required' : ' '}/>  
 
                     {/*<TextField id="fullname" label="Full Name" 
                     variant="outlined"  fullWidth

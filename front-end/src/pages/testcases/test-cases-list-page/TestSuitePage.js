@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-import Helmet from 'react-helmet';
+//import Helmet from 'react-helmet';
 import EnhancedTable from '../../../components/Table/index';
 import NewTestSuitePopup from '../new-test-suite-page/index';
 import {TEST_SUITE_DETAIL_HEADERS} from '../../../components/Table/DefineHeader';
@@ -11,7 +11,7 @@ import {UPDATE_TESTSUITE_REQ, DELETE_TESTSUITE_REQ, RESET_UPDATE_TESTSUITE, RESE
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
-import CancelIcon from '@material-ui/icons/Cancel';
+//import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
 import { blue } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -35,7 +35,7 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-import SelectTestCasePopup from "../select-test-case-page";
+//import SelectTestCasePopup from "../select-test-case-page";
 import { Upload } from "react-feather";
 
 
@@ -73,7 +73,7 @@ const TestSuiteDetail = (props) => {
     
   });
   const [openNewTS, setOpenTS] = useState(false);
-  const [openNewTC, setOpenTC] = useState(false);
+  //const [openNewTC, setOpenTC] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [checkError, setCheckError] = useState(false);
   const [error, setError] = useState({
@@ -183,7 +183,7 @@ const TestSuiteDetail = (props) => {
     if(testSuite.name === "")
     setError({ ...testSuite, name: "" });
 
-    if(testSuite.description.trim().length == 0 || testSuite.name.trim().length == 0
+    if(testSuite.description.trim().length === 0 || testSuite.name.trim().length === 0
         ||testSuite.description.trim().length !== testSuite.description.length 
         || testSuite.name.trim().length !== testSuite.name.length){
         displayMsg({
@@ -329,11 +329,11 @@ const TestSuiteDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
-              <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon />} fullWidth onClick={handleSave}>Update
+              <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />} fullWidth onClick={handleSave}>Update
               {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" startIcon={<DeleteIcon />} disabled={enableDeleteBtn == true ? false : true } fullWidth  style={enableDeleteBtn ? { color: red[500] } : {} } onClick={handleOpen}>Delete
+              <Button variant="contained" startIcon={<DeleteIcon />} disabled={enableDeleteBtn ? false : true } fullWidth  style={enableDeleteBtn ? { color: red[500] } : {} } onClick={handleOpen}>Delete
               {loadingg && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>

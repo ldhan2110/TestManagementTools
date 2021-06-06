@@ -1,6 +1,6 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import { PersistGate } from 'redux-persist/integration/react'
+//import { PersistGate } from 'redux-persist/integration/react'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';

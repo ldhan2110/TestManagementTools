@@ -47,7 +47,7 @@ const BuildListPage = (props) => {
 
   const history = useHistory();
 
-  const {classes} = props;
+  //const {classes} = props;
 
   const {listBuilds, getAllBuildReq, project, getAllTestPlanReq, listTestPlan, role} = props;
 
@@ -137,7 +137,7 @@ const BuildListPage = (props) => {
   },[BUILD_SEARCH_CONDITIONS])
 
   useEffect(()=>{
-    console.log('keyword: '+ 'buildname: '+searchConditions.buildName + '   ' +'active: '+ searchConditions.active+'  '+ 'testplanName: '+searchConditions.testplanName);
+    //console.log('keyword: '+ 'buildname: '+searchConditions.buildName + '   ' +'active: '+ searchConditions.active+'  '+ 'testplanName: '+searchConditions.testplanName);
     if (searchConditions.active === -1 && searchConditions.buildName === '' && searchConditions.testplanName === -1){
       handleArray(listBuilds);
     } 

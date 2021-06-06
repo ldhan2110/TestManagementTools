@@ -2,7 +2,12 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import DatePicker from '../../../components/DatePicker';
-import {GET_ALL_MILESTONES_REQ, GET_MILESTONE_BYID_REQ, UPDATE_MILESTONE_REQ, DELETE_MILESTONE_REQ, RESET_UPDATE_MILESTONE, RESET_DELETE_MILESTONE} from '../../../redux/milestones/constants';
+import {//GET_ALL_MILESTONES_REQ, 
+  GET_MILESTONE_BYID_REQ, 
+  UPDATE_MILESTONE_REQ, 
+  DELETE_MILESTONE_REQ, 
+  RESET_UPDATE_MILESTONE, 
+  RESET_DELETE_MILESTONE} from '../../../redux/milestones/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import React, {useEffect, useState} from "react";
 import { connect } from 'react-redux';
@@ -20,14 +25,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
   Grid,
-  Breadcrumbs,
+  //Breadcrumbs,
   Divider,
   DialogContent,
   DialogActions,
   DialogTitle,
   Dialog
 } from '@material-ui/core';
-import { deleteMilestoneEpic } from "../../../redux/milestones/milestoneEpics";
+//import { deleteMilestoneEpic } from "../../../redux/milestones/milestoneEpics";
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -114,7 +119,6 @@ const DetailMileStonePage = (props) => {
 
   useEffect(()=>{
     if (insMilestones.sucess === false){
-      setLoading(false);
       displayMsg({
         content: insMilestones.errMsg,
         type: 'error'
@@ -122,8 +126,7 @@ const DetailMileStonePage = (props) => {
       setEnableCreateBtn(true);
       setLoading(false);
       resetUpdateRedux();
-    } else if (insMilestones.sucess == true) {
-      setLoading(false);
+    } else if (insMilestones.sucess === true) {
       displayMsg({
         content: "Update milestone successfully !",
         type: 'success'
@@ -137,7 +140,6 @@ const DetailMileStonePage = (props) => {
 
   useEffect(()=>{
     if (insMilestonesDelete.sucess === false){
-      setLoadingg(false);
       displayMsg({
         content: insMilestonesDelete.errMsg,
         type: 'error'
@@ -145,8 +147,7 @@ const DetailMileStonePage = (props) => {
       setEnableDeleteBtn(true);
       setLoadingg(false);
       resetDeleteRedux();
-    } else if (insMilestonesDelete.sucess == true) {
-      setLoadingg(false);
+    } else if (insMilestonesDelete.sucess === true) {
       displayMsg({
         content: "Delete milestone successfully !",
         type: 'success'
@@ -174,7 +175,7 @@ const DetailMileStonePage = (props) => {
     if(milestoneInfo.milestonetitle === "")
     setError({ ...milestoneInfo, milestonetitle: "" });
 
-    if(milestoneInfo.description.trim().length == 0 || milestoneInfo.milestonetitle.trim().length == 0
+    if(milestoneInfo.description.trim().length === 0 || milestoneInfo.milestonetitle.trim().length === 0
         ||milestoneInfo.description.trim().length !== milestoneInfo.description.length 
         || milestoneInfo.milestonetitle.trim().length !== milestoneInfo.milestonetitle.length){
         displayMsg({
@@ -194,7 +195,7 @@ const DetailMileStonePage = (props) => {
   const handleChange = (prop) => (event) => {
     setMilestoneInfo({ ...milestoneInfo, [prop]: event.target.value });
 
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
@@ -241,7 +242,7 @@ const DetailMileStonePage = (props) => {
         <Grid item>
         <div>
         {(role === 'projectmanager' || role === 'testlead')  &&
-          <Button variant="contained" disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+          <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
             Delete Milestone
             {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
@@ -276,8 +277,8 @@ const DetailMileStonePage = (props) => {
           <TextField id="milestonetitle" label="Milestone Name" 
           variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
           value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')}
-          error={milestoneInfo.milestonetitle ==0 && error.milestonetitle ==0 ? true : false}
-          helperText={milestoneInfo.milestonetitle ==0 && error.milestonetitle ==0 ? 'Milestone Name is required' : ' '}/>                     
+          error={milestoneInfo.milestonetitle === 0 && error.milestonetitle === 0 ? true : false}
+          helperText={milestoneInfo.milestonetitle === 0 && error.milestonetitle === 0 ? 'Milestone Name is required' : ' '}/>                     
                   
           <Grid container spacing={3}> 
               <Grid item xs={12}>
@@ -295,10 +296,10 @@ const DetailMileStonePage = (props) => {
           </Grid>
 
           <TextField id="descriptions" label="Description" 
-          variant="outlined" fullWidth required multiline rows={10} 
+          variant="outlined" fullWidth required multiline rows={3} 
           value={milestoneInfo.description || ''} onChange={handleChange('description')}
-          error={milestoneInfo.description ==0 && error.description ==0 ? true : false}
-          helperText={milestoneInfo.description ==0 && error.description ==0 ? 'Description is required' : ' '}/>   
+          error={milestoneInfo.description === 0 && error.description === 0 ? true : false}
+          helperText={milestoneInfo.description === 0 && error.description === 0 ? 'Description is required' : ' '}/>   
 
           <div>
              <FormControlLabel
@@ -313,7 +314,7 @@ const DetailMileStonePage = (props) => {
           
         <div className = {classes.btnGroup}>
         {(role === 'projectmanager' || role === 'testlead')  && 
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}

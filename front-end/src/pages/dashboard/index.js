@@ -8,7 +8,7 @@ import {
   Typography as MuiTypography
 } from '@material-ui/core'
 import {PASSED, FAILED, BLOCKED, NOT_EXECUTE} from '../../components/Charts/Constants';
-import {rand} from '../../utils/index';
+//import {rand} from '../../utils/index';
 
 import { spacing } from '@material-ui/system'
 import { connect } from 'react-redux';
@@ -110,7 +110,7 @@ function getCurrentDate() {
 
 const  Dashboard = (props) => {
 
-  const {theme} = props;
+  //const {theme} = props;
 
   const {getEffortReq,effortsData, execOverviewData, getExecOverviewReq, getMultiChartReq, multiChart} = props;
 

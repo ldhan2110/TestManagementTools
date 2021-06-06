@@ -15,7 +15,7 @@ import {TransitionEffect} from './TransitionEffect';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Snackbar from '../../../components/SnackBar';
+//import Snackbar from '../../../components/SnackBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -74,7 +74,7 @@ const NewProjectPopup = (props) => {
       resetAddRedux(); 
       setEnableCreateBtn(true);
       setLoading(false);
-    } else if (insProjects.sucess == true) {
+    } else if (insProjects.sucess === true) {
       setLoading(false);
       displayMsg({
         content: "Create project successfully !",
@@ -108,7 +108,7 @@ const NewProjectPopup = (props) => {
     if(projectInfo.projectname === "")
     setError({ ...projectInfo, projectname: "" });
 
-    if(projectInfo.description.trim().length == 0 || projectInfo.projectname.trim().length == 0
+    if(projectInfo.description.trim().length === 0 || projectInfo.projectname.trim().length === 0
         ||projectInfo.description.trim().length !== projectInfo.description.length 
         || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
         displayMsg({
@@ -129,7 +129,7 @@ const NewProjectPopup = (props) => {
   const handleChange = (prop) => (event) => {
     setProjectInfo({ ...projectInfo, [prop]: event.target.value });
 
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
@@ -156,13 +156,13 @@ const NewProjectPopup = (props) => {
         <form className={classes.content}>
           <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  
           value={projectInfo.projectname || ''} onChange={handleChange('projectname')} inputProps={{maxLength : 16}} 
-          error={projectInfo.projectname.trim().length==0 && error.projectname.trim().length==0 ? true : false}
-          helperText={projectInfo.projectname.trim().length==0 && error.projectname.trim().length==0 ? 'Project Name is required' : ' '}/>
+          error={projectInfo.projectname.trim().length === 0 && error.projectname.trim().length === 0 ? true : false}
+          helperText={projectInfo.projectname.trim().length === 0 && error.projectname.trim().length === 0 ? 'Project Name is required' : ' '}/>
 
           <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={15}  
           value={projectInfo.description || ''} onChange={handleChange('description')}
-          error={projectInfo.description.trim().length==0 && error.description.trim().length==0 ? true : false}
-          helperText={projectInfo.description.trim().length==0 && error.description.trim().length==0 ? 'Description is required' : ' '}/>
+          error={projectInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+          helperText={projectInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}
@@ -182,7 +182,7 @@ const NewProjectPopup = (props) => {
             />
           </div>
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>

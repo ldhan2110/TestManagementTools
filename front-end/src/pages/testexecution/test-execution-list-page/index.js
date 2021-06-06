@@ -54,7 +54,7 @@ const mapDispatchToProps = dispatch => {
 
 
 const TestExecutionListPage = (props) => {
-  const {classes} = props;
+  //const {classes} = props;
 
   const {listTestExec, listTestPlan, getAllTestExecReq, getAllTestPlanReq, getAllBuildReq, getBuildByTestplan, listBuild, listBuildByTestPlan, resetBuildActive, resetBuildTestplan} = props;
 

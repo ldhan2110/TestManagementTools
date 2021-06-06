@@ -41,7 +41,7 @@ const UploadTestCase = (props) => {
 
   const [open,setOpenMethod] = useState(isOpen);
 
-  const [files,setFile] = useState([]);
+  //const [files,setFile] = useState([]);
 
   const [result,setResult] = useState({});
 
@@ -111,7 +111,7 @@ const UploadTestCase = (props) => {
           <input type='file' id='file' ref={inputFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"  onChange={(e)=>{handleFileUpload(e)}} multiple/>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleConfirm} disabled={enableCreateBtn == true ? false : true } color="primary">
+          <Button onClick={handleConfirm} disabled={enableCreateBtn ? false : true } color="primary">
             Confirm
             {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
           </Button>

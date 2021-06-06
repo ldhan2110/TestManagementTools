@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './styles';
 import styled from "styled-components";
 import UserMenu from './UserMenu';
-import SearchInput from '../../components/SearchInput';
+//import SearchInput from '../../components/SearchInput';
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import { Menu as MenuIcon } from "@material-ui/icons";

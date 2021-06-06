@@ -4,12 +4,12 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 import useStyles from './styles';
 import { useHistory } from "react-router-dom";
-import styles from "./styles";
+//import styles from "./styles";
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { withStyles } from '@material-ui/core/styles';
+//import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import {CONFIRM_RESET_PASSWORD_REQ, RESET_CONFIRM_RESET_PASSWORD} from '../../../redux/account/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
@@ -19,10 +19,10 @@ import CancelIcon from '@material-ui/icons/Cancel';
 
 import {
     FormControl,
-    Input,
+    //Input,
     InputLabel,
     Button as MuiButton,
-    Paper,
+    //Paper,
     Typography
   } from "@material-ui/core";
 
@@ -42,17 +42,17 @@ const mapDispatchToProps = dispatch => {
 
 
 const ResetPassword = (props) => {
-    const {isOpen, setOpenState} = props;
+    //const {isOpen, setOpenState} = props;
 
     const {isConfirmPassword, confirmResetPasswordReq, displayMsg, resetAddRedux } = props;
 
-    const [open,setOpen] = useState(isOpen);
+    //const [open,setOpen] = useState(isOpen);
 
     const history = useHistory();
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [loading, setLoading] = useState(false);
 
-    const [isShowPassword,setShowPassword] = useState(false);
+    //const [isShowPassword,setShowPassword] = useState(false);
     const classes = useStyles();
     const [values, setValues] = React.useState({
         amount: '',
@@ -83,7 +83,7 @@ const ResetPassword = (props) => {
         resetAddRedux();
           } 
         
-        else if (isConfirmPassword.sucess == true && values.password.trim().length == 0  && values.confirmPassword.trim().length == 0) {
+        else if (isConfirmPassword.sucess === true && values.password.trim().length === 0  && values.confirmPassword.trim().length === 0) {
           setLoading(false);
           displayMsg({
             content: "Password should not contain spaces !",
@@ -94,7 +94,7 @@ const ResetPassword = (props) => {
           resetAddRedux();
           } 
           
-        else if (isConfirmPassword.sucess == true) {
+        else if (isConfirmPassword.sucess === true) {
         setLoading(false);
         displayMsg({
           content: "Reset password successfully !",
@@ -117,7 +117,7 @@ const ResetPassword = (props) => {
     const handleChange = (prop) => (event) => {
       setValues({ ...values, [prop]: event.target.value });
 
-        if(checkError == true)
+        if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
       };
     
@@ -177,13 +177,13 @@ const ResetPassword = (props) => {
                 <InputLabel htmlFor="new password">New Password</InputLabel>
                 <OutlinedInput
                     id="new password"
-                    error={error.password == 0 && values.password == 0 ? true : false}
+                    error={error.password === 0 && values.password === 0 ? true : false}
                     value={values.newpassword}
                     onChange={handleChange('password')}
                     labelWidth={100}
                     fullWidth
                     required={true}
-                    type="password"
+                    //type="password"
                     type={values.showPassword ? 'text' : 'password'}
                     endAdornment={
                       <InputAdornment position="end">
@@ -198,7 +198,7 @@ const ResetPassword = (props) => {
                       </InputAdornment>
                     } 
                 />
-                {error.password.trim().length == 0 && values.password.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
+                {error.password.trim().length === 0 && values.password.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
                {/* {!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>} */}
                {/*} <OutlinedInput
                     id="new password"
@@ -233,7 +233,7 @@ const ResetPassword = (props) => {
                 <InputLabel htmlFor="confirm new password">Confirm New Password</InputLabel>
                 <OutlinedInput
                     id="confirm new password"
-                    error={error.confirmPassword == 0 && values.confirmPassword == 0 ? true : false}
+                    error={error.confirmPassword === 0 && values.confirmPassword === 0 ? true : false}
                    // error={!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) ? true : false}
                     
                     /*error={values.error ? true : false} */
@@ -242,7 +242,7 @@ const ResetPassword = (props) => {
                     labelWidth={150}
                     fullWidth
                     required={true}
-                    type="confirmPassword"
+                    //type="confirmPassword"
                     type={values.showPasswordd ? 'text' : 'password'}
                     endAdornment={
                       <InputAdornment position="end">
@@ -257,7 +257,7 @@ const ResetPassword = (props) => {
                       </InputAdornment>
                     } 
                 />
-                {error.confirmPassword.trim().length == 0 && values.confirmPassword.trim().length == 0  && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required</FormHelperText>} 
+                {error.confirmPassword.trim().length === 0 && values.confirmPassword.trim().length === 0  && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required</FormHelperText>} 
                 {/* {!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required at least 8 characters (8-16)</FormHelperText>} */}
                {/*} <OutlinedInput
                     id="confirm new password"
@@ -289,7 +289,7 @@ const ResetPassword = (props) => {
 
             
             <div className = {classes.btnGroup}>
-                <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<ReplayIcon/>} onClick={handleClickResetPassword}>
+                <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<ReplayIcon/>} onClick={handleClickResetPassword}>
                     Reset Password
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </Button>  

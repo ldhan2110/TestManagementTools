@@ -3,7 +3,7 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
-import SelectBox from '../../../components/Selectbox';
+//import SelectBox from '../../../components/Selectbox';
 import DatePicker from '../../../components/DatePicker';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILDS_REQ, GET_BUILD_BYID_REQ, UPDATE_BUILD_REQ, DELETE_BUILD_REQ, RESET_UPDATE_BUILD, RESET_DELETE_BUILD} from '../../../redux/build-release/constants';
@@ -20,7 +20,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Grid,
   Typography,
-  Breadcrumbs,
+  //Breadcrumbs,
   Button,
   Divider,
   TextField,
@@ -59,8 +59,10 @@ const mapDispatchToProps = dispatch => {
 }
 
 const BuildDetailPage = (props) => {
-    const {classes, name} = props;
-    const {insBuilds, updateBuildReq, displayMsg,listBuilds,deleteBuildReq, getBuildByIdReq, project, build, listTestplan, getAllTestplanReq, resetUpdateRedux, resetDeleteRedux, insBuildsDelete, role} = props;
+    const {classes,name} = props;
+
+    const {insBuilds, updateBuildReq, displayMsg, deleteBuildReq, project, listTestplan, getAllTestplanReq, resetUpdateRedux, resetDeleteRedux, insBuildsDelete, role, listBuilds, getBuildByIdReq, build} = props;
+      
     const history = useHistory();
     const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
     const [checkError, setCheckError] = useState(false);
@@ -105,7 +107,6 @@ const BuildDetailPage = (props) => {
     try {
       useEffect(()=>{
         if (insBuilds.sucess === false){
-          setLoading(false);
           displayMsg({
             content: "Build name already exists in this test plan !" ,
             type: 'error'
@@ -113,8 +114,7 @@ const BuildDetailPage = (props) => {
           setEnableCreateBtn(true);
           setLoading(false);
           resetUpdateRedux();
-        } else if (insBuilds.sucess == true) {
-          setLoading(false);
+        } else if (insBuilds.sucess === true) {
           displayMsg({
             content: "Update build successfully !",
             type: 'success'
@@ -131,7 +131,6 @@ const BuildDetailPage = (props) => {
 
   useEffect(()=>{
     if (insBuildsDelete.sucess === false){
-      setLoadingg(false);
       // displayMsg({
       //   content: insBuildsDelete.errMsg,
       //   type: 'error'
@@ -139,8 +138,7 @@ const BuildDetailPage = (props) => {
       setEnableDeleteBtn(true);
       setLoadingg(false);
       resetDeleteRedux();
-    } else if (insBuildsDelete.sucess == true) {
-      setLoadingg(false);
+    } else if (insBuildsDelete.sucess === true) {
       displayMsg({
         content: "Delete build successfully !",
         type: 'success'
@@ -166,7 +164,7 @@ const BuildDetailPage = (props) => {
         if(buildInfor.buildname === "")
         setError({ ...buildInfor, buildname: "" });
     
-        if(buildInfor.description.trim().length == 0 || buildInfor.buildname.trim().length == 0
+        if(buildInfor.description.trim().length === 0 || buildInfor.buildname.trim().length === 0
             ||buildInfor.description.trim().length !== buildInfor.description.length 
             || buildInfor.buildname.trim().length !== buildInfor.buildname.length){
             displayMsg({
@@ -192,7 +190,7 @@ const BuildDetailPage = (props) => {
 
   const handleChange = (prop) => (event) => {
     setBuildInfor({ ...buildInfor, [prop]: event.target.value });
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   }
 
@@ -260,7 +258,7 @@ const BuildDetailPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
             Delete Build
             {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
@@ -286,8 +284,8 @@ const BuildDetailPage = (props) => {
         <form className={classes.content}>
           <TextField id="buildName" label="Build Name" variant="outlined"  fullWidth 
           required value={buildInfor.buildname || ''} onChange={handleChange('buildname')}
-          error={buildInfor.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? true : false}
-          helperText={buildInfor.buildname.trim().length == 0 && error.buildname.trim().length == 0 ? 'Build Name is required' : ' '}/>
+          error={buildInfor.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? true : false}
+          helperText={buildInfor.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? 'Build Name is required' : ' '}/>
 
         
 
@@ -342,12 +340,12 @@ const BuildDetailPage = (props) => {
           
               <TextField id="description" label="Description" variant="outlined"  fullWidth 
               required multiline rows={2} value={buildInfor.description || ''} onChange={handleChange('description')}
-              error={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? true : false}
-              helperText={buildInfor.description.trim().length == 0 && error.description.trim().length == 0 ? 'Description is required' : ' '}/>
+              error={buildInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+              helperText={buildInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
 
 
           <div className = {classes.btnGroup}>
-          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon />} onClick={handleUpdate}>
+          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}

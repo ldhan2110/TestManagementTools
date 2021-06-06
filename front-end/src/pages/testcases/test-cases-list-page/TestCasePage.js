@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
-import { useHistory } from "react-router-dom";
-import Helmet from 'react-helmet';
+//import { useHistory } from "react-router-dom";
+//import Helmet from 'react-helmet';
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ, RESET_UPDATE_TESTCASE, RESET_DELETE_TESTCASE, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
-import CancelIcon from '@material-ui/icons/Cancel';
+//import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
 import { blue } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -149,7 +149,7 @@ const TestCaseDetail = (props) => {
     if(newtestCase.testcasename === "")
     setError({ ...newtestCase, testcasename: "" });
 
-    if(newtestCase.description.trim().length == 0 || newtestCase.testcasename.trim().length == 0
+    if(newtestCase.description.trim().length === 0 || newtestCase.testcasename.trim().length === 0
         ||newtestCase.description.trim().length !== newtestCase.description.length 
         || newtestCase.testcasename.trim().length !== newtestCase.testcasename.length){
         displayMsg({
@@ -183,7 +183,7 @@ const TestCaseDetail = (props) => {
   const handleChange = (prop) => (event) => {
     setNewTestCase({ ...newtestCase, [prop]: event.target.value });
 
-    if(checkError == true)
+    if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
@@ -286,11 +286,11 @@ const TestCaseDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
-              <Button variant="contained" color="primary" disabled={enableCreateBtn == true ? false : true } startIcon={<UpdateIcon/>}  fullWidth onClick={handleUpdate}>Update
+              <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon/>}  fullWidth onClick={handleUpdate}>Update
               {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>
-              <Button variant="contained"  disabled={enableDeleteBtn == true ? false : true } startIcon={<DeleteIcon />}  fullWidth  style={enableDeleteBtn ? { color: red[500] } : {} } onClick={handleOpen}>Delete
+              <Button variant="contained"  disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />}  fullWidth  style={enableDeleteBtn ? { color: red[500] } : {} } onClick={handleOpen}>Delete
               {loadingg && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
             <Grid item>

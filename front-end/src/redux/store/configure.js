@@ -2,9 +2,9 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import { createEpicMiddleware } from 'redux-observable';
 import rootReducer from '../reducers/index';
 import rootEpic from '../reducers/epics';
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+//import { persistStore, persistReducer } from 'redux-persist'
+//import storage from 'redux-persist/lib/storage'
+//import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 
 //Epic middleware

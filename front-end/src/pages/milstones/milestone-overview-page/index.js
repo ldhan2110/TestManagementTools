@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react'; //,useState
 import Helmet from 'react-helmet';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
@@ -16,14 +16,14 @@ import {
 
 import Milestone from '../../../components/Milestones/Milestone';
 
-const useStyles = makeStyles((theme) => ({
+/* const useStyles = makeStyles((theme) => ({
   paper: {
     padding: '6px 16px',
   },
   secondaryTail: {
     backgroundColor: theme.palette.secondary.main,
   }, 
-}));
+})); */
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
@@ -61,7 +61,7 @@ const CustomizedTimeline = (props) => {
   const handleClickNewMilestone = () => {
     history.push(window.location.pathname+"/new-milestone");
   }
-  const {classes} = props;
+  //const {classes} = props;
 
   const {listMilestones, getAllMilestoneReq, project, role} = props;
 
