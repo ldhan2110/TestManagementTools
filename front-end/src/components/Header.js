@@ -170,6 +170,9 @@ function UserMenu() {
           Profile
         </MenuItem>
         <MenuItem onClick={closeMenu}>
+          Change Password
+        </MenuItem>
+        <MenuItem onClick={closeMenu}>
           Sign out
         </MenuItem>
       </Menu>

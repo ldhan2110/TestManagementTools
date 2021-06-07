@@ -304,7 +304,7 @@ const TestSuiteDetail = (props) => {
                 :
                 <Grid container justify='flex-end'>
                   <Grid item>
-                    <Button variant="contained" color="secondary" onClick={handleOpenTS}>
+                    <Button variant="contained" color="primary" onClick={handleOpenTS}>
                       <AddIcon />Add Test Suite
                     </Button> 
                   </Grid>

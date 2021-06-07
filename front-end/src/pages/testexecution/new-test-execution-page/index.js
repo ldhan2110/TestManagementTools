@@ -289,12 +289,14 @@ const NewTestExecutionPage = (props) => {
                 <p>Create from existing test execution ?</p>
               </Grid>
               <Grid item xs={9}>
-              <FormControl variant="outlined" fullWidth required>
+              <FormControl variant="outlined" fullWidth>
+              <InputLabel id="testexec" >Test Execution Exists </InputLabel>
             <Select
           labelId="testexec"
           id="testexec"
           onChange={handleChange('exist_testexecution')}
           label="testexec">
+            
           <MenuItem key={''} value={''}></MenuItem>
           {listTestExec.map((item, index) => <MenuItem key={index} value={item._id}>{item.testexecutionname}</MenuItem>)}    
         </Select>

@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import styles from './styles';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -13,6 +14,8 @@ import {
   Avatar
 } from "@material-ui/core";
 import UploadButton from "../../../components/UploadButton";
+import SaveIcon from '@material-ui/icons/Save';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -50,6 +53,9 @@ const ProfilePage = (props)=>{
     password: '',
     confirmpassword: ''
   });
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   useEffect(()=>{
     getCurrentProfileReq();
@@ -68,6 +74,32 @@ const ProfilePage = (props)=>{
     }
     },[inforProfile])   
 
+    {/*try {
+    useEffect(()=>{
+      if (insProfile.sucess===false){
+        setLoading(false);
+        displayMsg({
+          content:  "Fail !",
+          type: 'error'
+        });
+        setEnableCreateBtn(true);
+        setLoading(false);
+    
+        
+      } else if (insProfile.sucess===true) {
+        setLoading(false);
+        displayMsg({
+          content: "Update profile successfully !",
+          type: 'success'
+        });
+        setEnableCreateBtn(true);
+        setLoading(false);      
+        history.goBack();
+      }
+    },[insProfile.sucess]);     
+    }catch (error) {
+      console.log('error: '+error);
+    }  */}
 
 
 
@@ -78,8 +110,19 @@ const ProfilePage = (props)=>{
     if(profileInfo.fullname === "")
     setError({ ...profileInfo, fullname: "" });
 
-    if(profileInfo.fullname !== "")
+    if(profileInfo.fullname.trim().length === 0 ||profileInfo.fullname.trim().length !== profileInfo.fullname.length ){
+      displayMsg({
+        content: "Fullname should not contain spaces !",
+        type: 'error'
+      });
+    }
+
+    else if(profileInfo.fullname !== ""){
+    setEnableCreateBtn(false);
+      setLoading(true);
     updateProfileReq(profileInfo);
+  }
+
   };
 
   const handleUpdatePassword = () => {
@@ -89,10 +132,9 @@ const ProfilePage = (props)=>{
   };
 
   const handleChangeProfile = (prop) => (event) => {
+    setProfileInfo({ ...profileInfo, [prop]: event.target.value });
     if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
-
-    setProfileInfo({ ...profileInfo, [prop]: event.target.value });
   };
 
   const handleChangePassword = (prop) => (event) => {
@@ -111,8 +153,8 @@ const ProfilePage = (props)=>{
                     <TextField id="fullname" label="Full Name" 
                     variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
                     value={profileInfo.fullname || ''} onChange={handleChangeProfile('fullname')}
-                    error={profileInfo.fullname === 0 && error.fullname === 0 ? true : false}
-                    helperText={profileInfo.fullname === 0 && error.fullname === 0 ? 'Full Name is required' : ' '}/>  
+                    error={profileInfo.fullname==0  && error.fullname==0  ? true : false}
+                    helperText={profileInfo.fullname ==0  && error.fullname ==0  ? 'Full Name is required' : ' '}/>  
 
                     {/*<TextField id="fullname" label="Full Name" 
                     variant="outlined"  fullWidth
@@ -127,9 +169,11 @@ const ProfilePage = (props)=>{
                   value={profileInfo.phonenumber || ''} onChange={handleChangeProfile('phonenumber')}/>
 
                   <TextField id="Introductions" label="Introductions" variant="outlined"  fullWidth multiline 
-                  rows={10} value={profileInfo.introduction || ''} onChange={handleChangeProfile('introduction')}/>
+                  rows={3} value={profileInfo.introduction || ''} onChange={handleChangeProfile('introduction')}/>
                   <div className = {classes.btnGroup}>
-                      <Button variant="contained" color="primary" onClick={handleUpdateProfile}>Save Changes</Button>
+                      <Button variant="contained" color="primary"  startIcon={<SaveIcon/>} onClick={handleUpdateProfile}>Save Changes
+                      {/*{loading && <CircularProgress size={24} className={classes.buttonProgress} />} */}
+                      </Button>
                   </div>
                 </form>
               </Grid>
