@@ -82,8 +82,8 @@ const DetailMileStonePage = (props) => {
   });
 
   const history = useHistory();
-  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
-  const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
+  const [enableCreateBtn, setEnableCreateBtn] = useState(false);
+  const [enableDeleteBtn, setEnableDeleteBtn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingg, setLoadingg] = useState(false);
   
@@ -95,8 +95,14 @@ const DetailMileStonePage = (props) => {
 
   useEffect(()=>{
     getMilestoneByIdReq(milestonebyid);
-    console.log(milestones);
   },[]);
+
+  useEffect(() =>{
+    if(milestoneInfo.milestonetitle !== undefined && milestoneInfo.milestonetitle !== ""){
+    setEnableCreateBtn(true);
+    setEnableDeleteBtn(true);
+    }
+  },[milestoneInfo])
 
   useEffect(()=>{
     setMilestoneInfo({ ...milestoneInfo, 
@@ -131,7 +137,6 @@ const DetailMileStonePage = (props) => {
         content: "Update milestone successfully !",
         type: 'success'
       });
-      setEnableCreateBtn(true);
       setLoading(false);
       resetUpdateRedux();
       history.goBack();
@@ -152,7 +157,6 @@ const DetailMileStonePage = (props) => {
         content: "Delete milestone successfully !",
         type: 'success'
       });
-      setEnableDeleteBtn(true);
       setLoadingg(false);
       resetDeleteRedux();
       history.goBack();
@@ -242,7 +246,7 @@ const DetailMileStonePage = (props) => {
         <Grid item>
         <div>
         {(role === 'projectmanager' || role === 'testlead')  &&
-          <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+          <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={enableDeleteBtn ? { color: red[500] } : {}} onClick={handleOpen}>
             Delete Milestone
             {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
@@ -278,6 +282,7 @@ const DetailMileStonePage = (props) => {
           variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
           value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')}
           error={milestoneInfo.milestonetitle === 0 && error.milestonetitle === 0 ? true : false}
+          disabled={enableDeleteBtn ? false : true }
           helperText={milestoneInfo.milestonetitle === 0 && error.milestonetitle === 0 ? 'Milestone Name is required' : ' '}/>                     
                   
           <Grid container spacing={3}> 
@@ -296,9 +301,10 @@ const DetailMileStonePage = (props) => {
           </Grid>
 
           <TextField id="descriptions" label="Description" 
-          variant="outlined" fullWidth required multiline rows={3} 
+          variant="outlined" fullWidth required multiline rows={3}
           value={milestoneInfo.description || ''} onChange={handleChange('description')}
           error={milestoneInfo.description === 0 && error.description === 0 ? true : false}
+          disabled={enableDeleteBtn ? false : true }
           helperText={milestoneInfo.description === 0 && error.description === 0 ? 'Description is required' : ' '}/>   
 
           <div>
@@ -308,6 +314,7 @@ const DetailMileStonePage = (props) => {
               control={<Checkbox color="primary" value={milestoneInfo.is_completed}  onChange={handleCompleted}/>}
               label="This milestone is completed?"
               labelPlacement="start"
+              disabled={enableDeleteBtn ? false : true }
               checked={milestoneInfo.is_completed}
             />
           </div>                  
