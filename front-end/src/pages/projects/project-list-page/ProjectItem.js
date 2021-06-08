@@ -47,7 +47,7 @@ const ProjectItem = (props) => {
 
   const renderStatus = (status) => {
     switch(status){
-      case "Finished":
+      case "Completed":
         return (<Chip label={status} className={classes.statusFin}/>);
 
       case "In progress":

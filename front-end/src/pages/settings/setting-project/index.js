@@ -296,9 +296,8 @@ const SettingProjectPage = (props) => {
                     onChange={handleChange('status')} 
                     value={projectInfo.status || ''}
                     label="status">
-                        <MenuItem value={'Progressing'}>Progressing</MenuItem>
-                        <MenuItem value={"Blocked"}>Blocked</MenuItem>
-                        <MenuItem value={"Closed"}>Closed</MenuItem>
+                        <MenuItem value={"In progress"}>In progress</MenuItem>
+                        <MenuItem value={"Completed"}>Completed</MenuItem>
                   </Select>
           </FormControl>
           </div>
