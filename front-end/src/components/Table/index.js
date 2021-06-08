@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 //import { Link as RouterLink } from "react-router-dom";
 import EnhancedTableHead from './TableHead';
@@ -105,6 +105,10 @@ const EnhancedTable = (props) => {
     setPage(newPage);
   };
 
+  useEffect(()=>{
+    setPage(0);
+  },[rows.length])
+  
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);

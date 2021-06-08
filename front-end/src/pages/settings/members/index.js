@@ -114,7 +114,8 @@ const MemberListPage = (props) => {
   },[listUsersOfProject])
 
   useEffect(()=>{
-    setListMember(array)
+    setListMember(array);
+    setOpenRoleDialog(false);
   },[array])
 
   useEffect(()=>{
