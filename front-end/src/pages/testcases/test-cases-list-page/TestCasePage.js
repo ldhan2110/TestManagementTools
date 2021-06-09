@@ -215,7 +215,6 @@ const TestCaseDetail = (props) => {
   const updateListStep = (Data) => {
     setNewTestCase({ ...newtestCase, listStep: Data });
     setListSteps(Data);
-    console.log(Object.values(Data[1]));
   };
 
   return(
