@@ -83,7 +83,7 @@ const TestCaseDetail = (props) => {
   const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
   const [loading, setLoading] = useState(false);
   const [loadingg, setLoadingg] = useState(false);
-
+  const [pressUpdateButton, setPressUpdateButton] = useState(false);
   useEffect(()=>{
     if (node){
       setTestCase({
@@ -96,13 +96,13 @@ const TestCaseDetail = (props) => {
 
   useEffect(()=>{ 
     if (insTestcase.sucess === false){
-      setLoading(false);
       displayMsg({
         content: "Test Case name already exists in this project !",
         type: 'error'
       });
       setEnableCreateBtn(true);
       setLoading(false);
+      setPressUpdateButton(false);
       resetUpdateRedux();
     } else if (insTestcase.sucess === true) {
       getAllTestcaseReq();
@@ -111,7 +111,8 @@ const TestCaseDetail = (props) => {
         type: 'success'
       });
       setEnableCreateBtn(true);
-      setLoading(false);      
+      setLoading(false);            
+      setPressUpdateButton(false);
       resetUpdateRedux();
     }
   },[insTestcase.sucess]);
@@ -139,12 +140,27 @@ const TestCaseDetail = (props) => {
     }
   },[insTestcaseDelete.sucess]);
 
+  const isEmpty = (currentValue) => {
+    if(typeof currentValue !== "string")
+      return currentValue === 0;
+    else
+      return currentValue.trim().length === 0;
+  }
+  const handleSteps = (Data) =>{
+    for (let i = 0; i < Data.length; i++)
+    {
+        if(!Object.values(Data[i]).some(isEmpty) === false)
+        {
+            return true;            
+        }
+    }
+  }
 
   const handleUpdate = () => {
     setCheckError(true);
-
-    if(newtestCase.description === "")
+    if(newtestCase.description === ""){
     setError({ ...newtestCase, description: "" });
+    }
 
     if(newtestCase.testcasename === "")
     setError({ ...newtestCase, testcasename: "" });
@@ -156,6 +172,14 @@ const TestCaseDetail = (props) => {
           content: "testcase name or description should not contain spaces or empty",
           type: 'error'
         });
+    }
+
+    if (handleSteps(listSteps)) {
+      setPressUpdateButton(true);
+      displayMsg({
+        content: "Steps cannot have empty field(s)",
+        type: 'error'
+      });
     }
 
     else if(newtestCase.testcasename !== "" && newtestCase.description !== ""){
@@ -187,9 +211,11 @@ const TestCaseDetail = (props) => {
     setError({ ...error, [prop]: event.target.value });
   };
 
+  
   const updateListStep = (Data) => {
     setNewTestCase({ ...newtestCase, listStep: Data });
     setListSteps(Data);
+    console.log(Object.values(Data[1]));
   };
 
   return(
@@ -280,7 +306,7 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <DragList data = {listSteps} parentCallback={updateListStep} />
+          <DragList data = {listSteps} parentCallback={updateListStep} pressUpdateButton={pressUpdateButton}/>
         </Grid>
 
         <Grid item xs={12}>

@@ -342,6 +342,41 @@ const reducer = (state = initialState, actions) => {
       }
     }
 
+    case types.SEARCH_TESTCASE_REQ:{
+      return {
+        ...state,
+      };
+    }
+
+    case types.SEARCH_TESTCASE_SUCCESS:{
+      return {
+        ...state,
+        listTestcase: payload            
+      };
+    }
+
+    case types.SEARCH_TESTCASE_FAILED:{
+      return {
+        ...state,
+        error: true,
+        errorMsg: payload,
+      };
+    }
+
+    // case types.RESET_SEARCH_TESTCASE:{
+    //   return {
+    //     ...state,
+    //     insTestcase: {
+    //       sucess: null,
+    //       errMsg: null
+    //     }      
+    //   };
+    // }
+   
+
+
+
+
     // case types.DELETE_TESTSUITE_REQ:{      
     //   return {
     //     ...state,

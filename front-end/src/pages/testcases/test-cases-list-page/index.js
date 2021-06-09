@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import TreeView from '../../../components/TreeView';
 import TestSuiteDetail from './TestSuitePage';
 import TestCaseDetail from "./TestCasePage";
-import {GET_ALL_TESTCASE_REQ, GET_ALL_TESTSUITE_REQ, GET_ALL_TESTSUITE_NO_TREE_REQ} from '../../../redux/test-case/constants';
+import {GET_ALL_TESTCASE_REQ, GET_ALL_TESTSUITE_REQ, GET_ALL_TESTSUITE_NO_TREE_REQ, SEARCH_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import NewTestSuitePopup from '../new-test-suite-page/index';
@@ -39,7 +39,8 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
     getAllTestsuiteReq: (payload) => dispatch({type: GET_ALL_TESTSUITE_REQ,payload}),
-    getAllTestsuiteNoTreeReq: (payload) => dispatch({type: GET_ALL_TESTSUITE_NO_TREE_REQ,payload})
+    getAllTestsuiteNoTreeReq: (payload) => dispatch({type: GET_ALL_TESTSUITE_NO_TREE_REQ,payload}),
+    searchTestCaseReq: (payload) => dispatch({type: SEARCH_TESTCASE_REQ, payload})
 
   }
 }
@@ -57,7 +58,7 @@ const TestCaseListPage = (props) => {
     const[selected,setSelected] = useState('');
 
     const {project, testcase, getAllTestcaseReq, 
-      getAllTestsuiteReq, getAllTestsuiteNoTreeReq} = props; //displayMsg
+      getAllTestsuiteReq, getAllTestsuiteNoTreeReq, searchTestCaseReq} = props; //displayMsg
 
     const [listTestCase, setListTestCase] = useState([]);
 
@@ -66,6 +67,14 @@ const TestCaseListPage = (props) => {
     const [openNewTS, setOpenTS] = useState(false);
 
     const [suiteNum, setSuiteNum] = useState(0);
+
+    const [search, setSearch] = useState({
+      testcasename: '',
+      testsuite: '',
+      priority: ''
+    });
+
+    const [enableCancelSearch, setEnableCancelSearch] = useState(false);
 
     useEffect(()=>{
       setDisplayNode(searchTree(testcase.listTestcase,selectedNode));
@@ -122,8 +131,28 @@ const TestCaseListPage = (props) => {
       setOpenTS(true);
     }
 
+    const handleChangeSearch = (prop) => (event) => {
+      setSearch({...search, [prop]: event.target.value});
+    }
 
-  
+    const handleSearchButton = () => {
+      if(search.testcasename === '' && search.testsuite === '' && search.priority === '' && enableCancelSearch === true){
+        searchTestCaseReq(search);
+        setEnableCancelSearch(false);
+      }
+      if(search.testcasename !== '' || search.testsuite !== '' || search.priority !== '')
+        searchTestCaseReq(search);
+      if(enableCancelSearch === false && (search.testcasename !== '' || search.testsuite !== '' || search.priority !== ''))
+        setEnableCancelSearch(true);
+    }
+    
+    const handleSearchCancel = () => {
+      setSearch({testcasename: '', testsuite: '', priority: ''})
+      getAllTestcaseReq(project);
+      getAllTestsuiteReq(project);
+      getAllTestsuiteNoTreeReq(project);
+      setEnableCancelSearch(false);
+    }
     return(
       <div> 
         <Helmet title="Service Management" />
@@ -141,7 +170,13 @@ const TestCaseListPage = (props) => {
                     </Grid>
 
                     <Grid item xs={12}>
-                      <TextField id="testCaseName" label="Test Case Name" variant="outlined"  fullWidth required/>
+                      <TextField 
+                      id="testCaseName" 
+                      label="Test Case Name" 
+                      variant="outlined" 
+                      value={search.testcasename}
+                      onChange={handleChangeSearch('testcasename')} 
+                      fullWidth required/>
                     </Grid>
 
                     <Grid item xs={12}>
@@ -150,16 +185,20 @@ const TestCaseListPage = (props) => {
                         <Select
                             labelId="testSuite"
                             id="testSuite"
-                            //value={age}
-                            //onChange={handleChange}
+                            value={search.testsuite}
+                            onChange={handleChangeSearch('testsuite')}
                             label="Test Suite"
                         >
-                          <MenuItem value="">
+                          <MenuItem value="">Any</MenuItem>
+                          {testcase.listTestsuite.map((item) => (
+                                    <MenuItem value={item.name}>{item.name}</MenuItem>
+                               ))}
+                          {/* <MenuItem value="">
                               <em>None</em>
                           </MenuItem>
                           <MenuItem value={10}>Ten</MenuItem>
                           <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem> */}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -167,24 +206,24 @@ const TestCaseListPage = (props) => {
 
                     <Grid item xs={12}>
                       <Grid container spacing={3}>
-                          <Grid item xs ={6}>
+                          <Grid item xs={12}>
                             <FormControl variant="outlined" className={classes.formControl} fullWidth>
                               <InputLabel id="Importance">Importance</InputLabel>
                                 <Select
                                   labelId="Importance"
                                   id="Importance"
-                                  //value={age}
-                                  //onChange={handleChange}
+                                  value={search.priority}
+                                  onChange={handleChangeSearch('priority')}
                                   label="Importance"
                                 >
                                <MenuItem value=""><em>Any</em></MenuItem>
-                               <MenuItem value={10}>Low</MenuItem>
-                               <MenuItem value={20}>Medium</MenuItem>
-                               <MenuItem value={30}>High</MenuItem>
+                               <MenuItem value="Low">Low</MenuItem>
+                               <MenuItem value="Medium">Medium</MenuItem>
+                               <MenuItem value="High">High</MenuItem>
                               </Select>
                             </FormControl>
                           </Grid>
-                          <Grid item xs ={6}>
+                          {/* <Grid item xs ={6}>
                             <FormControl variant="outlined" className={classes.formControl} fullWidth>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select
@@ -198,11 +237,16 @@ const TestCaseListPage = (props) => {
                                <MenuItem value={10}>Auto</MenuItem>
                               </Select>
                             </FormControl>
-                          </Grid>
+                          </Grid> */}
                       </Grid>
                     </Grid>
 
-                  <Grid item xs={12}><Button variant="contained" color="primary" fullWidth>Search</Button></Grid>
+                  <Grid item xs={6}>
+                    <Button variant="contained" color="primary" onClick={handleSearchButton} fullWidth>Search</Button>
+                    </Grid>
+                  <Grid item xs={6}>
+                    <Button variant="contained" color="default" disabled={enableCancelSearch ? false : true } onClick={handleSearchCancel} fullWidth>Cancel</Button>
+                  </Grid>
 
                   <Grid item xs={12} style={{marginTop: '5vh'}}>
                     <Grid container spacing={3}>

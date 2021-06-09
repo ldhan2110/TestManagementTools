@@ -111,3 +111,17 @@ export function resetDeleteTestSuite(value){
     payload: value
   }
 }
+
+export function searchTestCase(value) {
+  return {
+    type: types.SEARCH_TESTCASE_REQ,
+    payload: value
+  }
+}
+
+// export function resetSearchTestCase(value){
+//   return {
+//     type: types.RESET_SEARCH_TEST_CASE,
+//     payload: value
+//   }
+// }
