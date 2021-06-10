@@ -288,17 +288,22 @@ const TestSuiteDetail = (props) => {
 
         <Grid item xs={12} style={{marginTop: '17vh'}}>
             <Grid container spacing={1}>
-              <Grid item xs={6}>
-                <Typography variant="h6" gutterBottom display="inline">Project's Test Suites Details</Typography>
+              <Grid item xs={4}>
+                <Typography variant="h6" gutterBottom display="inline">Test Suite Details</Typography>
               </Grid>
 
-              <Grid item xs={6}> 
+              <Grid item xs={8}> 
                 {testSuite.type !== "root" ?
                 <Grid container spacing={1} justify='flex-end'>
                    <Grid item>
                     <Button variant="contained" color="primary" onClick={handleOpenTC} >
                       <AddIcon />Add Test Case
                     </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button variant="contained" color="primary" onClick={handleOpenTS}>
+                      <AddIcon />Add Test Suite
+                    </Button> 
                   </Grid>
                 </Grid>
                 :
