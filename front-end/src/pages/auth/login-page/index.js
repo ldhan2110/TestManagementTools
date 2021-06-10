@@ -86,6 +86,7 @@ const LoginPage = (props) => {
           content: "Logged in successfully!",
           type: 'success'
         });
+        setError(null);
         setEnableCreateBtn(true);
         setLoading(false);
       }
@@ -172,7 +173,7 @@ const LoginPage = (props) => {
                     id="outlined-adornment-username"
                     value={values.username || ''}
                     onChange={handleChange('username')}
-                    error={error.username ? true : false} 
+                    error={error.username && values.username.trim().length === 0 ? true : false} 
                     labelWidth={60}
                     required={true}                    
                 />
@@ -188,7 +189,7 @@ const LoginPage = (props) => {
             value={values.password}
             onChange={handleChange('password')}
             required={true}
-            error={error.password ? true : false}
+            error={error.password && values.password.trim().length === 0 ? true : false}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
