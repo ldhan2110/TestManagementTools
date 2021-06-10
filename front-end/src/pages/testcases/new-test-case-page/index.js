@@ -60,6 +60,7 @@ const TestCaseDetail = (props) => {
   const [listSteps, setListSteps] = useState([]);
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [pressUpdateButton, setPressUpdateButton] = useState(false);
 
   useEffect(()=>{
     setTestcase({...testcase, listStep: listSteps});
@@ -100,6 +101,21 @@ const TestCaseDetail = (props) => {
     history.goBack();
   }
 
+  const isEmpty = (currentValue) => {
+    if(typeof currentValue !== "string")
+      return currentValue === 0;
+    else
+      return currentValue.trim().length === 0;
+  }
+  const handleSteps = (Data) =>{
+    for (let i = 0; i < Data.length; i++)
+    {
+        if(!Object.values(Data[i]).some(isEmpty) === false)
+        {
+            return true;            
+        }
+    }
+  }
   const handleSave = () => {
     setCheckError(true);
 
@@ -117,6 +133,15 @@ const TestCaseDetail = (props) => {
           type: 'error'
         });
     }
+
+    if (handleSteps(listSteps)) {
+      setPressUpdateButton(true);
+      displayMsg({
+        content: "Steps cannot have empty field(s)",
+        type: 'error'
+      });
+    }
+
 
     else if(testcase.testcaseName !== "" && testcase.description !== ""){
       setEnableCreateBtn(false);
@@ -220,7 +245,7 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <DragList data = {listSteps} setData={setListSteps} parentCallback={updateListStep}/>
+          <DragList data = {listSteps} setData={setListSteps} parentCallback={updateListStep} pressUpdateButton={pressUpdateButton}/>
         </Grid>
 
         <Grid item xs={12}>
