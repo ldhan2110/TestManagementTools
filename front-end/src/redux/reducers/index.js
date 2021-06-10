@@ -11,13 +11,20 @@ import milestoneReducers from '../milestones/milestoneReducers';
 import userReducers from '../users/userReducers';
 import testexecReducers from '../test-execution/testexecReducers';
 import dashboardReducers from '../dashboard/dashboardReducers';
+import storage from 'redux-persist/lib/storage';
+import { persistStore, persistReducer } from 'redux-persist';
 
-export default combineReducers({
+const projectConfig = {
+	key: 'project',
+	storage,
+}
+
+const appReducer = combineReducers({
 	themeReducer,
 	dashboard: dashboardReducers,
 	account: accountReducer,
-  project: projectReducers,
-  testplan: testplanReducers,
+  	project: persistReducer(projectConfig,projectReducers),
+  	testplan: testplanReducers,
 	message: messageReducers,
 	testcase: testcaseReducers,
 	testexec:testexecReducers,
@@ -25,3 +32,13 @@ export default combineReducers({
 	milestone: milestoneReducers,
 	user: userReducers
 });
+
+export default (state, action) => {
+	if (action.type === 'LOGOUT_REQ') {
+	  storage.removeItem('persist:project');
+	  localStorage.clear();
+	  return appReducer(undefined, action);
+	}
+  
+	return appReducer(state, action)
+  }

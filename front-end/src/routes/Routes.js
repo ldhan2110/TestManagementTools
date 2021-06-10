@@ -42,7 +42,7 @@ const childRoutes = (Layout, routes, isLogin) =>
             )
             : 
             (
-              isLogin ?
+              localStorage.getItem('token') ?
               <Layout>
                 <Component {...props} />
               </Layout>
