@@ -67,9 +67,9 @@ const RegisterPage = (props) => {
     const [checkErrorMsg, setCheckErrorMsg] = useState(false);
 
     useEffect(()=>{
-      if (isRegister.sucess === false){
+      if (isRegister === false){
         displayMsg({
-          content: "This email already exists !",
+          content: account.errorMsg,
           type: 'error'
         });
         setCheckErrorMsg(false);
@@ -77,7 +77,7 @@ const RegisterPage = (props) => {
         setLoading(false);
         //console.log('register error!' + JSON.stringify(errorMsg));
         resetAddRedux();
-      } else if (isRegister.sucess === true) {
+      } else if (isRegister === true) {
         displayMsg({
           content: "Register successfully!",
           type: 'success'
@@ -88,7 +88,7 @@ const RegisterPage = (props) => {
         resetAddRedux();
         handleClose();
       }
-    },[isRegister.sucess]);
+    },[isRegister]);
 
     //LISTEN CHANGE TO "isOpen" prop
     useEffect(() => {
@@ -96,9 +96,9 @@ const RegisterPage = (props) => {
     }, [isOpen]);
 
     //HANDLE CLOSE POPUP
-    const handleClose = () => {
-        setOpenState(false);
+    const handleClose = () => {      
         setCheckErrorMsg(false);
+        setOpenState(false);
     };
 
 
@@ -121,9 +121,11 @@ const RegisterPage = (props) => {
   const handleRegister = (event) => {
     //console.log('here: here');
     //console.log('values: '+JSON.stringify(values));
+    console.log(values);
+    console.log(error);
     setCheckError(true);
     setCheckErrorMsg(true);
-    if(values.email === "")
+    if(values.email.trim().length === 0)
     setError({ ...values, email: "" });
     //console.log('email empty');
     /*if(values.email.includes('@') !== "")
@@ -131,10 +133,10 @@ const RegisterPage = (props) => {
       setValues({ ...values, email:"" });*/
 
 
-    if(values.fullname === "")
+    if(values.fullname.trim().length === 0)
     setError({ ...values, fullname: "" });
     //console.log('fullname empty');
-    if(values.username === "")
+    if(values.username.trim().length === 0)
     setError({ ...values, username: "" });
 
     if(values.password === "")
@@ -151,7 +153,7 @@ const RegisterPage = (props) => {
     //     });
     // }
 
-    if(values.fullname !== "" && values.username !== "" 
+    if(values.fullname.trim().length !== 0 && values.username.trim().length !== 0 
     && values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) 
     && values.password.match(/^.{8,16}$/)){ //Password tu 8-32 ky tu, bao gom 1 Uppercase, 1 Lowercase, va 1 number /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/
       setEnableCreateBtn(false);
@@ -204,7 +206,7 @@ const RegisterPage = (props) => {
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}
-            error={checkErrorMsg && error.password.trim().length === 0 && values.password.trim().length === 0 ? true : false}
+            //error={checkErrorMsg && error.password.trim().length === 0 && values.password.trim().length === 0 ? true : false}
             error={checkErrorMsg && !error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) ? true : false}
             onChange={handleChange('password')}
             required={true}
@@ -223,8 +225,8 @@ const RegisterPage = (props) => {
             labelWidth={60}
           />
           
-          {checkErrorMsg && !error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password is required 8-16</FormHelperText>} 
-          {checkErrorMsg && error.password.trim().length === 0 && values.password.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
+          {checkErrorMsg && error.password !== "" && values.password !== "" && !error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password is required 8-16</FormHelperText>} 
+          {checkErrorMsg && error.password === "" && values.password === "" && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
         </FormControl>
 
         {/*Email */}
@@ -240,7 +242,7 @@ const RegisterPage = (props) => {
             labelWidth={35}
             required={true}   
           />
-          {checkErrorMsg && !error.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) &&!values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && <FormHelperText id="component-error-text" error={true}>Invalid email (example: vuilongdeokhautrang@gmail.com)</FormHelperText>}
+          {checkErrorMsg && error.email.trim().length !== 0 && values.email.trim().length !== 0 && !error.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) &&!values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && <FormHelperText id="component-error-text" error={true}>Invalid email (example: vuilongdeokhautrang@gmail.com)</FormHelperText>}
           {checkErrorMsg && error.email.trim().length === 0 && values.email.trim().length === 0 &&  <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>} 
         </FormControl>
 

@@ -66,14 +66,16 @@ const LoginPage = (props) => {
     const [error, setError] = useState({
         
     });
+    //check if Login button is pressed since F5
+    const [checkLogin, setCheckLogin] = useState(false);
 
     const [openMsg, setOpenMsg] = useState(false);
-    
-    
 
      useEffect(()=>{
-      if(account.error === true)// && account.errorMsg.errMsg == "Password is not valid")
+       console.log(checkLogin);
+      if(account.error === true && checkLogin)// && account.errorMsg.errMsg == "Password is not valid")
       {
+        console.log(account);
         setLoading(false);
         setError({error: "Wrong username or password"});
         setEnableCreateBtn(true);
@@ -81,6 +83,7 @@ const LoginPage = (props) => {
       }
       
       else if (account.success === true) {
+        console.log(error);
         setLoading(false);
         displayMsg({
           content: "Logged in successfully!",
@@ -127,29 +130,30 @@ const LoginPage = (props) => {
 
     //HANDLE OPEN REGISTER POPUP
     const handleOpenRegister = ()=> {
+      setCheckLogin(false);
       openRegister(!isOpenRegister);
     };
 
     //HANDLE LOGIN REQUEST BUTTON
-    const handleClickLogin = (event) => {     
-      if(values.username === "" && values.password === ""){
+    const handleClickLogin = (event) => {
+      console.log(error);
+      if(values.username.trim().length === 0 && values.password === ""){
         setError({username: "Username is required",
                   password: "Password is required"})
-      }
+      }      
 
-      
-
-      else if(values.username === ""){ 
+      else if(values.username.trim().length === 0){ 
         setError({username: "Username is required", password: ""});
       }
       else if (values.password === ""){
         setError({username: "", password: "Password is required"});
       }      
       else {
-      setError({username: "", password: "", error: ""});
+      setError({});
       setEnableCreateBtn(false);
       setLoading(true);
-      loginReq({username: values.username, password: values.password}); 
+      loginReq({username: values.username, password: values.password});      
+      setCheckLogin(true);
       }     
     };
 
