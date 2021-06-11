@@ -114,23 +114,23 @@ const UnpaidTable = (props) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Test Case ID</TableCell>
+              <TableCell>Test Execution Name</TableCell>
               <TableCell align="left">Tester</TableCell>
               <TableCell align="left">Status</TableCell>
-              <TableCell align="left">Test Execution Time</TableCell>
-              <TableCell align="left">Test Execution Date</TableCell>
+              <TableCell align="left">Created Date</TableCell>
+              <TableCell align="left">Updated Date</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {data.map((row) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
-                  {row.source}
+                  {row.testexecutionname}
                 </TableCell>
-                <TableCell align="left">{row.users}</TableCell>
-                <TableCell align="left">{row.bounce}</TableCell>
-                <TableCell align="left">{row.avg}</TableCell>
-                <TableCell align="left">{row.date}</TableCell>
+                <TableCell align="left">{row.tester.username}</TableCell>
+                <TableCell align="left"><Chip label={row.status} rgbcolor={PASSED} /></TableCell>
+                <TableCell align="left">{row.updated_date}</TableCell>
+                <TableCell align="left">{row.created_date}</TableCell>
               </TableRow>
             ))}
           </TableBody>
