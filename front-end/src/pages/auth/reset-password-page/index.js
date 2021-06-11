@@ -64,13 +64,14 @@ const ResetPassword = (props) => {
         showPasswordd: false,
         resettoken: window.location.pathname.split('/')[3]
     });
-
+    const [checkErrorMsg, setCheckErrorMsg] = useState(false);
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
       password: 'ss',
       confirmPassword: 'ss',
   });
 
+  try {
     useEffect(()=>{
       if (isConfirmPassword.sucess === false){
         setLoading(false);
@@ -78,6 +79,7 @@ const ResetPassword = (props) => {
           content: isConfirmPassword.errMsg,
           type: 'error'
         });
+        //setCheckErrorMsg(false);
         setEnableCreateBtn(true);
         setLoading(false);
         resetAddRedux();
@@ -94,7 +96,7 @@ const ResetPassword = (props) => {
           resetAddRedux();
           } 
           
-        else if (isConfirmPassword.sucess === true) {
+        else if (isConfirmPassword.sucess  === true) {
         setLoading(false);
         displayMsg({
           content: "Reset password successfully !",
@@ -106,12 +108,15 @@ const ResetPassword = (props) => {
         resetAddRedux();
         history.replace('/login');
       }
-    },[isConfirmPassword]); 
-    
+    },[isConfirmPassword.sucess]); 
+    } catch (error) {
+      console.log('error: '+error);
+    }
   
       //HANDLE CLOSE POPUP
     const handleClose = () => { 
       history.replace('/login');
+      //setCheckErrorMsg(false);
     };
     
     const handleChange = (prop) => (event) => {
@@ -137,6 +142,7 @@ const ResetPassword = (props) => {
 
       const handleClickResetPassword = () => {
         setCheckError(true);
+        //setCheckErrorMsg(true);
         if(values.password === "")
         setError({ ...values, password: "" });
 
@@ -177,8 +183,12 @@ const ResetPassword = (props) => {
                 <InputLabel htmlFor="new password">New Password</InputLabel>
                 <OutlinedInput
                     id="new password"
-                    error={error.password === 0 && values.password === 0 ? true : false}
-                    value={values.newpassword}
+                    //error={error.password === 0 && values.password === 0 ? true : false}
+                    
+                    error={checkError && error.password.trim().length === 0 && values.password.trim().length === 0 ? true : false}
+                    error={checkError && !error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) ? true : false}
+                    
+                    value={values.password}
                     onChange={handleChange('password')}
                     labelWidth={100}
                     fullWidth
@@ -198,7 +208,9 @@ const ResetPassword = (props) => {
                       </InputAdornment>
                     } 
                 />
-                {error.password.trim().length === 0 && values.password.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
+                {checkError && !error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password must be 8-16 characters</FormHelperText>} 
+          {checkError && error.password.trim().length === 0 && values.password.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
+                {/*{error.password.trim().length === 0 && values.password.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}*/}
                {/* {!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>} */}
                {/*} <OutlinedInput
                     id="new password"
@@ -235,7 +247,10 @@ const ResetPassword = (props) => {
                     id="confirm new password"
                     error={error.confirmPassword === 0 && values.confirmPassword === 0 ? true : false}
                    // error={!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) ? true : false}
-                    
+                   
+                   error={checkError && error.confirmPassword.trim().length === 0 && values.confirmPassword.trim().length === 0 ? true : false}
+                   error={checkError && !error.confirmPassword.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) ? true : false}
+                   
                     /*error={values.error ? true : false} */
                     value={values.confirmPassword}
                     onChange={handleChange('confirmPassword')}
@@ -257,7 +272,9 @@ const ResetPassword = (props) => {
                       </InputAdornment>
                     } 
                 />
-                {error.confirmPassword.trim().length === 0 && values.confirmPassword.trim().length === 0  && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required</FormHelperText>} 
+                {checkError && !error.confirmPassword.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Confirm New Password must be 8-16 characters</FormHelperText>} 
+          {checkError && error.confirmPassword.trim().length === 0 && values.confirmPassword.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required</FormHelperText>}
+                {/*{error.confirmPassword.trim().length === 0 && values.confirmPassword.trim().length === 0  && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required</FormHelperText>} */}
                 {/* {!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required at least 8 characters (8-16)</FormHelperText>} */}
                {/*} <OutlinedInput
                     id="confirm new password"

@@ -67,7 +67,7 @@ const RegisterPage = (props) => {
     const [checkErrorMsg, setCheckErrorMsg] = useState(false);
 
     useEffect(()=>{
-      if (isRegister === false){
+      if (isRegister.sucess === false){
         displayMsg({
           content: "This email already exists !",
           type: 'error'
@@ -77,7 +77,7 @@ const RegisterPage = (props) => {
         setLoading(false);
         //console.log('register error!' + JSON.stringify(errorMsg));
         resetAddRedux();
-      } else if (isRegister === true) {
+      } else if (isRegister.sucess === true) {
         displayMsg({
           content: "Register successfully!",
           type: 'success'
@@ -88,7 +88,7 @@ const RegisterPage = (props) => {
         resetAddRedux();
         handleClose();
       }
-    },[isRegister]);
+    },[isRegister.sucess]);
 
     //LISTEN CHANGE TO "isOpen" prop
     useEffect(() => {

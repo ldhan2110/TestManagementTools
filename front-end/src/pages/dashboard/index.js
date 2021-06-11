@@ -17,14 +17,15 @@ import DoughnutChart from '../../components/Charts/DoughnutChart'
 import UnpaidTable from '../../components/Charts/UnpaidTable'
 import MultiChart from '../../components/Charts/MultiChart';
 import HorizontalBarChart from '../../components/Charts/HorizontalChart';
-import { GET_EFFORT_REQ, GET_EXEC_OVERVIEW_REQ, GET_MULTI_CHART_REQ } from '../../redux/dashboard/constants';
+import { GET_EFFORT_REQ, GET_EXEC_OVERVIEW_REQ, GET_MULTI_CHART_REQ, GET_SIX_EXECUTION_REQ } from '../../redux/dashboard/constants';
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
     effortsData: state.dashboard.efforts,
     execOverviewData: state.dashboard.execOverview,
-    multiChart: state.dashboard.multiChart
+    multiChart: state.dashboard.multiChart,
+    sixExecution: state.dashboard.sixExecution
   };
 }
 
@@ -33,7 +34,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getEffortReq: () => dispatch({ type: GET_EFFORT_REQ }),
     getExecOverviewReq: ()=>dispatch({type: GET_EXEC_OVERVIEW_REQ}),
-    getMultiChartReq: () => dispatch({type: GET_MULTI_CHART_REQ})
+    getMultiChartReq: () => dispatch({type: GET_MULTI_CHART_REQ}),
+    getSixExecutionReq: () => dispatch({type: GET_SIX_EXECUTION_REQ})
   }
 }
 
@@ -112,7 +114,7 @@ const  Dashboard = (props) => {
 
   //const {theme} = props;
 
-  const {getEffortReq,effortsData, execOverviewData, getExecOverviewReq, getMultiChartReq, multiChart} = props;
+  const {getEffortReq,effortsData, execOverviewData, getExecOverviewReq, getMultiChartReq, multiChart, getSixExecutionReq, sixExecution} = props;
 
   const [dataEfforts,setEfforts] = useState({
     labels: [],
@@ -125,6 +127,7 @@ const  Dashboard = (props) => {
     },
   ],
   })
+
 
   const [dataExecOverview, setExecOverview] = useState({
     labels: ["Passed", "Failed", "Blocked", "Not Executed"],
@@ -176,11 +179,22 @@ const  Dashboard = (props) => {
   ],
   })
 
+  /* const [dataSixExecution,setSixExecution] = useState({
+    labels: ['Name', 'Tester', 'Status', 'Test Date'],
+    datasets: [
+    {
+      data: [],
+        backgroundColor: [],
+    },
+  ],
+  })*/
+
   useEffect(()=> {
     getEffortReq();
     getExecOverviewReq();
     getMultiChartReq();
-  },[])
+    getSixExecutionReq();
+  },[]) 
 
   //EFFORT
   useEffect(()=> {
@@ -255,6 +269,10 @@ const  Dashboard = (props) => {
     console.log(execOverviewData.data);
   },[execOverviewData.data])
 
+  useEffect(()=> {
+    console.log(JSON.stringify(sixExecution, null, ' '))
+  },[sixExecution])
+
 
   return (
     <React.Fragment>
@@ -287,7 +305,7 @@ const  Dashboard = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-          <UnpaidTable />
+          <UnpaidTable/>
         </Grid>
         <Grid item xs={12} lg={6}>
           <HorizontalBarChart datasets={dataEfforts}/>

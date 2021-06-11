@@ -40,7 +40,7 @@ const ForgotPassword = (props) => {
         email: "",
         error: "", 
     });
-
+    const [checkErrorMsg, setCheckErrorMsg] = useState(false);
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
       email: 'ss',
@@ -57,14 +57,26 @@ const ForgotPassword = (props) => {
       };
 
     const handleClickConfirm = (event) => {     
-        if(values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
+
+      setCheckError(true);
+    setCheckErrorMsg(true);
+
+    if(values.email === "")
+    setError({ ...values, email: "" });
+
+    if( values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) ){
+      setEnableCreateBtn(false);
+      setLoading(true);
+      sendMailReq(values); 
+    }
+
+      /*  if(values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
           setEnableCreateBtn(false);
           setLoading(true);
           setValues({email: values.email, error: null});           
-          setCheckError(true);
           sendMailReq(values); 
             //console.log(values);
-        }
+        } 
 
         /* if(values.email === "") {
           setError({ ...values, email: "" });
@@ -72,32 +84,34 @@ const ForgotPassword = (props) => {
 
             if(values.email !== "" )
             sendMailReq(values); 
-         } */
-        else if(values.email === ""){
+         } 
+         else if(values.email === ""){
           setValues({email: values.email, error: "* Enter your email"}); 
           //console.log(values);
         }
         else{
           setValues({email: values.email, error: "Please enter a valid email!"}); 
           //console.log(values);
-        }
+        } */
     };
 
     const history = useHistory();
     const handleClose = () =>{
         history.goBack();
+        setCheckErrorMsg(false);
     };
 
-
+    try {
     useEffect(()=>{
         if (isSendMail.sucess === false){
           displayMsg({
             content: "Unregistered email !",
             type: 'error'
           });
+          setCheckErrorMsg(false);
           setEnableCreateBtn(true);
           setLoading(false);
-          //resetAddRedux();
+          resetAddRedux();
           //console.log('send mail: fail');
         } else if (isSendMail.sucess === true) {
           displayMsg({
@@ -107,11 +121,14 @@ const ForgotPassword = (props) => {
           setEnableCreateBtn(true);
           setLoading(false);
           //console.log('send mail: successfully!')
-          //resetAddRedux();
+          resetAddRedux();
           //getAllBuildReq();
           //handleClose();
         }
-      },[isSendMail]); 
+      },[isSendMail.sucess]); 
+    } catch (error) {
+      console.log('error: '+error);
+    }
 
     return(
     <React.Fragment>
@@ -128,7 +145,9 @@ const ForgotPassword = (props) => {
                 <OutlinedInput
                     id="outlined-adornment-email"
                     // error={error.email == 0 && values.email == 0 ? true : false}
-                    error={values.error ? true : false}
+                    //error={values.error ? true : false}
+                    error={checkErrorMsg && error.email.trim().length === 0 && values.email.trim().length === 0 ? true : false}
+                    error={checkErrorMsg && !error.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && !values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)  ?  true : false}
                     value={values.email}
                     onChange={handleChange('email')}
                     labelWidth={40}
@@ -137,8 +156,9 @@ const ForgotPassword = (props) => {
                     type="email"
                 />
                 {/* {error.email.trim().length == 0 && values.email.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>} */}
-               
-               {values.error !== 0 && <FormHelperText id="component-error-text" error={true}>{values.error}</FormHelperText>}
+                {checkErrorMsg && !error.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) &&!values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && <FormHelperText id="component-error-text" error={true}>Email must be a valid email address (such as: vuilongdeokhautrang@gmail.com)</FormHelperText>}
+                {checkErrorMsg && error.email.trim().length === 0 && values.email.trim().length === 0 &&  <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>} 
+                {/* {values.error !== 0 && <FormHelperText id="component-error-text" error={true}>{values.error}</FormHelperText>}*/}
             </FormControl>
             <div className = {classes.btnGroup}>
                 <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<ReplayIcon/>} onClick={handleClickConfirm}>

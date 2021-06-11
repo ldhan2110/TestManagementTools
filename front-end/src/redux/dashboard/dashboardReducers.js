@@ -13,6 +13,12 @@ var initialState = {
     data: null
   },
 
+  sixExecution:{
+    sucess: null,
+    errMsg: null,
+    data: null
+  },
+
   multiChart:{
     sucess: null,
     errMsg: null,
@@ -97,6 +103,33 @@ const reducer = (state = initialState, actions) => {
           return {
             ...state,
             multiChart: {
+              sucess: true,
+              errMsg: null,
+              data: payload
+            },
+          }
+
+// SIX EXECUTION
+
+    case types.GET_SIX_EXECUTION_REQ:
+        return {
+          ...state,
+        }
+
+    case types.GET_SIX_EXECUTION_FAILED:
+        return {
+          ...state,
+          sixExecution: {
+            sucess: false,
+            errMsg: payload,
+            data: null
+          },
+        }
+
+    case types.GET_SIX_EXECUTION_SUCESS:
+          return {
+            ...state,
+            sixExecution: {
               sucess: true,
               errMsg: null,
               data: payload

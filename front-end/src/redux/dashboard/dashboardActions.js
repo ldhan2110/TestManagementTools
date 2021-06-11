@@ -17,3 +17,9 @@ export function getMultiChart() {
     type: types.GET_MULTI_CHART_REQ
   }
 }
+
+export function getSixExecution() {
+  return {
+    type: types.GET_SIX_EXECUTION_REQ
+  }
+}
