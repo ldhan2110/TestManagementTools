@@ -189,11 +189,16 @@ const  Dashboard = (props) => {
   ],
   })*/
 
+  async function getSixExecution(){
+    const response = await getSixExecutionReq();
+  }
+
   useEffect(()=> {
     getEffortReq();
     getExecOverviewReq();
     getMultiChartReq();
-    getSixExecutionReq();
+    //getSixExecutionReq();
+    getSixExecution();
   },[]) 
 
   /*

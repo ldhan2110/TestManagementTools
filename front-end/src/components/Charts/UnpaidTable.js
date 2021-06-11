@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 
 import {
@@ -91,8 +91,23 @@ const rows = [
 
 const UnpaidTable = (props) => {
   const {data} = props;
+  const [listdata,setListData] = useState([
+    {
+      id: "s",
+      testexecutionname: "s",
+      created_date: "s",
+      updated_date: "s",
+      status: "s",
+      tester: {
+        _id: "s",
+        username: "s"
+      }
+    }
+  ]);
+
   useEffect(()=> {
-    console.log(JSON.stringify(data, null, ' '))
+    console.log(JSON.stringify(data, null, ' '));
+    setListData(data);
   },[data])
   
   return(
@@ -122,7 +137,7 @@ const UnpaidTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
+            {listdata.map((row) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {row.testexecutionname}
