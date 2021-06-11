@@ -15,6 +15,7 @@ export default combineEpics(
    dashboardEpics.getEffortEpic,
    dashboardEpics.getExecOverviewEpic,
    dashboardEpics.getMultiChart,
+   dashboardEpics.getSixExecution,
 
    //ACCOUNT EPICS
    accountEpics.loginReqEpic,

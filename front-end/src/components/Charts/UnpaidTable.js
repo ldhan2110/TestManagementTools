@@ -16,7 +16,7 @@ import {
 
 import { red, green, blue, yellow } from '@material-ui/core/colors'
 
-import {PASSED, FAILED, BLOCKED} from './Constants';
+import {Pass, Fail, Block, Untest} from './Constants';
 
 import { spacing } from '@material-ui/system'
 
@@ -89,7 +89,56 @@ const rows = [
   )
 ]
 
-const UnpaidTable = () => (
+const UnpaidTable = () => {
+  const {data} = props;
+  useEffect(()=> {
+    console.log(JSON.stringify(data, null, ' '))
+  },[data])
+  /*const rows = [
+    createData(
+      data[0].testexecutionname,
+      data[0].tester.username,
+      data[0].created_date,
+      <Chip label={data[0].status.toString()} rgbcolor={"Pass"} />,
+      data[0].updated_date
+    ),
+    createData(
+      data[1].testexecutionname,
+      data[1].tester.username,
+      data[1].created_date,
+      <Chip label={data[1].status.toString()} rgbcolor={"Pass"} />,
+      data[1].updated_date
+    ),
+    createData(
+      data[2].testexecutionname,
+      data[2].tester.username,
+      data[2].created_date,
+      <Chip label={data[2].status.toString()} rgbcolor={"Pass"} />,
+      data[2].updated_date
+    ),
+    createData(
+      data[3].testexecutionname,
+      data[3].tester.username,
+      data[3].created_date,
+      <Chip label={data[3].status.toString()} rgbcolor={"Pass"} />,
+      data[3].updated_date
+    ),
+    createData(
+      data[4].testexecutionname,
+      data[4].tester.username,
+      data[4].created_date,
+      <Chip label={data[4].status.toString()} rgbcolor={"Pass"} />,
+      data[4].updated_date
+    ),
+    createData(
+      data[5].testexecutionname,
+      data[5].tester.username,
+      data[5].created_date,
+      <Chip label={data[5].status.toString()} rgbcolor={"Pass"} />,
+      data[5].updated_date
+    )
+  ] */
+  return(
   <Card mb={3}>
     <CardHeader
       action={
@@ -131,7 +180,7 @@ const UnpaidTable = () => (
         </Table>
       </TableWrapper>
     </Paper>
-  </Card>
-)
+  </Card>)
+}
 
 export default UnpaidTable

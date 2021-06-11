@@ -86,7 +86,7 @@ const LoginPage = (props) => {
           content: "Logged in successfully!",
           type: 'success'
         });
-        setError(null);
+        //setError(null);
         setEnableCreateBtn(true);
         setLoading(false);
       }
@@ -140,13 +140,13 @@ const LoginPage = (props) => {
       
 
       else if(values.username === ""){ 
-        setError({username: "Username is required", password: null});
+        setError({username: "Username is required", password: ""});
       }
       else if (values.password === ""){
-        setError({username: null, password: "Password is required"});
+        setError({username: "", password: "Password is required"});
       }      
       else {
-      setError({username: null, password: null, error: null});
+      setError({username: "", password: "", error: ""});
       setEnableCreateBtn(false);
       setLoading(true);
       loginReq({username: values.username, password: values.password}); 

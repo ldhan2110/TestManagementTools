@@ -196,6 +196,22 @@ const  Dashboard = (props) => {
     getSixExecutionReq();
   },[]) 
 
+  /*
+  useEffect(()=> {
+    if (sixExecution.data !== null){
+      setEfforts({
+        labels:  sixExecution.data.labels,
+        datasets: [
+          {
+          
+            data: sixExecution.data.data,
+            backgroundColor: sixExecution.data.data.map(()=>generateColor()),
+          },
+    ],
+      })
+    }
+    },[effortsData.data]) */
+
   //EFFORT
   useEffect(()=> {
   if (effortsData.data !== null){
@@ -305,7 +321,8 @@ const  Dashboard = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-          <UnpaidTable/>
+          <UnpaidTable data={sixExecution.data}/> 
+         <UnpaidTable/> 
         </Grid>
         <Grid item xs={12} lg={6}>
           <HorizontalBarChart datasets={dataEfforts}/>

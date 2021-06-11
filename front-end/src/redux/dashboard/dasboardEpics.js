@@ -105,7 +105,7 @@ export const getMultiChart = (action$, state$) => action$.pipe(
   //SIX EXECUTION
 export  const getSixExecution = (action$, state$) => action$.pipe(
   ofType(actions.GET_SIX_EXECUTION_REQ),
-  mergeMap(() =>  from(axios.get(API_ADDR+'/'+localStorage.getItem('selectProject')+'/getsixtestexecutionnewest',{
+  mergeMap(() =>  from(axios.get(API_ADDR+'/'+localStorage.getItem('selectProject')+'/api/getsixtestexecutionnewest',{
     headers: {
       "X-Auth-Token": localStorage.getItem("token"),
       "content-type": "application/json"
@@ -128,7 +128,7 @@ export  const getSixExecution = (action$, state$) => action$.pipe(
     }),
     catchError (error =>  of({
       type: actions.GET_SIX_EXECUTION_FAILED,
-      payload: error.response.data.errMsg
+      payload: 'something error'
     }))
   )
   ))
