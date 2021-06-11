@@ -121,28 +121,21 @@ const RegisterPage = (props) => {
   const handleRegister = (event) => {
     //console.log('here: here');
     //console.log('values: '+JSON.stringify(values));
-    console.log(values);
-    console.log(error);
     setCheckError(true);
     setCheckErrorMsg(true);
     if(values.email.trim().length === 0)
     setError({ ...values, email: "" });
-    //console.log('email empty');
-    /*if(values.email.includes('@') !== "")
-      setError({ ...values, email: "" });
-      setValues({ ...values, email:"" });*/
-
 
     if(values.fullname.trim().length === 0)
     setError({ ...values, fullname: "" });
-    //console.log('fullname empty');
+
     if(values.username.trim().length === 0)
     setError({ ...values, username: "" });
 
     if(values.password === "")
     setError({ ...values, password: "" });
 
-    console.log('error object: '+JSON.stringify(error));
+    //console.log('error object: '+JSON.stringify(error));
 
     // if(TestplanInfo.description.trim().length == 0 || TestplanInfo.Testplanname.trim().length == 0
     //     ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
