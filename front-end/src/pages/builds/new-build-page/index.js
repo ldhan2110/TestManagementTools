@@ -70,7 +70,8 @@ const NewBuildPage = (props) => {
     isActive: false,
     isPublic: false,
     releasedate: new Date(),
-    testplan: ''
+    testplan: '',
+    id_exist_build: ''
   });
 
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
@@ -78,6 +79,8 @@ const NewBuildPage = (props) => {
 
   useEffect(()=>{
     getAllTestplanReq(project);
+    //getAllBuildReq(project);
+    //console.log('listbuild: '+JSON.stringify(props.history.location.state, null, ' '));
   },[])
 
   useEffect(()=>{
@@ -212,7 +215,19 @@ const NewBuildPage = (props) => {
                 <p>Create from existing build ?</p>
               </Grid>
               <Grid item xs={9}>
-                <SelectBox labelTitle="Create from existing build ?" listItems={listBuilds ? listBuilds : null} />
+              <FormControl variant="outlined" fullWidth>
+              <InputLabel id="buildexec" >Test Execution Exists </InputLabel>
+            <Select
+          labelId="buildexec"
+          id="buildexec"
+          onChange={handleChange('id_exist_build')}
+          label="buildexec">
+            
+          <MenuItem key={''} value={''}></MenuItem>
+          {props.history.location.state.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
+        </Select>
+      </FormControl>
+
               </Grid>
           </Grid>
 

@@ -45,7 +45,8 @@ import {API_ADDR} from '../constants';
       isActive: payload.isActive,
       isPublic: payload.isPublic,
       releasedate: payload.releasedate,
-      testplanname: payload.testplan
+      testplanname: payload.testplan,
+      id_exist_build: payload.id_exist_build
     } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),

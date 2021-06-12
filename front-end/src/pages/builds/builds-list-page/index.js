@@ -133,7 +133,7 @@ const BuildListPage = (props) => {
 
 
   useEffect(()=>{
-    console.log(BUILD_SEARCH_CONDITIONS);
+    //console.log(BUILD_SEARCH_CONDITIONS);
   },[BUILD_SEARCH_CONDITIONS])
 
   useEffect(()=>{
@@ -168,7 +168,10 @@ const BuildListPage = (props) => {
 
 
   const handleClickNewBuild = () => {
-    history.push(window.location.pathname+"/new-build");
+    history.push({
+      pathname: window.location.pathname+"/new-build",
+      state: array
+  });
   }
 
   const navigateToDetailPage = () => {
