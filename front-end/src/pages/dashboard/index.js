@@ -326,7 +326,7 @@ const  Dashboard = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-          <UnpaidTable data={sixExecution.data}/> 
+          <UnpaidTable data={sixExecution.data !== null ? sixExecution.data:[]}/> 
         </Grid>
         <Grid item xs={12} lg={6}>
           <HorizontalBarChart datasets={dataEfforts}/>
