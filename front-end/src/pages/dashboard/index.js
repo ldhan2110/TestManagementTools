@@ -18,6 +18,7 @@ import UnpaidTable from '../../components/Charts/UnpaidTable'
 import MultiChart from '../../components/Charts/MultiChart';
 import HorizontalBarChart from '../../components/Charts/HorizontalChart';
 import { GET_EFFORT_REQ, GET_EXEC_OVERVIEW_REQ, GET_MULTI_CHART_REQ, GET_SIX_EXECUTION_REQ } from '../../redux/dashboard/constants';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
@@ -314,7 +315,7 @@ const  Dashboard = (props) => {
       </Grid>
 
       <Divider my={6} />
-
+      {sixExecution.data === null && <LinearProgress style={{marginTop:-24, marginBottom:20}} />}
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
            <MultiChart datasets={dataMultiChart}/>

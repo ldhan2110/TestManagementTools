@@ -16,7 +16,7 @@ import {
 
 import { red, green, blue, yellow } from '@material-ui/core/colors'
 
-import {PASSED, FAILED, BLOCKED, BUGS} from './Constants';
+import {PASSED, FAILED, BLOCKED, Untest} from './Constants';
 
 import { spacing } from '@material-ui/system'
 
@@ -44,7 +44,7 @@ function createData(source, users, date, bounce, avg) {
   return { id, source, users, date, bounce, avg }
 }
 
-const rows = [
+/* const rows = [
   createData(
     'TCR-1055',
     'Lucy',
@@ -87,7 +87,7 @@ const rows = [
     <Chip label="Block" rgbcolor={BLOCKED} />,
     '00:04:42'
   )
-]
+] */
 
 const UnpaidTable = (props) => {
   const {data} = props;
@@ -143,7 +143,12 @@ const UnpaidTable = (props) => {
                   {row.testexecutionname}
                 </TableCell>
                 <TableCell align="left">{row.tester.username}</TableCell>
-                <TableCell align="left"><Chip label={row.status} rgbcolor={PASSED} /></TableCell>
+                <TableCell align="left"><Chip label={row.status} rgbcolor={
+                  row.status === 'Pass' ? PASSED:'' ||
+                  row.status === 'Fail' ? FAILED:'' ||
+                  row.status === 'Block' ? BLOCKED:'' ||
+                  row.status === 'Untest' ? Untest:''
+                } /></TableCell>
                 <TableCell align="left">{row.updated_date}</TableCell>
                 <TableCell align="left">{row.created_date}</TableCell>
               </TableRow>
