@@ -8,20 +8,24 @@ import Helmet from 'react-helmet';
 import {MEMBERS_HEADERS} from '../../../components/Table/DefineHeader';
 import {MEMBER_SEARCH} from '../../../components/Table/DefineSearch';
 import NewMemberDialog from './InviteNewMember';
-import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
+import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ, DELETE_USER_OF_PROJECT_REQ} from '../../../redux/users/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {
   Grid,
   Typography,
   Divider,
-  Button
+  Button,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  Dialog
 } from '@material-ui/core';
 
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 // const NavLink = React.forwardRef((props, ref) => (
 //   <RouterNavLink innerRef={ref} {...props} />
@@ -31,7 +35,7 @@ function mapStateToProps(state) {
   return {
     listUsers: state.user.listUsers,
     listUsersOfProject: state.user.listUsersOfProject,
-    project: state.project.currentSelectedProject
+    project: state.project.currentSelectedProject,
   };
 }
 
@@ -41,7 +45,8 @@ const mapDispatchToProps = dispatch => {
     addUserToProjectReq: (payload) => dispatch({ type: ADD_USERS_TO_PROJECT_REQ, payload }),
     getAllUserReq: (payload) => dispatch({ type: GET_ALL_USERS_REQ, payload}),
     getAllUserOfProjectReq: (payload) => dispatch({ type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    deleteUserOfProject: (payload) => dispatch({ type: DELETE_USER_OF_PROJECT_REQ, payload })
   }
 }
 
@@ -49,7 +54,7 @@ const mapDispatchToProps = dispatch => {
 const MemberListPage = (props) => {
   //const {classes} = props;
 
-  const {listUsersOfProject, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg} = props;
+  const {listUsersOfProject, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg, deleteUserOfProject} = props;
 
   const [memberDelButton, setMemberDelButton] = useState(true);
 
@@ -60,6 +65,12 @@ const MemberListPage = (props) => {
   const [searchConditions, setConditions] = useState({
     username: '',
     role: -1
+  });
+
+  const [open, setOpen] = useState(false);
+  const [delMember, setDelMember] = useState({
+    projectid: project,
+    userid: ''
   });
 
   //const history = useHistory();
@@ -135,10 +146,46 @@ const MemberListPage = (props) => {
     }
   },[searchConditions]);
 
+  //delete member -->
+  
   const deleteMember = (id) =>{
-    console.log(id);
+    setDelMember({...delMember, userid: id});
+    setOpen(true);
   };
+  
+  const handleDelMember = () =>{
+    deleteUserOfProject(delMember);
+    setOpen(false);
+    //getAllUserOfProjectReq(project);
+    //console.log(insUsers);
+  }
 
+  const handleCloseDelMember = () =>{
+    setOpen(false);
+  }
+
+/*   useEffect(()=>{
+    if (insMilestones.sucess === false){
+      displayMsg({
+        content: insMilestones.errMsg,
+        type: 'error'
+      });
+      //setEnableDeleteBtn(true);
+      //setLoadingg(false);
+      //resetDeleteTCRedux();
+    } else if (insMilestones.sucess === true) {
+      displayMsg({
+        content: "Delete user from project successfully !",
+        type: 'success'
+      });
+      //setEnableDeleteBtn(true);
+      //setLoadingg(false);
+      getAllUserOfProjectReq(project);
+      //resetDeleteTCRedux();
+    }
+  },[insMilestones.sucess]) */
+
+  // <-- delete member 
   return(
     <div>
       <ChangeRolePopup/>
@@ -157,11 +204,20 @@ const MemberListPage = (props) => {
         </Grid>
         <Grid item>
           <div>
-            <Button variant="contained" color="primary" onClick={handleClickNewMemberDialog}>
-              <AddIcon />
+            <Button variant="contained" color="primary" onClick={handleClickNewMemberDialog} startIcon={<PersonAddIcon/>}>
               Invite collaborator
             </Button>
           </div>
+          <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this user from project?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelMember} color="primary">Yes</Button>
+                    <Button onClick={handleCloseDelMember} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+            </Grid>
         </Grid>
       </Grid>
 

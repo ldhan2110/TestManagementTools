@@ -7,7 +7,8 @@ import EnhancedTable from '../../../components/Table/index';
 import NewTestSuitePopup from '../new-test-suite-page/index';
 import {TEST_SUITE_DETAIL_HEADERS} from '../../../components/Table/DefineHeader';
 import { connect } from 'react-redux';
-import {UPDATE_TESTSUITE_REQ, DELETE_TESTSUITE_REQ, RESET_UPDATE_TESTSUITE, RESET_DELETE_TESTSUITE, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
+import {UPDATE_TESTSUITE_REQ, DELETE_TESTSUITE_REQ, RESET_UPDATE_TESTSUITE, RESET_DELETE_TESTSUITE, GET_ALL_TESTCASE_REQ,
+  DELETE_TESTCASE_REQ, RESET_DELETE_TESTCASE} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
@@ -45,7 +46,9 @@ const  mapStateToProps = (state) => {
     listTestsuite: state.testcase.listTestsuite,
     project:state.project.currentSelectedProject,
     insTestsuite: state.testcase.insTestsuite,
-    insTestsuiteDelete: state.testcase.insTestsuiteDelete
+    insTestsuiteDelete: state.testcase.insTestsuiteDelete,
+    insTestcase: state.testcase.insTestcase,
+    insTestcaseDelete: state.testcase.insTestcaseDelete
    }
 }
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -56,12 +59,16 @@ const mapDispatchToProps = dispatch => {
     deleteTestsuiteReq: (payload) => dispatch({type: DELETE_TESTSUITE_REQ, payload}),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
     resetUpdateRedux: () => dispatch({type: RESET_UPDATE_TESTSUITE}),
-    resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTSUITE})
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTSUITE}),
+    deleteTestcaseReq: (payload) => dispatch({type: DELETE_TESTCASE_REQ, payload}),
+    resetDeleteTCRedux: () => dispatch({type: RESET_DELETE_TESTCASE})
   }
 }
 
 const TestSuiteDetail = (props) => {
-  const {node, listTestsuite, project, updateTestsuiteReq, getAllTestcaseReq, deleteTestsuiteReq, displayMsg, insTestsuite, resetUpdateRedux, resetDeleteRedux, insTestsuiteDelete} = props;
+  const {node, listTestsuite, project, updateTestsuiteReq, getAllTestcaseReq, deleteTestsuiteReq, displayMsg, insTestsuite, 
+    resetUpdateRedux, resetDeleteRedux, insTestsuiteDelete, 
+    deleteTestcaseReq, resetDeleteTCRedux, insTestcase, insTestcaseDelete} = props;
   const [testSuite, setTestSuite] = useState({
     id: '',
     name: '',
@@ -75,6 +82,18 @@ const TestSuiteDetail = (props) => {
   const [openNewTS, setOpenTS] = useState(false);
   //const [openNewTC, setOpenTC] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [openTCase, setOpenTCase] = React.useState(false);
+  const [openTSuite, setOpenTSuite] = React.useState(false);
+  const [delTSpage, setDelTSpage] = React.useState(true); //let table know this page is on
+  const [testcaseInfor, setTestcaseInfor] = useState({
+    projectid: project,
+    testcaseid: ''
+  });
+  const [testsuiteInfor, setTestsuiteInfor] = useState({
+    projectid: project,
+    _id: ''
+  });
+
   const [checkError, setCheckError] = useState(false);
   const [error, setError] = useState({
     name: 'ss',
@@ -140,7 +159,6 @@ const TestSuiteDetail = (props) => {
 
   useEffect(()=>{
     if (insTestsuiteDelete.sucess === false){
-      setLoadingg(false);
       displayMsg({
         content: insTestsuiteDelete.errMsg,
         type: 'error'
@@ -149,7 +167,6 @@ const TestSuiteDetail = (props) => {
       setLoadingg(false);
       resetDeleteRedux();
     } else if (insTestsuiteDelete.sucess === true) {
-      setLoadingg(false);
       displayMsg({
         content: "Delete testsuite successfully !",
         type: 'success'
@@ -201,7 +218,7 @@ const TestSuiteDetail = (props) => {
     //console.log('testsuite_infor: ' + JSON.stringify(testSuite));
 
   }
-
+  //Delete testsuite button
   const handleDelete = ()=>{
     console.log('testsuite_infor: ' + JSON.stringify(testSuite));
     //if(testSuite.name !== testSuite.parent){
@@ -210,20 +227,81 @@ const TestSuiteDetail = (props) => {
       deleteTestsuiteReq(testSuite);
       setOpen(false);
     //}
-  }
+  };
 
   const handleOpen = () => {
+    console.log(testSuite);
     setOpen(true);
-  }
+  };
 
   const handleClose = () => {
     setOpen(false);
-  }
+  };
 
   const handleUpload = () => {
     setOpenUpload(true);
-  }
+  };
 
+  //Delete Test Case show message
+  useEffect(()=>{
+    if (insTestcaseDelete.sucess === false){
+      displayMsg({
+        content: insTestcaseDelete.errMsg,
+        type: 'error'
+      });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
+      resetDeleteTCRedux();
+    } else if (insTestcaseDelete.sucess === true) {
+      displayMsg({
+        content: "Delete testcase successfully !",
+        type: 'success'
+      });
+      setEnableDeleteBtn(true);
+      setLoadingg(false);
+      getAllTestcaseReq();
+      resetDeleteTCRedux();
+    }
+  },[insTestcaseDelete.sucess]);
+
+  //handle to delete TS or TC
+  const handleOpenTSuite = (id, type) => {
+    if(type === 'TS') {
+      console.log('ts');
+    setTestsuiteInfor({...testsuiteInfor, _id: id});
+    setOpenTSuite(true);
+  }
+    else if(type === 'TC')
+    {
+      console.log('tc');
+      setTestcaseInfor({...testcaseInfor, testcaseid: id});
+      setOpenTCase(true);
+    }
+  };
+
+  //Delete Test suite table
+  const handleDeleteTSuite = () =>{
+    setEnableDeleteBtn(false);
+    setLoadingg(true);
+    deleteTestsuiteReq(testsuiteInfor);
+    setOpenTSuite(false);
+  };
+
+  //Delete Test Case table
+  const handleDeleteTCase = () =>{    
+    setEnableDeleteBtn(false);
+    setLoadingg(true);
+    deleteTestcaseReq(testcaseInfor);
+    setOpenTCase(false);
+  };  
+
+  const handleCloseTSuite = () => {
+    setOpenTSuite(false);
+  };
+
+  const handleCloseTCase = () => {
+    setOpenTCase(false);
+  };
 
   return(
     <React.Fragment>
@@ -327,6 +405,8 @@ const TestSuiteDetail = (props) => {
             rows={testSuite.children}
             headerList = {TEST_SUITE_DETAIL_HEADERS}
             //viewAction={navigateToDetailPage}
+            handleDefaultDeleteAction={handleOpenTSuite}
+            delTSpage={delTSpage}
           />
         </Grid>
         
@@ -348,6 +428,26 @@ const TestSuiteDetail = (props) => {
                   <DialogActions>
                     <Button onClick={handleDelete} color="primary">Yes</Button>
                     <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+            </Grid>
+            <Grid item>
+                <Dialog open={openTCase} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this test case?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDeleteTCase} color="primary">Yes</Button>
+                    <Button onClick={handleCloseTCase} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+            </Grid>
+            <Grid item>
+                <Dialog open={openTSuite} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this test suite?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDeleteTSuite} color="primary">Yes</Button>
+                    <Button onClick={handleCloseTSuite} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>
             </Grid>

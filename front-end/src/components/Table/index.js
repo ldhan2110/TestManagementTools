@@ -27,6 +27,7 @@ import {
   RemoveRedEye as RemoveRedEyeIcon
 } from "@material-ui/icons";
 import DeleteIcon from '@material-ui/icons/Delete';
+import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 
 import { spacing } from "@material-ui/system";
 //import { retinaImage } from "polished";
@@ -60,7 +61,7 @@ const Customer = styled.div`
 const EnhancedTable = (props) => {
   const history = useHistory();
 
-  const {rows, headerList, viewAction, conditions, setConditions, searchMethod, handleDefaultDeleteAction, memberDelButton} = props;
+  const {rows, headerList, viewAction, conditions, setConditions, searchMethod, handleDefaultDeleteAction, memberDelButton, delTSpage} = props;
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('customer');
   const [selected, setSelected] = useState([]);
@@ -201,9 +202,12 @@ const EnhancedTable = (props) => {
                       {headerList.hasActions &&
                       <TableCell align="right">
                         {memberDelButton === true && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row.id)}>
+                          <PersonAddDisabledIcon style={{color: red[400]}}/>
+                        </IconButton>  }
+                        {memberDelButton !== true && delTSpage !== true && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
                           <DeleteIcon style={{color: red[400]}}/>
                         </IconButton>  }
-                        {memberDelButton !== true && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
+                        {memberDelButton !== true && delTSpage === true && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id, row.type)}>
                           <DeleteIcon style={{color: red[400]}}/>
                         </IconButton>  }
                         <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
