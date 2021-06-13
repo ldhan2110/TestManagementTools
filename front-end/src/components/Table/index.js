@@ -20,12 +20,13 @@ import {
   //Typography,
   TableRow} from "@material-ui/core";
 
-import { green, orange, red } from "@material-ui/core/colors";
+import { green, orange, red, blue } from "@material-ui/core/colors";
 
 import {
   Archive as ArchiveIcon,
   RemoveRedEye as RemoveRedEyeIcon
 } from "@material-ui/icons";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import { spacing } from "@material-ui/system";
 //import { retinaImage } from "polished";
@@ -59,7 +60,7 @@ const Customer = styled.div`
 const EnhancedTable = (props) => {
   const history = useHistory();
 
-  const {rows, headerList, viewAction, conditions, setConditions, searchMethod} = props;
+  const {rows, headerList, viewAction, conditions, setConditions, searchMethod, handleDefaultDeleteAction} = props;
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('customer');
   const [selected, setSelected] = useState([]);
@@ -199,11 +200,11 @@ const EnhancedTable = (props) => {
 
                       {headerList.hasActions &&
                       <TableCell align="right">
-                        <IconButton aria-label="delete">
-                          <ArchiveIcon />
+                        <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
+                          <DeleteIcon style={{color: red[400]}}/>
                         </IconButton>  
                         <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
-                          <RemoveRedEyeIcon />
+                          <RemoveRedEyeIcon style={{color: blue[400]}}/>
                         </IconButton>  
                       </TableCell>}
                     </TableRow>

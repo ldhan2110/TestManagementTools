@@ -6,20 +6,24 @@ import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
 import {TEST_PLAN_HEADERS} from '../../../components/Table/DefineHeader';
 import {TEST_PLANS_SEARCH} from '../../../components/Table/DefineSearch';
-import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
+import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ, DELETE_TESTPLAN_REQ, RESET_DELETE_TESTPLAN} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {
   Grid,
   Typography,
   Divider,
-  Button
+  Button,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  Dialog
 } from '@material-ui/core';
 
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 //MAP STATES TO PROPS - REDUX
@@ -27,7 +31,8 @@ function mapStateToProps(state) {
   return {
     listTestplan: state.testplan.listTestplan,
     project: state.project.currentSelectedProject,
-    role: state.project.currentRole
+    role: state.project.currentRole,
+    insTestplanDelete: state.testplan.insTestplanDelete
   };
 }
 
@@ -36,7 +41,9 @@ const mapDispatchToProps = dispatch => {
   return {
     addNewTestplanReq: (payload) => dispatch({ type: ADD_NEW_TESTPLAN_REQ, payload }),
     getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    deleteTestplanReq: (payload) => dispatch({ type: DELETE_TESTPLAN_REQ, payload }),
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTPLAN})
   }
 }
 
@@ -44,14 +51,27 @@ const mapDispatchToProps = dispatch => {
 const TestPlanListPage = (props) => {
   //const {classes} = props;
 
-  const {listTestplan, getAllTestplanReq, project, role} = props;
+  const {listTestplan, getAllTestplanReq, project, role, deleteTestplanReq, resetDeleteRedux, insTestplanDelete, displayMsg} = props;
 
   const [array, setArray] = React.useState(listTestplan);
+
+  //load TP bar
+  const [count, setCount] = React.useState(0);
+  const [count1, setCount1] = React.useState(0);
+
+  //delete TP dialog
+  const [open, setOpen] = React.useState(false);
+
+  //Delete TP infor
+  const [testplanInfor, setTestplanInfor] = React.useState({
+    testplanid: '',
+    projectid: project
+  });
 
   const [searchConditions, setConditions] = useState({
     testplanName: '',
     active: -1
-  });
+  });   
 
   const history = useHistory();
 
@@ -89,6 +109,14 @@ const TestPlanListPage = (props) => {
 
   useEffect(()=>{
     setArray(listTestplan);
+    //load bar
+    if(count < 3){
+    setCount(count+1);
+    setTimeout(()=>{
+      setCount1(count1+1);
+    },200);}
+    //console.log(count);
+    //console.log(count1);
   },[listTestplan])
 
   const handleChangeConditions = (props, data) => {
@@ -112,8 +140,44 @@ const TestPlanListPage = (props) => {
           return listTestplan;}))
     }
   },[searchConditions]);
-  
+  // --> delete TP
+  try {
+    useEffect(()=>{
+      if (insTestplanDelete.sucess === false){
+        displayMsg({
+          content: insTestplanDelete.errMsg,
+          type: 'error'
+        });
+        resetDeleteRedux();
+      } else if (insTestplanDelete.sucess === true) {
+        displayMsg({
+          content: "Delete testplan successfully !",
+          type: 'success'
+        });
+        setCount(1);
+        setCount1(1);
+        getAllTestplanReq(project);
+        resetDeleteRedux();
+      }
+    },[insTestplanDelete.sucess]);      
+  } catch (error) {
+    console.log('error: '+error);
+  }
 
+    const deleteTP = (id) => {
+      setTestplanInfor({...testplanInfor, testplanid: id});
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
+    const handleDelete=()=>{
+      setCount(-2);
+      setCount1(-2);
+      deleteTestplanReq(testplanInfor);
+      setOpen(false);
+    };
+  // <-- delete TP
   return(
     <div>
 
@@ -145,6 +209,17 @@ const TestPlanListPage = (props) => {
               New Test Plan
             </Button>}
           </div>
+          {/* Delete TP dialog */}
+          <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this testplan?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+          </Grid>
         </Grid>
       </Grid>
 
@@ -152,12 +227,15 @@ const TestPlanListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
+        {/* Load bar */}
+        {count1 < 2 && <LinearProgress />}
           <EnhancedTable
             rows={array}
             headerList = {TEST_PLAN_HEADERS}
             conditions={TEST_PLANS_SEARCH}
             setConditions={handleChangeConditions}
             searchMethod={searchTestPlan}
+            handleDefaultDeleteAction={deleteTP}
           />
         </Grid>
       </Grid>

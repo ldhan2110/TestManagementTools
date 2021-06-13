@@ -7,20 +7,24 @@ import Helmet from 'react-helmet';
 import {BUILDS_HEADERS} from '../../../components/Table/DefineHeader';
 import {BUILDS_SEARCH} from '../../../components/Table/DefineSearch';
 import { connect } from 'react-redux';
-import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ} from '../../../redux/build-release/constants';
+import {ADD_NEW_BUILD_REQ, GET_ALL_BUILDS_REQ, DELETE_BUILD_REQ, RESET_DELETE_BUILD} from '../../../redux/build-release/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { GET_ALL_ACTIVE_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import {
   Grid,
   Typography,
   Divider, 
-  Button
+  Button,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  Dialog
 } from '@material-ui/core';
 
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
@@ -28,7 +32,8 @@ function mapStateToProps(state) {
     listBuilds: state.build.listBuilds,
     project: state.project.currentSelectedProject,
     listTestPlan: state.testplan.listActiveTestplan,
-    role: state.project.currentRole
+    role: state.project.currentRole,
+    insBuildsDelete: state.build.insBuildsDelete
   };
 }
 
@@ -38,7 +43,9 @@ const mapDispatchToProps = dispatch => {
     addNewBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
     getAllBuildReq: (payload) => dispatch({ type: GET_ALL_BUILDS_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    getAllTestPlanReq: () => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ})
+    getAllTestPlanReq: () => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
+    deleteBuildReq: (payload) => dispatch({ type: DELETE_BUILD_REQ, payload}),
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_BUILD})
   }
 }
 
@@ -49,11 +56,24 @@ const BuildListPage = (props) => {
 
   //const {classes} = props;
 
-  const {listBuilds, getAllBuildReq, project, getAllTestPlanReq, listTestPlan, role} = props;
+  const {listBuilds, getAllBuildReq, project, getAllTestPlanReq, listTestPlan, role, displayMsg, deleteBuildReq, resetDeleteRedux, insBuildsDelete} = props;
 
   const [BUILD_SEARCH_CONDITIONS, setSearchConditions] = useState(BUILDS_SEARCH);
 
   const [array, setArray] = React.useState([]);
+
+  //load TP bar
+  const [count, setCount] = React.useState(0);
+  const [count1, setCount1] = React.useState(0);
+
+  //delete TP dialog
+  const [open, setOpen] = React.useState(false);
+
+  //Delete TP infor
+  const [buildInfor, setBuildInfor] = React.useState({
+    projectid: project,
+    buildid: ''
+  });
 
   const [searchConditions, setConditions] = useState({
     buildName: '',
@@ -122,6 +142,12 @@ const BuildListPage = (props) => {
 
   useEffect(()=>{
     handleArray(listBuilds);
+    //load bar
+    if(count < 3){
+      setCount(count+1);
+      setTimeout(()=>{
+        setCount1(count1+1);
+      },100);}
   },[listBuilds])
 
 
@@ -182,6 +208,48 @@ const BuildListPage = (props) => {
   const handleChangeConditions = (props, data) => {
     setConditions({...searchConditions, [props]: data });
   }
+  // --> delete TP
+  useEffect(()=>{
+    if (insBuildsDelete.sucess === false){
+      // displayMsg({
+      //   content: insBuildsDelete.errMsg,
+      //   type: 'error'
+      // }); 
+      //setEnableDeleteBtn(true);
+      //setLoadingg(false);
+      resetDeleteRedux();
+    } else if (insBuildsDelete.sucess === true) {
+      displayMsg({
+        content: "Delete build successfully !",
+        type: 'success'
+      });
+      
+      getAllBuildReq(project);
+      getAllTestPlanReq();
+      setCount(1);
+      setCount1(0);
+      //setArray([]);
+      //setEnableDeleteBtn(true);
+      //setLoadingg(false);
+      resetDeleteRedux();
+      //history.goBack();
+      }
+  },[insBuildsDelete.sucess]);
+
+  const deleteBuild = (id) => {
+    setBuildInfor({...buildInfor, buildid: id});
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleDelete=()=>{
+    //setCount(-2);
+    //setCount1(-2);
+    deleteBuildReq(buildInfor);
+    setOpen(false);
+  };
+// <-- delete TP
 
   return(
     <div>
@@ -213,6 +281,17 @@ const BuildListPage = (props) => {
               New Build
             </Button>}
           </div>
+          {/* Delete TP dialog */}
+          <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this build?</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleClose} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+          </Grid>
         </Grid>
       </Grid>
 
@@ -220,6 +299,7 @@ const BuildListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
+        {count1 < 2 && <LinearProgress/>}
           <EnhancedTable
             rows={array}
             headerList = {BUILDS_HEADERS}
@@ -227,6 +307,7 @@ const BuildListPage = (props) => {
             conditions={BUILD_SEARCH_CONDITIONS}
             setConditions={handleChangeConditions}
             searchMethod={searchBuild}
+            handleDefaultDeleteAction={deleteBuild}
           />
         </Grid>
       </Grid>

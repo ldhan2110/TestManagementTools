@@ -315,7 +315,7 @@ const  Dashboard = (props) => {
       </Grid>
 
       <Divider my={6} />
-      {sixExecution.data === null && <LinearProgress style={{marginTop:-24, marginBottom:20}} />}
+      {(sixExecution.data === null || dataMultiChart === null || dataExecOverview === null || dataEfforts === null) && <LinearProgress style={{marginTop:-24, marginBottom:20}} />}
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
            <MultiChart datasets={dataMultiChart}/>

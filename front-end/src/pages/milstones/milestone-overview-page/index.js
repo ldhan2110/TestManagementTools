@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 
 import Milestone from '../../../components/Milestones/Milestone';
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 /* const useStyles = makeStyles((theme) => ({
   paper: {
     padding: '6px 16px',
@@ -66,6 +66,8 @@ const CustomizedTimeline = (props) => {
   const {listMilestones, getAllMilestoneReq, project, role} = props;
 
   const [array, setArray] = React.useState([]);
+  
+  const [count, setCount] = React.useState(0);
 
   const handleArray = () => {   
 
@@ -105,6 +107,7 @@ const CustomizedTimeline = (props) => {
 
   useEffect(()=>{
     handleArray();
+    setCount(count+1);
   },[listMilestones])
   
 
@@ -132,9 +135,9 @@ const CustomizedTimeline = (props) => {
             </Button>
           </div>}
         </Grid>
-      </Grid>
-      
-        <Milestone listData={{listMilestone:array}} />
+      </Grid>        
+        {count < 3 && <LinearProgress />}
+        <Milestone listData={{listMilestone:array}}/>
     </React.Fragment>
 
     

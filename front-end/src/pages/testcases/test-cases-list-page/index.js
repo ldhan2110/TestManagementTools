@@ -22,7 +22,7 @@ import {
   InputLabel,
   //IconButton
 } from '@material-ui/core';
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 //MAP STATES TO PROPS - REDUX
@@ -67,7 +67,7 @@ const TestCaseListPage = (props) => {
     const [openNewTS, setOpenTS] = useState(false);
 
     const [suiteNum, setSuiteNum] = useState(0);
-
+    const [count, setCount] = React.useState(0);
     const [search, setSearch] = useState({
       testcasename: '',
       testsuite: '',
@@ -89,6 +89,8 @@ const TestCaseListPage = (props) => {
 
     useEffect(()=>{
       setListTestCase(testcase.listTestcase);
+      if(count < 3)
+      setCount(count+1);
       if(listTestCase.length !== 0)
         setSuiteNum(listTestCase.children.length);
     },[testcase.listTestcase]);
@@ -252,6 +254,7 @@ const TestCaseListPage = (props) => {
                     <Grid container spacing={3}>
                       <Grid item xs={12}>                 
                             <Typography variant="h4" gutterBottom display="inline">Test Cases</Typography> 
+                            {count < 2 && <LinearProgress/>}
                       <Divider />
                     </Grid>
                       <Grid item xs={12}><TreeView data={listTestCase} setSelectNode={setSelectNode}/></Grid>

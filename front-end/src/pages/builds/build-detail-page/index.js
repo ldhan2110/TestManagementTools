@@ -64,7 +64,12 @@ const BuildDetailPage = (props) => {
     const {insBuilds, updateBuildReq, displayMsg, deleteBuildReq, project, listTestplan, getAllTestplanReq, resetUpdateRedux, resetDeleteRedux, insBuildsDelete, role, listBuilds, getBuildByIdReq, build} = props;
       
     const history = useHistory();
-    const [selectedDateStart, setSelectedDateStart] = React.useState(props.history.location.state.releasedate);
+
+    var date = props.history.location.state.releasedate;
+    var datearray = date.split("-");
+    var newdate = datearray[1] + '-' + datearray[0] + '-' + datearray[2];
+    const [selectedDateStart, setSelectedDateStart] = React.useState(new Date(newdate));
+    
     const [checkError, setCheckError] = useState(false);
     const [open, setOpen] = React.useState(false);
     const [error, setError] = useState({
@@ -98,6 +103,9 @@ const BuildDetailPage = (props) => {
         //console.log('testplanname: '+JSON.stringify(props.history.location.state.testplanname));
       //}
       getAllTestplanReq(project);
+      console.log(selectedDateStart);
+      console.log(props.history.location.state.releasedate);
+      console.log(Date.parse(props.history.location.state.releasedate.toString()));
     },[])
 
     useEffect(()=>{
