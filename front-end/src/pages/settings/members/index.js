@@ -51,6 +51,7 @@ const MemberListPage = (props) => {
 
   const {listUsersOfProject, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg} = props;
 
+  const [memberDelButton, setMemberDelButton] = useState(true);
 
   const [openDialog,setOpenDialog] = useState(false);
 
@@ -134,6 +135,10 @@ const MemberListPage = (props) => {
     }
   },[searchConditions]);
 
+  const deleteMember = (id) =>{
+    console.log(id);
+  };
+
   return(
     <div>
       <ChangeRolePopup/>
@@ -171,6 +176,8 @@ const MemberListPage = (props) => {
             conditions={MEMBER_SEARCH}
             setConditions={handleChangeConditions}
             searchMethod={searchMember}
+            handleDefaultDeleteAction={deleteMember}
+            memberDelButton={memberDelButton}
           />
         </Grid>
       </Grid>

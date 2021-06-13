@@ -211,6 +211,10 @@ const TestExecutionListPage = (props) => {
 
   },[searchConditions]);
 
+  const deleteTE = (id) =>{
+    
+  };
+
   return(
     <div>
 
@@ -245,6 +249,7 @@ const TestExecutionListPage = (props) => {
             conditions={TEST_EXEC_SEARCH_CONDITIONS}
             setConditions={handleChangeConditions}
             searchMethod={searchTestExec}
+            handleDefaultDeleteAction={deleteTE}
           />
         </Grid>
       </Grid>
