@@ -1,8 +1,10 @@
 export const TEST_CASE_ADDR = [
-    { name: "testcaseName", addr: 'B1' },
-    { name: "description", addr: 'B2' },
-    { name: "priority", addr: 'B3' },
-    { name: "type", addr: 'B4' },
-    { name: "precondition", addr: 'B5' },
-    { name: "postcondition", addr: 'B6' },
+    { name: "Test Case Name", convertedField: 'testcaseName'},
+    { name: "Description",  convertedField: 'description'},
+    { name: "Priority",  convertedField: 'priority' },
+    { name: "Type",  convertedField: 'type' },
+    { name: "Pre-condition",  convertedField: 'precondition'},
+    { name: "Post-condition",  convertedField: 'postcondition' },
+    { name: "Steps"},
+    { name: "Expected Result"}
 ]

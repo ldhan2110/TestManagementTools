@@ -94,8 +94,9 @@ const UploadTestCase = (props) => {
 
   const handleConfirm = () =>{
     var tempTC = result;
-    tempTC.testsuite = testsuite;
-    addTestcaseReq(tempTC);
+    tempTC.map(item => item.testsuite = testsuite);
+    console.log(tempTC);
+    //addTestcaseReq(tempTC);
   }
 
   
