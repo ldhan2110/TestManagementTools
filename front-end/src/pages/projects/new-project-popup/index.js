@@ -96,6 +96,7 @@ const NewProjectPopup = (props) => {
       is_public: false,
       active: false
     })
+    setCheckError(false);
     setOpen(false);
   };
 
@@ -156,13 +157,13 @@ const NewProjectPopup = (props) => {
         <form className={classes.content}>
           <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  
           value={projectInfo.projectname || ''} onChange={handleChange('projectname')} inputProps={{maxLength : 16}} 
-          error={projectInfo.projectname.trim().length === 0 && error.projectname.trim().length === 0 ? true : false}
-          helperText={projectInfo.projectname.trim().length === 0 && error.projectname.trim().length === 0 ? 'Project Name is required' : ' '}/>
+          error={checkError && projectInfo.projectname.trim().length === 0 && error.projectname.trim().length === 0 ? true : false}
+          helperText={checkError && projectInfo.projectname.trim().length === 0 && error.projectname.trim().length === 0 ? 'Project Name is required' : ' '}/>
 
           <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={15}  
           value={projectInfo.description || ''} onChange={handleChange('description')}
-          error={projectInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-          helperText={projectInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+          error={checkError && projectInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+          helperText={checkError && projectInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}

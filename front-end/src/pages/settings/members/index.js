@@ -26,7 +26,7 @@ import {
   Add as AddIcon,
 } from "@material-ui/icons";
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 // const NavLink = React.forwardRef((props, ref) => (
 //   <RouterNavLink innerRef={ref} {...props} />
 // ));
@@ -83,6 +83,10 @@ const MemberListPage = (props) => {
 
   const [selected,setSelected] = useState({});
 
+  //load TP bar
+  const [count, setCount] = React.useState(0);
+  const [count1, setCount1] = React.useState(0);
+
   const handleArray = () => {   
     if(listUsersOfProject !== undefined){
       setArray([]);
@@ -125,6 +129,12 @@ const MemberListPage = (props) => {
 
   useEffect(()=>{
     handleArray();
+    //load bar
+    if(count < 3){
+      setCount(count+1);
+      setTimeout(()=>{
+        setCount1(count1+1);
+      },200);}
   },[listUsersOfProject])
 
   useEffect(()=>{
@@ -156,6 +166,8 @@ const MemberListPage = (props) => {
   };
   
   const handleDelMember = () =>{
+    setCount(-2);
+      setCount1(-2);
     deleteUserOfProject(delMember);
     setOpen(false);
   }
@@ -177,6 +189,8 @@ const MemberListPage = (props) => {
         content: "Removed user from project successfully !",
         type: 'success'
       });
+      setCount(1);
+        setCount1(1);
       getAllUserOfProjectReq(project);
       resetDelUserOfProjectRedux();
     }
@@ -222,6 +236,8 @@ const MemberListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
+           {/* Load bar */}
+        {count1 < 2 && <LinearProgress />}
           <EnhancedTable
             rows={listMember}
             headerList = {MEMBERS_HEADERS}

@@ -60,11 +60,13 @@ const LoginPage = (props) => {
       isKeepedLogin: false,
       showPassword: false,
     });
-    //const [checkError, setCheckError] = useState(false);
+    const [checkError, setCheckError] = useState(false);
+    const [checkErrorMsg, setCheckErrorMsg] = useState(false);
     const [loading, setLoading] = useState(false);
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [error, setError] = useState({
-        
+      username: 'ss',
+      password: 'ss',
     });
     //check if Login button is pressed since F5
     const [checkLogin, setCheckLogin] = useState(false);
@@ -76,6 +78,7 @@ const LoginPage = (props) => {
       {
         setLoading(false);
         setError({error: "Wrong username or password"});
+        //setCheckErrorMsg(false);
         setEnableCreateBtn(true);
         setLoading(false);
       }
@@ -105,6 +108,8 @@ const LoginPage = (props) => {
     //CHANGE CHECKBOX
     const handleChange = (prop) => (event) => {
       setValues({ ...values, [prop]: event.target.value });
+      if(checkError === true)
+    setError({ ...error, [prop]: event.target.value });
     };
 
 /*     const showError= () =>{
@@ -128,23 +133,40 @@ const LoginPage = (props) => {
     //HANDLE OPEN REGISTER POPUP
     const handleOpenRegister = ()=> {
       setCheckLogin(false);
+      setValues({
+        username: '',
+        password: '',
+      })
+      setCheckError(false);
+      setError(false);
       openRegister(!isOpenRegister);
     };
 
     //HANDLE LOGIN REQUEST BUTTON
     const handleClickLogin = (event) => {
-      if(values.username.trim().length === 0 && values.password === ""){
-        setError({username: "Username is required",
-                  password: "Password is required"})
+      setCheckError(true);
+      // setCheckErrorMsg(true);
+
+      if(values.username.trim().length === 0)
+    setError({ ...values, username: "" });
+
+    if(values.password.trim().length === 0)
+    setError({ ...values, password: "" });
+
+      if(values.username.trim().length === 0 && values.password.trim().length === 0){
+        setError({...values, username: "",...values, password: ""
+                  })
       }      
 
+      /*
       else if(values.username.trim().length === 0){ 
         setError({username: "Username is required", password: ""});
       }
       else if (values.password === ""){
         setError({username: "", password: "Password is required"});
-      }      
-      else {
+      }      */
+      if(values.username.trim().length !== 0 && values.password.trim().length !== 0  )
+    { 
       setError({});
       setEnableCreateBtn(false);
       setLoading(true);
@@ -173,12 +195,12 @@ const LoginPage = (props) => {
                     id="outlined-adornment-username"
                     value={values.username || ''}
                     onChange={handleChange('username')}
-                    error={error.username && values.username.trim().length === 0 ? true : false} 
+                    error={checkError && error.username== 0 && values.username == 0 ? true : false}
                     labelWidth={60}
                     required={true}                    
                 />
                 
-                {error && error.username && <FormHelperText id="component-error-text" error={true}>{error.username}</FormHelperText>} 
+                {checkError && error.username== 0 && values.username== 0 && <FormHelperText id="component-error-text" error={true}>Username is required</FormHelperText>}
               </FormControl> 
 
         <FormControl fullWidth variant="outlined">
@@ -189,7 +211,9 @@ const LoginPage = (props) => {
             value={values.password}
             onChange={handleChange('password')}
             required={true}
-            error={error.password && values.password.trim().length === 0 ? true : false}
+            error={checkError && error.password== 0 && values.password== 0 ? true : false}
+            
+                   
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -204,7 +228,8 @@ const LoginPage = (props) => {
             }
             labelWidth={60}
           />
-           {error && error.password && <FormHelperText id="component-error-text" error={true}>{error.password}</FormHelperText>}
+           
+          {checkError && error.password== 0 && values.password== 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
         </FormControl>
         {error && error.error && <FormHelperText id="component-error-text" error={true}>{error.error}</FormHelperText>}
 
