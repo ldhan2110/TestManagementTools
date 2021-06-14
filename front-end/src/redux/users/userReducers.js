@@ -4,13 +4,17 @@ var initialState = {
   error: "",
   errorMsg:"",
   currentSelectedUser: "",
+  insDeleteMember: {
+    sucess: null,
+    errMsg: null
+  },
   insUsers: {
     sucess: null,
     errMsg: null
   },
   listUsers: [],
   listUsersOfProject: [],
-  inforUser: [],
+  inforUser: [],  
 
   insPassword: {
     sucess: null,
@@ -209,16 +213,27 @@ const reducer = (state = initialState, actions) => {
     case types.DELETE_USER_OF_PROJECT_FAILED:
                   return {
                     ...state,
-                    success: false,
-                    errorMsg: payload,
+                    insDeleteMember: {
+                      sucess: false,
+                      errMsg: payload,
+                    }
     }
                 
     case types.DELETE_USER_OF_PROJECT_SUCCESS:
                   return {
                       ...state,
-                      insMilestones: {
-                      sucess: true,
-                      errMsg: null
+                      insDeleteMember: {
+                        sucess: true,
+                        errMsg: null
+                    }
+    }
+
+    case types.RESET_DELETE_USER_OF_PROJECT:
+                  return {
+                      ...state,
+                      insDeleteMember: {
+                        sucess: null,
+                        errMsg: null
                     }
     }
 

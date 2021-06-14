@@ -67,6 +67,13 @@ export function deleteUserOfProject(value) {
   }
 }
 
+export function resetDelUserOfProject(value) {
+  return {
+    type: types.RESET_DELETE_USER_OF_PROJECT,
+    payload: value
+  }
+}
+
 export function updatePassword(value){
 
   return {

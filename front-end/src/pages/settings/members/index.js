@@ -8,7 +8,7 @@ import Helmet from 'react-helmet';
 import {MEMBERS_HEADERS} from '../../../components/Table/DefineHeader';
 import {MEMBER_SEARCH} from '../../../components/Table/DefineSearch';
 import NewMemberDialog from './InviteNewMember';
-import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ, DELETE_USER_OF_PROJECT_REQ} from '../../../redux/users/constants';
+import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ, DELETE_USER_OF_PROJECT_REQ, RESET_DELETE_USER_OF_PROJECT} from '../../../redux/users/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {
@@ -36,6 +36,7 @@ function mapStateToProps(state) {
     listUsers: state.user.listUsers,
     listUsersOfProject: state.user.listUsersOfProject,
     project: state.project.currentSelectedProject,
+    insDeleteMember: state.user.insDeleteMember
   };
 }
 
@@ -46,7 +47,8 @@ const mapDispatchToProps = dispatch => {
     getAllUserReq: (payload) => dispatch({ type: GET_ALL_USERS_REQ, payload}),
     getAllUserOfProjectReq: (payload) => dispatch({ type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    deleteUserOfProject: (payload) => dispatch({ type: DELETE_USER_OF_PROJECT_REQ, payload })
+    deleteUserOfProject: (payload) => dispatch({ type: DELETE_USER_OF_PROJECT_REQ, payload }),
+    resetDelUserOfProjectRedux: () => dispatch({ type: RESET_DELETE_USER_OF_PROJECT})
   }
 }
 
@@ -54,7 +56,7 @@ const mapDispatchToProps = dispatch => {
 const MemberListPage = (props) => {
   //const {classes} = props;
 
-  const {listUsersOfProject, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg, deleteUserOfProject} = props;
+  const {listUsersOfProject, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg, insDeleteMember, deleteUserOfProject, resetDelUserOfProjectRedux} = props;
 
   const [memberDelButton, setMemberDelButton] = useState(true);
 
@@ -156,34 +158,29 @@ const MemberListPage = (props) => {
   const handleDelMember = () =>{
     deleteUserOfProject(delMember);
     setOpen(false);
-    //getAllUserOfProjectReq(project);
-    //console.log(insUsers);
   }
 
   const handleCloseDelMember = () =>{
     setOpen(false);
   }
 
-/*   useEffect(()=>{
-    if (insMilestones.sucess === false){
+  useEffect(()=>{
+    if (insDeleteMember?.sucess === false){
       displayMsg({
-        content: insMilestones.errMsg,
+        content: insDeleteMember.errMsg,
         type: 'error'
       });
-      //setEnableDeleteBtn(true);
-      //setLoadingg(false);
-      //resetDeleteTCRedux();
-    } else if (insMilestones.sucess === true) {
+      getAllUserOfProjectReq(project);
+      resetDelUserOfProjectRedux();
+    } else if (insDeleteMember?.sucess === true) {
       displayMsg({
-        content: "Delete user from project successfully !",
+        content: "Removed user from project successfully !",
         type: 'success'
       });
-      //setEnableDeleteBtn(true);
-      //setLoadingg(false);
       getAllUserOfProjectReq(project);
-      //resetDeleteTCRedux();
+      resetDelUserOfProjectRedux();
     }
-  },[insMilestones.sucess]) */
+  },[insDeleteMember?.sucess])
 
   // <-- delete member 
   return(
@@ -211,7 +208,7 @@ const MemberListPage = (props) => {
           <Grid item>
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
-                  <DialogContent>Are you sure want to delete this user from project?</DialogContent>
+                  <DialogContent>Are you sure you want to remove this user from project?</DialogContent>
                   <DialogActions>
                     <Button onClick={handleDelMember} color="primary">Yes</Button>
                     <Button onClick={handleCloseDelMember} color="primary">No</Button>
