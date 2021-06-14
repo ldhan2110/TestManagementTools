@@ -41,6 +41,7 @@ const ProfilePage = (props)=>{
   const [error, setError] = useState({
     fullname: 'ss',
   });
+  const [open, setOpen] = React.useState(false);
   const [checkError, setCheckError] = useState(false);
   const [profileInfo, setProfileInfo] = useState({
     fullname: '',
@@ -74,33 +75,6 @@ const ProfilePage = (props)=>{
     }
     },[inforProfile])   
 
-    {/*try {
-    useEffect(()=>{
-      if (insProfile.sucess===false){
-        setLoading(false);
-        displayMsg({
-          content:  "Fail !",
-          type: 'error'
-        });
-        setEnableCreateBtn(true);
-        setLoading(false);
-    
-        
-      } else if (insProfile.sucess===true) {
-        setLoading(false);
-        displayMsg({
-          content: "Update profile successfully !",
-          type: 'success'
-        });
-        setEnableCreateBtn(true);
-        setLoading(false);      
-        history.goBack();
-      }
-    },[insProfile.sucess]);     
-    }catch (error) {
-      console.log('error: '+error);
-    }  */}
-
 
 
   const handleUpdateProfile = () => {
@@ -118,11 +92,21 @@ const ProfilePage = (props)=>{
     }
 
     else if(profileInfo.fullname !== ""){
+      displayMsg({
+        content: "Save profile successfully !",
+        type: 'success'
+      });
     setEnableCreateBtn(false);
       setLoading(true);
     updateProfileReq(profileInfo);
+    handleClose();
   }
 
+  };
+
+  const handleClose = () => {
+    history.goBack();
+    setOpen(false);
   };
 
   const handleUpdatePassword = () => {
