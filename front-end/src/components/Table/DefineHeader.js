@@ -1,7 +1,7 @@
 
 export const TEST_PLAN_HEADERS = {
   hasActions: true,
-  hasCheckbox: true,
+  hasCheckbox: false,
   headerCells: [  
   { id: 'testplanname', alignment: 'left', label: 'Name', type: "text" },
   { id: 'description', alignment: 'left', label: 'Description', type: "text" },
@@ -11,7 +11,7 @@ export const TEST_PLAN_HEADERS = {
 
 export const TEST_EXECUTION_HEADERS = {
   hasActions: true,
-  hasCheckbox: true,
+  hasCheckbox: false,
   headerCells: [  
   // { id: '_id', alignment: 'left', label: 'ID', type: "text" },
   { id: 'testexecutionname', alignment: 'left', label: 'Name', type: "text" },
@@ -25,7 +25,7 @@ export const TEST_EXECUTION_HEADERS = {
 
 export const BUILDS_HEADERS = {
   hasActions: true,
-  hasCheckbox: true,
+  hasCheckbox: false,
   headerCells: [  
   { id: 'buildname', alignment: 'left', label: 'Name',type: 'text' },
   { id: 'descriptions', alignment: 'left', label: 'Description',type: 'text' },
@@ -46,7 +46,7 @@ export const MEMBERS_HEADERS = {
 
 export const TEST_SUITE_DETAIL_HEADERS = {
   hasActions: true,
-  hasCheckbox: true,
+  hasCheckbox: false,
   headerCells: [
     { id: 'id', alignment: 'left', label: 'ID', type: 'text', hidden: true },
     { id: 'name', alignment: 'left', label: 'Name',type: 'text'},
@@ -55,7 +55,7 @@ export const TEST_SUITE_DETAIL_HEADERS = {
 
 export const ISSUE_LIST_HEADERS = {
   hasActions: true,
-  hasCheckbox: true,
+  hasCheckbox: false,
   headerCells: [
     { id: 'id', alignment: 'left', label: 'ID', type: 'text', hidden: true },
     { id: 'name', alignment: 'left', label: 'Name',type: 'text'},
