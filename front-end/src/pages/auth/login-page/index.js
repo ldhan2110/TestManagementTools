@@ -150,13 +150,8 @@ const LoginPage = (props) => {
       if(values.username.trim().length === 0)
     setError({ ...values, username: "" });
 
-    if(values.password.trim().length === 0)
-    setError({ ...values, password: "" });
-
-      if(values.username.trim().length === 0 && values.password.trim().length === 0){
-        setError({...values, username: "",...values, password: ""
-                  })
-      }      
+    if(values.password === "")
+    setError({ ...values, password: "" }); 
 
       /*
       else if(values.username.trim().length === 0){ 
@@ -165,7 +160,7 @@ const LoginPage = (props) => {
       else if (values.password === ""){
         setError({username: "", password: "Password is required"});
       }      */
-      if(values.username.trim().length !== 0 && values.password.trim().length !== 0  )
+      if(values.username.trim().length !== 0 && values.password !== ""  )
     { 
       setError({});
       setEnableCreateBtn(false);
@@ -211,7 +206,7 @@ const LoginPage = (props) => {
             value={values.password}
             onChange={handleChange('password')}
             required={true}
-            error={checkError && error.password== 0 && values.password== 0 ? true : false}
+            error={checkError && !error.password && !values.password ? true : false}
             
                    
             endAdornment={
@@ -229,7 +224,7 @@ const LoginPage = (props) => {
             labelWidth={60}
           />
            
-          {checkError && error.password== 0 && values.password== 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
+          {checkError && !error.password && !values.password && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
         </FormControl>
         {error && error.error && <FormHelperText id="component-error-text" error={true}>{error.error}</FormHelperText>}
 
