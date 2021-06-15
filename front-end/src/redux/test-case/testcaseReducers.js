@@ -8,6 +8,11 @@ var initialState = {
     errMsg: null
   },
 
+  insTestcaseUpl: {
+    sucess: null,
+    errMsg: null
+  },
+
   insTestsuite:{
     sucess: null,
     errMsg: null
@@ -111,6 +116,29 @@ const reducer = (state = initialState, actions) => {
           errMsg: payload
         }
       };
+
+      case types.UPLOAD_TESTCASE_REQ:
+        return {
+          ...state,
+        };
+  
+      case types.UPLOAD_TESTCASE_SUCCESS:
+          return {
+            ...state,
+            insTestcaseUpl: {
+              sucess: true,
+              errMsg: null
+            }      
+          };
+  
+      case types.UPLOAD_TESTCASE_FAILED:
+          return {
+            ...state,
+          insTestcaseUpl:{
+            sucess: false,
+            errMsg: payload
+          }
+        };
 
     case types.RESET_ADD_TEST_CASE:
       return {

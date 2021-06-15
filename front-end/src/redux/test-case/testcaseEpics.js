@@ -350,3 +350,34 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         payload: error.response.data.errMsg
       }))
     )))
+
+
+      //UPLOAD TEST CASE
+  export const uploadTestCaseEpic = (action$, state$) => action$.pipe(
+    ofType(actions.ADD_TEST_CASE_REQ),
+    mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/importtestcase',payload,{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.UPLOAD_TESTCASE_SUCCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.UPLOAD_TESTCASE_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => of({
+        type: actions.UPLOAD_TESTCASE_FAILED,
+        payload: error.response.data.errMsg
+      }))
+    )))

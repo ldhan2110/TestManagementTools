@@ -119,9 +119,9 @@ export function searchTestCase(value) {
   }
 }
 
-// export function resetSearchTestCase(value){
-//   return {
-//     type: types.RESET_SEARCH_TEST_CASE,
-//     payload: value
-//   }
-// }
+export function uploadTestCase(value){
+  return {
+    type: types.UPLOAD_TESTCASE_REQ,
+    payload: value
+  }
+}
