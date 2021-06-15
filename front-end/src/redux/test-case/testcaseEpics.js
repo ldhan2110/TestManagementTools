@@ -354,7 +354,7 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
 
       //UPLOAD TEST CASE
   export const uploadTestCaseEpic = (action$, state$) => action$.pipe(
-    ofType(actions.ADD_TEST_CASE_REQ),
+    ofType(actions.UPLOAD_TESTCASE_REQ),
     mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/'+localStorage.getItem("selectProject")+'/api/importtestcase',payload,{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
