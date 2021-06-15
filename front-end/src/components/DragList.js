@@ -16,7 +16,7 @@ import {
   IconButton
 } from '@material-ui/core';
 import { MinusCircle } from "react-feather";
-
+import {red} from "@material-ui/core/colors";
 
 
 const DragList = (props) => {
@@ -64,7 +64,7 @@ const DragList = (props) => {
              <ReactSortable list={listData} setList={setListData}>
                 {listData.map((item) => (
                     <ListItem key={item.id}>
-                      <Grid container spacing={1}>
+                      <Grid container direction="row" justify="space-between" alignItems="flex-start">
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
                         <Grid item xs={4}>
                           <TextField id={"definition"+item.id} rows={3} 
@@ -99,7 +99,7 @@ const DragList = (props) => {
                 ))}
               </ReactSortable>
               <ListItem>
-                <Grid container>
+                <Grid container justify="flex-end">
                   <Grid item xs = {2} style={{marginLeft: '1vw'}}>
                     <Button variant="contained" color="primary" fullWidth onClick={handleAddStep}>Add step</Button>
                   </Grid>

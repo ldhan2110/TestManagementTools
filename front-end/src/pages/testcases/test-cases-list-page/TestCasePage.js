@@ -239,8 +239,10 @@ const TestCaseDetail = (props) => {
             error={!newtestCase.description && !error.description ? true : false}
             helperText={!newtestCase.description && !error.description ? 'description is required' : ' '}/></Grid>
             <Grid item xs={12}>
-            <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="testSuite">Test Suite</InputLabel> 
+              <Grid container spacing={3}>
+                <Grid item xs={6}>
+                  <FormControl variant="outlined"  fullWidth>
+                      <InputLabel id="testSuite">Test Suite</InputLabel> 
                                 <Select
                                   labelId="testSuite"
                                   id="testSuite"
@@ -253,9 +255,7 @@ const TestCaseDetail = (props) => {
                                ))}
                               </Select>
                     </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container spacing={3}>
+                  </Grid>
                 <Grid item xs={6}>
                     <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="Importance">Importance</InputLabel>
@@ -272,6 +272,11 @@ const TestCaseDetail = (props) => {
                               </Select>
                     </FormControl>
                 </Grid>
+                </Grid>
+            </Grid>
+            {/* <Grid item xs={12}>
+              <Grid container spacing={3}>
+                
                 <Grid item xs={6}>
                 <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="type">Type</InputLabel>
@@ -288,7 +293,7 @@ const TestCaseDetail = (props) => {
                             </FormControl>
                 </Grid>
               </Grid>      
-            </Grid>
+            </Grid> */}
 
             <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" variant="outlined" fullWidth multiline rows={3} 
             rowsMax={3} value={newtestCase.precondition} onChange={handleChange('precondition')}/></Grid>
