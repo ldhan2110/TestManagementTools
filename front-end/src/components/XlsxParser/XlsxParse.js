@@ -2,18 +2,19 @@ import XLSX from 'xlsx';
 import {TEST_CASE_ADDR} from './SheetAddrs';
 
 
-function parseSteps (steps, expectResults, type) {
+function parseSteps (steps, expectResults, types) {
   var result = [];
 
-  if (steps && expectResults) {
+  if (steps && expectResults && types) {
     //Parse both steps and expectResult
     var listSteps = steps.split("\r\n");
     var listExpectResult = expectResults.split("\r\n");
+    var listType = types.split("\r\n");
 
     //Add to TC Item
     listSteps.map((item) => {
         var temp = item.split('. ');
-        result.push({id: temp[0], stepDefine: temp[1], expectResult: '', type: type});
+        result.push({id: temp[0], stepDefine: temp[1], expectResult: '', type: ''});
     });
 
     //Update expect result for each step TC Item
@@ -22,6 +23,14 @@ function parseSteps (steps, expectResults, type) {
       var idx = result.findIndex(x => x.id === temp[0]);
       if (idx  !== -1){
         result[idx].expectResult = temp[1];
+      }
+    });
+
+    listType.map((item) => {
+      var temp = item.split('. ');
+      var idx = result.findIndex(x => x.id === temp[0]);
+      if (idx  !== -1){
+        result[idx].type = temp[1];
       }
     });
   }
@@ -66,6 +75,7 @@ export default function handleFile(e, setMethod) {
       workbook.SheetNames.forEach(function(sheetName) {
         var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
         XL_row_object.map((item,index)=>{
+          console.log(item);
           result.push(convertToTCItem(item));
         })
       })
