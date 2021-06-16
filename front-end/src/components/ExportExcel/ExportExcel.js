@@ -1,46 +1,80 @@
 
-import React, {Component} from 'react';
+import React, {useEffect,useState} from 'react';
 import ReactExport from 'react-data-export';
 import { IconButton} from '@material-ui/core';
 import {borders, TEST_CASE_COLUMNS} from './DefineTemplate';
-import {  Download } from "react-feather";
+import {  ChevronsLeft, Download } from "react-feather";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
-const multiDataSet = [
-    {
+var multiDataSet = 
+    [{
         columns: TEST_CASE_COLUMNS,
         data: [
-            [
-                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
-                {value: "Bold", style: {font: {bold: true}}},
-                {value: "Red", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFF0000"}}}},
-                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
-                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
-                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
-                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
-                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
-            ],
-           
-        ]
-    }
-];
+        ],
+    }];
+
 
 function convertTCtoDS (item) {
+    var DSitem = [];
+    DSitem.push( {value: item.testcasename, style: {font: {sz: "11"}, border: borders}});
+    DSitem.push( {value: item.description, style: {font: {sz: "11"}, border: borders}});
+    DSitem.push( {value: item.priority, style: {font: {sz: "11"}, border: borders}});
+    DSitem.push( {value: item.precondition, style: {font: {sz: "11"}, border: borders}})
+    DSitem.push( {value: item.postcondition, style: {font: {sz: "11"}, border: borders}})
 
+    var steps = "";
+    var type = "";
+    var expectResult = "";
+    if (item.listStep.length !== 0) {
+    item.listStep.map((step,index)=>{
+        if (index < item.listStep.length-1){
+            steps = steps + (index+1) + '. ' + step.stepDefine + "\r\n";
+            type = type + (index+1) + '. ' + step.type + "\r\n";
+            expectResult = expectResult + (index+1) + '. ' + step.expectResult + "\r\n";
+        } else {
+            steps = steps + (index+1) + '. ' + step.stepDefine;
+            type = type + (index+1) + '. ' + step.type;
+            expectResult = expectResult + (index+1) + '. ' + step.expectResult;
+        }
+    })
+    DSitem.push( {value: steps, style: {font: {sz: "11"}, border: borders}});
+    DSitem.push( {value: expectResult, style: {font: {sz: "11"}, border: borders}});
+    DSitem.push( {value: type, style: {font: {sz: "11"}, border: borders}});
+    } else {
+        DSitem.push( {value: steps, style: {font: {sz: "11"}, border: borders}});
+        DSitem.push( {value: expectResult, style: {font: {sz: "11"}, border: borders}});
+        DSitem.push( {value: type, style: {font: {sz: "11"}, border: borders}});
+    }
+    return DSitem;
 }
 
 const ExportExcel = (props) => {
 
     const {dataSet, type} = props;
 
+    const [dataset,setData] = useState([{...multiDataSet}]);
+
+    useEffect(()=>{
+        if (dataSet !== null && type === 'TC'){
+            var dataD = convertTCtoDS(dataSet);
+            multiDataSet[0].data = [dataD]
+        }
+    },[dataSet, type])
+
+    
+
+    
+
    
     return (
             <div>
+            { multiDataSet[0].data.length !== 0 &&
                 <ExcelFile element={<IconButton size="small"><Download/></IconButton>}>
                     <ExcelSheet dataSet={multiDataSet} name="Test Case"/>
                 </ExcelFile>
+            }
             </div>
         );
     

@@ -218,10 +218,6 @@ const TestCaseDetail = (props) => {
     setListSteps(Data);
   };
 
-  const handleExport = () => {
-
-  };
-
   return(
     <React.Fragment>
       <Grid container spacing={3} >
@@ -234,7 +230,7 @@ const TestCaseDetail = (props) => {
           </Grid>
             
           <Grid item xs={1}>
-            <ExportExcel/>
+            <ExportExcel dataSet={newtestCase} type='TC'/>
           </Grid>
           
     
