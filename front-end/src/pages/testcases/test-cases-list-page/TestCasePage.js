@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
-//import { useHistory } from "react-router-dom";
-//import Helmet from 'react-helmet';
+
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ, RESET_UPDATE_TESTCASE, RESET_DELETE_TESTCASE, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
-//import CancelIcon from '@material-ui/icons/Cancel';
+import ExportExcel from '../../../components/ExportExcel/ExportExcel';
 import { red } from '@material-ui/core/colors';
 import { blue } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -26,8 +25,10 @@ import {
   DialogContent,
   DialogActions,
   DialogTitle,
-  Dialog
+  Dialog,
+  IconButton
 } from '@material-ui/core';
+import { Download } from "react-feather";
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => { 
@@ -217,15 +218,30 @@ const TestCaseDetail = (props) => {
     setListSteps(Data);
   };
 
+  const handleExport = () => {
+
+  };
+
   return(
     <React.Fragment>
       <Grid container spacing={3} >
         <Grid item xs={12}>
+        <Grid container spacing={1}>
+          <Grid item xs={11}>
             <Typography variant="h4" gutterBottom display="inline">
                 Test Case Detail - {newtestCase.testcasename}
             </Typography> 
-            <Divider/>
+          </Grid>
+            
+          <Grid item xs={1}>
+            <ExportExcel/>
+          </Grid>
+          
+    
         </Grid>
+        </Grid>
+        <Divider/>
+        
         
         <Grid item xs={12}>
           <Grid container spacing={3}>

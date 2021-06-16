@@ -1,70 +1,49 @@
 
 import React, {Component} from 'react';
 import ReactExport from 'react-data-export';
-import { Button, } from '@material-ui/core';
+import { IconButton} from '@material-ui/core';
+import {borders, TEST_CASE_COLUMNS} from './DefineTemplate';
+import {  Download } from "react-feather";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
-const borders = {
-  top: { style: "thin" },
-  bottom: { style: "thin" },
-  left: { style: "thin" },
-  right: { style: "thin" }
-}
-
 const multiDataSet = [
     {
-        columns: [
-            {title: "Headings", width: {wpx: 80}},//pixels width 
-            {title: "Text Style", width: {wch: 40}},//char width 
-            {title: "Colors", width: {wpx: 90}},
-        ],
+        columns: TEST_CASE_COLUMNS,
         data: [
             [
                 {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
                 {value: "Bold", style: {font: {bold: true}}},
                 {value: "Red", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFF0000"}}}},
+                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
+                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
+                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
+                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
+                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
             ],
-            [
-                {value: "H2", style: {font: {sz: "18", bold: true}}},
-                {value: "underline", style: {font: {underline: true}}},
-                {value: "Blue", style: {fill: {patternType: "solid", fgColor: {rgb: "FF0000FF"}}}},
-            ],
-            [
-                {value: "H3", style: {font: {sz: "14", bold: true}}},
-                {value: "italic", style: {font: {italic: true}}},
-                {value: "Green", style: {fill: {patternType: "solid", fgColor: {rgb: "FF00FF00"}}}},
-            ],
-            [
-                {value: "H4", style: {font: {sz: "12", bold: true}}},
-                {value: "strike", style: {font: {strike: true}}},
-                {value: "Orange", style: {fill: {patternType: "solid", fgColor: {rgb: "FFF86B00"}}}},
-            ],
-            [
-                {value: "H5", style: {font: {sz: "10.5", bold: true}}},
-                {value: "outline", style: {font: {outline: true}}},
-                {value: "Yellow", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}}}},
-            ],
-            [
-                {value: "H6", style: {font: {sz: "7.5", bold: true}}},
-                {value: "shadow", style: {font: {shadow: true},  }},
-                {value: "Light Blue", style: {fill: {patternType: "solid",}}}
-            ]
+           
         ]
     }
 ];
 
-class ExportExcel extends Component {
-    render() {
-        return (
+function convertTCtoDS (item) {
+
+}
+
+const ExportExcel = (props) => {
+
+    const {dataSet, type} = props;
+
+   
+    return (
             <div>
-                <ExcelFile element={<Button color='primary' variant="contained">Export Excel</Button>}>
-                    <ExcelSheet dataSet={multiDataSet} name="Organization"/>
+                <ExcelFile element={<IconButton size="small"><Download/></IconButton>}>
+                    <ExcelSheet dataSet={multiDataSet} name="Test Case"/>
                 </ExcelFile>
             </div>
         );
-    }
+    
 }
 
 export default ExportExcel;
