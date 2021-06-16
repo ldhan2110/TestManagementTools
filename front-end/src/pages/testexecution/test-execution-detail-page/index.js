@@ -55,6 +55,7 @@ function mapStateToProps(state) {
     updTestExec: state.testexec.updTestExec,
     execTest: state.testexec.execTest,
     listUser: state.user.listUsersOfProject,
+    accountInfo: state.account.accountInfo
   };
 }
 
@@ -72,7 +73,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestExecutionDetailPage = (props) => {
-    const {classes, listTestExecution, name, match, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux} = props;
+    const {classes, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux, accountInfo} = props;
     const history = useHistory();
     const location = useLocation();
 
@@ -82,7 +83,6 @@ const TestExecutionDetailPage = (props) => {
 
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
 
-    const [viewMode,setViewMode] = useState(testExecInfo.status === 'Untest' ? false : true);
 
     const [isExecute,setExecute] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? true : false);
 
@@ -276,7 +276,7 @@ const TestExecutionDetailPage = (props) => {
             Save
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
-          {!isExecute && testExecInfo.status === 'Untest' && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleExecute}>
+          {!isExecute && testExecInfo.status === 'Untest' && (testExecInfo.tester.username === '' || testExecInfo.tester.username === accountInfo.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleExecute}>
             Execute
           </Button>}
           <Button variant="contained" startIcon={<CancelIcon />} onClick={handleClose}>
