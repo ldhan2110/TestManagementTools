@@ -158,8 +158,8 @@ const ResetPassword = (props) => {
     }*/
         
         if(values.password !== "" && values.confirmPassword !== "" 
-        && values.password.match(/^.{8,16}$/)
-        && values.confirmPassword.match(/^.{8,16}$/)){
+        && values.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/)
+        && values.confirmPassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/)){
           setEnableCreateBtn(false);
           setLoading(true);
           confirmResetPasswordReq(values);
@@ -186,7 +186,7 @@ const ResetPassword = (props) => {
                     //error={error.password === 0 && values.password === 0 ? true : false}
                     
                     error={checkError && error.password.trim().length === 0 && values.password.trim().length === 0 ? true : false}
-                    error={checkError && !error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) ? true : false}
+                    error={checkError && !error.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && !values.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) ? true : false}
                     
                     value={values.password}
                     onChange={handleChange('password')}
@@ -208,7 +208,7 @@ const ResetPassword = (props) => {
                       </InputAdornment>
                     } 
                 />
-                {checkError && !error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password must be 8-16 characters</FormHelperText>} 
+                {checkError && !error.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && !values.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password must be 8-16 characters, at least 1 uppercase, 1 lowercase, and 1 number</FormHelperText>} 
           {checkError && error.password.trim().length === 0 && values.password.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
                 {/*{error.password.trim().length === 0 && values.password.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}*/}
                {/* {!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>} */}
@@ -249,7 +249,7 @@ const ResetPassword = (props) => {
                    // error={!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) ? true : false}
                    
                    error={checkError && error.confirmPassword.trim().length === 0 && values.confirmPassword.trim().length === 0 ? true : false}
-                   error={checkError && !error.confirmPassword.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) ? true : false}
+                   error={checkError && !error.confirmPassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && !values.confirmPassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) ? true : false}
                    
                     /*error={values.error ? true : false} */
                     value={values.confirmPassword}
@@ -272,7 +272,7 @@ const ResetPassword = (props) => {
                       </InputAdornment>
                     } 
                 />
-                {checkError && !error.confirmPassword.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Confirm New Password must be 8-16 characters</FormHelperText>} 
+                {checkError && !error.confirmPassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && !values.confirmPassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Confirm New Password must be 8-16 characters, at least 1 uppercase, 1 lowercase, and 1 number</FormHelperText>} 
           {checkError && error.confirmPassword.trim().length === 0 && values.confirmPassword.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required</FormHelperText>}
                 {/*{error.confirmPassword.trim().length === 0 && values.confirmPassword.trim().length === 0  && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required</FormHelperText>} */}
                 {/* {!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Confirm New Password is required at least 8 characters (8-16)</FormHelperText>} */}

@@ -104,6 +104,7 @@ const ForgotPassword = (props) => {
     try {
     useEffect(()=>{
         if (isSendMail.sucess === false){
+          setLoading(false);
           displayMsg({
             content: "Unregistered email !",
             type: 'error'
@@ -114,6 +115,7 @@ const ForgotPassword = (props) => {
           resetAddRedux();
           //console.log('send mail: fail');
         } else if (isSendMail.sucess === true) {
+          setLoading(false);
           displayMsg({
             content: "Send mail successfully !",
             type: 'success'

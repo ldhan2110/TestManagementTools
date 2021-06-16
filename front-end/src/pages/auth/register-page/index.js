@@ -132,16 +132,16 @@ const RegisterPage = (props) => {
     //console.log('values: '+JSON.stringify(values));
     setCheckError(true);
     //setCheckErrorMsg(true);
-    if(values.email.trim().length === 0)
+    if(values.email.trim().length === 0 ||values.email.trim().length !== values.email.length)
     setError({ ...values, email: "" });
 
-    if(values.fullname.trim().length === 0 )
+    if(values.fullname.trim().length === 0||values.fullname.trim().length !== values.fullname.length  )
     setError({ ...values, fullname: "" });
 
-    if(values.username.trim().length === 0)
+    if(values.username.trim().length === 0 ||values.username.trim().length !== values.username.length )
     setError({ ...values, username: "" });
 
-    if(values.password.trim().length === 0)
+    if(values.password.trim().length === 0|| values.password.trim().length !== values.password.length)
     setError({ ...values, password: "" });
 
     //console.log('error object: '+JSON.stringify(error));
@@ -155,9 +155,9 @@ const RegisterPage = (props) => {
     //     });
     // }
 
-    if(values.fullname.trim().length !== 0 && values.username.trim().length !== 0 && values.password.trim().length !== 0 && values.email.trim().length !== 0
+    else if(values.fullname.trim().length !== 0 && values.username.trim().length !== 0 && values.password.trim().length !== 0 && values.email.trim().length !== 0
     && values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) 
-    && values.password.match(/^.{8,16}$/)){ //Password tu 8-32 ky tu, bao gom 1 Uppercase, 1 Lowercase, va 1 number /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/
+    && values.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/)){ //Password tu 8-16 ky tu, bao gom 1 Uppercase, 1 Lowercase, va 1 number /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/
       setEnableCreateBtn(false);
       setLoading(true);
       registerReq(values);
@@ -210,7 +210,7 @@ const RegisterPage = (props) => {
             value={values.password}
             //error={checkErrorMsg && error.password.trim().length === 0 && values.password.trim().length === 0 ? true : false}
             error={checkError && error.password.trim().length === 0 && values.password.trim().length === 0 ? true : false}
-                    error={checkError && !error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) ? true : false}
+                    error={checkError && !error.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && !values.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) ? true : false}
             onChange={handleChange('password')}
             required={true}
             endAdornment={
@@ -228,7 +228,7 @@ const RegisterPage = (props) => {
             labelWidth={60}
           />
           
-          {checkError && !error.password.match(/^.{8,16}$/) && !values.password.match(/^.{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password must be 8-16 characters</FormHelperText>} 
+          {checkError && !error.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && !values.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password must be 8-16 characters, at least 1 uppercase, 1 lowercase, and 1 number</FormHelperText>} 
           {checkError && error.password.trim().length === 0 && values.password.trim().length === 0 && <FormHelperText id="component-error-text" error={true}>Password is required</FormHelperText>}
         </FormControl>
 
