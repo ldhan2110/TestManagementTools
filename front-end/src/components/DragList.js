@@ -100,7 +100,7 @@ const DragList = (props) => {
               </ReactSortable>
               <ListItem>
                 <Grid container justify="flex-end">
-                  <Grid item xs = {2} style={{marginLeft: '1vw'}}>
+                  <Grid item style={{marginLeft: '1vw'}}>
                     <Button variant="contained" color="primary" fullWidth onClick={handleAddStep}>Add step</Button>
                   </Grid>
                 </Grid>
