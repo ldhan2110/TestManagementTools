@@ -125,7 +125,7 @@ const ChangRolePopup = (props) => {
                     onChange={handleChangeRole}
                    >
                         <MenuItem value={'Project Manager'}>Project Manager</MenuItem>
-                        <MenuItem value={'TestLead'}>Test Lead</MenuItem>
+                        <MenuItem value={'Test Lead'}>Test Lead</MenuItem>
                         <MenuItem value={"Tester"}>Tester</MenuItem>
                   </Select>
           </FormControl>
