@@ -286,26 +286,7 @@ const TestCaseDetail = (props) => {
                 </Grid>
                 </Grid>
             </Grid>
-            {/* <Grid item xs={12}>
-              <Grid container spacing={3}>
-                
-                <Grid item xs={6}>
-                <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="type">Type</InputLabel>
-                                <Select
-                                  labelId="type"
-                                  id="type"
-                                  //value={age}
-                                  //onChange={handleChange}
-                                  label="Type"
-                                >
-                               <MenuItem value={"manual"}><em>Manual</em></MenuItem>
-                               <MenuItem value={"auto"}>Auto</MenuItem>
-                              </Select>
-                            </FormControl>
-                </Grid>
-              </Grid>      
-            </Grid> */}
+            
 
             <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" variant="outlined" fullWidth multiline rows={3} 
             rowsMax={3} value={newtestCase.precondition} onChange={handleChange('precondition')}/></Grid>

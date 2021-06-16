@@ -204,7 +204,7 @@ const TestPlanListPage = (props) => {
         </Grid>
         <Grid item>
           <div>
-            {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" onClick={handleClickNewTestPlan}>
+            {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" color="primary" onClick={handleClickNewTestPlan}>
               <AddIcon />
               New Test Plan
             </Button>}

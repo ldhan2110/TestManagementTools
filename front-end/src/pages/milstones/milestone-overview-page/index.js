@@ -128,7 +128,7 @@ const CustomizedTimeline = (props) => {
         </Grid>
 
         <Grid item>
-          {(role === 'projectmanager' || role === 'testlead')   &&<div>
+          {(role === 'Project Manager' || role === 'Test Lead')   &&<div>
             <Button variant="contained" color="primary" onClick={handleClickNewMilestone}>
               <AddIcon />
               New Milestone
