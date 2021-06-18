@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styles from "./styles";
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { withStyles } from '@material-ui/core/styles';
-import {UPLOAD_, GET_ALL_TESTCASE_REQ, RESET_ADD_TEST_CASE, UPLOAD_TESTCASE_REQ, RESET_UPLOAD_TESTCASE} from '../../../redux/test-case/constants';
+import {UPLOAD_, GET_ALL_TESTCASE_REQ, RESET_ADD_TEST_CASE, UPLOAD_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import XLSXParser from '../../../components/XlsxParser/XlsxParse';
 import { blue } from '@material-ui/core/colors';
 import {
@@ -15,7 +15,6 @@ import {
   DialogTitle,
   CircularProgress
 } from '@material-ui/core'
-import { resetUploadTestCase } from '../../../redux/test-case/testcaseAction';
 
 
 function mapStateToProps(state) {
@@ -30,8 +29,7 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
     uplTestcaseReq: (payload) => dispatch({type: UPLOAD_TESTCASE_REQ, payload}),
-    resetAddRedux: () => dispatch({type: RESET_ADD_TEST_CASE}),
-    resetUploadTestCaseRedux: () => dispatch({type: RESET_UPLOAD_TESTCASE})
+    resetAddRedux: () => dispatch({type: RESET_ADD_TEST_CASE})
   }
 }
 
@@ -39,7 +37,7 @@ const UploadTestCase = (props) => {
 
   const {isOpen, setOpen, testsuite} = props;
 
-  const {uplTestcaseReq, insTestcaseUpl, displayMsg, getAllTestcaseReq, resetAddRedux, resetUploadTestCaseRedux } = props;
+  const {uplTestcaseReq, insTestcaseUpl, displayMsg, getAllTestcaseReq, resetAddRedux  } = props;
 
   const [open,setOpenMethod] = useState(isOpen);
 
@@ -58,6 +56,7 @@ const UploadTestCase = (props) => {
 
   useEffect(()=>{
     if (insTestcaseUpl.sucess === false){
+      setLoading(false);
       displayMsg({
         content: "Test Case name already exists in this project !",
         type: 'error'
@@ -65,17 +64,16 @@ const UploadTestCase = (props) => {
       setEnableCreateBtn(true);
       setLoading(false);
       resetAddRedux();
-      resetUploadTestCaseRedux();
     } else if (insTestcaseUpl.sucess === true) {
+      setLoading(false);
       displayMsg({
-        content: "Upload Test case(s) successfully !",
+        content: "Upload Testcase successfully !",
         type: 'success'
       });
       setEnableCreateBtn(true);
       setLoading(false);
       getAllTestcaseReq();
       resetAddRedux();
-      resetUploadTestCaseRedux();
       handleClose();
     }
   },[insTestcaseUpl.sucess]);
@@ -95,6 +93,8 @@ const UploadTestCase = (props) => {
   }
 
   const handleConfirm = () =>{
+    setEnableCreateBtn(false);
+    setLoading(true);
     var tempTC = result;
     tempTC.map(item => item.testsuite = testsuite);
     console.log(tempTC);

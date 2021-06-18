@@ -276,7 +276,7 @@ const BuildListPage = (props) => {
         </Grid>
         <Grid item>
           <div>
-            {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" color="primary" onClick={handleClickNewBuild}>
+            {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" onClick={handleClickNewBuild}>
               <AddIcon />
               New Build
             </Button>}

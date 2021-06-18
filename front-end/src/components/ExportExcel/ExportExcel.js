@@ -1,99 +1,70 @@
 
-import React, {useEffect,useState} from 'react';
+import React, {Component} from 'react';
 import ReactExport from 'react-data-export';
-import { IconButton} from '@material-ui/core';
-import {borders, TEST_CASE_COLUMNS} from './DefineTemplate';
-import {  ChevronsLeft, Download } from "react-feather";
+import { Button, } from '@material-ui/core';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 
-var multiDataSet = 
-    [{
-        columns: TEST_CASE_COLUMNS,
-        data: [
-         
-        ],
-    }];
-
-
-function convertTCtoDS (item) {
-    var DSitem = [];
-    DSitem.push( {value: item.testcasename ? item.testcasename : item.name, style: {font: {sz: "11"}, border: borders}});
-    DSitem.push( {value: item.description, style: {font: {sz: "11"}, border: borders}});
-    DSitem.push( {value: item.priority, style: {font: {sz: "11"}, border: borders}});
-    DSitem.push( {value: item.precondition, style: {font: {sz: "11"}, border: borders}})
-    DSitem.push( {value: item.postcondition, style: {font: {sz: "11"}, border: borders}})
-
-    var steps = "";
-    var type = "";
-    var expectResult = "";
-    if (item.listStep.length !== 0) {
-    item.listStep.map((step,index)=>{
-        if (index < item.listStep.length-1){
-            steps = steps + (index+1) + '. ' + step.stepDefine + "\r\n";
-            type = type + (index+1) + '. ' + step.type + "\r\n";
-            expectResult = expectResult + (index+1) + '. ' + step.expectResult + "\r\n";
-        } else {
-            steps = steps + (index+1) + '. ' + step.stepDefine;
-            type = type + (index+1) + '. ' + step.type;
-            expectResult = expectResult + (index+1) + '. ' + step.expectResult;
-        }
-    })
-    DSitem.push( {value: steps, style: {font: {sz: "11"}, border: borders, alignment: {wrapText: true}}});
-    DSitem.push( {value: expectResult, style: {font: {sz: "11"}, border: borders,alignment: {wrapText: true}}});
-    DSitem.push( {value: type, style: {font: {sz: "11"}, border: borders,alignment: {wrapText: true}}});
-    } else {
-        DSitem.push( {value: steps, style: {font: {sz: "11"}, border: borders, alignment: {wrapText: true}}});
-        DSitem.push( {value: expectResult, style: {font: {sz: "11"}, border: borders, alignment: {wrapText: true}}});
-        DSitem.push( {value: type, style: {font: {sz: "11"}, border: borders, alignment: {wrapText: true}}});
-    }
-    return DSitem;
+const borders = {
+  top: { style: "thin" },
+  bottom: { style: "thin" },
+  left: { style: "thin" },
+  right: { style: "thin" }
 }
 
-const ExportExcel = (props) => {
+const multiDataSet = [
+    {
+        columns: [
+            {title: "Headings", width: {wpx: 80}},//pixels width 
+            {title: "Text Style", width: {wch: 40}},//char width 
+            {title: "Colors", width: {wpx: 90}},
+        ],
+        data: [
+            [
+                {value: "H1", style: {font: {sz: "24", bold: true}, border: borders}},
+                {value: "Bold", style: {font: {bold: true}}},
+                {value: "Red", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFF0000"}}}},
+            ],
+            [
+                {value: "H2", style: {font: {sz: "18", bold: true}}},
+                {value: "underline", style: {font: {underline: true}}},
+                {value: "Blue", style: {fill: {patternType: "solid", fgColor: {rgb: "FF0000FF"}}}},
+            ],
+            [
+                {value: "H3", style: {font: {sz: "14", bold: true}}},
+                {value: "italic", style: {font: {italic: true}}},
+                {value: "Green", style: {fill: {patternType: "solid", fgColor: {rgb: "FF00FF00"}}}},
+            ],
+            [
+                {value: "H4", style: {font: {sz: "12", bold: true}}},
+                {value: "strike", style: {font: {strike: true}}},
+                {value: "Orange", style: {fill: {patternType: "solid", fgColor: {rgb: "FFF86B00"}}}},
+            ],
+            [
+                {value: "H5", style: {font: {sz: "10.5", bold: true}}},
+                {value: "outline", style: {font: {outline: true}}},
+                {value: "Yellow", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}}}},
+            ],
+            [
+                {value: "H6", style: {font: {sz: "7.5", bold: true}}},
+                {value: "shadow", style: {font: {shadow: true},  }},
+                {value: "Light Blue", style: {fill: {patternType: "solid",}}}
+            ]
+        ]
+    }
+];
 
-    const {dataSet, type} = props;
-
-    const [dataset,setDataset] = useState(multiDataSet);
-
-    useEffect(()=>{
-        if (dataSet !== null && type === 'TC'){
-            var dataD = convertTCtoDS(dataSet);
-            multiDataSet[0].data = [dataD];
-            setDataset(multiDataSet);
-        }
-
-        if (dataSet !== null && type === 'TS'){
-            var dataD = [];
-            multiDataSet[0].data = [];
-            dataSet.forEach((item, index) => {
-                multiDataSet[0].data.push(convertTCtoDS(item));
-            })
-            setDataset(multiDataSet);
-          
-        }
-    },[dataSet, type])
-
-    useEffect(()=>{
-        console.log(dataset);
-    },[dataset]);
-
-    
-
-    
-
-   
-    return (
+class ExportExcel extends Component {
+    render() {
+        return (
             <div>
-            { dataset[0].data !== [] && 
-                <ExcelFile element={<IconButton size="small"><Download/></IconButton>}>
-                    <ExcelSheet dataSet={dataset} name="Test Case"/>
+                <ExcelFile element={<Button color='primary' variant="contained">Export Excel</Button>}>
+                    <ExcelSheet dataSet={multiDataSet} name="Organization"/>
                 </ExcelFile>
-            }
             </div>
         );
-    
+    }
 }
 
 export default ExportExcel;

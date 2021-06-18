@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
+//import Helmet from 'react-helmet';
 import EnhancedTable from '../../../components/Table/index';
 import NewTestSuitePopup from '../new-test-suite-page/index';
 import {TEST_SUITE_DETAIL_HEADERS} from '../../../components/Table/DefineHeader';
@@ -11,11 +12,11 @@ import {UPDATE_TESTSUITE_REQ, DELETE_TESTSUITE_REQ, RESET_UPDATE_TESTSUITE, RESE
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
+//import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
 import { blue } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import UploadTestcasePopup from './UploadTestCase';
-import ExportExcel from '../../../components/ExportExcel/ExportExcel';
 import {
   Grid,
   Typography,
@@ -29,14 +30,14 @@ import {
   DialogContent,
   DialogActions,
   DialogTitle,
-  Dialog,
-  IconButton
+  Dialog
 } from '@material-ui/core';
 
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-import { Upload, Download } from "react-feather";
+//import SelectTestCasePopup from "../select-test-case-page";
+import { Upload } from "react-feather";
 
 
 //MAP STATES TO PROPS - REDUX
@@ -203,7 +204,7 @@ const TestSuiteDetail = (props) => {
         ||testSuite.description.trim().length !== testSuite.description.length 
         || testSuite.name.trim().length !== testSuite.name.length){
         displayMsg({
-          content: "testsuite name or description should not contain spaces or empty",
+          content: "Testsuite name or Description should not contain spaces !",
           type: 'error'
         });
     }
@@ -310,26 +311,19 @@ const TestSuiteDetail = (props) => {
       <Grid container spacing={3} >
         <Grid item xs={12}>
         <Grid container spacing={1}>
-             <Grid item xs={10}>
+             <Grid item xs={8}>
                 <Typography variant="h4" gutterBottom display="inline">
                     Test Suite Detail - {testSuite.name}
                 </Typography>
               </Grid>
 
-              <Grid item  xs={2}>
+              <Grid item  xs={4}>
                 <div>
                     {testSuite.type !== "root" &&
-                    <Grid container spacing={1}>
-                      <Grid item>
-                         <IconButton onClick={handleUpload} size="small">
-                        <Upload/>
-                      </IconButton>
-                      </Grid>
-                      <Grid item>
-                        <ExportExcel dataSet={testSuite.children} type='TS'/>
-                     </Grid>
-                    </Grid>
-                   }  
+                    <Button variant="contained" color="primary" onClick={handleUpload}>
+                    <Upload/>
+                        Import Test Case
+                    </Button>}
                 </div>
               </Grid>
               <Divider/>

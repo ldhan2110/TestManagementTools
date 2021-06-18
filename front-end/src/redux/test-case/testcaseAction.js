@@ -125,10 +125,3 @@ export function uploadTestCase(value){
     payload: value
   }
 }
-
-export function resetUploadTestCase(value){
-  return {
-    type: types.RESET_UPLOAD_TESTCASE,
-    payload: value
-  }
-}

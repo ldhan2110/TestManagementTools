@@ -55,7 +55,7 @@ const InviteNewMemberDialog = (props) => {
 
   const [userInfo, setUserInfo] = useState({
     email: '',
-    role: 'Tester',
+    role: 'tester',
     projectid: project,
   });
 
