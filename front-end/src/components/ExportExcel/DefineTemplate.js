@@ -7,7 +7,8 @@ const borders = {
 
 const center_alignment = {
   vertical: 'center',
-  horizontal: 'center'
+  horizontal: 'center',
+  wrapText: true
 }
 
 const TEST_CASE_COLUMNS = [

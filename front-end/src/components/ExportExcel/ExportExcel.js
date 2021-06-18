@@ -40,13 +40,13 @@ function convertTCtoDS (item) {
             expectResult = expectResult + (index+1) + '. ' + step.expectResult;
         }
     })
-    DSitem.push( {value: steps, style: {font: {sz: "11"}, border: borders}});
-    DSitem.push( {value: expectResult, style: {font: {sz: "11"}, border: borders}});
-    DSitem.push( {value: type, style: {font: {sz: "11"}, border: borders}});
+    DSitem.push( {value: steps, style: {font: {sz: "11"}, border: borders, alignment: {wrapText: true}}});
+    DSitem.push( {value: expectResult, style: {font: {sz: "11"}, border: borders,alignment: {wrapText: true}}});
+    DSitem.push( {value: type, style: {font: {sz: "11"}, border: borders,alignment: {wrapText: true}}});
     } else {
-        DSitem.push( {value: steps, style: {font: {sz: "11"}, border: borders}});
-        DSitem.push( {value: expectResult, style: {font: {sz: "11"}, border: borders}});
-        DSitem.push( {value: type, style: {font: {sz: "11"}, border: borders}});
+        DSitem.push( {value: steps, style: {font: {sz: "11"}, border: borders, alignment: {wrapText: true}}});
+        DSitem.push( {value: expectResult, style: {font: {sz: "11"}, border: borders, alignment: {wrapText: true}}});
+        DSitem.push( {value: type, style: {font: {sz: "11"}, border: borders, alignment: {wrapText: true}}});
     }
     return DSitem;
 }
