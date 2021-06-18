@@ -93,6 +93,8 @@ const UploadTestCase = (props) => {
   }
 
   const handleConfirm = () =>{
+    setEnableCreateBtn(false);
+    setLoading(true);
     var tempTC = result;
     tempTC.map(item => item.testsuite = testsuite);
     console.log(tempTC);

@@ -169,7 +169,7 @@ const TestCaseDetail = (props) => {
         ||newtestCase.description.trim().length !== newtestCase.description.length 
         || newtestCase.testcasename.trim().length !== newtestCase.testcasename.length){
         displayMsg({
-          content: "testcase name or description should not contain spaces or empty",
+          content: "Testcase name or Description should not contain spaces !",
           type: 'error'
         });
     }
