@@ -348,3 +348,35 @@ import {API_ADDR} from '../constants';
         payload: error.response
       }))
     )))
+
+    export  const verifyUserToProjectEpic = (action$, state$) => action$.pipe(
+      ofType(actions.VERIFY_USERS_TO_PROJECT_REQ),
+      mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/project/members/verifymember/'+payload.projectid,{
+        email: payload.email,
+        role: payload.role
+      },{
+          headers: {
+            "reset-token": payload.resettoken,
+            "content-type": "application/json"
+          }
+        })).pipe(
+        map(response => {
+          const {data} = response;
+          if (data.success) {
+            return ({
+              type: actions.VERIFY_USERS_TO_PROJECT_SUCCESS,
+              payload: true
+            })
+          } else {
+            return ({
+              type: actions.VERIFY_USERS_TO_PROJECT_FAILED,
+              payload: data.errMsg
+            })
+          }
+        
+        }),
+        catchError (error => of({
+          type: actions.VERIFY_USERS_TO_PROJECT_FAILED,
+          payload: error.response.data.errMsg
+        }))
+      )))

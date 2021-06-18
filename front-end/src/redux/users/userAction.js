@@ -96,3 +96,10 @@ export function getCurentUser(value) {
     payload: value
   }
 }
+
+export function verifyUserToProject(value) {
+  return {
+    type: types.VERIFY_USERS_TO_PROJECT_REQ,
+    payload: value
+  }
+}

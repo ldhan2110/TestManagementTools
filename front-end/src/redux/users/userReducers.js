@@ -312,6 +312,29 @@ const reducer = (state = initialState, actions) => {
         inforProfile: payload,
   }
 
+  case types.VERIFY_USERS_TO_PROJECT_REQ:
+      return {
+              ...state, insUsers: [],
+    }
+      
+    case types.VERIFY_USERS_TO_PROJECT_FAILED:
+      return {
+        ...state,
+        insUsers:{
+          sucess: false,
+          errMsg: payload
+        }
+    }
+          
+    case types.VERIFY_USERS_TO_PROJECT_SUCCESS:
+        return {
+          ...state,
+          insUsers: {
+            sucess: true,
+            errMsg: null
+          }
+    }
+
     default:
       return state
 

@@ -109,7 +109,7 @@ const InviteNewMemberDialog = (props) => {
   useEffect(()=>{
  if (insUsers.sucess === true) {
       displayMsg({
-        content: "Add user to project successfully !",
+        content: "Invitation sent successfully !",
         type: 'success'
       });
       getAllUserOfProjectReq(project);
