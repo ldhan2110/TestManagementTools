@@ -21,6 +21,7 @@ const LoginPage = async(()=> import("../pages/auth/login-page/index"));
 const ForgotPassword = async(()=> import("../pages/auth/forgot-password-page"));
 const ResetPassword = async(()=> import("../pages/auth/reset-password-page"));
 const ProfilePage = async(()=>import("../pages/auth/profile-page"));
+const VerifyMemberPage =  async(()=>import("../pages/auth/verify-member-page"));
 
 // Dashboards components
 const Dashboard = async(() => import("../pages/dashboard"));
@@ -90,6 +91,12 @@ const projectSettingRoutes = {
     },
   ]
 };
+
+const verifyMemberRoute = {
+  path: "/auth/verify-member/:email/:projectid/:token",
+  name: "Verify Member",
+  component: VerifyMemberPage
+}
 
 
 const forgotPasswordRoute = {
@@ -332,6 +339,7 @@ export const freeLayoutRoutes = [
   resetPasswordRoute,
   projectListRoute,
   profileRoute,
+  verifyMemberRoute
 ];
 
 // Routes visible in the sidebar
@@ -352,6 +360,7 @@ export const emptyRoutes = [
 
 export const publicRoutes = [
   loginRoute.path,
+  verifyMemberRoute.path,
   forgotPasswordRoute.path,
   resetPasswordRoute.path,
 ]
