@@ -15,6 +15,7 @@ import { red } from '@material-ui/core/colors';
 import { blue } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import UploadTestcasePopup from './UploadTestCase';
+import ExportExcel from '../../../components/ExportExcel/ExportExcel';
 import {
   Grid,
   Typography,
@@ -325,12 +326,9 @@ const TestSuiteDetail = (props) => {
                       </IconButton>
                       </Grid>
                       <Grid item>
-                      <IconButton onClick={handleUpload} size="small">
-                        <Download/>
-                      </IconButton>
+                        <ExportExcel dataSet={testSuite.children} type='TS'/>
                      </Grid>
                     </Grid>
-                    
                    }  
                 </div>
               </Grid>

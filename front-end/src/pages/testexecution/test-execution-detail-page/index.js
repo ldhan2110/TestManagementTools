@@ -184,9 +184,7 @@ const TestExecutionDetailPage = (props) => {
                   Test Execution Detail - {testExecInfo.testexecutionname}
               </Typography>
         </Grid>
-        <Grid item>
-          <ExportExcel/>
-        </Grid>
+        
       </Grid>
 
       <Divider my={6} />

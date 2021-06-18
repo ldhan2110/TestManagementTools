@@ -12,13 +12,14 @@ var multiDataSet =
     [{
         columns: TEST_CASE_COLUMNS,
         data: [
+         
         ],
     }];
 
 
 function convertTCtoDS (item) {
     var DSitem = [];
-    DSitem.push( {value: item.testcasename, style: {font: {sz: "11"}, border: borders}});
+    DSitem.push( {value: item.testcasename ? item.testcasename : item.name, style: {font: {sz: "11"}, border: borders}});
     DSitem.push( {value: item.description, style: {font: {sz: "11"}, border: borders}});
     DSitem.push( {value: item.priority, style: {font: {sz: "11"}, border: borders}});
     DSitem.push( {value: item.precondition, style: {font: {sz: "11"}, border: borders}})
@@ -54,14 +55,29 @@ const ExportExcel = (props) => {
 
     const {dataSet, type} = props;
 
-    const [dataset,setData] = useState([{...multiDataSet}]);
+    const [dataset,setDataset] = useState(multiDataSet);
 
     useEffect(()=>{
         if (dataSet !== null && type === 'TC'){
             var dataD = convertTCtoDS(dataSet);
-            multiDataSet[0].data = [dataD]
+            multiDataSet[0].data = [dataD];
+            setDataset(multiDataSet);
+        }
+
+        if (dataSet !== null && type === 'TS'){
+            var dataD = [];
+            multiDataSet[0].data = [];
+            dataSet.forEach((item, index) => {
+                multiDataSet[0].data.push(convertTCtoDS(item));
+            })
+            setDataset(multiDataSet);
+          
         }
     },[dataSet, type])
+
+    useEffect(()=>{
+        console.log(dataset);
+    },[dataset]);
 
     
 
@@ -70,9 +86,9 @@ const ExportExcel = (props) => {
    
     return (
             <div>
-            { multiDataSet[0].data.length !== 0 &&
+            { dataset[0].data !== [] && 
                 <ExcelFile element={<IconButton size="small"><Download/></IconButton>}>
-                    <ExcelSheet dataSet={multiDataSet} name="Test Case"/>
+                    <ExcelSheet dataSet={dataset} name="Test Case"/>
                 </ExcelFile>
             }
             </div>
