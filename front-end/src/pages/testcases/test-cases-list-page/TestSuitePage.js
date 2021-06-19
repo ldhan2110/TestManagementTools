@@ -189,6 +189,9 @@ const TestSuiteDetail = (props) => {
 
   const handleChange = (prop) => (event) => {
     setTestSuite({ ...testSuite, [prop]: event.target.value });
+
+    if(checkError === true)
+    setError({ ...error, [prop]: event.target.value });
   };
 
   const handleSave = ()=>{
@@ -209,7 +212,7 @@ const TestSuiteDetail = (props) => {
         });
     }
 
-    if(testSuite.testsuitename !== "" && testSuite.description !== ""){
+    else if(testSuite.testsuitename !== "" && testSuite.description !== "" ){
       if(testSuite.name !== testSuite.parent)
       setEnableCreateBtn(false);
       setLoading(true);
@@ -335,14 +338,14 @@ const TestSuiteDetail = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Suite Name" variant="outlined" 
               onChange={handleChange('name')} value={testSuite.name || ''} fullWidth required
-              error={!testSuite.name && !error.name ? true : false}
-              helperText={!testSuite.name && !error.name ? 'testsuite name is required' : ' '} /></Grid>
+              error={testSuite.name.trim().length === 0 && error.name.trim().length === 0 ? true : false}
+              helperText={testSuite.name.trim().length === 0 && error.name.trim().length === 0 ? 'testsuite name is required' : ' '} /></Grid>
           
 
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" 
               onChange={handleChange('description')} fullWidth required value={testSuite.description || ''}
-              error={!testSuite.description && !error.description ? true : false}
-              helperText={!testSuite.description && !error.description ? 'description is required' : ' '}/></Grid>
+              error={testSuite.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+              helperText={testSuite.description.trim().length === 0 && error.description.trim().length === 0 ? 'description is required' : ' '}/></Grid>
             <Grid item xs={12}>
                   <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel>

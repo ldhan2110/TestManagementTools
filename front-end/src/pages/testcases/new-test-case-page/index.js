@@ -84,11 +84,13 @@ const TestCaseDetail = (props) => {
       });
       setEnableCreateBtn(true);
       setLoading(false);
+      history.goBack();
       getAllTestcaseReq();
       resetAddRedux();
-      history.goBack();
+  
     }
   },[insTestcase.sucess]);
+  
 
   const handleChange = (prop) => (event) => {
     setTestcase({ ...testcase, [prop]: event.target.value });
@@ -134,7 +136,7 @@ const TestCaseDetail = (props) => {
         });
     }
 
-    if (handleSteps(listSteps)) {
+    else if (handleSteps(listSteps)) {
       setPressUpdateButton(true);
       displayMsg({
         content: "Steps cannot have empty field(s)",
@@ -142,12 +144,15 @@ const TestCaseDetail = (props) => {
       });
     }
 
-
-    else if(testcase.testcaseName !== "" && testcase.description !== ""){
+    else if(testcase.testcaseName.trim().length !== 0 && testcase.description.trim().length !== 0){
       setEnableCreateBtn(false);
       setLoading(true);
       addTestcaseReq(testcase);
     }
+
+
+
+  
   }
 
   const updateListStep = (Data) => {
@@ -166,14 +171,13 @@ const TestCaseDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined" 
-            value={testcase.testcaseName}  onChange={handleChange('testcaseName')} fullWidth required
+            value={testcase.testcaseName || ''}  onChange={handleChange('testcaseName')} fullWidth required
             error={testcase.testcaseName.trim().length === 0 && error.testcaseName.trim().length === 0 ? true : false}
             helperText={testcase.testcaseName.trim().length === 0 && error.testcaseName.trim().length === 0 ? 'Test Case Name is required' : ' '}/></Grid>
 
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" 
-            value={testcase.description} onChange={handleChange('description')} fullWidth required
+            value={testcase.description || ''} onChange={handleChange('description')} fullWidth required
             error={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
             helperText={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/></Grid>
 

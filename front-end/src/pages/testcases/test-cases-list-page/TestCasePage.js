@@ -174,7 +174,7 @@ const TestCaseDetail = (props) => {
         });
     }
 
-    if (handleSteps(listSteps)) {
+    else if (handleSteps(listSteps)) {
       setPressUpdateButton(true);
       displayMsg({
         content: "Steps cannot have empty field(s)",
@@ -182,11 +182,13 @@ const TestCaseDetail = (props) => {
       });
     }
 
-    else if(newtestCase.testcasename !== "" && newtestCase.description !== ""){
+    else if(newtestCase.testcasename.trim().length !== 0 && newtestCase.description.trim().length !== 0){
       setEnableCreateBtn(false);
       setLoading(true);
       updateTestcaseReq(newtestCase);
     }
+
+  
   };
 
   const handleDelete = () => {
@@ -231,13 +233,13 @@ const TestCaseDetail = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  fullWidth required 
             onChange={handleChange('testcasename')} defaultValue={newtestCase.testcasename || ''}
-            error={!newtestCase.testcasename && !error.testcasename ? true : false}
-            helperText={!newtestCase.testcasename && !error.testcasename ? 'testcase name is required' : ' '}/></Grid>
+            error={newtestCase.testcasename.trim().length === 0 && error.testcasename.trim().length === 0 ? true : false}
+            helperText={newtestCase.testcasename.trim().length === 0 && error.testcasename.trim().length === 0 ? 'testcase name is required' : ' '}/></Grid>
 
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth required 
             onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
-            error={!newtestCase.description && !error.description ? true : false}
-            helperText={!newtestCase.description && !error.description ? 'description is required' : ' '}/></Grid>
+            error={newtestCase.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+            helperText={newtestCase.description.trim().length === 0 && error.description.trim().length === 0 ? 'description is required' : ' '}/></Grid>
             <Grid item xs={12}>
             <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel> 

@@ -117,7 +117,7 @@ const NewTestSuitePopup = (props) => {
           });
       }
   
-      else if(testSuiteInfo.testsuitename !== "" && testSuiteInfo.description !== ""){
+      else if(testSuiteInfo.testsuitename.trim().length !== 0 && testSuiteInfo.description.trim().length !== 0){
         setEnableCreateBtn(false);
         setLoading(true);
         addTestsuiteReq(testSuiteInfo);
