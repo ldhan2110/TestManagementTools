@@ -26,7 +26,8 @@ function mapStateToProps(state) {
   return {
     insUsers: state.user.insUsers,
     listUsers: state.user.listUsers,
-    project: state.project.currentSelectedProject
+    project: state.project.currentSelectedProject,
+    role: state.project.currentRole
   };
 }
 
@@ -44,7 +45,7 @@ const InviteNewMemberDialog = (props) => {
 
   const {isOpen, openMethod} = props;
 
-  const {insUsers, listUsers, addUserToProjectReq, project, getAllUserReq, getAllUserOfProjectReq, displayMsg} = props;
+  const {insUsers, listUsers, addUserToProjectReq, project, getAllUserReq, getAllUserOfProjectReq, displayMsg, role} = props;
 
 
   const [open, setOpen] = useState(isOpen);
@@ -55,7 +56,7 @@ const InviteNewMemberDialog = (props) => {
 
   const [userInfo, setUserInfo] = useState({
     email: '',
-    role: 'tester',
+    role: 'Tester',
     projectid: project,
   });
 

@@ -245,7 +245,7 @@ const DetailMileStonePage = (props) => {
           </Grid>
         <Grid item>
         <div>
-        {(role === 'projectmanager' || role === 'testlead')  &&
+        {(role === 'Project Manager' || role === 'Test Lead')  &&
           <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={enableDeleteBtn ? { color: red[500] } : {}} onClick={handleOpen}>
             Delete Milestone
             {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
@@ -320,7 +320,7 @@ const DetailMileStonePage = (props) => {
           </div>                  
           
         <div className = {classes.btnGroup}>
-        {(role === 'projectmanager' || role === 'testlead')  && 
+        {(role === 'Project Manager' || role === 'Test Lead')  && 
           <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}

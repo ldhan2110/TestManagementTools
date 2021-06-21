@@ -24,7 +24,8 @@ import {
 function mapStateToProps(state) {
   return {
     insProjects: state.project.insProjects,
-    project: state.project.currentSelectedProject
+    project: state.project.currentSelectedProject,
+    role: state.project.currentRole,
   };
 }
 
@@ -40,7 +41,7 @@ const mapDispatchToProps = dispatch => {
 
 const ChangRolePopup = (props) => {
 
-  const {isOpen, openMethod, selected, changeRoleMember, displayMsg, insProjects, ResetRedux, getAllUserOfProjectReq, project} = props;
+  const {isOpen, openMethod, selected, changeRoleMember, displayMsg, insProjects, ResetRedux, getAllUserOfProjectReq, project, role} = props;
 
   const [open, setOpen] = useState(isOpen);
 
@@ -124,17 +125,17 @@ const ChangRolePopup = (props) => {
                     value={userInfo ? userInfo.role : ''}
                     onChange={handleChangeRole}
                    >
-                        <MenuItem value={'projectmanager'}>Project Manager</MenuItem>
-                        <MenuItem value={'testlead'}>Test Lead</MenuItem>
-                        <MenuItem value={"tester"}>Tester</MenuItem>
+                        <MenuItem value={'Project Manager'}>Project Manager</MenuItem>
+                        <MenuItem value={'Test Lead'}>Test Lead</MenuItem>
+                        <MenuItem value={"Tester"}>Tester</MenuItem>
                   </Select>
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleConfirm} color="primary" disabled={enableCreateBtn ? false : true }>
+        {(role === 'Project Manager' || role === 'Test Lead') && <Button onClick={handleConfirm} color="primary" disabled={enableCreateBtn ? false : true }>
             Confirm
             {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
-          </Button>
+          </Button> }
           <Button  onClick={handleClose} color="primary">
             Cancel
           </Button>

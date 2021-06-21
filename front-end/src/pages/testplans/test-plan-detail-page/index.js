@@ -221,7 +221,7 @@ const TestPlanDetailPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+          {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
             Delete Test Plan
           </Button>}
           </div>
@@ -278,7 +278,7 @@ const TestPlanDetailPage = (props) => {
           
           
           <div className = {classes.btnGroup}>
-          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
+          {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}

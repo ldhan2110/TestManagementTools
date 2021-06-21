@@ -224,7 +224,7 @@ const MemberListPage = (props) => {
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure you want to remove this user from project?</DialogContent>
                   <DialogActions>
-                    <Button onClick={handleDelMember} color="primary">Yes</Button>
+            <Button onClick={handleDelMember} color="primary">Yes </Button>
                     <Button onClick={handleCloseDelMember} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>

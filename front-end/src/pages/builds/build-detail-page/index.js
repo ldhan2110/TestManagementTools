@@ -266,7 +266,7 @@ const BuildDetailPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+          {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
             Delete Build
             {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
@@ -353,7 +353,7 @@ const BuildDetailPage = (props) => {
 
 
           <div className = {classes.btnGroup}>
-          {(role === 'projectmanager' || role === 'testlead') && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />} onClick={handleUpdate}>
+          {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}

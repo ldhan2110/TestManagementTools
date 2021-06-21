@@ -199,9 +199,9 @@ const TestExecutionDetailPage = (props) => {
           <TextField id="buildName" label="Build/Release" variant="outlined"  fullWidth required disabled={true} value={testExecInfo.build.buildname}/>
 
           <FormControl variant="outlined" className={classes.formControl} fullWidth required disabled={true}>
-              <InputLabel id="assignTester">Assign tester</InputLabel>
+              <InputLabel id="assignTester">Assign Tester</InputLabel>
                   <Select
-                    labelId="assignTesters"
+                    labelId="assignTester"
                     id="assignTester"
                     value={testExecInfo.tester.username}
                     //onChange={handleChange('assignTester')}
