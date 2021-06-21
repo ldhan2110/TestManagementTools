@@ -53,6 +53,30 @@ const styles = {
         justifyContent: "flex-end",
         
     },
+
+    itemRole:{
+        marginTop: '2px',
+        display: 'flex',
+        justifyContent: 'flex-end'
+    },
+
+    rolePJmanager:{
+        fontWeight:'500',
+        borderColor: 'rgba(240, 71, 71, 0.6)',
+        'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'
+    },
+
+    roleTestLead:{
+        fontWeight:'500',
+        borderColor: 'rgba(245, 119, 49, 0.6)',
+        'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'
+    },
+
+    roleTester:{
+        fontWeight:'500',
+        borderColor: 'rgba(114, 137, 218, 0.6)',
+        'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'
+    },
   };
 
 export default styles;

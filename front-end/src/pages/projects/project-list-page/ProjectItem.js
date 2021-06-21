@@ -66,22 +66,22 @@ const ProjectItem = (props) => {
       case "Project Manager":
         return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#F04747'}}/>}
         label="Project Manager"
-        style={{fontWeight:'500', borderColor: 'rgba(240, 71, 71, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
+        className={classes.rolePJmanager} />);
 
       case "TestLead":
         return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#F57731'}}/>}
         label="Test Lead"
-        style={{fontWeight:'500', borderColor: 'rgba(245, 119, 49, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
+        className={classes.roleTestLead} />);
 
       case "Test Lead":
         return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#F57731'}}/>}
         label="Test Lead"
-        style={{fontWeight:'500', borderColor: 'rgba(245, 119, 49, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
+        className={classes.roleTestLead} />);
   
       case "Tester":
         return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#7289DA'}}/>}
         label="Tester"
-        style={{fontWeight:'500', borderColor: 'rgba(114, 137, 218, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
+        className={classes.roleTester} />);
 
       default:
         break;
@@ -99,7 +99,7 @@ const ProjectItem = (props) => {
             {renderStatus(status)}
           </Typography>
           </div>
-          <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '2px'}}>
+          <div className={classes.itemRole}>
             {renderRole(role)}
           </div>
           <div style={{overflow: "hidden", textOverflow: "ellipsis", width: "17rem", marginTop: "5px"}}> 
