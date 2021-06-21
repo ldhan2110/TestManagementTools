@@ -58,8 +58,6 @@ const MemberListPage = (props) => {
 
   const {listUsersOfProject, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg, insDeleteMember, deleteUserOfProject, resetDelUserOfProjectRedux} = props;
 
-  const [memberDelButton, setMemberDelButton] = useState(true);
-
   const [openDialog,setOpenDialog] = useState(false);
 
   const [openRoleDialog,setOpenRoleDialog] = useState(false);
@@ -246,7 +244,7 @@ const MemberListPage = (props) => {
             setConditions={handleChangeConditions}
             searchMethod={searchMember}
             handleDefaultDeleteAction={deleteMember}
-            memberDelButton={memberDelButton}
+            type='member'
           />
         </Grid>
       </Grid>

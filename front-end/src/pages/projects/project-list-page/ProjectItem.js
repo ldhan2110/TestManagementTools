@@ -15,11 +15,11 @@ import {
     CardActionArea
   } from "@material-ui/core";
 import { SELECT_PROJECT } from "../../../redux/projects/constants";
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
+  const MAX_LENGTH = 150;
 
-  const MAX_LENGTH = 200;
-
-  const IDEAL_LENGTH = 60;
+  const IDEAL_LENGTH = 30;
 
   const MIN_LENGTH = 10;
 
@@ -61,6 +61,26 @@ const ProjectItem = (props) => {
     }
   }
 
+  const renderRole = (role) => {
+    switch(role){
+      case "Project Manager":
+        return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#F04747'}}/>} label={role}
+        style={{fontWeight:'500', borderColor: 'rgba(240, 71, 71, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
+
+      case "TestLead":
+        return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#F57731'}}/>} label="Test Lead"
+        style={{fontWeight:'500', borderColor: 'rgba(245, 119, 49, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
+
+      case "Tester":
+        return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#7289DA'}}/>} label={role}
+        style={{fontWeight:'500', borderColor: 'rgba(114, 137, 218, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
+
+      default:
+        break;
+
+    }
+  }
+
   return (
       <Card className={classes.item} variant="outlined">
       <CardActionArea>
@@ -71,8 +91,10 @@ const ProjectItem = (props) => {
             {renderStatus(status)}
           </Typography>
           </div>
-          
-          <div style={{overflow: "hidden", textOverflow: "ellipsis", width: "15rem", marginTop: "10px"}}> 
+          <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '2px'}}>
+            {renderRole(role)}
+          </div>
+          <div style={{overflow: "hidden", textOverflow: "ellipsis", width: "17rem", marginTop: "5px"}}> 
           <Typography variant="body2" color="textSecondary" component={'div'}>
             <ReadMore
               min={MIN_LENGTH}

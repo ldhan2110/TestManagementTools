@@ -236,6 +236,7 @@ const TestPlanListPage = (props) => {
             setConditions={handleChangeConditions}
             searchMethod={searchTestPlan}
             handleDefaultDeleteAction={deleteTP}
+            type='testplan'
           />
         </Grid>
       </Grid>
