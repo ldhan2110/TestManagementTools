@@ -64,15 +64,23 @@ const ProjectItem = (props) => {
   const renderRole = (role) => {
     switch(role){
       case "Project Manager":
-        return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#F04747'}}/>} label={role}
+        return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#F04747'}}/>}
+        label="Project Manager"
         style={{fontWeight:'500', borderColor: 'rgba(240, 71, 71, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
 
       case "TestLead":
-        return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#F57731'}}/>} label="Test Lead"
+        return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#F57731'}}/>}
+        label="Test Lead"
         style={{fontWeight:'500', borderColor: 'rgba(245, 119, 49, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
 
+      case "Test Lead":
+        return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#F57731'}}/>}
+        label="Test Lead"
+        style={{fontWeight:'500', borderColor: 'rgba(245, 119, 49, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
+  
       case "Tester":
-        return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#7289DA'}}/>} label={role}
+        return (<Chip variant="outlined" size="small" icon={<FiberManualRecordIcon style={{color: '#7289DA'}}/>}
+        label="Tester"
         style={{fontWeight:'500', borderColor: 'rgba(114, 137, 218, 0.6)', 'font-family': 'Whitney,"Helvetica Neue",Helvetica,Arial,sans-serif'}} />);
 
       default:
