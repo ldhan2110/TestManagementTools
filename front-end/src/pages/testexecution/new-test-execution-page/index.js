@@ -285,12 +285,12 @@ const NewTestExecutionPage = (props) => {
 
 
           <Grid container>
-              <Grid item xs={3}>
-                <p>Create from existing test execution ?</p>
-              </Grid>
-              <Grid item xs={9}>
+             {/* <Grid item xs={3}>
+              <p>Create from existing test execution ?</p>
+              </Grid>*/}
+              
               <FormControl variant="outlined" fullWidth>
-              <InputLabel id="testexec" >Test Execution Exists </InputLabel>
+              <InputLabel id="testexec" >Create from existing test execution ? </InputLabel>
             <Select
           labelId="testexec"
           id="testexec"
@@ -302,7 +302,7 @@ const NewTestExecutionPage = (props) => {
         </Select>
       </FormControl>
 
-              </Grid>
+              
           </Grid>
 
           <div>

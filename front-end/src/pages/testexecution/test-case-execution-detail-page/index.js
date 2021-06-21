@@ -204,15 +204,15 @@ const TestCaseExecDetail = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" disabled={true} variant="outlined"  value={testCaseDetail.testcaseName} fullWidth required/></Grid>
             <Grid item xs={12}><TextField id="description" label="Description" disabled={true} variant="outlined"  value = {testCaseDetail.description} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="testSuite" label="Test Suite" disabled={true} variant="outlined" value = {testCaseDetail.testsuite} fullWidth required/></Grid>
-            <Grid item xs={12}>
-              <Grid container spacing={3}>
-                <Grid item xs={6}>
+            <Grid item xs={9}><TextField id="testSuite" label="Test Suite" disabled={true} variant="outlined" value = {testCaseDetail.testsuite} fullWidth required/></Grid>
+                <Grid item xs={3}>
                   <TextField id="description" label="Importance" disabled={true} variant="outlined" value={testCaseDetail.priority} fullWidth required/>
                 </Grid>
-                <Grid item xs={6}>
+                {/*<Grid item xs={6}>
                   <TextField id="description" label="Type" variant="outlined" disabled={true} value={testCaseDetail.priority} fullWidth required/>
-                </Grid>
+  </Grid>*/}
+  <Grid item xs={12}>
+              <Grid container spacing={3}>
                 <Grid item xs={6}><TextField id="preCondition" label="Pre-condition" disabled={true} variant="outlined" value = {testCaseDetail.precondition} fullWidth multiline rows={2.5} rowsMax={3}/></Grid>
                 <Grid item xs={6}><TextField id="postCondition" label="Post-condition" disabled={true} variant="outlined" value = {testCaseDetail.postcondition} fullWidth multiline rows={2.5} rowsMax={3}/></Grid>
               </Grid>
@@ -234,9 +234,9 @@ const TestCaseExecDetail = (props) => {
                     <ListItem key={item.id}>
                       <Grid container spacing={1}>
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
-                        <Grid item xs={2.5}><TextField id="definition" variant="outlined" label='Definition' disabled={true} value={item.stepDefine} required  fullWidth multiline rows={2.5}/></Grid>
-                        <Grid item xs={2.5}><TextField id="expectResult"  variant="outlined" label='Expected Result' disabled={true} required value={item.expectResult}  multiline fullWidth rows={2.5}/></Grid>
-                        <Grid item xs={2}><FormControl variant="outlined" fullWidth>
+                        <Grid item xs={3}><TextField id="definition" variant="outlined" label='Definition' disabled={true} value={item.stepDefine} required  fullWidth multiline rows={4}/></Grid>
+                        <Grid item xs={3}><TextField id="expectResult"  variant="outlined" label='Expected Result' disabled={true} required value={item.expectResult}  multiline fullWidth rows={4}/></Grid>
+                        <Grid item xs={1.5}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select
                                   labelId="type"
@@ -251,8 +251,8 @@ const TestCaseExecDetail = (props) => {
                                <MenuItem value='auto'>Auto</MenuItem>
                               </Select>
                         </FormControl></Grid>
-                        <Grid item xs={2.5}><TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} multiline fullWidth rows={2.5}/></Grid>
-                        <Grid item xs={2}><FormControl variant="outlined" fullWidth>
+                        <Grid item xs={3}><TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} multiline fullWidth rows={4}/></Grid>
+                        <Grid item xs={1.5}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="status">Result</InputLabel>
                                 <Select
                                   labelId="status"

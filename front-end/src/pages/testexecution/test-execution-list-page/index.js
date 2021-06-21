@@ -21,7 +21,7 @@ import {
   Add as AddIcon,
 } from "@material-ui/icons";
 import { GET_ALL_BUILD_ACTIVE_REQ, GET_ALL_BUILD_TESTPLAN_REQ, RESET_BUILD_ACTIVE, RESET_BUILD_TESTPLAN } from "../../../redux/build-release/constants";
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 // const NavLink = React.forwardRef((props, ref) => (
 //   <RouterNavLink innerRef={ref} {...props} />
@@ -72,6 +72,10 @@ const TestExecutionListPage = (props) => {
     buildName: -1,
     status: -1
   });
+
+  //load TP bar
+  const [count, setCount] = React.useState(0);
+  const [count1, setCount1] = React.useState(0);
 
   const history = useHistory();
 
@@ -140,6 +144,12 @@ const TestExecutionListPage = (props) => {
     });
     setListTestExec(tempArr);
     setArrayExec(tempArr);
+    //load bar
+    if(count < 3){
+      setCount(count+1);
+      setTimeout(()=>{
+        setCount1(count1+1);
+      },200);}
   },[listTestExec]);
 
   useEffect(()=>{
@@ -243,6 +253,8 @@ const TestExecutionListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
+          {/* Load bar */}
+        {count1 < 2 && <LinearProgress />}
           <EnhancedTable
             rows={array}
             headerList = {TEST_EXECUTION_HEADERS}

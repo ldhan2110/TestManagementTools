@@ -240,7 +240,7 @@ const TestCaseDetail = (props) => {
             onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
             error={newtestCase.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
             helperText={newtestCase.description.trim().length === 0 && error.description.trim().length === 0 ? 'description is required' : ' '}/></Grid>
-            <Grid item xs={12}>
+            <Grid item xs={9}>
             <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="testSuite">Test Suite</InputLabel> 
                                 <Select
@@ -256,9 +256,9 @@ const TestCaseDetail = (props) => {
                               </Select>
                     </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={3}>
               <Grid container spacing={3}>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                     <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="Importance">Importance</InputLabel>
                                 <Select
@@ -274,7 +274,7 @@ const TestCaseDetail = (props) => {
                               </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={6}>
+                {/*<Grid item xs={6}>
                 <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select
@@ -288,13 +288,13 @@ const TestCaseDetail = (props) => {
                                <MenuItem value={"auto"}>Auto</MenuItem>
                               </Select>
                             </FormControl>
-                </Grid>
+                               </Grid> */}
               </Grid>      
             </Grid>
 
-            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" variant="outlined" fullWidth multiline rows={3} 
+            <Grid item xs={6}><TextField id="preCondition" label="Pre-condition" variant="outlined" fullWidth multiline rows={3} 
             rowsMax={3} value={newtestCase.precondition} onChange={handleChange('precondition')}/></Grid>
-            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined"  fullWidth multiline rows={3} 
+            <Grid item xs={6}><TextField id="postCondition" label="Post-condition" variant="outlined"  fullWidth multiline rows={3} 
             rowsMax={3} value={newtestCase.postcondition} onChange={handleChange('postcondition')}/></Grid>
           </Grid>
         </Grid>

@@ -16,7 +16,7 @@ import {
   IconButton
 } from '@material-ui/core';
 import { MinusCircle } from "react-feather";
-
+import {red} from "@material-ui/core/colors";
 
 
 const DragList = (props) => {
@@ -64,10 +64,10 @@ const DragList = (props) => {
              <ReactSortable list={listData} setList={setListData}>
                 {listData.map((item) => (
                     <ListItem key={item.id}>
-                      <Grid container spacing={1}>
+                      <Grid container direction="row" justify="space-between" alignItems="flex-start">
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
                         <Grid item xs={4}>
-                          <TextField id={"definition"+item.id} rows={3} 
+                          <TextField id={"definition"+item.id} rows={4} 
                           variant="outlined" label='Definition' required fullWidth multiline
                           error={item.stepDefine.trim().length === 0 && pressUpdateButton ? true:false}                          
                           value={item.stepDefine} 
@@ -75,7 +75,7 @@ const DragList = (props) => {
                           </Grid>
                         <Grid item xs={4}>
                           <TextField id="expectResult"  
-                          variant="outlined" label='Expected Result' required  multiline fullWidth rows={3} 
+                          variant="outlined" label='Expected Result' required  multiline fullWidth rows={4} 
                           error={item.expectResult.trim().length === 0 && pressUpdateButton ? true:false}
                           value={item.expectResult} 
                           onChange={(event)=>{ handleChange({id: item.id, name: "expectResult", data: event.target.value}) }}/>
@@ -99,8 +99,8 @@ const DragList = (props) => {
                 ))}
               </ReactSortable>
               <ListItem>
-                <Grid container>
-                  <Grid item  style={{marginLeft: '1vw'}}>
+                <Grid container justify="flex-end">
+                  <Grid item style={{marginLeft: '1vw'}}>
                     <Button variant="contained" color="primary" fullWidth onClick={handleAddStep}>Add step</Button>
                   </Grid>
                 </Grid>

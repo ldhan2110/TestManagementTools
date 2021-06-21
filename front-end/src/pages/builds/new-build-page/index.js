@@ -210,28 +210,7 @@ const NewBuildPage = (props) => {
           error={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? true : false}
           helperText={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? 'Build Name is required' : null}/>
 
-          <Grid container fullWidth>
-              <Grid item xs={3}>
-                <p>Create from existing build ?</p>
-              </Grid>
-              <Grid item xs={9}>
-              <FormControl variant="outlined" fullWidth>
-              <InputLabel id="buildexec" >Test Execution Exists </InputLabel>
-            <Select
-          labelId="buildexec"
-          id="buildexec"
-          onChange={handleChange('id_exist_build')}
-          label="buildexec">
-            
-          <MenuItem key={''} value={''}></MenuItem>
-          {props.history.location.state.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
-        </Select>
-      </FormControl>
-
-              </Grid>
-          </Grid>
-
-          <FormControl variant="outlined"  fullWidth>
+          <FormControl variant="outlined"  fullWidth required>
                               <InputLabel id="testPlan">Test Plan</InputLabel>
                                 <Select
                                   labelId="testPlan"
@@ -247,6 +226,26 @@ const NewBuildPage = (props) => {
                                ))}
                               </Select>
           </FormControl>
+
+          <Grid container fullWidth>
+              {/*<Grid item xs={3}>
+                <p>Create from existing build ?</p>
+              </Grid>*/}
+              <FormControl variant="outlined" fullWidth>
+              <InputLabel id="buildexec" >Create from existing build ?</InputLabel>
+            <Select
+          labelId="buildexec"
+          id="buildexec"
+          onChange={handleChange('id_exist_build')}
+          label="buildexec">
+            
+          <MenuItem key={''} value={''}></MenuItem>
+          {props.history.location.state.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
+        </Select>
+      </FormControl>
+
+              
+          </Grid>
             
           <div>
              <FormControlLabel
