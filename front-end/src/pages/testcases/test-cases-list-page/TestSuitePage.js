@@ -84,7 +84,6 @@ const TestSuiteDetail = (props) => {
   const [open, setOpen] = React.useState(false);
   const [openTCase, setOpenTCase] = React.useState(false);
   const [openTSuite, setOpenTSuite] = React.useState(false);
-  const [delTSpage, setDelTSpage] = React.useState(true); //let table know this page is on
   const [testcaseInfor, setTestcaseInfor] = useState({
     projectid: project,
     testcaseid: ''
@@ -270,13 +269,11 @@ const TestSuiteDetail = (props) => {
   //handle to delete TS or TC
   const handleOpenTSuite = (id, type) => {
     if(type === 'TS') {
-      console.log('ts');
     setTestsuiteInfor({...testsuiteInfor, _id: id});
     setOpenTSuite(true);
   }
     else if(type === 'TC')
     {
-      console.log('tc');
       setTestcaseInfor({...testcaseInfor, testcaseid: id});
       setOpenTCase(true);
     }
@@ -409,7 +406,7 @@ const TestSuiteDetail = (props) => {
             headerList = {TEST_SUITE_DETAIL_HEADERS}
             //viewAction={navigateToDetailPage}
             handleDefaultDeleteAction={handleOpenTSuite}
-            delTSpage={delTSpage}
+            type='testcases'
           />
         </Grid>
         
@@ -427,7 +424,7 @@ const TestSuiteDetail = (props) => {
             <Grid item>
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
-                  <DialogContent>Are you sure want to delete this testsuite?</DialogContent>
+                  <DialogContent>Are you sure want to delete this test suite?</DialogContent>
                   <DialogActions>
                     <Button onClick={handleDelete} color="primary">Yes</Button>
                     <Button onClick={handleClose} color="primary">No</Button>

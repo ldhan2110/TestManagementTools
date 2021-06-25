@@ -308,6 +308,7 @@ const BuildListPage = (props) => {
             setConditions={handleChangeConditions}
             searchMethod={searchBuild}
             handleDefaultDeleteAction={deleteBuild}
+            type='build'
           />
         </Grid>
       </Grid>

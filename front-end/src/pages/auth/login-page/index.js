@@ -61,7 +61,6 @@ const LoginPage = (props) => {
       showPassword: false,
     });
     const [checkError, setCheckError] = useState(false);
-    const [checkErrorMsg, setCheckErrorMsg] = useState(false);
     const [loading, setLoading] = useState(false);
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [error, setError] = useState({
@@ -76,20 +75,16 @@ const LoginPage = (props) => {
      useEffect(()=>{
       if(account.error === true && checkLogin)// && account.errorMsg.errMsg == "Password is not valid")
       {
-        setLoading(false);
         setError({error: "Wrong username or password"});
-        //setCheckErrorMsg(false);
         setEnableCreateBtn(true);
         setLoading(false);
       }
       
-      else if (account.success === true) {
-        setLoading(false);
+      else if (account.success === true && checkLogin) {
         displayMsg({
           content: "Logged in successfully!",
           type: 'success'
         });
-        //setError(null);
         setEnableCreateBtn(true);
         setLoading(false);
       }
@@ -145,7 +140,6 @@ const LoginPage = (props) => {
     //HANDLE LOGIN REQUEST BUTTON
     const handleClickLogin = (event) => {
       setCheckError(true);
-      // setCheckErrorMsg(true);
 
       if(values.username.trim().length === 0)
     setError({ ...values, username: "" });
@@ -190,12 +184,12 @@ const LoginPage = (props) => {
                     id="outlined-adornment-username"
                     value={values.username || ''}
                     onChange={handleChange('username')}
-                    error={checkError && error.username== 0 && values.username == 0 ? true : false}
+                    error={checkError && error.username === 0 && values.username === 0 ? true : false}
                     labelWidth={60}
                     required={true}                    
                 />
                 
-                {checkError && error.username== 0 && values.username== 0 && <FormHelperText id="component-error-text" error={true}>Username is required</FormHelperText>}
+                {checkError && error.username === 0 && values.username === 0 && <FormHelperText id="component-error-text" error={true}>Username is required</FormHelperText>}
               </FormControl> 
 
         <FormControl fullWidth variant="outlined">
