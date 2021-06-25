@@ -36,7 +36,8 @@ function mapStateToProps(state) {
     listUsers: state.user.listUsers,
     listUsersOfProject: state.user.listUsersOfProject,
     project: state.project.currentSelectedProject,
-    insDeleteMember: state.user.insDeleteMember
+    insDeleteMember: state.user.insDeleteMember,
+    role: state.project.currentRole,
   };
 }
 
@@ -56,7 +57,7 @@ const mapDispatchToProps = dispatch => {
 const MemberListPage = (props) => {
   //const {classes} = props;
 
-  const {listUsersOfProject, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg, insDeleteMember, deleteUserOfProject, resetDelUserOfProjectRedux} = props;
+  const {listUsersOfProject, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg, insDeleteMember, deleteUserOfProject, resetDelUserOfProjectRedux, role} = props;
 
   const [memberDelButton, setMemberDelButton] = useState(true);
 
@@ -182,6 +183,8 @@ const MemberListPage = (props) => {
         content: insDeleteMember.errMsg,
         type: 'error'
       });
+      setCount(1);
+        setCount1(1);
       getAllUserOfProjectReq(project);
       resetDelUserOfProjectRedux();
     } else if (insDeleteMember?.sucess === true) {
@@ -215,9 +218,9 @@ const MemberListPage = (props) => {
         </Grid>
         <Grid item>
           <div>
-            <Button variant="contained" color="primary" onClick={handleClickNewMemberDialog} startIcon={<PersonAddIcon/>}>
+          {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" color="primary" onClick={handleClickNewMemberDialog} startIcon={<PersonAddIcon/>}>
               Invite collaborator
-            </Button>
+            </Button>}
           </div>
           <Grid item>
                 <Dialog open={open} >

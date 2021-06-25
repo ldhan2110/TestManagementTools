@@ -40,7 +40,8 @@ const  mapStateToProps = (state) => {
     insProjects: state.project.insProjects,  
     project:state.project.currentSelectedProject,
     insProjectsDelete: state.project.insProjectsDelete,
-    inforProject: state.project.projectInfo
+    inforProject: state.project.projectInfo,
+    role: state.project.currentRole
   }
 }
 
@@ -59,7 +60,7 @@ const mapDispatchToProps = dispatch => {
 
 const SettingProjectPage = (props) => {
     const {classes, insProjects, project, insProjectsDelete, updateProjectReq, deleteProjectReq,
-      displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq, inforProject} = props;
+      displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq, inforProject, role} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [checkError, setCheckError] = useState(false);
@@ -236,10 +237,10 @@ const SettingProjectPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-            <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>              
+        {(role === 'Project Manager') &&<Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>              
               Delete Project
               {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
-            </Button>
+            </Button>}
           </div>
           <Grid item>
                 <Dialog open={open} >
@@ -308,10 +309,10 @@ const SettingProjectPage = (props) => {
           helperText={projectInfo.description === 0 && error.description === 0 ? 'Description is required!' : ' '}/>
           
           <div className = {classes.btnGroup}>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />}  onClick={handleUpdate}>
+          {(role === 'Project Manager') &&<Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />}  onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>
+          </Button>}
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleBack}>
             Cancel
           </Button>

@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 import {SEND_MAIL_RESET_PASSWORD_REQ, RESET_SEND_MAIL_RESET_PASSWORD} from '../../../redux/account/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import ReplayIcon from '@material-ui/icons/Replay';
+import SendIcon from '@material-ui/icons/Send';
 import CancelIcon from '@material-ui/icons/Cancel';
 import {
     FormControl,
@@ -163,8 +163,8 @@ const ForgotPassword = (props) => {
                 {/* {values.error !== 0 && <FormHelperText id="component-error-text" error={true}>{values.error}</FormHelperText>}*/}
             </FormControl>
             <div className = {classes.btnGroup}>
-                <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<ReplayIcon/>} onClick={handleClickConfirm}>
-                    Reset
+                <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<SendIcon/>} onClick={handleClickConfirm}>
+                    Confirm
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </Button>
                 <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose}>
