@@ -141,14 +141,14 @@ const reducer = (state = initialState, actions) => {
         };
 
       case types.RESET_UPLOAD_TESTCASE:{
-          return {
-            ...state,
-            insTestcaseUpl:{
-              sucess: null,
-              errMsg: null
-            }
+        return {
+          ...state,
+          insTestcaseUpl:{
+            sucess: null,
+            errMsg: null
           }
-        };
+        }
+      }
 
     case types.RESET_ADD_TEST_CASE:
       return {

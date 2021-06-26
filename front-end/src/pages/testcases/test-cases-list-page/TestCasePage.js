@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
-//import { useHistory } from "react-router-dom";
-//import Helmet from 'react-helmet';
+
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ, RESET_UPDATE_TESTCASE, RESET_DELETE_TESTCASE, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
-//import CancelIcon from '@material-ui/icons/Cancel';
+import ExportExcel from '../../../components/ExportExcel/ExportExcel';
 import { red } from '@material-ui/core/colors';
 import { blue } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -26,8 +25,10 @@ import {
   DialogContent,
   DialogActions,
   DialogTitle,
-  Dialog
+  Dialog,
+  IconButton
 } from '@material-ui/core';
+import { Download } from "react-feather";
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => { 
@@ -169,7 +170,7 @@ const TestCaseDetail = (props) => {
         ||newtestCase.description.trim().length !== newtestCase.description.length 
         || newtestCase.testcasename.trim().length !== newtestCase.testcasename.length){
         displayMsg({
-          content: "Testcase name or Description should not contain spaces !",
+          content: "testcase name or description should not contain spaces or empty",
           type: 'error'
         });
     }
@@ -223,11 +224,22 @@ const TestCaseDetail = (props) => {
     <React.Fragment>
       <Grid container spacing={3} >
         <Grid item xs={12}>
+        <Grid container spacing={1}>
+          <Grid item xs={11}>
             <Typography variant="h4" gutterBottom display="inline">
                 Test Case Detail - {newtestCase.testcasename}
             </Typography> 
-            <Divider/>
+          </Grid>
+            
+          <Grid item xs={1}>
+            <ExportExcel dataSet={newtestCase} type='TC'/>
+          </Grid>
+          
+    
         </Grid>
+        </Grid>
+        <Divider/>
+        
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
@@ -238,11 +250,13 @@ const TestCaseDetail = (props) => {
 
             <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth required 
             onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
-            error={newtestCase.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-            helperText={newtestCase.description.trim().length === 0 && error.description.trim().length === 0 ? 'description is required' : ' '}/></Grid>
-            <Grid item xs={9}>
-            <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="testSuite">Test Suite</InputLabel> 
+            error={!newtestCase.description && !error.description ? true : false}
+            helperText={!newtestCase.description && !error.description ? 'description is required' : ' '}/></Grid>
+            <Grid item xs={12}>
+              <Grid container spacing={3}>
+                <Grid item xs={6}>
+                  <FormControl variant="outlined"  fullWidth>
+                      <InputLabel id="testSuite">Test Suite</InputLabel> 
                                 <Select
                                   labelId="testSuite"
                                   id="testSuite"
@@ -255,10 +269,8 @@ const TestCaseDetail = (props) => {
                                ))}
                               </Select>
                     </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
+                  </Grid>
+                <Grid item xs={6}>
                     <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="Importance">Importance</InputLabel>
                                 <Select
@@ -274,23 +286,9 @@ const TestCaseDetail = (props) => {
                               </Select>
                     </FormControl>
                 </Grid>
-                {/*<Grid item xs={6}>
-                <FormControl variant="outlined"  fullWidth>
-                              <InputLabel id="type">Type</InputLabel>
-                                <Select
-                                  labelId="type"
-                                  id="type"
-                                  //value={age}
-                                  //onChange={handleChange}
-                                  label="Type"
-                                >
-                               <MenuItem value={"manual"}><em>Manual</em></MenuItem>
-                               <MenuItem value={"auto"}>Auto</MenuItem>
-                              </Select>
-                            </FormControl>
-                               </Grid> */}
-              </Grid>      
+                </Grid>
             </Grid>
+            
 
             <Grid item xs={6}><TextField id="preCondition" label="Pre-condition" variant="outlined" fullWidth multiline rows={3} 
             rowsMax={3} value={newtestCase.precondition} onChange={handleChange('precondition')}/></Grid>
