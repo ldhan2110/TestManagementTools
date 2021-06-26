@@ -1,7 +1,7 @@
 
 import React, {useEffect,useState} from 'react';
 import ReactExport from 'react-data-export';
-import { IconButton} from '@material-ui/core';
+import { IconButton, Tooltip} from '@material-ui/core';
 import {borders, TEST_CASE_COLUMNS} from './DefineTemplate';
 import {  ChevronsLeft, Download } from "react-feather";
 
@@ -87,7 +87,7 @@ const ExportExcel = (props) => {
     return (
             <div>
             { dataset[0].data !== [] && 
-                <ExcelFile element={<IconButton size="small"><Download/></IconButton>}>
+                <ExcelFile element={<Tooltip title="Export test cases"><IconButton><Download/></IconButton></Tooltip>}>
                     <ExcelSheet dataSet={dataset} name="Test Case"/>
                 </ExcelFile>
             }
