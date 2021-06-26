@@ -9,30 +9,27 @@ function parseSteps (steps, expectResults, types) {
     //Parse both steps and expectResult
     var listSteps = steps.split("\r\n");
     var listExpectResult = expectResults.split("\r\n");
-    var listType = types.split("\r\n");
+   
 
     //Add to TC Item
     listSteps.map((item) => {
         var temp = item.split('. ');
-        result.push({id: temp[0], stepDefine: temp[1], expectResult: '', type: ''});
+        result.push({id: temp[0], stepDefine: temp[1], expectResult: '', type: types});
     });
 
     //Update expect result for each step TC Item
+    if (listExpectResult.length === 1)
+      result[result.length - 1].expectResult = listExpectResult[0];
+    else
     listExpectResult.map((item) => {
       var temp = item.split('. ');
       var idx = result.findIndex(x => x.id === temp[0]);
       if (idx  !== -1){
         result[idx].expectResult = temp[1];
       }
-    });
+    }); 
 
-    listType.map((item) => {
-      var temp = item.split('. ');
-      var idx = result.findIndex(x => x.id === temp[0]);
-      if (idx  !== -1){
-        result[idx].type = temp[1];
-      }
-    });
+    
   }
   return result;
 }
@@ -59,7 +56,7 @@ function convertToTCItem (item) {
     })
 
     //Parse TC Steps
-    result.listStep = parseSteps(item['Steps'], item['Expected Result'], item['Type']);
+    result.listStep = parseSteps(item['Steps'], item['Expected Result'], result['type']);
     return result;
 }
 
@@ -75,11 +72,13 @@ export default function handleFile(e, setMethod) {
       workbook.SheetNames.forEach(function(sheetName) {
         var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
         XL_row_object.map((item,index)=>{
-          console.log(item);
           result.push(convertToTCItem(item));
+ 
         })
+
       })
       /* DO SOMETHING WITH workbook HERE */
+      console.log(result.filter(item => item.testcaseName !== undefined));
       setMethod(result.filter(item => item.testcaseName !== undefined));
     };
     reader.readAsArrayBuffer(f);

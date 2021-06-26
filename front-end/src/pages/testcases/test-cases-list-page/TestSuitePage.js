@@ -104,6 +104,8 @@ const TestSuiteDetail = (props) => {
   const [loadingg, setLoadingg] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
 
+  
+
   useEffect(()=>{
     if (node && node.parent === undefined){
       console.log('no parent');
