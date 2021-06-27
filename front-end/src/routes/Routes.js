@@ -35,7 +35,7 @@ const childRoutes = (Layout, routes, isLogin) =>
           path={path}
           exact={exact}
           render={props => (
-            !restrict ? 
+            localStorage.getItem('token') === null ? 
             (<Layout>
               <Component {...props} />
             </Layout>

@@ -50,12 +50,15 @@ export default function ControlledTreeView(props) {
 
 
   const renderTree = (nodes) => {
-    if (nodes.type === 'TS' || nodes.type === 'root')
+    if (nodes.type === 'TS' || nodes.type === 'root'){
+      if (nodes.type === 'root')
+        expanded.push(nodes._id);
       return (
-      <TreeItem key={nodes._id} nodeId={nodes.type === 'root' ? 'root': nodes._id} label={nodes.name}>
+      <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name}>
         {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
       </TreeItem>
     )
+      }
 
     else return (
       <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name} icon={<FileText/>}/>
@@ -69,8 +72,8 @@ export default function ControlledTreeView(props) {
       defaultParentIcon={<Folder/>}
       defaultCollapseIcon={<FolderMinus />}
       defaultExpandIcon={<FolderPlus  />}
-      defaultExpanded={['root']}
      
+      expanded={expanded}
       selected={selected}
       defaultEndIcon={<Folder/>}
       onNodeToggle={handleToggle}
