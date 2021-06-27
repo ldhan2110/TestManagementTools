@@ -68,7 +68,7 @@ const ExportExcel = (props) => {
         if (dataSet !== null && type === 'TS'){
             var dataD = [];
             multiDataSet[0].data = [];
-            dataSet.forEach((item, index) => {
+            dataSet.forEach((item, index) => {if(item.type !== 'TS')
                 multiDataSet[0].data.push(convertTCtoDS(item));
             })
             setDataset(multiDataSet);
