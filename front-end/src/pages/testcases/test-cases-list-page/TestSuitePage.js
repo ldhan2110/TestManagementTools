@@ -30,14 +30,16 @@ import {
   DialogActions,
   DialogTitle,
   Dialog,
-  IconButton
+  IconButton,
+  Tooltip
 } from '@material-ui/core';
 
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
 import { Upload, Download } from "react-feather";
-
+import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -323,12 +325,12 @@ const TestSuiteDetail = (props) => {
                     {testSuite.type !== "root" &&
                     <Grid container spacing={1}>
                       <Grid item>
-                         <IconButton onClick={handleUpload} size="small">
+                         {/* <IconButton onClick={handleUpload} size="small">
                         <Upload/>
-                      </IconButton>
+                      </IconButton> */}
                       </Grid>
                       <Grid item>
-                        <ExportExcel dataSet={testSuite.children} type='TS'/>
+                        {/* <ExportExcel dataSet={testSuite.children} type='TS'/> */}
                      </Grid>
                     </Grid>
                    }  
@@ -380,24 +382,42 @@ const TestSuiteDetail = (props) => {
 
               <Grid item xs={8}> 
                 {testSuite.type !== "root" ?
-                <Grid container spacing={1} justify='flex-end'>
+                <Grid container spacing={2} justify='flex-end'>
                    <Grid item>
-                    <Button variant="contained" color="primary" onClick={handleOpenTC} >
+                    {/* <Button variant="contained" color="primary" onClick={handleOpenTC} >
                       <AddIcon />Add Test Case
-                    </Button>
+                    </Button> */}
+                    <Tooltip title="Add test case">
+                      <IconButton onClick={handleOpenTC}><NoteAddIcon/></IconButton>
+                    </Tooltip>
                   </Grid>
                   <Grid item>
-                    <Button variant="contained" color="primary" onClick={handleOpenTS}>
+                    {/* <Button variant="contained" color="primary" onClick={handleOpenTS}>
                       <AddIcon />Add Test Suite
-                    </Button> 
+                    </Button>  */}
+                    <Tooltip title="Add test suite">
+                      <IconButton onClick={handleOpenTS}><CreateNewFolderIcon/></IconButton>
+                    </Tooltip>
+                  </Grid>
+                  <Grid item>
+                    <Tooltip title="Import test cases">
+                      <IconButton onClick={handleUpload}>
+                        <Upload/>
+                      </IconButton>
+                    </Tooltip>
+                  </Grid>
+                  <Grid item>
+                    <ExportExcel dataSet={testSuite.children} type='TS'/>
                   </Grid>
                 </Grid>
                 :
                 <Grid container justify='flex-end'>
                   <Grid item>
+                  <Tooltip title="Add test suite">
                     <Button variant="contained" color="primary" onClick={handleOpenTS}>
                       <AddIcon />Add Test Suite
                     </Button> 
+                    </Tooltip>
                   </Grid>
                 </Grid>
                 }
