@@ -184,12 +184,12 @@ const LoginPage = (props) => {
                     id="outlined-adornment-username"
                     value={values.username || ''}
                     onChange={handleChange('username')}
-                    error={checkError && error.username === 0 && values.username === 0 ? true : false}
+                    error={checkError && error.username == 0 && values.username == 0 ? true : false}
                     labelWidth={60}
                     required={true}                    
                 />
                 
-                {checkError && error.username === 0 && values.username === 0 && <FormHelperText id="component-error-text" error={true}>Username is required</FormHelperText>}
+                {checkError && error.username == 0 && values.username == 0 && <FormHelperText id="component-error-text" error={true}>Username is required</FormHelperText>}
               </FormControl> 
 
         <FormControl fullWidth variant="outlined">
@@ -222,7 +222,7 @@ const LoginPage = (props) => {
         </FormControl>
         {error && error.error && <FormHelperText id="component-error-text" error={true}>{error.error}</FormHelperText>}
 
-        <FormControlLabel
+        {/*<FormControlLabel
         control={
           <Checkbox
             onChange={handleClickKeepSignIn}
@@ -231,7 +231,7 @@ const LoginPage = (props) => {
           />
         }
         label="Keep me sign in"
-      />
+      />*/}
         <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<LockIcon />} onClick={handleClickLogin}>
             Sign In

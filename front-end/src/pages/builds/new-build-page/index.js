@@ -152,7 +152,7 @@ const NewBuildPage = (props) => {
       });
     }
 
-    else if(buildInfo.testplan === ""){
+    if(buildInfo.testplan === ""){
       displayMsg({
         content: "Test Plan is required !",
         type: 'error'
@@ -220,6 +220,7 @@ const NewBuildPage = (props) => {
                                   label="Test Plan"
                                   error={!buildInfo.testplan && !error.testplan ? true : false}
                                   helperText={!buildInfo.testplan && !error.testplan ? 'Test Plan is required' : ' '}
+                                  disabled = {buildInfo.id_exist_build ? true : false}
                                 >
                                {listTestplan.map((item) => (
                                     <MenuItem value={item.testplanname}>{item.testplanname}</MenuItem>
