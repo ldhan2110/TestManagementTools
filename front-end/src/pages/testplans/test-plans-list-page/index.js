@@ -148,6 +148,9 @@ const TestPlanListPage = (props) => {
           content: insTestplanDelete.errMsg,
           type: 'error'
         });
+        setCount(1);
+        setCount1(1);
+        getAllTestplanReq(project);
         resetDeleteRedux();
       } else if (insTestplanDelete.sucess === true) {
         displayMsg({
@@ -211,6 +214,7 @@ const TestPlanListPage = (props) => {
           </div>
           {/* Delete TP dialog */}
           <Grid item>
+          {(role === 'Project Manager' || role === 'Test Lead') &&
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure want to delete this testplan?</DialogContent>
@@ -218,7 +222,16 @@ const TestPlanListPage = (props) => {
                     <Button onClick={handleDelete} color="primary">Yes</Button>
                     <Button onClick={handleClose} color="primary">No</Button>
                   </DialogActions>
-                </Dialog>
+                </Dialog>}
+
+                {(role === 'Tester') &&
+                <Dialog open={open} >
+                  <DialogTitle>Delete</DialogTitle>
+                  <DialogContent>Do not allow Tester role !</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color="primary">OK</Button>
+                  </DialogActions>
+                </Dialog>}
           </Grid>
         </Grid>
       </Grid>

@@ -266,10 +266,11 @@ const BuildDetailPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-          {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+          {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={enableDeleteBtn ? {color: red[500] } : {}} onClick={handleOpen}>
             Delete Build
             {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
+          
           </div>
           <Grid item>
                 <Dialog open={open} >
