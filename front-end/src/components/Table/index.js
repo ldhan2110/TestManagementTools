@@ -32,6 +32,7 @@ import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 import EditIcon from '@material-ui/icons/Edit';
 
 import { spacing } from "@material-ui/system";
+import { Clipboard } from "react-feather";
 //import { retinaImage } from "polished";
 
 const Paper = styled(MuiPaper)(spacing);
@@ -205,6 +206,9 @@ const EnhancedTable = (props) => {
                       <TableCell align="right">
                         {type === 'member' && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row.id)}>
                           <PersonAddDisabledIcon style={{color: red[400]}}/>
+                        </IconButton> }
+                        {type === 'testexecution' && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
+                          <Clipboard style={{color: blue[400]}}/>
                         </IconButton> }
                         {(type === 'testplan' || type === 'build') && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
                           <DeleteIcon style={{color: red[400]}}/>

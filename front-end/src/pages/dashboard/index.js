@@ -61,55 +61,6 @@ function getCurrentDate() {
 
 }
 
-// const dataMultiChart =  {
-//   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-//   datasets: [
-//     // {
-//     //   type: 'line',
-//     //   label: 'Bugs',
-//     //   borderColor: BUGS,
-//     //   borderWidth: 2,
-//     //   fill: false,
-//     //   data: [rand(), rand(), rand(), rand(), rand(), rand()],
-//     // },
-//     {
-//       type: 'bar',
-//       label: 'Test Failed',
-//       backgroundColor: FAILED,
-//       data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
-//       borderColor: 'white',
-//       borderWidth: 2,
-//     },
-//     {
-//       type: 'bar',
-//       label: 'Test Passed',
-//       backgroundColor: PASSED,
-//       data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
-//     },
-//     {
-//       type: 'bar',
-//       label: 'Test Blocked',
-//       backgroundColor: BLOCKED,
-//       data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
-//     },
-//   ],
-// }
-
-// const data = {
-//   labels: ["Passed", "Failed", "Blocked", "Not Executed"],
-//   datasets: [
-//     {
-//       data: [260, 125, 164,549],
-//       backgroundColor: [
-//         PASSED,
-//         FAILED,
-//         BLOCKED,
-//         NOT_EXECUTE
-//       ],
-//       borderWidth: 5
-//     }
-//   ]
-// };
 
 const  Dashboard = (props) => {
 

@@ -221,8 +221,8 @@ const TestExecutionListPage = (props) => {
 
   },[searchConditions]);
 
-  const deleteTE = (id) =>{
-    
+  const navigateOverviewPage = (id) =>{
+    history.push(window.location.pathname+"/"+id);
   };
 
   return(
@@ -261,6 +261,7 @@ const TestExecutionListPage = (props) => {
             conditions={TEST_EXEC_SEARCH_CONDITIONS}
             setConditions={handleChangeConditions}
             searchMethod={searchTestExec}
+            handleDefaultDeleteAction={navigateOverviewPage}
             type='testexecution'
           />
         </Grid>

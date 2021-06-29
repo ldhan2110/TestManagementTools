@@ -202,19 +202,17 @@ const TestCaseExecDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" disabled={true} variant="outlined"  value={testCaseDetail.testcaseName} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description" disabled={true} variant="outlined"  value = {testCaseDetail.description} fullWidth required/></Grid>
-            <Grid item xs={9}><TextField id="testSuite" label="Test Suite" disabled={true} variant="outlined" value = {testCaseDetail.testsuite} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name"  variant="outlined"  value={testCaseDetail.testcaseName} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="description" label="Description"  variant="outlined"  value = {testCaseDetail.description} fullWidth required/></Grid>
+            <Grid item xs={9}><TextField id="testSuite" label="Test Suite"  variant="outlined" value = {testCaseDetail.testsuite} fullWidth required/></Grid>
                 <Grid item xs={3}>
-                  <TextField id="description" label="Importance" disabled={true} variant="outlined" value={testCaseDetail.priority} fullWidth required/>
+                  <TextField id="description" label="Importance"  variant="outlined" value={testCaseDetail.priority} fullWidth required/>
                 </Grid>
-                {/*<Grid item xs={6}>
-                  <TextField id="description" label="Type" variant="outlined" disabled={true} value={testCaseDetail.priority} fullWidth required/>
-  </Grid>*/}
+                
   <Grid item xs={12}>
               <Grid container spacing={3}>
-                <Grid item xs={6}><TextField id="preCondition" label="Pre-condition" disabled={true} variant="outlined" value = {testCaseDetail.precondition} fullWidth multiline rows={2.5} rowsMax={3}/></Grid>
-                <Grid item xs={6}><TextField id="postCondition" label="Post-condition" disabled={true} variant="outlined" value = {testCaseDetail.postcondition} fullWidth multiline rows={2.5} rowsMax={3}/></Grid>
+                <Grid item xs={6}><TextField id="preCondition" label="Pre-condition" variant="outlined" value = {testCaseDetail.precondition} fullWidth multiline rows={2.5} rowsMax={3}/></Grid>
+                <Grid item xs={6}><TextField id="postCondition" label="Post-condition"  variant="outlined" value = {testCaseDetail.postcondition} fullWidth multiline rows={2.5} rowsMax={3}/></Grid>
               </Grid>
               
             </Grid>

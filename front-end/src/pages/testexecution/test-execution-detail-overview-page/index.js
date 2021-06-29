@@ -8,7 +8,8 @@ import { green, orange, red } from "@material-ui/core/colors";
 import { spacing } from "@material-ui/system";
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import ExportExcel from '../../../components/ExportExcel/ExportExcel';
+import DoughnutChart from '../../../components/Charts/DoughnutChart';
+import {PASSED, FAILED, BLOCKED, NOT_EXECUTE} from '../../../components/Charts/Constants';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -86,6 +87,23 @@ const TestExecutionDetailPage = (props) => {
 
     const [isExecute,setExecute] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? true : false);
 
+    const [dataExecOverview, setExecOverview] = useState({
+      labels: ["Passed", "Failed", "Blocked", "Untest"],
+      datasets: [
+        {
+          data: [0,0,0,0],
+          backgroundColor: [
+            PASSED,
+            FAILED,
+            BLOCKED,
+            NOT_EXECUTE
+          ],
+          borderWidth: 5
+        }
+      ]
+    })
+  
+
     const [resultTestExec, setResultTestExec] = useState({
       status: testExecInfo.status,
       testexecid: props.match.params.testExecutionId
@@ -132,8 +150,24 @@ const TestExecutionDetailPage = (props) => {
     }
 
     useEffect(()=>{
-      console.log(listTestExec);
-     },[listTestExec])  
+      if (testExecInfo.exectestcases){
+        setExecOverview({
+          labels: ["Passed", "Failed", "Blocked", "Untest"],
+      datasets: [
+        {
+          data: countTestExec(),
+          backgroundColor: [
+            PASSED,
+            FAILED,
+            BLOCKED,
+            NOT_EXECUTE
+          ],
+          borderWidth: 5
+        }
+      ]
+        })
+      }
+     },[testExecInfo])  
 
     const handleClose=()=>{
       var url;
@@ -169,6 +203,23 @@ const TestExecutionDetailPage = (props) => {
           history.push(location.pathname+'/execute-result');
     }
 
+  const countTestExec = () => {
+      var result = [0,0,0,0];
+      if (testExecInfo.exectestcases){
+        testExecInfo.exectestcases.map((item,index)=>{
+            if (item.status === 'Pass')
+              result[0]++;
+            else if (item.status === 'Fail')
+              result[1]++;
+            else if (item.status === 'Blocked')
+              result[2]++;
+            else
+              result[3]++;
+        });
+      }
+      return result;
+    }
+
   
     return (
     <div>
@@ -192,58 +243,10 @@ const TestExecutionDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required onChange={handleChange('testexecutionname')} value={testExecInfo.testexecutionname}/>
-          <TextField id="testplanName" label="Test Plan" variant="outlined"  fullWidth required  value={testExecInfo.testplan.testplanname}/>
-          <TextField id="buildName" label="Build/Release" variant="outlined"  fullWidth required  value={testExecInfo.build.buildname}/>
 
-          <FormControl variant="outlined" className={classes.formControl} fullWidth required >
-              <InputLabel id="assignTester">Assign Tester</InputLabel>
-                  <Select
-                    labelId="assignTester"
-                    id="assignTester"
-                    value={testExecInfo.tester.username}
-                    onChange={handleChange('assignTester')}
-                    label="assignTester">
-                        {listUser.map((item,index) => (
-                            <MenuItem key={index} value={item.username}>{item.username}</MenuItem>
-                        ))}
-                  </Select>
-          </FormControl>
+          <DoughnutChart dataset={dataExecOverview} overviewData={0}/>
 
-          <div>
-             <FormControlLabel
-              classes= {{label: classes.titleContent}}
-              value="start"
-              control={<Checkbox color="primary" required  checked={testExecInfo.is_public}/>}
-              label="Public"
-              labelPlacement="start"
-            />
-          </div>
-          <div>
-            <FormControlLabel
-              classes= {{label: classes.titleContent}}
-              value="start"
-              control={<Checkbox color="primary" required  checked={testExecInfo.is_active}/>}
-              label="Active"
-              labelPlacement="start"
-            />
-          </div>
-          <TextField id="descriptions" label="Description" variant="outlined" onChange={handleChange('description')} fullWidth required  multiline rows={3} value={testExecInfo.description}/>                
-
-          <FormControl variant="outlined" className={classes.formControl} fullWidth >
-              <InputLabel id="status">Status</InputLabel>
-                  <Select
-                    labelId="status"
-                    id="status"
-                    value={testExecInfo.status}
-                    onChange={handleChange('status')}
-                    label="status">
-                        <MenuItem value={'Untest'}>Untest</MenuItem>
-                        <MenuItem value={"Pass"}>Pass</MenuItem>
-                        <MenuItem value={"Block"}>Blocked</MenuItem>
-                        <MenuItem value={"Fail"}>Fail</MenuItem>
-                  </Select>
-          </FormControl>
+         
 
             <Grid container spacing={1}>
               <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Executed Test Cases</Typography></Grid> 
@@ -266,7 +269,20 @@ const TestExecutionDetailPage = (props) => {
               </Grid> 
             </Grid>
 
-
+            <FormControl variant="outlined" className={classes.formControl} fullWidth >
+              <InputLabel id="status">Status</InputLabel>
+                  <Select
+                    labelId="status"
+                    id="status"
+                    value={testExecInfo.status}
+                    onChange={handleChange('status')}
+                    label="status">
+                        <MenuItem value={'Untest'}>Untest</MenuItem>
+                        <MenuItem value={"Pass"}>Pass</MenuItem>
+                        <MenuItem value={"Block"}>Blocked</MenuItem>
+                        <MenuItem value={"Fail"}>Fail</MenuItem>
+                  </Select>
+          </FormControl>
           {/* <Typography variant="subtitle1" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography> */}
 
           <div className = {classes.btnGroup}>

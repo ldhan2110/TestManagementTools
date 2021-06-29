@@ -39,6 +39,7 @@ const TestExecutionList = async(()=>import('../pages/testexecution/test-executio
 const NewTestExecutionPage = async(()=>import('../pages/testexecution/new-test-execution-page/index'));
 const TestExecutionDetailPage = async(()=>import('../pages/testexecution/test-execution-detail-page/index'));
 const TestCaseExecDetailPage = async(()=> import('../pages/testexecution/test-case-execution-detail-page/index'));
+const TestExecutionOverviewDetailPage = async(()=> import('../pages/testexecution/test-execution-detail-overview-page/index'));
 
 //Build-Release components
 const BuildList = async(()=>import('../pages/builds/builds-list-page/index'));
@@ -190,11 +191,20 @@ const newTestExecutionRoute = {
 
 const testExecutionDetailRoute = {
   id: "Test Execution Detail",
-  path: "/projects/:projectName/test-execution/:testExecutionId",
+  path: "/projects/:projectName/test-execution/edit/:testExecutionId",
   name: "Test Execution Detail",
   restrict: true,
   exact: true,
   component: TestExecutionDetailPage
+} 
+
+const testExecutionOverviewRoute = {
+  id: "Test Execution Overview",
+  path: "/projects/:projectName/test-execution/:testExecutionId",
+  name: "Test Execution Overview",
+  restrict: true,
+  exact: true,
+  component: TestExecutionOverviewDetailPage
 } 
 
 const testCaseExecDetailRoute = {
@@ -212,7 +222,7 @@ const executeResultRoutes = {
   name: "Test Execution Result",
   restrict: true,
   exact: true,
-  component: TestExecutionDetailPage
+  component: TestExecutionOverviewDetailPage
 }
 
 const testCaseExecResultRoute = {
@@ -223,6 +233,8 @@ const testCaseExecResultRoute = {
   exact: true,
   component: TestCaseExecDetailPage
 }
+
+
 
 
 
@@ -320,6 +332,7 @@ export const primaryLayoutRoutes = [
   newTestExecutionRoute,
   testCaseExecDetailRoute,
   testExecutionDetailRoute,
+  testExecutionOverviewRoute,
   buildListRoute,
   newBuildRoute,
   buildDetailRoute,
