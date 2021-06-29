@@ -112,6 +112,7 @@ const ChangRolePopup = (props) => {
     return(
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Change Role</DialogTitle>
+        {(role === 'Project Manager' || role === 'Test Lead') && 
         <DialogContent>
           <DialogContentText>
             Please select a role for this member
@@ -130,16 +131,31 @@ const ChangRolePopup = (props) => {
                         <MenuItem value={"Tester"}>Tester</MenuItem>
                   </Select>
           </FormControl>
-        </DialogContent>
+        </DialogContent>}
+
+        {(role === 'Project Manager' || role === 'Test Lead') &&
         <DialogActions>
-        {(role === 'Project Manager' || role === 'Test Lead') && <Button onClick={handleConfirm} color="primary" disabled={enableCreateBtn ? false : true }>
+         <Button onClick={handleConfirm} color="primary" disabled={enableCreateBtn ? false : true }>
             Confirm
             {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
-          </Button> }
+          </Button> 
           <Button  onClick={handleClose} color="primary">
             Cancel
           </Button>
-        </DialogActions>
+        </DialogActions>}
+
+        {(role === 'Tester') && 
+        <DialogContent>    
+            Do not allow Tester role !
+        </DialogContent>}
+
+        {(role === 'Tester') &&
+        <DialogActions>
+          <Button  onClick={handleClose} color="primary">
+            OK
+          </Button>
+        </DialogActions>}
+
       </Dialog>
     );
 };

@@ -147,7 +147,7 @@ const BuildListPage = (props) => {
       setCount(count+1);
       setTimeout(()=>{
         setCount1(count1+1);
-      },100);}
+      },200);}
   },[listBuilds])
 
 
@@ -211,23 +211,26 @@ const BuildListPage = (props) => {
   // --> delete TP
   useEffect(()=>{
     if (insBuildsDelete.sucess === false){
-      // displayMsg({
-      //   content: insBuildsDelete.errMsg,
-      //   type: 'error'
+      //displayMsg({
+        //content: "  Do not allow Tester role !",
+         //type: 'error'
       // }); 
       //setEnableDeleteBtn(true);
       //setLoadingg(false);
+      //setCount(1);
+      //setCount1(1);
+      //getAllBuildReq(project);
+      //getAllTestPlanReq();
       resetDeleteRedux();
     } else if (insBuildsDelete.sucess === true) {
       displayMsg({
         content: "Delete build successfully !",
         type: 'success'
       });
-      
       getAllBuildReq(project);
       getAllTestPlanReq();
       setCount(1);
-      setCount1(0);
+      setCount1(1);
       //setArray([]);
       //setEnableDeleteBtn(true);
       //setLoadingg(false);
@@ -244,8 +247,8 @@ const BuildListPage = (props) => {
     setOpen(false);
   };
   const handleDelete=()=>{
-    //setCount(-2);
-    //setCount1(-2);
+    setCount(-2);
+    setCount1(-2);
     deleteBuildReq(buildInfor);
     setOpen(false);
   };
@@ -283,14 +286,23 @@ const BuildListPage = (props) => {
           </div>
           {/* Delete TP dialog */}
           <Grid item>
+          {(role === 'Project Manager' || role === 'Test Lead') &&
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure want to delete this build?</DialogContent>
                   <DialogActions>
-                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                  <Button onClick={handleDelete} color="primary">Yes</Button>
                     <Button onClick={handleClose} color="primary">No</Button>
                   </DialogActions>
-                </Dialog>
+                </Dialog>}
+                {(role === 'Tester') &&
+                <Dialog open={open} >
+                  <DialogTitle>Delete</DialogTitle>
+                  <DialogContent>Do not allow Tester role !</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color="primary">OK</Button>
+                  </DialogActions>
+                </Dialog>}
           </Grid>
         </Grid>
       </Grid>

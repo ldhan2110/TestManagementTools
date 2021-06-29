@@ -221,6 +221,7 @@ const MemberListPage = (props) => {
             </Button>}
           </div>
           <Grid item>
+          {(role === 'Project Manager' || role === 'Test Lead') &&
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure you want to remove this user from project?</DialogContent>
@@ -228,7 +229,18 @@ const MemberListPage = (props) => {
             <Button onClick={handleDelMember} color="primary">Yes </Button>
                     <Button onClick={handleCloseDelMember} color="primary">No</Button>
                   </DialogActions>
-                </Dialog>
+                </Dialog>}
+
+                {(role === 'Tester') &&
+                <Dialog open={open} >
+                  <DialogTitle>Remove member</DialogTitle>
+                  <DialogContent>Do not allow Tester role !</DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseDelMember} color="primary">OK</Button>
+                  </DialogActions>
+                </Dialog>}
+
+                
             </Grid>
         </Grid>
       </Grid>

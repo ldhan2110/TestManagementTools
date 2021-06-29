@@ -204,22 +204,30 @@ const EnhancedTable = (props) => {
 
                       {headerList.hasActions &&
                       <TableCell align="right">
-                        {type === 'member' && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row.id)}>
+                        {type === 'member' && <Tooltip title="Remove member">
+                        <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row.id)}>
                           <PersonAddDisabledIcon style={{color: red[400]}}/>
-                        </IconButton> }
+                        </IconButton> 
+                        </Tooltip>}
+                        {(type === 'testplan' || type === 'build') && <Tooltip title="Delete"> 
+                        <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
+                          <DeleteIcon style={{color: red[400]}}/>
+                        </IconButton> 
+                        </Tooltip>}
                         {type === 'testexecution' && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
                           <Clipboard style={{color: blue[400]}}/>
                         </IconButton> }
-                        {(type === 'testplan' || type === 'build') && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
+                        {type === 'testcases' && <Tooltip title="Delete">
+                        <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id, row.type)}>
                           <DeleteIcon style={{color: red[400]}}/>
-                        </IconButton> }
-                        {type === 'testcases' && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id, row.type)}>
-                          <DeleteIcon style={{color: red[400]}}/>
-                        </IconButton> }
-
-                        {type !== 'testcases' &&  type !== 'member' && <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
+                        </IconButton> 
+                        </Tooltip>}
+                        
+                        {type !== 'testcases' &&  type !== 'member' && <Tooltip title="Edit">
+                           <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
                           <EditIcon style={{color: blue[400]}}/>
-                        </IconButton> }
+                        </IconButton> 
+                        </Tooltip>}
                         {type === 'member' && <Tooltip title="Change role">
                             <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
                               <EditIcon style={{color: blue[400]}}/>

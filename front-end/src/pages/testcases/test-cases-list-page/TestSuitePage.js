@@ -388,7 +388,7 @@ const TestSuiteDetail = (props) => {
                       <AddIcon />Add Test Case
                     </Button> */}
                     <Tooltip title="Add test case">
-                      <IconButton onClick={handleOpenTC}><NoteAddIcon/></IconButton>
+                      <IconButton onClick={handleOpenTC}><NoteAddIcon style={{color: blue[500]}}/></IconButton>
                     </Tooltip>
                   </Grid>
                   <Grid item>
@@ -396,12 +396,12 @@ const TestSuiteDetail = (props) => {
                       <AddIcon />Add Test Suite
                     </Button>  */}
                     <Tooltip title="Add test suite">
-                      <IconButton onClick={handleOpenTS}><CreateNewFolderIcon/></IconButton>
+                      <IconButton onClick={handleOpenTS}><CreateNewFolderIcon style={{color: blue[500]}}/></IconButton>
                     </Tooltip>
                   </Grid>
                   <Grid item>
                     <Tooltip title="Import test cases">
-                      <IconButton onClick={handleUpload}>
+                      <IconButton style={{color: blue[500]}} onClick={handleUpload}>
                         <Upload/>
                       </IconButton>
                     </Tooltip>

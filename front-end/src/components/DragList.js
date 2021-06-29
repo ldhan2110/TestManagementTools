@@ -13,7 +13,8 @@ import {
   List,
   ListItem,
   Button,
-  IconButton
+  IconButton,
+  Tooltip
 } from '@material-ui/core';
 import { MinusCircle } from "react-feather";
 import {red} from "@material-ui/core/colors";
@@ -93,7 +94,11 @@ const DragList = (props) => {
                                <MenuItem value={"auto"}>Auto</MenuItem>
                               </Select>
                     </FormControl></Grid>
-                        <Grid><IconButton onClick={(event)=>{ removeStep({id: item.id}) }}><MinusCircle/></IconButton></Grid>
+                        <Grid>
+                        <Tooltip title="Delete step">
+                          <IconButton onClick={(event)=>{ removeStep({id: item.id}) }}><MinusCircle style={{color: red[500]}}/></IconButton>
+                          </Tooltip>
+                          </Grid>
                       </Grid>
                     </ListItem>
                 ))}

@@ -152,7 +152,7 @@ const NewBuildPage = (props) => {
       });
     }
 
-    else if(buildInfo.testplan === ""){
+    if(buildInfo.testplan === ""){
       displayMsg({
         content: "Test Plan is required !",
         type: 'error'

@@ -76,7 +76,9 @@ const TestPlanDetailPage = (props) => {
     });
     
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+    const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [loadingg, setLoadingg] = useState(false);
 
     useEffect(()=>{
       if (insTestplan.sucess === false){
@@ -84,12 +86,16 @@ const TestPlanDetailPage = (props) => {
           content: insTestplan.errMsg,
           type: 'error'
         });
+        setEnableCreateBtn(true);
+         setLoading(false);
         resetUpdateRedux();
       } else if (insTestplan.sucess === true) {
         displayMsg({
           content: "Update testplan successfully !",
           type: 'success'
         });
+        setEnableCreateBtn(true);
+        setLoading(false);
         resetUpdateRedux();
         history.goBack();
       }
@@ -102,8 +108,8 @@ const TestPlanDetailPage = (props) => {
             content: insTestplanDelete.errMsg,
             type: 'error'
           });
-          setEnableCreateBtn(true);
-          setLoading(false);
+          setEnableDeleteBtn(true);
+          setLoadingg(false);
           resetDeleteRedux();
         } else if (insTestplanDelete.sucess === true) {
           displayMsg({
@@ -111,8 +117,8 @@ const TestPlanDetailPage = (props) => {
             type: 'success'
           });
           //getAllTestplanReq(props.match.params.projectName);
-          setEnableCreateBtn(true);
-          setLoading(false);
+          setEnableDeleteBtn(true);
+          setLoadingg(false);
           resetDeleteRedux();
           history.goBack();
         }
@@ -126,6 +132,8 @@ const TestPlanDetailPage = (props) => {
     //},[])
 
     const handleDelete=()=>{
+      setEnableDeleteBtn(false);
+    setLoadingg(true);
       deleteTestplanReq(testplanInfor);
       setOpen(false);
     }
@@ -221,9 +229,11 @@ const TestPlanDetailPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-          {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>
+        {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={enableDeleteBtn ? {color: red[500] } : {}} onClick={handleOpen}>
             Delete Test Plan
+            {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
+
           </div>
           <Grid item>
                 <Dialog open={open} >

@@ -101,7 +101,8 @@ const UploadTestCase = (props) => {
     tempTC.map(item => item.testsuite = testsuite);
     console.log(tempTC);
     uplTestcaseReq(tempTC);
- 
+    setEnableCreateBtn(false);
+    setLoading(true);
   }
 
   

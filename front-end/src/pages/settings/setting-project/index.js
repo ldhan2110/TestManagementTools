@@ -237,9 +237,9 @@ const SettingProjectPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-        {(role === 'Project Manager') &&<Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={{ color: red[500] }} onClick={handleOpen}>              
-              Delete Project
-              {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
+        {(role === 'Project Manager') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={enableDeleteBtn ? {color: red[500] } : {}} onClick={handleOpen}>
+            Delete Project
+            {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Button>}
           </div>
           <Grid item>
