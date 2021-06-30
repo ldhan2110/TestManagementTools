@@ -13,6 +13,7 @@ import {
   Radio,
   //AlertOctagon
 } from "react-feather";
+import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import async from "../components/Async";
 import requirementsListPage from "../pages/requirements/requirements-list-page";
 
@@ -63,7 +64,8 @@ const NewTestCasePage = async(()=>import('../pages/testcases/new-test-case-page/
 
 //Requirements components
 const RequirementListPage = async(()=>import(('../pages/requirements/requirements-list-page/index')));
-
+const NewRequirementPage = async(()=>import(('../pages/requirements/new-requirement-page/index')));
+const RequirementDetailPage = async(()=>import(('../pages/requirements/requirement-details-page/index')))
 
 const dashboardRoute = {
   id: "Dashboard",
@@ -177,10 +179,28 @@ const requirementsRoute = {
   id: "Requirements",
   path: "/projects/:projectName/requirements",
   name: "Requirements",
-  icon: <Trello/>,
+  icon: <AssignmentOutlinedIcon/>,
   restrict: true,
   exact: true,
   component: RequirementListPage
+}
+
+const newRequirementsRoute = {
+  id: "New Requirement",
+  path: "/projects/:projectName/requirements/new-requirement",
+  name: "New Requirement",
+  restrict: true,
+  exact: true,
+  component: NewRequirementPage
+}
+
+const requirementsDetailRoute = {
+  id: "Requirement Details",
+  path: "/projects/:projectName/requirements/:requirementId",
+  name: "Requirement Details",
+  restrict: true,
+  exact: true,
+  component: RequirementDetailPage
 }
 
 //TEST EXECUTION
@@ -360,6 +380,8 @@ export const primaryLayoutRoutes = [
   executeResultRoutes,
   testCaseExecResultRoute,
   requirementsRoute,
+  newRequirementsRoute,
+  requirementsDetailRoute,
 ];
 
 // Routes using the Auth layout
