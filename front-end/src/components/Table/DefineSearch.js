@@ -10,6 +10,10 @@ export const TEST_PLANS_SEARCH = [
   { id: 'active',  label: 'Active', type: "select", default: -1, listValues: [{value: true, label: "Active"}, {value: false, label: "Inactive"}]},
 ]
 
+export const REQUIREMENT_SEARCH = [
+  { id: 'requirementName',  label: 'Requirement Name', type: "text" },
+  { id: 'active',  label: 'Active', type: "select", default: -1, listValues: [{value: true, label: "Active"}, {value: false, label: "Inactive"}]},
+]
 
 export const MEMBER_SEARCH = [
   { id: 'username',  label: 'Username', type: "text" },

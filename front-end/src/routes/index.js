@@ -14,6 +14,7 @@ import {
   //AlertOctagon
 } from "react-feather";
 import async from "../components/Async";
+import requirementsListPage from "../pages/requirements/requirements-list-page";
 
 // Auth components
 const Page500 = async(() => import("../pages/error/Page500"));
@@ -60,6 +61,8 @@ const detailMileStonePage = async(()=>import('../pages/milstones/milestone-detai
 const TestCasePage = async(()=>import('../pages/testcases/test-cases-list-page/index'));
 const NewTestCasePage = async(()=>import('../pages/testcases/new-test-case-page/index'));
 
+//Requirements components
+const RequirementListPage = async(()=>import(('../pages/requirements/requirements-list-page/index')));
 
 
 const dashboardRoute = {
@@ -167,6 +170,17 @@ const testPlanDetailRoute = {
   restrict: true,
   exact: true,
   component: TestPlanDetailPage
+}
+
+//REQUIREMENT
+const requirementsRoute = {
+  id: "Requirements",
+  path: "/projects/:projectName/requirements",
+  name: "Requirements",
+  icon: <Trello/>,
+  restrict: true,
+  exact: true,
+  component: RequirementListPage
 }
 
 //TEST EXECUTION
@@ -335,6 +349,7 @@ export const primaryLayoutRoutes = [
   testExecutionOverviewRoute,
   buildListRoute,
   newBuildRoute,
+  requirementsRoute,
   buildDetailRoute,
   projectSettingRoutes,
   milestoneRoute,
@@ -343,7 +358,8 @@ export const primaryLayoutRoutes = [
   newMilestoneRoute,
   detailMilestoneRoute,
   executeResultRoutes,
-  testCaseExecResultRoute
+  testCaseExecResultRoute,
+  requirementsRoute,
 ];
 
 // Routes using the Auth layout
@@ -358,6 +374,7 @@ export const freeLayoutRoutes = [
 // Routes visible in the sidebar
 export const sidebarRoutes = [
   dashboardRoute,
+  requirementsRoute,
   testPlanListRoute,
   testExecutionListRoute,
   testCaseRoute,
