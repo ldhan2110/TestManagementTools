@@ -69,7 +69,7 @@ const RequirementListPage = (props) => {
   });
 
   const [searchConditions, setConditions] = useState({
-    testplanName: '',
+    requirementName: '',
     active: -1
   });   
 
@@ -85,19 +85,19 @@ const RequirementListPage = (props) => {
   }
 
 
-  const searchTestPlan = () => {
+  const searchRequirements = () => {
     console.log(searchConditions);
-    if (searchConditions.active === -1 && searchConditions.testplanName === ''){
+    if (searchConditions.active === -1 && searchConditions.requirementName === ''){
       setArray(listTestplan);
     } 
     else{
       if(searchConditions.active === -1)
         setArray(listTestplan.filter((item) => {
-          if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()))
+          if(item.testplanname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
             return listTestplan;}))
       else
         setArray(listTestplan.filter((item) => {
-          if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()) && searchConditions.active === item.is_active)
+          if(item.testplanname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
             return listTestplan;}))
     }
   }
@@ -123,7 +123,7 @@ const RequirementListPage = (props) => {
   }
 
   useEffect(()=>{ 
-    console.log('keyword: '+searchConditions.testplanName + '   ' + searchConditions.active);
+    console.log('keyword: '+searchConditions.requirementName + '   ' + searchConditions.active);
     if (searchConditions.active === -1 && searchConditions.testplanName === ''){
       setArray(listTestplan);
     } 
@@ -131,11 +131,11 @@ const RequirementListPage = (props) => {
       console.log('not empty');
       if(searchConditions.active === -1)
       setArray(listTestplan.filter((item) => {
-        if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()))
+        if(item.testplanname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
           return listTestplan;}))
       else
       setArray(listTestplan.filter((item) => {
-        if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()) && searchConditions.active === item.is_active)
+        if(item.testplanname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
           return listTestplan;}))
     }
   },[searchConditions]);
@@ -244,7 +244,7 @@ const RequirementListPage = (props) => {
             onClick={navigateToDetailPage}
             conditions={REQUIREMENT_SEARCH}
             setConditions={handleChangeConditions}
-            //searchMethod={searchRequirements}
+            searchMethod={searchRequirements}
             type='requirements'
           />
         </Grid>
