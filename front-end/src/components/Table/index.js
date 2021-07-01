@@ -37,6 +37,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { spacing } from "@material-ui/system";
 import { Clipboard } from "react-feather";
+import CustomEmptyOverlayGrid from './NoDataIcon'
 //import { retinaImage } from "polished";
 const Paper = styled(MuiPaper)(spacing);
 
@@ -249,18 +250,33 @@ const EnhancedTable = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
-        : <div><Divider style={{marginTop: 2, marginBottom: 15}}/><Grid
+        : <div>
+          <TableContainer>
+          <Table
+            aria-labelledby="tableTitle"
+            size={'medium'}
+            aria-label="enhanced table"
+          >
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={0}
+              headers = {headerList}
+            /></Table></TableContainer><Grid
           container
           direction="column"
           justify="center"
           alignItems="center"
         >
-          <Grid item><Package/></Grid>
-          <Grid item>
-            <Typography variant="subtitle1" gutterBottom display="inline">No data</Typography>
+          <Grid item style={{marginTop: 50}}><CustomEmptyOverlayGrid/></Grid>
+          <Grid item style={{marginBottom: 50}}>
+            <Typography variant="subtitle1" gutterBottom display="inline" style={{ userSelect: "none" }}>No Data</Typography>
           </Grid>
-        </Grid></div>}
-
+        </Grid><Divider/></div>}
+                
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
