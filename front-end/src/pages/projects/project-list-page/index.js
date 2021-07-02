@@ -54,8 +54,8 @@ const ProjectList = (props)=>{
         setOpenNewProject(true);
     }
 
-    useEffect(() => {
-        const socket = socketIoClient.io("http://localhost:5000");
+    /* useEffect(() => {
+        const socket = socketIoClient.io("https://testcontrols.herokuapp.com");
         socket.on('connect', function (data) {
           socket.emit('login', { userId: "60a3749518d966001529bf59" });
           // <-- this works
@@ -63,7 +63,7 @@ const ProjectList = (props)=>{
             console.log(message);
           });
         });
-      });
+      }); */
 
     useEffect(()=>{
         getProjectReq();
