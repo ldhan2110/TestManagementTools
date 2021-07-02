@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from "styled-components";
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import {LOGOUT_REQ} from '../../redux/account/constants';
+import {ADD_NEW_NOTIFICATION_REQ, GET_ALL_NOTIFICATIONS_REQ} from '../../redux/notification/constants';
+import styles from "./styles";
 
 import {
     Menu,
@@ -21,7 +23,14 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import { InfoRounded } from '@material-ui/icons';
 
-
+const listNotification = [
+  {
+    description: "You have been assigned for a test execution in Project"
+  },
+  {
+    description: "You have been assigned for a test execution in Project"
+  }
+]
 
 const IconButton = styled(MuiIconButton)`
   svg {
@@ -68,14 +77,24 @@ const StyledMenu = withStyles({
     },
   }))(MenuItem);
 
+
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return {listNotifications: state.notification.listNotifications }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     logoutReq: () => dispatch({ type: LOGOUT_REQ }),
+    addNotificationReq: (payload) => dispatch({ type: ADD_NEW_NOTIFICATION_REQ, payload }),
+    getAllNotificationReq: () => dispatch({ type: GET_ALL_NOTIFICATIONS_REQ}),
   }
 };
 
 const UserMenu = (props) => {
     const history = useHistory();
+
+    const {getAllNotificationReq, listNotifications} = props;
 
     const [anchorMenu, setAnchorMenu] = useState(null);
 
@@ -89,44 +108,36 @@ const UserMenu = (props) => {
         setAnchorEl(null);
     };
 
+    useEffect(()=>{
+      getAllNotificationReq();
+  },[])
+
   
     return (
       <React.Fragment>
         <IconButton  aria-owns={Boolean(anchorMenu) ? "menu-appbar" : undefined}
           aria-haspopup="true"
           onClick={handleClick}>
-            <Indicator badgeContent={7}>
+            <Indicator badgeContent={listNotifications.length}>
               <Bell />
             </Indicator>
         </IconButton>
-        <StyledMenu
+      <StyledMenu
         id="customized-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
+        onClose={handleClose}>
+        {listNotifications?.map((item, index) =>
         <StyledMenuItem>
           <ListItemIcon>
             <InfoRounded fontSize="small" />
           </ListItemIcon>
-          <ListItemText primary="You have been assigned for a test execution in Project" /> 
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <InfoRounded fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="You have been assigned for a test execution in Project" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <InfoRounded fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="You have been assigned for a test execution in Project" />
-        </StyledMenuItem>
+          <ListItemText key={index} value={item.description}>{item.description}</ListItemText> 
+        </StyledMenuItem>)}    
       </StyledMenu>
       </React.Fragment>
     );
   }
 
-  export default connect(null,mapDispatchToProps)(UserMenu);
+  export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(UserMenu));

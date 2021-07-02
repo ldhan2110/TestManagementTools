@@ -11,6 +11,7 @@ import milestoneReducers from '../milestones/milestoneReducers';
 import userReducers from '../users/userReducers';
 import testexecReducers from '../test-execution/testexecReducers';
 import dashboardReducers from '../dashboard/dashboardReducers';
+import notificationReducers from '../notification/notificationReducers';
 import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 
@@ -30,7 +31,8 @@ const appReducer = combineReducers({
 	testexec:testexecReducers,
 	build: buildReducers,
 	milestone: milestoneReducers,
-	user: userReducers
+	user: userReducers,
+	notification: notificationReducers
 });
 
 export default (state, action) => {

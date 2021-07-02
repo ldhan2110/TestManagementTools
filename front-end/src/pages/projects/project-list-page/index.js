@@ -9,6 +9,8 @@ import ProjectItem from './ProjectItem';
 import Pagination from '../../../components/Pagination/index';
 import IconButton from '@material-ui/core/IconButton';
 import NewProjectPopup from '../new-project-popup/index';
+import socketIoClient from 'socket.io-client';
+import { v4 as uuidv4 } from 'uuid';
 import {
     Button,
     Grid,
@@ -51,6 +53,17 @@ const ProjectList = (props)=>{
     const handleOpenNewProjectPopup = ()=>{
         setOpenNewProject(true);
     }
+
+    useEffect(() => {
+        const socket = socketIoClient.io("http://localhost:5000");
+        socket.on('connect', function (data) {
+          socket.emit('login', { userId: "60a3749518d966001529bf59" });
+          // <-- this works
+          socket.on('message', function (message) {
+            console.log(message);
+          });
+        });
+      });
 
     useEffect(()=>{
         getProjectReq();

@@ -8,6 +8,7 @@ import * as milestoneEpics from '../milestones/milestoneEpics';
 import * as userEpics from '../users/userEpics';
 import * as testexecEpics from '../test-execution/testexecEpics';
 import * as dashboardEpics from '../dashboard/dasboardEpics';
+import * as notificationEpics from '../notification/notificationEpics';
 
 
 export default combineEpics(
@@ -84,6 +85,10 @@ export default combineEpics(
    testexecEpics.getAllTestexecEpic,
    testexecEpics.addNewTestexecEpic,
    testexecEpics.updTestExecEpic,
-   testexecEpics.execTestcaseEpic
+   testexecEpics.execTestcaseEpic,
+
+   //NOTIFICATION
+   notificationEpics.getAllNotificationEpic,
+   notificationEpics.addNewNotificationEpic
 
 );

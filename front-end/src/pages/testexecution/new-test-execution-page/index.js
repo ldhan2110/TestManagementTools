@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 //import SelectBox from '../../../components/Selectbox';
 import SelectTestCasePopup from '../../testcases/select-test-case-page/index';
 import { connect } from 'react-redux';
+import socketIoClient from 'socket.io-client';
 import {
   Grid,
   Typography,
@@ -125,12 +126,21 @@ const NewTestExecutionPage = (props) => {
           displayMsg({
             content: "Create Test Execution successfully !",
             type: 'success'
-          });          
+          });   
+          
+          const socket = socketIoClient.io("http://localhost:5000");
+          socket.on('connect', function (data) {
+            socket.on('assigntester', function (message) {
+              console.log(message);
+            });
+          });
+
           getAllTestExecReq();
           resetAddRedux();
           setEnableCreateBtn(true);
           setLoading(false);
           history.goBack();
+
         }
       },[insTestexec.sucess]);      
     } catch (error) {
