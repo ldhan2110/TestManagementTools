@@ -187,6 +187,15 @@ const reducer = (state = initialState, actions) => {
                 }
     }
 
+    case types.RESET_ADD_USERS_TO_PROJECT:
+                  return {
+                      ...state,
+                      insUsers: {
+                        sucess: null,
+                        errMsg: null
+                    }
+    }
+
     case types.GET_ALL_USERS_OF_PROJECT_REQ:
                 return {
                   ...state, listUsersOfProject: []

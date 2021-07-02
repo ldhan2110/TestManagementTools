@@ -60,6 +60,13 @@ export function addUserToProject(value) {
   }
 }
 
+export function resetAddUserToProject(value){
+  return {
+    type: types.RESET_ADD_USERS_TO_PROJECT,
+    payload: value
+  }
+}
+
 export function deleteUserOfProject(value) {
   return {
     type: types.DELETE_USER_OF_PROJECT_REQ,

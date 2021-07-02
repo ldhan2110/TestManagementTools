@@ -11,6 +11,7 @@ import {SEND_MAIL_RESET_PASSWORD_REQ, RESET_SEND_MAIL_RESET_PASSWORD} from '../.
 import {VERIFY_USERS_TO_PROJECT_REQ} from '../../../redux/users/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { blue } from '@material-ui/core/colors';
 import ReplayIcon from '@material-ui/icons/Replay';
 import CancelIcon from '@material-ui/icons/Cancel';
 import {
@@ -48,6 +49,9 @@ const VerifyMember = (props) => {
       resettoken: window.location.pathname.split('/')[5]
     })
 
+    const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+    const [loading, setLoading] = useState(false);
+
     useEffect(()=>{
       console.log(insUsers);
       if(insUsers.sucess === true){
@@ -55,6 +59,8 @@ const VerifyMember = (props) => {
           content: "Joined project successfully !",
           type: 'success'
         });
+        setEnableCreateBtn(true);
+      setLoading(false);
         //handleClose();
       }
       if(insUsers.sucess === false){
@@ -62,11 +68,15 @@ const VerifyMember = (props) => {
           content: insUsers.errMsg,
           type: 'error'
         });
+        setEnableCreateBtn(true);
+      setLoading(false);
       }
     },[insUsers]);
 
     const verifyUser = () => {
       console.log(userInfo);
+      setEnableCreateBtn(false);
+    setLoading(true);
       verifyUserToProjectReq(userInfo);
     };
     const verifyUserResult = () => {
@@ -84,7 +94,9 @@ const VerifyMember = (props) => {
             <Typography component="h6" variant="h6" gutterBottom style={{marginLeft: 30, marginTop: 20, marginBottom: 20}}>
                 Press accept if you want to join, if not, please ignore and close this page.
             </Typography>
-            <Button variant="contained" color="primary" onClick={verifyUser} style={{marginLeft: 30}}>Accept</Button>
+            <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } onClick={verifyUser} style={{marginLeft: 30}}>Accept
+            {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}
+            </Button>
             <Button onClick={verifyUserResult}>Check status F12</Button>
         </div>
 

@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import SearchInput from '../../../components/SearchInput';
-import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
+import {ADD_USERS_TO_PROJECT_REQ, GET_ALL_USERS_REQ, GET_ALL_USERS_OF_PROJECT_REQ, RESET_ADD_USERS_TO_PROJECT_REQ, RESET_ADD_USERS_TO_PROJECT} from '../../../redux/users/constants';
 import {INVITE_MEMBERS_SEARCH} from '../../../components/Table/DefineSearch'
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
@@ -19,7 +19,8 @@ import {
   DialogTitle,
   ListItemText
 } from '@material-ui/core'
-
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { blue } from '@material-ui/core/colors';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 function mapStateToProps(state) {
@@ -37,7 +38,8 @@ const mapDispatchToProps = dispatch => {
     addUserToProjectReq: (payload) => dispatch({ type: ADD_USERS_TO_PROJECT_REQ, payload }),
     getAllUserReq: (payload) => dispatch({ type: GET_ALL_USERS_REQ, payload}),
     getAllUserOfProjectReq: (payload) => dispatch({ type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    resetAddUser: () => dispatch({type: RESET_ADD_USERS_TO_PROJECT}),
   }
 }
 
@@ -45,7 +47,7 @@ const InviteNewMemberDialog = (props) => {
 
   const {isOpen, openMethod} = props;
 
-  const {insUsers, listUsers, addUserToProjectReq, project, getAllUserReq, getAllUserOfProjectReq, displayMsg, role} = props;
+  const {insUsers, listUsers, addUserToProjectReq, project, getAllUserReq, getAllUserOfProjectReq, displayMsg, role, resetAddUser} = props;
 
 
   const [open, setOpen] = useState(isOpen);
@@ -59,6 +61,9 @@ const InviteNewMemberDialog = (props) => {
     role: 'Tester',
     projectid: project,
   });
+
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [array, setArray] = React.useState([]);
 
@@ -113,7 +118,10 @@ const InviteNewMemberDialog = (props) => {
         content: "Invitation sent successfully !",
         type: 'success'
       });
+      setEnableCreateBtn(true);
+      setLoading(false);
       getAllUserOfProjectReq(project);
+      resetAddUser();
       handleClose();
     }
   else if(insUsers.sucess === false){
@@ -121,6 +129,9 @@ const InviteNewMemberDialog = (props) => {
       content: insUsers.errMsg,
       type: 'error'
     });
+    setEnableCreateBtn(true);
+    setLoading(false);
+    resetAddUser();
     handleClose();
   }
   },[insUsers.sucess]);
@@ -134,6 +145,8 @@ const InviteNewMemberDialog = (props) => {
   }
 
   const handleSendButton = () => {
+    setEnableCreateBtn(false);
+    setLoading(true);
     addUserToProjectReq(userInfo);
   }
 
@@ -157,9 +170,10 @@ const InviteNewMemberDialog = (props) => {
                   primary={item.name}
                   secondary={item.email}/>
                   <ListItemSecondaryAction>
-
-                    <IconButton edge="end" aria-label="delete" onClick={handleSendButton}>
+                
+                    <IconButton edge="end" aria-label="delete" disabled={enableCreateBtn ? false : true } onClick={handleSendButton}>
                       <MailOutlineIcon />
+                      {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}
                     </IconButton>
                   </ListItemSecondaryAction>
               </ListItem>
