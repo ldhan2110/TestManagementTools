@@ -7,6 +7,8 @@ import {getComparator,stableSort} from './utils';
 import { useHistory } from "react-router-dom";
 
 import {
+  Grid,
+  Divider,
   Avatar as MuiAvatar,
   Checkbox,
   Chip as MuiChip,
@@ -17,9 +19,13 @@ import {
   TableCell,
   TableContainer,
   TablePagination,
-  //Typography,
+  Typography,
   TableRow,
   Tooltip} from "@material-ui/core";
+  import {
+    Package,
+    UserMinus
+  } from "react-feather";
 
 import { green, orange, red, blue } from "@material-ui/core/colors";
 
@@ -28,13 +34,11 @@ import {
   RemoveRedEye as RemoveRedEyeIcon
 } from "@material-ui/icons";
 import DeleteIcon from '@material-ui/icons/Delete';
-import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 import EditIcon from '@material-ui/icons/Edit';
-
 import { spacing } from "@material-ui/system";
 import { Clipboard } from "react-feather";
+import CustomEmptyOverlayGrid from './NoDataIcon'
 //import { retinaImage } from "polished";
-
 const Paper = styled(MuiPaper)(spacing);
 
 const Chip = styled(MuiChip)`
@@ -137,6 +141,7 @@ const EnhancedTable = (props) => {
     <div>
       <Paper>
         <EnhancedTableToolbar numSelected={selected.length} conditions={conditions} setConditions={setConditions} searchMethod={searchMethod}/>
+        {rows?.length > 0 ? 
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
@@ -206,7 +211,7 @@ const EnhancedTable = (props) => {
                       <TableCell align="right">
                         {type === 'member' && <Tooltip title="Remove member">
                         <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row.id)}>
-                          <PersonAddDisabledIcon style={{color: red[400]}}/>
+                          <UserMinus style={{color: red[500]}}/>
                         </IconButton> 
                         </Tooltip>}
                         {(type === 'testplan' || type === 'build') && <Tooltip title="Delete"> 
@@ -245,6 +250,33 @@ const EnhancedTable = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
+        : <div>
+          <TableContainer>
+          <Table
+            aria-labelledby="tableTitle"
+            size={'medium'}
+            aria-label="enhanced table"
+          >
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={0}
+              headers = {headerList}
+            /></Table></TableContainer><Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+        >
+          <Grid item style={{marginTop: 50}}><CustomEmptyOverlayGrid/></Grid>
+          <Grid item style={{marginBottom: 50}}>
+            <Typography variant="subtitle1" gutterBottom display="inline" style={{ userSelect: "none" }}>No Data</Typography>
+          </Grid>
+        </Grid><Divider/></div>}
+                
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"

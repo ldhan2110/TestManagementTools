@@ -57,7 +57,7 @@ const Search = styled.div`
 
 const SearchInput = (props) => {
 
-  const {searchMethod, conditions, setConditions} = props;
+  const {searchMethod, conditions, setConditions, type} = props;
 
   const [conditionsRender, setConditionsRender] = useState([]);
 
@@ -105,7 +105,7 @@ const SearchInput = (props) => {
                 }
               })
             }
-    <Button variant="contained" color="primary"   onClick={handleSearch}>Search</Button>
+    <Button variant="contained" color="primary" disabled={type === 'member'? false : true} style={type === 'member'? {}: {opacity:'0%'}} onClick={handleSearch}>Search</Button>
           </div>
         
         </React.Fragment>

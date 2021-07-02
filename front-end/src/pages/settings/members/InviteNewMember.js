@@ -149,7 +149,7 @@ const InviteNewMemberDialog = (props) => {
           <DialogContentText>
             To invite new collaborator, please enter username or email to send invitation.
           </DialogContentText>
-          <SearchInput setConditions={handleInputChange} searchMethod={handleSearch} conditions={INVITE_MEMBERS_SEARCH}/>
+          <SearchInput type="member" setConditions={handleInputChange} searchMethod={handleSearch} conditions={INVITE_MEMBERS_SEARCH}/>
           <List>
           {resultData.length !==0 ? resultData.map((item,index) =>(
               <ListItem key={index}>
