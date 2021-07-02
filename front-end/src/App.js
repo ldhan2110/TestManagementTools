@@ -8,7 +8,6 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { StylesProvider } from "@material-ui/styles";
 import { ThemeProvider } from "styled-components";
-
 import maTheme from "./theme";
 import Routes from "./routes/Routes";
 

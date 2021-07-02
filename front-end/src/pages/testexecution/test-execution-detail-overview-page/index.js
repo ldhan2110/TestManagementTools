@@ -113,6 +113,10 @@ const TestExecutionDetailPage = (props) => {
       return execTest.listTestCase.find(item => item.status === 'Untest');
     }
 
+    const filterTestcaseFail = () => {
+      return execTest.listTestCase.find(item => item.status === 'Fail');
+    }
+
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -203,6 +207,14 @@ const TestExecutionDetailPage = (props) => {
           history.push(location.pathname+'/execute-result');
     }
 
+    const handleRetest = () => {
+      var item = filterTestcaseFail();
+      if (item)
+        history.push(location.pathname+'/test-exec/'+item._id+'/execute-result');
+      else 
+        history.push(location.pathname+'/execute-result');
+    }
+
   const countTestExec = () => {
       var result = [0,0,0,0];
       if (testExecInfo.exectestcases){
@@ -291,7 +303,10 @@ const TestExecutionDetailPage = (props) => {
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
           {!isExecute && testExecInfo.status === 'Untest' && (testExecInfo.tester.username === '' || testExecInfo.tester.username === accountInfo.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleExecute}>
-            Execute
+                Execute
+          </Button>}
+          {!isExecute && testExecInfo.status === 'Fail' && (testExecInfo.tester.username === '' || testExecInfo.tester.username === accountInfo.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleRetest}>
+                Re-test
           </Button>}
           <Button variant="contained" startIcon={<CancelIcon />} onClick={handleClose}>
             Cancel

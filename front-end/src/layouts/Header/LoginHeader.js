@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './styles';
 import styled from "styled-components";
 import UserMenu from './UserMenu';
-//import SearchInput from '../../components/SearchInput';
+import Notification from './Notification';
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import { Menu as MenuIcon } from "@material-ui/icons";
@@ -14,9 +14,7 @@ import {
     IconButton as MuiIconButton,
   } from "@material-ui/core";
 
-import {
-    Bell,
-  } from "react-feather";  
+
 
 
 
@@ -29,12 +27,6 @@ const IconButton = styled(MuiIconButton)`
 `;
 
 
-const Indicator = styled(Badge)`
-  .MuiBadge-badge {
-    background: ${props => props.theme.header.indicator.background};
-    color: ${props => props.theme.palette.common.white};
-  }
-`;
 
 const LoginHeader = (props) => {
 
@@ -45,6 +37,8 @@ const LoginHeader = (props) => {
   const handleLogoClick = () => {
     history.push("/");
   }
+
+  
 
   return (
       <React.Fragment>
@@ -72,15 +66,12 @@ const LoginHeader = (props) => {
          
           
           <Grid item>
-              <IconButton color="inherit">
-            <Indicator badgeContent={7}>
-              <Bell />
-            </Indicator>
-          </IconButton>
+              <Notification/>
           </Grid>
           <Grid item>
               <UserMenu/>
           </Grid>
+         
       </Grid>
       </AppBar>
       </React.Fragment>
