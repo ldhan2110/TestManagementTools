@@ -97,6 +97,6 @@ export default combineEpics(
 
    //NOTIFICATION
    notificationEpics.getAllNotificationEpic,
-   notificationEpics.addNewNotificationEpic
-
+   notificationEpics.addNewNotificationEpic,
+   notificationEpics.updateNotificationEpic,
 );
