@@ -83,10 +83,8 @@ const TestExecutionListPage = (props) => {
     history.push(window.location.pathname+"/create-test-execution");
   }
 
-  const navigateToDetailPage = (params) => {
-    if (params){
-      history.push(window.location.pathname+"/"+params);
-    }
+  const navigateToEditPage = (row) =>{
+      history.push(window.location.pathname+"/edit/"+row._id);
   }
 
   const searchTestExec = () =>{
@@ -262,6 +260,7 @@ const TestExecutionListPage = (props) => {
             setConditions={handleChangeConditions}
             searchMethod={searchTestExec}
             handleDefaultDeleteAction={navigateOverviewPage}
+            viewAction={navigateToEditPage}
             type='testexecution'
           />
         </Grid>

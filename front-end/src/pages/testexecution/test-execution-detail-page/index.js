@@ -11,7 +11,6 @@ import { useLocation } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import {
   Grid,
   Typography,
@@ -31,7 +30,8 @@ import {
 import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_REQ, RESET_UPDATE_TEST_EXEC } from "../../../redux/test-execution/constants";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 import { GET_ALL_USERS_OF_PROJECT_REQ } from "../../../redux/users/constants";
-
+import { GET_ALL_ACTIVE_TESTPLAN_REQ } from "../../../redux/test-plan/constants";
+import { GET_ALL_BUILD_TESTPLAN_REQ } from "../../../redux/build-release/constants";
 
 const Chip = styled(MuiChip)`
   ${spacing};
@@ -54,7 +54,9 @@ function mapStateToProps(state) {
     updTestExec: state.testexec.updTestExec,
     execTest: state.testexec.execTest,
     listUser: state.user.listUsersOfProject,
-    accountInfo: state.account.accountInfo
+    accountInfo: state.account.accountInfo,
+    listActiveTestplan: state.testplan.listActiveTestplan,
+    listBuildByTestPlan: state.build.listBuildsByTestplan,
   };
 }
 
@@ -67,12 +69,14 @@ const mapDispatchToProps = dispatch => {
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
     selectTestExecReq: (payload) => dispatch({type: SELECT_TEST_EXEC_REQ, payload}),
     getAllUserReq: (payload) => dispatch({type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
-    resetRedux: () => dispatch({type: RESET_UPDATE_TEST_EXEC})
+    resetRedux: () => dispatch({type: RESET_UPDATE_TEST_EXEC}),
+    getAllActiveTestplanReq: (payload) => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
+    getBuildByTestPlan: (payload) => dispatch({type: GET_ALL_BUILD_TESTPLAN_REQ, payload}),
   }
 }
 
 const TestExecutionDetailPage = (props) => {
-    const {classes, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux, accountInfo} = props;
+    const {classes, getAllActiveTestplanReq, listActiveTestplan, listBuildByTestPlan, getBuildByTestPlan, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux, accountInfo} = props;
     const history = useHistory();
     const location = useLocation();
 
@@ -82,17 +86,10 @@ const TestExecutionDetailPage = (props) => {
 
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
 
-
-    const [isExecute,setExecute] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? true : false);
-
     const [resultTestExec, setResultTestExec] = useState({
       status: testExecInfo.status,
       testexecid: props.match.params.testExecutionId
     })
-
-    const filterTestcaseUntest = () => {
-      return execTest.listTestCase.find(item => item.status === 'Untest');
-    }
 
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -100,7 +97,14 @@ const TestExecutionDetailPage = (props) => {
     useEffect(()=> {
       selectTestExecReq({id: props.match.params.testExecutionId, listTestcase: testExecInfo.exectestcases});
       getAllUserReq(localStorage.getItem('selectProject'));
+      getAllActiveTestplanReq();
+      getBuildByTestPlan({testplanname: testExecInfo.testplan.testplanname });
     },[])
+
+    useEffect(()=>{
+      console.log(testExecInfo);
+    },[testExecInfo])
+
 
     try {
       useEffect(()=>{
@@ -130,25 +134,15 @@ const TestExecutionDetailPage = (props) => {
       console.log('error: '+error);
     }
 
-    useEffect(()=>{
-      console.log(listTestExec);
-     },[listTestExec])  
-
     const handleClose=()=>{
-      var url;
-      if (isExecute){
-        url = location.pathname.substring(0, location.pathname.substring(0, location.pathname.lastIndexOf("/")).lastIndexOf("/"));
-      } else {
-        url = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
-      }
-      history.push(url);
+      history.push(location.pathname.substring(0, location.pathname.lastIndexOf("/") - 5));
     }
 
     const handleChange = (prop) => (event) => {
-      if (prop !== 'status' && !isExecute)
+      if (prop !== 'status' )
         setTestExecInfo({ ...testExecInfo, [prop]: event.target.value });
       
-      else if (prop === 'status' && isExecute) {
+      else if (prop === 'status') {
         setTestExecInfo({...testExecInfo, status: event.target.value});
         setResultTestExec({...resultTestExec, status: event.target.value});
       }
@@ -160,13 +154,7 @@ const TestExecutionDetailPage = (props) => {
       updateTestExecReq(resultTestExec);
     }
 
-    const handleExecute = () => {
-        var item = filterTestcaseUntest();
-        if (item)
-          history.push(location.pathname+'/test-exec/'+item._id+'/execute-result');
-        else 
-          history.push(location.pathname+'/execute-result');
-    }
+    
 
   
     return (
@@ -192,8 +180,28 @@ const TestExecutionDetailPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
           <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required onChange={handleChange('testexecutionname')} value={testExecInfo.testexecutionname}/>
-          <TextField id="testplanName" label="Test Plan" variant="outlined"  fullWidth required  value={testExecInfo.testplan.testplanname}/>
-          <TextField id="buildName" label="Build/Release" variant="outlined"  fullWidth required  value={testExecInfo.build.buildname}/>
+          <FormControl variant="outlined" fullWidth required>   
+          <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
+          <Select
+          labelId="testPlan"
+          id="testPlan"
+          value={testExecInfo.testplan.testplanname || ''}
+          onChange={handleChange('testplanname')}>
+          {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
+        </Select>
+      </FormControl>
+          <FormControl variant="outlined" fullWidth required>
+           <InputLabel id="build" >Build/Release </InputLabel>
+            <Select
+          labelId="build"
+          id="build"
+          value={testExecInfo.build.buildname || ''}
+          onChange={handleChange('buildname')}
+          label="buildname"
+        >
+          {listBuildByTestPlan.map((item, index) => <MenuItem key={index} value={item.buildname}>{item.buildname}</MenuItem>)}    
+        </Select>
+      </FormControl>
 
           <FormControl variant="outlined" className={classes.formControl} fullWidth required >
               <InputLabel id="assignTester">Assign Tester</InputLabel>
@@ -235,7 +243,6 @@ const TestExecutionDetailPage = (props) => {
                     labelId="status"
                     id="status"
                     value={testExecInfo.status}
-                    onChange={handleChange('status')}
                     label="status">
                         <MenuItem value={'Untest'}>Untest</MenuItem>
                         <MenuItem value={"Pass"}>Pass</MenuItem>
@@ -250,7 +257,7 @@ const TestExecutionDetailPage = (props) => {
                 <Paper style={{maxHeight: 200, overflow: 'auto'}}>
                 <List>
                   {testExecInfo.exectestcases && testExecInfo.exectestcases.map((item,index) => 
-                    <ListItem key={index} dense button  selected onClick={()=>{if (!isExecute){history.push(location.pathname+'/test-exec/'+item._id)}}}>
+                    <ListItem key={index} dense button  selected>
                       <ListItemText id={item.id} primary={item.testcaseName} />
                       <ListItemSecondaryAction>
                         {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
@@ -266,16 +273,13 @@ const TestExecutionDetailPage = (props) => {
             </Grid>
 
 
-          {/* <Typography variant="subtitle1" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography> */}
+  
 
           <div className = {classes.btnGroup}>
-          {isExecute && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<SaveIcon />} onClick={handleSave}>
+          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<SaveIcon />} onClick={handleSave}>
             Save
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>}
-          {!isExecute && testExecInfo.status === 'Untest' && (testExecInfo.tester.username === '' || testExecInfo.tester.username === accountInfo.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleExecute}>
-            Execute
-          </Button>}
+          </Button>
           <Button variant="contained" startIcon={<CancelIcon />} onClick={handleClose}>
             Cancel
           </Button>

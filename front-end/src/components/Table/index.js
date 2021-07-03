@@ -9,7 +9,6 @@ import { useHistory } from "react-router-dom";
 import {
   Grid,
   Divider,
-  Avatar as MuiAvatar,
   Checkbox,
   Chip as MuiChip,
   IconButton,
@@ -23,16 +22,11 @@ import {
   TableRow,
   Tooltip} from "@material-ui/core";
   import {
-    Package,
     UserMinus
   } from "react-feather";
 
 import { green, orange, red, blue } from "@material-ui/core/colors";
 
-import {
-  Archive as ArchiveIcon,
-  RemoveRedEye as RemoveRedEyeIcon
-} from "@material-ui/icons";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { spacing } from "@material-ui/system";
@@ -55,14 +49,6 @@ const Chip = styled(MuiChip)`
   color: ${props => (props.block || props.sent) && props.theme.palette.common.white};
 `
 
-const Avatar = styled(MuiAvatar)`
-  background: ${props => props.theme.palette.primary.main};
-`;
-
-const Customer = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 
 const EnhancedTable = (props) => {
@@ -193,12 +179,12 @@ const EnhancedTable = (props) => {
 
                             case 'label':
                               return (<TableCell align={headerList.headerCells[index].alignment} key={index}>
-                                        {row[headerList.headerCells[index].id] == 1 && <Chip size="small" mr={1} mb={1} label="Active" is_active={1}/>}
-                                        {row[headerList.headerCells[index].id] == 0 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
-                                        {row[headerList.headerCells[index].id] == 2 || row[headerList.headerCells[index].id] == "Pass" && <Chip size="small" mr={1} mb={1} label="Pass" pass={1}/>}
-                                        {row[headerList.headerCells[index].id] == 3 || row[headerList.headerCells[index].id] == "Fail" && <Chip size="small" mr={1} mb={1} label="Fail" fail={1}/>}
-                                        {row[headerList.headerCells[index].id] == 4 || row[headerList.headerCells[index].id] == "Block" && <Chip size="small" mr={1} mb={1} label="Block" block={1}/>}
-                                        {row[headerList.headerCells[index].id] == 'Untest' && <Chip size="small" mr={1} mb={1} label="Untest" />}
+                                        {row[headerList.headerCells[index].id] === 1 && <Chip size="small" mr={1} mb={1} label="Active" is_active={1}/>}
+                                        {row[headerList.headerCells[index].id] === 0 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
+                                        {row[headerList.headerCells[index].id] === 2 || row[headerList.headerCells[index].id] === "Pass" && <Chip size="small" mr={1} mb={1} label="Pass" pass={1}/>}
+                                        {row[headerList.headerCells[index].id] === 3 || row[headerList.headerCells[index].id] === "Fail" && <Chip size="small" mr={1} mb={1} label="Fail" fail={1}/>}
+                                        {row[headerList.headerCells[index].id] === 4 || row[headerList.headerCells[index].id] === "Block" && <Chip size="small" mr={1} mb={1} label="Block" block={1}/>}
+                                        {row[headerList.headerCells[index].id] === 'Untest' && <Chip size="small" mr={1} mb={1} label="Untest" />}
                                   </TableCell>)
                             
                             default:
