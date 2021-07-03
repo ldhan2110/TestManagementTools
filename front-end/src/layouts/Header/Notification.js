@@ -252,12 +252,12 @@ const UserMenu = (props) => {
             horizontal: 'right',
           }}
           PaperProps={{
-            style: {overflow: "hidden", height:'620px', width:'480px',border: '1px solid #d3d4d5', backgroundColor:'rgba(255,255,255,0.95)'
+            style: {overflow: "hidden", height:'620px', width:'400px',border: '1px solid #d3d4d5', backgroundColor:'rgba(255,255,255,0.97)'
             }
           }}>
             {<div style={load < 2 ? {height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}
             :{display:'none'}}>
-              <CircularProgress/></div> }
+              <CircularProgress style={{width: '28px', height: '28px', color:'#909090'}} /></div> }
         <Paper>
           <ListSubheader style={{fontSize:16}}>{"Notifications"}</ListSubheader>
         </Paper>
@@ -282,7 +282,12 @@ const UserMenu = (props) => {
                 
                 <div onClick={(event)=>{handleClickNotif(node._id, node.is_read)}} className={classes.listItemDivText}>
                   <ListItemText primary={node.description} secondary={time2TimeAgo(node.created_date)} 
-                   inset={avatar ? false : true} style={{marginTop:0}} />
+                   inset={avatar ? false : true}
+                   classes={node.is_read ? { primary: classes.itemTextPrimaryRead, secondary: classes.itemTextSecondaryRead} 
+                            : {primary: classes.itemTextPrimary, secondary: classes.itemTextSecondary}}
+                   className={classes.listItemSty}
+                   //style={{marginTop:0}}
+                   />
                 </div>
                {/* <div onClick={()=>{handleClickNotif(node.a)}} style={{height:'100%', paddingLeft:'8px'}}><img src="https://i.ytimg.com/vi/htxEPA5YxGU/hqdefault_live.jpg" 
                className={classes.image} />

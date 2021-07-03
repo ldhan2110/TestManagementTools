@@ -15,7 +15,7 @@ const styles = {
     },
 
     listStyle:{
-        maxHeight:'568px', width:'480px', overflow: "auto", wordWrap: 'break-word', paddingTop:0,
+        maxHeight:'570px', width:'400px', overflow: "auto", wordWrap: 'break-word', paddingTop:0,
 
         '&::-webkit-scrollbar': {
             width: '10px'
@@ -34,14 +34,40 @@ const styles = {
     },
 
     unreadNotif:{
-        width: 7, height: 7, color:'#3EA6FF', margin: '18px 6px 0px'
+        width: 9, height: 9, color:'#3EA6FF', margin: '18px 6px 0px'
     },
     
     listItemStyle:{
-        paddingLeft: '5px', display: 'flex',
+        paddingLeft: '2px', display: 'flex',
         "&:hover $iconBtn": {
             visibility: "inherit"
         },        
+    },
+
+    listItemSty:{
+        marginTop: 0,
+    },
+
+    itemTextPrimary:{
+        'font-family': 'Roboto, Arial, sans-serif',
+        marginBottom: '8px'
+    },
+
+    itemTextSecondary:{
+        'font-family': 'Roboto, Arial, sans-serif',
+        fontSize: '12px',
+    },
+
+    itemTextPrimaryRead:{
+        'font-family': 'Roboto, Arial, sans-serif',
+        marginBottom: '8px',
+        color: 'rgba(0, 0, 0, 0.54)'
+    },
+
+    itemTextSecondaryRead:{
+        'font-family': 'Roboto, Arial, sans-serif',
+        fontSize: '12px',
+        color: 'rgba(0, 0, 0, 0.54)',
     },
 
     listItemDivText:{
@@ -58,7 +84,7 @@ const styles = {
     },
 
     emptyList:{
-        height:'568px', display:'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center'
+        height:'570px', display:'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center'
     },
     
 };
