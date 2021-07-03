@@ -102,12 +102,9 @@ import {API_ADDR} from '../constants';
 
       export  const updateNotificationEpic = (action$, state$) => action$.pipe(
         ofType(actions.UPDATE_NOTIFICATION_REQ),
-        mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.notificationid+'/api/updatenotification',{
-            notificationtitle: payload.notificationtitle,
-            description: payload.description,
-            start_date: payload.start_date,
-            end_date: payload.end_date,
-            is_completed: payload.is_completed
+        mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/api/updatenotification',{
+            is_read: payload.is_read,
+            id: payload.id
         } , {
             headers: {
               "X-Auth-Token": localStorage.getItem("token"), 
