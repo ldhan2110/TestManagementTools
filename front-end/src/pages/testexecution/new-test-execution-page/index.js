@@ -128,12 +128,12 @@ const NewTestExecutionPage = (props) => {
             type: 'success'
           });   
           
-          const socket = socketIoClient.io("http://localhost:5000");
+          /* const socket = socketIoClient.io("http://localhost:5000");
           socket.on('connect', function (data) {
             socket.on('assigntester', function (message) {
               console.log(message);
             });
-          });
+          }); */
 
           getAllTestExecReq();
           resetAddRedux();

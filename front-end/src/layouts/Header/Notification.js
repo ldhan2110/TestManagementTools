@@ -8,7 +8,7 @@ import styles from "./styles";
 
 import {
     Menu,
-    MenuItem,
+    MenuItem, List, Avatar, ListItemAvatar, ListItem, ListSubheader, Popover, Paper, Typography,
     IconButton as MuiIconButton,
     Badge,
     Divider
@@ -22,6 +22,11 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import { InfoRounded } from '@material-ui/icons';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+
 
 const listNotification = [
   {
@@ -46,7 +51,7 @@ const Indicator = styled(Badge)`
   }
 `;
 
-const StyledMenu = withStyles({
+/* const StyledMenu = withStyles({
     paper: {
       border: '1px solid #d3d4d5',
     },
@@ -75,7 +80,7 @@ const StyledMenu = withStyles({
         },
       },
     },
-  }))(MenuItem);
+  }))(MenuItem); */
 
 
 //MAP STATES TO PROPS - REDUX
@@ -94,7 +99,7 @@ const mapDispatchToProps = dispatch => {
 const UserMenu = (props) => {
     const history = useHistory();
 
-    const {getAllNotificationReq, listNotifications} = props;
+    const {getAllNotificationReq, listNotifications, classes} = props;
 
     const [anchorMenu, setAnchorMenu] = useState(null);
 
@@ -112,6 +117,58 @@ const UserMenu = (props) => {
       getAllNotificationReq();
   },[])
 
+  function time2TimeAgo(ts) {
+    // This function computes the delta between the
+    // provided timestamp and the current time, then test
+    // the delta for predefined ranges.
+
+    var d = new Date();  // Gets the current time
+    //var nowTs = Math.floor(d.getTime()/1000); // getTime() returns milliseconds, and we need seconds, hence the Math.floor and division by 1000
+    let ts1 = new Date(ts);
+    let seconds = (d-ts1)/1000;
+
+    // more that two days
+    if (seconds > 2*24*3600) {
+       return "a few days ago";
+    }
+    // a day
+    if (seconds > 24*3600) {
+       return "yesterday";
+    }
+    if (seconds > 7200) {
+      return Math.floor(seconds/3600).toString() +" hours ago";
+    }
+
+    if (seconds > 3600) {
+       return Math.floor(seconds/3600).toString() +" hour ago";
+    }
+    if (seconds > 1800) {
+       return "Half an hour ago";
+    }
+    if (seconds > 60) {
+       return Math.floor(seconds/60).toString() + " minutes ago";
+    }
+    return "Less than 1 minute ago";
+}
+
+  const [anchorElMenu, setAnchorElMenu] = React.useState(null);
+    const openMenu = Boolean(anchorElMenu);
+
+    const handleClickMenu = (event) => {
+      setAnchorElMenu(event.currentTarget);
+    };
+
+    const handleCloseMenu = () => {
+      setAnchorElMenu(null);
+    };
+
+    const handleClickNotif = (url) => {
+      //history.push("/"+ url);
+    }
+    const handleHide = () => {
+      //console.log("hide");
+    }
+    let avatar = "https://yt3.ggpht.com/ytc/AKedOLRWlzklkXv6Vk8S807dD9fHnadWzGUhguOVbxwCRA=s88-c-k-c0x00ffffff-no-rj"
   
     return (
       <React.Fragment>
@@ -119,10 +176,99 @@ const UserMenu = (props) => {
           aria-haspopup="true"
           onClick={handleClick}>
             <Indicator badgeContent={listNotifications.length}>
-              <Bell />
+              <Bell style={{width:'24px', height:'24px', marginTop:'2px'}}/>
             </Indicator>
         </IconButton>
-      <StyledMenu
+        <Popover
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          PaperProps={{
+            style: {overflow: "hidden", height:'620px', width:'480px',border: '1px solid #d3d4d5', backgroundColor:'rgba(255,255,255,0.95)'
+            }
+          }}>
+        <Paper>
+          <ListSubheader style={{fontSize:16}}>{"Notifications"}</ListSubheader>
+        </Paper>
+        <Divider />
+        {listNotifications?.length > 0 ? 
+         <List className={classes.listStyle} >
+
+            {listNotifications.map((node, index) =>
+            <div style={{display: 'flex'}}>
+              <ListItem key={node._id} button alignItems="normal" className={classes.listItemStyle}>
+
+                <div onClick={event =>  window.location.href=node.url} style={node.is_read ? {height:'100%', opacity:'0%'}:{height:'100%'}}>
+                  <FiberManualRecordIcon className={classes.unreadNotif}/>
+                </div>
+
+                <div onClick={event =>  window.location.href=node.url} style={{height:'100%'}}>
+                {avatar && <ListItemAvatar >
+                  <Avatar src={avatar}>
+                  </Avatar>
+                </ListItemAvatar>} 
+                </div>
+                
+                <div onClick={event =>  window.location.href=node.url} className={classes.listItemDivText}>
+                  <ListItemText primary={node.description} secondary={time2TimeAgo(node.created_date)} 
+                   inset={avatar ? false : true} style={{marginTop:0}} />
+                </div>
+               {/* <div onClick={()=>{handleClickNotif(node.a)}} style={{height:'100%', paddingLeft:'8px'}}><img src="https://i.ytimg.com/vi/htxEPA5YxGU/hqdefault_live.jpg" 
+               className={classes.image} />
+               </div> */}
+            {/* <IconButton edge="end" className={classes.iconBtn}>
+                  <MoreVertIcon onClick={handleClickMenu}/>
+                </IconButton> */}
+                
+              </ListItem>
+              {/* <Popover
+                elevation={0}        
+                open={Boolean(anchorElMenu)}
+                anchorEl={anchorElMenu}
+                onClose={handleCloseMenu}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                PaperProps={{
+                  style: {border: '1px solid #d3d4d5',
+                  }
+                }}>
+                  <List>
+                    <ListItem onClick={()=>handleHide(index)} button>
+                      <ListItemIcon><VisibilityOffIcon /></ListItemIcon>                     
+                      <ListItemText primary={"Hide this notification"}/>
+                    </ListItem>
+                        <ListItem onClick={()=>handleHide(index)} button>
+                      <ListItemText inset primary={"Hide this notification2"}/>
+                    </ListItem>
+              </List>
+            </Popover> */}
+          </div>
+                            
+            )}
+         </List> 
+         : <div className={classes.emptyList} >
+           <NotificationsIcon style={{ fontSize:100, color:'grey', marginBottom: 15 }}/>
+           <Typography variant='h6'>
+           Your notifications are showed here
+           </Typography>
+           </div>}
+
+        </Popover>
+      {/* <StyledMenu
         id="customized-menu"
         anchorEl={anchorEl}
         keepMounted
@@ -135,7 +281,7 @@ const UserMenu = (props) => {
           </ListItemIcon>
           <ListItemText key={index} value={item.description}>{item.description}</ListItemText> 
         </StyledMenuItem>)}    
-      </StyledMenu>
+      </StyledMenu> */}
       </React.Fragment>
     );
   }
