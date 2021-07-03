@@ -4,6 +4,7 @@ import themeReducer from '../theme/themeReducers';
 import accountReducer from '../account/accountReducers';
 import projectReducers from '../projects/projectReducers';
 import testplanReducers from '../test-plan/testplanReducers';
+import requirementsReducers from '../requirements/requirementsReducers';
 import messageReducers from '../message/messageReducers';
 import testcaseReducers from '../test-case/testcaseReducers';
 import buildReducers from '../build-release/buildReducers';
@@ -26,6 +27,7 @@ const appReducer = combineReducers({
 	account: accountReducer,
   	project: persistReducer(projectConfig,projectReducers),
   	testplan: testplanReducers,
+	requirements: requirementsReducers,
 	message: messageReducers,
 	testcase: testcaseReducers,
 	testexec:testexecReducers,

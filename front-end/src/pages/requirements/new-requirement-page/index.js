@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
 //import SelectBox from '../../../components/Selectbox';
-import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ, RESET_ADD_NEW_TESTPLAN} from '../../../redux/test-plan/constants';
+import {ADD_NEW_REQUIREMENTS_REQ, GET_ALL_REQUIREMENTS_REQ, RESET_ADD_NEW_REQUIREMENTS} from '../../../redux/requirements/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
@@ -36,7 +36,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return { insTestplan: state.testplan.insTestplan, 
+  return { insRequirements: state.requirements.insRequirements, 
            project:state.project.currentSelectedProject,
            listBuilds: state.build.listBuilds }
 }
@@ -44,25 +44,25 @@ const  mapStateToProps = (state) => {
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-    addNewTestplanReq: (payload) => dispatch({ type: ADD_NEW_TESTPLAN_REQ, payload }),
-    getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
+    addNewRequirementsReq: (payload) => dispatch({ type: ADD_NEW_REQUIREMENTS_REQ, payload }),
+    getAllRequirementsReq: (payload) => dispatch({ type: GET_ALL_REQUIREMENTS_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllBuildActiveReq: (payload) => dispatch({ type: GET_ALL_BUILD_ACTIVE_REQ, payload }),
-    resetAddRedux: () => dispatch({type: RESET_ADD_NEW_TESTPLAN}) 
+    resetAddRedux: () => dispatch({type: RESET_ADD_NEW_REQUIREMENTS}) 
   }
 }
 
 
 const NewRequirementPage = (props) => {
-  const {classes, listTestPlan} = props;
+  const {classes, listRequirements} = props;
     const {isOpen, setOpen} = props;
-    const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project, listBuilds, getAllBuildActiveReq, resetAddRedux} = props;
+    const {insRequirements, addNewRequirementsReq, displayMsg, getAllRequirementsReq, project, listBuilds, getAllBuildActiveReq, resetAddRedux} = props;
     const [open, setOpenPopup] = React.useState(isOpen);
     const history = useHistory();
-    const [existTestplans, setExistTestplans] = React.useState(props.history.location.state);
+    //const [existTestplans, setExistTestplans] = React.useState(props.history.location.state);
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
-      Testplanname: 'ss',
+      requirementname: 'ss',
       description: 'ss',
     });
 
@@ -72,25 +72,25 @@ const NewRequirementPage = (props) => {
 
   
     const handleClose = () =>{   
-      setTestplanInfo({
-        Testplanname: '', 
+      setRequirementsInfo({
+        requirementname: '', 
         projectid: project,
-        buildname: '',
+        //buildname: '',
         description: '',
         is_public: false,
         is_active: false,
-        existtestplan: ''
+        //existtestplan: ''
       });
       history.goBack(); 
     };
-    const [TestplanInfo, setTestplanInfo] = useState({
-      Testplanname: '',
+    const [RequirementsInfo, setRequirementsInfo] = useState({
+      requirementname: '',
       projectid: project,
       description: '',
-      buildname: '',
+      //buildname: '',
       is_public: false,
       is_active: false,
-      existtestplan: ''
+      //existtestplan: ''
     });
 
   useEffect(()=>{
@@ -99,10 +99,10 @@ const NewRequirementPage = (props) => {
 
   try {
     useEffect(()=>{
-      if (insTestplan.sucess === false){
+      if (insRequirements.sucess === false){
         setLoading(false);
         displayMsg({
-          content: insTestplan.errMsg,
+          content: insRequirements.errMsg,
           type: 'error'
         });
         setEnableCreateBtn(true);
@@ -110,10 +110,10 @@ const NewRequirementPage = (props) => {
          //setLoading(false);
         // Tat thanh loading, tat disable button
         resetAddRedux();
-      } else if (insTestplan.sucess === true) {
+      } else if (insRequirements.sucess === true) {
         setLoading(false);
         displayMsg({
-          content: "Create testplan successfully !",
+          content: "Create requirement successfully !",
           type: 'success'
         });
         setEnableCreateBtn(true);
@@ -121,10 +121,10 @@ const NewRequirementPage = (props) => {
         //setLoading(false);
         // Tat thanh loading, tat disable button
         resetAddRedux();
-        getAllTestplanReq();
+        getAllRequirementsReq();
         handleClose();
       }
-    },[insTestplan.sucess]);     
+    },[insRequirements.sucess]);     
   } catch (error) {
     console.log('error: '+error);
   }
@@ -138,25 +138,25 @@ const NewRequirementPage = (props) => {
         // them thanh loading
         // check dieu kien
 
-    if(TestplanInfo.description === "")
-    setError({ ...TestplanInfo, description: "" });
+    if(RequirementsInfo.description === "")
+    setError({ ...RequirementsInfo, description: "" });
 
-    if(TestplanInfo.Testplanname === "")
-    setError({ ...TestplanInfo, Testplanname: "" });
+    if(RequirementsInfo.requirementname === "")
+    setError({ ...RequirementsInfo, requirementname: "" });
 
-    if(TestplanInfo.description.trim().length === 0 || TestplanInfo.Testplanname.trim().length === 0
-        ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
-        || TestplanInfo.Testplanname.trim().length !== TestplanInfo.Testplanname.length){
+    if(RequirementsInfo.description.trim().length === 0 || RequirementsInfo.requirementname.trim().length === 0
+        ||RequirementsInfo.description.trim().length !== RequirementsInfo.description.length 
+        || RequirementsInfo.requirementname.trim().length !== RequirementsInfo.requirementname.length){
         displayMsg({
-          content: "Test Plan Name or Description should not contain spaces !",
+          content: "Requirement Name or Description should not contain spaces !",
           type: 'error'
         });
     }
   
-    else if(TestplanInfo.Testplanname !== "" && TestplanInfo.description !== ""){
+    else if(RequirementsInfo.requirementname !== "" && RequirementsInfo.description !== ""){
       setEnableCreateBtn(false);
         setLoading(true);
-        addNewTestplanReq(TestplanInfo);
+        addNewRequirementsReq(RequirementsInfo);
     }
     //console.log(JSON.stringify(TestplanInfo));
   }
@@ -166,18 +166,18 @@ const NewRequirementPage = (props) => {
   };
 
   const handleChange = (prop) => (event) => {
-    setTestplanInfo({ ...TestplanInfo, [prop]: event.target.value });
+    setRequirementsInfo({ ...RequirementsInfo, [prop]: event.target.value });
 
     if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
   const handlePublic = () =>{
-    setTestplanInfo({ ...TestplanInfo, is_public: !TestplanInfo.is_public });
+    setRequirementsInfo({ ...RequirementsInfo, is_public: !RequirementsInfo.is_public });
   };
 
   const handleActive = () => {
-    setTestplanInfo({ ...TestplanInfo, is_active: !TestplanInfo.is_active });
+    setRequirementsInfo({ ...RequirementsInfo, is_active: !RequirementsInfo.is_active });
   };
   
     //const listtestplan = [
@@ -195,7 +195,7 @@ const NewRequirementPage = (props) => {
 
     return (
     <div>
-        <Helmet title="New Test Plan" />
+        <Helmet title="New Requirement" />
 
       <Grid
         justify="space-between"
@@ -224,9 +224,9 @@ const NewRequirementPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
           <TextField id="RequirementName" label="Requirement Name" variant="outlined" fullWidth required inputProps={{maxLength : 16}}
-          value={TestplanInfo.Testplanname || ''} onChange={handleChange('Testplanname')}  
-          error={TestplanInfo.Testplanname.trim().length === 0 && error.Testplanname.trim().length === 0 ? true : false}
-          helperText={TestplanInfo.Testplanname.trim().length === 0 && error.Testplanname.trim().length === 0 ? 'Test Plan Name is required' : ' '}/>
+          value={RequirementsInfo.requirementname || ''} onChange={handleChange('requirementname')}  
+          error={RequirementsInfo.requirementname.trim().length === 0 && error.requirementname.trim().length === 0 ? true : false}
+          helperText={RequirementsInfo.requirementname.trim().length === 0 && error.requirementname.trim().length === 0 ? 'Requirement Name is required' : ' '}/>
 
           
 
@@ -260,7 +260,7 @@ const NewRequirementPage = (props) => {
                          );
                 }*/}  
           <FormControl variant="outlined" fullWidth>
-           <InputLabel id="demo-simple-select-outlined-label">Create from existing requirement ?</InputLabel>
+           {/*<InputLabel id="demo-simple-select-outlined-label">Create from existing requirement ?</InputLabel>
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
@@ -268,7 +268,7 @@ const NewRequirementPage = (props) => {
               onChange={handleChange('testplanname')}
             >
           {existTestplans?.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
-           </Select>
+           </Select>*/} 
           </FormControl>       
           </Grid>
 
@@ -276,27 +276,27 @@ const NewRequirementPage = (props) => {
              <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary"  value={TestplanInfo.is_public} onChange={handlePublic}/>}
+              control={<Checkbox color="primary"  value={RequirementsInfo.is_public} onChange={handlePublic}/>}
               label="Public"
               labelPlacement="start"
-              checked={TestplanInfo.is_public}
+              checked={RequirementsInfo.is_public}
             />
           </div>
           <div>
             <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" value={TestplanInfo.is_active}  onChange={handleActive}/>}
+              control={<Checkbox color="primary" value={RequirementsInfo.is_active}  onChange={handleActive}/>}
               label="Active"
               labelPlacement="start"
-              checked={TestplanInfo.is_active}
+              checked={RequirementsInfo.is_active}
             />
           </div>
 
           <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={9}  
-          value={TestplanInfo.description || ''} onChange={handleChange('description')}
-          error={TestplanInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-          helperText={TestplanInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+          value={RequirementsInfo.description || ''} onChange={handleChange('description')}
+          error={RequirementsInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+          helperText={RequirementsInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
 
           
           <div className = {classes.btnGroup}>

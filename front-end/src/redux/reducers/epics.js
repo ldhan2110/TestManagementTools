@@ -2,6 +2,7 @@ import { combineEpics } from 'redux-observable';
 import * as accountEpics from '../account/accountEpics';
 import * as projectEpics from '../projects/projectEpics';
 import * as testplanEpics from '../test-plan/testplanEpics';
+import * as requirementsEpics from '../requirements/requirementsEpics';
 import * as testcaseEpics from '../test-case/testcaseEpics';
 import * as buildEpics from '../build-release/buildEpics';
 import * as milestoneEpics from '../milestones/milestoneEpics';
@@ -39,6 +40,13 @@ export default combineEpics(
    testplanEpics.updateTestplanEpic,
    testplanEpics.getAllActiveTestplanEpic,
    testplanEpics.deleteTestplanEpic,
+
+   //REQUIREMENTS EPICS
+   requirementsEpics.getAllRequirementsEpic,
+   requirementsEpics.addNewRequirementsEpic,
+   requirementsEpics.updateRequirementsEpic,
+   requirementsEpics.getAllActiveRequirementsEpic,
+   requirementsEpics.deleteRequirementsEpic,
 
    //TEST CASE EPICS
    testcaseEpics.getAllTestcaseEpic,

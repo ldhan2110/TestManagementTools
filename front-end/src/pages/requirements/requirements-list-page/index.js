@@ -8,7 +8,7 @@ import {REQUIREMENTS_HEADER} from '../../../components/Table/DefineHeader';
 import {REQUIREMENT_SEARCH} from '../../../components/Table/DefineSearch';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ, DELETE_TESTPLAN_REQ, RESET_DELETE_TESTPLAN} from '../../../redux/test-plan/constants';
+import {ADD_NEW_REQUIREMENTS_REQ, GET_ALL_REQUIREMENTS_REQ, DELETE_REQUIREMENTS_REQ, RESET_DELETE_REQUIREMENTS} from '../../../redux/requirements/constants';
 
 import {
   Grid,
@@ -29,21 +29,21 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
-    listTestplan: state.testplan.listTestplan,
+    listRequirements: state.requirements.listRequirements,
     project: state.project.currentSelectedProject,
     role: state.project.currentRole,
-    insTestplanDelete: state.testplan.insTestplanDelete
+    insRequirementsDelete: state.requirements.insRequirementsDelete
   };
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-    addNewTestplanReq: (payload) => dispatch({ type: ADD_NEW_TESTPLAN_REQ, payload }),
-    getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
+    addNewRequirementsReq: (payload) => dispatch({ type: ADD_NEW_REQUIREMENTS_REQ, payload }),
+    getAllRequirementsReq: (payload) => dispatch({ type: GET_ALL_REQUIREMENTS_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    deleteTestplanReq: (payload) => dispatch({ type: DELETE_TESTPLAN_REQ, payload }),
-    resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTPLAN})
+    deleteRequirementsReq: (payload) => dispatch({ type: DELETE_REQUIREMENTS_REQ, payload }),
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_REQUIREMENTS})
   }
 }
 
@@ -51,9 +51,9 @@ const mapDispatchToProps = dispatch => {
 const RequirementListPage = (props) => {
   //const {classes} = props;
 
-  const {listTestplan, getAllTestplanReq, project, role, deleteTestplanReq, resetDeleteRedux, insTestplanDelete, displayMsg} = props;
+  const {listRequirements, getAllRequirementsReq, project, role, deleteRequirementsReq, resetDeleteRedux, insRequirementsDelete, displayMsg} = props;
 
-  const [array, setArray] = React.useState(listTestplan);
+  const [array, setArray] = React.useState(listRequirements);
 
   //load TP bar
   const [count, setCount] = React.useState(0);
@@ -63,8 +63,8 @@ const RequirementListPage = (props) => {
   const [open, setOpen] = React.useState(false);
 
   //Delete TP infor
-  const [testplanInfor, setTestplanInfor] = React.useState({
-    testplanid: '',
+  const [RequirementsInfor, setRequirementsInfor] = React.useState({
+    requirementsid: '',
     projectid: project
   });
 
@@ -88,26 +88,26 @@ const RequirementListPage = (props) => {
   const searchRequirements = () => {
     console.log(searchConditions);
     if (searchConditions.active === -1 && searchConditions.requirementName === ''){
-      setArray(listTestplan);
+      setArray(listRequirements);
     } 
     else{
       if(searchConditions.active === -1)
-        setArray(listTestplan.filter((item) => {
-          if(item.testplanname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
-            return listTestplan;}))
+        setArray(listRequirements.filter((item) => {
+          if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
+            return listRequirements;}))
       else
-        setArray(listTestplan.filter((item) => {
-          if(item.testplanname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
-            return listTestplan;}))
+        setArray(listRequirements.filter((item) => {
+          if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
+            return listRequirements;}))
     }
   }
 
   useEffect(()=>{
-    getAllTestplanReq(project);
+    getAllRequirementsReq(project);
   },[])
 
   useEffect(()=>{
-    setArray(listTestplan);
+    setArray(listRequirements);
     //load bar
     if(count < 3){
     setCount(count+1);
@@ -116,7 +116,7 @@ const RequirementListPage = (props) => {
     },200);}
     //console.log(count);
     //console.log(count1);
-  },[listTestplan])
+  },[listRequirements])
 
   const handleChangeConditions = (props, data) => {
     setConditions({...searchConditions, [props]: data });
@@ -124,50 +124,50 @@ const RequirementListPage = (props) => {
 
   useEffect(()=>{ 
     console.log('keyword: '+searchConditions.requirementName + '   ' + searchConditions.active);
-    if (searchConditions.active === -1 && searchConditions.testplanName === ''){
-      setArray(listTestplan);
+    if (searchConditions.active === -1 && searchConditions.requirementName === ''){
+      setArray(listRequirements);
     } 
     else{
       console.log('not empty');
       if(searchConditions.active === -1)
-      setArray(listTestplan.filter((item) => {
-        if(item.testplanname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
-          return listTestplan;}))
+      setArray(listRequirements.filter((item) => {
+        if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
+          return listRequirements;}))
       else
-      setArray(listTestplan.filter((item) => {
-        if(item.testplanname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
-          return listTestplan;}))
+      setArray(listRequirements.filter((item) => {
+        if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
+          return listRequirements;}))
     }
   },[searchConditions]);
   // --> delete TP
   try {
     useEffect(()=>{
-      if (insTestplanDelete.sucess === false){
+      if (insRequirementsDelete.sucess === false){
         displayMsg({
-          content: insTestplanDelete.errMsg,
+          content: insRequirementsDelete.errMsg,
           type: 'error'
         });
         setCount(1);
         setCount1(1);
-        getAllTestplanReq(project);
+        getAllRequirementsReq(project);
         resetDeleteRedux();
-      } else if (insTestplanDelete.sucess === true) {
+      } else if (insRequirementsDelete.sucess === true) {
         displayMsg({
-          content: "Delete testplan successfully !",
+          content: "Delete requirement successfully !",
           type: 'success'
         });
         setCount(1);
         setCount1(1);
-        getAllTestplanReq(project);
+        getAllRequirementsReq(project);
         resetDeleteRedux();
       }
-    },[insTestplanDelete.sucess]);      
+    },[insRequirementsDelete.sucess]);      
   } catch (error) {
     console.log('error: '+error);
   }
 
     const deleteTP = (id) => {
-      setTestplanInfor({...testplanInfor, testplanid: id});
+      setRequirementsInfor({...RequirementsInfor, requirementsid: id});
       setOpen(true);
     };
     const handleClose = () => {
@@ -176,7 +176,7 @@ const RequirementListPage = (props) => {
     const handleDelete=()=>{
       setCount(-2);
       setCount1(-2);
-      deleteTestplanReq(testplanInfor);
+      deleteRequirementsReq(RequirementsInfor);
       setOpen(false);
     };
   // <-- delete TP
