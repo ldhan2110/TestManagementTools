@@ -19,9 +19,6 @@ import {
   Typography,
   Button,
   Divider,
-  TextField,
-  FormControlLabel,
-  Checkbox,
   Paper,
   List, ListItem, ListItemText, ListItemSecondaryAction,
   Chip as MuiChip,
@@ -114,7 +111,7 @@ const TestExecutionDetailPage = (props) => {
     }
 
     const filterTestcaseFail = () => {
-      return execTest.listTestCase.find(item => item.status === 'Fail');
+      return execTest.listTestCase[0];
     }
 
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
@@ -210,7 +207,7 @@ const TestExecutionDetailPage = (props) => {
     const handleRetest = () => {
       var item = filterTestcaseFail();
       if (item)
-        history.push(location.pathname+'/test-exec/'+item._id+'/execute-result');
+        history.push(location.pathname+'/test-exec/'+item._id+'/re-execute-result');
       else 
         history.push(location.pathname+'/execute-result');
     }

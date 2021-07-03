@@ -6,7 +6,6 @@ import { useHistory } from "react-router-dom";
 //import SelectBox from '../../../components/Selectbox';
 import SelectTestCasePopup from '../../testcases/select-test-case-page/index';
 import { connect } from 'react-redux';
-import socketIoClient from 'socket.io-client';
 import {
   Grid,
   Typography,

@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-//import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-//import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-//import DragList from '../../../components/DragList';
-//import Selectbox from '../../../components/Selectbox';
 import { useLocation } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { blue } from '@material-ui/core/colors';
@@ -60,7 +56,7 @@ const TestCaseExecDetail = (props) => {
    
   const filterTestCase = (execId, testcaseId) => {
     var subItem = null;
-    const result =  listTestExec.find((item) => {
+    listTestExec.find((item) => {
       if (item._id === execId){
         subItem = item.exectestcases.find(subItem => subItem._id === testcaseId);
       } 
@@ -78,12 +74,18 @@ const TestCaseExecDetail = (props) => {
   }
   
   const findNextIdx = (currentIdx) => {
-    return execTest.listTestCase.findIndex((item,index) => index > currentIdx && item.status === 'Untest' );
+    if (isRetest)
+      return execTest.listTestCase.findIndex((item,index) => index > currentIdx);
+    return execTest.listTestCase.findIndex((item,index) => index > currentIdx && item.status !== 'Untest' );
   }
 
   const findPrevIdx = (currentIdx) => {
-    for (var idx = currentIdx-1; idx >= 0; idx--){
-      if (execTest.listTestCase[idx].status === 'Untest') return idx;
+    if (isRetest){
+      return currentIdx-1;
+    } else {
+      for (var idx = currentIdx-1; idx >= 0; idx--){
+        if (execTest.listTestCase[idx].status === 'Untest') return idx;
+      }
     }
     return -1;
   }
@@ -92,12 +94,10 @@ const TestCaseExecDetail = (props) => {
 
   const [testCaseDetail, setTestcaseDetail] = useState(filterTestCase(props.match.params.testExecutionId, props.match.params.id));
 
-  const [testExecDetail, setTestExecDetail] = useState(filterTestExec(props.match.params.testExecutionId));
-
   const [currentIdx, setCurrentIdx] = useState(getIdxTestCase(props.match.params.id));
 
-  const [viewMode,setViewMode] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? false : true);
-
+  const [viewMode,setViewMode] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' || location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 're-execute-result'  ? false : true);
+  const [isRetest,setRetest] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 're-execute-result'  ? true : false);
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -123,7 +123,6 @@ const TestCaseExecDetail = (props) => {
       setLoading(false);
       getAllTestExecReq();
       resetRedux();
-     // history.goBack();
     } else if (updTestCaseExec.sucess === false) {
       setLoading(false);
       displayMsg({
@@ -171,7 +170,10 @@ const TestCaseExecDetail = (props) => {
     }
     if (currentIdx+1 >= execTest.listTestCase.length || findNextIdx(currentIdx) === -1) return;
     else {
-      history.replace(url+'/'+execTest.listTestCase[findNextIdx(currentIdx)]._id+'/execute-result');
+      if (isRetest)
+        history.replace(url+'/'+execTest.listTestCase[findNextIdx(currentIdx)]._id+'/re-execute-result');
+      else
+        history.replace(url+'/'+execTest.listTestCase[findNextIdx(currentIdx)]._id+'/execute-result');
       setCurrentIdx(findNextIdx(currentIdx));
     }
   }
@@ -181,7 +183,10 @@ const TestCaseExecDetail = (props) => {
     url = url.substring(0,url.lastIndexOf("/"));
     if (currentIdx-1 < 0 || findPrevIdx(currentIdx) === -1) return;
     else {
-      history.replace(url+'/'+execTest.listTestCase[findPrevIdx(currentIdx)]._id+'/execute-result');
+      if (!isRetest)
+        history.replace(url+'/'+execTest.listTestCase[findPrevIdx(currentIdx)]._id+'/execute-result');
+      else
+        history.replace(url+'/'+execTest.listTestCase[findPrevIdx(currentIdx)]._id+'/re-execute-result');
       setCurrentIdx(findPrevIdx(currentIdx));
     }
   }
@@ -206,7 +211,7 @@ const TestCaseExecDetail = (props) => {
             <Grid item xs={12}><TextField id="description" label="Description"  variant="outlined"  value = {testCaseDetail.description} fullWidth required/></Grid>
             <Grid item xs={9}><TextField id="testSuite" label="Test Suite"  variant="outlined" value = {testCaseDetail.testsuite} fullWidth required/></Grid>
                 <Grid item xs={3}>
-                  <TextField id="description" label="Importance"  variant="outlined" value={testCaseDetail.priority} fullWidth required/>
+                  <TextField id="important" label="Importance"  variant="outlined" value={testCaseDetail.priority} fullWidth required/>
                 </Grid>
                 
   <Grid item xs={12}>
@@ -240,10 +245,8 @@ const TestCaseExecDetail = (props) => {
                                   labelId="type"
                                   id="type"
                                   value={item.type}
-                                  //onChange={handleChange}
                                   label="Type" 
                                   disabled={true}
-                                  
                                 >
                                <MenuItem value='manual'><em>Manual</em></MenuItem>
                                <MenuItem value='auto'>Auto</MenuItem>

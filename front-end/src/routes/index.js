@@ -268,6 +268,15 @@ const testCaseExecResultRoute = {
   component: TestCaseExecDetailPage
 }
 
+const testCaseReExecResultRoute = {
+  id: "Test Case Re-Execution Detail",
+  path: "/projects/:projectName/test-execution/:testExecutionId/test-exec/:id/re-execute-result",
+  name: "Test Case Re-Execution Detail",
+  restrict: true,
+  exact: true,
+  component: TestCaseExecDetailPage
+}
+
 
 
 
@@ -382,6 +391,7 @@ export const primaryLayoutRoutes = [
   requirementsRoute,
   newRequirementsRoute,
   requirementsDetailRoute,
+  testCaseReExecResultRoute
 ];
 
 // Routes using the Auth layout

@@ -9,8 +9,6 @@ import ProjectItem from './ProjectItem';
 import Pagination from '../../../components/Pagination/index';
 import IconButton from '@material-ui/core/IconButton';
 import NewProjectPopup from '../new-project-popup/index';
-import socketIoClient from 'socket.io-client';
-import { v4 as uuidv4 } from 'uuid';
 import {
     Button,
     Grid,

@@ -37,7 +37,7 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-import { Upload, Download } from "react-feather";
+import { Upload } from "react-feather";
 import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 
@@ -69,7 +69,7 @@ const mapDispatchToProps = dispatch => {
 const TestSuiteDetail = (props) => {
   const {node, listTestsuite, project, updateTestsuiteReq, getAllTestcaseReq, deleteTestsuiteReq, displayMsg, insTestsuite, 
     resetUpdateRedux, resetDeleteRedux, insTestsuiteDelete, 
-    deleteTestcaseReq, resetDeleteTCRedux, insTestcase, insTestcaseDelete} = props;
+    deleteTestcaseReq, resetDeleteTCRedux, insTestcaseDelete} = props;
   const [testSuite, setTestSuite] = useState({
     id: '',
     name: '',

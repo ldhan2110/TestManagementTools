@@ -26,9 +26,7 @@ import {
   DialogActions,
   DialogTitle,
   Dialog,
-  IconButton
 } from '@material-ui/core';
-import { Download } from "react-feather";
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => { 
