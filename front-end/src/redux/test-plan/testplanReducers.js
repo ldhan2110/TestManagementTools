@@ -1,6 +1,7 @@
 import * as types from './constants';
 
 var initialState = {
+  success: "",
   error: "",
   errorMsg:"",
   currentSelectedTestplan: "",
@@ -38,6 +39,7 @@ const reducer = (state = initialState, actions) => {
     case types.GET_ALL_TESTPLAN_SUCESS:
         return {
           ...state,
+          success: true,
           error: "",
           errorMsg:"",
           currentSelectedTestplan: "",

@@ -89,6 +89,7 @@ const Indicator = styled(Badge)`
 const  mapStateToProps = (state) => {
   return {listNotifications: state.notification.listNotifications,  
           insNotifications: state.notification.insNotifications,
+          notification: state.notification,
   }
 }
 
@@ -105,7 +106,7 @@ const mapDispatchToProps = dispatch => {
 const UserMenu = (props) => {
     const history = useHistory();
 
-    const {getAllNotificationReq, listNotifications, updateNotificationReq, insNotifications, resetUpdateNotification, classes} = props;
+    const {getAllNotificationReq, notification, listNotifications, updateNotificationReq, insNotifications, resetUpdateNotification, classes} = props;
 
     const [anchorMenu, setAnchorMenu] = useState(null);
 
@@ -130,25 +131,25 @@ const UserMenu = (props) => {
     },[]);
     
     useEffect(()=>{
-      setListNotif(listNotifications);  
-    },[listNotifications]);
+      if(notification.success === true)
+        setListNotif(listNotifications);  
+    },[notification]);
 
     useEffect(()=>{
       let listTemp = listNotif.filter(item => item.is_read === false);
-      setLoad(load+1);
       setNumUnread(listTemp.length);
     },[listNotif]);
 
     useEffect(()=>{
       if(anchorEl !== null) {
-        if(load < 3){
-          setLoad(0);
+        if(load < 1){
+          setLoad(load + 1);          
+        }
+        if(load >= 1){
+          notification.success = false;
           getAllNotificationReq();
         }
       }
-      if(anchorEl === null)
-        setLoad(0);
-
     },[anchorEl]);
 
   function time2TimeAgo(ts) {
@@ -258,7 +259,7 @@ const UserMenu = (props) => {
             style: {overflow: "hidden", height:'620px', width:'400px',border: '1px solid #d3d4d5', backgroundColor:'rgba(255,255,255,0.97)'
             }
           }}>
-            {<div style={load < 2 ? {height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}
+            {<div style={notification.success === false ? {height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}
             :{display:'none'}}>
               <CircularProgress style={{width: '28px', height: '28px', color:'#909090'}} /></div> }
         <Paper>

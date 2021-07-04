@@ -1,6 +1,7 @@
 import * as types from './constants';
 
 var initialState = {
+  success: "",
   error: "",
   errorMsg:"",
   currentSelectedNotification: "",
@@ -40,6 +41,7 @@ const reducer = (state = initialState, actions) => {
         return {
           ...state,
           listNotifications: payload,
+          success: true
     }
     
     case types.ADD_NEW_NOTIFICATION_REQ:{      

@@ -29,6 +29,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
+    build: state.build,
     listBuilds: state.build.listBuilds,
     project: state.project.currentSelectedProject,
     listTestPlan: state.testplan.listActiveTestplan,
@@ -56,15 +57,11 @@ const BuildListPage = (props) => {
 
   //const {classes} = props;
 
-  const {listBuilds, getAllBuildReq, project, getAllTestPlanReq, listTestPlan, role, displayMsg, deleteBuildReq, resetDeleteRedux, insBuildsDelete} = props;
+  const {listBuilds, build, getAllBuildReq, project, getAllTestPlanReq, listTestPlan, role, displayMsg, deleteBuildReq, resetDeleteRedux, insBuildsDelete} = props;
 
   const [BUILD_SEARCH_CONDITIONS, setSearchConditions] = useState(BUILDS_SEARCH);
 
   const [array, setArray] = React.useState([]);
-
-  //load TP bar
-  const [count, setCount] = React.useState(0);
-  const [count1, setCount1] = React.useState(0);
 
   //delete TP dialog
   const [open, setOpen] = React.useState(false);
@@ -135,20 +132,17 @@ const BuildListPage = (props) => {
 }
 
   useEffect(()=>{
+    build.success = "";
     getAllBuildReq(project);
     getAllTestPlanReq();
     setArray([]);
   },[]);
 
   useEffect(()=>{
-    handleArray(listBuilds);
-    //load bar
-    if(count < 3){
-      setCount(count+1);
-      setTimeout(()=>{
-        setCount1(count1+1);
-      },200);}
-  },[listBuilds])
+    if(build.success === true)
+      if(insBuildsDelete.sucess !== false)
+        handleArray(listBuilds);
+  },[build])
 
 
   useEffect(()=>{
@@ -229,8 +223,6 @@ const BuildListPage = (props) => {
       });
       getAllBuildReq(project);
       getAllTestPlanReq();
-      setCount(1);
-      setCount1(1);
       //setArray([]);
       //setEnableDeleteBtn(true);
       //setLoadingg(false);
@@ -247,8 +239,7 @@ const BuildListPage = (props) => {
     setOpen(false);
   };
   const handleDelete=()=>{
-    setCount(-2);
-    setCount1(-2);
+    build.success = "";
     deleteBuildReq(buildInfor);
     setOpen(false);
   };
@@ -311,7 +302,7 @@ const BuildListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-        {count1 < 2 && <LinearProgress/>}
+        {build.success === "" && <LinearProgress/>}
           <EnhancedTable
             rows={array}
             headerList = {BUILDS_HEADERS}

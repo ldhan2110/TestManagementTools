@@ -29,6 +29,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
+    testplan: state.testplan,
     listTestplan: state.testplan.listTestplan,
     project: state.project.currentSelectedProject,
     role: state.project.currentRole,
@@ -51,13 +52,9 @@ const mapDispatchToProps = dispatch => {
 const TestPlanListPage = (props) => {
   //const {classes} = props;
 
-  const {listTestplan, getAllTestplanReq, project, role, deleteTestplanReq, resetDeleteRedux, insTestplanDelete, displayMsg} = props;
+  const {listTestplan, testplan, getAllTestplanReq, project, role, deleteTestplanReq, resetDeleteRedux, insTestplanDelete, displayMsg} = props;
 
   const [array, setArray] = React.useState(listTestplan);
-
-  //load TP bar
-  const [count, setCount] = React.useState(0);
-  const [count1, setCount1] = React.useState(0);
 
   //delete TP dialog
   const [open, setOpen] = React.useState(false);
@@ -104,20 +101,16 @@ const TestPlanListPage = (props) => {
   }
 
   useEffect(()=>{
+    testplan.success = "";
     getAllTestplanReq(project);
   },[])
 
   useEffect(()=>{
-    setArray(listTestplan);
-    //load bar
-    if(count < 3){
-    setCount(count+1);
-    setTimeout(()=>{
-      setCount1(count1+1);
-    },200);}
-    //console.log(count);
-    //console.log(count1);
-  },[listTestplan])
+    console.log(testplan);
+    if(testplan.success === true)
+      if(insTestplanDelete.sucess !== false)
+        setArray(listTestplan);
+  },[testplan])
 
   const handleChangeConditions = (props, data) => {
     setConditions({...searchConditions, [props]: data });
@@ -144,21 +137,17 @@ const TestPlanListPage = (props) => {
   try {
     useEffect(()=>{
       if (insTestplanDelete.sucess === false){
+        testplan.success = true;
         displayMsg({
           content: insTestplanDelete.errMsg,
           type: 'error'
         });
-        setCount(1);
-        setCount1(1);
-        getAllTestplanReq(project);
         resetDeleteRedux();
       } else if (insTestplanDelete.sucess === true) {
         displayMsg({
           content: "Delete testplan successfully !",
           type: 'success'
         });
-        setCount(1);
-        setCount1(1);
         getAllTestplanReq(project);
         resetDeleteRedux();
       }
@@ -175,8 +164,7 @@ const TestPlanListPage = (props) => {
       setOpen(false);
     };
     const handleDelete=()=>{
-      setCount(-2);
-      setCount1(-2);
+      testplan.success = "";
       deleteTestplanReq(testplanInfor);
       setOpen(false);
     };
@@ -241,7 +229,7 @@ const TestPlanListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         {/* Load bar */}
-        {count1 < 2 && <LinearProgress />}
+        {testplan.success === "" && <LinearProgress />}
           <EnhancedTable
             rows={array}
             headerList = {TEST_PLAN_HEADERS}

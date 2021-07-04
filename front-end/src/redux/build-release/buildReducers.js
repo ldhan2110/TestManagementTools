@@ -1,6 +1,7 @@
 import * as types from './constants';
 
 var initialState = {
+  success: "",
   error: "",
   errorMsg:"",
   currentSelectedBuild: "",
@@ -40,6 +41,7 @@ const reducer = (state = initialState, actions) => {
         return {
           ...state,
           listBuilds: payload,
+          success: true
       }
     
     case types.ADD_NEW_BUILD_REQ:    
