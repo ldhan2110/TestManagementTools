@@ -74,7 +74,7 @@ export const REQUIREMENTS_HEADER = {
     { id: 'id', alignment: 'left', label: 'ID', type: 'text', hidden: true },
     { id: 'projectrequirementname', alignment: 'left', label: 'Name',type: 'text'},
     { id: 'description', alignment: 'left', label: 'Description',type: 'text'},
-    { id: 'isactive', alignment: 'left', label: 'Status',type: 'text'},
+    { id: 'is_active', alignment: 'left', label: 'Status',type: 'label'},
     { id: 'created_date', alignment: 'left', label: 'Create Date', type: 'text'},
   ]
 }
