@@ -121,7 +121,8 @@ const NewTestExecutionPage = (props) => {
           setListBuild([{buildname: tempExec[0].build.buildname}]);
           console.log(testExecInfo);
         }
-      }
+      }      
+      getBuildByTestPlan({testplanname: testExecInfo.testplanname });
     },[testExecInfo.exist_testexecution]);
     
 
