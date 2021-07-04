@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 //import SelectBox from '../../../components/Selectbox';
 import SelectTestCasePopup from '../../testcases/select-test-case-page/index';
 import { connect } from 'react-redux';
+import MultipleSelect from "../../../components/MultipleSelect";
 import {
   Grid,
   Typography,
@@ -290,7 +291,8 @@ const NewTestExecutionPage = (props) => {
           {listBuild.map((item, index) => <MenuItem key={index} value={item.buildname}>{item.buildname}</MenuItem>)}    
         </Select>
       </FormControl>
-
+      
+      <MultipleSelect/>
 
 
           <Grid container>
@@ -306,7 +308,7 @@ const NewTestExecutionPage = (props) => {
           onChange={handleChange('exist_testexecution')}
           label="testexec">
             
-          <MenuItem key={''} value={''}></MenuItem>
+          <MenuItem key={''} value={''}>  </MenuItem>
           {listTestExec.map((item, index) => <MenuItem key={index} value={item._id}>{item.testexecutionname}</MenuItem>)}    
         </Select>
       </FormControl>

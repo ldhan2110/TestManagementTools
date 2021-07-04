@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
+import DeleteIcon from '@material-ui/icons/Delete';
 import {
   Grid,
   Typography,
@@ -25,7 +26,11 @@ import {
   FormControl,
   Select,
   InputLabel,
-  MenuItem
+  MenuItem,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  Dialog
 } from '@material-ui/core';
 import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_REQ, RESET_UPDATE_TEST_EXEC } from "../../../redux/test-execution/constants";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
@@ -79,6 +84,10 @@ const TestExecutionDetailPage = (props) => {
     const {classes, getAllActiveTestplanReq, listActiveTestplan, listBuildByTestPlan, getBuildByTestPlan, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux, accountInfo} = props;
     const history = useHistory();
     const location = useLocation();
+
+    const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
+    const [loadingg, setLoadingg] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const filterTestExec = (id) => {
       return  listTestExec.find((item) => item._id === id);
@@ -166,10 +175,27 @@ const TestExecutionDetailPage = (props) => {
         container 
       >
         <Grid item>
-
               <Typography variant="h3" gutterBottom display="inline">
                   Test Execution Detail - {testExecInfo.testexecutionname}
               </Typography>
+        </Grid>
+        <Grid item>
+        <div>
+          <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={enableDeleteBtn ? {color: red[500] } : {}} onClick={()=>{setOpen(true);}}>
+            Delete Test Execution
+            {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
+          </Button>
+        </div>
+          <Grid item>
+                <Dialog open={open} >
+                  <DialogTitle>Confirm</DialogTitle>
+                  <DialogContent>Are you sure want to delete this test execution?</DialogContent>
+                  <DialogActions>
+                    <Button  color="primary">Yes</Button>
+                    <Button onClick={()=>{setOpen(false);}} color="primary">No</Button>
+                  </DialogActions>
+                </Dialog>
+          </Grid>
         </Grid>
         
       </Grid>
