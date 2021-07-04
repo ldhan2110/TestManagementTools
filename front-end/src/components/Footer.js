@@ -35,11 +35,8 @@ function Footer() {
        <Grid container spacing={0}>
         <Hidden smDown>
           <Grid container item xs={12} md={6}>
-            <List>
-              <ListItem component="a" href="#">
-                <ListItemText primary="Support" />
-              </ListItem>
-              <ListItem component="a" href="#">
+            <List>               
+              {/*<ListItem component="a" href="#">
                 <ListItemText primary="Help Center" />
               </ListItem>
               <ListItem component="a" href="#">
@@ -47,7 +44,7 @@ function Footer() {
               </ListItem>
               <ListItem component="a" href="#">
                 <ListItemText primary="Terms of Service" />
-              </ListItem>
+  </ListItem>*/}
             </List>
           </Grid>
   </Hidden> 

@@ -62,13 +62,13 @@ const DetailRequirementPage = (props) => {
     const [open, setOpen] = React.useState(false);
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
-      requirementname: 'ss',
+      projectrequirementname: 'ss',
       description: 'ss',
     });
     const [requirementsInfor, setRequirementsInfor] = React.useState({
       requirementsid: props.match.params.requirementName,
       projectid: props.match.params.projectName,
-      requirementname: props.history.location.state.requirementname,
+      projectrequirementname: props.history.location.state.projectrequirementname,
       buildname: props.history.location.state.buildname,
       description: props.history.location.state.description,
       isActive: props.history.location.state.is_active,
@@ -145,19 +145,19 @@ const DetailRequirementPage = (props) => {
       if(requirementsInfor.description === "")
       setError({ ...requirementsInfor, description: "" });
   
-      if(requirementsInfor.requirementname === "")
-      setError({ ...requirementsInfor, requirementname: "" });
+      if(requirementsInfor.projectrequirementname === "")
+      setError({ ...requirementsInfor, projectrequirementname: "" });
 
-      if(requirementsInfor.description.trim().length === 0 || requirementsInfor.requirementname.trim().length === 0
+      if(requirementsInfor.description.trim().length === 0 || requirementsInfor.projectrequirementname.trim().length === 0
           ||requirementsInfor.description.trim().length !== requirementsInfor.description.length 
-          || requirementsInfor.requirementname.trim().length !== requirementsInfor.requirementname.length){
+          || requirementsInfor.projectrequirementname.trim().length !== requirementsInfor.projectrequirementname.length){
           displayMsg({
-            content: "Test Plan Name or Description should not contain spaces !",
+            content: "Requirement Name or Description should not contain spaces !",
             type: 'error'
           });
       }
   
-      else if(requirementsInfor.requirementname !== "" && requirementsInfor.description !== "") {
+      else if(requirementsInfor.projectrequirementname !== "" && requirementsInfor.description !== "") {
         setEnableCreateBtn(false);
         setLoading(true);
         updateRequirementsReq(requirementsInfor);
@@ -214,7 +214,7 @@ const DetailRequirementPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Requirement Detail - {props.history.location.state.requirementname}
+            Requirement Detail - {props.history.location.state.projectrequirementname}
             {/* {props.match.params.testPlanName} */}
           </Typography>
         
@@ -254,10 +254,10 @@ const DetailRequirementPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="requirementName" label="Test Plan Name" variant="outlined"  fullWidth required
-          value={requirementsInfor.requirementname || ''} onChange={handleChange('requirementname')}
-          error={requirementsInfor.requirementname.trim().length === 0 && error.requirementname.trim().length === 0 ? true : false}
-          helperText={requirementsInfor.requirementname.trim().length === 0 && error.requirementname.trim().length === 0 ? 'Test Plan Name is required' : ' '}/>           
+          <TextField id="requirementName" label="Requirement Name" variant="outlined"  fullWidth required
+          value={requirementsInfor.projectrequirementname || ''} onChange={handleChange('projectrequirementname')}
+          error={requirementsInfor.projectrequirementname.trim().length === 0 && error.projectrequirementname.trim().length === 0 ? true : false}
+          helperText={requirementsInfor.projectrequirementname.trim().length === 0 && error.projectrequirementname.trim().length === 0 ? 'Test Plan Name is required' : ' '}/>           
 
           <div>
              <FormControlLabel

@@ -62,7 +62,7 @@ const NewRequirementPage = (props) => {
     //const [existTestplans, setExistTestplans] = React.useState(props.history.location.state);
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
-      requirementname: 'ss',
+      projectrequirementname: 'ss',
       description: 'ss',
     });
 
@@ -73,7 +73,7 @@ const NewRequirementPage = (props) => {
   
     const handleClose = () =>{   
       setRequirementsInfo({
-        requirementname: '', 
+        projectrequirementname: '', 
         projectid: project,
         //buildname: '',
         description: '',
@@ -83,8 +83,8 @@ const NewRequirementPage = (props) => {
       });
       history.goBack(); 
     };
-    const [RequirementsInfo, setRequirementsInfo] = useState({
-      requirementname: '',
+    const [requirementsInfo, setRequirementsInfo] = useState({
+      projectrequirementname: '',
       projectid: project,
       description: '',
       //buildname: '',
@@ -138,25 +138,25 @@ const NewRequirementPage = (props) => {
         // them thanh loading
         // check dieu kien
 
-    if(RequirementsInfo.description === "")
-    setError({ ...RequirementsInfo, description: "" });
+    if(requirementsInfo.description === "")
+    setError({ ...requirementsInfo, description: "" });
 
-    if(RequirementsInfo.requirementname === "")
-    setError({ ...RequirementsInfo, requirementname: "" });
+    if(requirementsInfo.projectrequirementname === "")
+    setError({ ...requirementsInfo, projectrequirementname: "" });
 
-    if(RequirementsInfo.description.trim().length === 0 || RequirementsInfo.requirementname.trim().length === 0
-        ||RequirementsInfo.description.trim().length !== RequirementsInfo.description.length 
-        || RequirementsInfo.requirementname.trim().length !== RequirementsInfo.requirementname.length){
+    if(requirementsInfo.description.trim().length === 0 || requirementsInfo.projectrequirementname.trim().length === 0
+        ||requirementsInfo.description.trim().length !== requirementsInfo.description.length 
+        || requirementsInfo.projectrequirementname.trim().length !== requirementsInfo.projectrequirementname.length){
         displayMsg({
           content: "Requirement Name or Description should not contain spaces !",
           type: 'error'
         });
     }
   
-    else if(RequirementsInfo.requirementname !== "" && RequirementsInfo.description !== ""){
+    else if(requirementsInfo.projectrequirementname !== "" && requirementsInfo.description !== ""){
       setEnableCreateBtn(false);
         setLoading(true);
-        addNewRequirementsReq(RequirementsInfo);
+        addNewRequirementsReq(requirementsInfo);
     }
     //console.log(JSON.stringify(TestplanInfo));
   }
@@ -166,18 +166,18 @@ const NewRequirementPage = (props) => {
   };
 
   const handleChange = (prop) => (event) => {
-    setRequirementsInfo({ ...RequirementsInfo, [prop]: event.target.value });
+    setRequirementsInfo({ ...requirementsInfo, [prop]: event.target.value });
 
     if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
   const handlePublic = () =>{
-    setRequirementsInfo({ ...RequirementsInfo, is_public: !RequirementsInfo.is_public });
+    setRequirementsInfo({ ...requirementsInfo, is_public: !requirementsInfo.is_public });
   };
 
   const handleActive = () => {
-    setRequirementsInfo({ ...RequirementsInfo, is_active: !RequirementsInfo.is_active });
+    setRequirementsInfo({ ...requirementsInfo, is_active: !requirementsInfo.is_active });
   };
   
     //const listtestplan = [
@@ -224,9 +224,9 @@ const NewRequirementPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
           <TextField id="RequirementName" label="Requirement Name" variant="outlined" fullWidth required inputProps={{maxLength : 16}}
-          value={RequirementsInfo.requirementname || ''} onChange={handleChange('requirementname')}  
-          error={RequirementsInfo.requirementname.trim().length === 0 && error.requirementname.trim().length === 0 ? true : false}
-          helperText={RequirementsInfo.requirementname.trim().length === 0 && error.requirementname.trim().length === 0 ? 'Requirement Name is required' : ' '}/>
+          value={requirementsInfo.projectrequirementname || ''} onChange={handleChange('projectrequirementname')}  
+          error={requirementsInfo.projectrequirementname.trim().length === 0 && error.projectrequirementname.trim().length === 0 ? true : false}
+          helperText={requirementsInfo.projectrequirementname.trim().length === 0 && error.projectrequirementname.trim().length === 0 ? 'Requirement Name is required' : ' '}/>
 
           
 
@@ -276,27 +276,27 @@ const NewRequirementPage = (props) => {
              <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary"  value={RequirementsInfo.is_public} onChange={handlePublic}/>}
+              control={<Checkbox color="primary"  value={requirementsInfo.is_public} onChange={handlePublic}/>}
               label="Public"
               labelPlacement="start"
-              checked={RequirementsInfo.is_public}
+              checked={requirementsInfo.is_public}
             />
           </div>
           <div>
             <FormControlLabel
               classes= {{label: classes.titleContent}}
               value="start"
-              control={<Checkbox color="primary" value={RequirementsInfo.is_active}  onChange={handleActive}/>}
+              control={<Checkbox color="primary" value={requirementsInfo.is_active}  onChange={handleActive}/>}
               label="Active"
               labelPlacement="start"
-              checked={RequirementsInfo.is_active}
+              checked={requirementsInfo.is_active}
             />
           </div>
 
           <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={9}  
-          value={RequirementsInfo.description || ''} onChange={handleChange('description')}
-          error={RequirementsInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-          helperText={RequirementsInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+          value={requirementsInfo.description || ''} onChange={handleChange('description')}
+          error={requirementsInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+          helperText={requirementsInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
 
           
           <div className = {classes.btnGroup}>

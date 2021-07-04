@@ -63,7 +63,7 @@ const RequirementListPage = (props) => {
   const [open, setOpen] = React.useState(false);
 
   //Delete TP infor
-  const [RequirementsInfor, setRequirementsInfor] = React.useState({
+  const [requirementsInfor, setRequirementsInfor] = React.useState({
     requirementsid: '',
     projectid: project
   });
@@ -93,11 +93,11 @@ const RequirementListPage = (props) => {
     else{
       if(searchConditions.active === -1)
         setArray(listRequirements.filter((item) => {
-          if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
+          if(item.projectrequirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
             return listRequirements;}))
       else
         setArray(listRequirements.filter((item) => {
-          if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
+          if(item.projectrequirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
             return listRequirements;}))
     }
   }
@@ -131,11 +131,11 @@ const RequirementListPage = (props) => {
       console.log('not empty');
       if(searchConditions.active === -1)
       setArray(listRequirements.filter((item) => {
-        if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
+        if(item.projectrequirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
           return listRequirements;}))
       else
       setArray(listRequirements.filter((item) => {
-        if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
+        if(item.projectrequirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
           return listRequirements;}))
     }
   },[searchConditions]);
@@ -167,7 +167,7 @@ const RequirementListPage = (props) => {
   }
 
     const deleteTP = (id) => {
-      setRequirementsInfor({...RequirementsInfor, requirementsid: id});
+      setRequirementsInfor({...requirementsInfor, requirementsid: id});
       setOpen(true);
     };
     const handleClose = () => {
@@ -176,7 +176,7 @@ const RequirementListPage = (props) => {
     const handleDelete=()=>{
       setCount(-2);
       setCount1(-2);
-      deleteRequirementsReq(RequirementsInfor);
+      deleteRequirementsReq(requirementsInfor);
       setOpen(false);
     };
   // <-- delete TP
@@ -213,24 +213,26 @@ const RequirementListPage = (props) => {
             </Button>
           </div>
           {/* Delete TP dialog */}
-          {/* <Grid item>
+          <Grid item>
+          {(role === 'Project Manager' || role === 'Test Lead') &&
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure want to delete this requirement?</DialogContent>
                   <DialogActions>
-                  <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
                     <Button onClick={handleClose} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>}
-              
+
+                {(role === 'Tester') &&
                 <Dialog open={open} >
                   <DialogTitle>Delete</DialogTitle>
                   <DialogContent>Do not allow Tester role !</DialogContent>
                   <DialogActions>
                     <Button onClick={handleClose} color="primary">OK</Button>
                   </DialogActions>
-                </Dialog>
-          </Grid> */}
+                </Dialog>}
+          </Grid>
         </Grid>
       </Grid>
 
@@ -238,6 +240,8 @@ const RequirementListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
+          {/* Load bar */}
+        {count1 < 2 && <LinearProgress />}
           <EnhancedTable
             rows={array}
             headerList = {REQUIREMENTS_HEADER}
@@ -245,6 +249,7 @@ const RequirementListPage = (props) => {
             conditions={REQUIREMENT_SEARCH}
             setConditions={handleChangeConditions}
             searchMethod={searchRequirements}
+            handleDefaultDeleteAction={deleteTP}
             type='requirements'
           />
         </Grid>

@@ -11,7 +11,8 @@ import {
     MenuItem, List, Avatar, ListItemAvatar, ListItem, ListSubheader, Popover, Paper, Typography,
     IconButton as MuiIconButton,
     Badge,
-    Divider
+    Divider,
+    Tooltip
   } from "@material-ui/core";
 import { Bell } from 'react-feather';
 import { withStyles } from '@material-ui/core/styles';
@@ -232,13 +233,15 @@ const UserMenu = (props) => {
     //event =>  window.location.href=node.url
     return (
       <React.Fragment>
-        <IconButton  aria-owns={Boolean(anchorMenu) ? "menu-appbar" : undefined}
+        <Tooltip title="Notifications">
+        <IconButton aria-label="Notifications" aria-owns={Boolean(anchorMenu) ? "menu-appbar" : undefined}
           aria-haspopup="true"
           onClick={handleClick}>
             <Indicator badgeContent={numUnread}>
               <Bell style={{width:'24px', height:'24px', marginTop:'2px'}}/>
             </Indicator>
         </IconButton>
+        </Tooltip>
         <Popover
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
