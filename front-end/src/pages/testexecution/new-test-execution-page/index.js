@@ -92,7 +92,8 @@ const NewTestExecutionPage = (props) => {
     },[])
 
     useEffect(()=>{
-      setListBuild(listBuildByTestPlan);
+      if(testExecInfo.exist_testexecution === '')
+        setListBuild(listBuildByTestPlan);
     },[listBuildByTestPlan])
 
     useEffect(()=>{
@@ -110,6 +111,19 @@ const NewTestExecutionPage = (props) => {
     }
     },[listtestcaseselect]);
 
+    useEffect(() => {
+      if(testExecInfo.exist_testexecution !== '') {
+        let tempExec = listTestExec.filter(item => item._id === testExecInfo.exist_testexecution);
+        if(tempExec?.length > 0) {
+          setTestExecInfo({ ...testExecInfo, 
+            buildname: tempExec[0].build.buildname,
+            testplanname: tempExec[0].testplan.testplanname });
+          setListBuild([{buildname: tempExec[0].build.buildname}]);
+          console.log(testExecInfo);
+        }
+      }
+    },[testExecInfo.exist_testexecution]);
+    
 
     try {
       useEffect(()=>{
@@ -159,15 +173,21 @@ const NewTestExecutionPage = (props) => {
     }
 
     const handleChange = (prop) => (event) => {
+      if (prop === 'exist_testexecution')
+        setTestExecInfo({ ...testExecInfo, [prop] : event.target.value });
+
       if (prop !== 'is_public' && prop !== 'is_active')
         setTestExecInfo({ ...testExecInfo, [prop]: event.target.value });
+
       else
         setTestExecInfo({ ...testExecInfo, [prop]: !testExecInfo.prop });
+
       if (prop === 'testplanname'){
-        getBuildByTestPlan({testplanname: event.target.value });
+        if(testExecInfo.exist_testexecution === '')
+          getBuildByTestPlan({testplanname: event.target.value });
       }
-    if(checkError === true)
-    setError({ ...error, [prop]: event.target.value });
+      if(checkError === true)
+      setError({ ...error, [prop]: event.target.value });
     };
 
     const handleCreateNewTestExec = () => {
@@ -175,41 +195,41 @@ const NewTestExecutionPage = (props) => {
       console.log('error: '+JSON.stringify(error));
       setCheckError(true);
 
-    if(testExecInfo.description === "")
-    setError({ ...testExecInfo, description: "" });
+      if(testExecInfo.description === "")
+        setError({ ...testExecInfo, description: "" });
 
-    if(testExecInfo.testexecutionname === "")
-    setError({ ...testExecInfo, testexecutionname: "" });
+      if(testExecInfo.testexecutionname === "")
+        setError({ ...testExecInfo, testexecutionname: "" });
 
-    if(testExecInfo.description.trim().length === 0 || testExecInfo.testexecutionname.trim().length === 0
+      if(testExecInfo.description.trim().length === 0 || testExecInfo.testexecutionname.trim().length === 0
         ||testExecInfo.description.trim().length !== testExecInfo.description.length 
         || testExecInfo.testexecutionname.trim().length !== testExecInfo.testexecutionname.length){
         displayMsg({
           content: "Test Execution Name or Description should not contain spaces !",
           type: 'error'
         }); 
-    }
+      }
 
-    else if(testExecInfo.testplanname === ""){
-      displayMsg({
-        content: "Test Plan is required!",
-        type: 'error'
-      });
-    }
+      else if(testExecInfo.testplanname === ""){
+        displayMsg({
+          content: "Test Plan is required!",
+          type: 'error'
+        });
+      }
 
-    else if(testExecInfo.buildname=== ""){
-      displayMsg({
-        content: "Build/Release is required!",
-        type: 'error'
-      });
-    }
+      else if(testExecInfo.buildname=== ""){
+        displayMsg({
+          content: "Build/Release is required!",
+          type: 'error'
+        });
+      }
 
 
-    else if(testExecInfo.testexecutionname !== "" && testExecInfo.description !== ""){
-      setEnableCreateBtn(false);
-      setLoading(true);
-      addNewTestexecReq(testExecInfo);
-    }
+      else if(testExecInfo.testexecutionname !== "" && testExecInfo.description !== ""){
+        setEnableCreateBtn(false);
+        setLoading(true);
+        addNewTestexecReq(testExecInfo);
+      }
     }
     
     return (
@@ -260,7 +280,9 @@ const NewTestExecutionPage = (props) => {
           onChange={handleChange('testplanname')}
           label="testplanname"
           error={!testExecInfo.testplanname && !error.testplanname ? true : false}
-          helperText={!testExecInfo.testplanname && !error.testplanname ? 'Test Plan is required' : ' '}>
+          helperText={!testExecInfo.testplanname && !error.testplanname ? 'Test Plan is required' : ' '}
+          disabled={testExecInfo.exist_testexecution === '' ? false:true}
+          >
 
           {/*labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
@@ -281,7 +303,7 @@ const NewTestExecutionPage = (props) => {
           label="buildname"
           error={!testExecInfo.buildname && !error.buildname ? true : false}
           helperText={!testExecInfo.buildname && !error.buildname ? 'Build/Release is required' : ' '}
-
+          disabled={testExecInfo.exist_testexecution === '' ? false:true}
           /*labelId="build"
           id="build"
           label="build"

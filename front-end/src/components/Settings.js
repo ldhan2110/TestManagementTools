@@ -8,9 +8,11 @@ import {
   Fab as MuiFab,
   ListItem,
   Paper as MuiPaper,
-  Typography
+  Typography,
+  Tooltip, IconButton,
 } from "@material-ui/core";
-
+import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
+import { blue } from "@material-ui/core/colors";
 import { spacing } from "@material-ui/system";
 
 import { Palette as PaletteIcon } from "@material-ui/icons";
@@ -122,7 +124,14 @@ function Settings() {
   return (
     <React.Fragment>
       <Fab color="primary" aria-label="Edit" onClick={toggleDrawer(true)}>
-        <PaletteIcon />
+        <PaletteIcon />        
+      </Fab>
+      <Fab color="primary" style={{marginBottom: '60px'}}>
+      <Tooltip title="Back to top" component="a" href="#">
+                <IconButton aria-label="Back to top">
+                        <VerticalAlignTopIcon style={{color: 'white'}}/>
+                </IconButton>
+                </Tooltip>
       </Fab>
       <Drawer anchor="right" open={state.isOpen} onClose={toggleDrawer(false)}>
         <Demos />
