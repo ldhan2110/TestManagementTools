@@ -41,7 +41,7 @@ export  const getAllRequirementsEpic = (action$, state$) => action$.pipe(
   export  const addNewRequirementsEpic = (action$, state$) => action$.pipe(
     ofType(actions.ADD_NEW_REQUIREMENTS_REQ),
     mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/createtrequirements',{
-        projectrequirementname: payload.requirementname,
+        projectrequirementname: payload.projectrequirementname,
         description: payload.description,
         //buildname: payload.buildname,
         isActive: payload.is_active,
@@ -76,7 +76,7 @@ export  const getAllRequirementsEpic = (action$, state$) => action$.pipe(
   export  const updateRequirementsEpic = (action$, state$) => action$.pipe(
     ofType(actions.UPDATE_REQUIREMENTS_REQ),
     mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.requirementsid+'/api/updaterequirements',{
-        projectrequirementname: payload.requirementname,
+        projectrequirementname: payload.projectrequirementname,
         description: payload.description,
         //buildname: payload.buildname,
         isActive: payload.isActive,

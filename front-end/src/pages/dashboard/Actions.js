@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Button as MuiButton, Menu, MenuItem } from "@material-ui/core";
+import { Button as MuiButton, Menu, MenuItem, Tooltip } from "@material-ui/core";
 
 import {
   Loop as LoopIcon,
@@ -43,10 +43,12 @@ class Actions extends React.Component {
     const { anchorEl } = this.state;
     return (
       <React.Fragment>
-        <SmallButton size="small" mr={2} onClick={this.handleReset}>
+        <Tooltip title="Reload dashboard">
+        <SmallButton aria-label="Reload dashboard" size="small" mr={4} onClick={this.handleReset}>
           <LoopIcon />
         </SmallButton>
-        <SmallButton size="small" mr={2}>
+        </Tooltip>
+        {/*<SmallButton size="small" mr={2}>
           <FilterListIcon />
         </SmallButton>
         <Button
@@ -71,7 +73,7 @@ class Actions extends React.Component {
           <MenuItem onClick={this.handleClose}>Last 30 days</MenuItem>
           <MenuItem onClick={this.handleClose}>This month</MenuItem>
           <MenuItem onClick={this.handleClose}>Last month</MenuItem>
-        </Menu>
+    </Menu>*/}
       </React.Fragment>
     );
   }

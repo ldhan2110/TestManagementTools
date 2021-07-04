@@ -9,6 +9,7 @@ import {
     MenuItem,
     IconButton as MuiIconButton,
     Avatar,
+    Tooltip,
   } from "@material-ui/core";
 
 
@@ -55,7 +56,9 @@ const UserMenu = (props) => {
   
     return (
       <React.Fragment>
+        <Tooltip title="User menu">
         <IconButton
+        aria-label="User menu"
           aria-owns={Boolean(anchorMenu) ? "menu-appbar" : undefined}
           aria-haspopup="true"
           onClick={toggleMenu}
@@ -63,6 +66,7 @@ const UserMenu = (props) => {
         >
           <Avatar src=""/>
         </IconButton>
+        </Tooltip>
         <Menu
           id="menu-appbar"
           anchorEl={anchorMenu}

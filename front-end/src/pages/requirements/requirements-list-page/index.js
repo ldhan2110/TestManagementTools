@@ -63,7 +63,7 @@ const RequirementListPage = (props) => {
   const [open, setOpen] = React.useState(false);
 
   //Delete TP infor
-  const [RequirementsInfor, setRequirementsInfor] = React.useState({
+  const [requirementsInfor, setRequirementsInfor] = React.useState({
     requirementsid: '',
     projectid: project
   });
@@ -93,11 +93,11 @@ const RequirementListPage = (props) => {
     else{
       if(searchConditions.active === -1)
         setArray(listRequirements.filter((item) => {
-          if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
+          if(item.projectrequirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
             return listRequirements;}))
       else
         setArray(listRequirements.filter((item) => {
-          if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
+          if(item.projectrequirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
             return listRequirements;}))
     }
   }
@@ -131,11 +131,11 @@ const RequirementListPage = (props) => {
       console.log('not empty');
       if(searchConditions.active === -1)
       setArray(listRequirements.filter((item) => {
-        if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
+        if(item.projectrequirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))
           return listRequirements;}))
       else
       setArray(listRequirements.filter((item) => {
-        if(item.requirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
+        if(item.projectrequirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()) && searchConditions.active === item.is_active)
           return listRequirements;}))
     }
   },[searchConditions]);
@@ -167,7 +167,7 @@ const RequirementListPage = (props) => {
   }
 
     const deleteTP = (id) => {
-      setRequirementsInfor({...RequirementsInfor, requirementsid: id});
+      setRequirementsInfor({...requirementsInfor, requirementsid: id});
       setOpen(true);
     };
     const handleClose = () => {
@@ -176,7 +176,7 @@ const RequirementListPage = (props) => {
     const handleDelete=()=>{
       setCount(-2);
       setCount1(-2);
-      deleteRequirementsReq(RequirementsInfor);
+      deleteRequirementsReq(requirementsInfor);
       setOpen(false);
     };
   // <-- delete TP

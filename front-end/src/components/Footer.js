@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
+import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
+import { blue } from "@material-ui/core/colors";
+
 import {
   Grid,
   Hidden,
+  IconButton,
   List,
   ListItemText,
+  Tooltip,
   ListItem as MuiListItem
 } from "@material-ui/core";
 
@@ -36,10 +41,14 @@ function Footer() {
         <Hidden smDown>
           <Grid container item xs={12} md={6}>
             <List>
-              <ListItem component="a" href="#">
-                <ListItemText primary="Support" />
-              </ListItem>
-              <ListItem component="a" href="#">
+            <Tooltip title="Back to top" component="a" href="#">
+                <IconButton aria-label="Back to top">
+                        <VerticalAlignTopIcon style={{color: blue[400]}}/>
+                </IconButton>
+                </Tooltip>
+
+               
+              {/*<ListItem component="a" href="#">
                 <ListItemText primary="Help Center" />
               </ListItem>
               <ListItem component="a" href="#">
@@ -47,7 +56,7 @@ function Footer() {
               </ListItem>
               <ListItem component="a" href="#">
                 <ListItemText primary="Terms of Service" />
-              </ListItem>
+  </ListItem>*/}
             </List>
           </Grid>
   </Hidden> 

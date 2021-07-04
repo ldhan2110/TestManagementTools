@@ -72,9 +72,9 @@ export const REQUIREMENTS_HEADER = {
   hasCheckbox: false,
   headerCells: [
     { id: 'id', alignment: 'left', label: 'ID', type: 'text', hidden: true },
-    { id: 'name', alignment: 'left', label: 'Name',type: 'text'},
+    { id: 'projectrequirementname', alignment: 'left', label: 'Name',type: 'text'},
     { id: 'description', alignment: 'left', label: 'Description',type: 'text'},
-    { id: 'status', alignment: 'left', label: 'Status',type: 'text'},
+    { id: 'isactive', alignment: 'left', label: 'Status',type: 'text'},
     { id: 'created_date', alignment: 'left', label: 'Create Date', type: 'text'},
   ]
 }

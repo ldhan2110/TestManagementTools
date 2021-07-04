@@ -205,9 +205,11 @@ const EnhancedTable = (props) => {
                           <DeleteIcon style={{color: red[400]}}/>
                         </IconButton> 
                         </Tooltip>}
-                        {type === 'testexecution' && <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
+                        {type === 'testexecution' && <Tooltip title="Execute">
+                        <IconButton aria-label="execute" onClick={()=>handleDefaultDeleteAction(row._id)}>
                           <Clipboard style={{color: blue[400]}}/>
-                        </IconButton> }
+                        </IconButton> 
+                        </Tooltip>}
                         {type === 'testcases' && <Tooltip title="Delete">
                         <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id, row.type)}>
                           <DeleteIcon style={{color: red[400]}}/>
