@@ -213,24 +213,26 @@ const RequirementListPage = (props) => {
             </Button>
           </div>
           {/* Delete TP dialog */}
-          {/* <Grid item>
+          <Grid item>
+          {(role === 'Project Manager' || role === 'Test Lead') &&
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure want to delete this requirement?</DialogContent>
                   <DialogActions>
-                  <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={handleDelete} color="primary">Yes</Button>
                     <Button onClick={handleClose} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>}
-              
+
+                {(role === 'Tester') &&
                 <Dialog open={open} >
                   <DialogTitle>Delete</DialogTitle>
                   <DialogContent>Do not allow Tester role !</DialogContent>
                   <DialogActions>
                     <Button onClick={handleClose} color="primary">OK</Button>
                   </DialogActions>
-                </Dialog>
-          </Grid> */}
+                </Dialog>}
+          </Grid>
         </Grid>
       </Grid>
 
@@ -238,6 +240,8 @@ const RequirementListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
+          {/* Load bar */}
+        {count1 < 2 && <LinearProgress />}
           <EnhancedTable
             rows={array}
             headerList = {REQUIREMENTS_HEADER}
@@ -245,6 +249,7 @@ const RequirementListPage = (props) => {
             conditions={REQUIREMENT_SEARCH}
             setConditions={handleChangeConditions}
             searchMethod={searchRequirements}
+            handleDefaultDeleteAction={deleteTP}
             type='requirements'
           />
         </Grid>
