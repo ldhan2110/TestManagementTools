@@ -363,6 +363,7 @@ const NewTestExecutionPage = (props) => {
           value={testExecInfo.assigntester}
           onChange={handleChange('assigntester')}
         >
+           <MenuItem key={''} value={''}></MenuItem>
            {listUser.map((item,index) => (
               <MenuItem key={index} value={item.username}>{item.username}</MenuItem>
           ))}
