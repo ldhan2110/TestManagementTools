@@ -115,10 +115,17 @@ const NewTestExecutionPage = (props) => {
     useEffect(() => {
       if(testExecInfo.exist_testexecution !== '') {
         let tempExec = listTestExec.filter(item => item._id === testExecInfo.exist_testexecution);
+        console.log(tempExec);
+        var temparr = [];
+        tempExec[0].exectestcases.forEach((item)=>{
+          temparr.push({testcaseid: item._id});
+      });
         if(tempExec?.length > 0) {
           setTestExecInfo({ ...testExecInfo, 
             buildname: tempExec[0].build.buildname,
-            testplanname: tempExec[0].testplan.testplanname });
+            testplanname: tempExec[0].testplan.testplanname,
+            listexectestcases: temparr
+          });
           setListBuild([{buildname: tempExec[0].build.buildname}]);
           console.log(testExecInfo);
         }
@@ -345,7 +352,7 @@ const NewTestExecutionPage = (props) => {
                 <p>Select Test Case: <b> {testExecInfo.listexectestcases.length} selected</b></p>
               </Grid>
               <Grid item>
-                <SelectTestCasePopup isOpen={open} setOpen={setOpenPopup} selected={testExecInfo.listExecTestcase}/>
+                <SelectTestCasePopup isOpen={open} setOpen={setOpenPopup} selected={testExecInfo.listexectestcases}/>
                 <Button variant="contained" onClick={handleOpenSelectTC}>Add Test Case</Button>
               </Grid>
             </Grid>
