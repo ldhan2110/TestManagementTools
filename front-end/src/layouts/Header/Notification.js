@@ -127,6 +127,7 @@ const UserMenu = (props) => {
     };
 
     useEffect(()=>{
+      notification.success = "";
       getAllNotificationReq();
     },[]);
     
@@ -146,7 +147,7 @@ const UserMenu = (props) => {
           setLoad(load + 1);          
         }
         if(load >= 1){
-          notification.success = false;
+          notification.success = "";
           getAllNotificationReq();
         }
       }
@@ -211,14 +212,16 @@ const UserMenu = (props) => {
       }
     },[insNotifications])
 
-    const handleClickNotif = (id, isRead) => {
+    const handleClickNotif = (id, isRead, url) => {
       if(isRead === false) {
         setListNotif(listNotif.map(x => {
           if(x._id !== id) return x
          return {...x, is_read: true}
         }));
-        updateNotificationReq({is_read: false, id: id});      
+        updateNotificationReq({is_read: true, id: id});
+        window.location.href=url;
       }
+      window.location.href=url;
     }
     
     const countUnreadNotif = () => {
@@ -259,7 +262,7 @@ const UserMenu = (props) => {
             style: {overflow: "hidden", height:'620px', width:'400px',border: '1px solid #d3d4d5', backgroundColor:'rgba(255,255,255,0.97)'
             }
           }}>
-            {<div style={notification.success === false ? {height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}
+            {<div style={notification.success === "" ? {height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}
             :{display:'none'}}>
               <CircularProgress style={{width: '28px', height: '28px', color:'#909090'}} /></div> }
         <Paper>
@@ -273,18 +276,18 @@ const UserMenu = (props) => {
             <div style={{display: 'flex'}}>
               <ListItem key={node._id} button alignItems="normal" className={classes.listItemStyle}>
 
-                <div onClick={()=>{handleClickNotif(node._id, node.is_read)}} style={node.is_read ? {height:'100%', opacity:'0%'}:{height:'100%'}}>
+                <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} style={node.is_read ? {height:'100%', opacity:'0%'}:{height:'100%'}}>
                   <FiberManualRecordIcon className={classes.unreadNotif}/>
                 </div>
 
-                <div onClick={()=>{handleClickNotif(node._id, node.is_read)}} style={{height:'100%'}}>
+                <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} style={{height:'100%'}}>
                 {avatar && <ListItemAvatar >
                   <Avatar src={avatar}>
                   </Avatar>
                 </ListItemAvatar>} 
                 </div>
                 
-                <div onClick={(event)=>{handleClickNotif(node._id, node.is_read)}} className={classes.listItemDivText}>
+                <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} className={classes.listItemDivText}>
                   <ListItemText primary={node.description} secondary={time2TimeAgo(node.created_date)} 
                    inset={avatar ? false : true}
                    classes={node.is_read ? { primary: classes.itemTextPrimaryRead, secondary: classes.itemTextSecondaryRead} 
