@@ -1,24 +1,19 @@
 import React, {useState, useEffect} from "react";
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 import useStyles from './styles';
 //import styles from "./styles";
 //import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import {SEND_MAIL_RESET_PASSWORD_REQ, RESET_SEND_MAIL_RESET_PASSWORD} from '../../../redux/account/constants';
 import {VERIFY_USERS_TO_PROJECT_REQ} from '../../../redux/users/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { blue } from '@material-ui/core/colors';
-import ReplayIcon from '@material-ui/icons/Replay';
-import CancelIcon from '@material-ui/icons/Cancel';
 import {
-    FormControl,
-    InputLabel,
     Typography
   } from "@material-ui/core";
+import { SELECT_PROJECT } from "../../../redux/projects/constants";
+import { RESET_SELECT_PROJECT } from "../../../redux/projects/projectAction";
 
   //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -32,7 +27,9 @@ const  mapStateToProps = (state) => {
   const mapDispatchToProps = dispatch => {
     return {
       verifyUserToProjectReq: (payload) => dispatch({ type: VERIFY_USERS_TO_PROJECT_REQ, payload }),
-      displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+      displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+      selectProject: (payload) => dispatch({type: SELECT_PROJECT, payload}),
+      resetSelect: () => dispatch({type: RESET_SELECT_PROJECT}),
     }
   }
 
@@ -40,17 +37,26 @@ const VerifyMember = (props) => {
 
     const classes = useStyles();
 
-    const {project, insUsers, verifyUserToProjectReq, displayMsg} = props;
+    const history = useHistory();
+
+    const {project, resetSelect, selectProject, insUsers, verifyUserToProjectReq, displayMsg} = props;
 
     const [userInfo, setUserInfo] = useState({
       email: window.location.pathname.split('/')[3],
       role: 'Tester',
       projectid: window.location.pathname.split('/')[4],
-      resettoken: window.location.pathname.split('/')[5]
+      projectname: window.location.pathname.split('/')[5],
+      resettoken: window.location.pathname.split('/')[6]
     })
+
 
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [loading, setLoading] = useState(false);
+
+    //RESET SELECT PROJECT
+    useEffect(()=>{
+      resetSelect();
+    },[]);
 
     useEffect(()=>{
       console.log(insUsers);
@@ -60,8 +66,13 @@ const VerifyMember = (props) => {
           type: 'success'
         });
         setEnableCreateBtn(true);
-      setLoading(false);
-        //handleClose();
+        setLoading(false);
+        selectProject({id: userInfo.projectid, name: userInfo.projectname, role: userInfo.role});
+        if (localStorage.getItem('token') !== null){
+          history.push('/projects/'+userInfo.projectname);
+        } else {
+          history.push('/login');
+        }
       }
       if(insUsers.sucess === false){
         displayMsg({
@@ -69,14 +80,14 @@ const VerifyMember = (props) => {
           type: 'error'
         });
         setEnableCreateBtn(true);
-      setLoading(false);
+        setLoading(false);
       }
     },[insUsers]);
 
     const verifyUser = () => {
       console.log(userInfo);
       setEnableCreateBtn(false);
-    setLoading(true);
+      setLoading(true);
       verifyUserToProjectReq(userInfo);
     };
     return(

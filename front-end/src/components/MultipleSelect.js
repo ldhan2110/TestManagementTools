@@ -55,23 +55,22 @@ const names = [
 const MultipleSelect = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  const {title, listData, select, setSelect} = props;
 
   const handleChange = (event) => {
-    setPersonName(event.target.value);
+    setSelect(event.target.value);
   };
 
 
   return (
       <FormControl variant="outlined" fullWidth>
-        <InputLabel id="demo-mutiple-chip-label">Requirements</InputLabel>
+        <InputLabel id="demo-mutiple-chip-label">{title}</InputLabel>
         <Select
           labelId="demo-mutiple-chip-label"
           id="demo-mutiple-chip"
           multiple
-          value={personName}
+          value={select}
           onChange={handleChange}
-        //   input={<Input id="select-multiple-chip" variant="outlined" />}
           renderValue={(selected) => (
             <div className={classes.chips}>
               {selected.map((value) => (
@@ -81,10 +80,10 @@ const MultipleSelect = (props) => {
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
-            <MenuItem key={name} value={name}>
-              <Checkbox checked={personName.indexOf(name) > -1} />
-              <ListItemText primary={name} />
+          {listData.map((value) => (
+            <MenuItem key={value} value={value}>
+              <Checkbox checked={select.indexOf(value) > -1} />
+              <ListItemText primary={value} />
             </MenuItem>
           ))}
         </Select>

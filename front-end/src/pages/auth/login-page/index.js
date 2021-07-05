@@ -2,8 +2,6 @@ import React, {useState, useEffect} from "react";
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {LOGIN_REQ} from '../../../redux/account/constants';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -27,7 +25,6 @@ import LockIcon from '@material-ui/icons/Lock';
 
 //IMPORT REGISTER
 import RegisterPage from '../register-page/index';
-//import { TrendingUpOutlined } from "@material-ui/icons";
 
 
 //MAP STATES TO PROPS - REDUX
@@ -222,16 +219,6 @@ const LoginPage = (props) => {
         </FormControl>
         {error && error.error && <FormHelperText id="component-error-text" error={true}>{error.error}</FormHelperText>}
 
-        {/*<FormControlLabel
-        control={
-          <Checkbox
-            onChange={handleClickKeepSignIn}
-            name="isLogin"
-            color="primary"
-          />
-        }
-        label="Keep me sign in"
-      />*/}
         <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<LockIcon />} onClick={handleClickLogin}>
             Sign In

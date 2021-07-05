@@ -1,17 +1,13 @@
 import React from "react";
 import {
-  //Grid,
   Users,
   Flag,
   PieChart,
-  //Package,
   Layers,
-  //Home,
   Settings,
   Briefcase,
   Trello,
   Radio,
-  //AlertOctagon
 } from "react-feather";
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import async from "../components/Async";
@@ -99,7 +95,7 @@ const projectSettingRoutes = {
 };
 
 const verifyMemberRoute = {
-  path: "/auth/verify-member/:email/:projectid/:token",
+  path: "/auth/verify-member/:email/:projectid/:projectname/:token",
   name: "Verify Member",
   component: VerifyMemberPage
 }

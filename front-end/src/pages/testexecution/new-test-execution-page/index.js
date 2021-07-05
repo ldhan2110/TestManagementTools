@@ -64,12 +64,14 @@ const NewTestExecutionPage = (props) => {
 
     const [listBuild, setListBuild] = useState([]);
     const [checkError, setCheckError] = useState(false);
+    const [listRequirements, setListRequirements] = useState([]);
     const [testExecInfo, setTestExecInfo] = useState({
         exist_testexecution: '',
         testexecutionname: '',
         description: '',
         testplanname: '',
         buildname: '',
+        listrequirement: [],
         listexectestcases: [],
         is_public: false,
         is_active: false,
@@ -149,13 +151,6 @@ const NewTestExecutionPage = (props) => {
             content: "Create Test Execution successfully !",
             type: 'success'
           });   
-          
-          /* const socket = socketIoClient.io("http://localhost:5000");
-          socket.on('connect', function (data) {
-            socket.on('assigntester', function (message) {
-              console.log(message);
-            });
-          }); */
 
           getAllTestExecReq();
           resetAddRedux();
@@ -322,7 +317,7 @@ const NewTestExecutionPage = (props) => {
         </Select>
       </FormControl>
       
-      <MultipleSelect/>
+      <MultipleSelect title = {'Requirements'} select={listRequirements} setSelect={setListRequirements}/>
 
 
           <Grid container>

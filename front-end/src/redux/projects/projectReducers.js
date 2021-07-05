@@ -222,6 +222,15 @@ const reducer = (state = initialState, actions) => {
       }
     }
 
+    case types.RESET_SELECT_PROJECT:{
+      return {
+        ...state,
+        currentSelectedProject: "",
+        currentSelectedProjectName: '',
+        currentRole: '',
+      }
+    }
+
     default:
       return state
   }

@@ -54,3 +54,7 @@ export function changeRoleMember(value){
     payload: value
   }
 }
+
+export function RESET_SELECT_PROJECT(value){
+  
+}
