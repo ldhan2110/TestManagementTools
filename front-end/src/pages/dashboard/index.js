@@ -100,14 +100,6 @@ const  Dashboard = (props) => {
   const [dataMultiChart,setDataMultiChart] = useState({
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     datasets: [
-    // {
-    //   type: 'line',
-    //   label: 'Bugs',
-    //   borderColor: BUGS,
-    //   borderWidth: 2,
-    //   fill: false,
-    //   data: [rand(), rand(), rand(), rand(), rand(), rand()],
-    // },
     {
       type: 'bar',
       label: 'Test Failed',
@@ -131,43 +123,13 @@ const  Dashboard = (props) => {
   ],
   })
 
-  /* const [dataSixExecution,setSixExecution] = useState({
-    labels: ['Name', 'Tester', 'Status', 'Test Date'],
-    datasets: [
-    {
-      data: [],
-        backgroundColor: [],
-    },
-  ],
-  })*/
-
-  async function getSixExecution(){
-    const response = await getSixExecutionReq();
-  }
-
   useEffect(()=> {
     getEffortReq();
     getExecOverviewReq();
     getMultiChartReq();
     //getSixExecutionReq();
-    getSixExecution();
+    getSixExecutionReq();
   },[]) 
-
-  /*
-  useEffect(()=> {
-    if (sixExecution.data !== null){
-      setEfforts({
-        labels:  sixExecution.data.labels,
-        datasets: [
-          {
-          
-            data: sixExecution.data.data,
-            backgroundColor: sixExecution.data.data.map(()=>generateColor()),
-          },
-    ],
-      })
-    }
-    },[effortsData.data]) */
 
   //EFFORT
   useEffect(()=> {
@@ -235,16 +197,16 @@ const  Dashboard = (props) => {
   ],
       })
     }
-    console.log(multiChart);
   },[multiChart])
 
   useEffect(()=>{
-    console.log(execOverviewData.data);
-  },[execOverviewData.data])
+    getEffortReq();
+    getExecOverviewReq();
+    getMultiChartReq();
+    //getSixExecutionReq();
+    getSixExecutionReq();
+  })
 
-  useEffect(()=> {
-    console.log(JSON.stringify(sixExecution, null, ' '))
-  },[sixExecution])
 
 
   return (
@@ -278,7 +240,7 @@ const  Dashboard = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-          <UnpaidTable data={sixExecution.data !== null ? sixExecution.data:[]}/> 
+          <UnpaidTable data={sixExecution.data !== null ? sixExecution.data : []}/> 
         </Grid>
         <Grid item xs={12} lg={6}>
           <HorizontalBarChart datasets={dataEfforts}/>

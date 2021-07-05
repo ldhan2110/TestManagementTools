@@ -293,41 +293,9 @@ const UserMenu = (props) => {
                    //style={{marginTop:0}}
                    />
                 </div>
-               {/* <div onClick={()=>{handleClickNotif(node.a)}} style={{height:'100%', paddingLeft:'8px'}}><img src="https://i.ytimg.com/vi/htxEPA5YxGU/hqdefault_live.jpg" 
-               className={classes.image} />
-               </div> */}
-            {/* <IconButton edge="end" className={classes.iconBtn}>
-                  <MoreVertIcon onClick={handleClickMenu}/>
-                </IconButton> */}
-                
+               
               </ListItem>
-              {/* <Popover
-                elevation={0}        
-                open={Boolean(anchorElMenu)}
-                anchorEl={anchorElMenu}
-                onClose={handleCloseMenu}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                PaperProps={{
-                  style: {border: '1px solid #d3d4d5',
-                  }
-                }}>
-                  <List>
-                    <ListItem onClick={()=>handleHide(index)} button>
-                      <ListItemIcon><VisibilityOffIcon /></ListItemIcon>                     
-                      <ListItemText primary={"Hide this notification"}/>
-                    </ListItem>
-                        <ListItem onClick={()=>handleHide(index)} button>
-                      <ListItemText inset primary={"Hide this notification2"}/>
-                    </ListItem>
-              </List>
-            </Popover> */}
+              
           </div>
                             
             )}
@@ -340,20 +308,7 @@ const UserMenu = (props) => {
            </div>}
 
         </Popover>
-      {/* <StyledMenu
-        id="customized-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}>
-        {listNotifications?.map((item, index) =>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <InfoRounded fontSize="small" />
-          </ListItemIcon>
-          <ListItemText key={index} value={item.description}>{item.description}</ListItemText> 
-        </StyledMenuItem>)}    
-      </StyledMenu> */}
+      
       </React.Fragment>
     );
   }
