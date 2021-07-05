@@ -3,7 +3,6 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
-//import SelectBox from '../../../components/Selectbox';
 import SelectTestCasePopup from '../../testcases/select-test-case-page/index';
 import { connect } from 'react-redux';
 import MultipleSelect from "../../../components/MultipleSelect";
@@ -29,6 +28,7 @@ import { GET_ALL_BUILD_TESTPLAN_REQ } from "../../../redux/build-release/constan
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { GET_ALL_ACTIVE_REQUIREMENTS_REQ } from "../../../redux/requirements/constants";
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -38,7 +38,8 @@ const  mapStateToProps = (state) => {
     insTestexec: state.testexec.insTestexec,
     listActiveTestplan: state.testplan.listActiveTestplan,
     listBuildByTestPlan: state.build.listBuildsByTestplan,
-    listTestExec: state.testexec.listTestExec
+    listTestExec: state.testexec.listTestExec,
+    listRequirements: state.requirements.listActiveRequirements
    }
 }
 
@@ -51,6 +52,7 @@ const mapDispatchToProps = dispatch => {
     getAllTestExecReq: (payload) => dispatch({type: GET_ALL_TESTEXEC_REQ}),
     getAllActiveTestplanReq: (payload) => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
     getBuildByTestPlan: (payload) => dispatch({type: GET_ALL_BUILD_TESTPLAN_REQ, payload}),
+    getAllActiveRequirementReq: (payload) => dispatch({type: GET_ALL_ACTIVE_REQUIREMENTS_REQ}),
     resetAddRedux: () => dispatch({type: RESET_ADD_TEST_EXEC})
   }
 }
@@ -58,13 +60,13 @@ const mapDispatchToProps = dispatch => {
 const NewTestExecutionPage = (props) => {
     const {classes, listTestExecution, listtestcaseselect} = props;
 
-    const {listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux, listBuildByTestPlan, getBuildByTestPlan, listTestExec} = props;
+    const {listRequirements, listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux, listBuildByTestPlan, getBuildByTestPlan, listTestExec, getAllActiveRequirementReq} = props;
 
     const [open,setOpenPopup] = useState(false);
 
     const [listBuild, setListBuild] = useState([]);
     const [checkError, setCheckError] = useState(false);
-    const [listRequirements, setListRequirements] = useState([]);
+    const [selectRequirements, setListRequirements] = useState([]);
     const [testExecInfo, setTestExecInfo] = useState({
         exist_testexecution: '',
         testexecutionname: '',
@@ -92,6 +94,7 @@ const NewTestExecutionPage = (props) => {
       getAllUserReq(localStorage.getItem('selectProject'));
       getAllActiveTestplanReq();
       getAllTestExecReq();
+      getAllActiveRequirementReq();
     },[])
 
     useEffect(()=>{
@@ -100,10 +103,10 @@ const NewTestExecutionPage = (props) => {
     },[listBuildByTestPlan])
 
     useEffect(()=>{
-      console.log(listTestExec);
-    },[listTestExec])
+      console.log(listRequirements);
+    },[listRequirements])
 
-
+  
     useEffect(()=>{
       if (listtestcaseselect !== null){
       var temparr = [];
@@ -248,16 +251,6 @@ const NewTestExecutionPage = (props) => {
           <Typography variant="h3" gutterBottom display="inline">
             New Test Execution
           </Typography>
-
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-          </Breadcrumbs> */}
         </Grid>
       </Grid>
 
@@ -266,9 +259,6 @@ const NewTestExecutionPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          {/*<TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth  value={testExecInfo.testexecName} onChange={handleChange('testexecutionname')}/>
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth  value={testExecInfo.description} onChange={handleChange('description')}/> */}
-          
           <TextField id="testExecutionName" label="Test Execution Name" 
           variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
           value={testExecInfo.testexecutionname || ''} onChange={handleChange('testexecutionname')} 
@@ -287,12 +277,6 @@ const NewTestExecutionPage = (props) => {
           helperText={!testExecInfo.testplanname && !error.testplanname ? 'Test Plan is required' : ' '}
           disabled={testExecInfo.exist_testexecution === '' ? false:true}
           >
-
-          {/*labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="testplan"
-        onChange={handleChange('testplanname')}*/}
-       
           {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
         </Select>
       </FormControl>
@@ -308,23 +292,15 @@ const NewTestExecutionPage = (props) => {
           error={!testExecInfo.buildname && !error.buildname ? true : false}
           helperText={!testExecInfo.buildname && !error.buildname ? 'Build/Release is required' : ' '}
           disabled={testExecInfo.exist_testexecution === '' ? false:true}
-          /*labelId="build"
-          id="build"
-          label="build"
-          onChange={handleChange('buildname')}*/
         >
           {listBuild.map((item, index) => <MenuItem key={index} value={item.buildname}>{item.buildname}</MenuItem>)}    
         </Select>
       </FormControl>
       
-      {/* <MultipleSelect title = {'Requirements'} select={listRequirements} setSelect={setListRequirements}/> */}
+      {/* <MultipleSelect title = {'Requirements'} select={selectRequirements} setSelect={setListRequirements} listData={listRequirements}/> */}
 
 
           <Grid container>
-             {/* <Grid item xs={3}>
-              <p>Create from existing test execution ?</p>
-              </Grid>*/}
-              
               <FormControl variant="outlined" fullWidth>
               <InputLabel id="testexec" >Create from existing test execution ? </InputLabel>
             <Select
@@ -376,14 +352,6 @@ const NewTestExecutionPage = (props) => {
            <FormControl variant="outlined" fullWidth>
            <InputLabel id="tester" >Assign Tester</InputLabel>
             <Select
-          /* labelId="tester"
-          id="tester"
-          value={testExecInfo.assigntester || ''}
-          onChange={handleChange('assigntester')}
-          label="Tester"
-          error={!testExecInfo.assigntester && !error.assigntester ? true : false}
-      helperText={!testExecInfo.assigntester && !error.assigntester ? 'Assign Tester is required' : ' '} */
-
           labelId="tester"
           id="tester"
           label="Tester"

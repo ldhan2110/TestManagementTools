@@ -177,7 +177,7 @@ const UserMenu = (props) => {
       }
     },[insNotifications])
 
-    const handleClickNotif = (id, isRead, url) => {
+    const handleClickNotif = async (id, isRead, url) => {
       if(isRead === false) {
         setListNotif(listNotif.map(x => {
           if(x._id !== id) return x
@@ -186,7 +186,7 @@ const UserMenu = (props) => {
         updateNotificationReq({is_read: true, id: id});
       }
       
-      var projectItem = filterProject(parseUrl2ProjectId(url));
+      var projectItem = filterProject(parseUrl2ProjectId(url))[0];
       selectProject({id: projectItem._id, name: projectItem.projectname, role: projectItem.role});
       window.location.href=url;
     }
