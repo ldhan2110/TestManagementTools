@@ -199,13 +199,13 @@ const  Dashboard = (props) => {
     }
   },[multiChart])
 
-  useEffect(()=>{
+/*   useEffect(()=>{
     getEffortReq();
     getExecOverviewReq();
     getMultiChartReq();
     //getSixExecutionReq();
     getSixExecutionReq();
-  })
+  }) */
 
 
 

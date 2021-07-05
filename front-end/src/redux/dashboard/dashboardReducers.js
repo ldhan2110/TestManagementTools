@@ -137,7 +137,7 @@ const reducer = (state = initialState, actions) => {
           }
 
     default: 
-        return initialState;
+        return state;
     }
 }
 

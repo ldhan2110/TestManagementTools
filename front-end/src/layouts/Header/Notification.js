@@ -164,7 +164,7 @@ const UserMenu = (props) => {
 
     // more than 2 weeks
     if (seconds > 2*7*24*3600) {
-      return Math.floor(seconds/(2*7*24*3600)).toString() + " weeks ago";
+      return Math.floor(seconds/(7*24*3600)).toString() + " weeks ago";
    }
     // a week
     if (seconds > 7*24*3600) {
@@ -172,7 +172,7 @@ const UserMenu = (props) => {
    }
     // more that two days
     if (seconds > 2*24*3600) {
-       return Math.floor(seconds/(2*24*3600)).toString() + " days ago";
+       return Math.floor(seconds/(24*3600)).toString() + " days ago";
     }
     // a day
     if (seconds > 24*3600) {

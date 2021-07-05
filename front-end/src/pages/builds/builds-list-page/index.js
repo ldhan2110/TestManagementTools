@@ -215,6 +215,7 @@ const BuildListPage = (props) => {
       //setCount1(1);
       //getAllBuildReq(project);
       //getAllTestPlanReq();
+      insBuildsDelete.sucess = true;
       resetDeleteRedux();
     } else if (insBuildsDelete.sucess === true) {
       displayMsg({
