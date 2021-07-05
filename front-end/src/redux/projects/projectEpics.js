@@ -32,7 +32,11 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
     
     }),
     catchError (error => {
-      console.log(error.response.data);
+      const {status} = error.response.data;
+      if (status ===  401) {
+        localStorage.clear();
+        window.location.replace('/login');
+      } else
       return of({
         type: actions.GET_ALL_PROJECTS_FAILED,
         payload: error.response.data.errMsg

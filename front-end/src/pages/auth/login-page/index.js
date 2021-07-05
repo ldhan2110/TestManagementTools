@@ -91,9 +91,9 @@ const LoginPage = (props) => {
     },[account]);
 
     useEffect(()=>{
-      if (accountInfo.isLogin && project === ''){
+      if (localStorage.getItem("token") && project === ''){
         history.push("/projects");
-      } else {
+      } else  if (localStorage.getItem("token"))  {
         history.push("/projects"+project);
       }
     }, [accountInfo, history])
