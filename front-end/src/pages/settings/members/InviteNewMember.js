@@ -120,7 +120,6 @@ const InviteNewMemberDialog = (props) => {
       });
       setEnableCreateBtn(true);
       setLoading(false);
-      getAllUserOfProjectReq(project);
       resetAddUser();
       handleClose();
     }

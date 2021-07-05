@@ -31,6 +31,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
+    testexec: state.testexec,
+    build: state.build,
+    testplan: state.testplan,
     listTestExec: state.testexec.listTestExec,
     listTestPlan: state.testplan.listActiveTestplan,
     listBuild: state.build.listBuildActive,
@@ -56,7 +59,7 @@ const mapDispatchToProps = dispatch => {
 const TestExecutionListPage = (props) => {
   //const {classes} = props;
 
-  const {listTestExec, listTestPlan, getAllTestExecReq, getAllTestPlanReq, getAllBuildReq, getBuildByTestplan, listBuild, listBuildByTestPlan, resetBuildActive, resetBuildTestplan} = props;
+  const {listTestExec, testexec, build, testplan, listTestPlan, getAllTestExecReq, getAllTestPlanReq, getAllBuildReq, getBuildByTestplan, listBuild, listBuildByTestPlan, resetBuildActive, resetBuildTestplan} = props;
 
   const [listTestexec, setListTestExec] = useState([]);
 
@@ -72,10 +75,6 @@ const TestExecutionListPage = (props) => {
     buildName: -1,
     status: -1
   });
-
-  //load TP bar
-  const [count, setCount] = React.useState(0);
-  const [count1, setCount1] = React.useState(0);
 
   const history = useHistory();
 
@@ -105,11 +104,11 @@ const TestExecutionListPage = (props) => {
     const arr = listBuild.slice();
       arr.map(item => {item.value = item.buildname; item.label = item.buildname; return item;})
       console.log(arr);
-      return arr;
- 
+      return arr; 
   }
 
   useEffect(()=>{
+    testexec.success = "";
     getAllTestExecReq();
     getAllTestPlanReq();
     getAllBuildReq({projectid: localStorage.getItem('selectProject')});
@@ -123,31 +122,16 @@ const TestExecutionListPage = (props) => {
       TEST_EXEC_SEARCH_CONDITIONS[2].listValues = convertBuildItem(listBuild[0].build);
     }
   },[listTestPlan, listBuild])
-  
-
-
-  useEffect(()=>{
-    console.log(TEST_EXEC_SEARCH_CONDITIONS);
-  },[TEST_EXEC_SEARCH_CONDITIONS])
-
- 
-
-
 
   useEffect(()=>{
     console.log('keyword: ' + searchConditions.status+'  '+searchConditions.testplanName+'  '+searchConditions.testexecName);
+    if(testexec.success === true){
     var tempArr = [];
     listTestExec.forEach((item)=>{
       tempArr.push({_id: item._id, status: item.status, testexecutionname: item.testexecutionname, description: item.description, tester: item.tester ? item.tester.username : '', testplanname: item.testplan.testplanname, buildname: item.build.buildname })
     });
     setListTestExec(tempArr);
-    setArrayExec(tempArr);
-    //load bar
-    if(count < 3){
-      setCount(count+1);
-      setTimeout(()=>{
-        setCount1(count1+1);
-      },200);}
+    setArrayExec(tempArr);}
   },[listTestExec]);
 
   useEffect(()=>{
@@ -251,8 +235,7 @@ const TestExecutionListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          {/* Load bar */}
-        {count1 < 2 && <LinearProgress />}
+          {(testexec.success && build.success && testplan.success) ? 
           <EnhancedTable
             rows={array}
             headerList = {TEST_EXECUTION_HEADERS}
@@ -262,7 +245,18 @@ const TestExecutionListPage = (props) => {
             handleDefaultDeleteAction={navigateOverviewPage}
             viewAction={navigateToEditPage}
             type='testexecution'
+            load={(testexec.success && build.success && testplan.success)}
           />
+          : 
+          <EnhancedTable
+            rows={[]}
+            headerList = {TEST_EXECUTION_HEADERS}
+            conditions={TEST_EXEC_SEARCH_CONDITIONS}
+            viewAction={navigateToEditPage}
+            type='testexecution'
+            load={(testexec.success && build.success && testplan.success)}
+          />
+          }
         </Grid>
       </Grid>
     </div>

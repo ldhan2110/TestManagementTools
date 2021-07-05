@@ -18,7 +18,7 @@ import UnpaidTable from '../../components/Charts/UnpaidTable'
 import MultiChart from '../../components/Charts/MultiChart';
 import HorizontalBarChart from '../../components/Charts/HorizontalChart';
 import { GET_EFFORT_REQ, GET_EXEC_OVERVIEW_REQ, GET_MULTI_CHART_REQ, GET_SIX_EXECUTION_REQ } from '../../redux/dashboard/constants';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
@@ -66,7 +66,7 @@ const  Dashboard = (props) => {
 
   //const {theme} = props;
 
-  const {getEffortReq,effortsData, execOverviewData, getExecOverviewReq, getMultiChartReq, multiChart, getSixExecutionReq, sixExecution} = props;
+  const {getEffortReq, effortsData, execOverviewData, getExecOverviewReq, getMultiChartReq, multiChart, getSixExecutionReq, sixExecution} = props;
 
   const [dataEfforts,setEfforts] = useState({
     labels: [],
@@ -123,11 +123,18 @@ const  Dashboard = (props) => {
   ],
   })
 
+  const resetDashboard = () => {
+    effortsData.sucess = null;
+    execOverviewData.sucess = null;
+    multiChart.sucess = null;
+    sixExecution.sucess = null;
+  }
+
   useEffect(()=> {
+    resetDashboard();
     getEffortReq();
     getExecOverviewReq();
     getMultiChartReq();
-    //getSixExecutionReq();
     getSixExecutionReq();
   },[]) 
 
@@ -227,23 +234,38 @@ const  Dashboard = (props) => {
         </Grid>
       </Grid>
 
-      <Divider my={6} />
-      {(sixExecution.data === null || dataMultiChart === null || dataExecOverview === null || dataEfforts === null) && <LinearProgress style={{marginTop:-24, marginBottom:20}} />}
+      <Divider my={6} />      
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-           <MultiChart datasets={dataMultiChart}/>
+          {multiChart.sucess === null ? 
+            <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
+              <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "50%"}}/>
+            </div> : 
+           <MultiChart datasets={dataMultiChart}/>}
         </Grid>
         <Grid item xs={12} lg={6}>
-          <DoughnutChart dataset={dataExecOverview} overviewData={execOverviewData.data ? execOverviewData.data.overviewdata : 0}/>
+        {execOverviewData.sucess === null ? 
+          <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
+            <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}/>
+          </div> :
+          <DoughnutChart dataset={dataExecOverview} overviewData={execOverviewData.data ? execOverviewData.data.overviewdata : 0}/>}
         </Grid>
       </Grid>
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-          <UnpaidTable data={sixExecution.data !== null ? sixExecution.data : []}/> 
+        {sixExecution.sucess === null ? 
+          <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
+            <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}/>
+          </div> :
+          <UnpaidTable data={sixExecution.data !== null ? sixExecution.data : []}/>} 
         </Grid>
         <Grid item xs={12} lg={6}>
-          <HorizontalBarChart datasets={dataEfforts}/>
+        {effortsData.sucess === null ?
+          <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
+            <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "50%"}}/>
+          </div> :
+          <HorizontalBarChart datasets={dataEfforts}/>}
         </Grid>
       </Grid>
     </React.Fragment>

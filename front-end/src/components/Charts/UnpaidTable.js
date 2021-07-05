@@ -106,7 +106,7 @@ const UnpaidTable = (props) => {
   ]);
 
   useEffect(()=> {
-    console.log(JSON.stringify(data, null, ' '));
+    //console.log(JSON.stringify(data, null, ' '));
     setListData(data);
   },[data])
   

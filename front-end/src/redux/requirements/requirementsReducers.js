@@ -1,6 +1,8 @@
 import * as types from './constants';
 
 var initialState = {
+  success: "",
+  successActive: "",
   error: "",
   errorMsg:"",
   currentSelectedRequirements: "",
@@ -25,12 +27,13 @@ const reducer = (state = initialState, actions) => {
     //LOGIN
     case types.GET_ALL_REQUIREMENTS_REQ:
       return {
-        ...state,
+        ...state, success: ""
     }
 
     case types.GET_ALL_REQUIREMENTS_FAILED:
       return {
         ...state,
+        success: "",
         error: true,
         errorMsg: payload,
     }
@@ -38,6 +41,7 @@ const reducer = (state = initialState, actions) => {
     case types.GET_ALL_REQUIREMENTS_SUCESS:
         return {
           ...state,
+          success: true,
           error: "",
           errorMsg:"",
           currentSelectedRequirements: "",
@@ -47,12 +51,13 @@ const reducer = (state = initialState, actions) => {
 
     case types.GET_ALL_ACTIVE_REQUIREMENTS_REQ:
       return {
-        ...state,
+        ...state, successActive: ""
     }
 
     case types.GET_ALL_ACTIVE_REQUIREMENTS_FAILED:
       return {
         ...state,
+        successActive: "",
         error: true,
         errorMsg: payload,
     }
@@ -60,6 +65,7 @@ const reducer = (state = initialState, actions) => {
     case types.GET_ALL_ACTIVE_REQUIREMENTS_SUCESS:
         return {
           ...state,
+          successActive: true,
           error: "",
           errorMsg:"",
           listActiveRequirements: payload

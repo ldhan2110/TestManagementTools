@@ -435,6 +435,7 @@ const TestSuiteDetail = (props) => {
             //viewAction={navigateToDetailPage}
             handleDefaultDeleteAction={handleOpenTSuite}
             type='testcases'
+            load={true}
           />
         </Grid>
         

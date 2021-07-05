@@ -1,6 +1,7 @@
 import * as types from './constants';
 
 var initialState = {
+  success: "",
   error: "",
   errorMsg:"",
   currentSelectedUser: "",
@@ -48,6 +49,7 @@ const reducer = (state = initialState, actions) => {
     
     case types.GET_ALL_USERS_SUCCESS:
         return {
+          ...state,
           error: "",
           errorMsg:"",
           currentSelectedUser: "",
@@ -157,6 +159,7 @@ const reducer = (state = initialState, actions) => {
     
     case types.GET_USER_BYID_SUCCESS:
         return {
+          ...state,
           error: "",
           errorMsg:"",
           currentSelectedUser: "",
@@ -198,19 +201,20 @@ const reducer = (state = initialState, actions) => {
 
     case types.GET_ALL_USERS_OF_PROJECT_REQ:
                 return {
-                  ...state, listUsersOfProject: []
+                  ...state, success: "", listUsersOfProject: []
     }
           
     case types.GET_ALL_USERS_OF_PROJECT_FAILED:
                 return {
                   ...state,
+                  success: "",
                   error: true,
                   errorMsg: payload,
     }
               
     case types.GET_ALL_USERS_OF_PROJECT_SUCCESS:
                   return {
-                    ...state,
+                    ...state, success: true,
                     listUsersOfProject: payload,
     }
 

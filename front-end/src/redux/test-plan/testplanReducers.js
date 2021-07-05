@@ -26,12 +26,13 @@ const reducer = (state = initialState, actions) => {
     //LOGIN
     case types.GET_ALL_TESTPLAN_REQ:
       return {
-        ...state,
+        ...state, success: ""
     }
 
     case types.GET_ALL_TESTPLAN_FAILED:
       return {
         ...state,
+        success: "",
         error: true,
         errorMsg: payload,
     }

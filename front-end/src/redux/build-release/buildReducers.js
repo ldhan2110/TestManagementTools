@@ -27,12 +27,13 @@ const reducer = (state = initialState, actions) => {
     //LOGIN
     case types.GET_ALL_BUILDS_REQ:
       return {
-        ...state, listBuilds: []
+        ...state, success: "", listBuilds: []
       }
 
     case types.GET_ALL_BUILDS_FAILED:
       return {
         ...state,
+        success: "",
         error: true,
         errorMsg: payload,
       }

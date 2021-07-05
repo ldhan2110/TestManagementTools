@@ -23,7 +23,6 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 //MAP STATES TO PROPS - REDUX
@@ -108,7 +107,6 @@ const TestPlanListPage = (props) => {
   useEffect(()=>{
     console.log(testplan);
     if(testplan.success === true)
-      if(insTestplanDelete.sucess !== false)
         setArray(listTestplan);
   },[testplan])
 
@@ -116,8 +114,7 @@ const TestPlanListPage = (props) => {
     setConditions({...searchConditions, [props]: data });
   }
 
-  useEffect(()=>{ 
-    console.log('keyword: '+searchConditions.testplanName + '   ' + searchConditions.active);
+  useEffect(()=>{
     if (searchConditions.active === -1 && searchConditions.testplanName === ''){
       setArray(listTestplan);
     } 
@@ -229,7 +226,14 @@ const TestPlanListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         {/* Load bar */}
-        {testplan.success === "" && <LinearProgress />}
+        {testplan.success !== true ? <EnhancedTable
+            rows={[]}
+            headerList = {TEST_PLAN_HEADERS}
+            conditions={TEST_PLANS_SEARCH}
+            setConditions={handleChangeConditions}
+            type='testplan'
+            load={testplan.success}
+          />:
           <EnhancedTable
             rows={array}
             headerList = {TEST_PLAN_HEADERS}
@@ -238,7 +242,8 @@ const TestPlanListPage = (props) => {
             searchMethod={searchTestPlan}
             handleDefaultDeleteAction={deleteTP}
             type='testplan'
-          />
+            load={testplan.success}
+          />}
         </Grid>
       </Grid>
     </div>

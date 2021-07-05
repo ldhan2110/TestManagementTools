@@ -33,6 +33,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 function mapStateToProps(state) {
   return {
+    user: state.user,
     listUsers: state.user.listUsers,
     listUsersOfProject: state.user.listUsersOfProject,
     project: state.project.currentSelectedProject,
@@ -57,7 +58,7 @@ const mapDispatchToProps = dispatch => {
 const MemberListPage = (props) => {
   //const {classes} = props;
 
-  const {listUsersOfProject, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg, insDeleteMember, deleteUserOfProject, resetDelUserOfProjectRedux, role} = props;
+  const {listUsersOfProject, user, project, getAllUserOfProjectReq, listUsers, addUserToProjectReq, getAllUserReq, displayMsg, insDeleteMember, deleteUserOfProject, resetDelUserOfProjectRedux, role} = props;
 
   const [openDialog,setOpenDialog] = useState(false);
 
@@ -81,10 +82,6 @@ const MemberListPage = (props) => {
   const [listMember, setListMember] = React.useState([]);
 
   const [selected,setSelected] = useState({});
-
-  //load TP bar
-  const [count, setCount] = React.useState(0);
-  const [count1, setCount1] = React.useState(0);
 
   const handleArray = () => {   
     if(listUsersOfProject !== undefined){
@@ -122,22 +119,17 @@ const MemberListPage = (props) => {
   }
 
   useEffect(()=>{
+    user.success = "";
     getAllUserOfProjectReq(project);
-    setArray([]);
   },[]);
 
-  useEffect(()=>{
-    handleArray();
-    //load bar
-    if(count < 3){
-      setCount(count+1);
-      setTimeout(()=>{
-        setCount1(count1+1);
-      },200);}
+  useEffect(()=>{    
+      handleArray();
   },[listUsersOfProject])
 
   useEffect(()=>{
-    setListMember(array);
+    if(user.success === true)
+      setListMember(array);
     setOpenRoleDialog(false);
   },[array])
 
@@ -165,8 +157,7 @@ const MemberListPage = (props) => {
   };
   
   const handleDelMember = () =>{
-    setCount(-2);
-      setCount1(-2);
+    user.success = "";
     deleteUserOfProject(delMember);
     setOpen(false);
   }
@@ -181,17 +172,13 @@ const MemberListPage = (props) => {
         content: insDeleteMember.errMsg,
         type: 'error'
       });
-      setCount(1);
-        setCount1(1);
-      getAllUserOfProjectReq(project);
+      user.success = true;
       resetDelUserOfProjectRedux();
     } else if (insDeleteMember?.sucess === true) {
       displayMsg({
         content: "Removed user from project successfully !",
         type: 'success'
       });
-      setCount(1);
-        setCount1(1);
       getAllUserOfProjectReq(project);
       resetDelUserOfProjectRedux();
     }
@@ -250,8 +237,14 @@ const MemberListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
            {/* Load bar */}
-        {count1 < 2 && <LinearProgress />}
-          <EnhancedTable
+           {user.success !== true ? <EnhancedTable
+            rows={[]}
+            headerList = {MEMBERS_HEADERS}
+            conditions={MEMBER_SEARCH}
+            type='member'
+            load={user.success}
+          />
+          :<EnhancedTable
             rows={listMember}
             headerList = {MEMBERS_HEADERS}
             viewAction={handleOpenChangeRole}
@@ -260,7 +253,8 @@ const MemberListPage = (props) => {
             searchMethod={searchMember}
             handleDefaultDeleteAction={deleteMember}
             type='member'
-          />
+            load={user.success}
+          />}
         </Grid>
       </Grid>
     </div>

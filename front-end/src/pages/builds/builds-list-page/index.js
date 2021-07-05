@@ -211,8 +211,6 @@ const BuildListPage = (props) => {
       // }); 
       //setEnableDeleteBtn(true);
       //setLoadingg(false);
-      //setCount(1);
-      //setCount1(1);
       //getAllBuildReq(project);
       //getAllTestPlanReq();
       insBuildsDelete.sucess = true;
@@ -303,7 +301,13 @@ const BuildListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-        {build.success === "" && <LinearProgress/>}
+        {build.success !== true ? <EnhancedTable
+            rows={[]}
+            headerList = {BUILDS_HEADERS}
+            conditions={BUILD_SEARCH_CONDITIONS}
+            type='build'
+            load={build.success}
+          />:
           <EnhancedTable
             rows={array}
             headerList = {BUILDS_HEADERS}
@@ -313,7 +317,8 @@ const BuildListPage = (props) => {
             searchMethod={searchBuild}
             handleDefaultDeleteAction={deleteBuild}
             type='build'
-          />
+            load={build.success}
+          />}
         </Grid>
       </Grid>
     </div>

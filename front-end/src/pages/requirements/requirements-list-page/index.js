@@ -24,11 +24,11 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
+    requirements: state.requirements,
     listRequirements: state.requirements.listRequirements,
     project: state.project.currentSelectedProject,
     role: state.project.currentRole,
@@ -51,13 +51,9 @@ const mapDispatchToProps = dispatch => {
 const RequirementListPage = (props) => {
   //const {classes} = props;
 
-  const {listRequirements, getAllRequirementsReq, project, role, deleteRequirementsReq, resetDeleteRedux, insRequirementsDelete, displayMsg} = props;
+  const {listRequirements, requirements, getAllRequirementsReq, project, role, deleteRequirementsReq, resetDeleteRedux, insRequirementsDelete, displayMsg} = props;
 
   const [array, setArray] = React.useState(listRequirements);
-
-  //load TP bar
-  const [count, setCount] = React.useState(0);
-  const [count1, setCount1] = React.useState(0);
 
   //delete TP dialog
   const [open, setOpen] = React.useState(false);
@@ -103,19 +99,15 @@ const RequirementListPage = (props) => {
   }
 
   useEffect(()=>{
+    requirements.success = "";
     getAllRequirementsReq(project);
   },[])
 
+  useEffect(()=>{console.log(requirements);},[requirements])
+
   useEffect(()=>{
-    setArray(listRequirements);
-    //load bar
-    if(count < 3){
-    setCount(count+1);
-    setTimeout(()=>{
-      setCount1(count1+1);
-    },200);}
-    //console.log(count);
-    //console.log(count1);
+    if(requirements.success === true)
+      setArray(listRequirements);
   },[listRequirements])
 
   const handleChangeConditions = (props, data) => {
@@ -147,17 +139,13 @@ const RequirementListPage = (props) => {
           content: insRequirementsDelete.errMsg,
           type: 'error'
         });
-        setCount(1);
-        setCount1(1);
-        getAllRequirementsReq(project);
+        requirements.success = true;
         resetDeleteRedux();
       } else if (insRequirementsDelete.sucess === true) {
         displayMsg({
           content: "Delete requirement successfully !",
           type: 'success'
         });
-        setCount(1);
-        setCount1(1);
         getAllRequirementsReq(project);
         resetDeleteRedux();
       }
@@ -174,8 +162,7 @@ const RequirementListPage = (props) => {
       setOpen(false);
     };
     const handleDelete=()=>{
-      setCount(-2);
-      setCount1(-2);
+      requirements.success = "";
       deleteRequirementsReq(requirementsInfor);
       setOpen(false);
     };
@@ -240,8 +227,7 @@ const RequirementListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          {/* Load bar */}
-        {count1 < 2 && <LinearProgress />}
+        {requirements.success === true ? 
           <EnhancedTable
             rows={array}
             headerList = {REQUIREMENTS_HEADER}
@@ -251,7 +237,15 @@ const RequirementListPage = (props) => {
             searchMethod={searchRequirements}
             handleDefaultDeleteAction={deleteTP}
             type='requirements'
+            load={requirements.success}
           />
+          : <EnhancedTable
+          rows={[]}
+          headerList = {REQUIREMENTS_HEADER}
+          conditions={REQUIREMENT_SEARCH}
+          type='requirements'
+          load={requirements.success}
+        />}
         </Grid>
       </Grid>
     </div>

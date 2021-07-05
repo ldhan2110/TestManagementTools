@@ -33,6 +33,8 @@ import { spacing } from "@material-ui/system";
 import { Clipboard } from "react-feather";
 import CustomEmptyOverlayGrid from './NoDataIcon'
 //import { retinaImage } from "polished";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 const Paper = styled(MuiPaper)(spacing);
 
 const Chip = styled(MuiChip)`
@@ -54,7 +56,7 @@ const Chip = styled(MuiChip)`
 const EnhancedTable = (props) => {
   const history = useHistory();
 
-  const {rows, headerList, viewAction, conditions, setConditions, searchMethod, handleDefaultDeleteAction, type} = props;
+  const {rows, headerList, viewAction, conditions, setConditions, searchMethod, handleDefaultDeleteAction, type, load} = props;
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('customer');
   const [selected, setSelected] = useState([]);
@@ -259,9 +261,11 @@ const EnhancedTable = (props) => {
           justify="center"
           alignItems="center"
         >
-          <Grid item style={{marginTop: 50}}><CustomEmptyOverlayGrid/></Grid>
+          <Grid item style={{marginTop: 50}}>{load !== true ? <CircularProgress style={{marginTop: 44, marginBottom: 44}}/> : <CustomEmptyOverlayGrid/>}</Grid>
           <Grid item style={{marginBottom: 50}}>
-            <Typography variant="subtitle1" gutterBottom display="inline" style={{ userSelect: "none" }}>No Data</Typography>
+            {load === true && <Typography variant="subtitle1" gutterBottom display="inline" style={{ userSelect: "none" }}>
+              No Data
+            </Typography>}
           </Grid>
         </Grid><Divider/></div>}
                 
