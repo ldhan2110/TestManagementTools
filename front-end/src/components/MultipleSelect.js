@@ -57,8 +57,17 @@ const MultipleSelect = (props) => {
   const theme = useTheme();
   const {title, listData, select, setSelect} = props;
 
+  const covertFromName2Id = (name) => {
+    var result = [];
+    name.forEach(element => {
+      result.push(listData.filter(x => x.projectrequirementname === element)[0]._id);
+    });
+    return result;
+  };
+
   const handleChange = (event) => {
     setSelect(event.target.value);
+    console.log(covertFromName2Id(event.target.value));
   };
 
 
@@ -81,9 +90,9 @@ const MultipleSelect = (props) => {
           MenuProps={MenuProps}
         >
           {listData.map((value) => (
-            <MenuItem key={value} value={value}>
-              <Checkbox checked={select.indexOf(value) > -1} />
-              <ListItemText primary={value} />
+            <MenuItem key={value._id} value={value.projectrequirementname}>
+              <Checkbox checked={select.indexOf(value.projectrequirementname) > -1} />
+              <ListItemText primary={value.projectrequirementname} />
             </MenuItem>
           ))}
         </Select>

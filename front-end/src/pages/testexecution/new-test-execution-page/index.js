@@ -297,7 +297,7 @@ const NewTestExecutionPage = (props) => {
         </Select>
       </FormControl>
       
-      {/* <MultipleSelect title = {'Requirements'} select={selectRequirements} setSelect={setListRequirements} listData={listRequirements}/> */}
+      <MultipleSelect title = {'Requirements'} select={selectRequirements} setSelect={setListRequirements} listData={listRequirements}/>
 
 
           <Grid container>
