@@ -79,9 +79,6 @@ const VerifyMember = (props) => {
     setLoading(true);
       verifyUserToProjectReq(userInfo);
     };
-    const verifyUserResult = () => {
-      console.log(insUsers);
-    };
     return(
     <React.Fragment>
         <div className = {classes.formContainer}>
@@ -96,8 +93,7 @@ const VerifyMember = (props) => {
             </Typography>
             <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } onClick={verifyUser} style={{marginLeft: 30}}>Accept
             {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}
-            </Button>
-            <Button onClick={verifyUserResult}>Check status F12</Button>
+            </Button>            
         </div>
 
             
