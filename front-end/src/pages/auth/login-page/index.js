@@ -29,7 +29,10 @@ import RegisterPage from '../register-page/index';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return { account: state.account }
+  return { 
+    account: state.account,
+    project: state.project.currentSelectedProjectName
+ }
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -47,7 +50,7 @@ const LoginPage = (props) => {
 
     const classes = useStyles();
 
-    const {account, loginReq, displayMsg} = props;
+    const {account, loginReq, displayMsg, project} = props;
 
     const {accountInfo} = account;
 
@@ -88,8 +91,10 @@ const LoginPage = (props) => {
     },[account]);
 
     useEffect(()=>{
-      if (accountInfo.isLogin){
+      if (accountInfo.isLogin && project === ''){
         history.push("/projects");
+      } else {
+        history.push("/projects"+project);
       }
     }, [accountInfo, history])
 
@@ -143,14 +148,6 @@ const LoginPage = (props) => {
 
     if(values.password === "")
     setError({ ...values, password: "" }); 
-
-      /*
-      else if(values.username.trim().length === 0){ 
-        setError({username: "Username is required", password: ""});
-      }
-      else if (values.password === ""){
-        setError({username: "", password: "Password is required"});
-      }      */
       if(values.username.trim().length !== 0 && values.password !== ""  )
     { 
       setError({});

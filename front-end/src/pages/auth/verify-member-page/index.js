@@ -28,7 +28,7 @@ const  mapStateToProps = (state) => {
     return {
       verifyUserToProjectReq: (payload) => dispatch({ type: VERIFY_USERS_TO_PROJECT_REQ, payload }),
       displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-      selectProject: (payload) => dispatch({type: SELECT_PROJECT, payload}),
+      selectProject: (value) => dispatch({type: SELECT_PROJECT, value}),
       resetSelect: () => dispatch({type: RESET_SELECT_PROJECT}),
     }
   }
@@ -67,12 +67,6 @@ const VerifyMember = (props) => {
         });
         setEnableCreateBtn(true);
         setLoading(false);
-        selectProject({id: userInfo.projectid, name: userInfo.projectname, role: userInfo.role});
-        if (localStorage.getItem('token') !== null){
-          history.push('/projects/'+userInfo.projectname);
-        } else {
-          history.push('/login');
-        }
       }
       if(insUsers.sucess === false){
         displayMsg({
@@ -89,6 +83,12 @@ const VerifyMember = (props) => {
       setEnableCreateBtn(false);
       setLoading(true);
       verifyUserToProjectReq(userInfo);
+      selectProject({id: userInfo.projectid, name: userInfo.projectname, role: userInfo.role});
+      if (localStorage.getItem('token') !== null){
+        history.push('/projects/'+userInfo.projectname);
+      } else {
+        history.push('/login');
+      }
     };
     return(
     <React.Fragment>
