@@ -2,27 +2,39 @@ const styles = {
     headerSmall:{
         marginLeft: 90,
         marginRight: 50,
-        marginTop: 20,
+        marginTop: 15,
     },
 
     headerLarge:{
         marginLeft: 180,
-        marginRight: 200,
-        marginTop: 20,
+        marginRight: 180,
+        marginTop: 15,
     },
 
     item: {
-       maxWidth: 300,
-       width: 300,
-       height: 175,
-       maxHeight: 200,
-       marginTop: 20
+       maxWidth: "100%",
+       width: "100%",
+       height: 200,
+       maxHeight: 225,
+       marginTop: 15
     },
 
     itemTitle:{
-        paddingBottom: "5px",
+        width: "100%", paddingBottom: "5px", display: "flex", justifyContent: "space-between",    
     },
 
+    typoTitle:{
+        fontFamily:"Roboto, Arial, sans-serif",
+        fontSize: 15,
+        fontWeight:'600',
+        'word-wrap': 'break-word',
+        height: '35px',
+        display: '-webkit-box',
+        '-webkit-box-orient': 'vertical',
+        '-webkit-line-clamp': 2,
+        'overflow': 'hidden',
+    },
+    
     itemContent: {
         paddingBottom: "5px",
     },
@@ -47,7 +59,7 @@ const styles = {
     },
 
     paging:{
-        marginTop: "20vh",
+        marginTop: "7vh",
         width: '100%',
         display: "flex",
         justifyContent: "flex-end",

@@ -75,7 +75,7 @@ const ProjectList = (props)=>{
             <NewProjectPopup isOpen={openNewProject} setOpen={setOpenNewProject}/>
             <Helmet title="Projects" />
             <Hidden only={["sm", "xs"]}>
-              <div className={classes.headerLarge} >
+            <div className={classes.headerLarge} >
             <Grid
                 justify="space-between"
                 container
@@ -95,11 +95,12 @@ const ProjectList = (props)=>{
                 </Grid>
             </Grid>
             <Divider my={6}/>
-            <Grid container 
-                spacing={3}>
+            <div style={{height:"60vh"}}>
+            <Grid container
+                spacing={3} style={{height: "100%"}}>
                     {listProjects.slice((selectPage-1)*MAX_PER_PAGE,(selectPage-1)*MAX_PER_PAGE+MAX_PER_PAGE).map((item,index)=>{
                         return (
-                        <Grid item  key = {index}>
+                        <Grid item xs={4} key = {item._id}>
                            <ProjectItem
                              id = {item._id}
                              name={item.projectname}
@@ -114,7 +115,7 @@ const ProjectList = (props)=>{
                 <div className={classes.paging}>
                     <Pagination totalPage={Math.ceil(project.listProjects.length/MAX_PER_PAGE)} selectedPage={selectPage} selectMethod={setSelectPage}/>
                 </div>
-                }
+                }</div>
             </div>
             </Hidden>
 
@@ -138,11 +139,12 @@ const ProjectList = (props)=>{
                 </Grid>
                 </Grid>
                 <Divider my={6}/>
+                <div style={{height:"60vh"}}>
                 <Grid container 
-                spacing={3}>
+                spacing={3} style={{height: "100%"}}>
                     {listProjects.slice((selectPage-1)*MAX_PER_PAGE,(selectPage-1)*MAX_PER_PAGE+MAX_PER_PAGE).map((item,index)=>{
                         return (
-                        <Grid item  key = {index}>
+                        <Grid item xs={4} key = {item.projectname}>
                            <ProjectItem
                              name={item.projectname}
                              descriptions={item.description}
@@ -155,7 +157,7 @@ const ProjectList = (props)=>{
                 <div className={classes.paging}>
                     <Pagination totalPage={Math.ceil(project.listProjects.length/MAX_PER_PAGE)} selectedPage={selectPage} selectMethod={setSelectPage}/>
                 </div>
-                }
+                }</div>
                 </div>
             </Hidden>
         </React.Fragment>
