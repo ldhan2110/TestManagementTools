@@ -14,6 +14,7 @@ import {
   } from "@material-ui/core";
 import { SELECT_PROJECT } from "../../../redux/projects/constants";
 import { RESET_SELECT_PROJECT } from "../../../redux/projects/projectAction";
+import { LOGOUT_REQ } from "../../../redux/account/constants";
 
   //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -30,6 +31,7 @@ const  mapStateToProps = (state) => {
       displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
       selectProject: (value) => dispatch({type: SELECT_PROJECT, value}),
       resetSelect: () => dispatch({type: RESET_SELECT_PROJECT}),
+      signOut: () => dispatch({type:  LOGOUT_REQ})
     }
   }
 
@@ -39,7 +41,7 @@ const VerifyMember = (props) => {
 
     const history = useHistory();
 
-    const {project, resetSelect, selectProject, insUsers, verifyUserToProjectReq, displayMsg} = props;
+    const {signOut, project, resetSelect, selectProject, insUsers, verifyUserToProjectReq, displayMsg} = props;
 
     const [userInfo, setUserInfo] = useState({
       email: window.location.pathname.split('/')[3],
@@ -56,6 +58,7 @@ const VerifyMember = (props) => {
     //RESET SELECT PROJECT
     useEffect(()=>{
       resetSelect();
+      signOut();
     },[]);
 
     useEffect(()=>{
