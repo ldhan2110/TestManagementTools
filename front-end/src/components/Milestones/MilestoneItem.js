@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TimelineItem from '@material-ui/lab/TimelineItem';
 import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
@@ -108,8 +108,6 @@ const MilestoneCard = (props)=>{
 
 
 const Milestone = (props) => {
-
-  const classes = useStyles();
   const history = useHistory();
 
   const {status, title, descriptions, isFinal, milestoneid, selectMilestone} = props;

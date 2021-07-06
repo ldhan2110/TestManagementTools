@@ -141,7 +141,7 @@ const NewTestSuitePopup = (props) => {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <TextField id="name" label="Test Suite Name" variant="outlined"  fullWidth required  
-              value={testSuiteInfo.testsuitename || ''} onChange={handleChange('testsuitename')} inputProps={{maxLength : 16}} 
+              value={testSuiteInfo.testsuitename || ''} onChange={handleChange('testsuitename')} inputProps={{maxLength : 100}} 
               error={testSuiteInfo.testsuitename.trim().length === 0 && error.testsuitename.trim().length === 0 ? true : false}
               helperText={testSuiteInfo.testsuitename.trim().length === 0 && error.testsuitename.trim().length === 0 ? 'Test Suite Name is required' : ' '}/>
             </Grid>

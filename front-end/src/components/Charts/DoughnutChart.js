@@ -1,9 +1,5 @@
-import React, {useState} from "react"; //,useEffect
+import React from "react"; //,useEffect
 import styled, { withTheme } from "styled-components";
-
-//import {green, red, yellow } from "@material-ui/core/colors";
-
-//import {PASSED, BLOCKED, FAILED, NOT_EXECUTE} from './Constants';
 
 import {
   Card as MuiCard,
@@ -61,47 +57,12 @@ const TableCell = styled(MuiTableCell)`
   padding-bottom: 0;
 `;
 
-/* const GreenText = styled.span`
-  color: ${() => green[400]};
-  font-weight: ${props => props.theme.typography.fontWeightMedium};
-`;
-
-const RedText = styled.span`
-  color: ${() => red[400]};
-  font-weight: ${props => props.theme.typography.fontWeightMedium};
-`;
-
-const YellowText =  styled.span`
-  color: ${() => yellow[800]};
-  font-weight: ${props => props.theme.typography.fontWeightMedium};
-`; */
 
 const PieChart = (props) => {
 
-  const {theme} = props;
-
   const {dataset, overviewData} = props;
 
-  //const {data, setData} = useState([0,0,0,0]);
-
-  // const [dataset, setData] = useState({
-  //   labels: ["Passed", "Failed", "Blocked", "Not Executed"],
-  //   datasets: [
-  //     {
-  //       data: data,
-  //       backgroundColor: [
-  //         PASSED,
-  //         FAILED,
-  //         BLOCKED,
-  //         NOT_EXECUTE
-  //       ],
-  //       borderWidth: 5
-  //     }
-  //   ]
-  // })
-
  
-
   const options = {
     maintainAspectRatio: false,
     legend: {

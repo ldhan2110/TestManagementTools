@@ -21,7 +21,6 @@ import {
   Add as AddIcon,
 } from "@material-ui/icons";
 import { GET_ALL_BUILD_ACTIVE_REQ, GET_ALL_BUILD_TESTPLAN_REQ, RESET_BUILD_ACTIVE, RESET_BUILD_TESTPLAN } from "../../../redux/build-release/constants";
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 //MAP STATES TO PROPS - REDUX
@@ -40,7 +39,6 @@ function mapStateToProps(state) {
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-    //addNewBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
     getAllTestPlanReq: () => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
     getAllBuildReq: (payload) => dispatch({type: GET_ALL_BUILD_ACTIVE_REQ, payload}),
@@ -53,9 +51,8 @@ const mapDispatchToProps = dispatch => {
 
 
 const TestExecutionListPage = (props) => {
-  //const {classes} = props;
 
-  const {listTestExec, testexec, build, testplan, listTestPlan, getAllTestExecReq, getAllTestPlanReq, getAllBuildReq, getBuildByTestplan, listBuild, listBuildByTestPlan, resetBuildActive, resetBuildTestplan} = props;
+  const {listTestExec, testexec, build, testplan, listTestPlan, getAllTestExecReq, getAllTestPlanReq, getAllBuildReq, listBuild} = props;
 
   const [listTestexec, setListTestExec] = useState([]);
 
@@ -102,11 +99,6 @@ const TestExecutionListPage = (props) => {
       return arr; 
   }
 
-  useEffect(()=>{
-    console.log(testexec);
-    console.log(build);
-    console.log(testplan);
-  },[testexec]);
 
   useEffect(()=>{
     testexec.success = "";

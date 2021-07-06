@@ -3,17 +3,13 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
-//import SelectBox from '../../../components/Selectbox';
 import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ, RESET_ADD_NEW_TESTPLAN} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
-//import Slide from '@material-ui/core/Slide';
-//import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
   Grid,
   Typography,
-  //Breadcrumbs,
   Button,
   Divider,
   TextField,
@@ -27,7 +23,6 @@ import {
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-//import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -54,9 +49,9 @@ const mapDispatchToProps = dispatch => {
 
 
 const NewTestPlanPage = (props) => {
-  const {classes, listTestPlan} = props;
+  const {classes} = props;
     const {isOpen, setOpen} = props;
-    const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project, listBuilds, getAllBuildActiveReq, resetAddRedux} = props;
+    const {insTestplan, addNewTestplanReq, displayMsg, getAllTestplanReq, project, resetAddRedux} = props;
     const [open, setOpenPopup] = React.useState(isOpen);
     const history = useHistory();
     const [existTestplans, setExistTestplans] = React.useState(props.history.location.state);
@@ -131,13 +126,7 @@ const NewTestPlanPage = (props) => {
 
   const handleCreate = () => {
     setCheckError(true);
-    // Diable button , them thanh loading 
-    //setDisableButton(false);
-    //if(disableButton === false){
-        // disableButton 
-        // them thanh loading
-        // check dieu kien
-
+    
     if(TestplanInfo.description === "")
     setError({ ...TestplanInfo, description: "" });
 
@@ -158,12 +147,7 @@ const NewTestPlanPage = (props) => {
         setLoading(true);
         addNewTestplanReq(TestplanInfo);
     }
-    //console.log(JSON.stringify(TestplanInfo));
   }
-
-  const handleCloseBackDrop = () => {
-    setOpen(false);
-  };
 
   const handleChange = (prop) => (event) => {
     setTestplanInfo({ ...TestplanInfo, [prop]: event.target.value });
@@ -180,19 +164,7 @@ const NewTestPlanPage = (props) => {
     setTestplanInfo({ ...TestplanInfo, is_active: !TestplanInfo.is_active });
   };
   
-    //const listtestplan = [
-      /*{ title: 'Monty Python and the Holy Grail', year: 1975 },
-      { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },*/
-      
     
-    //];
-
-    /*const listtestplan =[{"testplanname":"test1"},{"testplanname":"test2"}];*/
-  
-
-
-
     return (
     <div>
         <Helmet title="New Test Plan" />
@@ -206,15 +178,7 @@ const NewTestPlanPage = (props) => {
             New Test Plan
           </Typography>
 
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-            </Breadcrumbs> */}
+         
         </Grid>
       </Grid>
 
@@ -223,7 +187,7 @@ const NewTestPlanPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="TestplanName" label="Test Plan Name" variant="outlined" fullWidth required inputProps={{maxLength : 16}}
+          <TextField id="TestplanName" label="Test Plan Name" variant="outlined" fullWidth required inputProps={{maxLength : 100}}
           value={TestplanInfo.Testplanname || ''} onChange={handleChange('Testplanname')}  
           error={TestplanInfo.Testplanname.trim().length === 0 && error.Testplanname.trim().length === 0 ? true : false}
           helperText={TestplanInfo.Testplanname.trim().length === 0 && error.Testplanname.trim().length === 0 ? 'Test Plan Name is required' : ' '}/>
@@ -231,34 +195,6 @@ const NewTestPlanPage = (props) => {
           
 
           <Grid container fullWidth>
-           {/*<Grid item xs={3}>
-              <Grid container>
-              <Grid item xs={3}>
-
-                <p>Create from existing test plan ?</p>
-              </Grid>
-              <Grid item xs={9}>
-                <SelectBox labelTitle="Create from existing test plan ?" />
-                {data.map(function(d, listTestPlan){
-                return (<li listItems={listTestPlan} >{d.testplanname}</li> ) 
-                
-              })}
-       
-              </Grid>
-
-              
-          </Grid>*/}
-
-              {/* render() {
-                const data =[{"name":"test1"},{"name":"test2"}];
-                const listItems = data.map((d) => <li key={d.name}>{d.name}</li>);
-
-                  return (
-                      <div>
-                        {listItems }
-                      </div>
-                         );
-                }*/}  
           <FormControl variant="outlined" fullWidth>
            <InputLabel id="demo-simple-select-outlined-label">Create from existing test plan ?</InputLabel>
             <Select

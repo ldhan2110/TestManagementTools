@@ -31,7 +31,7 @@ import RegisterPage from '../register-page/index';
 const  mapStateToProps = (state) => {
   return { 
     account: state.account,
-    project: state.project.currentSelectedProjectName
+    project: state.project.currentSelectedProject
  }
 }
 

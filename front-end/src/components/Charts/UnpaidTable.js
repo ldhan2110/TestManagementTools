@@ -14,13 +14,12 @@ import {
   TableRow
 } from '@material-ui/core'
 
-import { red, green, blue, yellow } from '@material-ui/core/colors'
+import {  blue } from '@material-ui/core/colors'
 
 import {PASSED, FAILED, BLOCKED, Untest} from './Constants';
 
 import { spacing } from '@material-ui/system'
 
-import { MoreVertical } from 'react-feather'
 
 const Card = styled(MuiCard)(spacing)
 
@@ -36,58 +35,6 @@ const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
 `
-
-// Data
-let id = 0
-function createData(source, users, date, bounce, avg) {
-  id += 1
-  return { id, source, users, date, bounce, avg }
-}
-
-/* const rows = [
-  createData(
-    'TCR-1055',
-    'Lucy',
-    '2020-12-21',
-    <Chip label="Pass" rgbcolor={PASSED} />,
-    '00:06:25'
-  ),
-  createData(
-    'TCR-1075',
-    'Lucky',
-    '2020-12-21',
-    <Chip label="Fail" rgbcolor={FAILED} />,
-    '00:09:18'
-  ),
-  createData(
-    'TCR-1066',
-    'Doan Phan',
-    '2020-12-21',
-    <Chip label="Pass" rgbcolor={PASSED} />,
-    '00:05:56'
-  ),
-  createData(
-    'TCR-10945',
-    'An Le',
-    '2020-12-21',
-    <Chip label="Pass" rgbcolor={PASSED} />,
-    '00:06:19'
-  ),
-  createData(
-    'TCR-1045',
-    'Du Kha',
-    '2020-12-21',
-    <Chip label="Fail" rgbcolor={FAILED} />,
-    '00:09:12'
-  ),
-  createData(
-    'TCR-1065',
-    'Lee Moon Shin',
-    '2020-12-21',
-    <Chip label="Block" rgbcolor={BLOCKED} />,
-    '00:04:42'
-  )
-] */
 
 const UnpaidTable = (props) => {
   const {data} = props;
@@ -106,7 +53,6 @@ const UnpaidTable = (props) => {
   ]);
 
   useEffect(()=> {
-    //console.log(JSON.stringify(data, null, ' '));
     setListData(data);
   },[data])
   
@@ -116,9 +62,6 @@ const UnpaidTable = (props) => {
       action={
         <Box>
           <Chip label="This month" rgbcolor={blue[500]} />
-          {/* <IconButton aria-label="settings">
-            <MoreVertical />
-          </IconButton> */}
         </Box>
       }
       title="Latest Test Execution"

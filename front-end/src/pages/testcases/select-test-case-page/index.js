@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => {
 
 const SelectTestCasePopup = (props) => {
   
-  const {displayMsg, getAllTestcaseReq, testcase, listtestcaseselect, project, getListTestcaseSelectReq, selected, getAllTestsuiteReq, getAllTestsuiteNoTreeReq} = props;
+  const { getAllTestcaseReq, testcase, project, getListTestcaseSelectReq, selected, getAllTestsuiteReq, getAllTestsuiteNoTreeReq} = props;
   
   const {isOpen, setOpen} = props;  
   
@@ -44,7 +44,7 @@ const SelectTestCasePopup = (props) => {
 
   const [data,setData] = useState([]);
 
-  const [listTestCase, setListTestCase] = useState([])
+  const [listTestCase, setListTestCase] = useState([]);
 
 
   const handleClose = () =>{

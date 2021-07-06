@@ -49,7 +49,6 @@ const mapDispatchToProps = dispatch => {
 
 
 const TestPlanListPage = (props) => {
-  //const {classes} = props;
 
   const {listTestplan, testplan, getAllTestplanReq, project, role, deleteTestplanReq, resetDeleteRedux, insTestplanDelete, displayMsg} = props;
 
@@ -77,11 +76,7 @@ const TestPlanListPage = (props) => {
       state: array});
   }
 
-  const navigateToDetailPage = (params) => {
-    if (params)
-      history.push(window.location.pathname+"/"+params);
-  }
-
+  
   const searchTestPlan = () => {
     console.log(searchConditions);
     if (searchConditions.active === -1 && searchConditions.testplanName === ''){
@@ -170,7 +165,6 @@ const TestPlanListPage = (props) => {
     <div>
 
       <Helmet title="Service Management" />
-
       <Grid
         justify="space-between"
         container 
@@ -180,15 +174,6 @@ const TestPlanListPage = (props) => {
             Test Plan List
           </Typography>
 
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-          </Breadcrumbs> */}
         </Grid>
         <Grid item>
           <div>

@@ -292,7 +292,6 @@ const TestExecutionDetailPage = (props) => {
                         <MenuItem value={"Fail"}>Fail</MenuItem>
                   </Select>
           </FormControl>
-          {/* <Typography variant="subtitle1" gutterBottom display="inline" style={{margin: '150px 0'}}><b>Total exec.time: 00:00:01s</b></Typography> */}
 
           <div className = {classes.btnGroup}>
           {isExecute && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<SaveIcon />} onClick={handleSave}>

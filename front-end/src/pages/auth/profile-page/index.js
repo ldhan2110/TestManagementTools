@@ -135,7 +135,7 @@ const ProfilePage = (props)=>{
               <Grid item xs={6}>
                 <form className={classes.formContent}>
                     <TextField id="fullname" label="Full Name" 
-                    variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
+                    variant="outlined"  fullWidth required inputProps={{maxLength : 100}} 
                     value={profileInfo.fullname || ''} onChange={handleChangeProfile('fullname')}
                     error={profileInfo.fullname==0  && error.fullname==0  ? true : false}
                     helperText={profileInfo.fullname ==0  && error.fullname ==0  ? 'Full Name is required' : ' '}/>  

@@ -10,18 +10,15 @@ import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants'
 import {
   Grid,
   Typography,
-  //Breadcrumbs,
   Button,
   Divider,
   TextField,
   FormControlLabel,
-  FormControl,
   Checkbox
 } from '@material-ui/core';
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
-//import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -48,9 +45,9 @@ const mapDispatchToProps = dispatch => {
 
 
 const NewRequirementPage = (props) => {
-  const {classes, listRequirements} = props;
+  const {classes} = props;
     const {isOpen, setOpen} = props;
-    const {insRequirements, addNewRequirementsReq, displayMsg, getAllRequirementsReq, project, listBuilds, getAllBuildActiveReq, resetAddRedux} = props;
+    const {insRequirements, addNewRequirementsReq, displayMsg, getAllRequirementsReq, project,  resetAddRedux} = props;
     const [open, setOpenPopup] = React.useState(isOpen);
     const history = useHistory();
     const [checkError, setCheckError] = useState(false);
@@ -68,11 +65,9 @@ const NewRequirementPage = (props) => {
       setRequirementsInfo({
         projectrequirementname: '', 
         projectid: project,
-        //buildname: '',
         description: '',
         is_public: false,
         is_active: false,
-        //existtestplan: ''
       });
       history.goBack(); 
     };
@@ -80,10 +75,8 @@ const NewRequirementPage = (props) => {
       projectrequirementname: '',
       projectid: project,
       description: '',
-      //buildname: '',
       is_public: false,
       is_active: false,
-      //existtestplan: ''
     });
 
   useEffect(()=>{
@@ -124,12 +117,6 @@ const NewRequirementPage = (props) => {
 
   const handleCreate = () => {
     setCheckError(true);
-    // Diable button , them thanh loading 
-    //setDisableButton(false);
-    //if(disableButton === false){
-        // disableButton 
-        // them thanh loading
-        // check dieu kien
 
     if(requirementsInfo.description === "")
     setError({ ...requirementsInfo, description: "" });
@@ -151,13 +138,9 @@ const NewRequirementPage = (props) => {
         setLoading(true);
         addNewRequirementsReq(requirementsInfo);
     }
-    //console.log(JSON.stringify(TestplanInfo));
   }
 
-  const handleCloseBackDrop = () => {
-    setOpen(false);
-  };
-
+  
   const handleChange = (prop) => (event) => {
     setRequirementsInfo({ ...requirementsInfo, [prop]: event.target.value });
 
@@ -172,17 +155,7 @@ const NewRequirementPage = (props) => {
   const handleActive = () => {
     setRequirementsInfo({ ...requirementsInfo, is_active: !requirementsInfo.is_active });
   };
-  
-    //const listtestplan = [
-      /*{ title: 'Monty Python and the Holy Grail', year: 1975 },
-      { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },*/
-      
-    
-    //];
 
-    /*const listtestplan =[{"testplanname":"test1"},{"testplanname":"test2"}];*/
-  
 
 
 
@@ -199,15 +172,7 @@ const NewRequirementPage = (props) => {
             New Requirement
           </Typography>
 
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-            </Breadcrumbs> */}
+        
         </Grid>
       </Grid>
 
@@ -220,51 +185,6 @@ const NewRequirementPage = (props) => {
           value={requirementsInfo.projectrequirementname || ''} onChange={handleChange('projectrequirementname')}  
           error={requirementsInfo.projectrequirementname.trim().length === 0 && error.projectrequirementname.trim().length === 0 ? true : false}
           helperText={requirementsInfo.projectrequirementname.trim().length === 0 && error.projectrequirementname.trim().length === 0 ? 'Requirement Name is required' : ' '}/>
-
-          
-
-          <Grid container fullWidth>
-           {/*<Grid item xs={3}>
-              <Grid container>
-              <Grid item xs={3}>
-
-                <p>Create from existing test plan ?</p>
-              </Grid>
-              <Grid item xs={9}>
-                <SelectBox labelTitle="Create from existing test plan ?" />
-                {data.map(function(d, listTestPlan){
-                return (<li listItems={listTestPlan} >{d.testplanname}</li> ) 
-                
-              })}
-       
-              </Grid>
-
-              
-          </Grid>*/}
-
-              {/* render() {
-                const data =[{"name":"test1"},{"name":"test2"}];
-                const listItems = data.map((d) => <li key={d.name}>{d.name}</li>);
-
-                  return (
-                      <div>
-                        {listItems }
-                      </div>
-                         );
-                }*/}  
-          <FormControl variant="outlined" fullWidth>
-           {/*<InputLabel id="demo-simple-select-outlined-label">Create from existing requirement ?</InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              label="testplan"
-              onChange={handleChange('testplanname')}
-            >
-          {existTestplans?.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
-           </Select>*/} 
-          </FormControl>       
-          </Grid>
-
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}

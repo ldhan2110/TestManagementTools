@@ -88,7 +88,7 @@ const VerifyMember = (props) => {
       verifyUserToProjectReq(userInfo);
       selectProject({id: userInfo.projectid, name: userInfo.projectname, role: userInfo.role});
       if (localStorage.getItem('token') !== null){
-        history.push('/projects/'+userInfo.projectname);
+        history.push('/projects/'+userInfo.projectid);
       } else {
         history.push('/login');
       }
