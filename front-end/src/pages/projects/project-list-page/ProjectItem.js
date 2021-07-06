@@ -17,9 +17,9 @@ import {
 import { SELECT_PROJECT } from "../../../redux/projects/constants";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
-  const MAX_LENGTH = 150;
+  const MAX_LENGTH = 250;
 
-  const IDEAL_LENGTH = 30;
+  const IDEAL_LENGTH = 50;
 
   const MIN_LENGTH = 10;
 
@@ -94,15 +94,17 @@ const ProjectItem = (props) => {
       <CardActionArea>
         <CardContent>
           <div className = {classes.itemTitle}>
-            <Typography gutterBottom variant="h5" component="h2">
+            <div className={classes.typoTitle}>
             {name}
+            </div>
+            <div style={{marginLeft: 10}}>        
             {renderStatus(status)}
-          </Typography>
+            </div>     
           </div>
           <div className={classes.itemRole}>
             {renderRole(role)}
           </div>
-          <div style={{overflow: "hidden", textOverflow: "ellipsis", width: "17rem", marginTop: "5px"}}> 
+          <div style={{overflow: "hidden", textOverflow: "ellipsis", width: "100%", marginTop: "5px"}}> 
           <Typography variant="body2" color="textSecondary" component={'div'}>
             <ReadMore
               min={MIN_LENGTH}

@@ -66,7 +66,7 @@ const DetailRequirementPage = (props) => {
       description: 'ss',
     });
     const [requirementsInfor, setRequirementsInfor] = React.useState({
-      requirementsid: props.match.params.requirementName,
+      requirementsid: props.history.location.state._id,
       projectid: props.match.params.projectName,
       projectrequirementname: props.history.location.state.projectrequirementname,
       buildname: props.history.location.state.buildname,
