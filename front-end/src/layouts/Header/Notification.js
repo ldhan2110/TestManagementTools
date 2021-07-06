@@ -5,10 +5,8 @@ import {useHistory} from 'react-router-dom';
 import {LOGOUT_REQ} from '../../redux/account/constants';
 import {ADD_NEW_NOTIFICATION_REQ, GET_ALL_NOTIFICATIONS_REQ, UPDATE_NOTIFICATION_REQ, RESET_UPDATE_NOTIFICATION} from '../../redux/notification/constants';
 import styles from "./styles";
-
 import {
-    Menu,
-    MenuItem, List, Avatar, ListItemAvatar, ListItem, ListSubheader, Popover, Paper, Typography,
+    List, Avatar, ListItemAvatar, ListItem, ListSubheader, Popover, Paper, Typography,
     IconButton as MuiIconButton,
     Badge,
     Divider,
@@ -21,6 +19,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { SELECT_PROJECT } from '../../redux/projects/constants';
+import { GET_ALL_TESTEXEC_REQ } from '../../redux/test-execution/constants';
 
 
 const IconButton = styled(MuiIconButton)`
@@ -55,14 +54,15 @@ const mapDispatchToProps = dispatch => {
     getAllNotificationReq: () => dispatch({ type: GET_ALL_NOTIFICATIONS_REQ}),
     updateNotificationReq: (payload) => dispatch({ type: UPDATE_NOTIFICATION_REQ, payload}),
     resetUpdateNotification: () => dispatch({ type: RESET_UPDATE_NOTIFICATION}),
-    selectProject: (value) => dispatch({type: SELECT_PROJECT, value})
+    selectProject: (value) => dispatch({type: SELECT_PROJECT, value}),
+    getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
   }
 };
 
 const UserMenu = (props) => {
     const history = useHistory();
 
-    const {getAllNotificationReq, notification, listNotifications, updateNotificationReq, selectProject, insNotifications, resetUpdateNotification, classes, project} = props;
+    const {getAllTestExecReq, getAllNotificationReq, notification, listNotifications, updateNotificationReq, selectProject, insNotifications, resetUpdateNotification, classes, project} = props;
 
     const [anchorMenu, setAnchorMenu] = useState(null);
 
@@ -72,7 +72,7 @@ const UserMenu = (props) => {
 
     const [numUnread, setNumUnread] = React.useState(0);
 
-    const [load, setLoad] = React.useState(0);
+    const [load, setLoad] = React.useState(1);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -159,20 +159,11 @@ const UserMenu = (props) => {
     return "Less than 1 minute ago";
 }
 
-  const [anchorElMenu, setAnchorElMenu] = React.useState(null);
-    const openMenu = Boolean(anchorElMenu);
-
-    const handleClickMenu = (event) => {
-      setAnchorElMenu(event.currentTarget);
-    };
-
-    const handleCloseMenu = () => {
-      setAnchorElMenu(null);
-    };
+    
+    
 
     useEffect(()=>{
       if(insNotifications?.sucess === true) {
-        //getAllNotificationReq();
         resetUpdateNotification();
       }
     },[insNotifications])
@@ -186,9 +177,14 @@ const UserMenu = (props) => {
         updateNotificationReq({is_read: true, id: id});
       }
       
-      var projectItem = filterProject(parseUrl2ProjectId(url))[0];
-      selectProject({id: projectItem._id, name: projectItem.projectname, role: projectItem.role});
-      window.location.href=url;
+      var projectItem = filterProject(parseUrl2ProjectId(url));
+      if (projectItem.length > 0){
+        selectProject({id: projectItem[0]._id, name: projectItem[0].projectname, role: projectItem[0].role});
+        history.push("/projects/"+ projectItem[0]._id+"/test-execution/"+url.substr(url.lastIndexOf('/') +1));
+      } else {
+        history.push("/error/500");
+      }
+      
     }
     
     

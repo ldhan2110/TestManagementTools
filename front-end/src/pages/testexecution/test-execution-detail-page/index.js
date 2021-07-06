@@ -101,7 +101,7 @@ const TestExecutionDetailPage = (props) => {
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
 
     const [resultTestExec, setResultTestExec] = useState({
-      status: testExecInfo.status,
+      status: testExecInfo.status ? testExecInfo.status : 'Untest',
       testexecid: props.match.params.testExecutionId
     })
 

@@ -76,7 +76,22 @@ const TestExecutionDetailPage = (props) => {
     const location = useLocation();
 
     const filterTestExec = (id) => {
-      return  listTestExec.find((item) => item._id === id);
+      if (listTestExec.length !== 0)
+        return  listTestExec.find((item) => item._id === id);
+      else
+        return{
+          build: {_id: "", buildname: ""},
+          description: "",
+          exectestcases:  [],
+          is_active: false,
+          is_public: false,
+          listprojectrequirement: [],
+          status: "",
+          tester: {_id: "", username: ""},
+          testexecutionname: "",
+          testplan: {_id: "", testplanname: ""},
+          _id: "",
+        }
     }
 
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
@@ -106,6 +121,16 @@ const TestExecutionDetailPage = (props) => {
       testexecid: props.match.params.testExecutionId
     })
 
+    useEffect(()=>{
+      if (listTestExec.length > 0){
+        setTestExecInfo(filterTestExec(props.match.params.testExecutionId));
+        setResultTestExec({
+          status: testExecInfo.status,
+          testexecid: props.match.params.testExecutionId
+        })
+      }
+  }, [listTestExec])
+  
     const filterTestcaseUntest = () => {
       return execTest.listTestCase.find(item => item.status === 'Untest');
     }
@@ -120,6 +145,7 @@ const TestExecutionDetailPage = (props) => {
     useEffect(()=> {
       selectTestExecReq({id: props.match.params.testExecutionId, listTestcase: testExecInfo.exectestcases});
       getAllUserReq(localStorage.getItem('selectProject'));
+      getAllTestExecReq();
     },[])
 
     try {
