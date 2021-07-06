@@ -153,7 +153,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
     mergeMap(({ payload }) =>  from(axios.get(API_ADDR+'/project/getprojectbyid/'+payload,{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
-          "content-type": "application/json"
+          "content-type": "application/json",
         }
       })).pipe(
       map(response => {
@@ -220,3 +220,42 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
         payload: error.response.data.errMsg
       })})
     )))
+
+
+
+
+    export  const getProjectNameByIdEpic = (action$, state$) => action$.pipe(
+      ofType(actions.GET_PROJECT_BY_ID_VERIFY_REQ),
+      mergeMap(({ payload }) =>  from(axios.get(API_ADDR+'/project/getnameproject/'+payload.id,{
+          headers: {
+            "Reset-Token": payload.token,
+            "content-type": "application/json",
+          }
+        })).pipe(
+        map(response => {
+          const {data} = response;
+          if (data.success) {
+            return ({
+              type: actions.GET_PROJECT_BY_ID_VERIFY_SUCCESS,
+              payload: data.result
+            })
+          } else {
+            return ({
+              type: actions.GET_PROJECT_BY_ID_VERIFY_FAIL,
+              payload: data.errMsg
+            })
+          }
+        
+        }),
+        catchError (error =>{
+          // const {status} = error.response.data;
+          // if (status ===  401) {
+          //   localStorage.clear();
+          //   window.location.replace('/login');
+          // } else
+          console.log("eRROR");
+          return of({
+          type: actions.GET_PROJECT_BY_ID_VERIFY_FAIL,
+          payload: error.response.data.errMsg
+        })})
+      )))

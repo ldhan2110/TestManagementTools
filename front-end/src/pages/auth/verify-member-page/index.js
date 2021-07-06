@@ -10,14 +10,14 @@ import { blue } from '@material-ui/core/colors';
 import {
     Typography
   } from "@material-ui/core";
-import { GET_PROJECTS_BY_ID_REQ, RESET_SELECT_PROJECT, SELECT_PROJECT } from "../../../redux/projects/constants";
+import {  GET_PROJECT_BY_ID_VERIFY_REQ, RESET_SELECT_PROJECT, SELECT_PROJECT } from "../../../redux/projects/constants";
 import { LOGOUT_REQ } from "../../../redux/account/constants";
 
   //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
     return { 
       insUsers: state.user.insUsers,
-      project: state.project.projectInfo
+      project: state.project.projectName
      };
   }
   
@@ -26,7 +26,7 @@ const  mapStateToProps = (state) => {
     return {
       verifyUserToProjectReq: (payload) => dispatch({ type: VERIFY_USERS_TO_PROJECT_REQ, payload }),
       displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-      getProjectById: (payload) => dispatch({type: GET_PROJECTS_BY_ID_REQ, payload}),
+      getProjectById: (payload) => dispatch({type: GET_PROJECT_BY_ID_VERIFY_REQ, payload}),
       selectProject: (value) => dispatch({type: SELECT_PROJECT, value}),
       resetSelect: () => dispatch({type: RESET_SELECT_PROJECT}),
       signOut: () => dispatch({type:  LOGOUT_REQ})
@@ -57,11 +57,16 @@ const VerifyMember = (props) => {
     useEffect(()=>{
       resetSelect();
       signOut();
-      getProjectById(userInfo.projectid)
+      getProjectById({id: userInfo.projectid, token: userInfo.resettoken});
     },[]);
 
     useEffect(()=>{
-      console.log(project);
+      if (project.projectname){
+        setUserInfo({
+          ...userInfo,
+          projectname: project.projectname
+        })
+      }
     },[project])
 
     useEffect(()=>{

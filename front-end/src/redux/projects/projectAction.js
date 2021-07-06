@@ -61,3 +61,10 @@ export function resetSelectProject(value){
     payload: value
   }
 }
+
+export function getNameVerify(value){
+  return {
+    type: types.GET_PROJECT_BY_ID_VERIFY_REQ,
+    payload: value
+  }
+}
