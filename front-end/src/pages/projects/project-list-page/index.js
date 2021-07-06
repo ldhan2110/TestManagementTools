@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import styles from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
-import {GET_ALL_PROJECTS_REQ} from '../../../redux/projects/constants';
+import {GET_ALL_PROJECTS_REQ, RESET_SELECT_PROJECT} from '../../../redux/projects/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import ProjectItem from './ProjectItem';
@@ -33,14 +33,15 @@ const  mapStateToProps = (state) => {
   const mapDispatchToProps = dispatch => {
     return {
       getProjectReq: (payload) => dispatch({ type: GET_ALL_PROJECTS_REQ }),
-      displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+      displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+      resetSelectProject: () => dispatch({type: RESET_SELECT_PROJECT})
     }
   }
 
 const ProjectList = (props)=>{
     const {classes} = props;
 
-    const {project, getProjectReq, displayMsg} = props;
+    const {project, getProjectReq, displayMsg, resetSelectProject} = props;
 
     const [openNewProject,setOpenNewProject] = useState(false);
 
@@ -52,19 +53,9 @@ const ProjectList = (props)=>{
         setOpenNewProject(true);
     }
 
-    /* useEffect(() => {
-        const socket = socketIoClient.io("https://testcontrols.herokuapp.com");
-        socket.on('connect', function (data) {
-          socket.emit('login', { userId: "60a3749518d966001529bf59" });
-          // <-- this works
-          socket.on('message', function (message) {
-            console.log(message);
-          });
-        });
-      }); */
-
     useEffect(()=>{
         getProjectReq();
+        resetSelectProject();
     },[]);
 
 
