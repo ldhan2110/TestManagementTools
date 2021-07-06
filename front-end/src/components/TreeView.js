@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView'
-import TreeItem from '@material-ui/lab/TreeItem';
+import  MuiTreeItem from '@material-ui/lab/TreeItem';
 import {
   Folder,
   FolderPlus,
@@ -26,6 +26,25 @@ const useStyles = makeStyles({
   }
 });
 
+const TreeItem = withStyles({
+  root: {
+    "&.Mui-selected > .MuiTreeItem-content": {
+      color: "#1a73e8",
+    }
+  }
+})(MuiTreeItem);
+
+const StyledTreeItem = withStyles({
+  root: {
+    "&.Mui-selected > .MuiTreeItem-content": {
+      color: "#1a73e8",
+    }
+  },
+  label: {
+    color: "red"
+  },
+})(MuiTreeItem);
+
 export default function ControlledTreeView(props) {
   const classes = useStyles();
   const {data, setSelectNode} = props;
@@ -48,19 +67,33 @@ export default function ControlledTreeView(props) {
 
 
   const renderTree = (nodes) => {
+    console.log(nodes);
     if (nodes.type === 'TS' || nodes.type === 'root'){
       if (nodes.type === 'root')
         expanded.push(nodes._id);
-      return (
-      <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name}>
-        {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
-      </TreeItem>
-    )
-      }
+      
+      if (nodes.is_assigned === true) {
+        return (
+          <StyledTreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name} >
+            {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
+          </StyledTreeItem>
+        );
+      } else
+          return (
+          <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name} >
+            {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
+          </TreeItem>)
+    }
 
-    else return (
-      <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name} icon={<FileText/>}/>
-    )
+    else {
+      if (nodes.is_assigned === true) {
+        return (
+          <StyledTreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name} icon={<FileText/>}/>
+        );
+      } else
+          return (<TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name} icon={<FileText/>}/>)
+      
+    }
 }
 
   return (

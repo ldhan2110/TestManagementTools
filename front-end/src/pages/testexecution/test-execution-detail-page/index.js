@@ -116,13 +116,9 @@ const TestExecutionDetailPage = (props) => {
       getAllActiveRequirementReq();
     },[])
 
-    useEffect(()=>{
-      console.log(testExecInfo);
-    },[testExecInfo]);
+  
 
-    useEffect(()=>{
-      console.log(listRequirements);
-    },[listRequirements])
+  
 
 
     try {

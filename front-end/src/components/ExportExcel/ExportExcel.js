@@ -76,15 +76,7 @@ const ExportExcel = (props) => {
         }
     },[dataSet, type])
 
-    useEffect(()=>{
-        console.log(dataset);
-    },[dataset]);
-
     
-
-    
-
-   
     return (
             <div>
             { dataset[0].data !== [] && 

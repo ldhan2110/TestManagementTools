@@ -109,11 +109,6 @@ const TestExecutionListPage = (props) => {
     getAllBuildReq({projectid: localStorage.getItem('selectProject')});
   },[]);
 
-
-  useEffect(()=>{
-    console.log(listTestExec);
-  },[listTestExec])
-
   useEffect(()=>{
     if (listTestPlan) {
       TEST_EXEC_SEARCH_CONDITIONS[1].listValues = convertTestplanItem(listTestPlan);
