@@ -2,6 +2,7 @@ import * as types from './constants';
 
 var initialState = {
   success: "",
+  successActive: "",
   error: "",
   errorMsg:"",
   currentSelectedBuild: "",
@@ -183,12 +184,13 @@ const reducer = (state = initialState, actions) => {
 
     case types.GET_ALL_BUILD_ACTIVE_REQ:
       return {
-        ...state
+        ...state, successActive:""
       }
 
     case types.GET_ALL_BUILD_ACTIVE_FAILED:
       return {
         ...state,
+        successActive: "",
         error: true,
         errorMsg: payload,
       }
@@ -196,6 +198,7 @@ const reducer = (state = initialState, actions) => {
     case types.GET_ALL_BUILD_ACTIVE_SUCCESS:
         return {
           ...state,
+          successActive: true,
           error: "",
           errorMsg:"",
           currentSelectedBuild: "",
