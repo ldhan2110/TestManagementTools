@@ -23,10 +23,6 @@ import {
 import { GET_ALL_BUILD_ACTIVE_REQ, GET_ALL_BUILD_TESTPLAN_REQ, RESET_BUILD_ACTIVE, RESET_BUILD_TESTPLAN } from "../../../redux/build-release/constants";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-// const NavLink = React.forwardRef((props, ref) => (
-//   <RouterNavLink innerRef={ref} {...props} />
-// ));
-
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
@@ -103,7 +99,6 @@ const TestExecutionListPage = (props) => {
   const convertBuildItem = (listBuild) => {
     const arr = listBuild.slice();
       arr.map(item => {item.value = item.buildname; item.label = item.buildname; return item;})
-      console.log(arr);
       return arr; 
   }
 
@@ -113,6 +108,11 @@ const TestExecutionListPage = (props) => {
     getAllTestPlanReq();
     getAllBuildReq({projectid: localStorage.getItem('selectProject')});
   },[]);
+
+
+  useEffect(()=>{
+    console.log(listTestExec);
+  },[listTestExec])
 
   useEffect(()=>{
     if (listTestPlan) {
@@ -124,7 +124,6 @@ const TestExecutionListPage = (props) => {
   },[listTestPlan, listBuild])
 
   useEffect(()=>{
-    console.log('keyword: ' + searchConditions.status+'  '+searchConditions.testplanName+'  '+searchConditions.testexecName);
     if(testexec.success === true){
     var tempArr = [];
     listTestExec.forEach((item)=>{
@@ -136,8 +135,6 @@ const TestExecutionListPage = (props) => {
 
   useEffect(()=>{
     setArray(arrayExec);
-    console.log('array: '+ JSON.stringify(array));
-
   },[arrayExec]);
 
 
@@ -235,7 +232,6 @@ const TestExecutionListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          {(testexec.success && build.success && testplan.success) ? 
           <EnhancedTable
             rows={array}
             headerList = {TEST_EXECUTION_HEADERS}
@@ -247,16 +243,6 @@ const TestExecutionListPage = (props) => {
             type='testexecution'
             load={(testexec.success && build.success && testplan.success)}
           />
-          : 
-          <EnhancedTable
-            rows={[]}
-            headerList = {TEST_EXECUTION_HEADERS}
-            conditions={TEST_EXEC_SEARCH_CONDITIONS}
-            viewAction={navigateToEditPage}
-            type='testexecution'
-            load={(testexec.success && build.success && testplan.success)}
-          />
-          }
         </Grid>
       </Grid>
     </div>

@@ -8,6 +8,7 @@ import { green, orange, red } from "@material-ui/core/colors";
 import { spacing } from "@material-ui/system";
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import MultipleSelect from "../../../components/MultipleSelect";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -37,6 +38,7 @@ import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 import { GET_ALL_USERS_OF_PROJECT_REQ } from "../../../redux/users/constants";
 import { GET_ALL_ACTIVE_TESTPLAN_REQ } from "../../../redux/test-plan/constants";
 import { GET_ALL_BUILD_TESTPLAN_REQ } from "../../../redux/build-release/constants";
+import { GET_ALL_ACTIVE_REQUIREMENTS_REQ } from "../../../redux/requirements/constants";
 
 const Chip = styled(MuiChip)`
   ${spacing};
@@ -62,6 +64,7 @@ function mapStateToProps(state) {
     accountInfo: state.account.accountInfo,
     listActiveTestplan: state.testplan.listActiveTestplan,
     listBuildByTestPlan: state.build.listBuildsByTestplan,
+    listRequirements: state.requirements.listActiveRequirements
   };
 }
 
@@ -77,16 +80,18 @@ const mapDispatchToProps = dispatch => {
     resetRedux: () => dispatch({type: RESET_UPDATE_TEST_EXEC}),
     getAllActiveTestplanReq: (payload) => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
     getBuildByTestPlan: (payload) => dispatch({type: GET_ALL_BUILD_TESTPLAN_REQ, payload}),
+    getAllActiveRequirementReq: (payload) => dispatch({type: GET_ALL_ACTIVE_REQUIREMENTS_REQ}),
   }
 }
 
 const TestExecutionDetailPage = (props) => {
-    const {classes, getAllActiveTestplanReq, listActiveTestplan, listBuildByTestPlan, getBuildByTestPlan, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux, accountInfo} = props;
+    const {classes, listRequirements, getAllActiveRequirementReq, getAllActiveTestplanReq, listActiveTestplan, listBuildByTestPlan, getBuildByTestPlan, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux, accountInfo} = props;
     const history = useHistory();
     const location = useLocation();
 
     const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
     const [loadingg, setLoadingg] = useState(false);
+    const [selectRequirements, setListRequirements] = useState([]);
     const [open, setOpen] = useState(false);
 
     const filterTestExec = (id) => {
@@ -108,11 +113,16 @@ const TestExecutionDetailPage = (props) => {
       getAllUserReq(localStorage.getItem('selectProject'));
       getAllActiveTestplanReq();
       getBuildByTestPlan({testplanname: testExecInfo.testplan.testplanname });
+      getAllActiveRequirementReq();
     },[])
 
     useEffect(()=>{
       console.log(testExecInfo);
-    },[testExecInfo])
+    },[testExecInfo]);
+
+    useEffect(()=>{
+      console.log(listRequirements);
+    },[listRequirements])
 
 
     try {
@@ -228,6 +238,8 @@ const TestExecutionDetailPage = (props) => {
           {listBuildByTestPlan.map((item, index) => <MenuItem key={index} value={item.buildname}>{item.buildname}</MenuItem>)}    
         </Select>
       </FormControl>
+
+      <MultipleSelect title = {'Requirements'} select={selectRequirements} setSelect={setListRequirements} listData={listRequirements}/>
 
           <FormControl variant="outlined" className={classes.formControl} fullWidth required >
               <InputLabel id="assignTester">Assign Tester</InputLabel>
