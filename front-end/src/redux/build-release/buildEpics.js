@@ -31,10 +31,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_ALL_BUILDS_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const addNewBuildEpic = (action$, state$) => action$.pipe(
@@ -68,10 +74,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+      if (status ===  401) {
+        localStorage.clear();
+        window.location.replace('/login');
+      } else
+      return of({
         type: actions.ADD_NEW_BUILD_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const getBuildByIdEpic = (action$, state$) => action$.pipe(
@@ -97,10 +109,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_BUILD_BYID_FAILED,
         payload: error.response
-      }))
+      })})
     )))
 
   export  const updateBuildEpic = (action$, state$) => action$.pipe(
@@ -134,10 +152,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.UPDATE_BUILD_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const deleteBuildEpic = (action$, state$) => action$.pipe(
@@ -163,10 +187,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.DELETE_BUILD_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const getAllBuildActiveEpic = (action$, state$) => action$.pipe(
@@ -192,10 +222,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_ALL_BUILD_ACTIVE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
 
@@ -222,8 +258,14 @@ import {API_ADDR} from '../constants';
           }
         
         }),
-        catchError (error => of({
+        catchError (error => {
+          const {status} = error.response.data;
+          if (status ===  401) {
+            localStorage.clear();
+            window.location.replace('/login');
+          } else
+          return of({
           type: actions.GET_ALL_BUILD_ACTIVE_FAILED,
           payload:  error.response.data.errMsg
-        }))
+        })})
       )))

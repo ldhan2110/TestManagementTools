@@ -55,6 +55,16 @@ export function changeRoleMember(value){
   }
 }
 
-export function RESET_SELECT_PROJECT(value){
-  
+export function resetSelectProject(value){
+  return {
+    type: types.RESET_SELECT_PROJECT,
+    payload: value
+  }
+}
+
+export function getNameVerify(value){
+  return {
+    type: types.GET_PROJECT_BY_ID_VERIFY_REQ,
+    payload: value
+  }
 }

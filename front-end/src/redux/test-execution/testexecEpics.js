@@ -31,10 +31,16 @@ export  const getAllTestexecEpic = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error => of({
+    catchError (error => {
+      const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
       type: actions.GET_ALL_TESTEXEC_FAILED,
       payload: error.response.data.errMsg
-    }))
+    })})
   )))
 
 
@@ -64,10 +70,16 @@ export  const addNewTestexecEpic = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error => of({
+    catchError (error => {
+      const {status} = error.response.data;
+      if (status ===  401) {
+        localStorage.clear();
+        window.location.replace('/login');
+      } else
+      return of({
       type: actions.ADD_TESTEXEC_FAILED,
       payload: error.response.data.errMsg
-    }))
+    })})
   )))
 
 
@@ -97,10 +109,16 @@ export  const execTestcaseEpic = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error => of({
+    catchError (error => {
+      const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
       type: actions.EXECUTE_TEST_CASE_FAILED,
       payload: error.response.data.errMsg
-    }))
+    })})
   )))
 
 
@@ -130,10 +148,16 @@ export  const execTestcaseEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.UPDATE_TEST_EXEC_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
 

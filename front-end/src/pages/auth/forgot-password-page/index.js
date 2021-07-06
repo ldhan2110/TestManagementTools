@@ -3,8 +3,6 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 import useStyles from './styles';
-//import styles from "./styles";
-//import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {SEND_MAIL_RESET_PASSWORD_REQ, RESET_SEND_MAIL_RESET_PASSWORD} from '../../../redux/account/constants';
@@ -33,7 +31,6 @@ const  mapStateToProps = (state) => {
   }
 
 const ForgotPassword = (props) => {
-    //const {classes} = props;
     const {isSendMail, sendMailReq, displayMsg, resetAddRedux} = props;
     const classes = useStyles();
     const [values, setValues] = useState({
@@ -69,30 +66,6 @@ const ForgotPassword = (props) => {
       setLoading(true);
       sendMailReq(values); 
     }
-
-      /*  if(values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)){
-          setEnableCreateBtn(false);
-          setLoading(true);
-          setValues({email: values.email, error: null});           
-          sendMailReq(values); 
-            //console.log(values);
-        } 
-
-        /* if(values.email === "") {
-          setError({ ...values, email: "" });
-            console.log('email: '+ values.email);
-
-            if(values.email !== "" )
-            sendMailReq(values); 
-         } 
-         else if(values.email === ""){
-          setValues({email: values.email, error: "* Enter your email"}); 
-          //console.log(values);
-        }
-        else{
-          setValues({email: values.email, error: "Please enter a valid email!"}); 
-          //console.log(values);
-        } */
     };
 
     const history = useHistory();
@@ -113,7 +86,6 @@ const ForgotPassword = (props) => {
           setEnableCreateBtn(true);
           setLoading(false);
           resetAddRedux();
-          //console.log('send mail: fail');
         } else if (isSendMail.sucess === true) {
           setLoading(false);
           displayMsg({
@@ -122,10 +94,7 @@ const ForgotPassword = (props) => {
           });
           setEnableCreateBtn(true);
           setLoading(false);
-          //console.log('send mail: successfully!')
           resetAddRedux();
-          //getAllBuildReq();
-          //handleClose();
         }
       },[isSendMail.sucess]); 
     } catch (error) {
@@ -146,8 +115,6 @@ const ForgotPassword = (props) => {
                 <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-email"
-                    // error={error.email == 0 && values.email == 0 ? true : false}
-                    //error={values.error ? true : false}
                     error={checkErrorMsg && error.email.trim().length === 0 && values.email.trim().length === 0 ? true : false}
                     error={checkErrorMsg && !error.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && !values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)  ?  true : false}
                     value={values.email}
@@ -157,10 +124,9 @@ const ForgotPassword = (props) => {
                     required={true}
                     type="email"
                 />
-                {/* {error.email.trim().length == 0 && values.email.trim().length == 0 && <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>} */}
+                
                 {checkErrorMsg && !error.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) &&!values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && <FormHelperText id="component-error-text" error={true}>Email must be a valid email address (such as: vuilongdeokhautrang@gmail.com)</FormHelperText>}
                 {checkErrorMsg && error.email.trim().length === 0 && values.email.trim().length === 0 &&  <FormHelperText id="component-error-text" error={true}>Email is required</FormHelperText>} 
-                {/* {values.error !== 0 && <FormHelperText id="component-error-text" error={true}>{values.error}</FormHelperText>}*/}
             </FormControl>
             <div className = {classes.btnGroup}>
                 <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<SendIcon/>} onClick={handleClickConfirm}>
@@ -177,5 +143,4 @@ const ForgotPassword = (props) => {
     );
 };
 
-//export default (ForgotPassword);
 export default connect(mapStateToProps,mapDispatchToProps)(ForgotPassword);

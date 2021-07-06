@@ -3,12 +3,10 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
-//import SelectBox from '../../../components/Selectbox';
 import {UPDATE_TESTPLAN_REQ, DELETE_TESTPLAN_REQ, RESET_UPDATE_TESTPLAN, RESET_DELETE_TESTPLAN, GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
-//import Box from '@material-ui/core/Box';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -18,14 +16,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   Grid,
   Typography,
-  //Breadcrumbs,
   Button,
   Divider,
   TextField,
-  //FormControl,
-  //MenuItem,
-  //InputLabel,
-  //Select,
   FormControlLabel,
   Checkbox,
   DialogContent,
@@ -55,7 +48,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestPlanDetailPage = (props) => {
-    const {classes, listTestPlans, name, match, updateTestplanReq, insTestplan, role,
+    const {classes, updateTestplanReq, insTestplan, role,
            displayMsg, deleteTestplanReq, insTestplanDelete, resetUpdateRedux, resetDeleteRedux, getAllTestplanReq} = props;
     const history = useHistory();
     const [open, setOpen] = React.useState(false);
@@ -116,7 +109,7 @@ const TestPlanDetailPage = (props) => {
             content: "Delete testplan successfully !",
             type: 'success'
           });
-          //getAllTestplanReq(props.match.params.projectName);
+
           setEnableDeleteBtn(true);
           setLoadingg(false);
           resetDeleteRedux();
@@ -127,9 +120,7 @@ const TestPlanDetailPage = (props) => {
       console.log('error: '+error);
     }
 
-    //useEffect(()=>{
-      //getAllBuildActiveReq(project); 
-    //},[])
+    
 
     const handleDelete=()=>{
       setEnableDeleteBtn(false);
@@ -161,7 +152,6 @@ const TestPlanDetailPage = (props) => {
         setLoading(true);
         updateTestplanReq(testplanInfor);
       }
-      //console.log(JSON.stringify(testplanInfor, null, '  '));     
     };
     
     const handleChange = (prop) => (event) => {
@@ -200,7 +190,6 @@ const TestPlanDetailPage = (props) => {
 
     const handleBack = () => {    
       history.goBack();
-      //setOpen(false);
     };
 
     return (
@@ -214,18 +203,9 @@ const TestPlanDetailPage = (props) => {
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
             Test Plan Detail - {props.history.location.state.testplanname}
-            {/* {props.match.params.testPlanName} */}
           </Typography>
         
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-          </Breadcrumbs> */}
+          
         </Grid>
         <Grid item>
         <div>

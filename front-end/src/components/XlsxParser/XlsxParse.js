@@ -65,7 +65,6 @@ export default function handleFile(e, setMethod) {
     var reader = new FileReader();
     var result = [];
     reader.onload = function(e) {
-      var idx = 0;
       var data = new Uint8Array(e.target.result);
       var workbook = XLSX.read(data, {type: 'array'});
 
@@ -78,7 +77,6 @@ export default function handleFile(e, setMethod) {
 
       })
       /* DO SOMETHING WITH workbook HERE */
-      console.log(result.filter(item => item.testcaseName !== undefined));
       setMethod(result.filter(item => item.testcaseName !== undefined));
     };
     reader.readAsArrayBuffer(f);

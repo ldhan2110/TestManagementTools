@@ -133,10 +133,16 @@ export  const getAllRequirementsEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_ALL_ACTIVE_REQUIREMENTS_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const deleteRequirementsEpic = (action$, state$) => action$.pipe(
@@ -162,8 +168,14 @@ export  const getAllRequirementsEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.DELETE_REQUIREMENTS_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))

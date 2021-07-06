@@ -31,10 +31,16 @@ export  const getAllTestcaseEpic = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error => of({
+    catchError (error => {
+      const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
       type: actions.GET_ALL_TESTCASE_FAILED,
       payload: error.response.data.errMsg
-    }))
+    })})
   )))
 
 //get all test suite
@@ -61,10 +67,16 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error => of({
+    catchError (error => {
+      const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
       type: actions.GET_ALL_TESTSUITE_FAILED,
       payload: error.response.data.errMsg
-    }))
+    })})
   )))
 
 
@@ -92,10 +104,16 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.ADD_TEST_SUITE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
     //ADD TEST CASE
@@ -122,10 +140,16 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.ADD_TEST_CASE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const getAllTestcaseNoTreeEpic = (action$, state$) => action$.pipe(
@@ -151,10 +175,16 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_ALL_TESTSUITE_NO_TREE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export const updateTestCaseEpic = (action$, state$) => action$.pipe(
@@ -188,10 +218,16 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.UPDATE_TESTCASE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const deleteTestcaseEpic = (action$, state$) => action$.pipe(
@@ -217,10 +253,16 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.DELETE_TESTCASE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export const getListTestcaseSelectEpic = (action$, state$) => action$.pipe(
@@ -248,10 +290,16 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_LIST_TESTCASE_SELECT_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export const updateTestSuiteEpic = (action$, state$) => action$.pipe(
@@ -282,10 +330,16 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.UPDATE_TESTSUITE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const deleteTestsuiteEpic = (action$, state$) => action$.pipe(
@@ -311,10 +365,16 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.DELETE_TESTSUITE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   //search testcase
@@ -345,10 +405,16 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.SEARCH_TESTCASE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
 
@@ -376,8 +442,14 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.UPLOAD_TESTCASE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))

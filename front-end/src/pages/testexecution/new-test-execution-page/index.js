@@ -28,6 +28,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { GET_ALL_ACTIVE_REQUIREMENTS_REQ } from "../../../redux/requirements/constants";
+import { RESET_LIST_TESTCASE_SELECT } from "../../../redux/test-case/constants";
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -52,14 +53,15 @@ const mapDispatchToProps = dispatch => {
     getAllActiveTestplanReq: (payload) => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
     getBuildByTestPlan: (payload) => dispatch({type: GET_ALL_BUILD_TESTPLAN_REQ, payload}),
     getAllActiveRequirementReq: (payload) => dispatch({type: GET_ALL_ACTIVE_REQUIREMENTS_REQ}),
-    resetAddRedux: () => dispatch({type: RESET_ADD_TEST_EXEC})
+    resetAddRedux: () => dispatch({type: RESET_ADD_TEST_EXEC}),
+    resetSelectTC: () => dispatch({type: RESET_LIST_TESTCASE_SELECT})
   }
 }
 
 const NewTestExecutionPage = (props) => {
-    const {classes, listTestExecution, listtestcaseselect} = props;
+    const {classes, listtestcaseselect} = props;
 
-    const {listRequirements, listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux, listBuildByTestPlan, getBuildByTestPlan, listTestExec, getAllActiveRequirementReq} = props;
+    const {resetSelectTC,listRequirements, listUser, listActiveTestplan, getAllUserReq, addNewTestexecReq, insTestexec, displayMsg, getAllTestExecReq, getAllActiveTestplanReq, resetAddRedux, listBuildByTestPlan, getBuildByTestPlan, listTestExec, getAllActiveRequirementReq} = props;
 
     const [open,setOpenPopup] = useState(false);
 
@@ -94,6 +96,7 @@ const NewTestExecutionPage = (props) => {
       getAllActiveTestplanReq();
       getAllTestExecReq();
       getAllActiveRequirementReq();
+      resetSelectTC();
     },[])
 
     useEffect(()=>{
@@ -156,8 +159,7 @@ const NewTestExecutionPage = (props) => {
             content: "Create Test Execution successfully !",
             type: 'success'
           });   
-
-          getAllTestExecReq();
+          //getAllTestExecReq();
           resetAddRedux();
           setEnableCreateBtn(true);
           setLoading(false);
@@ -244,6 +246,10 @@ const NewTestExecutionPage = (props) => {
         addNewTestexecReq(testExecInfo);
       }
     }
+
+    useEffect(()=>{
+      console.log(testExecInfo.listexectestcases);
+    },[testExecInfo.listexectestcases])
     
     return (
     <div>
@@ -266,7 +272,7 @@ const NewTestExecutionPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
           <TextField id="testExecutionName" label="Test Execution Name" 
-          variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
+          variant="outlined"  fullWidth required inputProps={{maxLength : 100}} 
           value={testExecInfo.testexecutionname || ''} onChange={handleChange('testexecutionname')} 
           error={testExecInfo.testexecutionname.trim().length === 0  && error.testexecutionname.trim().length === 0  ? true : false}
           helperText={testExecInfo.testexecutionname.trim().length === 0 && error.testexecutionname.trim().length === 0 ? 'Test Execution Name is required' : ' '}/>

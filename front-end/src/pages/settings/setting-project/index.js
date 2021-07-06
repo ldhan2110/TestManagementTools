@@ -260,7 +260,7 @@ const SettingProjectPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  inputProps={{maxLength : 16}} 
+          <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  inputProps={{maxLength : 100}} 
            value={projectInfo.projectname || ''} onChange={handleChange('projectname')}
            error={projectInfo.projectname === 0 && error.projectname === 0 ? true : false}
           helperText={projectInfo.projectname === 0 && error.projectname === 0 ? 'Project Name is required' : ' '}/>

@@ -132,3 +132,9 @@ export function resetUploadTestCase(value){
     payload: value
   }
 }
+
+export function resetSelectTestcase(){
+  return {
+    type: types.RESET_LIST_TESTCASE_SELECT,
+  }
+}

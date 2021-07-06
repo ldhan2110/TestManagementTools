@@ -15,7 +15,8 @@ var initialState = {
     errMsg: null
   },
   listProjects: [],
-  projectInfo: ""
+  projectInfo: "",
+  projectName: "",
 }
 
 
@@ -175,6 +176,7 @@ const reducer = (state = initialState, actions) => {
         ...state,
         error: true,
         errorMsg: payload,
+        projectInfo: ""
       }
     
     case types.GET_PROJECTS_BY_ID_SUCESS:
@@ -184,6 +186,27 @@ const reducer = (state = initialState, actions) => {
           errorMsg:"",
           projectInfo: payload,
         }
+
+        case types.GET_PROJECT_BY_ID_VERIFY_REQ:
+          return {
+            ...state,
+          }
+    
+        case types.GET_PROJECT_BY_ID_VERIFY_FAIL:
+          return {
+            ...state,
+            error: true,
+            errorMsg: payload,
+            projectName: ""
+          }
+        
+        case types.GET_PROJECT_BY_ID_VERIFY_SUCCESS:
+            return {
+              ...state,
+              error: "",
+              errorMsg:"",
+              projectName: payload,
+            }
 
     case types.CHANGE_ROLE_MEMBER_REQ:{      
       return {

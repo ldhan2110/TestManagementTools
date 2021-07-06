@@ -339,10 +339,16 @@ const reducer = (state = initialState, actions) => {
       }
     }
 
+    case types.RESET_LIST_TESTCASE_SELECT: {
+      return{
+        ...state,
+        listTestcaseSelect:[]
+      }    
+    }
+
     case types.DELETE_TESTSUITE_REQ:{      
       return {
         ...state,
-        //insTestcaseDelete: initialState.insTestcaseDelete
         insTestsuiteDelete: {
           sucess: null,
           errMsg: null

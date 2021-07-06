@@ -31,10 +31,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_ALL_USERS_FAILED,
         payload: error.response
-      }))
+      })})
     )))
 
   export  const getAllUserOfProjectEpic = (action$, state$) => action$.pipe(
@@ -60,10 +66,16 @@ import {API_ADDR} from '../constants';
           }
         
         }),
-        catchError (error => of({
+        catchError (error => {
+          const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
           type: actions.GET_ALL_USERS_OF_PROJECT_FAILED,
           payload: error.response
-        }))
+        })})
       )))
 
   export  const addUserToProjectEpic = (action$, state$) => action$.pipe(
@@ -92,10 +104,16 @@ import {API_ADDR} from '../constants';
           }
         
         }),
-        catchError (error => of({
+        catchError (error => {
+          const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
           type: actions.ADD_USERS_TO_PROJECT_FAILED,
           payload: error.response.data.errMsg
-        }))
+        })})
       )))
 
   export  const deleteUserOfProjectEpic = (action$, state$) => action$.pipe(
@@ -121,10 +139,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.DELETE_USER_OF_PROJECT_FAILED,
         payload:  error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const addNewUserEpic = (action$, state$) => action$.pipe(
@@ -156,10 +180,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.ADD_NEW_USER_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const getUserByIdEpic = (action$, state$) => action$.pipe(
@@ -185,10 +215,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_USER_BYID_FAILED,
         payload: error.response
-      }))
+      })})
     )))
 
   export  const updateUserEpic = (action$, state$) => action$.pipe(
@@ -220,10 +256,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.UPDATE_USER_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const deleteUserEpic = (action$, state$) => action$.pipe(
@@ -249,10 +291,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.DELETE_USER_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const updatePasswordEpic = (action$, state$) => action$.pipe(
@@ -281,10 +329,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.UPDATE_PASSWORD_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const updateProfileEpic = (action$, state$) => action$.pipe(
@@ -314,10 +368,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.UPDATE_PROFILE_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
   
   export  const getCurrentUserEpic = (action$, state$) => action$.pipe(
@@ -343,10 +403,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_CURRENT_USER_FAILED,
         payload: error.response
-      }))
+      })})
     )))
 
     export  const verifyUserToProjectEpic = (action$, state$) => action$.pipe(
@@ -375,8 +441,14 @@ import {API_ADDR} from '../constants';
           }
         
         }),
-        catchError (error => of({
+        catchError (error => {
+          const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
           type: actions.VERIFY_USERS_TO_PROJECT_FAILED,
           payload: error.response.data.errMsg
-        }))
+        })})
       )))

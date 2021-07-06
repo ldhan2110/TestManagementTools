@@ -95,7 +95,7 @@ const projectSettingRoutes = {
 };
 
 const verifyMemberRoute = {
-  path: "/auth/verify-member/:email/:projectid/:projectname/:token",
+  path: "/auth/verify-member/:email/:projectid/:token",
   name: "Verify Member",
   component: VerifyMemberPage
 }

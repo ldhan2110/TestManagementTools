@@ -21,7 +21,6 @@ import {
   Add as AddIcon,
 } from "@material-ui/icons";
 import { GET_ALL_BUILD_ACTIVE_REQ, GET_ALL_BUILD_TESTPLAN_REQ, RESET_BUILD_ACTIVE, RESET_BUILD_TESTPLAN } from "../../../redux/build-release/constants";
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 //MAP STATES TO PROPS - REDUX
@@ -40,7 +39,6 @@ function mapStateToProps(state) {
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-    //addNewBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
     getAllTestPlanReq: () => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
     getAllBuildReq: (payload) => dispatch({type: GET_ALL_BUILD_ACTIVE_REQ, payload}),
@@ -53,9 +51,8 @@ const mapDispatchToProps = dispatch => {
 
 
 const TestExecutionListPage = (props) => {
-  //const {classes} = props;
 
-  const {listTestExec, testexec, build, testplan, listTestPlan, getAllTestExecReq, getAllTestPlanReq, getAllBuildReq, getBuildByTestplan, listBuild, listBuildByTestPlan, resetBuildActive, resetBuildTestplan} = props;
+  const {listTestExec, testexec, build, testplan, listTestPlan, getAllTestExecReq, getAllTestPlanReq, getAllBuildReq, listBuild} = props;
 
   const [listTestexec, setListTestExec] = useState([]);
 
@@ -102,11 +99,6 @@ const TestExecutionListPage = (props) => {
       return arr; 
   }
 
-  useEffect(()=>{
-    console.log(testexec);
-    console.log(build);
-    console.log(testplan);
-  },[testexec]);
 
   useEffect(()=>{
     testexec.success = "";
@@ -125,13 +117,12 @@ const TestExecutionListPage = (props) => {
   },[listTestPlan, listBuild])
 
   useEffect(()=>{
-    if(testexec.success === true){
     var tempArr = [];
     listTestExec.forEach((item)=>{
       tempArr.push({_id: item._id, status: item.status, testexecutionname: item.testexecutionname, description: item.description, tester: item.tester ? item.tester.username : '', testplanname: item.testplan.testplanname, buildname: item.build.buildname })
     });
     setListTestExec(tempArr);
-    setArrayExec(tempArr);}
+    setArrayExec(tempArr);
   },[listTestExec]);
 
   useEffect(()=>{
@@ -233,7 +224,7 @@ const TestExecutionListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-        {(testexec.success && testplan.successActive && build.successActive) ? 
+        {(testexec.success) ? 
           <EnhancedTable
             rows={array}
             headerList = {TEST_EXECUTION_HEADERS}
@@ -243,7 +234,7 @@ const TestExecutionListPage = (props) => {
             handleDefaultDeleteAction={navigateOverviewPage}
             viewAction={navigateToEditPage}
             type='testexecution'
-            load={(testexec.success && testplan.successActive && build.successActive)}
+            load={(testexec.success)}
           />: 
           <EnhancedTable
             rows={[]}
@@ -251,7 +242,7 @@ const TestExecutionListPage = (props) => {
             conditions={TEST_EXEC_SEARCH_CONDITIONS}
             viewAction={navigateToEditPage}
             type='testexecution'
-            load={(testexec.success && testplan.successActive && build.successActive)}
+            load={(testexec.success)}
           />
           }
         </Grid>

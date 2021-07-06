@@ -279,7 +279,7 @@ const DetailMileStonePage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
           <TextField id="milestonetitle" label="Milestone Name" 
-          variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
+          variant="outlined"  fullWidth required inputProps={{maxLength : 100}} 
           value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')}
           error={milestoneInfo.milestonetitle === 0 && error.milestonetitle === 0 ? true : false}
           disabled={enableDeleteBtn ? false : true }

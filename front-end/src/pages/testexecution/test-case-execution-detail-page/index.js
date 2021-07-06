@@ -65,9 +65,7 @@ const TestCaseExecDetail = (props) => {
   }
 
 
-  const filterTestExec = (execId) => {
-    return listTestExec.find((item) => item._id === execId);
-  }
+  
 
   const getIdxTestCase = (testcaseId) => {
      return execTest.listTestCase.findIndex(item => item._id === testcaseId);

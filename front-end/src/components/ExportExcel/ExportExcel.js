@@ -3,7 +3,7 @@ import React, {useEffect,useState} from 'react';
 import ReactExport from 'react-data-export';
 import { IconButton, Tooltip} from '@material-ui/core';
 import {borders, TEST_CASE_COLUMNS} from './DefineTemplate';
-import {  ChevronsLeft, Download } from "react-feather";
+import {  Download } from "react-feather";
 import { red } from '@material-ui/core/colors';
 
 const ExcelFile = ReactExport.ExcelFile;
@@ -66,7 +66,6 @@ const ExportExcel = (props) => {
         }
 
         if (dataSet !== null && type === 'TS'){
-            var dataD = [];
             multiDataSet[0].data = [];
             dataSet.forEach((item, index) => {if(item.type !== 'TS')
                 multiDataSet[0].data.push(convertTCtoDS(item));
