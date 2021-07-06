@@ -103,8 +103,11 @@ const NewTestExecutionPage = (props) => {
     },[listBuildByTestPlan])
 
     useEffect(()=>{
-      console.log(listRequirements);
-    },[listRequirements])
+      setTestExecInfo({
+        ...testExecInfo,
+        listrequirement: covertFromName2Id(selectRequirements)
+      })
+    },[selectRequirements])
 
   
     useEffect(()=>{
@@ -168,7 +171,13 @@ const NewTestExecutionPage = (props) => {
     }
 
 
-
+  const covertFromName2Id = (name) => {
+      var result = [];
+      name.forEach(element => {
+        result.push(listRequirements.filter(x => x.projectrequirementname === element)[0]._id);
+      });
+      return result;
+    };
 
 
     const handleClose = () =>{
@@ -198,8 +207,6 @@ const NewTestExecutionPage = (props) => {
     };
 
     const handleCreateNewTestExec = () => {
-      console.log('testExecInfo: '+JSON.stringify(testExecInfo));
-      console.log('error: '+JSON.stringify(error));
       setCheckError(true);
 
       if(testExecInfo.description === "")

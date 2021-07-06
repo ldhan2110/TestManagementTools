@@ -54,7 +54,6 @@ const names = [
 
 const MultipleSelect = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
   const {title, listData, select, setSelect} = props;
 
   const covertFromName2Id = (name) => {
@@ -67,7 +66,6 @@ const MultipleSelect = (props) => {
 
   const handleChange = (event) => {
     setSelect(event.target.value);
-    console.log(covertFromName2Id(event.target.value));
   };
 
 

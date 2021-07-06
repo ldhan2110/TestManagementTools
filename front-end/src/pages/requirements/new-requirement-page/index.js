@@ -3,13 +3,10 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import { useHistory } from "react-router-dom";
-//import SelectBox from '../../../components/Selectbox';
 import {ADD_NEW_REQUIREMENTS_REQ, GET_ALL_REQUIREMENTS_REQ, RESET_ADD_NEW_REQUIREMENTS} from '../../../redux/requirements/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants';
-//import Slide from '@material-ui/core/Slide';
-//import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
   Grid,
   Typography,
@@ -19,9 +16,6 @@ import {
   TextField,
   FormControlLabel,
   FormControl,
-  MenuItem,
-  InputLabel,
-  Select,
   Checkbox
 } from '@material-ui/core';
 import {
@@ -59,7 +53,6 @@ const NewRequirementPage = (props) => {
     const {insRequirements, addNewRequirementsReq, displayMsg, getAllRequirementsReq, project, listBuilds, getAllBuildActiveReq, resetAddRedux} = props;
     const [open, setOpenPopup] = React.useState(isOpen);
     const history = useHistory();
-    //const [existTestplans, setExistTestplans] = React.useState(props.history.location.state);
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
       projectrequirementname: 'ss',
