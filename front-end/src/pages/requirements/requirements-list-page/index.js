@@ -194,10 +194,11 @@ const RequirementListPage = (props) => {
         </Grid>
         <Grid item>
           <div>
+          {(role === 'Project Manager' || role === 'Test Lead') &&
            <Button variant="contained" color="primary" onClick={handleClickNewRequirements}>
               <AddIcon />
               New Requirement
-            </Button>
+            </Button>}
           </div>
           {/* Delete TP dialog */}
           <Grid item>
