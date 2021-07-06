@@ -156,8 +156,7 @@ const NewTestExecutionPage = (props) => {
             content: "Create Test Execution successfully !",
             type: 'success'
           });   
-
-          getAllTestExecReq();
+          //getAllTestExecReq();
           resetAddRedux();
           setEnableCreateBtn(true);
           setLoading(false);

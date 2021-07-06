@@ -121,7 +121,7 @@ const NewTestPlanPage = (props) => {
         //setLoading(false);
         // Tat thanh loading, tat disable button
         resetAddRedux();
-        getAllTestplanReq();
+        //getAllTestplanReq();
         handleClose();
       }
     },[insTestplan.sucess]);     
