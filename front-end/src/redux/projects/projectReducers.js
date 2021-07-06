@@ -175,6 +175,7 @@ const reducer = (state = initialState, actions) => {
         ...state,
         error: true,
         errorMsg: payload,
+        projectInfo: ""
       }
     
     case types.GET_PROJECTS_BY_ID_SUCESS:

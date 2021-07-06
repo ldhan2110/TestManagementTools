@@ -31,10 +31,16 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error => of({
+    catchError (error => {
+      const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
       type: actions.GET_ALL_TESTPLAN_FAILED,
       payload: error.response
-    }))
+    })})
   )))
 
 
@@ -67,10 +73,16 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.ADD_NEW_TESTPLAN_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const updateTestplanEpic = (action$, state$) => action$.pipe(
@@ -102,10 +114,16 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.UPDATE_TESTPLAN_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
 
@@ -133,10 +151,16 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_ALL_ACTIVE_TESTPLAN_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const deleteTestplanEpic = (action$, state$) => action$.pipe(
@@ -162,8 +186,14 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.DELETE_TESTPLAN_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))

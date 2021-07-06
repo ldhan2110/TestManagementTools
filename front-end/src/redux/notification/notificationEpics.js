@@ -31,10 +31,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_ALL_NOTIFICATIONS_FAILED,
         payload: error.response
-      }))
+      })})
     )))
 
     export  const addNewNotificationEpic = (action$, state$) => action$.pipe(
@@ -65,10 +71,16 @@ import {API_ADDR} from '../constants';
           }
         
         }),
-        catchError (error => of({
+        catchError (error => {
+          const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
           type: actions.ADD_NEW_NOTIFICATION_FAILED,
           payload: error.response.data.errMsg
-        }))
+        })})
       )))
 
       export  const getNotificationByIdEpic = (action$, state$) => action$.pipe(
@@ -94,10 +106,16 @@ import {API_ADDR} from '../constants';
             }
           
           }),
-          catchError (error => of({
+          catchError (error => {
+            const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
             type: actions.GET_NOTIFICATION_BYID_FAILED,
             payload: error.response
-          }))
+          })})
         )))
 
       export  const updateNotificationEpic = (action$, state$) => action$.pipe(
@@ -126,10 +144,16 @@ import {API_ADDR} from '../constants';
             }
           
           }),
-          catchError (error => of({
+          catchError (error => { 
+            const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
             type: actions.UPDATE_NOTIFICATION_FAILED,
             payload: error.response.data.errMsg
-          }))
+          })})
         )))
 
         export  const deleteNotificationEpic = (action$, state$) => action$.pipe(
@@ -155,8 +179,14 @@ import {API_ADDR} from '../constants';
               }
             
             }),
-            catchError (error => of({
+            catchError (error => {
+              const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
               type: actions.DELETE_NOTIFICATION_FAILED,
               payload: error.response.data.errMsg
-            }))
+            })})
           )))

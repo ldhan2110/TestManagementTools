@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from "react";
 import Button from '@material-ui/core/Button';
 import useStyles from './styles';
-//import styles from "./styles";
-//import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {VERIFY_USERS_TO_PROJECT_REQ} from '../../../redux/users/constants';
@@ -12,15 +10,14 @@ import { blue } from '@material-ui/core/colors';
 import {
     Typography
   } from "@material-ui/core";
-import { SELECT_PROJECT } from "../../../redux/projects/constants";
-import { RESET_SELECT_PROJECT } from "../../../redux/projects/projectAction";
+import { GET_PROJECTS_BY_ID_REQ, RESET_SELECT_PROJECT, SELECT_PROJECT } from "../../../redux/projects/constants";
 import { LOGOUT_REQ } from "../../../redux/account/constants";
 
   //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
     return { 
       insUsers: state.user.insUsers,
-      project: state.project.currentSelectedProject
+      project: state.project.projectInfo
      };
   }
   
@@ -29,6 +26,7 @@ const  mapStateToProps = (state) => {
     return {
       verifyUserToProjectReq: (payload) => dispatch({ type: VERIFY_USERS_TO_PROJECT_REQ, payload }),
       displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+      getProjectById: (payload) => dispatch({type: GET_PROJECTS_BY_ID_REQ, payload}),
       selectProject: (value) => dispatch({type: SELECT_PROJECT, value}),
       resetSelect: () => dispatch({type: RESET_SELECT_PROJECT}),
       signOut: () => dispatch({type:  LOGOUT_REQ})
@@ -41,14 +39,14 @@ const VerifyMember = (props) => {
 
     const history = useHistory();
 
-    const {signOut, project, resetSelect, selectProject, insUsers, verifyUserToProjectReq, displayMsg} = props;
+    const {signOut,project, getProjectById, resetSelect, selectProject, insUsers, verifyUserToProjectReq, displayMsg} = props;
 
     const [userInfo, setUserInfo] = useState({
       email: window.location.pathname.split('/')[3],
       role: 'Tester',
       projectid: window.location.pathname.split('/')[4],
-      projectname: window.location.pathname.split('/')[5],
-      resettoken: window.location.pathname.split('/')[6]
+      projectname: '',
+      resettoken: window.location.pathname.split('/')[5]
     })
 
 
@@ -59,7 +57,12 @@ const VerifyMember = (props) => {
     useEffect(()=>{
       resetSelect();
       signOut();
+      getProjectById(userInfo.projectid)
     },[]);
+
+    useEffect(()=>{
+      console.log(project);
+    },[project])
 
     useEffect(()=>{
       console.log(insUsers);

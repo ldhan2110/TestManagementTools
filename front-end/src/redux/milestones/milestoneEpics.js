@@ -31,10 +31,16 @@ import {API_ADDR} from '../constants';
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_ALL_MILESTONES_FAILED,
         payload: error.response
-      }))
+      })})
     )))
 
     export  const addNewMilestoneEpic = (action$, state$) => action$.pipe(
@@ -66,10 +72,16 @@ import {API_ADDR} from '../constants';
           }
         
         }),
-        catchError (error => of({
+        catchError (error => {
+          const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
           type: actions.ADD_NEW_MILESTONE_FAILED,
           payload: error.response.data.errMsg
-        }))
+        })})
       )))
 
       export  const getMilestoneByIdEpic = (action$, state$) => action$.pipe(
@@ -95,10 +107,16 @@ import {API_ADDR} from '../constants';
             }
           
           }),
-          catchError (error => of({
+          catchError (error => {
+            const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
             type: actions.GET_MILESTONE_BYID_FAILED,
             payload: error.response
-          }))
+          })})
         )))
 
       export  const updateMilestoneEpic = (action$, state$) => action$.pipe(
@@ -130,10 +148,16 @@ import {API_ADDR} from '../constants';
             }
           
           }),
-          catchError (error => of({
+          catchError (error => {
+            const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
             type: actions.UPDATE_MILESTONE_FAILED,
             payload: error.response.data.errMsg
-          }))
+          })})
         )))
 
         export  const deleteMilestoneEpic = (action$, state$) => action$.pipe(
@@ -159,8 +183,14 @@ import {API_ADDR} from '../constants';
               }
             
             }),
-            catchError (error => of({
+            catchError (error => {
+              const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
               type: actions.DELETE_MILESTONE_FAILED,
               payload: error.response.data.errMsg
-            }))
+            })})
           )))

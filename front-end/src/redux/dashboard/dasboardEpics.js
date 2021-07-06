@@ -31,10 +31,16 @@ export  const getEffortEpic = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error =>  of({
+    catchError (error =>  {
+      const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
       type: actions.GET_EFFORT_FAILED,
       payload: error.response.data.errMsg
-    }))
+    })})
   )
   ))
 
@@ -63,10 +69,16 @@ export  const getExecOverviewEpic = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error =>  of({
+    catchError (error =>  {
+      const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
       type: actions.GET_EXEC_OVERVIEW_FAILED,
       payload: error.response.data.errMsg
-    }))
+    })})
   )
   ))
 
@@ -95,10 +107,16 @@ export const getMultiChart = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error =>  of({
+    catchError (error =>  {
+      const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
       type: actions.GET_MULTI_CHART_FAILED,
       payload: error.response.data.errMsg
-    }))
+    })})
   )
   ))
 
@@ -126,9 +144,15 @@ export  const getSixExecution = (action$, state$) => action$.pipe(
       }
     
     }),
-    catchError (error =>  of({
+    catchError (error =>  {
+      const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
       type: actions.GET_SIX_EXECUTION_FAILED,
       payload: 'something error'
-    }))
+    })})
   )
   ))

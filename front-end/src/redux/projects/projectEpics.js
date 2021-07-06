@@ -66,10 +66,16 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error =>{
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.ADD_NEW_PROJECT_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const updateProjectEpic = (action$, state$) => action$.pipe(
@@ -95,10 +101,16 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.UPDATE_PROJECT_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const deleteProjectEpic = (action$, state$) => action$.pipe(
@@ -124,10 +136,16 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.DELETE_PROJECT_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const getProjectByIdEpic = (action$, state$) => action$.pipe(
@@ -153,10 +171,16 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error =>{
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.GET_PROJECTS_BY_ID_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))
 
   export  const changeRoleMemberEpic = (action$, state$) => action$.pipe(
@@ -185,8 +209,14 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
         }
       
       }),
-      catchError (error => of({
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
         type: actions.CHANGE_ROLE_MEMBER_FAILED,
         payload: error.response.data.errMsg
-      }))
+      })})
     )))

@@ -55,6 +55,9 @@ export function changeRoleMember(value){
   }
 }
 
-export function RESET_SELECT_PROJECT(value){
-  
+export function resetSelectProject(value){
+  return {
+    type: types.RESET_SELECT_PROJECT,
+    payload: value
+  }
 }
