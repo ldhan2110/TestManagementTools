@@ -9,6 +9,7 @@ import TestCaseDetail from "./TestCasePage";
 import {GET_ALL_TESTCASE_REQ, GET_ALL_TESTSUITE_REQ, GET_ALL_TESTSUITE_NO_TREE_REQ, SEARCH_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
+import { red } from '@material-ui/core/colors';
 import NewTestSuitePopup from '../new-test-suite-page/index';
 import {
   Grid,
@@ -257,7 +258,9 @@ const TestCaseListPage = (props) => {
                   <Grid item xs={12} style={{marginTop: '5vh'}}>
                     <Grid container spacing={3}>
                       <Grid item xs={12}>                 
-                            <Typography variant="h4" gutterBottom display="inline">Test Cases</Typography> 
+                            <Typography variant="h4" gutterBottom display="inline">Test Cases</Typography>
+                            <Typography variant="h4" gutterBottom display="inline" style={{color: red[500]}}> (Red </Typography>  
+                            <Typography variant="h4" gutterBottom display="inline"> fill means assigned)</Typography>  
                             {count < 2 && <LinearProgress/>}
                       <Divider />
                     </Grid>
