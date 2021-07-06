@@ -117,13 +117,12 @@ const TestExecutionListPage = (props) => {
   },[listTestPlan, listBuild])
 
   useEffect(()=>{
-    if(testexec.success === true){
     var tempArr = [];
     listTestExec.forEach((item)=>{
       tempArr.push({_id: item._id, status: item.status, testexecutionname: item.testexecutionname, description: item.description, tester: item.tester ? item.tester.username : '', testplanname: item.testplan.testplanname, buildname: item.build.buildname })
     });
     setListTestExec(tempArr);
-    setArrayExec(tempArr);}
+    setArrayExec(tempArr);
   },[listTestExec]);
 
   useEffect(()=>{
@@ -225,7 +224,7 @@ const TestExecutionListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-        {(testexec.success && testplan.successActive && build.successActive) ? 
+        {(testexec.success) ? 
           <EnhancedTable
             rows={array}
             headerList = {TEST_EXECUTION_HEADERS}
@@ -235,7 +234,7 @@ const TestExecutionListPage = (props) => {
             handleDefaultDeleteAction={navigateOverviewPage}
             viewAction={navigateToEditPage}
             type='testexecution'
-            load={(testexec.success && testplan.successActive && build.successActive)}
+            load={(testexec.success)}
           />: 
           <EnhancedTable
             rows={[]}
@@ -243,7 +242,7 @@ const TestExecutionListPage = (props) => {
             conditions={TEST_EXEC_SEARCH_CONDITIONS}
             viewAction={navigateToEditPage}
             type='testexecution'
-            load={(testexec.success && testplan.successActive && build.successActive)}
+            load={(testexec.success)}
           />
           }
         </Grid>
