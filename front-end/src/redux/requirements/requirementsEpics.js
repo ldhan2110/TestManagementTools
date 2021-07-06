@@ -75,7 +75,7 @@ export  const getAllRequirementsEpic = (action$, state$) => action$.pipe(
 
   export  const updateRequirementsEpic = (action$, state$) => action$.pipe(
     ofType(actions.UPDATE_REQUIREMENTS_REQ),
-    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.requirementsid+'/api/updaterequirements',{
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.projectrequirementid+'/api/updaterequirements',{
         projectrequirementname: payload.projectrequirementname,
         description: payload.description,
         //buildname: payload.buildname,
@@ -141,7 +141,7 @@ export  const getAllRequirementsEpic = (action$, state$) => action$.pipe(
 
   export  const deleteRequirementsEpic = (action$, state$) => action$.pipe(
     ofType(actions.DELETE_REQUIREMENTS_REQ),
-    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/'+payload.projectid+'/'+payload.requirementsid+'/api/deleterequirements',{
+    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/'+payload.projectid+'/'+payload.projectrequirementid+'/api/deleterequirements',{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
