@@ -94,7 +94,7 @@ const LoginPage = (props) => {
       if (localStorage.getItem("token") && project === ''){
         history.push("/projects");
       } else  if (localStorage.getItem("token"))  {
-        history.push("/projects"+project);
+        history.push("/projects/"+project);
       }
     }, [accountInfo, history])
 
