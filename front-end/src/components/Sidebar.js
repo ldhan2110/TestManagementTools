@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { rgba } from "polished";
+import { ellipsis, rgba } from "polished";
 import { connect } from 'react-redux';
 import { NavLink as RouterNavLink, withRouter } from "react-router-dom";
 import { darken } from "polished";
-
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "../vendor/perfect-scrollbar.css";
 
@@ -20,9 +19,10 @@ import {
   ListItem,
   ListItemText,
   Typography,
+  Tooltip,
   IconButton as MuiIconButton
 } from "@material-ui/core";
-
+import ReadMore from 'read-more-react';
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 import { green } from "@material-ui/core/colors";
@@ -35,7 +35,15 @@ const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
 ));
 
-const Box = styled(MuiBox)(spacing);
+const Box = styled(MuiBox)`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  max-width: 195px;
+`;
 
 const Drawer = styled(MuiDrawer)`
   border-right: 0;
@@ -73,8 +81,8 @@ const Brand = styled(ListItem)`
   background-color: ${props => props.theme.sidebar.header.background};
   font-family: ${props => props.theme.typography.fontFamily};
   min-height: 56px;
-  padding-left: ${props => props.theme.spacing(6)}px;
-  padding-right: ${props => props.theme.spacing(6)}px;
+  padding-left: ${props => props.theme.spacing(3)}px;
+  padding-right: ${props => props.theme.spacing(5)}px;
   cursor: default;
 
   ${props => props.theme.breakpoints.up("sm")} {
@@ -301,13 +309,34 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject,curr
   const handleClick = () => {
     history.replace('/projects');
   }
+  
+  const [disableHoverTooltip, setDisableHoverTooltip] = useState(false);
+  useEffect(()=>{isEllipsisActive()},[currentSelectedProjectName])
 
+  function isEllipsisActive() {
+    var offsetWidth = document.getElementById('boxProject').offsetWidth;
+    //not long enough
+    if(offsetWidth < 170)
+      setDisableHoverTooltip(true);
+    // long enough
+    else{
+      setDisableHoverTooltip(false);
+    }
+  }
 
   return (
     <Drawer variant="permanent"  { ...rest}>
       <Brand>
         <IconButton color="inherit" aria-label="Open drawer" onClick={handleClick}><Home/></IconButton>
-        <Box ml={3}> {currentSelectedProjectName} - {currentRole}</Box>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          <Tooltip title={<div style={{fontSize:15, lineHeight:'1.4rem'}}>{currentSelectedProjectName}</div>} arrow
+            placement="right-end" enterDelay={700} leaveTouchDelay={2000} interactive disableHoverListener={disableHoverTooltip}>
+            <Box ml={1} id='boxProject'>
+              {currentSelectedProjectName}
+            </Box>
+          </Tooltip>
+          - {currentRole}
+        </div>
       </Brand>
       <Scrollbar>
         <List disablePadding>
