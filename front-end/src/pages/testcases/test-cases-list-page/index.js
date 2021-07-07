@@ -128,14 +128,7 @@ const TestCaseListPage = (props) => {
       return null;
     }
   
-    const navigateToDetailPage = (params) => {
-      if (params)
-        history.push(window.location.pathname+"/"+params);
-    }
-
-    const handleAddTestSuite = () => {
-      setOpenTS(true);
-    }
+    
 
     const handleChangeSearch = (prop) => (event) => {
       setSearch({...search, [prop]: event.target.value});
@@ -166,7 +159,7 @@ const TestCaseListPage = (props) => {
         <Grid container spacing={8}>
           <Grid item xs={12}>
             <Grid container spacing={8} className={classes.contentContainer}>
-                <Grid item xs ={3}>
+                <Grid item xs ={4}>
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
                       <Typography variant="h4" gutterBottom display="inline">
@@ -199,12 +192,6 @@ const TestCaseListPage = (props) => {
                           {testcase.listTestsuite.map((item) => (
                                     <MenuItem value={item.name}>{item.name}</MenuItem>
                                ))}
-                          {/* <MenuItem value="">
-                              <em>None</em>
-                          </MenuItem>
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem> */}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -229,21 +216,7 @@ const TestCaseListPage = (props) => {
                               </Select>
                             </FormControl>
                           </Grid>
-                          {/* <Grid item xs ={6}>
-                            <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                              <InputLabel id="type">Type</InputLabel>
-                                <Select
-                                  labelId="type"
-                                  id="type"
-                                  //value={age}
-                                  //onChange={handleChange}
-                                  label="Type"
-                                >
-                               <MenuItem value=""><em>Manual</em></MenuItem>
-                               <MenuItem value={10}>Auto</MenuItem>
-                              </Select>
-                            </FormControl>
-                          </Grid> */}
+                          
                       </Grid>
                     </Grid>
 
@@ -270,7 +243,7 @@ const TestCaseListPage = (props) => {
 
               <Divider orientation="vertical" flexItem />
 
-              <Grid item xs={8}>
+              <Grid item xs={7}>
                 {displayNode !== null && (displayNode.type === 'TS' || displayNode.type === 'root') && <TestSuiteDetail node={displayNode}/>}
                 {displayNode !== null && displayNode.type === 'TC' && <TestCaseDetail key={displayNode._id} node={displayNode}/>}
               </Grid>

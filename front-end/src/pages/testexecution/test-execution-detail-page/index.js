@@ -116,6 +116,10 @@ const TestExecutionDetailPage = (props) => {
       getAllActiveRequirementReq();
     },[])
 
+    useEffect(()=>{
+      console.log(listBuildByTestPlan);
+    },[testExecInfo])
+
   
 
   
@@ -154,8 +158,15 @@ const TestExecutionDetailPage = (props) => {
     }
 
     const handleChange = (prop) => (event) => {
-      if (prop !== 'status' )
-        setTestExecInfo({ ...testExecInfo, [prop]: event.target.value });
+      if (prop === 'testplanname' ){
+        setTestExecInfo({...testExecInfo, testplan: {_id: event.target.value, testplanname: listActiveTestplan.find(item => item._id === event.target.value).testplanname} });
+        getBuildByTestPlan({testplanname: listActiveTestplan.find(item => item._id === event.target.value).testplanname });
+      }
+
+      if (prop === 'buildname' ){
+        setTestExecInfo({...testExecInfo, build: {_id: event.target.value, buildname: listBuildByTestPlan.find(item => item._id === event.target.value).testplanname} });
+      }
+        
       
       else if (prop === 'status') {
         setTestExecInfo({...testExecInfo, status: event.target.value});
@@ -217,9 +228,9 @@ const TestExecutionDetailPage = (props) => {
           <Select
           labelId="testPlan"
           id="testPlan"
-          value={testExecInfo.testplan.testplanname || ''}
+          value={testExecInfo.testplan._id}
           onChange={handleChange('testplanname')}>
-          {listActiveTestplan.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
+          {listActiveTestplan.map((item, index) => <MenuItem key={item._id} value={item._id}>{item.testplanname}</MenuItem>)}    
         </Select>
       </FormControl>
           <FormControl variant="outlined" fullWidth required>
@@ -231,7 +242,7 @@ const TestExecutionDetailPage = (props) => {
           onChange={handleChange('buildname')}
           label="buildname"
         >
-          {listBuildByTestPlan.map((item, index) => <MenuItem key={index} value={item.buildname}>{item.buildname}</MenuItem>)}    
+          {listBuildByTestPlan.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
         </Select>
       </FormControl>
 

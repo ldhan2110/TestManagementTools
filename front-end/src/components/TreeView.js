@@ -74,13 +74,13 @@ export default function ControlledTreeView(props) {
       
       if (nodes.is_assigned === true) {
         return (
-          <StyledTreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name} >
+          <StyledTreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name + " ("+nodes.children.length+","+nodes.total_testcase+","+nodes.numberof_testcaseuntest+")"} >
             {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
           </StyledTreeItem>
         );
       } else
           return (
-          <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name} >
+          <TreeItem key={nodes._id} nodeId={nodes._id} label={nodes.name+" ("+nodes.children.length+","+nodes.total_testcase+","+nodes.numberof_testcaseuntest+")"} >
             {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
           </TreeItem>)
     }

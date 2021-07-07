@@ -115,6 +115,7 @@ const TestExecutionDetailPage = (props) => {
       ]
     })
   
+    const[totalExec, setTotalExec] = useState(0);
 
     const [resultTestExec, setResultTestExec] = useState({
       status: testExecInfo.status,
@@ -193,6 +194,7 @@ const TestExecutionDetailPage = (props) => {
         }
       ]
         })
+        setTotalExec(countTotalExec());
       }
      },[testExecInfo])  
 
@@ -254,6 +256,23 @@ const TestExecutionDetailPage = (props) => {
       }
       return result;
     }
+  
+  const countTotalExec = () =>{
+    var count = 0;
+      if (testExecInfo.exectestcases){
+        testExecInfo.exectestcases.map((item,index)=>{
+            if (item.status === 'Pass')
+              count++;
+            else if (item.status === 'Fail')
+            count++;
+            else if (item.status === 'Blocked')
+            count++;
+            else
+            count++;
+        });
+      }
+      return count;
+  }
 
   
     return (
@@ -279,7 +298,7 @@ const TestExecutionDetailPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
 
-          <DoughnutChart dataset={dataExecOverview} overviewData={0}/>
+          <DoughnutChart dataset={dataExecOverview} overviewData={totalExec}/>
 
          
 
@@ -314,7 +333,7 @@ const TestExecutionDetailPage = (props) => {
                     label="status">
                         <MenuItem value={'Untest'}>Untest</MenuItem>
                         <MenuItem value={"Pass"}>Pass</MenuItem>
-                        <MenuItem value={"Block"}>Blocked</MenuItem>
+                        <MenuItem value={"Block"}>Block</MenuItem>
                         <MenuItem value={"Fail"}>Fail</MenuItem>
                   </Select>
           </FormControl>
