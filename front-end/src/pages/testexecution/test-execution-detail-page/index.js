@@ -174,25 +174,24 @@ const TestExecutionDetailPage = (props) => {
     }
 
     useEffect(()=>{
-      // if (delTestExec.sucess === false){
-      //   // displayMsg({
-      //   //   content: insBuildsDelete.errMsg,
-      //   //   type: 'error'
-      //   // }); 
-      //   setEnableDeleteBtn(true);
-      //   setLoadingg(false);
-      //   resetDelTestExec();
-      // } else if (delTestExec.sucess === true) {
-      //   displayMsg({
-      //     content: "Delete Test Execution successfully !",
-      //     type: 'success'
-      //   });
-      //   setEnableDeleteBtn(true);
-      //   setLoadingg(false);
-      //   resetDelTestExec();
-      //   history.goBack();
-      //   }
-      console.log(delTestExec);
+      if (delTestExec.sucess === false){
+        // displayMsg({
+        //   content: insBuildsDelete.errMsg,
+        //   type: 'error'
+        // }); 
+        setEnableDeleteBtn(true);
+        setLoadingg(false);
+        resetDelTestExec();
+      } else if (delTestExec.sucess === true) {
+        displayMsg({
+          content: "Delete Test Execution successfully !",
+          type: 'success'
+        });
+        setEnableDeleteBtn(true);
+        setLoadingg(false);
+        resetDelTestExec();
+        history.goBack();
+        }
     },[delTestExec]);
 
     const handleClose=()=>{
@@ -234,6 +233,7 @@ const TestExecutionDetailPage = (props) => {
     }
 
     const handleDelete = () =>{
+      console.log('go here');
       deleteTestExecReq(testExecInfo._id);
     }
     
@@ -264,7 +264,7 @@ const TestExecutionDetailPage = (props) => {
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure want to delete this test execution?</DialogContent>
                   <DialogActions>
-                    <Button  color="primary" onClick={handleDelete}>Yes</Button>
+                    <Button  color="primary" onClick={()=>{console.log('go here'); deleteTestExecReq(testExecInfo._id);}}>Yes</Button>
                     <Button onClick={()=>{setOpen(false);}} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>

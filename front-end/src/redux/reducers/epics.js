@@ -95,6 +95,7 @@ export default combineEpics(
    testexecEpics.addNewTestexecEpic,
    testexecEpics.updTestExecEpic,
    testexecEpics.execTestcaseEpic,
+   testexecEpics.delTestExecEpic,
 
    //NOTIFICATION
    notificationEpics.getAllNotificationEpic,
