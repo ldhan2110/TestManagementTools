@@ -14,7 +14,7 @@ const reducer = (state = initialState, actions) => {
     //EFFORT
     case types.UPLOAD_IMAGE_REQ:
       return {
-        ...state,
+        ...state
       }
 
     case types.UPLOAD_IMAGE_FAILED:
@@ -33,9 +33,7 @@ const reducer = (state = initialState, actions) => {
           }
 
     case types.RESET_UPLOAD_IMAGE:
-      return {
-        initialState
-      }
+      return initialState;      
     
     default: 
         return state;
