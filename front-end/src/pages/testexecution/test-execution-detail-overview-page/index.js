@@ -76,10 +76,11 @@ const TestExecutionDetailPage = (props) => {
     const location = useLocation();
 
     const filterTestExec = (id) => {
-      if (listTestExec.length !== 0)
+      if (listTestExec.length !== 0 && listTestExec.find((item) => item._id === id))
         return  listTestExec.find((item) => item._id === id);
-      else
-        return{
+      else{
+        history.replace("/error/500");
+         return{
           build: {_id: "", buildname: ""},
           description: "",
           exectestcases:  [],
@@ -92,6 +93,8 @@ const TestExecutionDetailPage = (props) => {
           testplan: {_id: "", testplanname: ""},
           _id: "",
         }
+      }
+       
     }
 
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
@@ -118,7 +121,7 @@ const TestExecutionDetailPage = (props) => {
     const[totalExec, setTotalExec] = useState(0);
 
     const [resultTestExec, setResultTestExec] = useState({
-      status: testExecInfo.status,
+      status:  'Untest',
       testexecid: props.match.params.testExecutionId
     })
 
@@ -195,6 +198,12 @@ const TestExecutionDetailPage = (props) => {
       ]
         })
         setTotalExec(countTotalExec());
+      }
+      if (testExecInfo.status){
+        setResultTestExec({
+          ...resultTestExec,
+          status: testExecInfo.status
+        })
       }
      },[testExecInfo])  
 
