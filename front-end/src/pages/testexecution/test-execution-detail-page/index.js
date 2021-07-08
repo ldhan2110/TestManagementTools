@@ -264,7 +264,8 @@ const TestExecutionDetailPage = (props) => {
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure want to delete this test execution?</DialogContent>
                   <DialogActions>
-                    <Button  color="primary" onClick={()=>{console.log('go here'); deleteTestExecReq(testExecInfo._id);}}>Yes</Button>
+                    <Button  color="primary" onClick={()=>{console.log('go here'); deleteTestExecReq(testExecInfo._id); setEnableDeleteBtn(false);
+        setLoadingg(true);  setOpen(false);}}>Yes</Button>
                     <Button onClick={()=>{setOpen(false);}} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>
@@ -301,7 +302,7 @@ const TestExecutionDetailPage = (props) => {
           label="Build/Release"
           disabled = {true}
         >
-          {listBuildByTestPlan.map((item, index) => <MenuItem key={index} value={item.buildname}>{item.buildname}</MenuItem>)}    
+          {listBuildByTestPlan.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
         </Select>
       </FormControl>
 
