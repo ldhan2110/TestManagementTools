@@ -132,14 +132,17 @@ const TestExecutionDetailPage = (props) => {
 
   
     useEffect(()=>{
-      var tempArr = testExecInfo.exectestcases;
       if (listtestcaseselect.length > 0) {
-        listtestcaseselect.map(item => {
-          if (testExecInfo.exectestcases.findIndex(x => x._id === item._id) === -1) 
-            tempArr.push(addNewExecTC(item));
-          })
+        // listtestcaseselect.map(item => {
+        //   if (testExecInfo.exectestcases.findIndex(x => x._id === item._id) === -1) 
+        //     tempArr.push(addNewExecTC(item));
+        //   })
+        var tempArr = convertListSelect(listtestcaseselect);
+        var result = [];
+        tempArr.map(obj => result.push(testExecInfo.exectestcases.find(o => o._id === obj._id) || obj));
+        setTestExecInfo({...testExecInfo, exectestcases: result});
       }
-      setTestExecInfo({...testExecInfo, exectestcases: tempArr});
+      //setTestExecInfo({...testExecInfo, exectestcases: tempArr});
     },[listtestcaseselect])
 
   
@@ -198,8 +201,10 @@ const TestExecutionDetailPage = (props) => {
       history.push(location.pathname.substring(0, location.pathname.lastIndexOf("/") - 5));
     }
 
-    const addNewExecTC = (item) => {
-      return {_id: item._id, testcaseName: item.testcaseName, status: "Untest"};
+    const convertListSelect = (list) => {
+      var arr = [];
+      list.map(item => arr.push({_id: item._id, testcaseName: item.testcaseName, status: "Untest"}))
+      return arr;
     }
 
     const handleChange = (prop) => (event) => {
@@ -233,7 +238,6 @@ const TestExecutionDetailPage = (props) => {
     }
 
     const handleDelete = () =>{
-      console.log('go here');
       deleteTestExecReq(testExecInfo._id);
     }
     
@@ -264,7 +268,7 @@ const TestExecutionDetailPage = (props) => {
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure want to delete this test execution?</DialogContent>
                   <DialogActions>
-                    <Button  color="primary" onClick={()=>{console.log('go here'); deleteTestExecReq(testExecInfo._id);}}>Yes</Button>
+                    <Button  color="primary" onClick={handleDelete}>Yes</Button>
                     <Button onClick={()=>{setOpen(false);}} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>
