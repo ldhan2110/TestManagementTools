@@ -125,11 +125,6 @@ const EnhancedTable = (props) => {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  useEffect(()=>{
-    if(load === false || load === undefined)
-      load = true;
-  },[])
-
   return (
     <div>
       <Paper>
