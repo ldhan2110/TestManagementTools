@@ -13,6 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
+import SelectTestCasePopup from '../../testcases/select-test-case-page/index';
 import {
   Grid,
   Typography,
@@ -33,12 +34,13 @@ import {
   DialogTitle,
   Dialog
 } from '@material-ui/core';
-import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_REQ, RESET_UPDATE_TEST_EXEC } from "../../../redux/test-execution/constants";
+import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_REQ, RESET_UPDATE_TEST_EXEC, RESET_DELETE_TEST_EXEC, DELETE_TEST_EXEC_REQ } from "../../../redux/test-execution/constants";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 import { GET_ALL_USERS_OF_PROJECT_REQ } from "../../../redux/users/constants";
 import { GET_ALL_ACTIVE_TESTPLAN_REQ } from "../../../redux/test-plan/constants";
 import { GET_ALL_BUILD_TESTPLAN_REQ } from "../../../redux/build-release/constants";
 import { GET_ALL_ACTIVE_REQUIREMENTS_REQ } from "../../../redux/requirements/constants";
+import { RESET_LIST_TESTCASE_SELECT } from "../../../redux/test-case/constants";
 
 const Chip = styled(MuiChip)`
   ${spacing};
@@ -59,12 +61,14 @@ function mapStateToProps(state) {
   return {
     listTestExec: state.testexec.listTestExec,
     updTestExec: state.testexec.updTestExec,
+    delTestExec: state.testexec.delTestExec,
     execTest: state.testexec.execTest,
     listUser: state.user.listUsersOfProject,
     accountInfo: state.account.accountInfo,
     listActiveTestplan: state.testplan.listActiveTestplan,
     listBuildByTestPlan: state.build.listBuildsByTestplan,
-    listRequirements: state.requirements.listActiveRequirements
+    listRequirements: state.requirements.listActiveRequirements,
+    listtestcaseselect: state.testcase.listTestcaseSelect,
   };
 }
 
@@ -74,10 +78,13 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     updateTestExecReq: (payload) => dispatch({type: UPDATE_TEST_EXEC_REQ, payload}),
+    deleteTestExecReq: (payload) => dispatch({type: DELETE_TEST_EXEC_REQ, payload}),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
     selectTestExecReq: (payload) => dispatch({type: SELECT_TEST_EXEC_REQ, payload}),
     getAllUserReq: (payload) => dispatch({type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
     resetRedux: () => dispatch({type: RESET_UPDATE_TEST_EXEC}),
+    resetListTestcaseSelect: () => dispatch({type: RESET_LIST_TESTCASE_SELECT}),
+    resetDelTestExec: () => dispatch({type: RESET_DELETE_TEST_EXEC}),
     getAllActiveTestplanReq: (payload) => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
     getBuildByTestPlan: (payload) => dispatch({type: GET_ALL_BUILD_TESTPLAN_REQ, payload}),
     getAllActiveRequirementReq: (payload) => dispatch({type: GET_ALL_ACTIVE_REQUIREMENTS_REQ}),
@@ -85,12 +92,13 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestExecutionDetailPage = (props) => {
-    const {classes, listRequirements, getAllActiveRequirementReq, getAllActiveTestplanReq, listActiveTestplan, listBuildByTestPlan, getBuildByTestPlan, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux, accountInfo} = props;
+    const {classes,delTestExec,deleteTestExecReq,resetDelTestExec, resetListTestcaseSelect, listRequirements, getAllActiveRequirementReq, getAllActiveTestplanReq, listActiveTestplan, listBuildByTestPlan, getBuildByTestPlan, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, listtestcaseselect,getAllUserReq, listUser, resetRedux, accountInfo} = props;
     const history = useHistory();
     const location = useLocation();
 
     const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
     const [loadingg, setLoadingg] = useState(false);
+    const [openPopup,setOpenPopup] = useState(false);
     const [selectRequirements, setListRequirements] = useState([]);
     const [open, setOpen] = useState(false);
 
@@ -114,13 +122,25 @@ const TestExecutionDetailPage = (props) => {
       getAllActiveTestplanReq();
       getBuildByTestPlan({testplanname: testExecInfo.testplan.testplanname });
       getAllActiveRequirementReq();
+      resetListTestcaseSelect();
     },[])
 
+
     useEffect(()=>{
-      console.log(listBuildByTestPlan);
+      console.log(testExecInfo);
     },[testExecInfo])
 
   
+    useEffect(()=>{
+      var tempArr = testExecInfo.exectestcases;
+      if (listtestcaseselect.length > 0) {
+        listtestcaseselect.map(item => {
+          if (testExecInfo.exectestcases.findIndex(x => x._id === item._id) === -1) 
+            tempArr.push(addNewExecTC(item));
+          })
+      }
+      setTestExecInfo({...testExecInfo, exectestcases: tempArr});
+    },[listtestcaseselect])
 
   
 
@@ -153,8 +173,33 @@ const TestExecutionDetailPage = (props) => {
       console.log('error: '+error);
     }
 
+    useEffect(()=>{
+      if (delTestExec.sucess === false){
+        // displayMsg({
+        //   content: insBuildsDelete.errMsg,
+        //   type: 'error'
+        // }); 
+        setEnableDeleteBtn(true);
+        setLoadingg(false);
+        resetDelTestExec();
+      } else if (delTestExec.sucess === true) {
+        displayMsg({
+          content: "Delete Test Execution successfully !",
+          type: 'success'
+        });
+        setEnableDeleteBtn(true);
+        setLoadingg(false);
+        resetDelTestExec();
+        history.goBack();
+        }
+    },[delTestExec]);
+
     const handleClose=()=>{
       history.push(location.pathname.substring(0, location.pathname.lastIndexOf("/") - 5));
+    }
+
+    const addNewExecTC = (item) => {
+      return {_id: item._id, testcaseName: item.testcaseName, status: "Untest"};
     }
 
     const handleChange = (prop) => (event) => {
@@ -166,11 +211,14 @@ const TestExecutionDetailPage = (props) => {
       if (prop === 'buildname' ){
         setTestExecInfo({...testExecInfo, build: {_id: event.target.value, buildname: listBuildByTestPlan.find(item => item._id === event.target.value).testplanname} });
       }
+
+      if (prop === 'assignTester' ){
+        setTestExecInfo({...testExecInfo, tester: {_id: event.target.value, username: listUser.find(item => item._id === event.target.value).username} });
+      }
         
       
-      else if (prop === 'status') {
-        setTestExecInfo({...testExecInfo, status: event.target.value});
-        setResultTestExec({...resultTestExec, status: event.target.value});
+      else if (prop !== 'status') {
+        setTestExecInfo({...testExecInfo, [prop]: event.target.value});
       }
     };
 
@@ -180,6 +228,14 @@ const TestExecutionDetailPage = (props) => {
       updateTestExecReq(resultTestExec);
     }
 
+    const handleOpenSelectTC = () => {
+      setOpenPopup(true);
+    }
+
+    const handleDelete = () =>{
+      console.log('go here');
+      deleteTestExecReq(testExecInfo._id);
+    }
     
 
   
@@ -208,7 +264,7 @@ const TestExecutionDetailPage = (props) => {
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure want to delete this test execution?</DialogContent>
                   <DialogActions>
-                    <Button  color="primary">Yes</Button>
+                    <Button  color="primary" onClick={()=>{console.log('go here'); deleteTestExecReq(testExecInfo._id);}}>Yes</Button>
                     <Button onClick={()=>{setOpen(false);}} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>
@@ -240,7 +296,7 @@ const TestExecutionDetailPage = (props) => {
             <Select
           labelId="build"
           id="build"
-          value={testExecInfo.build.buildname || ''}
+          value={testExecInfo.build._id || ''}
           onChange={handleChange('buildname')}
           label="Build/Release"
           disabled = {true}
@@ -256,11 +312,11 @@ const TestExecutionDetailPage = (props) => {
                   <Select
                     labelId="assignTester"
                     id="assignTester"
-                    value={testExecInfo.tester.username}
+                    value={testExecInfo.tester._id}
                     onChange={handleChange('assignTester')}
                     label="assignTester">
                         {listUser.map((item,index) => (
-                            <MenuItem key={index} value={item.username}>{item.username}</MenuItem>
+                            <MenuItem key={index} value={item._id}>{item.username}</MenuItem>
                         ))}
                   </Select>
           </FormControl>
@@ -298,15 +354,25 @@ const TestExecutionDetailPage = (props) => {
                         <MenuItem value={"Fail"}>Fail</MenuItem>
                   </Select>
           </FormControl>
-
+          <SelectTestCasePopup isOpen={openPopup} setOpen={setOpenPopup} selected={testExecInfo.exectestcases}/>
             <Grid container spacing={1}>
-              <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Executed Test Cases</Typography></Grid> 
+              <Grid item xs={12}>
+                <Grid container>
+                    <Grid item xs={10}>
+                    <Typography variant="h4" gutterBottom display="inline">List Executed Test Cases</Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                    <Button variant="contained" color="primary" onClick={handleOpenSelectTC}>Edit Test Case</Button>
+                    </Grid>
+                </Grid>
+                
+              </Grid> 
               <Grid item xs={12}>
                 <Paper style={{maxHeight: 200, overflow: 'auto'}}>
                 <List>
                   {testExecInfo.exectestcases && testExecInfo.exectestcases.map((item,index) => 
                     <ListItem key={index} dense button  selected>
-                      <ListItemText id={item.id} primary={item.testcaseName} />
+                      <ListItemText id={item._id} primary={item.testcaseName} />
                       <ListItemSecondaryAction>
                         {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
                         {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}

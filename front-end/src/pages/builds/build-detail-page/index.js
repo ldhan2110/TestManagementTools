@@ -254,15 +254,6 @@ const BuildDetailPage = (props) => {
             Build Detail - {props.history.location.state.buildname}
           </Typography>
 
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-          </Breadcrumbs> */}
         </Grid>
         <Grid item>
         <div>

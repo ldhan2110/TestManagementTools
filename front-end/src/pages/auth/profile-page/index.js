@@ -140,12 +140,6 @@ const ProfilePage = (props)=>{
                     error={profileInfo.fullname==0  && error.fullname==0  ? true : false}
                     helperText={profileInfo.fullname ==0  && error.fullname ==0  ? 'Full Name is required' : ' '}/>  
 
-                    {/*<TextField id="fullname" label="Full Name" 
-                    variant="outlined"  fullWidth
-                    value={profileInfo.fullname || ''} onChange={handleChangeProfile('fullname')}
-                    error={!profileInfo.fullname && !error.fullname ? true : false}
-    />*/}
-
                   <TextField id="email" label="Email" variant="outlined"  fullWidth required disabled={true}
                   value={profileInfo.email || ''} onChange={handleChangeProfile('email')}/>
 
@@ -162,7 +156,7 @@ const ProfilePage = (props)=>{
                 </form>
               </Grid>
               <Grid item xs={6} className={classes.avatarContainer}>
-                <Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} />
+                {/* //<Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} /> */}
                 <UploadButton/>
               </Grid>
 

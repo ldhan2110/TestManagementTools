@@ -42,10 +42,17 @@ const SelectTestCasePopup = (props) => {
   
   const [open, setOpenPopup] = React.useState(isOpen);
 
-  const [data,setData] = useState([]);
-
   const [listTestCase, setListTestCase] = useState([]);
 
+  const convertData = (selected) => {
+      var result = [];
+      if (selected) {
+        selected.map(item  => result.push(item.testcaseid ? item.testcaseid : item._id));
+      }
+      return result;
+  }
+
+  const [data,setData] = useState(convertData(selected));
 
   const handleClose = () =>{
       setOpen(false);
@@ -83,7 +90,7 @@ const handleSelectTestcase = () =>{
         <DialogContent dividers>
           <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '20vw', maxWidth:'20vw'}}>
             <Grid item xs={12}>
-              <CheckboxTreeView data={testcase.listTestsuiteNoTree} parentCallback={handleSelect} selected={selected}/>
+              <CheckboxTreeView data={testcase.listTestsuiteNoTree} parentCallback={handleSelect} selected={data}/>
             </Grid>
           </Grid>
         </DialogContent>

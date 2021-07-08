@@ -9,6 +9,7 @@ import ProjectItem from './ProjectItem';
 import Pagination from '../../../components/Pagination/index';
 import IconButton from '@material-ui/core/IconButton';
 import NewProjectPopup from '../new-project-popup/index';
+
 import {
     Button,
     Grid,
@@ -20,6 +21,7 @@ import {
 import {
     Add as AddIcon
 } from "@material-ui/icons";
+
 
 
 const MAX_PER_PAGE = 6;
@@ -84,6 +86,7 @@ const ProjectList = (props)=>{
                     <Typography variant="h3" gutterBottom display="inline">
                         Projects
                     </Typography>
+                    
                 </Grid>
                 <Grid item>
                     <div>

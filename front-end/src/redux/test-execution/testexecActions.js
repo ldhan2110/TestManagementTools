@@ -62,3 +62,16 @@ export function resetUpdateTestExec(){
   }
 }
 
+export function resetDeleteTestExec(){
+  return {
+    type: types.RESET_DELETE_TEST_EXEC
+  }
+}
+
+export function deleteTestExec(value){
+  return {
+    type: types.DELETE_TEST_EXEC_REQ,
+    payload: value
+  }
+}
+

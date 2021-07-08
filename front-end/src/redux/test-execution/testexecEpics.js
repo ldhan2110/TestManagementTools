@@ -161,3 +161,41 @@ export  const execTestcaseEpic = (action$, state$) => action$.pipe(
     )))
 
 
+
+    //UPDATE TEST EXEC RESULT
+  export  const delTestExecEpic = (action$, state$) => action$.pipe(
+    ofType(actions.DELETE_TEST_EXEC_REQ),
+    mergeMap(({payload}) =>  from(axios.delete(API_ADDR+'/'+localStorage.getItem("selectProject")+'/'+payload,{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.DELETE_TEST_EXEC_SUCCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.DELETE_TEST_EXEC_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
+        type: actions.DELETE_TEST_EXEC_FAILED,
+        payload: error.response.data.errMsg
+      })})
+    )))
+
+
