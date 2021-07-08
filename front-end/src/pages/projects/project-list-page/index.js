@@ -21,7 +21,7 @@ import {
 import {
     Add as AddIcon
 } from "@material-ui/icons";
-import CloudinaryImg from "../../../components/CloudinaryImg";
+
 
 
 const MAX_PER_PAGE = 6;
@@ -86,7 +86,7 @@ const ProjectList = (props)=>{
                     <Typography variant="h3" gutterBottom display="inline">
                         Projects
                     </Typography>
-                    <CloudinaryImg></CloudinaryImg>
+                    
                 </Grid>
                 <Grid item>
                     <div>
