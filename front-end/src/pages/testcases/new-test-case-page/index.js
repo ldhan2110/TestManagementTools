@@ -181,7 +181,7 @@ const TestCaseDetail = (props) => {
             error={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
             helperText={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/></Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={6}>
              <FormControl variant="outlined"  fullWidth required>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
                                 <Select
@@ -199,9 +199,9 @@ const TestCaseDetail = (props) => {
               </FormControl> 
                 
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <Grid container spacing={3}>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                     <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="Importance">Importance</InputLabel>
                                 <Select
@@ -218,7 +218,7 @@ const TestCaseDetail = (props) => {
                               </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={6}>
+                {/*<Grid item xs={6}>
                 <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select
@@ -232,7 +232,7 @@ const TestCaseDetail = (props) => {
                                <MenuItem value={"auto"}>Auto</MenuItem>
                               </Select>
                             </FormControl>
-                </Grid>
+                               </Grid>*/}
               </Grid>      
             </Grid>
 

@@ -289,7 +289,7 @@ const BuildDetailPage = (props) => {
 
         
 
-          <FormControl variant="outlined"  fullWidth>
+          <FormControl variant="outlined"  fullWidth required>
                               <InputLabel id="testPlan">Test Plan</InputLabel>
                                 <Select
                                   labelId="testPlan"
