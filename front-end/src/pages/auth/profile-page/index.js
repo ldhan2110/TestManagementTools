@@ -16,6 +16,7 @@ import {
 import UploadButton from "../../../components/UploadButton";
 import SaveIcon from '@material-ui/icons/Save';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Image } from 'cloudinary-react'
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -56,6 +57,9 @@ const ProfilePage = (props)=>{
   });
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [loadingAva, setLoadingAva] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState("");
+
   const history = useHistory();
 
   useEffect(()=>{
@@ -125,6 +129,14 @@ const ProfilePage = (props)=>{
     setPasswordInfo({ ...passwordInfo, [prop]: event.target.value });
   };
 
+  const uploadAvatar = (url) => {
+    setAvatarUrl(url);
+  }
+
+  const handleLoadAva = (load) => {
+    setLoadingAva(load);
+  }
+
     return (
       <div className={classes.root}>
           <Typography component="h1" variant="h1" gutterBottom className = {classes.title}>
@@ -156,8 +168,10 @@ const ProfilePage = (props)=>{
                 </form>
               </Grid>
               <Grid item xs={6} className={classes.avatarContainer}>
-                {/* //<Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} /> */}
-                <UploadButton/>
+                {/* <Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} /> */}                
+                <UploadButton upload={uploadAvatar} load={handleLoadAva}/>
+                <Image cloudName="testcontrol" publicId={avatarUrl} style={{width: 250, height: 250}} />
+                {loadingAva && <CircularProgress />}
               </Grid>
 
               <Grid item xs={6}> 

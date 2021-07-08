@@ -316,7 +316,7 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject,curr
   function isEllipsisActive() {
     var offsetWidth = document.getElementById('boxProject').offsetWidth;
     //not long enough
-    if(offsetWidth < 170)
+    if(offsetWidth < 160)
       setDisableHoverTooltip(true);
     // long enough
     else{
