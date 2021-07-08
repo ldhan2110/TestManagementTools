@@ -22,7 +22,7 @@ const styles = {
         },
 
         '&::-webkit-scrollbar-track': {
-            backgroundColor: '#f1f1f1',
+            display:'none'
         },
         "&::-webkit-scrollbar-thumb": {
             backgroundColor: '#555',
