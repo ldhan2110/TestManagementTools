@@ -284,7 +284,7 @@ const NewTestExecutionPage = (props) => {
           id="testPlan"
           value={testExecInfo.testplanname || ''}
           onChange={handleChange('testplanname')}
-          label="testplanname"
+          label="Test Plan"
           error={!testExecInfo.testplanname && !error.testplanname ? true : false}
           helperText={!testExecInfo.testplanname && !error.testplanname ? 'Test Plan is required' : ' '}
           disabled={testExecInfo.exist_testexecution === '' ? false:true}
@@ -294,13 +294,13 @@ const NewTestExecutionPage = (props) => {
       </FormControl>
 
       <FormControl variant="outlined" fullWidth required>
-           <InputLabel id="build" >Build/Release </InputLabel>
+           <InputLabel id="build" >Build/Release</InputLabel>
             <Select
           labelId="build"
           id="build"
           value={testExecInfo.buildname || ''}
           onChange={handleChange('buildname')}
-          label="buildname"
+          label="Build/Release"
           error={!testExecInfo.buildname && !error.buildname ? true : false}
           helperText={!testExecInfo.buildname && !error.buildname ? 'Build/Release is required' : ' '}
           disabled={testExecInfo.exist_testexecution === '' ? false:true}

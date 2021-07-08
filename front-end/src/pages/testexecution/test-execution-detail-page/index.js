@@ -229,7 +229,9 @@ const TestExecutionDetailPage = (props) => {
           labelId="testPlan"
           id="testPlan"
           value={testExecInfo.testplan._id}
-          onChange={handleChange('testplanname')}>
+          onChange={handleChange('testplanname')}
+          label="Test Plan"
+          disabled = {true}>
           {listActiveTestplan.map((item, index) => <MenuItem key={item._id} value={item._id}>{item.testplanname}</MenuItem>)}    
         </Select>
       </FormControl>
@@ -240,9 +242,10 @@ const TestExecutionDetailPage = (props) => {
           id="build"
           value={testExecInfo.build.buildname || ''}
           onChange={handleChange('buildname')}
-          label="buildname"
+          label="Build/Release"
+          disabled = {true}
         >
-          {listBuildByTestPlan.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
+          {listBuildByTestPlan.map((item, index) => <MenuItem key={index} value={item.buildname}>{item.buildname}</MenuItem>)}    
         </Select>
       </FormControl>
 
