@@ -1,6 +1,5 @@
-import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
+import React, {useEffect} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -38,31 +37,15 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
 
 
 const MultipleSelect = (props) => {
   const classes = useStyles();
   const {title, listData, select, setSelect} = props;
 
-  const covertFromName2Id = (name) => {
-    var result = [];
-    name.forEach(element => {
-      result.push(listData.filter(x => x.projectrequirementname === element)[0]._id);
-    });
-    return result;
-  };
+  useEffect(() => {
+    console.log(select);
+  }, [select])
 
   const handleChange = (event) => {
     setSelect(event.target.value);

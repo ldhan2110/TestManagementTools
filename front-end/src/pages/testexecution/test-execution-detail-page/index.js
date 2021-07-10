@@ -105,8 +105,19 @@ const TestExecutionDetailPage = (props) => {
       return  listTestExec.find((item) => item._id === id);
     }
 
+
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
-    const [selectRequirements, setListRequirements] = useState(testExecInfo.listprojectrequirement);
+
+    const getAllName = () => {
+      var result = [];
+      testExecInfo.listprojectrequirement.forEach(element => {
+        result.push(element.projectrequirementname);
+      });
+      console.log(result);
+      return result;
+    };
+
+    const [selectRequirements, setListRequirements] = useState(getAllName());
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -126,6 +137,7 @@ const TestExecutionDetailPage = (props) => {
       });
       return result;
     };
+
 
     useEffect(()=>{
       console.log(listActiveTestplan);
