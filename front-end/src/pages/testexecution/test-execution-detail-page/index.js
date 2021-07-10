@@ -106,7 +106,7 @@ const TestExecutionDetailPage = (props) => {
     }
 
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
-    const [selectRequirements, setListRequirements] = useState(testExecInfo.listRequirements ? testExecInfo.listRequirements : []);
+    const [selectRequirements, setListRequirements] = useState(testExecInfo.listprojectrequirement ? testExecInfo.listRequirements : []);
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -122,6 +122,7 @@ const TestExecutionDetailPage = (props) => {
 
     useEffect(()=>{
       console.log(testExecInfo);
+      console.log(listUser);
     },[testExecInfo])
 
     useEffect(()=>{
@@ -216,7 +217,7 @@ const TestExecutionDetailPage = (props) => {
       }
 
       if (prop === 'assignTester' ){
-        setTestExecInfo({...testExecInfo, tester: {_id: event.target.value, username: listUser.find(item => item._id === event.target.value).username} });
+        setTestExecInfo({...testExecInfo, tester: {_id: event.target.value, username: listUser.find(item => item.user === event.target.value).username} });
       }
         
       
@@ -284,7 +285,7 @@ const TestExecutionDetailPage = (props) => {
           value={testExecInfo.testplan._id}
           onChange={handleChange('testplanname')}
           label="Test Plan"
-          disabled = {true}>
+        >
           {listActiveTestplan.map((item, index) => <MenuItem key={item._id} value={item._id}>{item.testplanname}</MenuItem>)}    
         </Select>
       </FormControl>
@@ -296,7 +297,6 @@ const TestExecutionDetailPage = (props) => {
           value={testExecInfo.build._id || ''}
           onChange={handleChange('buildname')}
           label="Build/Release"
-          disabled = {true}
         >
           {listBuildByTestPlan.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
         </Select>
@@ -313,7 +313,7 @@ const TestExecutionDetailPage = (props) => {
                     onChange={handleChange('assignTester')}
                     label="assignTester">
                         {listUser.map((item,index) => (
-                            <MenuItem key={index} value={item._id}>{item.username}</MenuItem>
+                            <MenuItem key={index} value={item.user}>{item.username}</MenuItem>
                         ))}
                   </Select>
           </FormControl>
