@@ -199,3 +199,42 @@ export  const execTestcaseEpic = (action$, state$) => action$.pipe(
     )))
 
 
+
+
+    //UPDATE TEST EXEC RESULT
+  export  const updTestExecDetailEpic = (action$, state$) => action$.pipe(
+    ofType(actions.UPDATE_TEST_EXEC_DETAIL_REQ),
+    mergeMap(({payload}) =>  from(axios.put(API_ADDR+'/'+localStorage.getItem("selectProject")+'/'+payload.testexecid,payload,{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.UPDATE_TEST_EXEC_DETAIL_SUCCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.UPDATE_TEST_EXEC_DETAIL_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
+        type: actions.UPDATE_TEST_EXEC_DETAIL_FAILED,
+        payload: error.response.data.errMsg
+      })})
+    )))
+
+

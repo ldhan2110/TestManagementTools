@@ -75,3 +75,9 @@ export function deleteTestExec(value){
   }
 }
 
+export function updateTestExecDetail(value){
+  return {
+    type: types.UPDATE_TEST_EXEC_DETAIL_REQ,
+    payload: value
+  }
+}

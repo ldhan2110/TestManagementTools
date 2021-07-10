@@ -21,6 +21,12 @@ var initialState = {
     errMsg: null
   },
 
+  updTestExecDetail: {
+    sucess: null,
+    errMsg: null
+  },
+
+
   delTestExec: {
     sucess: null,
     errMsg: null
@@ -196,6 +202,38 @@ const reducer = (state = initialState, actions) => {
             },
           };
 
+          case types.UPDATE_TEST_EXEC_DETAIL_REQ:
+            return {
+             ...state,
+            };
+    
+      case types.UPDATE_TEST_EXEC_DETAIL_SUCCESS:
+            return {
+              ...state,
+              updTestExecDetail:{
+               sucess: true,
+               errMsg: null
+              },
+            };
+    
+      case types.UPDATE_TEST_EXEC_DETAIL_FAILED:
+          return {
+            ...state,
+            updTestExecDetail:{
+              sucess: false,
+              errMsg: payload
+            },
+          };
+
+      case types.RESET_UPDATE_TEST_EXEC_DETAIL:
+            return {
+              ...state,
+              updTestExecDetail: {
+                sucess: null,
+                errMsg: null
+              },
+            };
+      
         
   
 

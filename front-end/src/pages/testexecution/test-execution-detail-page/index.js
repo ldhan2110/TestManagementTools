@@ -34,7 +34,7 @@ import {
   DialogTitle,
   Dialog
 } from '@material-ui/core';
-import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_REQ, RESET_UPDATE_TEST_EXEC, RESET_DELETE_TEST_EXEC, DELETE_TEST_EXEC_REQ } from "../../../redux/test-execution/constants";
+import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_DETAIL_REQ, RESET_UPDATE_TEST_EXEC, RESET_DELETE_TEST_EXEC, DELETE_TEST_EXEC_REQ } from "../../../redux/test-execution/constants";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 import { GET_ALL_USERS_OF_PROJECT_REQ } from "../../../redux/users/constants";
 import { GET_ALL_ACTIVE_TESTPLAN_REQ } from "../../../redux/test-plan/constants";
@@ -60,7 +60,7 @@ const Chip = styled(MuiChip)`
 function mapStateToProps(state) {
   return {
     listTestExec: state.testexec.listTestExec,
-    updTestExec: state.testexec.updTestExec,
+    updTestExec: state.testexec.updTestExecDetail,
     delTestExec: state.testexec.delTestExec,
     execTest: state.testexec.execTest,
     listUser: state.user.listUsersOfProject,
@@ -77,7 +77,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    updateTestExecReq: (payload) => dispatch({type: UPDATE_TEST_EXEC_REQ, payload}),
+    updateTestExecReq: (payload) => dispatch({type: UPDATE_TEST_EXEC_DETAIL_REQ, payload}),
     deleteTestExecReq: (payload) => dispatch({type: DELETE_TEST_EXEC_REQ, payload}),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
     selectTestExecReq: (payload) => dispatch({type: SELECT_TEST_EXEC_REQ, payload}),
@@ -99,7 +99,6 @@ const TestExecutionDetailPage = (props) => {
     const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
     const [loadingg, setLoadingg] = useState(false);
     const [openPopup,setOpenPopup] = useState(false);
-    const [selectRequirements, setListRequirements] = useState([]);
     const [open, setOpen] = useState(false);
 
     const filterTestExec = (id) => {
@@ -107,12 +106,7 @@ const TestExecutionDetailPage = (props) => {
     }
 
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
-
-    const [resultTestExec, setResultTestExec] = useState({
-      status: testExecInfo.status ? testExecInfo.status : 'Untest',
-      testexecid: props.match.params.testExecutionId
-    })
-
+    const [selectRequirements, setListRequirements] = useState(testExecInfo.listRequirements ? testExecInfo.listRequirements : []);
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -129,6 +123,10 @@ const TestExecutionDetailPage = (props) => {
     useEffect(()=>{
       console.log(testExecInfo);
     },[testExecInfo])
+
+    useEffect(()=>{
+      console.log(selectRequirements);
+    },[selectRequirements])
 
   
     useEffect(()=>{
@@ -230,19 +228,13 @@ const TestExecutionDetailPage = (props) => {
     const handleSave = (prop) => {
       setEnableCreateBtn(false);
       setLoading(true);
-      updateTestExecReq(resultTestExec);
+      updateTestExecReq(testExecInfo);
     }
 
     const handleOpenSelectTC = () => {
       setOpenPopup(true);
     }
 
-    const handleDelete = () =>{
-      deleteTestExecReq(testExecInfo._id);
-    }
-    
-
-  
     return (
     <div>
         <Helmet title="Test Execution Detail" />
