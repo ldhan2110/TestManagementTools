@@ -106,7 +106,7 @@ const TestExecutionDetailPage = (props) => {
     }
 
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
-    const [selectRequirements, setListRequirements] = useState(testExecInfo.listprojectrequirement ? testExecInfo.listRequirements : []);
+    const [selectRequirements, setListRequirements] = useState(testExecInfo.listprojectrequirement);
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [loading, setLoading] = useState(false);
 
@@ -119,14 +119,23 @@ const TestExecutionDetailPage = (props) => {
       resetListTestcaseSelect();
     },[])
 
+    const covertFromName2Id = (name) => {
+      var result = [];
+      name.forEach(element => {
+        result.push(listRequirements.filter(x => x.projectrequirementname === element)[0]._id);
+      });
+      return result;
+    };
 
     useEffect(()=>{
       console.log(testExecInfo);
-      console.log(listUser);
     },[testExecInfo])
 
     useEffect(()=>{
-      console.log(selectRequirements);
+      setTestExecInfo({
+        ...testExecInfo,
+        listprojectrequirement: covertFromName2Id(selectRequirements)
+      })
     },[selectRequirements])
 
   

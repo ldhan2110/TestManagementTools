@@ -35,7 +35,7 @@ const LoginHeader = (props) => {
   const { onDrawerToggle,classes} = props;
 
   const handleLogoClick = () => {
-    history.push("/");
+    history.replace('/projects');
   }
 
   
