@@ -34,7 +34,7 @@ import {
   DialogTitle,
   Dialog
 } from '@material-ui/core';
-import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_DETAIL_REQ, RESET_UPDATE_TEST_EXEC, RESET_DELETE_TEST_EXEC, DELETE_TEST_EXEC_REQ } from "../../../redux/test-execution/constants";
+import { GET_ALL_TESTEXEC_REQ, SELECT_TEST_EXEC_REQ, UPDATE_TEST_EXEC_DETAIL_REQ, RESET_UPDATE_TEST_EXEC, RESET_DELETE_TEST_EXEC, DELETE_TEST_EXEC_REQ, RESET_UPDATE_TEST_EXEC_DETAIL } from "../../../redux/test-execution/constants";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 import { GET_ALL_USERS_OF_PROJECT_REQ } from "../../../redux/users/constants";
 import { GET_ALL_ACTIVE_TESTPLAN_REQ } from "../../../redux/test-plan/constants";
@@ -82,7 +82,7 @@ const mapDispatchToProps = dispatch => {
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
     selectTestExecReq: (payload) => dispatch({type: SELECT_TEST_EXEC_REQ, payload}),
     getAllUserReq: (payload) => dispatch({type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
-    resetRedux: () => dispatch({type: RESET_UPDATE_TEST_EXEC}),
+    resetRedux: () => dispatch({type: RESET_UPDATE_TEST_EXEC_DETAIL}),
     resetListTestcaseSelect: () => dispatch({type: RESET_LIST_TESTCASE_SELECT}),
     resetDelTestExec: () => dispatch({type: RESET_DELETE_TEST_EXEC}),
     getAllActiveTestplanReq: (payload) => dispatch({type: GET_ALL_ACTIVE_TESTPLAN_REQ}),
@@ -128,8 +128,13 @@ const TestExecutionDetailPage = (props) => {
     };
 
     useEffect(()=>{
+      console.log(listActiveTestplan);
+    },[listActiveTestplan])
+
+    useEffect(()=>{
       console.log(testExecInfo);
     },[testExecInfo])
+
 
     useEffect(()=>{
       setTestExecInfo({
@@ -170,14 +175,14 @@ const TestExecutionDetailPage = (props) => {
         } else if (updTestExec.sucess === true) {
           setLoading(false);
           displayMsg({
-            content: "Update result successfully !",
+            content: "Update Test Execution successfully !",
             type: 'success'
           });
           setEnableCreateBtn(true);
           setLoading(false);
           getAllTestExecReq();
           resetRedux();
-          handleClose();
+          window.location.reload();
         }
        } ,[updTestExec.sucess])    
     } catch (error) {
@@ -217,15 +222,16 @@ const TestExecutionDetailPage = (props) => {
 
     const handleChange = (prop) => (event) => {
       if (prop === 'testplanname' ){
-        setTestExecInfo({...testExecInfo, testplan: {_id: event.target.value, testplanname: listActiveTestplan.find(item => item._id === event.target.value).testplanname} });
+        console.log(listActiveTestplan.find(item => item._id === event.target.value).testplanname);
+        setTestExecInfo({...testExecInfo, testplan: {_id: event.target.value, testplanname: listActiveTestplan.find(item => item._id === event.target.value).testplanname}});
         getBuildByTestPlan({testplanname: listActiveTestplan.find(item => item._id === event.target.value).testplanname });
       }
 
-      if (prop === 'buildname' ){
-        setTestExecInfo({...testExecInfo, build: {_id: event.target.value, buildname: listBuildByTestPlan.find(item => item._id === event.target.value).testplanname} });
+      else if (prop === 'buildname' ){
+        setTestExecInfo({...testExecInfo, build: {_id: event.target.value, buildname: listBuildByTestPlan.find(item => item._id === event.target.value).buildname} });
       }
 
-      if (prop === 'assignTester' ){
+      else if (prop === 'assignTester' ){
         setTestExecInfo({...testExecInfo, tester: {_id: event.target.value, username: listUser.find(item => item.user === event.target.value).username} });
       }
         
@@ -298,6 +304,8 @@ const TestExecutionDetailPage = (props) => {
           {listActiveTestplan.map((item, index) => <MenuItem key={item._id} value={item._id}>{item.testplanname}</MenuItem>)}    
         </Select>
       </FormControl>
+
+
           <FormControl variant="outlined" fullWidth required>
            <InputLabel id="build" >Build/Release </InputLabel>
             <Select

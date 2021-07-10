@@ -204,7 +204,7 @@ export  const execTestcaseEpic = (action$, state$) => action$.pipe(
     //UPDATE TEST EXEC RESULT
   export  const updTestExecDetailEpic = (action$, state$) => action$.pipe(
     ofType(actions.UPDATE_TEST_EXEC_DETAIL_REQ),
-    mergeMap(({payload}) =>  from(axios.put(API_ADDR+'/'+localStorage.getItem("selectProject")+'/'+payload.testexecid+'/api/updatedetailtestexecution',payload,{
+    mergeMap(({payload}) =>  from(axios.put(API_ADDR+'/'+localStorage.getItem("selectProject")+'/'+payload._id+'/api/updatedetailtestexecution',payload,{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
