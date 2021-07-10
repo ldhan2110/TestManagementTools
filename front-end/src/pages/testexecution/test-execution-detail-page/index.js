@@ -182,7 +182,6 @@ const TestExecutionDetailPage = (props) => {
           setLoading(false);
           getAllTestExecReq();
           resetRedux();
-          window.location.reload();
         }
        } ,[updTestExec.sucess])    
     } catch (error) {
