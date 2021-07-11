@@ -13,10 +13,7 @@ import {
   Grid,
   Avatar
 } from "@material-ui/core";
-import UploadButton from "../../../components/UploadButton";
 import SaveIcon from '@material-ui/icons/Save';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Image } from 'cloudinary-react'
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -166,10 +163,7 @@ const ProfilePage = (props)=>{
                 </form>
               </Grid>
               <Grid item xs={6} className={classes.avatarContainer}>
-                {/* <Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} /> */}                
-                <UploadButton upload={uploadAvatar} load={handleLoadAva}/>
-                <Image cloudName="testcontrol" publicId={avatarUrl} style={{width: 250, height: 250}} />
-                {loadingAva && <CircularProgress />}
+                <Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} />                
               </Grid>
 
               <Grid item xs={6}> 
