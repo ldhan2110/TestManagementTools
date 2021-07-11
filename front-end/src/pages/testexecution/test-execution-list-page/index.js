@@ -123,7 +123,6 @@ const TestExecutionListPage = (props) => {
     });
     setListTestExec(tempArr);
     setArrayExec(tempArr);
-    console.log(listTestExec);
   },[listTestExec]);
 
   useEffect(()=>{

@@ -248,11 +248,6 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
         
         }),
         catchError (error =>{
-          // const {status} = error.response.data;
-          // if (status ===  401) {
-          //   localStorage.clear();
-          //   window.location.replace('/login');
-          // } else
           console.log("eRROR");
           return of({
           type: actions.GET_PROJECT_BY_ID_VERIFY_FAIL,

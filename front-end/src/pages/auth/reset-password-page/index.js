@@ -136,13 +136,12 @@ const ResetPassword = (props) => {
     
     const handleClickShowPasswordd = () => {
        setValues({ ...values, showPasswordd: !values.showPasswordd });
-       console.log('new password: '+ JSON.stringify(values, null, ' '));
-       console.log('show pass');
+      
       };
 
       const handleClickResetPassword = () => {
         setCheckError(true);
-        //setCheckErrorMsg(true);
+        
         if(values.password === "")
         setError({ ...values, password: "" });
 
@@ -164,7 +163,6 @@ const ResetPassword = (props) => {
           setLoading(true);
           confirmResetPasswordReq(values);
         }
-        console.log('new password: '+ JSON.stringify(values, null, ' '));
        };
     
     const handleMouseDownPasswordd = (event) => {

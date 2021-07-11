@@ -82,7 +82,6 @@ const RequirementListPage = (props) => {
 
 
   const searchRequirements = () => {
-    console.log(searchConditions);
     if (searchConditions.active === -1 && searchConditions.requirementName === ''){
       setArray(listRequirements);
     } 
@@ -103,7 +102,6 @@ const RequirementListPage = (props) => {
     getAllRequirementsReq(project);
   },[])
 
-  useEffect(()=>{console.log(requirements);},[requirements])
 
   useEffect(()=>{
     if(requirements.success === true)
@@ -115,12 +113,10 @@ const RequirementListPage = (props) => {
   }
 
   useEffect(()=>{ 
-    console.log('keyword: '+searchConditions.requirementName + '   ' + searchConditions.active);
     if (searchConditions.active === -1 && searchConditions.requirementName === ''){
       setArray(listRequirements);
     } 
     else{
-      console.log('not empty');
       if(searchConditions.active === -1)
       setArray(listRequirements.filter((item) => {
         if(item.projectrequirementname.toLowerCase().includes(searchConditions.requirementName.toLowerCase()))

@@ -11,7 +11,6 @@ import {
 } from "react-feather";
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import async from "../components/Async";
-import requirementsListPage from "../pages/requirements/requirements-list-page";
 
 // Auth components
 const Page500 = async(() => import("../pages/error/Page500"));
@@ -46,7 +45,6 @@ const DetailBuildPage = async(()=>import('../pages/builds/build-detail-page/inde
 
 //Setting components
 const MemberListPage = async(()=>import('../pages/settings/members/index'));
-const ViewMember = async(()=>import('../pages/settings/members/index'));
 const SettingProjectPage = async(()=>import('../pages/settings/setting-project/index'));
 
 //Milestone components

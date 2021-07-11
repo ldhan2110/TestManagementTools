@@ -125,7 +125,6 @@ const NewTestExecutionPage = (props) => {
     useEffect(() => {
       if(testExecInfo.exist_testexecution !== '') {
         let tempExec = listTestExec.filter(item => item._id === testExecInfo.exist_testexecution);
-        console.log(tempExec);
         var temparr = [];
         tempExec[0].exectestcases.forEach((item)=>{
           temparr.push({testcaseid: item._id});
@@ -137,7 +136,6 @@ const NewTestExecutionPage = (props) => {
             listexectestcases: temparr
           });
           setListBuild([{buildname: tempExec[0].build.buildname}]);
-          console.log(testExecInfo);
         }
       }      
       getBuildByTestPlan({testplanname: testExecInfo.testplanname });
@@ -247,9 +245,6 @@ const NewTestExecutionPage = (props) => {
       }
     }
 
-    useEffect(()=>{
-      console.log(testExecInfo.listexectestcases);
-    },[testExecInfo.listexectestcases])
     
     return (
     <div>

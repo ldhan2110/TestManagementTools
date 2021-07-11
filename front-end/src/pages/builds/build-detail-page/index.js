@@ -98,14 +98,7 @@ const BuildDetailPage = (props) => {
     const [loadingg, setLoadingg] = useState(false);
 
     useEffect(()=>{
-      //if(props.history.location.state.testplanname !== undefined && props.history.location.state.testplanname !== null){ 
-        //setBuildInfor({ ...buildInfor, testplan: props.history.location.state.testplanname.testplanname }); 
-        //console.log('testplanname: '+JSON.stringify(props.history.location.state.testplanname));
-      //}
       getAllTestplanReq(project);
-      console.log(selectedDateStart);
-      console.log(props.history.location.state.releasedate);
-      console.log(Date.parse(props.history.location.state.releasedate.toString()));
     },[])
 
     useEffect(()=>{
@@ -186,7 +179,7 @@ const BuildDetailPage = (props) => {
           setLoading(true);
           updateBuildReq(buildInfor);
         }
-      //console.log('buildInfor: '+JSON.stringify(buildInfor));     
+          
       } catch (error) {
       displayMsg({
           content: 'Build error',
@@ -225,7 +218,6 @@ const BuildDetailPage = (props) => {
     setLoadingg(true);
     deleteBuildReq(buildbyid);
     setOpen(false);
-    //console.log('buildid and projectid: '+buildbyid);
   }
 
   const handleOpen = () => {

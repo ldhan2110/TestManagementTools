@@ -113,7 +113,6 @@ const TestExecutionDetailPage = (props) => {
       testExecInfo.listprojectrequirement.forEach(element => {
         result.push(element.projectrequirementname);
       });
-      console.log(result);
       return result;
     };
 
@@ -138,14 +137,6 @@ const TestExecutionDetailPage = (props) => {
       return result;
     };
 
-
-    useEffect(()=>{
-      console.log(listActiveTestplan);
-    },[listActiveTestplan])
-
-    useEffect(()=>{
-      console.log(testExecInfo);
-    },[testExecInfo])
 
 
     useEffect(()=>{
@@ -233,7 +224,7 @@ const TestExecutionDetailPage = (props) => {
 
     const handleChange = (prop) => (event) => {
       if (prop === 'testplanname' ){
-        console.log(listActiveTestplan.find(item => item._id === event.target.value).testplanname);
+       
         setTestExecInfo({...testExecInfo, testplan: {_id: event.target.value, testplanname: listActiveTestplan.find(item => item._id === event.target.value).testplanname}});
         getBuildByTestPlan({testplanname: listActiveTestplan.find(item => item._id === event.target.value).testplanname });
       }

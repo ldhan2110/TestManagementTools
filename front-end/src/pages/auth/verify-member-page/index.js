@@ -70,7 +70,7 @@ const VerifyMember = (props) => {
     },[project])
 
     useEffect(()=>{
-      console.log(insUsers);
+    
       if(insUsers.sucess === true){
         displayMsg({
           content: "Joined project successfully !",
@@ -90,7 +90,7 @@ const VerifyMember = (props) => {
     },[insUsers]);
 
     const verifyUser = () => {
-      console.log(userInfo);
+    
       setEnableCreateBtn(false);
       setLoading(true);
       verifyUserToProjectReq(userInfo);

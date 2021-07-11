@@ -78,7 +78,6 @@ const TestPlanListPage = (props) => {
 
   
   const searchTestPlan = () => {
-    console.log(searchConditions);
     if (searchConditions.active === -1 && searchConditions.testplanName === ''){
       setArray(listTestplan);
     } 
@@ -100,7 +99,6 @@ const TestPlanListPage = (props) => {
   },[])
 
   useEffect(()=>{
-    console.log(testplan);
     if(testplan.success === true)
         setArray(listTestplan);
   },[testplan])
@@ -114,7 +112,6 @@ const TestPlanListPage = (props) => {
       setArray(listTestplan);
     } 
     else{
-      console.log('not empty');
       if(searchConditions.active === -1)
       setArray(listTestplan.filter((item) => {
         if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()))

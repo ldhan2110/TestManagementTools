@@ -161,7 +161,6 @@ const TestCaseExecDetail = (props) => {
   const handleNavigateForward = () => {
     var url = location.pathname.substring(0,location.pathname.lastIndexOf("/"));
     url = url.substring(0,url.lastIndexOf("/"));
-    console.log(findNextIdx(currentIdx));
     if (currentIdx === execTest.listTestCase.length-1) {
       url = url.substr(0,url.lastIndexOf("/"));
       history.push(url+'/execute-result');

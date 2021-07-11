@@ -115,8 +115,6 @@ const ProfilePage = (props)=>{
 
   const handleUpdatePassword = () => {
     updatePasswordReq(passwordInfo);
-    console.log(JSON.stringify(passwordInfo, null, '  ')); 
-    console.log(JSON.stringify('insProfile: '+insProfile, null, '  ')); 
   };
 
   const handleChangeProfile = (prop) => (event) => {

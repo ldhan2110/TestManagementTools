@@ -141,7 +141,6 @@ const TestCaseDetail = (props) => {
         children: node.children
       });
     }
-    console.log(node);
   },[node]);
 
   useEffect(()=>{ 

@@ -122,7 +122,6 @@ const NewProjectPopup = (props) => {
       setEnableCreateBtn(false);
       setLoading(true);
       addProjectReq(projectInfo);
-      //console.log('not empty: '+ projectInfo.projectname + ' ' + projectInfo.description);
     }
 
   }

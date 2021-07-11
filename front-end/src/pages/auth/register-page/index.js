@@ -73,11 +73,11 @@ const RegisterPage = (props) => {
           content: account.errorMsg,
           type: 'error'
         });
-        //setCheckErrorMsg(false);
+   
         resetAddRedux();
         setEnableCreateBtn(true);
         setLoading(false);
-        //console.log('register error!' + JSON.stringify(errorMsg));
+      
       } else if (isRegister === true) {
         setLoading(false);
         displayMsg({
@@ -87,7 +87,7 @@ const RegisterPage = (props) => {
         resetAddRedux();
         setEnableCreateBtn(true);
         setLoading(false);
-        //console.log('register sucessfully!');
+        
         handleClose();
       }
     },[isRegister]);
@@ -112,7 +112,7 @@ const RegisterPage = (props) => {
 
 
   const handleChange = (prop) => (event) => {
-    //console.log('values: '+JSON.stringify(values));
+    
     setValues({ ...values, [prop]: event.target.value });
 
     if(checkError === true)
@@ -128,10 +128,9 @@ const RegisterPage = (props) => {
   };
 
   const handleRegister = (event) => {
-    //console.log('here: here');
-    //console.log('values: '+JSON.stringify(values));
+  
     setCheckError(true);
-    //setCheckErrorMsg(true);
+   
     if(values.email.trim().length === 0 ||values.email.trim().length !== values.email.length)
     setError({ ...values, email: "" });
 
@@ -144,16 +143,7 @@ const RegisterPage = (props) => {
     if(values.password.trim().length === 0|| values.password.trim().length !== values.password.length)
     setError({ ...values, password: "" });
 
-    //console.log('error object: '+JSON.stringify(error));
-
-    // if(TestplanInfo.description.trim().length == 0 || TestplanInfo.Testplanname.trim().length == 0
-    //     ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
-    //     || TestplanInfo.Testplanname.trim().length !== TestplanInfo.Testplanname.length){
-    //     displayMsg({
-    //       content: "Testplan name or description should not contain spaces or empty",
-    //       type: 'error'
-    //     });
-    // }
+  
 
     else if(values.fullname.trim().length !== 0 && values.username.trim().length !== 0 && values.password.trim().length !== 0 && values.email.trim().length !== 0
     && values.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) 

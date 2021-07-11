@@ -79,8 +79,6 @@ const NewBuildPage = (props) => {
 
   useEffect(()=>{
     getAllTestplanReq(project);
-    //getAllBuildReq(project);
-    //console.log('listbuild: '+JSON.stringify(props.history.location.state, null, ' '));
   },[])
 
   useEffect(()=>{

@@ -84,7 +84,6 @@ const NewTestSuitePopup = (props) => {
       setEnableCreateBtn(true);
       setLoading(false);
       handleClose();
-      console.log('here');
       getAllTestcaseReq();
       resetAddRedux();
     }

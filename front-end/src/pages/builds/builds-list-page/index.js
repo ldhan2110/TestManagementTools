@@ -152,12 +152,9 @@ const BuildListPage = (props) => {
   },[listTestPlan])
 
 
-  useEffect(()=>{
-    //console.log(BUILD_SEARCH_CONDITIONS);
-  },[BUILD_SEARCH_CONDITIONS])
+
 
   useEffect(()=>{
-    //console.log('keyword: '+ 'buildname: '+searchConditions.buildName + '   ' +'active: '+ searchConditions.active+'  '+ 'testplanName: '+searchConditions.testplanName);
     if (searchConditions.active === -1 && searchConditions.buildName === '' && searchConditions.testplanName === -1){
       handleArray(listBuilds);
     } 

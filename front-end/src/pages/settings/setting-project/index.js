@@ -145,7 +145,7 @@ const SettingProjectPage = (props) => {
   },[insProjectsDelete.sucess]);
 
   const handleDelete=()=>{
-    //console.log('delete successfully!'+JSON.stringify(projectInfo, null, '  '));
+    
     setEnableDeleteBtn(false);
     setLoadingg(true);
     deleteProjectReq(projectInfo);
@@ -175,9 +175,6 @@ const SettingProjectPage = (props) => {
       setLoading(true);
       updateProjectReq(projectInfo);
     }
-    //console.log('update successfully: '+JSON.stringify(projectInfo, null, '  '));    
-    //console.log('error Object: '+JSON.stringify(error, null, '  '));    
-    //console.log('description: '+projectInfo.description);
   };
   
   const handleChange = (prop) => (event) => {

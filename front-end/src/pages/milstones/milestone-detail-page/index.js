@@ -2,7 +2,7 @@ import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
 import DatePicker from '../../../components/DatePicker';
-import {//GET_ALL_MILESTONES_REQ, 
+import { 
   GET_MILESTONE_BYID_REQ, 
   UPDATE_MILESTONE_REQ, 
   DELETE_MILESTONE_REQ, 
@@ -25,14 +25,13 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
   Grid,
-  //Breadcrumbs,
   Divider,
   DialogContent,
   DialogActions,
   DialogTitle,
   Dialog
 } from '@material-ui/core';
-//import { deleteMilestoneEpic } from "../../../redux/milestones/milestoneEpics";
+
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -193,7 +192,6 @@ const DetailMileStonePage = (props) => {
       setLoading(true);
       updateMilestoneReq(milestoneInfo);
     }
-    //console.log(JSON.stringify(milestoneInfo, null, '  '));    
   };
 
   const handleChange = (prop) => (event) => {
@@ -205,7 +203,6 @@ const DetailMileStonePage = (props) => {
 
   const handleBack = () => {    
     history.goBack();
-    //setOpen(false);
   };
 
   const handleDateStart = (date) => {
@@ -239,7 +236,6 @@ const DetailMileStonePage = (props) => {
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
             Milestone Detail - {milestoneInfo.milestonetitle}
-            {/*{props.match.params.milestonetitle}*/}
           </Typography>
 
           </Grid>

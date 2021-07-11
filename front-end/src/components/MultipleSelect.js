@@ -43,10 +43,6 @@ const MultipleSelect = (props) => {
   const classes = useStyles();
   const {title, listData, select, setSelect} = props;
 
-  useEffect(() => {
-    console.log(select);
-  }, [select])
-
   const handleChange = (event) => {
     setSelect(event.target.value);
   };

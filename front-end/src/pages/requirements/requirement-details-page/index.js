@@ -161,8 +161,7 @@ const DetailRequirementPage = (props) => {
         setEnableCreateBtn(false);
         setLoading(true);
         updateRequirementsReq(requirementsInfor);
-      }
-      //console.log(JSON.stringify(testplanInfor, null, '  '));     
+      }   
     };
     
     const handleChange = (prop) => (event) => {

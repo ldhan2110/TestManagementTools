@@ -110,7 +110,6 @@ const TestSuiteDetail = (props) => {
 
   useEffect(()=>{
     if (node && node.parent === undefined){
-      console.log('no parent');
       setTestSuite({
         ...node,
         id: node.id,
@@ -123,7 +122,6 @@ const TestSuiteDetail = (props) => {
       });
     }
     else if(node && node.parent !== undefined){
-      console.log('have a parent');
       setTestSuite({
         ...node,
         id: node.id,
@@ -181,7 +179,6 @@ const TestSuiteDetail = (props) => {
   },[insTestsuiteDelete.sucess]);
 
   const handleOpenTS = ()=>{
-    console.log('testsuite: ' + JSON.stringify(node));
     setOpenTS(true);
   }
 
@@ -220,22 +217,18 @@ const TestSuiteDetail = (props) => {
       setLoading(true);
       updateTestsuiteReq(testSuite);
     }
-    //console.log('testsuite_infor: ' + JSON.stringify(testSuite));
 
   }
   //Delete testsuite button
   const handleDelete = ()=>{
-    console.log('testsuite_infor: ' + JSON.stringify(testSuite));
-    //if(testSuite.name !== testSuite.parent){
+
       setEnableDeleteBtn(false);
       setLoadingg(true);
       deleteTestsuiteReq(testSuite);
       setOpen(false);
-    //}
   };
 
   const handleOpen = () => {
-    console.log(testSuite);
     setOpen(true);
   };
 

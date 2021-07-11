@@ -59,9 +59,6 @@ const ChangRolePopup = (props) => {
     setUserInfo(selected);
   },[selected])
 
-  useEffect(()=>{
-    console.log('infor: '+JSON.stringify(userInfo, null, ' '));
-  },[userInfo])
 
   useEffect(()=>{
     if (insProjects.sucess === false){
@@ -82,10 +79,8 @@ const ChangRolePopup = (props) => {
       setEnableCreateBtn(true);
       setLoading(false);
       ResetRedux();
-      //handleClose();
       getAllUserOfProjectReq(project);
       setOpen(false);
-      //history.goBack();
     }
   },[insProjects.sucess]);
 
