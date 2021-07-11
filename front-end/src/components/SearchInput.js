@@ -81,14 +81,15 @@ const SearchInput = (props) => {
     return(
         <React.Fragment>
           <div style={{display: "flex", flexDirection: "row", justifyItems: "space-between", alignItems: "space-between", gap: "10px", marginTop: "10px", height: "75%"}}>
+            <Grid container spacing={2} direction="row" justify="center" alignItems="flex-start">
             {conditionsRender && conditionsRender.map((item,index) => {
                 if (item.type === "text"){
                   return (  
-                    <TextField key={index} id={item.id} label={item.label} variant="outlined"  fullWidth  onChange={handleChange(item.id)} styles={{flexGrow: 3}}/>
+                    <Grid item><TextField key={index} id={item.id} label={item.label} variant="outlined"  fullWidth  onChange={handleChange(item.id)} styles={{flexGrow: 3}}/></Grid>
                   )
                 } else if (item.type === "select"){
                   return(
-                    <FormControl variant="outlined" fullWidth key={index}>
+                    <Grid item><FormControl variant="outlined" style={{minWidth:'110px', maxWidth:'180px'}} fullWidth key={index}>
                       <InputLabel id={item.id}>{item.label}</InputLabel>
                         <Select
                           labelId={item.id}
@@ -100,11 +101,11 @@ const SearchInput = (props) => {
                             <MenuItem key={''} value={-1}>ALL</MenuItem>
                             {item.listValues.map((menuItem,idx) => <MenuItem key={idx} value={menuItem.value}>{menuItem.label}</MenuItem>)}
                       </Select>
-                    </FormControl>
+                    </FormControl></Grid>
                   )
                 }
               })
-            }
+            }</Grid>
     <Button variant="contained" color="primary" disabled={type === 'member'? false : true} style={type === 'member'? {}: {opacity:'0%'}} onClick={handleSearch}>Search</Button>
           </div>
         

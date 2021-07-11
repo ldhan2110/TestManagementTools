@@ -92,8 +92,8 @@ const UnpaidTable = (props) => {
                   row.status === 'Block' ? BLOCKED:'' ||
                   row.status === 'Untest' ? Untest:''
                 } /></TableCell>
-                <TableCell align="left">{row.updated_date}</TableCell>
                 <TableCell align="left">{row.created_date}</TableCell>
+                <TableCell align="left">{row.updated_date}</TableCell>
               </TableRow>
             ))}
           </TableBody>
