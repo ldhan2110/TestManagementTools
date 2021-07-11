@@ -32,3 +32,8 @@ export let TEST_EXEC_SEARCH = [
 export const INVITE_MEMBERS_SEARCH = [
   { id: 'email',  label: 'Email', type: "text" },
 ]
+
+export const MANTIS_SEARCH = [
+  { id: 'name',  label: 'Name', type: "text" },
+  { id: 'username',  label: 'Username', type: "text" },
+]

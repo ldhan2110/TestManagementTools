@@ -79,3 +79,15 @@ export const REQUIREMENTS_HEADER = {
     { id: 'created_date', alignment: 'left', label: 'Create Date', type: 'text'},
   ]
 }
+
+
+export const MANTIS_HEADER = {
+  hasActions: true,
+  hasCheckbox: false,
+  headerCells: [
+    { id: 'id', alignment: 'left', label: 'ID', type: 'text', hidden: true },
+    { id: 'name', alignment: 'left', label: 'Name',type: 'text' },
+    { id: 'username', alignment: 'left', label: 'Username',type: 'text' },
+    { id: 'Status', alignment: 'left', label: 'Status',type: 'label' },
+  ]
+}
