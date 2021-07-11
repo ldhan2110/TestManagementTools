@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
   body,
   #root {
     height: 100%;
-    margin: 0 1.5% 0 0
+    margin: 0 0 0 0
     
   }
 
@@ -62,7 +62,7 @@ const Paper = styled(MuiPaper)(spacing);
 const MainContent = styled(Paper)`
   flex: 1;
   background: ${props => props.theme.body.background};
-  margin-right: 8vw;
+  margin-right: 1vw;
   margin-left: 1vw;
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     flex: none;
