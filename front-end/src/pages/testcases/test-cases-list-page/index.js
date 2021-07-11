@@ -20,11 +20,12 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel,
+  InputLabel, Tooltip,
   //IconButton
 } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import InfoIcon from '@material-ui/icons/Info';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -227,9 +228,12 @@ const TestCaseListPage = (props) => {
                   <Grid item xs={12} style={{marginTop: '5vh'}}>
                     <Grid container spacing={3}>
                       <Grid item xs={12}>                 
-                            <Typography variant="h4" gutterBottom display="inline">Test Cases</Typography>
-                            <Typography variant="h4" gutterBottom display="inline" style={{color: red[500]}}> (Red </Typography>  
-                            <Typography variant="h4" gutterBottom display="inline"> fill means assigned)</Typography>  
+                            <Typography variant="h4" display="inline">Test Cases</Typography>
+                            <Tooltip classes={{tooltip: classes.tooltip}}
+                            placement="right-start"
+                            title={<div><Typography variant="h5" gutterBottom display="inline" style={{color: red[400]}}> Red </Typography>  
+                              <Typography variant="h5" display="inline"> fill means assigned</Typography>
+                              </div>}><InfoIcon style={{fontSize:22, marginLeft: 7}}/></Tooltip>
                             {count < 2 && <LinearProgress/>}
                       <Divider />
                     </Grid>

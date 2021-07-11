@@ -161,7 +161,7 @@ const TestPlanListPage = (props) => {
   return(
     <div>
 
-      <Helmet title="Service Management" />
+      <Helmet title="Test plans Management" />
       <Grid
         justify="space-between"
         container 

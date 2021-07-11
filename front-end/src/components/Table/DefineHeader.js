@@ -29,8 +29,9 @@ export const BUILDS_HEADERS = {
   headerCells: [  
   { id: 'buildname', alignment: 'left', label: 'Name',type: 'text' },
   { id: 'descriptions', alignment: 'left', label: 'Description',type: 'text' },
+  { id: 'testplanname', alignment: 'left', label: 'Test Plan', type: "text" },
   { id: 'is_active', alignment: 'left', label: 'Status',type: 'label' },
-  { id: 'is_open', alignment: 'left', label: 'Open',type: 'label'},
+  //{ id: 'is_open', alignment: 'left', label: 'Open',type: 'label'},
   { id: 'releasedate', alignment: 'left', label: 'Release Date',type: 'text' },
 ]}
 

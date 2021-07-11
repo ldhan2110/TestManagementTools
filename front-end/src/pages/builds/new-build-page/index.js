@@ -41,7 +41,7 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     addBuildReq: (payload) => dispatch({ type: ADD_NEW_BUILD_REQ, payload }),
-    getAllBuildReq: () => dispatch({ type: GET_ALL_BUILDS_REQ}),
+    getAllBuildReq: (payload) => dispatch({type: GET_ALL_BUILDS_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload,}),
     getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
     resetAddRedux: () => dispatch({type: RESET_ADD_NEW_BUILD})
@@ -62,7 +62,6 @@ const NewBuildPage = (props) => {
     testplan: 'ss'
   }); 
 
-
   const [buildInfo, setBuildInfo] = useState({
     buildname: '',
     projectid: project,
@@ -78,6 +77,7 @@ const NewBuildPage = (props) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
+    getAllBuildReq(project);
     getAllTestplanReq(project);
   },[])
 
@@ -89,10 +89,25 @@ const NewBuildPage = (props) => {
     setBuildInfo({ ...buildInfo, releasedate: selectedDateStart });
   },[selectedDateStart])
 
+  useEffect(() => {
+    if(buildInfo.id_exist_build !== '') {
+      let tempTPlan = listBuilds.filter(item => item._id === buildInfo.id_exist_build);
+      if(tempTPlan?.length > 0) {
+        setBuildInfo({ ...buildInfo,
+          testplan: tempTPlan[0].testplan.testplanname,
+        });
+      }
+      else{
+      setBuildInfo({ ...buildInfo,
+        testplan: "",
+      });}
+    }      
+    //getAllTestplanReq(project);
+  },[buildInfo.id_exist_build]);
+
   try {
     useEffect(()=>{
       if (insBuilds.sucess === false){
-        setLoading(false);
         displayMsg({
           content: "Build name already exists in this test plan !",
           type: 'error'
@@ -101,7 +116,6 @@ const NewBuildPage = (props) => {
         setLoading(false);
         resetAddRedux();
       } else if (insBuilds.sucess === true) {
-        setLoading(false);
         displayMsg({
           content: "Create build successfully !",
           type: 'success'
@@ -165,7 +179,12 @@ const NewBuildPage = (props) => {
   }
 
   const handleChange = (prop) => (event) => {
-    setBuildInfo({ ...buildInfo, [prop]: event.target.value });
+    if(prop === 'testplan')
+      setBuildInfo({ ...buildInfo, [prop] : event.target.value, id_exist_build: "" });
+    if (prop === 'id_exist_build')
+        setBuildInfo({ ...buildInfo, [prop] : event.target.value });
+    else
+      setBuildInfo({ ...buildInfo, [prop]: event.target.value });
     if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
@@ -184,7 +203,7 @@ const NewBuildPage = (props) => {
 
     return (
     <div>
-        <Helmet title="New Test Plan" />
+        <Helmet title="New Build/Release" />
 
       <Grid
         justify="space-between"
@@ -217,6 +236,7 @@ const NewBuildPage = (props) => {
                                   onChange={handleChange('testplan')}
                                   label="Test Plan"
                                   error={!buildInfo.testplan && !error.testplan ? true : false}
+                                  disabled={buildInfo.id_exist_build === "" ? false : true}
                                   helperText={!buildInfo.testplan && !error.testplan ? 'Test Plan is required' : ' '}
                                 >
                                {listTestplan.map((item) => (
@@ -237,7 +257,7 @@ const NewBuildPage = (props) => {
           onChange={handleChange('id_exist_build')}
           label="buildexec">
             
-          <MenuItem key={''} value={''}>&nbsp;</MenuItem>
+          <MenuItem key={""} value={''}>&nbsp;</MenuItem>
           {props.history.location.state.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
         </Select>
       </FormControl>
