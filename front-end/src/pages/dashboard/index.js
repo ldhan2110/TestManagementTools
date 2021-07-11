@@ -205,7 +205,7 @@ const  Dashboard = (props) => {
 
   return (
     <React.Fragment>
-      <Helmet title="Thống kê" />
+      <Helmet title="Dashboard" />
       <Grid container justify="space-between" spacing={6}>
         <Grid item>
           <Typography variant="h3" display="inline">

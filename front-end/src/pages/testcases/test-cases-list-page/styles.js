@@ -17,6 +17,13 @@ const styles = {
       chip: {
         margin: 2,
       },
+    contentContainer: {
+      
+    },
+
+    tooltip:{
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    },
 };
   
 export default styles;

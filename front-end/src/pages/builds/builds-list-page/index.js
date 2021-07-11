@@ -125,7 +125,7 @@ const BuildListPage = (props) => {
       is_active: arrData[i].is_active,
       is_open: arrData[i].is_open,
       releasedate: arrData[i].releasedate,
-      testplanname: arrData[i].testplan
+      testplanname: arrData[i].testplan.testplanname
     }]);
 
   }
