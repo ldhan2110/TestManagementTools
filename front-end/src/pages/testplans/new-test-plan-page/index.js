@@ -203,6 +203,7 @@ const NewTestPlanPage = (props) => {
               label="testplan"
               onChange={handleChange('testplanname')}
             >
+            <MenuItem key={''} value={''}> &nbsp;</MenuItem>
           {existTestplans.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
            </Select>
           </FormControl>       

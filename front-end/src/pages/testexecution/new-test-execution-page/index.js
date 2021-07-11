@@ -321,7 +321,7 @@ const NewTestExecutionPage = (props) => {
           onChange={handleChange('exist_testexecution')}
           label="testexec">
             
-          <MenuItem key={''} value={''}>  </MenuItem>
+          <MenuItem key={''} value={''}>&nbsp;</MenuItem>
           {listTestExec.map((item, index) => <MenuItem key={index} value={item._id}>{item.testexecutionname}</MenuItem>)}    
         </Select>
       </FormControl>
@@ -370,7 +370,7 @@ const NewTestExecutionPage = (props) => {
           value={testExecInfo.assigntester}
           onChange={handleChange('assigntester')}
         >
-           <MenuItem key={''} value={''}></MenuItem>
+           <MenuItem key={''} value={''}>&nbsp;</MenuItem>
            {listUser.map((item,index) => (
               <MenuItem key={index} value={item.username}>{item.username}</MenuItem>
           ))}

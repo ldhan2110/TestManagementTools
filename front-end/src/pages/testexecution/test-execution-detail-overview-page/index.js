@@ -355,7 +355,7 @@ const TestExecutionDetailPage = (props) => {
           {!isExecute && testExecInfo.status === 'Untest' && (testExecInfo.tester.username === '' || testExecInfo.tester.username === accountInfo.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleExecute}>
                 Execute
           </Button>}
-          {!isExecute && (testExecInfo.status === 'Fail' || testExecInfo.status === 'Block') && (testExecInfo.tester.username === '' || testExecInfo.tester.username === accountInfo.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleRetest}>
+          {!isExecute && (testExecInfo.status !== 'Untest') && (testExecInfo.tester.username === '' || testExecInfo.tester.username === accountInfo.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleRetest}>
                 Re-test
           </Button>}
           <Button variant="contained" startIcon={<CancelIcon />} onClick={handleClose}>

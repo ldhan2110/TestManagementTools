@@ -243,7 +243,10 @@ const TestExecutionDetailPage = (props) => {
       }
 
       else if (prop === 'assignTester' ){
-        setTestExecInfo({...testExecInfo, tester: {_id: event.target.value, username: listUser.find(item => item.user === event.target.value).username} });
+        if (event.target.value !== '')
+          setTestExecInfo({...testExecInfo, tester: {_id: event.target.value, username: listUser.find(item => item.user === event.target.value).username} });
+        else
+        setTestExecInfo({...testExecInfo, tester: {_id: event.target.value, username: ''} });
       }
         
       
@@ -338,8 +341,9 @@ const TestExecutionDetailPage = (props) => {
                     labelId="assignTester"
                     id="assignTester"
                     value={testExecInfo.tester._id}
-                    onChange={handleChange('assignTester')}
+                    onChange={handleChange('assignTester')} 
                     label="assignTester">
+                        <MenuItem key={''} value={''}>&nbsp;</MenuItem>
                         {listUser.map((item,index) => (
                             <MenuItem key={index} value={item.user}>{item.username}</MenuItem>
                         ))}

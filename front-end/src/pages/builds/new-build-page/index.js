@@ -239,7 +239,7 @@ const NewBuildPage = (props) => {
           onChange={handleChange('id_exist_build')}
           label="buildexec">
             
-          <MenuItem key={''} value={''}></MenuItem>
+          <MenuItem key={''} value={''}>&nbsp;</MenuItem>
           {props.history.location.state.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
         </Select>
       </FormControl>
