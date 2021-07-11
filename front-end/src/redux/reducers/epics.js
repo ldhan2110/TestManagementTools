@@ -10,7 +10,6 @@ import * as userEpics from '../users/userEpics';
 import * as testexecEpics from '../test-execution/testexecEpics';
 import * as dashboardEpics from '../dashboard/dasboardEpics';
 import * as notificationEpics from '../notification/notificationEpics';
-import * as imgUploadEpics from '../image-upload/imgUploadEpics';
 
 
 export default combineEpics(
@@ -104,6 +103,4 @@ export default combineEpics(
    notificationEpics.addNewNotificationEpic,
    notificationEpics.updateNotificationEpic,
 
-   // UPLOAD IMAGE
-   imgUploadEpics.uploadImageEpic,
 );

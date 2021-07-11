@@ -13,7 +13,6 @@ import userReducers from '../users/userReducers';
 import testexecReducers from '../test-execution/testexecReducers';
 import dashboardReducers from '../dashboard/dashboardReducers';
 import notificationReducers from '../notification/notificationReducers';
-import imgUploadReducers from '../image-upload/imgUploadReducers';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 
@@ -36,7 +35,6 @@ const appReducer = combineReducers({
 	milestone: milestoneReducers,
 	user: userReducers,
 	notification: notificationReducers,
-	imgUpload: imgUploadReducers,
 });
 
 export default (state, action) => {
