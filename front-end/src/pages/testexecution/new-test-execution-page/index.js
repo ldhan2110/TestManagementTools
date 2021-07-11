@@ -331,7 +331,7 @@ const NewTestExecutionPage = (props) => {
               </Grid>
               <Grid item>
                 <SelectTestCasePopup isOpen={open} setOpen={setOpenPopup} selected={testExecInfo.listexectestcases}/>
-                <Button variant="contained" onClick={handleOpenSelectTC}>Add Test Case</Button>
+                <Button variant="contained" onClick={handleOpenSelectTC} disabled={testExecInfo.exist_testexecution === '' ? false:true}>Add Test Case</Button>
               </Grid>
             </Grid>
           </div>

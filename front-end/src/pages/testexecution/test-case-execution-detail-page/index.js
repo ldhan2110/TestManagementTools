@@ -235,8 +235,8 @@ const TestCaseExecDetail = (props) => {
                     <ListItem key={item.id}>
                       <Grid container spacing={1}>
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
-                        <Grid item xs={3}><TextField id="definition" variant="outlined" label='Definition' disabled={true} value={item.stepDefine} required  fullWidth multiline rows={4}/></Grid>
-                        <Grid item xs={3}><TextField id="expectResult"  variant="outlined" label='Expected Result' disabled={true} required value={item.expectResult}  multiline fullWidth rows={4}/></Grid>
+                        <Grid item xs={3}><TextField id="definition" variant="outlined" label='Definition' value={item.stepDefine} required  fullWidth multiline rows={4}/></Grid>
+                        <Grid item xs={3}><TextField id="expectResult"  variant="outlined" label='Expected Result' required value={item.expectResult}  multiline fullWidth rows={4}/></Grid>
                         <Grid item xs={1.5}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select
@@ -244,7 +244,7 @@ const TestCaseExecDetail = (props) => {
                                   id="type"
                                   value={item.type}
                                   label="Type" 
-                                  disabled={true}
+                          
                                 >
                                <MenuItem value='manual'><em>Manual</em></MenuItem>
                                <MenuItem value='auto'>Auto</MenuItem>
