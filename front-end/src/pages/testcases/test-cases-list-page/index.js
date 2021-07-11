@@ -81,10 +81,6 @@ const TestCaseListPage = (props) => {
       setDisplayNode(searchTree(testcase.listTestcase,selectedNode));
     },[selectedNode,testcase]);
 
-    useEffect(()=>{
-      console.log(testcase);
-    },[testcase]);
-
 
     useEffect(()=>{
       getAllTestcaseReq(project);

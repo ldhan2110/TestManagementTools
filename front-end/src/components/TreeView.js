@@ -67,7 +67,6 @@ export default function ControlledTreeView(props) {
 
 
   const renderTree = (nodes) => {
-    console.log(nodes);
     if (nodes.type === 'TS' || nodes.type === 'root'){
       if (nodes.type === 'root')
         expanded.push(nodes._id);

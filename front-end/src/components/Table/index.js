@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-//import { Link as RouterLink } from "react-router-dom";
 import EnhancedTableHead from './TableHead';
 import EnhancedTableToolbar from './TableToolbar';
 import {getComparator,stableSort} from './utils';
@@ -32,7 +31,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import { spacing } from "@material-ui/system";
 import { Clipboard } from "react-feather";
 import CustomEmptyOverlayGrid from './NoDataIcon'
-//import { retinaImage } from "polished";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Paper = styled(MuiPaper)(spacing);

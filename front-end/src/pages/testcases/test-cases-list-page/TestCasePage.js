@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
-
+import { makeStyles } from '@material-ui/core/styles';
 import DragList from '../../../components/DragList';
+import styled from "styled-components";
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ, RESET_UPDATE_TESTCASE, RESET_DELETE_TESTCASE, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import ExportExcel from '../../../components/ExportExcel/ExportExcel';
-import { red } from '@material-ui/core/colors';
-import { blue } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { spacing } from "@material-ui/system";
+import { green, orange, red, blue } from "@material-ui/core/colors";
 import {
   Grid,
   Typography,
@@ -26,7 +27,54 @@ import {
   DialogActions,
   DialogTitle,
   Dialog,
+  Chip as MuiChip
 } from '@material-ui/core';
+
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxWidth: 300,
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
+  noLabel: {
+    marginTop: theme.spacing(3),
+  },
+}));
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+
+const Chip = styled(MuiChip)`
+  ${spacing};
+
+  background: ${props => props.is_active && green[500]};
+  background: ${props => props.pass && green[500]};
+  background: ${props => props.fail && red[500]};
+  background: ${props => props.block && orange[500]};
+  background: ${props => props.sent && orange[700]};
+  color: ${props => (props.is_active || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.pass || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.fail || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.block || props.sent) && props.theme.palette.common.white};
+`
+
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => { 
@@ -53,6 +101,7 @@ const mapDispatchToProps = dispatch => {
 const TestCaseDetail = (props) => {
   const {node, listTestsuite, project, updateTestcaseReq, getAllTestcaseReq, displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete, resetDeleteRedux, resetUpdateRedux} = props;
   const [checkError, setCheckError] = useState(false);
+  const classes = useStyles();
   const [error, setError] = useState({
     testcasename: 'ss',
     description: 'ss',
@@ -73,6 +122,7 @@ const TestCaseDetail = (props) => {
     listStep: node.listStep,
     precondition: node.precondition,
     postcondition: node.postcondition,
+    testexecution: node.testexecution,
     projectid: project
   });
 
@@ -91,6 +141,7 @@ const TestCaseDetail = (props) => {
         children: node.children
       });
     }
+    console.log(node);
   },[node]);
 
   useEffect(()=>{ 
@@ -292,6 +343,32 @@ const TestCaseDetail = (props) => {
             rowsMax={3} value={newtestCase.precondition} onChange={handleChange('precondition')}/></Grid>
             <Grid item xs={6}><TextField id="postCondition" label="Post-condition" variant="outlined"  fullWidth multiline rows={3} 
             rowsMax={3} value={newtestCase.postcondition} onChange={handleChange('postcondition')}/></Grid>
+
+            <Grid item xs={12}>
+            <FormControl variant="outlined" fullWidth>
+        <InputLabel id="demo-mutiple-chip-label">Assigned Test Executions</InputLabel>
+        <Select
+          labelId="demo-mutiple-chip-label"
+          id="demo-mutiple-chip"
+          multiple
+          variant="outlined"
+          value={newtestCase.testexecution}
+          disabled
+          renderValue={(selected) => (
+            <div className={classes.chips}>
+              {selected.map((value) => {
+                if (value.status === 'Untest') return (<Chip key={value.testexecutionname} label={value.testexecutionname} className={classes.chip} />);
+                else if (value.status === 'Pass') return (<Chip key={value.testexecutionname} label={value.testexecutionname} className={classes.chip} pass={1}/>);
+                else if (value.status === 'Fail') return (<Chip key={value.testexecutionname} label={value.testexecutionname} className={classes.chip} fail={1}/>);
+                else if (value.status === 'Block') return (<Chip key={value.testexecutionname} label={value.testexecutionname} className={classes.chip} block={1}/>);
+              })}
+            </div>
+          )}
+          MenuProps={MenuProps}
+        >
+        </Select>
+      </FormControl>
+            </Grid>     
           </Grid>
         </Grid>
 
