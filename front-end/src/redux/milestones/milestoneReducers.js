@@ -4,6 +4,7 @@ var initialState = {
   error: "",
   errorMsg:"",
   currentSelectedMilestone: "",
+  success: "",
 
   insMilestones: {
     sucess: null,
@@ -26,7 +27,7 @@ const reducer = (state = initialState, actions) => {
     //LOGIN
     case types.GET_ALL_MILESTONES_REQ:
       return {
-        ...state, listMilestones: []
+        ...state, listMilestones: [], success: ""
     }
 
     case types.GET_ALL_MILESTONES_FAILED:
@@ -34,11 +35,12 @@ const reducer = (state = initialState, actions) => {
         ...state,
         error: true,
         errorMsg: payload,
+        success: ""
     }
     
     case types.GET_ALL_MILESTONES_SUCCESS:
         return {
-          ...state,
+          ...state, success: true,
           listMilestones: payload,
     }
     

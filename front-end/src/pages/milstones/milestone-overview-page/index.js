@@ -16,6 +16,7 @@ import {
 
 import Milestone from '../../../components/Milestones/Milestone';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 /* const useStyles = makeStyles((theme) => ({
   paper: {
     padding: '6px 16px',
@@ -28,6 +29,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
+    milestone: state.milestone,
     listMilestones: state.milestone.listMilestones,
     project: state.project.currentSelectedProject,
     role: state.project.currentRole
@@ -63,11 +65,9 @@ const CustomizedTimeline = (props) => {
   }
   //const {classes} = props;
 
-  const {listMilestones, getAllMilestoneReq, project, role} = props;
+  const {listMilestones, milestone, getAllMilestoneReq, project, role} = props;
 
   const [array, setArray] = React.useState([]);
-  
-  const [count, setCount] = React.useState(0);
 
   const handleArray = () => {   
 
@@ -101,13 +101,14 @@ const CustomizedTimeline = (props) => {
 }
 
   useEffect(()=>{
+    milestone.success = "";
     getAllMilestoneReq(project);
     setArray([]);
   },[]);
 
   useEffect(()=>{
-    handleArray();
-    setCount(count+1);
+    if(milestone.success === true)
+      handleArray();
   },[listMilestones])
   
 
@@ -116,7 +117,6 @@ const CustomizedTimeline = (props) => {
     <React.Fragment>
 
       <Helmet title="Service Management" />
-
       <Grid
         justify="space-between"
         container 
@@ -129,15 +129,16 @@ const CustomizedTimeline = (props) => {
 
         <Grid item>
           {(role === 'Project Manager' || role === 'Test Lead')   &&<div>
-            <Button variant="contained" color="primary" onClick={handleClickNewMilestone}>
+            <Button variant="contained" style={{marginRight: 32}} color="primary" onClick={handleClickNewMilestone}>
               <AddIcon />
               New Milestone
             </Button>
           </div>}
         </Grid>
-      </Grid>        
-        {count < 3 && <LinearProgress />}
-        <Milestone listData={{listMilestone:array}}/>
+      </Grid>
+      {milestone.success === true ? <Milestone listData={{listMilestone:array}}/>:
+        <div style={{height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}><CircularProgress/></div>
+        }
     </React.Fragment>
 
     

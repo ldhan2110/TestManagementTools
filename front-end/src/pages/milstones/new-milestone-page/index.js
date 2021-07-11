@@ -185,7 +185,7 @@ const NewMileStonePage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="milestoneName" label="Milestone Name" variant="outlined"  fullWidth required inputProps={{maxLength : 16}} 
+          <TextField id="milestoneName" label="Milestone Name" variant="outlined"  fullWidth required inputProps={{maxLength : 100}} 
           value={milestoneInfo.milestonetitle || ''} onChange={handleChange('milestonetitle')} 
           error={milestoneInfo.milestonetitle.trim().length === 0 && error.milestonetitle.trim().length === 0 ? true : false}
           helperText={milestoneInfo.milestonetitle.trim().length === 0 && error.milestonetitle.trim().length === 0 ? 'Milestone Name is required' : ' '}/>                     

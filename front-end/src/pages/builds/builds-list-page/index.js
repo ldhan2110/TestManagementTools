@@ -125,7 +125,7 @@ const BuildListPage = (props) => {
       is_active: arrData[i].is_active,
       is_open: arrData[i].is_open,
       releasedate: arrData[i].releasedate,
-      testplanname: arrData[i].testplan.testplanname
+      testplanname: arrData[i]?.testplan?.testplanname
     }]);
 
   }
@@ -142,6 +142,7 @@ const BuildListPage = (props) => {
     if(build.success === true)
       if(insBuildsDelete.sucess !== false)
         handleArray(listBuilds);
+        console.log(listBuilds);
   },[build])
 
 
