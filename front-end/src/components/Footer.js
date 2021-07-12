@@ -48,7 +48,7 @@ function Footer() {
             </List>
           </Grid>
   </Hidden> 
-        <Grid container item xs={12} md={6} justify="flex-end">
+        <Grid container item xs={12} md={12} justify="center">
           <List>
             <ListItem>
               <ListItemText primary={`Test Control - Copyright © ${new Date().getFullYear()} `} />
