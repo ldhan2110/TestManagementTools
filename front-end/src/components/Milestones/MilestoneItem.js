@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TimelineItem from '@material-ui/lab/TimelineItem';
 import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
@@ -117,6 +117,25 @@ const Milestone = (props) => {
     history.push(window.location.pathname+"/"+milestoneid+"/milestone-detail");
   }
 
+  const[titleR,setTitle] = useState(title);
+
+  const[description, setDes] = useState(descriptions);
+
+  useEffect(()=>{
+    if (titleR){
+      if (title.length > 50) {
+        setTitle(titleR.slice(0,20)+"...");
+      }
+    }
+  },[titleR])
+
+  useEffect(()=>{
+    if (description){
+      if (description.length > 40) {
+        setDes(description.slice(0,40)+"...");
+      }
+    }
+  },[description])
 
     return (
       <TimelineItem  onClick={handleClickDetailMilestone}  >
@@ -126,7 +145,7 @@ const Milestone = (props) => {
       {status === "failed" && <Failed final={isFinal}/>}
 
       <TimelineContent>
-        <MilestoneCard title={title} descriptions={descriptions} />
+        <MilestoneCard title={titleR} descriptions={description} />
       </TimelineContent>
     </TimelineItem>
     )
