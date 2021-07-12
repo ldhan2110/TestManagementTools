@@ -157,7 +157,7 @@ const TestCaseListPage = (props) => {
         <Grid container>
           <Grid item xs={12}>
             <Grid container spacing={8} className={classes.contentContainer}>
-                <Grid item xs ={4}>
+                <Grid item style={{maxWidth: '25%'}}>
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
                       <Typography variant="h4" gutterBottom display="inline">
@@ -246,7 +246,7 @@ const TestCaseListPage = (props) => {
 
               <Divider orientation="vertical" flexItem />
 
-              <Grid item xs={7}>
+              <Grid item style={{maxWidth: '73%'}}>
                 {displayNode !== null && (displayNode.type === 'TS' || displayNode.type === 'root') && <TestSuiteDetail node={displayNode}/>}
                 {displayNode !== null && displayNode.type === 'TC' && <TestCaseDetail key={displayNode._id} node={displayNode}/>}
               </Grid>

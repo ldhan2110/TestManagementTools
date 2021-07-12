@@ -27,8 +27,15 @@ const Demo = styled(Paper)`
 
 const Fab = styled(MuiFab)`
   position: fixed;
-  right: ${props => props.theme.spacing(8)}px;
-  bottom: ${props => props.theme.spacing(4)}px;
+  right: ${props => props.theme.spacing(4)}px;
+  bottom: ${props => props.theme.spacing(2)}px;
+  z-index: 1;
+`;
+
+const CustomIconButton = styled(IconButton)`
+  position: fixed;
+  right: ${props => props.theme.spacing(4.5)}px;
+  bottom: ${props => props.theme.spacing(16)}px;
   z-index: 1;
 `;
 
@@ -126,13 +133,9 @@ function Settings() {
       <Fab color="primary" aria-label="Edit" onClick={toggleDrawer(true)}>
         <PaletteIcon />        
       </Fab>
-      <Fab color="primary" style={{marginBottom: '60px'}}>
-      <Tooltip title="Back to top" component="a" href="#">
-                <IconButton aria-label="Back to top">
-                        <VerticalAlignTopIcon style={{color: 'white'}}/>
-                </IconButton>
-                </Tooltip>
-      </Fab>
+      <CustomIconButton href="#">
+          <VerticalAlignTopIcon color="primary" style={{fontSize: 28}}/>
+      </CustomIconButton>
       <Drawer anchor="right" open={state.isOpen} onClose={toggleDrawer(false)}>
         <Demos />
       </Drawer>

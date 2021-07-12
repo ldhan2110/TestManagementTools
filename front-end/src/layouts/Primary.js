@@ -60,10 +60,11 @@ const AppContent = styled.div`
 const Paper = styled(MuiPaper)(spacing);
 
 const MainContent = styled(Paper)`
+  padding-right: 80px;
   flex: 1;
   background: ${props => props.theme.body.background};
-  margin-right: 1vw;
-  margin-left: 1vw;
+  margin-right: 0vw;
+  margin-left: 0vw;
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     flex: none;
   }
