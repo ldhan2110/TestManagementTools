@@ -200,7 +200,7 @@ const NewTestPlanPage = (props) => {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              label="testplan"
+              label="Create from existing test plan ?"
               onChange={handleChange('testplanname')}
             >
             <MenuItem key={''} value={''}> &nbsp;</MenuItem>

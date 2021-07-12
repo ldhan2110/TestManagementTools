@@ -255,7 +255,7 @@ const NewBuildPage = (props) => {
           labelId="buildexec"
           id="buildexec"
           onChange={handleChange('id_exist_build')}
-          label="buildexec">
+          label="Create from existing build ?">
             
           <MenuItem key={""} value={''}>&nbsp;</MenuItem>
           {props.history.location.state.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
