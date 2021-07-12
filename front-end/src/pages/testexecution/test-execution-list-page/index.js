@@ -66,7 +66,8 @@ const TestExecutionListPage = (props) => {
     testexecName: '',
     testplanName: -1,
     buildName: -1,
-    status: -1
+    status: -1,
+    username: ''
   });
 
   const history = useHistory();
@@ -131,28 +132,28 @@ const TestExecutionListPage = (props) => {
 
 
   useEffect(()=>{
-      if (searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.testexecName === '' && searchConditions.buildName === -1){
+      if (searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.testexecName === '' && searchConditions.buildName === -1 && searchConditions.username === ''){
       setArray(listTestexec);
     } 
-    else if(searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.buildName === -1){
+    else if(searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.buildName === -1 && searchConditions.username === ''){
         setArray(listTestexec.filter((item) => {
           if(item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
             return listTestexec;}));
     }
-    else if(searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.buildName !== -1){
+    else if(searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.buildName !== -1 && searchConditions.username === ''){
       setArray(listTestexec.filter((item) => {
         if(item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
         && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
           return listTestexec;}));
     }
-    else if(searchConditions.status === -1 && searchConditions.testplanName !== -1 && searchConditions.buildName !== -1){
+    else if(searchConditions.status === -1 && searchConditions.testplanName !== -1 && searchConditions.buildName !== -1 && searchConditions.username === ''){
         setArray(listTestexec.filter((item) => {
           if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
           && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
           && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
             return listTestexec;}));
     }
-    else if(searchConditions.status !== -1 && searchConditions.testplanName !== -1 && searchConditions.buildName !== -1){
+    else if(searchConditions.status !== -1 && searchConditions.testplanName !== -1 && searchConditions.buildName !== -1 && searchConditions.username === ''){
         setArray(listTestexec.filter((item) => {
           if(searchConditions.status === item.status
           && item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
@@ -160,32 +161,94 @@ const TestExecutionListPage = (props) => {
           && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
             return listTestexec;}));
     }
-    else if(searchConditions.status !== -1 && searchConditions.testplanName === -1 && searchConditions.buildName === -1){
+    else if(searchConditions.status !== -1 && searchConditions.testplanName === -1 && searchConditions.buildName === -1 && searchConditions.username === ''){
         setArray(listTestexec.filter((item) => {
           if(searchConditions.status === item.status
           && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
             return listTestexec;}));
     }
-    else if(searchConditions.status !== -1 && searchConditions.testplanName !== -1 && searchConditions.buildName === -1){
+    else if(searchConditions.status !== -1 && searchConditions.testplanName !== -1 && searchConditions.buildName === -1 && searchConditions.username === ''){
         setArray(listTestexec.filter((item) => {
           if(searchConditions.status === item.status
           && item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
           && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
             return listTestexec;}));
     }
-    else if(searchConditions.status === -1 && searchConditions.testplanName !== -1 && searchConditions.buildName === -1){
+    else if(searchConditions.status === -1 && searchConditions.testplanName !== -1 && searchConditions.buildName === -1 && searchConditions.username === ''){
       setArray(listTestexec.filter((item) => {
         if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
         && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase()))
           return listTestexec;}));
     }
-    else if(searchConditions.status !== -1 && searchConditions.testplanName === -1  && searchConditions.buildName !== -1){
+    else if(searchConditions.status !== -1 && searchConditions.testplanName === -1  && searchConditions.buildName !== -1 && searchConditions.username === ''){
         setArray(listTestexec.filter((item) => {
           if(searchConditions.status === item.status
           && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
           && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase()))
             return listTestexec;}));
     }
+    else if(searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.buildName === -1 && searchConditions.username !== ''){
+      setArray(listTestexec.filter((item) => {
+        if(item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+        && item.tester.toLowerCase().includes(searchConditions.username.toLowerCase()))
+          return listTestexec;}));
+    }
+    else if(searchConditions.status === -1 && searchConditions.testplanName !== -1 && searchConditions.buildName === -1 && searchConditions.username !== ''){
+      setArray(listTestexec.filter((item) => {
+        if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
+        && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+        && item.tester.toLowerCase().includes(searchConditions.username.toLowerCase()))
+          return listTestexec;}));
+    }
+    else if(searchConditions.status === -1 && searchConditions.testplanName === -1 && searchConditions.buildName !== -1 && searchConditions.username !== ''){
+      setArray(listTestexec.filter((item) => {
+        if(item.buildname.toLowerCase().includes(searchConditions.buildname.toLowerCase())
+        && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+        && item.tester.toLowerCase().includes(searchConditions.username.toLowerCase()))
+          return listTestexec;}));
+    }
+    else if(searchConditions.status !== -1 && searchConditions.testplanName === -1  && searchConditions.buildName === -1 && searchConditions.username !== ''){
+      setArray(listTestexec.filter((item) => {
+        if(searchConditions.status === item.status
+        && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+        && item.tester.toLowerCase().includes(searchConditions.username.toLowerCase()))
+          return listTestexec;}));
+  }
+    else if(searchConditions.status === -1 && searchConditions.testplanName !== -1 && searchConditions.buildName !== -1 && searchConditions.username !== ''){
+      setArray(listTestexec.filter((item) => {
+        if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
+        && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+        && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase())
+        && item.tester.toLowerCase().includes(searchConditions.username.toLowerCase()))
+          return listTestexec;}));
+    }
+    else if(searchConditions.status !== -1 && searchConditions.testplanName !== -1 && searchConditions.buildName === -1 && searchConditions.username !== ''){
+      setArray(listTestexec.filter((item) => {
+        if(searchConditions.status === item.status
+        && item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
+        && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+        && item.tester.toLowerCase().includes(searchConditions.username.toLowerCase()))
+          return listTestexec;}));
+    }
+    else if(searchConditions.status !== -1 && searchConditions.testplanName === -1 && searchConditions.buildName !== -1 && searchConditions.username !== ''){
+      setArray(listTestexec.filter((item) => {
+        if(searchConditions.status === item.status
+        && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+        && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase())
+        && item.tester.toLowerCase().includes(searchConditions.username.toLowerCase()))
+          return listTestexec;}));
+    }
+    else if(searchConditions.status !== -1 && searchConditions.testplanName !== -1 && searchConditions.buildName !== -1 && searchConditions.username !== ''){
+      setArray(listTestexec.filter((item) => {
+        if(searchConditions.status === item.status
+        && item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase())
+        && item.testexecutionname.toLowerCase().includes(searchConditions.testexecName.toLowerCase())
+        && item.buildname.toLowerCase().includes(searchConditions.buildName.toLowerCase())
+        && item.tester.toLowerCase().includes(searchConditions.username.toLowerCase()))
+          return listTestexec;}));
+    }
+
+
     else {
       setArray(listTestexec);
     }
@@ -228,7 +291,7 @@ const TestExecutionListPage = (props) => {
           <EnhancedTable
             rows={array}
             headerList = {TEST_EXECUTION_HEADERS}
-            conditions={TEST_EXEC_SEARCH_CONDITIONS}
+            conditions={TEST_EXEC_SEARCH_CONDITIONS, TEST_EXEC_SEARCH}
             setConditions={handleChangeConditions}
             searchMethod={searchTestExec}
             handleDefaultDeleteAction={navigateOverviewPage}
@@ -239,7 +302,7 @@ const TestExecutionListPage = (props) => {
           <EnhancedTable
             rows={[]}
             headerList = {TEST_EXECUTION_HEADERS}
-            conditions={TEST_EXEC_SEARCH_CONDITIONS}
+            conditions={TEST_EXEC_SEARCH_CONDITIONS, TEST_EXEC_SEARCH}
             viewAction={navigateToEditPage}
             type='testexecution'
             load={(testexec.success)}
