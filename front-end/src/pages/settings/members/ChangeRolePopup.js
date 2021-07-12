@@ -121,7 +121,7 @@ const ChangRolePopup = (props) => {
                     value={userInfo ? userInfo.role : ''}
                     onChange={handleChangeRole}
                    >
-                        <MenuItem value={'Project Manager'}>Project Manager</MenuItem>
+                        <MenuItem value={'Project Manager'} disabled={role==='Test Lead'}>Project Manager</MenuItem>
                         <MenuItem value={'Test Lead'}>Test Lead</MenuItem>
                         <MenuItem value={"Tester"}>Tester</MenuItem>
                   </Select>

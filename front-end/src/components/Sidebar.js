@@ -335,7 +335,7 @@ function Sidebar({ classes, staticContext, location, currentSelectedProject,curr
               {currentSelectedProjectName}
             </Box>
           </Tooltip>
-          - {currentRole}
+          - {currentRole} -
         </div>
       </Brand>
       <Scrollbar>
