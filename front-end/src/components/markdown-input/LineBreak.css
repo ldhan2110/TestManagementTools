@@ -3,3 +3,40 @@
   padding-left: 5px;
   padding-right: 5px;
 }
+
+.react-mark-down-line-break-result .border {
+  border: 1px solid #e1e4e8 !important;
+}
+
+.react-mark-down-line-break-result p {
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+.react-mark-down-line-break-result table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.react-mark-down-line-break-result td,
+.react-mark-down-line-break-result th {
+  padding: 0;
+}
+.react-mark-down-line-break-result table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+.react-mark-down-line-break-result table th {
+  font-weight: 600;
+}
+.react-mark-down-line-break-result table td,
+.react-mark-down-line-break-result table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+.react-mark-down-line-break-result table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+.react-mark-down-line-break-result table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}

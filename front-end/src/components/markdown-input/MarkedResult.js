@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
+import gfm from 'remark-gfm'
 import './LineBreak.css'
 
 const Container = styled.div`
@@ -15,7 +16,6 @@ const ResultArea = styled.div`
     width: 100%;
     resize: vertical;
     min-height: 100px;
-
 `;
 
 const components = {
@@ -36,7 +36,7 @@ export default function MarkedResult(props){
 
     return <Container>
         <ResultArea style={height ? {height: height}:{}} contentEditable="false">
-            <ReactMarkdown children={markdown} className="react-mark-down-line-break"
+            <ReactMarkdown children={markdown} remarkPlugins={[gfm]} className="react-mark-down-line-break-result"
             components={components}
             />
         </ResultArea>

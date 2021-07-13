@@ -6,7 +6,8 @@ import {
   } from '@material-ui/core';
 import PanoramaOutlinedIcon from '@material-ui/icons/PanoramaOutlined';
 import ReactMarkdown from 'react-markdown';
-import Editor, { Plugins } from 'react-markdown-editor-lite';
+import Editor from 'react-markdown-editor-lite';
+import gfm from 'remark-gfm'
 import InsertImage from './insertImage'
 import './index.css'; // Required for the editor to display properly
 import './LineBreak.css'
@@ -35,7 +36,7 @@ const MarkedInput = (props) => {
         setOpenInsertImage(true);
     }
     
-    const plugins=['header','font-bold','font-italic','font-underline','font-strikethrough','list-unordered',
+    const plugins=['header','font-bold','font-italic','font-strikethrough','list-unordered',
     'list-ordered','block-quote','block-wrap','block-code-inline','block-code-block','table','link','logger','mode-toggle']
 
     const pluginsSteps = ['mode-toggle']
@@ -50,10 +51,6 @@ const MarkedInput = (props) => {
             )
         }
     }
-    
-    Editor.use(Plugins.BlockWrap,{
-
-    });
 
     return (<Container>
 
@@ -69,10 +66,10 @@ const MarkedInput = (props) => {
                 </Grid>
         </Grid>
 
-        <Editor ref={editorRef} id={idOfInput} value={text} shortcuts
-        style={{ minHeight: '150px', height: '200px', overflowY:'auto', overflowX: 'hidden', resize:'vertical', fontSize: '11px' }} 
+        <Editor ref={editorRef} id={idOfInput} value={text}
+        style={{ minHeight: '150px', height: '200px', overflowY:'auto', overflowX: 'hidden', resize:'vertical' }} 
         onChange={(text) => {setText(text.text);}} 
-        renderHTML={(text) => <ReactMarkdown className="react-mark-down-line-break" children={text} components={components}/>}
+        renderHTML={(text) => <ReactMarkdown className="react-mark-down-line-break" remarkPlugins={[[gfm]]} children={text} components={components}/>}
         plugins={(idOfInput === 'expectedResult' || idOfInput.includes("definition") === true) ? pluginsSteps : plugins}
         config={{ 
             view: {html: false}
