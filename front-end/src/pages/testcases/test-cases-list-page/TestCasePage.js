@@ -27,11 +27,11 @@ import {
   DialogContent,
   DialogActions,
   DialogTitle,
-  Dialog,
+  Dialog, IconButton , Tooltip,
   Chip as MuiChip
 } from '@material-ui/core';
 import MarkedResult from '../../../components/markdown-input/MarkedResult'
-import EditIcon from '@material-ui/icons/Edit';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 
 
 
@@ -261,16 +261,12 @@ const TestCaseDetail = (props) => {
               <ExportExcel dataSet={newtestCase} type='TC'/>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" disabled={false} startIcon={<EditIcon />}  fullWidth onClick={handleClickEditTestCase}>
-                Edit Case
-              {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
-            </Grid>
-            <Grid item>
-              <Button variant="contained"  disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />}  fullWidth  style={enableDeleteBtn ? { color: red[500] } : {} } onClick={handleOpen}>
-                Delete Case
-              {loadingg && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
-            </Grid>           
-          
+              <Tooltip title="Edit this test case">
+                <IconButton onClick={handleClickEditTestCase}>
+                  <BorderColorIcon color="primary" />
+                </IconButton>
+              </Tooltip>
+            </Grid>          
           </Grid>
           </Grid>
     
