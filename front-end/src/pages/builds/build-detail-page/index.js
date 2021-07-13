@@ -89,7 +89,7 @@ const BuildDetailPage = (props) => {
       isActive: props.history.location.state.is_active,
       isPublic: props.history.location.state.is_open,
       releasedate: props.history.location.state.releasedate,
-      testplan: props.history.location.state.testplanname.testplanname
+      testplan: props.history.location.state.testplanname
     });
 
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
@@ -99,6 +99,7 @@ const BuildDetailPage = (props) => {
 
     useEffect(()=>{
       getAllTestplanReq(project);
+      console.log(props.history.location.state);
     },[])
 
     useEffect(()=>{
