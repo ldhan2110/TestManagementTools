@@ -74,8 +74,13 @@ const SettingProjectPage = (props) => {
     is_public: false,
     active: false,
     status: '',
+    use_mantis: false,
+    url: "",
+    token: "",
     projectid: project
   });
+
+  const[isUseMantis, setUseMantis] = useState(false);
 
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
   const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
@@ -203,6 +208,17 @@ const SettingProjectPage = (props) => {
     }
   };
 
+  const handleUseMantis = () =>{
+    if(projectInfo.use_mantis === true || projectInfo.use_mantis === 0){
+      setProjectInfo({ ...projectInfo, use_mantis: false });
+      setUseMantis(false);
+    }
+    else{
+      setProjectInfo({ ...projectInfo, use_mantis: true });
+      setUseMantis(true);
+    }
+  };
+
   const handleOpen = () => {
     setOpen(true);
   }
@@ -300,11 +316,38 @@ const SettingProjectPage = (props) => {
           </FormControl>
           </div>
 
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={6} 
+          <div>
+              <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={6} 
           value={projectInfo.description || ''} onChange={handleChange('description')}
           error={projectInfo.description === 0 && error.description === 0 ? true : false}
           helperText={projectInfo.description === 0 && error.description === 0 ? 'Description is required!' : ' '}/>
+          </div>
+        
+        <div>
+        <FormControlLabel
+              classes= {{label: classes.titleContent}}
+              value="start"
+              control={<Checkbox color="primary" />}
+              label="Use Mantis"
+              labelPlacement="start"
+              value={projectInfo.use_mantis}  onChange={handleUseMantis}
+              checked={projectInfo.use_mantis}
+            />
+        </div>
           
+        {isUseMantis && 
+          <div>
+          <Grid container spacing={1}>
+            <Grid item>
+            <TextField id="mantisUrl" label="Mantis URL" variant="outlined"  fullWidth required  inputProps={{maxLength : 100}} />
+            </Grid>
+            <Grid item>
+            <TextField id="mantisToken" label="Mantis Token" variant="outlined"  fullWidth required />
+            </Grid>
+          </Grid>
+          </div>}
+
+
           <div className = {classes.btnGroup}>
           {(role === 'Project Manager') &&<Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />}  onClick={handleUpdate}>
             Update
