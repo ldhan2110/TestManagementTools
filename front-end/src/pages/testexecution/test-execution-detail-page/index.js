@@ -185,6 +185,7 @@ const TestExecutionDetailPage = (props) => {
           setLoading(false);
           getAllTestExecReq();
           resetRedux();
+          handleClose();
         }
        } ,[updTestExec.sucess])    
     } catch (error) {
@@ -208,7 +209,7 @@ const TestExecutionDetailPage = (props) => {
         setEnableDeleteBtn(true);
         setLoadingg(false);
         resetDelTestExec();
-        history.goBack();
+        handleClose();
         }
     },[delTestExec]);
 
