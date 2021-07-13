@@ -227,7 +227,7 @@ const LoginPage = (props) => {
               Don't have an account?
           </Typography>
           <Button variant="contained" startIcon={<VpnKeyIcon/>} onClick={handleOpenRegister}>
-            Register now
+            Sign Up now!
           </Button>
         </div>
         <span>

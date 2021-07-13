@@ -157,7 +157,7 @@ const RegisterPage = (props) => {
   //RENDER
     return(
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Register</DialogTitle>
+        <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
         <DialogContent dividers>
           <DialogContentText>
             Please enter your information to create a new account.
@@ -246,7 +246,7 @@ const RegisterPage = (props) => {
             Close
           </Button>
           <Button onClick={handleRegister} disabled={enableCreateBtn ? false : true } color="primary">
-            Register
+            Sign Up
             {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}
           </Button>
         </DialogActions>

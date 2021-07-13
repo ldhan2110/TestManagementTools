@@ -170,7 +170,7 @@ function UserMenu() {
           Profile
         </MenuItem>
         <MenuItem onClick={closeMenu}>
-          Sign out
+          Sign Out
         </MenuItem>
       </Menu>
     </React.Fragment>
