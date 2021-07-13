@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
     Grid,
-    Tooltip
+    Tooltip, Typography
   } from '@material-ui/core';
 import PanoramaOutlinedIcon from '@material-ui/icons/PanoramaOutlined';
 import ReactMarkdown from 'react-markdown';
@@ -18,7 +18,7 @@ const Container = styled.div`
 
 const MarkedInput = (props) => {
 
-    const {handleChange, idOfInput, setTxt} = props;
+    const {handleChange, idOfInput, setTxt, title} = props;
     const editorRef = React.useRef(null);
 
     const [openInsertImage, setOpenInsertImage] = useState(false);
@@ -58,7 +58,10 @@ const MarkedInput = (props) => {
     return (<Container>
 
         <InsertImage isOpen={openInsertImage} openMethod={setOpenInsertImage} insertImage={insertImage}></InsertImage>
-        <Grid container direction="column" justify="center" alignItems="flex-end">
+        <Grid container direction="row" justify="space-between" alignItems="center">
+            <Typography variant="subtitle2" gutterBottom display="inline" >
+                {title}
+            </Typography> 
             <Grid item>
                 <Tooltip title="Add an image to field" arrow>
                     <PanoramaOutlinedIcon color="primary" onClick={handleAddImage} style={{fontSize:'28px'}}/>

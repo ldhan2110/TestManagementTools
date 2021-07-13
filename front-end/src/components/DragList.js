@@ -14,7 +14,7 @@ import {
   ListItem,
   Button,
   IconButton,
-  Tooltip
+  Tooltip, Typography
 } from '@material-ui/core';
 import { MinusCircle } from "react-feather";
 import {red} from "@material-ui/core/colors";
@@ -75,10 +75,13 @@ const DragList = (props) => {
                           error={item.stepDefine.trim().length === 0 && pressUpdateButton ? true:false}                          
                           value={item.stepDefine} 
                           onChange={(event)=>{ handleChange({id: item.id, name: "stepDefine", data: event.target.value}) }}/> */}
-                          
-                          {viewMode === true ? 
-                          <MarkedResult markdown={item.stepDefine} height={120} /> 
-                          : <MarkedInput idOfInput={"definition"+item.id} setTxt={item.stepDefine}
+                           
+                          {viewMode === true ? <div>
+                          <Typography variant="subtitle2" gutterBottom display="inline" >
+                            Definition
+                          </Typography>
+                          <MarkedResult markdown={item.stepDefine} height={120} /> </div>
+                          : <MarkedInput idOfInput={"definition"+item.id} setTxt={item.stepDefine} title="Definition"
                           handleChange={(text) => handleChange({id: item.id, name: "stepDefine", data: text})}/>}
                           
                           
@@ -92,9 +95,13 @@ const DragList = (props) => {
                           
                           {/* <MarkedInput idOfInput="expectedResult" setTxt={item.expectResult}
                           handleChange={(text) => handleChange({id: item.id, name: "expectResult", data: text})}/> */}
-                          {viewMode === true ? 
-                          <MarkedResult markdown={item.expectResult} height={120} />:
-                          <MarkedInput idOfInput="expectedResult" setTxt={item.expectResult}
+                          
+                          {viewMode === true ? <div>
+                          <Typography variant="subtitle2" gutterBottom display="inline" >
+                          Expected Result
+                          </Typography> 
+                          <MarkedResult markdown={item.expectResult} height={120} /> </div>:
+                          <MarkedInput idOfInput="expectedResult" setTxt={item.expectResult} title={"Expected Result"}
                           handleChange={(text) => handleChange({id: item.id, name: "expectResult", data: text})}/>}
 
                           </Grid>
