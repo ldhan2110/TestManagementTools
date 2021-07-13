@@ -3,6 +3,8 @@ import CheckboxTreeView from '../../../components/CheckboxTreeView/CheckboxTreeV
 import { connect } from 'react-redux';
 import {GET_ALL_TESTCASE_REQ, GET_LIST_TESTCASE_SELECT_REQ, GET_ALL_TESTSUITE_REQ, GET_ALL_TESTSUITE_NO_TREE_REQ} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 import {
   Dialog,
   DialogActions,
@@ -81,11 +83,15 @@ const handleSelectTestcase = () =>{
     getAllTestsuiteNoTreeReq(project);
   },[])
 
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 
   return (
     <React.Fragment > 
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={open}   
+        fullWidth={true}
+        maxWidth={'sm'} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title" style={{color: 'white', background: 'blue'}}>Select Test Case</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '20vw', maxWidth:'20vw'}}>

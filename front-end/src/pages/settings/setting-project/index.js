@@ -339,10 +339,10 @@ const SettingProjectPage = (props) => {
           <div>
           <Grid container spacing={1}>
             <Grid item>
-            <TextField id="mantisUrl" label="Mantis URL" variant="outlined"  fullWidth required  inputProps={{maxLength : 100}} />
+            <TextField id="mantisUrl" label="Mantis URL" variant="outlined"  fullWidth required  onChange={handleChange('url')}  />
             </Grid>
             <Grid item>
-            <TextField id="mantisToken" label="Mantis Token" variant="outlined"  fullWidth required />
+            <TextField id="mantisToken" label="Mantis Token" variant="outlined"  fullWidth required onChange={handleChange('token')}/>
             </Grid>
           </Grid>
           </div>}
