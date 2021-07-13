@@ -21,7 +21,6 @@ const CheckboxTreeView = (props) => {
                 expanded={expanded}
                 onCheck={checked => setChecked( checked )}
                 onExpand={expanded => setExpand( expanded )}
-                nativeCheckboxes={true}
             />
         );
  
