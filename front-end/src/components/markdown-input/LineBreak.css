@@ -3,6 +3,11 @@
   padding-left: 5px;
   padding-right: 5px;
 }
+.react-mark-down-line-break-result {
+  white-space: pre-wrap;
+  padding-left: 5px;
+  padding-right: 5px;
+}
 
 .react-mark-down-line-break-result .border {
   border: 1px solid #e1e4e8 !important;
