@@ -13,6 +13,12 @@ const CheckboxTreeView = (props) => {
    useEffect(()=>{
     parentCallback(checked);
    },[checked]);
+
+   useEffect(()=>{
+    if (data){
+        setExpand([data.value]);
+    }
+   },[data]);
    
     return (
             <CheckboxTree
