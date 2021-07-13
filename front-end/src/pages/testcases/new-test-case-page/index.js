@@ -18,8 +18,10 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel
+  InputLabel, Input
 } from '@material-ui/core';
+import MarkedInput from '../../../components/markdown-input/MarkedInput';
+
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -68,7 +70,6 @@ const TestCaseDetail = (props) => {
 
   useEffect(()=>{
     if (insTestcase.sucess === false){
-      setLoading(false);
       displayMsg({
         content: "Test Case name already exists in this project !",
         type: 'error'
@@ -77,7 +78,6 @@ const TestCaseDetail = (props) => {
       setLoading(false);
       resetAddRedux();
     } else if (insTestcase.sucess === true) {
-      setLoading(false);
       displayMsg({
         content: "Create Testcase successfully !",
         type: 'success'
@@ -148,15 +148,19 @@ const TestCaseDetail = (props) => {
       setEnableCreateBtn(false);
       setLoading(true);
       addTestcaseReq(testcase);
-    }
-
-
-
-  
+    }  
   }
 
   const updateListStep = (Data) => {
     setListSteps(Data);
+  };
+  
+  const PreconChange = (text) => {
+    setTestcase({ ...testcase, precondition: text });
+  };
+
+  const PostconChange = (text) => {
+    setTestcase({ ...testcase, postcondition: text });
   };
 
   return(
@@ -236,8 +240,23 @@ const TestCaseDetail = (props) => {
               </Grid>      
             </Grid>
 
-            <Grid item xs={12}><TextField id="preCondition" label="Pre-condition" value={testcase.precondition || ''} onChange={handleChange('precondition')} variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/></Grid>
-            <Grid item xs={12}><TextField id="postCondition" label="Post-condition" variant="outlined" value={testcase.postcondition || ''} onChange={handleChange('postcondition')} fullWidth multiline rows={3} rowsMax={3}/></Grid>
+            <Grid item xs={12}>
+              {/* <TextField id="preCondition" label="Pre-condition" 
+              value={testcase.precondition || ''} 
+              onChange={handleChange('precondition')}
+              variant="outlined"  fullWidth multiline rows={3} rowsMax={3}/> */}
+              <Typography variant="subtitle1" gutterBottom display="inline">
+                Preconditions
+              </Typography>
+              <MarkedInput idOfInput="precon" handleChange={PreconChange} /> 
+            </Grid>
+            <Grid item xs={12}>
+              {/* <TextField id="postCondition" label="Post-condition" variant="outlined" value={testcase.postcondition || ''} onChange={handleChange('postcondition')} fullWidth multiline rows={3} rowsMax={3}/> */}
+              <Typography variant="subtitle1" gutterBottom display="inline">
+                Postconditions
+              </Typography>
+              <MarkedInput idOfInput="postcon" handleChange={PostconChange} /> 
+              </Grid>
           </Grid>
         </Grid>
 

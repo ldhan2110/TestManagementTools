@@ -18,11 +18,13 @@ import {
 } from '@material-ui/core';
 import { MinusCircle } from "react-feather";
 import {red} from "@material-ui/core/colors";
+import MarkedInput from './markdown-input/MarkedInput'
+import MarkedResult from './markdown-input/MarkedResult'
 
 
 const DragList = (props) => {
 
-  const {data, setData, parentCallback, pressUpdateButton} = props;
+  const {data, setData, parentCallback, pressUpdateButton, viewMode} = props;
 
   const [listData, setListData] = useState(data);
 
@@ -60,28 +62,44 @@ const DragList = (props) => {
 
 
   return(
-      <Paper style={{maxHeight: 500, overflow: 'auto'}}>
+      <Paper style={{maxHeight: 700, overflow: 'auto'}}>
       <List style={{maxHeight: '100%', overflow: 'auto'}}>
-             <ReactSortable list={listData} setList={setListData}>
+             <ReactSortable disabled={viewMode === true ? true : false} list={listData} setList={setListData}>
                 {listData.map((item) => (
                     <ListItem key={item.id}>
                       <Grid container direction="row" justify="space-between" alignItems="flex-start">
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
                         <Grid item xs={4}>
-                          <TextField id={"definition"+item.id} rows={4} 
+                          {/* <TextField id={"definition"+item.id} rows={4} 
                           variant="outlined" label='Definition' required fullWidth multiline
                           error={item.stepDefine.trim().length === 0 && pressUpdateButton ? true:false}                          
                           value={item.stepDefine} 
-                          onChange={(event)=>{ handleChange({id: item.id, name: "stepDefine", data: event.target.value}) }}/>
+                          onChange={(event)=>{ handleChange({id: item.id, name: "stepDefine", data: event.target.value}) }}/> */}
+                          
+                          {viewMode === true ? 
+                          <MarkedResult markdown={item.stepDefine} height={120} /> 
+                          : <MarkedInput idOfInput={"definition"+item.id} setTxt={item.stepDefine}
+                          handleChange={(text) => handleChange({id: item.id, name: "stepDefine", data: text})}/>}
+                          
+                          
                           </Grid>
                         <Grid item xs={4}>
-                          <TextField id="expectResult"  
+                          {/* <TextField id="expectResult"  
                           variant="outlined" label='Expected Result' required  multiline fullWidth rows={4} 
                           error={item.expectResult.trim().length === 0 && pressUpdateButton ? true:false}
                           value={item.expectResult} 
-                          onChange={(event)=>{ handleChange({id: item.id, name: "expectResult", data: event.target.value}) }}/>
+                          onChange={(event)=>{ handleChange({id: item.id, name: "expectResult", data: event.target.value}) }}/> */}
+                          
+                          {/* <MarkedInput idOfInput="expectedResult" setTxt={item.expectResult}
+                          handleChange={(text) => handleChange({id: item.id, name: "expectResult", data: text})}/> */}
+                          {viewMode === true ? 
+                          <MarkedResult markdown={item.expectResult} height={120} />:
+                          <MarkedInput idOfInput="expectedResult" setTxt={item.expectResult}
+                          handleChange={(text) => handleChange({id: item.id, name: "expectResult", data: text})}/>}
+
                           </Grid>
-                        <Grid item xs={2}><FormControl variant="outlined" fullWidth>
+                        <Grid item xs={2}>
+                          <FormControl variant="outlined" fullWidth style={{marginTop: '34px'}}>
                               <InputLabel id="type">Type</InputLabel>
                                 <Select
                                   labelId="type"
@@ -93,22 +111,25 @@ const DragList = (props) => {
                                <MenuItem value={"manual"}><em>Manual</em></MenuItem>
                                <MenuItem value={"auto"}>Auto</MenuItem>
                               </Select>
-                    </FormControl></Grid>
+                          </FormControl>
+                        </Grid>
+                        {viewMode !== true &&
                         <Grid>
-                        <Tooltip title="Delete step">
-                          <IconButton onClick={(event)=>{ removeStep({id: item.id}) }}><MinusCircle style={{color: red[500]}}/></IconButton>
+                          <Tooltip title="Delete step">
+                            <IconButton onClick={(event)=>{ removeStep({id: item.id}) }}><MinusCircle style={{color: red[500]}}/></IconButton>
                           </Tooltip>
-                          </Grid>
+                        </Grid>}
                       </Grid>
                     </ListItem>
                 ))}
               </ReactSortable>
               <ListItem>
-                <Grid container justify="flex-end">
+              {viewMode !== true && <Grid container justify="flex-end">
                   <Grid item style={{marginLeft: '1vw'}}>
+                  
                     <Button variant="contained" color="primary" fullWidth onClick={handleAddStep}>Add step</Button>
                   </Grid>
-                </Grid>
+                </Grid>}
               </ListItem>
        </List>
       </Paper>

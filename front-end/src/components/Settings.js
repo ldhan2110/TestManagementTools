@@ -25,7 +25,7 @@ const Demo = styled(Paper)`
 
 const Fab = styled(MuiFab)`
   position: fixed;
-  right: ${props => props.theme.spacing(6)}px;
+  right: ${props => props.theme.spacing(4)}px;
   bottom: ${props => props.theme.spacing(8)}px;
   z-index: 1;
 `;

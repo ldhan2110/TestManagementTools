@@ -56,6 +56,7 @@ const detailMileStonePage = async(()=>import('../pages/milstones/milestone-detai
 //TestCase components
 const TestCasePage = async(()=>import('../pages/testcases/test-cases-list-page/index'));
 const NewTestCasePage = async(()=>import('../pages/testcases/new-test-case-page/index'));
+const EditTestCasePage = async(()=>import('../pages/testcases/edit-test-case-page/index'));
 
 //Requirements components
 const RequirementListPage = async(()=>import(('../pages/requirements/requirements-list-page/index')));
@@ -365,6 +366,15 @@ const newTestcaseRoute = {
   component: NewTestCasePage
 }
 
+const editTestcaseRoute = {
+  id: "Edit Test Case",
+  path: "/projects/:projectName/test-cases/:testcaseId/edit-test-case",
+  name: "Edit Test Case",
+  restrict: true,
+  exact: true,
+  component: EditTestCasePage
+}
+
 
 
 // Routes using the Dashboard layout
@@ -393,7 +403,8 @@ export const primaryLayoutRoutes = [
   requirementsRoute,
   newRequirementsRoute,
   requirementsDetailRoute,
-  testCaseReExecResultRoute
+  testCaseReExecResultRoute,
+  editTestcaseRoute
 ];
 
 // Routes using the Auth layout

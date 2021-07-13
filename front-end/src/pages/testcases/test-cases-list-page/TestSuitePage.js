@@ -221,7 +221,6 @@ const TestSuiteDetail = (props) => {
   }
   //Delete testsuite button
   const handleDelete = ()=>{
-
       setEnableDeleteBtn(false);
       setLoadingg(true);
       deleteTestsuiteReq(testSuite);
@@ -436,13 +435,15 @@ const TestSuiteDetail = (props) => {
         <Grid item xs={12}>
           <Grid container justify ='flex-end' spacing={1}>
             <Grid item>
-              <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />} fullWidth onClick={handleSave}>Update
+              <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />} fullWidth onClick={handleSave}>
+                Update suite
               {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
             </Grid>
-            <Grid item>
-              <Button variant="contained" startIcon={<DeleteIcon />} disabled={enableDeleteBtn ? false : true } fullWidth  style={enableDeleteBtn ? { color: red[500] } : {} } onClick={handleOpen}>Delete
+            {node.type !== 'root' && <Grid item>
+              <Button variant="contained" startIcon={<DeleteIcon />} disabled={enableDeleteBtn ? false : true } fullWidth  style={enableDeleteBtn ? { color: red[500] } : {} } onClick={handleOpen}>
+                Delete suite
               {loadingg && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
-            </Grid>
+            </Grid>}
             <Grid item>
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>

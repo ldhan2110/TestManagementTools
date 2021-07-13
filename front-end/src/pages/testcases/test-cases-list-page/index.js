@@ -25,7 +25,6 @@ import {
 } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InfoIcon from '@material-ui/icons/Info';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {

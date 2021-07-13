@@ -30,9 +30,11 @@ import {
   Dialog,
   Chip as MuiChip
 } from '@material-ui/core';
+import MarkedInput from '../../../components/markdown-input/MarkedInput';
 import MarkedResult from '../../../components/markdown-input/MarkedResult'
-import EditIcon from '@material-ui/icons/Edit';
-
+import ReactMarkdown from 'react-markdown';
+import Editor from 'react-markdown-editor-lite';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -102,56 +104,52 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const TestCaseDetail = (props) => {
+const EditTestCasePage = (props) => {
   const {node, listTestsuite, project, updateTestcaseReq, getAllTestcaseReq, displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete, resetDeleteRedux, resetUpdateRedux} = props;
   const [checkError, setCheckError] = useState(false);
   const classes = useStyles();
+
   const history = useHistory();
+  const historyPushedState = history.location.state;
+
   const [error, setError] = useState({
     testcasename: 'ss',
     description: 'ss',
   });
-  const [testCase, setTestCase] = useState({
-    name: node.name,
-    description: node.description,
-    priority: node.priority,
-    listStep: node.listStep
-  });
+  /* const [testCase, setTestCase] = useState({
+    name: props.match.params.name,
+    description: props.match.params.description,
+    priority: props.match.params.priority,
+    listStep: props.match.params.listStep
+  }); */  
 
   const [newtestCase, setNewTestCase] = useState({
-    testcaseid: node._id,
-    testcasename: node.name,
-    description: node.description,
-    testsuite: node.testsuite,
-    priority: node.priority,
-    listStep: node.listStep,
-    precondition: node.precondition,
-    postcondition: node.postcondition,
-    testexecution: node.testexecution,
+    testcaseid: historyPushedState._id,
+    testcasename: historyPushedState.name,
+    description: historyPushedState.description,
+    testsuite: historyPushedState.testsuite,
+    priority: historyPushedState.priority,
+    listStep: historyPushedState.listStep,
+    precondition: historyPushedState.precondition,
+    postcondition: historyPushedState.postcondition,
+    testexecution: historyPushedState.testexecution,
     projectid: project
   });
 
-  const [listSteps, setListSteps] = useState(node.listStep);
+  const originalName = historyPushedState.name;
+
+  const [listSteps, setListSteps] = useState(historyPushedState.listStep);
   const [open, setOpen] = React.useState(false);
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
   const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
   const [loading, setLoading] = useState(false);
   const [loadingg, setLoadingg] = useState(false);
   const [pressUpdateButton, setPressUpdateButton] = useState(false);
-  useEffect(()=>{
-    if (node){
-      setTestCase({
-        ...testCase,
-        name: node.name,
-        children: node.children
-      });
-    }
-  },[node]);
 
   useEffect(()=>{ 
     if (insTestcase.sucess === false){
       displayMsg({
-        content: "Test Case name already exists in this project !",
+        content: insTestcase.errMsg,
         type: 'error'
       });
       setEnableCreateBtn(true);
@@ -164,6 +162,7 @@ const TestCaseDetail = (props) => {
         content: "Update testcase successfully !",
         type: 'success'
       });
+      handleCancel();
       setEnableCreateBtn(true);
       setLoading(false);            
       setPressUpdateButton(false);
@@ -173,7 +172,6 @@ const TestCaseDetail = (props) => {
 
   useEffect(()=>{
     if (insTestcaseDelete.sucess === false){
-      setLoadingg(false);
       displayMsg({
         content: insTestcaseDelete.errMsg,
         type: 'error'
@@ -182,11 +180,11 @@ const TestCaseDetail = (props) => {
       setLoadingg(false);
       resetDeleteRedux();
     } else if (insTestcaseDelete.sucess === true) {
-      setLoadingg(false);
       displayMsg({
         content: "Delete testcase successfully !",
         type: 'success'
       });
+      handleCancel();
       setEnableDeleteBtn(true);
       setLoadingg(false);
       getAllTestcaseReq();
@@ -210,11 +208,42 @@ const TestCaseDetail = (props) => {
     }
   }
 
-  const handleClickEditTestCase = () => {
-    console.log(node);
-    history.push({
-      pathname: window.location.pathname+"/"+node._id+"/edit-test-case",
-      state: node});
+  const handleUpdate = () => {
+    setCheckError(true);
+    if(newtestCase.description === ""){
+    setError({ ...newtestCase, description: "" });
+    }
+
+    if(newtestCase.testcasename === "")
+    setError({ ...newtestCase, testcasename: "" });
+
+    if(newtestCase.description.trim().length === 0 || newtestCase.testcasename.trim().length === 0
+        ||newtestCase.description.trim().length !== newtestCase.description.length 
+        || newtestCase.testcasename.trim().length !== newtestCase.testcasename.length){
+        displayMsg({
+          content: "testcase name or description should not contain spaces or empty",
+          type: 'error'
+        });
+    }
+
+    else if (handleSteps(listSteps)) {
+      setPressUpdateButton(true);
+      displayMsg({
+        content: "Steps cannot have empty field(s)",
+        type: 'error'
+      });
+    }
+
+    else if(newtestCase.testcasename.trim().length !== 0 && newtestCase.description.trim().length !== 0){
+      setEnableCreateBtn(false);
+      setLoading(true);
+      updateTestcaseReq(newtestCase);
+    }
+
+  
+  };
+  const handleCancel = (event) => {
+    history.goBack();
   }
 
   const handleDelete = () => {
@@ -245,56 +274,56 @@ const TestCaseDetail = (props) => {
     setListSteps(Data);
   };
 
+  const PreconChange = (text) => {
+    setNewTestCase({ ...newtestCase, precondition: text });
+  };
+
+  const PostconChange = (text) => {
+    setNewTestCase({ ...newtestCase, postcondition: text });
+  };
+
   return(
     <React.Fragment>
       <Grid container spacing={3} >
         <Grid item xs={12}>
-        <Grid container spacing={1} justify ='space-between'>
-          <Grid item xs={6}>
-            <Typography variant="h5" gutterBottom display="inline">
-                Test Case Detail - {newtestCase.testcasename}
+        <Grid container justify='space-between'>
+          <Grid item xs={8}>
+            <Typography variant="h4" gutterBottom display="inline">
+               Edit Test Case - {originalName}
             </Typography> 
           </Grid>
-          <Grid item xs={6}>
-            <Grid container spacing={1} justify ='flex-end' alignItems="center">
-            <Grid item>
-              <ExportExcel dataSet={newtestCase} type='TC'/>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" color="primary" disabled={false} startIcon={<EditIcon />}  fullWidth onClick={handleClickEditTestCase}>
-                Edit Case
-              {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
-            </Grid>
-            <Grid item>
+          <Grid item>
               <Button variant="contained"  disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />}  fullWidth  style={enableDeleteBtn ? { color: red[500] } : {} } onClick={handleOpen}>
-                Delete Case
+                Delete test case
               {loadingg && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
-            </Grid>           
-          
-          </Grid>
-          </Grid>
-    
-        </Grid>
+            </Grid>
         </Grid>
         <Divider/>
+        </Grid>
+        
         
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  fullWidth required 
-            defaultValue={newtestCase.testcasename || ''}
-            InputProps={{
-              readOnly: true,
-            }}
-            style={{marginTop: '1.5em'}}
-            /></Grid>
+            <Grid item xs={12}>
+              <TextField id="testSuiteName" inputProps={{maxLength : 100}} style={{marginTop:'1em'}} 
+                label="Test Case Name" variant="outlined"  fullWidth required 
+                onChange={handleChange('testcasename')} defaultValue={newtestCase.testcasename || ''}
+                error={newtestCase.testcasename.trim().length === 0 && 
+                error.testcasename.trim().length === 0 ? true : false}
+                helperText={newtestCase.testcasename.trim().length === 0 && 
+                error.testcasename.trim().length === 0 ? 'testcase name is required' : ' '}
+              />
+            </Grid>
 
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth required 
-            defaultValue={newtestCase.description || ''}            
-            InputProps={{
-              readOnly: true,
-            }}
-            /></Grid>
+            <Grid item xs={12}>
+              <TextField id="description" label="Description" variant="outlined" fullWidth required 
+                onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
+                error={!newtestCase.description && !error.description ? true : false}
+                helperText={!newtestCase.description &&
+                 !error.description ? 'description is required' : ' '}
+              />
+            </Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
@@ -304,8 +333,8 @@ const TestCaseDetail = (props) => {
                                   labelId="testSuite"
                                   id="testSuite"
                                   value={newtestCase.testsuite || ''}
+                                  onChange={handleChange('testsuite')}
                                   label="Test Suite"
-                                  disabled
                                 >
                                {listTestsuite.map((item) => (
                                     <MenuItem value={item.name}>{item.name}</MenuItem>
@@ -314,14 +343,14 @@ const TestCaseDetail = (props) => {
                     </FormControl>
                   </Grid>
                 <Grid item xs={6}>
-                    <FormControl variant="outlined" fullWidth >
+                    <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="Importance">Importance</InputLabel>
                                 <Select
                                   labelId="Importance"
                                   id="Importance"
                                   defaultValue={newtestCase.priority}
+                                  onChange={handleChange('priority')}
                                   label="Importance"
-                                  disabled
                                 >
                                <MenuItem value={"low"}>Low</MenuItem>
                                <MenuItem value={"medium"}>Medium</MenuItem>
@@ -331,8 +360,15 @@ const TestCaseDetail = (props) => {
                 </Grid>
                 </Grid>
             </Grid>
+            
+
+            {/* <Grid item xs={6}><TextField id="preCondition" label="Pre-condition" variant="outlined" fullWidth multiline rows={3} 
+            rowsMax={3} value={newtestCase.precondition} onChange={handleChange('precondition')}/></Grid>
+            <Grid item xs={6}><TextField id="postCondition" label="Post-condition" variant="outlined"  fullWidth multiline rows={3} 
+                               rowsMax={3} value={newtestCase.postcondition} onChange={handleChange('postcondition')}/></Grid> */}
+
             <Grid item xs={12}>
-            <FormControl variant="outlined" fullWidth style={{marginTop: '2em'}}>
+            <FormControl variant="outlined" fullWidth>
         <InputLabel id="demo-mutiple-chip-label">Assigned Test Executions</InputLabel>
         <Select
           labelId="demo-mutiple-chip-label"
@@ -355,18 +391,18 @@ const TestCaseDetail = (props) => {
         >
         </Select>
       </FormControl></Grid> 
-            <Typography variant="subtitle1" style={{fontWeight: 600, marginTop: '2em', marginBottom: '1.5em'}} gutterBottom display="inline">
+            <Typography variant="subtitle1" style={{fontWeight: 700, marginTop:10}} gutterBottom display="inline">
                 Preconditions
-            </Typography>
+            </Typography> 
             <Grid item xs={12}>
-              <MarkedResult id='preconreview' markdown={newtestCase.precondition}/>
+            <MarkedInput idOfInput="preconedit" handleChange={PreconChange} setTxt={newtestCase.precondition} />
             </Grid>
 
-            <Typography variant="subtitle1" style={{fontWeight: 600, marginTop: '2em', marginBottom: '1.5em'}} gutterBottom display="inline">
+            <Typography variant="subtitle1" style={{fontWeight: 700, marginTop:10}} gutterBottom display="inline">
                 Postconditions
             </Typography> 
             <Grid item xs={12}>
-              <MarkedResult id='postconreview' markdown={newtestCase.postcondition}/>
+              <MarkedInput idOfInput="postconedit" handleChange={PostconChange} setTxt={newtestCase.postcondition} />
             </Grid>
           </Grid>
         </Grid>
@@ -379,11 +415,18 @@ const TestCaseDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <DragList data = {listSteps} parentCallback={updateListStep} pressUpdateButton={pressUpdateButton} viewMode={true}/>
+          <DragList data = {listSteps} parentCallback={updateListStep} pressUpdateButton={pressUpdateButton}/>
         </Grid>
 
         <Grid item xs={12}>
           <Grid container justify ='flex-end' spacing={1}>
+            <Grid item>
+              <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon/>}  fullWidth onClick={handleUpdate}>Update
+              {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}} />}</Button>
+            </Grid>            
+            <Grid item>
+              <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleCancel}>Cancel</Button>
+            </Grid>
             <Grid item>
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
@@ -402,4 +445,4 @@ const TestCaseDetail = (props) => {
   )
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(TestCaseDetail));
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(EditTestCasePage));
