@@ -52,7 +52,7 @@ const TestCaseDetail = (props) => {
   const [testcase, setTestcase] = useState({
     testcaseName: '',
     description: '',
-    testsuite: props.match.params.testsuiteName,
+    testsuite: decodeURIComponent(props.match.params.testsuiteName),
     priority: 'medium',
     type: 'manual',
     precondition: '',

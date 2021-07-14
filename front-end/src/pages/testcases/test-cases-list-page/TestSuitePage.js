@@ -183,7 +183,7 @@ const TestSuiteDetail = (props) => {
   }
 
   const handleOpenTC = ()=>{
-    history.push(window.location.pathname+"/"+node.name+"/new-test-case");
+    history.push(window.location.pathname+"/"+encodeURIComponent(node.name)+"/new-test-case");
   }
 
   const handleChange = (prop) => (event) => {
