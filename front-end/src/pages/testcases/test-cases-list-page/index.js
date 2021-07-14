@@ -69,7 +69,6 @@ const TestCaseListPage = (props) => {
     const [openNewTS, setOpenTS] = useState(false);
 
     const [suiteNum, setSuiteNum] = useState(0);
-    const [count, setCount] = React.useState(0);
     const [search, setSearch] = useState({
       testcasename: '',
       testsuite: '',
@@ -84,6 +83,8 @@ const TestCaseListPage = (props) => {
 
 
     useEffect(()=>{
+      testcase.searchSuccess = null;
+      testcase.success = null;
       getAllTestcaseReq(project);
       getAllTestsuiteReq(project);
       getAllTestsuiteNoTreeReq(project);
@@ -91,8 +92,6 @@ const TestCaseListPage = (props) => {
 
     useEffect(()=>{
       setListTestCase(testcase.listTestcase);
-      if(count < 3)
-      setCount(count+1);
       if(listTestCase.length !== 0)
         setSuiteNum(listTestCase.children.length);
     },[testcase.listTestcase]);
@@ -218,13 +217,12 @@ const TestCaseListPage = (props) => {
                       </Grid>
                     </Grid>
 
-                  <Grid item xs={6}>
+                  <Grid item xs={6}>                  
                     <Button variant="contained" color="primary" onClick={handleSearchButton} fullWidth>Search</Button>
                     </Grid>
                   <Grid item xs={6}>
                     <Button variant="contained" color="default" disabled={enableCancelSearch ? false : true } onClick={handleSearchCancel} fullWidth>Clear</Button>
-                  </Grid>
-
+                  </Grid>                  
                   <Grid item xs={12} style={{marginTop: '5vh'}}>
                     <Grid container spacing={3}>
                       <Grid item xs={12}>                 
@@ -235,7 +233,7 @@ const TestCaseListPage = (props) => {
                               <Typography variant="h5" display="inline"> fill means assigned</Typography>
                               <Typography variant="h5" display="outline">Number ( , , ,) means (Filter,Total,Unassigned)</Typography>
                               </div>}><InfoIcon style={{fontSize:22, marginLeft: 7}}/></Tooltip>
-                            {count < 2 && <LinearProgress/>}
+                            {(testcase.success === "" || testcase.searchSuccess === "") && <LinearProgress/>}
                       <Divider />
                     </Grid>
                       <Grid item xs={12}><TreeView data={listTestCase} setSelectNode={setSelectNode}/></Grid>

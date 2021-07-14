@@ -1,6 +1,8 @@
 import * as types from './constants';
 
 var initialState = {
+  success: null,
+  searchSuccess: null,
   error: "",
   errorMsg:"",
   insTestcase: {
@@ -46,25 +48,25 @@ const reducer = (state = initialState, actions) => {
   switch (actions.type) {
     case types.GET_ALL_TESTCASE_REQ:
       return {
-        ...state,
+        ...state, success: ""
       };
 
     case types.GET_ALL_TESTCASE_SUCESS:
         return {
-          ...state,
+          ...state, success: true,
           listTestcase: payload            
         };
 
     case types.GET_ALL_TESTCASE_FAILED:
       return {
-        ...state,
+        ...state, success: null,
         error: true,
         errorMsg: payload,
       };
 
     case types.ADD_TEST_SUITE_REQ:
       return {
-        ...state,
+        ...state, 
       };
 
     case types.ADD_TEST_SUITE_SUCCESS:
@@ -388,20 +390,20 @@ const reducer = (state = initialState, actions) => {
 
     case types.SEARCH_TESTCASE_REQ:{
       return {
-        ...state,
+        ...state, searchSuccess: ""
       };
     }
 
     case types.SEARCH_TESTCASE_SUCCESS:{
       return {
-        ...state,
+        ...state, searchSuccess: true,
         listTestcase: payload            
       };
     }
 
     case types.SEARCH_TESTCASE_FAILED:{
       return {
-        ...state,
+        ...state, searchSuccess: null,
         error: true,
         errorMsg: payload,
       };
