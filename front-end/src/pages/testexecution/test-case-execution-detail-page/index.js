@@ -206,7 +206,7 @@ const TestCaseExecDetail = (props) => {
         <Grid item xs={12}>
           <Grid container spacing={3}>
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name"  variant="outlined"  value={testCaseDetail.testcaseName} fullWidth required/></Grid>
-            <Grid item xs={12}><TextField id="description" label="Description"  variant="outlined"  value = {testCaseDetail.description} fullWidth required/></Grid>
+            <Grid item xs={12}><TextField id="description" label="Description"  variant="outlined"  value = {testCaseDetail.description} fullWidth required multiline rows={3}/></Grid>
             <Grid item xs={6}><TextField id="testSuite" label="Test Suite"  variant="outlined" value = {testCaseDetail.testsuite} fullWidth required/></Grid>
                 <Grid item xs={6}>
                   <TextField id="important" label="Importance"  variant="outlined" value={testCaseDetail.priority} fullWidth required/>
