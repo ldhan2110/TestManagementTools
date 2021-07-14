@@ -71,9 +71,9 @@ const InsertImage = (props) => {
         setUploadedImg("");
         setError("");
         setLoadProgress(0);
-        setLoadEnable(true);    
         const files = imageSelected;
         if(files[0] !== undefined){
+            setLoadEnable(true); 
             const data = new FormData();
             data.append('file', files[0]);
             data.append('upload_preset', 'testcontrol');
