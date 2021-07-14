@@ -10,6 +10,7 @@ import {GET_ALL_TESTCASE_REQ, GET_ALL_TESTSUITE_REQ, GET_ALL_TESTSUITE_NO_TREE_R
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import { red } from '@material-ui/core/colors';
+
 import NewTestSuitePopup from '../new-test-suite-page/index';
 import {
   Grid,
@@ -221,7 +222,7 @@ const TestCaseListPage = (props) => {
                     <Button variant="contained" color="primary" onClick={handleSearchButton} fullWidth>Search</Button>
                     </Grid>
                   <Grid item xs={6}>
-                    <Button variant="contained" color="default" disabled={enableCancelSearch ? false : true } onClick={handleSearchCancel} fullWidth>Cancel</Button>
+                    <Button variant="contained" color="default" disabled={enableCancelSearch ? false : true } onClick={handleSearchCancel} fullWidth>Clear</Button>
                   </Grid>
 
                   <Grid item xs={12} style={{marginTop: '5vh'}}>
@@ -232,6 +233,7 @@ const TestCaseListPage = (props) => {
                             placement="right-start"
                             title={<div><Typography variant="h5" gutterBottom display="inline" style={{color: red[400]}}> Red </Typography>  
                               <Typography variant="h5" display="inline"> fill means assigned</Typography>
+                              <Typography variant="h5" display="outline">Number ( , , ,) means (Filter,Total,Unassigned)</Typography>
                               </div>}><InfoIcon style={{fontSize:22, marginLeft: 7}}/></Tooltip>
                             {count < 2 && <LinearProgress/>}
                       <Divider />
