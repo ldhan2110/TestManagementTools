@@ -194,7 +194,7 @@ const NewTestPlanPage = (props) => {
 
           
 
-          <Grid container fullWidth>
+          {/*<Grid container fullWidth>
           <FormControl variant="outlined" fullWidth>
            <InputLabel id="demo-simple-select-outlined-label">Create from existing test plan ?</InputLabel>
             <Select
@@ -207,7 +207,7 @@ const NewTestPlanPage = (props) => {
           {existTestplans.map((item, index) => <MenuItem key={index} value={item.testplanname}>{item.testplanname}</MenuItem>)}    
            </Select>
           </FormControl>       
-          </Grid>
+          </Grid>*/}
 
           <div>
              <FormControlLabel
