@@ -298,7 +298,7 @@ const TestExecutionDetailPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
           <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required onChange={handleChange('testexecutionname')} value={testExecInfo.testexecutionname}/>
-          <FormControl variant="outlined" fullWidth required>   
+          <FormControl variant="outlined" fullWidth required inputProps={{maxLength : 100}}>   
           <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
           <Select
           labelId="testPlan"

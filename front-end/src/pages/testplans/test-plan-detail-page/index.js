@@ -233,7 +233,7 @@ const TestPlanDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="testPlanName" label="Test Plan Name" variant="outlined"  fullWidth required
+          <TextField id="testPlanName" label="Test Plan Name" variant="outlined"  fullWidth required inputProps={{maxLength : 100}}
           value={testplanInfor.testplanname || ''} onChange={handleChange('testplanname')}
           error={testplanInfor.testplanname.trim().length === 0 && error.testplanname.trim().length === 0 ? true : false}
           helperText={testplanInfor.testplanname.trim().length === 0 && error.testplanname.trim().length === 0 ? 'Test Plan Name is required' : ' '}/>           

@@ -181,7 +181,7 @@ const NewRequirementPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="RequirementName" label="Requirement Name" variant="outlined" fullWidth required inputProps={{maxLength : 16}}
+          <TextField id="RequirementName" label="Requirement Name" variant="outlined" fullWidth required inputProps={{maxLength : 100}}
           value={requirementsInfo.projectrequirementname || ''} onChange={handleChange('projectrequirementname')}  
           error={requirementsInfo.projectrequirementname.trim().length === 0 && error.projectrequirementname.trim().length === 0 ? true : false}
           helperText={requirementsInfo.projectrequirementname.trim().length === 0 && error.projectrequirementname.trim().length === 0 ? 'Requirement Name is required' : ' '}/>

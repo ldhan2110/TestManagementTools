@@ -277,7 +277,7 @@ const TestCaseDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  fullWidth required 
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  fullWidth required inputProps={{maxLength : 100}}
             defaultValue={newtestCase.testcasename || ''}
             InputProps={{
               readOnly: true,
@@ -285,7 +285,7 @@ const TestCaseDetail = (props) => {
             style={{marginTop: '1.5em'}}
             /></Grid>
 
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth required 
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth required multiline rows={3} 
             defaultValue={newtestCase.description || ''}            
             InputProps={{
               readOnly: true,

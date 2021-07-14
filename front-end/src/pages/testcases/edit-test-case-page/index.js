@@ -317,7 +317,7 @@ const EditTestCasePage = (props) => {
             </Grid>
 
             <Grid item xs={12}>
-              <TextField id="description" label="Description" variant="outlined" fullWidth required 
+              <TextField id="description" label="Description" variant="outlined" fullWidth required multiline rows={3} 
                 onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
                 error={!newtestCase.description && !error.description ? true : false}
                 helperText={!newtestCase.description &&

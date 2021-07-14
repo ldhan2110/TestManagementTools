@@ -214,18 +214,7 @@ const DetailRequirementPage = (props) => {
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
             Requirement Detail - {props.history.location.state.projectrequirementname}
-            {/* {props.match.params.testPlanName} */}
           </Typography>
-        
-          {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Invoices</Typography>
-          </Breadcrumbs> */}
         </Grid>
         <Grid item>
         <div>
@@ -253,7 +242,7 @@ const DetailRequirementPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="requirementName" label="Requirement Name" variant="outlined"  fullWidth required
+          <TextField id="requirementName" label="Requirement Name" variant="outlined"  fullWidth required inputProps={{maxLength : 100}}
           value={requirementsInfor.projectrequirementname || ''} onChange={handleChange('projectrequirementname')}
           error={requirementsInfor.projectrequirementname.trim().length === 0 && error.projectrequirementname.trim().length === 0 ? true : false}
           helperText={requirementsInfor.projectrequirementname.trim().length === 0 && error.projectrequirementname.trim().length === 0 ? 'Test Plan Name is required' : ' '}/>           

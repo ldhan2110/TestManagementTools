@@ -336,12 +336,12 @@ const TestSuiteDetail = (props) => {
         <Grid item xs={12}>
           <Grid container spacing={3}>
             <Grid item xs={12}><TextField id="testSuiteName" label="Test Suite Name" variant="outlined" 
-              onChange={handleChange('name')} value={testSuite.name || ''} fullWidth required
+              onChange={handleChange('name')} value={testSuite.name || ''} fullWidth required inputProps={{maxLength : 100}}
               error={testSuite.name.trim().length === 0 && error.name.trim().length === 0 ? true : false}
               helperText={testSuite.name.trim().length === 0 && error.name.trim().length === 0 ? 'testsuite name is required' : ' '} /></Grid>
           
 
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" 
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" multiline rows={3} 
               onChange={handleChange('description')} fullWidth required value={testSuite.description || ''}
               error={testSuite.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
               helperText={testSuite.description.trim().length === 0 && error.description.trim().length === 0 ? 'description is required' : ' '}/></Grid>
@@ -366,7 +366,7 @@ const TestSuiteDetail = (props) => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} style={{marginTop: '17vh'}}>
+        <Grid item xs={12} style={{marginTop: '2vh'}}>
             <Grid container spacing={1}>
               <Grid item xs={4}>
                 <Typography variant="h6" gutterBottom display="inline">Test cases & Test suites of {testSuite.name}</Typography>

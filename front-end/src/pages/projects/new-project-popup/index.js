@@ -154,7 +154,7 @@ const NewProjectPopup = (props) => {
           </Toolbar>
         </AppBar>
         <form className={classes.content}>
-          <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required  
+          <TextField id="projectName" label="Project Name" variant="outlined"  fullWidth required inputProps={{maxLength : 100}} 
           value={projectInfo.projectname || ''} onChange={handleChange('projectname')} 
           error={checkError && projectInfo.projectname.trim().length === 0 && error.projectname.trim().length === 0 ? true : false}
           helperText={checkError && projectInfo.projectname.trim().length === 0 && error.projectname.trim().length === 0 ? 'Project Name is required' : ' '}/>

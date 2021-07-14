@@ -222,7 +222,7 @@ const NewBuildPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="buildName" label="Build Name" variant="outlined" fullWidth required 
+          <TextField id="buildName" label="Build Name" variant="outlined" fullWidth required inputProps={{maxLength : 100}}
           value={buildInfo.buildname || ''} onChange={handleChange('buildname')}
           error={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? true : false}
           helperText={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? 'Build Name is required' : null}/>
@@ -301,7 +301,7 @@ const NewBuildPage = (props) => {
           </Grid>
 
                 <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline 
-                rows={2} value={buildInfo.description || ''} onChange={handleChange('description')}
+                rows={3} value={buildInfo.description || ''} onChange={handleChange('description')}
                 error={buildInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
                 helperText={buildInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : null}/>
 
