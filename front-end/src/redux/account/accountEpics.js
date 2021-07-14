@@ -44,7 +44,7 @@ export  const loginReqEpic = (action$, state$) => action$.pipe(
       map(response => {
         const {data} = response;
         const {token} = data.result;
-        localStorage.setItem("token",token);
+       
         if (data.success) {
           return ({
             type: actions.REGISTER_SUCCESS,
