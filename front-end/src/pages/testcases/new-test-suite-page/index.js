@@ -11,7 +11,7 @@ import {
   Button,
   Grid
 } from '@material-ui/core'
-import {GET_ALL_TESTCASE_REQ, ADD_TEST_SUITE_REQ, RESET_ADD_TEST_SUITE} from '../../../redux/test-case/constants';
+import {GET_ALL_TESTCASE_REQ, ADD_TEST_SUITE_REQ, RESET_ADD_TEST_SUITE, GET_ALL_TESTSUITE_REQ} from '../../../redux/test-case/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -19,7 +19,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
-    insTestsuiteCreate: state.testcase.insTestsuiteCreate
+    insTestsuiteCreate: state.testcase.insTestsuiteCreate,
+    project: state.project.currentSelectedProject
    }
 }
 
@@ -28,6 +29,7 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
+    getAllTestsuiteReq: (payload) => dispatch({type: GET_ALL_TESTSUITE_REQ,payload}),
     addTestsuiteReq: (payload) => dispatch({type: ADD_TEST_SUITE_REQ, payload}),
     resetAddRedux: () => dispatch({type: RESET_ADD_TEST_SUITE})
   }
@@ -37,7 +39,7 @@ const mapDispatchToProps = dispatch => {
 const NewTestSuitePopup = (props) => {
     const {isOpen, setOpen, selected} = props;  
     const [open, setOpenPopup] = React.useState(isOpen);
-    const{displayMsg, getAllTestcaseReq, addTestsuiteReq, resetAddRedux, insTestsuiteCreate} = props;
+    const{displayMsg, getAllTestcaseReq, addTestsuiteReq, resetAddRedux, getAllTestsuiteReq, project, insTestsuiteCreate} = props;
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
       testsuitename: 'ss',
@@ -81,6 +83,7 @@ const NewTestSuitePopup = (props) => {
         content: "Create test suite successfully!",
         type: 'success'
       });
+      getAllTestsuiteReq(project);
       setEnableCreateBtn(true);
       setLoading(false);
       handleClose();
