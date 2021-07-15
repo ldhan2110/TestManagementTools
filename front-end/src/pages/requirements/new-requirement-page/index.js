@@ -128,7 +128,7 @@ const NewRequirementPage = (props) => {
         ||requirementsInfo.description.trim().length !== requirementsInfo.description.length 
         || requirementsInfo.projectrequirementname.trim().length !== requirementsInfo.projectrequirementname.length){
         displayMsg({
-          content: "Requirement Name or Description should not contain spaces !",
+          content: "Requirement Name or Description should not contain spaces before and after !",
           type: 'error'
         });
     }

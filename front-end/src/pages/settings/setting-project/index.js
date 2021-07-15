@@ -170,7 +170,7 @@ const SettingProjectPage = (props) => {
         ||projectInfo.description.trim().length !== projectInfo.description.length 
         || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
         displayMsg({
-          content: "Project Name or Description should not contain spaces !",
+          content: "Project Name or Description should not contain spaces before and after !",
           type: 'error'
         });
     }

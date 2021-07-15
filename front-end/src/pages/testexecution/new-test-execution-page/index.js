@@ -218,7 +218,7 @@ const NewTestExecutionPage = (props) => {
         ||testExecInfo.description.trim().length !== testExecInfo.description.length 
         || testExecInfo.testexecutionname.trim().length !== testExecInfo.testexecutionname.length){
         displayMsg({
-          content: "Test Execution Name or Description should not contain spaces !",
+          content: "Test Execution Name or Description should not contain spaces before and after !",
           type: 'error'
         }); 
       }

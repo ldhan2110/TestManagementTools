@@ -182,7 +182,7 @@ const DetailMileStonePage = (props) => {
         ||milestoneInfo.description.trim().length !== milestoneInfo.description.length 
         || milestoneInfo.milestonetitle.trim().length !== milestoneInfo.milestonetitle.length){
         displayMsg({
-          content: "Milestone Name or Description should not contain spaces !",
+          content: "Milestone Name or Description should not contain spaces before and after !",
           type: 'error'
         });
     }

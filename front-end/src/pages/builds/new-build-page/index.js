@@ -159,12 +159,12 @@ const NewBuildPage = (props) => {
     ||buildInfo.description.trim().length !== buildInfo.description.length 
     || buildInfo.buildname.trim().length !== buildInfo.buildname.length){
       displayMsg({
-        content: "Build Name or Description should not contain spaces !",
+        content: "Build Name or Description should not contain spaces before and after !",
         type: 'error'
       });
     }
 
-    if(buildInfo.testplan === ""){
+    else if(buildInfo.testplan === ""){
       displayMsg({
         content: "Test Plan is required !",
         type: 'error'
@@ -225,7 +225,7 @@ const NewBuildPage = (props) => {
           <TextField id="buildName" label="Build Name" variant="outlined" fullWidth required inputProps={{maxLength : 100}}
           value={buildInfo.buildname || ''} onChange={handleChange('buildname')}
           error={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? true : false}
-          helperText={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? 'Build Name is required' : null}/>
+          helperText={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? 'Build Name is required' : ' '}/>
 
           <FormControl variant="outlined"  fullWidth required>
                               <InputLabel id="testPlan">Test Plan</InputLabel>
@@ -303,7 +303,7 @@ const NewBuildPage = (props) => {
                 <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline 
                 rows={3} value={buildInfo.description || ''} onChange={handleChange('description')}
                 error={buildInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-                helperText={buildInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : null}/>
+                helperText={buildInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
 
                    
           <div className = {classes.btnGroup}>

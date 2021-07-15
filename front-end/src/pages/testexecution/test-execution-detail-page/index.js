@@ -105,6 +105,7 @@ const TestExecutionDetailPage = (props) => {
       return  listTestExec.find((item) => item._id === id);
     }
 
+    const [checkError, setCheckError] = useState(false);
 
     const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
 
@@ -136,6 +137,11 @@ const TestExecutionDetailPage = (props) => {
       });
       return result;
     };
+
+    const [error, setError] = useState({
+      testexecutionname: 'ss',
+      description: 'ss',
+    });
 
 
 
@@ -245,12 +251,34 @@ const TestExecutionDetailPage = (props) => {
       else if (prop !== 'status') {
         setTestExecInfo({...testExecInfo, [prop]: event.target.value});
       }
+
+      if(checkError === true)
+      setError({ ...error, [prop]: event.target.value });
     };
 
     const handleSave = (prop) => {
+      setCheckError(true);
+
+      if(testExecInfo.description === "")
+        setError({ ...testExecInfo, description: "" });
+
+      if(testExecInfo.testexecutionname === "")
+        setError({ ...testExecInfo, testexecutionname: "" });
+
+      if(testExecInfo.description.trim().length === 0 || testExecInfo.testexecutionname.trim().length === 0
+        ||testExecInfo.description.trim().length !== testExecInfo.description.length 
+        || testExecInfo.testexecutionname.trim().length !== testExecInfo.testexecutionname.length){
+        displayMsg({
+          content: "Test Execution Name or Description should not contain spaces before and after !",
+          type: 'error'
+        }); 
+      }
+
+      else if(testExecInfo.testexecutionname !== "" && testExecInfo.description !== ""){
       setEnableCreateBtn(false);
       setLoading(true);
       updateTestExecReq(testExecInfo);
+      }
     }
 
     const handleOpenSelectTC = () => {
@@ -297,7 +325,10 @@ const TestExecutionDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required inputProps={{maxLength : 100}} onChange={handleChange('testexecutionname')} value={testExecInfo.testexecutionname}/>
+          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required inputProps={{maxLength : 100}} onChange={handleChange('testexecutionname')} value={testExecInfo.testexecutionname}
+          error={testExecInfo.testexecutionname.trim().length === 0  && error.testexecutionname.trim().length === 0  ? true : false}
+          helperText={testExecInfo.testexecutionname.trim().length === 0 && error.testexecutionname.trim().length === 0 ? 'Test Execution Name is required' : ' '}/>
+          
           <FormControl variant="outlined" fullWidth required inputProps={{maxLength : 100}}>   
           <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
           <Select
@@ -349,6 +380,7 @@ const TestExecutionDetailPage = (props) => {
               control={<Checkbox color="primary" required  checked={testExecInfo.is_public}/>}
               label="Public"
               labelPlacement="start"
+              disabled
             />
           </div>
           <div>
@@ -358,16 +390,20 @@ const TestExecutionDetailPage = (props) => {
               control={<Checkbox color="primary" required  checked={testExecInfo.is_active}/>}
               label="Active"
               labelPlacement="start"
+              disabled
             />
           </div>
-          <TextField id="descriptions" label="Description" variant="outlined" onChange={handleChange('description')} fullWidth required  multiline rows={3} value={testExecInfo.description}/>                
-
+          <TextField id="descriptions" label="Description" variant="outlined" onChange={handleChange('description')} fullWidth required  multiline rows={3} value={testExecInfo.description}
+          error={testExecInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+          helperText={testExecInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/> 
+                      
           <FormControl variant="outlined" className={classes.formControl} fullWidth >
               <InputLabel id="status">Status</InputLabel>
                   <Select
                     labelId="status"
                     id="status"
                     value={testExecInfo.status}
+                    disabled
                     label="status">
                         <MenuItem value={'Untest'}>Untest</MenuItem>
                         <MenuItem value={"Pass"}>Pass</MenuItem>

@@ -131,7 +131,7 @@ const TestCaseDetail = (props) => {
         ||testcase.description.trim().length !== testcase.description.length 
         || testcase.testcaseName.trim().length !== testcase.testcaseName.length){
         displayMsg({
-          content: "Test Case Name or Description should not contain spaces !",
+          content: "Test Case Name or Description should not contain spaces before and after !",
           type: 'error'
         });
     }

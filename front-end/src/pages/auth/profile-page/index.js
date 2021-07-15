@@ -91,7 +91,7 @@ const ProfilePage = (props)=>{
 
     if(profileInfo.fullname.trim().length === 0 ||profileInfo.fullname.trim().length !== profileInfo.fullname.length ){
       displayMsg({
-        content: "Fullname should not contain spaces !",
+        content: "Fullname should not contain spaces before and after !",
         type: 'error'
       });
     }

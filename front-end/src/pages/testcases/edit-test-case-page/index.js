@@ -221,7 +221,7 @@ const EditTestCasePage = (props) => {
         ||newtestCase.description.trim().length !== newtestCase.description.length 
         || newtestCase.testcasename.trim().length !== newtestCase.testcasename.length){
         displayMsg({
-          content: "testcase name or description should not contain spaces or empty",
+          content: "Testcase name or Description should not contain spaces before and after !",
           type: 'error'
         });
     }
@@ -312,7 +312,7 @@ const EditTestCasePage = (props) => {
                 error={newtestCase.testcasename.trim().length === 0 && 
                 error.testcasename.trim().length === 0 ? true : false}
                 helperText={newtestCase.testcasename.trim().length === 0 && 
-                error.testcasename.trim().length === 0 ? 'testcase name is required' : ' '}
+                error.testcasename.trim().length === 0 ? 'Testcase name is required' : ' '}
               />
             </Grid>
 
@@ -321,7 +321,7 @@ const EditTestCasePage = (props) => {
                 onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
                 error={!newtestCase.description && !error.description ? true : false}
                 helperText={!newtestCase.description &&
-                 !error.description ? 'description is required' : ' '}
+                 !error.description ? 'Description is required' : ' '}
               />
             </Grid>
             <Grid item xs={12}>

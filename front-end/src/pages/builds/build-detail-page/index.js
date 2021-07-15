@@ -170,7 +170,7 @@ const BuildDetailPage = (props) => {
             ||buildInfor.description.trim().length !== buildInfor.description.length 
             || buildInfor.buildname.trim().length !== buildInfor.buildname.length){
             displayMsg({
-              content: "Build Name or Description should not contain spaces !",
+              content: "Build Name or Description should not contain spaces before and after !",
               type: 'error'
             });
         }
