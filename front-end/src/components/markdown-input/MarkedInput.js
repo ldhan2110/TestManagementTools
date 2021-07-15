@@ -25,7 +25,8 @@ const MarkedInput = (props) => {
     const [openInsertImage, setOpenInsertImage] = useState(false);
     const [text, setText] = useState(setTxt ? setTxt : '');
 
-    useEffect(() => {handleChange(text)},[text])
+    useEffect(() => {if(setTxt !== undefined || setTxt !== null) setText(setTxt);},[setTxt])
+    useEffect(() => {handleChange(text);},[text])
 
     const insertImage = (img) => {
         if (editorRef.current && (img !== "")) {
@@ -67,7 +68,7 @@ const MarkedInput = (props) => {
         </Grid>
 
         <Editor ref={editorRef} id={idOfInput} value={text}
-        style={{ minHeight: '150px', height: '200px', overflowY:'auto', overflowX: 'hidden', resize:'vertical' }} 
+        style={{ minHeight: '150px', height: '180px', overflowY:'auto', overflowX: 'hidden', resize:'vertical' }} 
         onChange={(text) => {setText(text.text);}} 
         renderHTML={(text) => <ReactMarkdown className="react-mark-down-line-break" remarkPlugins={[[gfm]]} children={text} components={components}/>}
         plugins={(idOfInput === 'expectedResult' || idOfInput.includes("definition") === true) ? pluginsSteps : plugins}

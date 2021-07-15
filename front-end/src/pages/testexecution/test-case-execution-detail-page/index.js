@@ -26,6 +26,8 @@ import {
 } from "@material-ui/icons";
 import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 import { EXECUTE_TEST_CASE_REQ, GET_ALL_TESTEXEC_REQ, SELECT_TEST_CASE_REQ, RESET_EXECUTE_TEST_CASE } from "../../../redux/test-execution/constants";
+import MarkedInput from "../../../components/markdown-input/MarkedInput";
+import MarkedResult from "../../../components/markdown-input/MarkedResult";
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
@@ -63,8 +65,6 @@ const TestCaseExecDetail = (props) => {
     });
     return subItem;
   }
-
-
   
 
   const getIdxTestCase = (testcaseId) => {
@@ -214,8 +214,22 @@ const TestCaseExecDetail = (props) => {
                 
   <Grid item xs={12}>
               <Grid container spacing={3}>
-                <Grid item xs={6}><TextField id="preCondition" label="Pre-condition" variant="outlined" value = {testCaseDetail.precondition} fullWidth multiline rows={2.5} rowsMax={3}/></Grid>
-                <Grid item xs={6}><TextField id="postCondition" label="Post-condition"  variant="outlined" value = {testCaseDetail.postcondition} fullWidth multiline rows={2.5} rowsMax={3}/></Grid>
+                <Grid item xs={6}>
+                  <Typography variant="subtitle2" gutterBottom display="inline" >
+                    Preconditions
+                  </Typography>
+                  <MarkedResult id="preCondition" markdown={testCaseDetail.precondition} />
+                  {/* <TextField id="preCondition" label="Pre-condition" variant="outlined" 
+                  value = {testCaseDetail.precondition} fullWidth multiline rows={2.5} rowsMax={3}/> */}
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="subtitle2" gutterBottom display="inline" >
+                    Postconditions
+                  </Typography>
+                  <MarkedResult id="postCondition" markdown={testCaseDetail.postcondition} />
+                  {/* <TextField id="postCondition" label="Post-condition"  variant="outlined" 
+                  value = {testCaseDetail.postcondition} fullWidth multiline rows={2.5} rowsMax={3}/> */}
+                </Grid>
               </Grid>
               
             </Grid>
@@ -231,14 +245,43 @@ const TestCaseExecDetail = (props) => {
 
         <Grid item xs={12}>
           <List style={{maxHeight: '100%', overflow: 'auto'}}>
-            {testCaseDetail.listStep.map((item) => (
+            {testCaseDetail.listStep.map((item, index) => (
                     <ListItem key={item.id}>
                       <Grid container spacing={1}>
-                        <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
-                        <Grid item xs={3}><TextField id="definition" variant="outlined" label='Definition' value={item.stepDefine} required  fullWidth multiline rows={4}/></Grid>
-                        <Grid item xs={3}><TextField id="expectResult"  variant="outlined" label='Expected Result' required value={item.expectResult}  multiline fullWidth rows={4}/></Grid>
-                        <Grid item xs={3}><TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} multiline fullWidth rows={4}/></Grid>
-                        <Grid item xs={2}><FormControl variant="outlined" fullWidth>
+                        <Grid item style={{margin: 'auto 0'}}><div style={{marginLeft:'-10px', marginRight: 5}}>{index+1}</div></Grid>
+                        <Grid item xs={3} style={{marginTop: '12px'}}>
+                          <Typography variant="subtitle2" gutterBottom display="inline" >
+                            Definition
+                          </Typography>
+                          <MarkedResult id="definition" height={180} markdown={item.stepDefine} />
+                          {/* <TextField id="definition" variant="outlined" label='Definition' 
+                          value={item.stepDefine} required  fullWidth multiline rows={4}/> */}
+                        </Grid>
+                        <Grid item xs={3} style={{marginTop: '12px'}}>
+                          <Typography variant="subtitle2" gutterBottom display="inline" >
+                            Expected Result
+                          </Typography>
+                          <MarkedResult id="expectResult" height={180} markdown={item.expectResult} />
+                         {/*  <TextField id="expectResult"  variant="outlined" label='Expected Result' required 
+                          value={item.expectResult}  multiline fullWidth rows={4}/> */}
+                        </Grid>
+                        <Grid item xs>
+                        {viewMode ? 
+                        <div style={{marginTop: '12px'}}>
+                          <Typography variant="subtitle2" gutterBottom display="inline" >
+                            Execution notes
+                          </Typography>
+                          <MarkedResult id="expectResult" height={180} markdown={item.note} />
+                        </div>                        
+                        :
+                          <MarkedInput idOfInput={"definition-execNote"+item._id} setTxt={item.note} title="Execution notes"
+                            handleChange={(text)=>{filterUpdateStep(item._id, "note", text)}}
+                          />}
+                          {/* <TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} 
+                          onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} 
+                          multiline fullWidth rows={4}/> */}
+                        </Grid>
+                        <Grid item xs={2} style={{marginTop: '34px'}}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="status">Result</InputLabel>
                                 <Select
                                   labelId="status"
