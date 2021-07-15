@@ -163,7 +163,7 @@ const LoginPage = (props) => {
     <MessagePopup open={openMsg} openMethod={setOpenMsg} type="E" content="Invalid Messaged"/>
     <RegisterPage isOpen = {isOpenRegister} setOpenState = {openRegister}/>
         <Grid container>
-        <Grid item xs={7} style={{backgroundColor: 'red', height: '100vh'}}>
+        <Grid item xs={7} style={{backgroundColor: 'white', height: '100vh'}}>
           <img className={classes.banner} src = "/img/logo-banner.png" alt= "banner"/>
         </Grid>
         <Grid item xs={5}>
