@@ -244,7 +244,7 @@ const BuildDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Build Detail - {props.history.location.state.buildname}
+            Build Detail {/*- {props.history.location.state.buildname}*/}
           </Typography>
 
         </Grid>

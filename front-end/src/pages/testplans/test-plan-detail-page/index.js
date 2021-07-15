@@ -202,7 +202,7 @@ const TestPlanDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Test Plan Detail - {props.history.location.state.testplanname}
+            Test Plan Detail {/*- {props.history.location.state.testplanname}*/}
           </Typography>
         
           

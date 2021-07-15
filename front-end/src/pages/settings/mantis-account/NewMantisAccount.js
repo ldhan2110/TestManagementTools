@@ -159,7 +159,7 @@ const CreateNewMantisAccountDialog = (props) => {
         <DialogContent dividers>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <TextField id="username" label="Username" variant="outlined"  fullWidth required
+              <TextField id="username" label="Mantis Username" variant="outlined"  fullWidth required
                 value={userInfo.username || ''} onChange={handleChange('username')}
                 error={userInfo.username.trim().length === 0 && error.username.trim().length === 0 ? true : false}
                 helperText={userInfo.username.trim().length === 0 && error.username.trim().length === 0 ? 'Username is required' : null} />
