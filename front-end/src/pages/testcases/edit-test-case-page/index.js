@@ -286,9 +286,9 @@ const EditTestCasePage = (props) => {
     <React.Fragment>
       <Grid container spacing={3} >
         <Grid item xs={12}>
-        <Grid container justify='space-between'>
-          <Grid item xs={8}>
-            <Typography variant="h4" gutterBottom display="inline">
+        <Grid container justify='space-between' wrap="nowrap">
+          <Grid item xs zeroMinWidth>
+            <Typography variant="h5" noWrap style={{marginTop: 6}}>
                Edit Test Case - {originalName}
             </Typography> 
           </Grid>

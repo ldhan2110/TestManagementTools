@@ -245,18 +245,39 @@ const TestCaseDetail = (props) => {
     setListSteps(Data);
   };
 
+  const [disableHoverTooltip, setDisableHoverTooltip] = useState(false);
+  useEffect(()=>{isEllipsisActive()},[newtestCase.testcasename])
+
+  function isEllipsisActive() {
+    var offsetWidthContainer = document.getElementById('gridtclist-name').offsetWidth;
+    
+    var offsetWidth = document.getElementById('gridtclist-typography').offsetWidth;
+    //not long enough
+    if(offsetWidth < (offsetWidthContainer*0.7))
+      setDisableHoverTooltip(true);
+    // long enough
+    else{
+      setDisableHoverTooltip(false);
+    }
+  }
+
   return(
     <React.Fragment>
       <Grid container spacing={3} >
-        <Grid item xs={12}>
-        <Grid container spacing={1} justify ='space-between'>
-          <Grid item xs={6}>
-            <Typography variant="h5" gutterBottom display="inline">
+        <Grid item xs={12} >
+          <div style={{maxWidth: '100%'}} id="gridtclist-name" >
+        <Grid container spacing={1} wrap="nowrap" direction="row" justify ='space-between'>
+          <Grid item zeroMinWidth>
+            <Tooltip title={<div style={{fontSize:15, lineHeight:'1.4rem'}}>{newtestCase.testcasename}</div>} 
+            arrow interactive enterDelay={500} leaveTouchDelay={2000} disableHoverListener={disableHoverTooltip}
+             >
+            <Typography variant="h5" noWrap style={{marginTop: 15}} id="gridtclist-typography">
                 Test Case Detail - {newtestCase.testcasename}
             </Typography> 
+            </Tooltip>
           </Grid>
-          <Grid item xs={6}>
-            <Grid container spacing={1} justify ='flex-end' alignItems="center">
+          <Grid item xs={3}>
+            <Grid container spacing={1} justify ='flex-end' alignItems="flex-start">
             <Grid item>
               <ExportExcel dataSet={newtestCase} type='TC'/>
             </Grid>
@@ -270,7 +291,7 @@ const TestCaseDetail = (props) => {
           </Grid>
           </Grid>
     
-        </Grid>
+        </Grid></div>
         </Grid>
         <Divider/>
         

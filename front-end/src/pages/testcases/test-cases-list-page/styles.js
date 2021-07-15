@@ -8,7 +8,7 @@ const styles = {
     },
     formControl: {
         minWidth: 120,
-        maxWidth: 300,
+        // maxWidth: 300,
       },
       chips: {
         display: 'flex',
@@ -18,7 +18,15 @@ const styles = {
         margin: 2,
       },
     contentContainer: {
-      
+
+    },
+
+    filterAndTCtree: {
+      maxWidth: '25%'
+    },
+
+    tcDetails: {
+      maxWidth: '74%'
     },
 
     tooltip:{
