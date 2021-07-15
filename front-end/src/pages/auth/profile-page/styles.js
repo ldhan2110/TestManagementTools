@@ -25,7 +25,7 @@ const styles = {
   },
 
   content:{
-    marginTop: "5vh"
+    marginTop: "1.5vh"
   },
 
   formContent:{
