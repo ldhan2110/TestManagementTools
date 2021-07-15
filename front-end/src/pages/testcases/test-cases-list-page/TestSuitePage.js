@@ -139,7 +139,7 @@ const TestSuiteDetail = (props) => {
     if (insTestsuite.sucess === false){
       setLoading(false);
       displayMsg({
-        content: "Test Suite name already exists in this project !",
+        content: insTestsuite.errMsg,
         type: 'error'
       });
       setEnableCreateBtn(true);

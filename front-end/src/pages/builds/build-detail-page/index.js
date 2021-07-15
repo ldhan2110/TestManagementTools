@@ -110,7 +110,7 @@ const BuildDetailPage = (props) => {
       useEffect(()=>{
         if (insBuilds.sucess === false){
           displayMsg({
-            content: "Build name already exists in this test plan !" ,
+            content: insBuilds.errMsg ,
             type: 'error'
           });
           setEnableCreateBtn(true);

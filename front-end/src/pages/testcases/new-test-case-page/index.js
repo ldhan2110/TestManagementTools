@@ -71,7 +71,7 @@ const TestCaseDetail = (props) => {
   useEffect(()=>{
     if (insTestcase.sucess === false){
       displayMsg({
-        content: "Test Case name already exists in this project !",
+        content: insTestcase.errMsg,
         type: 'error'
       });
       setEnableCreateBtn(true);

@@ -84,17 +84,6 @@ const ResetPassword = (props) => {
         setLoading(false);
         resetAddRedux();
           } 
-        
-        else if (isConfirmPassword.sucess === true && values.password.trim().length === 0  && values.confirmPassword.trim().length === 0) {
-          setLoading(false);
-          displayMsg({
-            content: "Password should not contain spaces !",
-            type: 'error'
-          });
-          setEnableCreateBtn(true);
-          setLoading(false);
-          resetAddRedux();
-          } 
           
         else if (isConfirmPassword.sucess  === true) {
         setLoading(false);
