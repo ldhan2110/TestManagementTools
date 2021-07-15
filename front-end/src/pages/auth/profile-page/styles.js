@@ -6,6 +6,7 @@ const styles = {
 
   root:{
     height: "100%",
+    paddingTop: 10,
     padding: "0 9vw"
   },
 
