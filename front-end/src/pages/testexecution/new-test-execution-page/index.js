@@ -146,7 +146,7 @@ const NewTestExecutionPage = (props) => {
       useEffect(()=>{
         if (insTestexec.sucess === false){
           displayMsg({
-            content: "Test execution name already exists in this build !",
+            content: insTestexec.errMsg,
             type: 'error'
           });
           setEnableCreateBtn(true);
@@ -166,7 +166,7 @@ const NewTestExecutionPage = (props) => {
         }
       },[insTestexec.sucess]);      
     } catch (error) {
-      console.log("error: "+error);
+      //console.log("error: "+error);
     }
 
 

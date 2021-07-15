@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   root: {
     height: "89vh",
     flexGrow: 1,
-    maxWidth: 400,
+    //maxWidth: 400,
     overflowY: "scroll",
     overflowX: "hidden"
 

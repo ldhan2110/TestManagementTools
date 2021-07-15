@@ -177,7 +177,7 @@ const TestExecutionDetailPage = (props) => {
         }
        } ,[updTestExec.sucess])    
     } catch (error) {
-      console.log('error: '+error);
+      //console.log('error: '+error);
     }
 
     useEffect(()=>{

@@ -142,7 +142,7 @@ const TestPlanListPage = (props) => {
       }
     },[insTestplanDelete.sucess]);      
   } catch (error) {
-    console.log('error: '+error);
+    //console.log('error: '+error);
   }
 
     const deleteTP = (id) => {

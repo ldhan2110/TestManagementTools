@@ -189,7 +189,7 @@ const TestExecutionDetailPage = (props) => {
         }
        } ,[updTestExec.sucess])    
     } catch (error) {
-      console.log('error: '+error);
+      //console.log('error: '+error);
     }
 
     useEffect(()=>{
@@ -267,7 +267,7 @@ const TestExecutionDetailPage = (props) => {
       >
         <Grid item>
               <Typography variant="h3" gutterBottom display="inline">
-                  Test Execution Detail - {testExecInfo.testexecutionname}
+                  Test Execution Detail {/*- {testExecInfo.testexecutionname}*/}
               </Typography>
         </Grid>
         <Grid item>
@@ -297,7 +297,7 @@ const TestExecutionDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required onChange={handleChange('testexecutionname')} value={testExecInfo.testexecutionname}/>
+          <TextField id="testExecutionName" label="Test Execution Name" variant="outlined"  fullWidth required inputProps={{maxLength : 100}} onChange={handleChange('testexecutionname')} value={testExecInfo.testexecutionname}/>
           <FormControl variant="outlined" fullWidth required inputProps={{maxLength : 100}}>   
           <InputLabel id="demo-simple-select-outlined-label">Test Plan</InputLabel>
           <Select

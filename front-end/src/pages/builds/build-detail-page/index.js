@@ -99,7 +99,7 @@ const BuildDetailPage = (props) => {
 
     useEffect(()=>{
       getAllTestplanReq(project);
-      console.log(props.history.location.state);
+      //console.log(props.history.location.state);
     },[])
 
     useEffect(()=>{
@@ -110,7 +110,7 @@ const BuildDetailPage = (props) => {
       useEffect(()=>{
         if (insBuilds.sucess === false){
           displayMsg({
-            content: "Build name already exists in this test plan !" ,
+            content: insBuilds.errMsg ,
             type: 'error'
           });
           setEnableCreateBtn(true);
@@ -128,7 +128,7 @@ const BuildDetailPage = (props) => {
           }
       },[insBuilds.sucess]);   
     } catch (error) {
-      console.log("error: "+error);
+      //console.log("error: "+error);
     }
 
   useEffect(()=>{
@@ -244,7 +244,7 @@ const BuildDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Build Detail - {props.history.location.state.buildname}
+            Build Detail {/*- {props.history.location.state.buildname}*/}
           </Typography>
 
         </Grid>

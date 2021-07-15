@@ -14,12 +14,15 @@ import {
   Avatar
 } from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
+import { CircularProgress } from '@material-ui/core';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return {insProfile: state.user.insProfile,
-          insPassword: state.user.insPassword,
-          inforProfile: state.user.inforProfile}
+  return {
+    user: state.user,
+    insProfile: state.user.insProfile,
+    insPassword: state.user.insPassword,
+    inforProfile: state.user.inforProfile}
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -34,7 +37,7 @@ const mapDispatchToProps = dispatch => {
 
 const ProfilePage = (props)=>{
 
-  const {insProfile, updateProfileReq, updatePasswordReq, inforProfile, getCurrentProfileReq, insPassword, displayMsg,} = props;
+  const {insProfile, user, updateProfileReq, updatePasswordReq, inforProfile, getCurrentProfileReq, insPassword, displayMsg,} = props;
   const {classes} = props;
   const [error, setError] = useState({
     fullname: 'ss',
@@ -60,6 +63,7 @@ const ProfilePage = (props)=>{
   const history = useHistory();
 
   useEffect(()=>{
+    user.getCurrentUserSuccess = null;
     getCurrentProfileReq();
   },[]);
 
@@ -72,7 +76,7 @@ const ProfilePage = (props)=>{
         introduction: inforProfile.introduction
       });
     } catch (error) {
-      console.log('error: '+ error);
+      //console.log('error: '+ error);
     }
     },[inforProfile])   
 
@@ -98,7 +102,7 @@ const ProfilePage = (props)=>{
         type: 'success'
       });
     setEnableCreateBtn(false);
-      setLoading(true);
+    setLoading(true);
     updateProfileReq(profileInfo);
     handleClose();
   }
@@ -134,9 +138,12 @@ const ProfilePage = (props)=>{
 
     return (
       <div className={classes.root}>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
           <Typography component="h1" variant="h1" gutterBottom className = {classes.title}>
                 Profile
           </Typography>
+          {user.getCurrentUserSuccess=== "" && <CircularProgress size={35} style={{marginTop:'-15px', marginLeft: 15}}/>}
+          </div>
           <Divider my={6}/>
           <Grid container justify="space-between" className={classes.content} spacing={5}>
               <Grid item xs={6}>

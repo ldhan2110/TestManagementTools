@@ -13,9 +13,19 @@ const styles = {
     paperSty:{
         width: '480px', height: '50px', position: 'sticky', top:0, backgroundColor:'white',
     },
+    
 
     listStyle:{
         maxHeight:'570px', width:'400px', overflow: "auto", wordWrap: 'break-word', paddingTop:0,
+        
+        '&:hover' : {
+            "&::-webkit-scrollbar-thumb": {
+                backgroundColor: '#555',
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+                backgroundColor: '#888',
+            },
+        },
 
         '&::-webkit-scrollbar': {
             width: '10px'
@@ -25,10 +35,10 @@ const styles = {
             display:'none'
         },
         "&::-webkit-scrollbar-thumb": {
-            backgroundColor: '#555',
+            opacity: '0%',
         },
         "&::-webkit-scrollbar-thumb:hover": {
-            backgroundColor: '#888',
+            opacity: '0%',
         },
         
     },

@@ -117,7 +117,7 @@ const TestPlanDetailPage = (props) => {
         }
       },[insTestplanDelete.sucess]);      
     } catch (error) {
-      console.log('error: '+error);
+      //console.log('error: '+error);
     }
 
     
@@ -202,7 +202,7 @@ const TestPlanDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Test Plan Detail - {props.history.location.state.testplanname}
+            Test Plan Detail {/*- {props.history.location.state.testplanname}*/}
           </Typography>
         
           

@@ -235,7 +235,7 @@ const DetailMileStonePage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Milestone Detail - {milestoneInfo.milestonetitle}
+            Milestone Detail {/*- {milestoneInfo.milestonetitle}*/}
           </Typography>
 
           </Grid>

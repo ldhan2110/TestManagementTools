@@ -59,7 +59,7 @@ const UploadTestCase = (props) => {
   useEffect(()=>{
     if (insTestcaseUpl.sucess === false){
       displayMsg({
-        content: "Test Case name already exists in this project !",
+        content: insTestcaseUpl.errMsg,
         type: 'error'
       });
       setEnableCreateBtn(true);

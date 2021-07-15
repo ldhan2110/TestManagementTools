@@ -35,6 +35,6 @@ export const INVITE_MEMBERS_SEARCH = [
 ]
 
 export const MANTIS_SEARCH = [
-  { id: 'name',  label: 'Name', type: "text" },
   { id: 'username',  label: 'Username', type: "text" },
+  { id: 'name',  label: 'Mantis Username', type: "text" },
 ]

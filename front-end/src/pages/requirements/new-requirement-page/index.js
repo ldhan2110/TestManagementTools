@@ -112,7 +112,7 @@ const NewRequirementPage = (props) => {
       }
     },[insRequirements.sucess]);     
   } catch (error) {
-    console.log('error: '+error);
+    //console.log('error: '+error);
   }
 
   const handleCreate = () => {

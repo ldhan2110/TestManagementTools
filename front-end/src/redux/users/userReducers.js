@@ -1,6 +1,7 @@
 import * as types from './constants';
 
 var initialState = {
+  getCurrentUserSuccess: null,
   success: "",
   error: "",
   errorMsg:"",
@@ -9,7 +10,7 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
-  insUsers: {
+  insUsers: {    
     sucess: null,
     errMsg: null
   },
@@ -306,18 +307,19 @@ const reducer = (state = initialState, actions) => {
 
     case types.GET_CURRENT_USER_REQ:
       return {
-        ...state, inforProfile: []
+        ...state, inforProfile: [], getCurrentUserSuccess: ""
   }
 
   case types.GET_CURRENT_USER_FAILED:
     return {
-      ...state,
+      ...state, getCurrentUserSuccess: null,
       error: true,
       errorMsg: payload,
   }
   
   case types.GET_CURRENT_USER_SUCCESS:
       return {
+        getCurrentUserSuccess: true,
         error: "",
         errorMsg:"",
         currentSelectedUser: "",

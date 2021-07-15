@@ -68,7 +68,7 @@ const NewProjectPopup = (props) => {
     if (insProjects.sucess === false){
       setLoading(false);
       displayMsg({
-        content: "Project name already exists !",
+        content: insProjects.errMsg,
         type: 'error'
       });
       resetAddRedux(); 

@@ -6,6 +6,7 @@ const styles = {
 
   root:{
     height: "100%",
+    paddingTop: 10,
     padding: "0 9vw"
   },
 
@@ -24,7 +25,7 @@ const styles = {
   },
 
   content:{
-    marginTop: "5vh"
+    marginTop: "1.5vh"
   },
 
   formContent:{

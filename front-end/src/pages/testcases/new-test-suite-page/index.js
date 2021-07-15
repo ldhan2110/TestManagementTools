@@ -71,7 +71,7 @@ const NewTestSuitePopup = (props) => {
      if (insTestsuiteCreate.sucess === false){
       setLoading(false);
       displayMsg({
-        content: "Test Suite name already exists in this project !",
+        content: insTestsuiteCreate.errMsg,
         type: 'error'
       });
       setEnableCreateBtn(true);
