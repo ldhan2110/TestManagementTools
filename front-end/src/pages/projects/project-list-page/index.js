@@ -9,7 +9,7 @@ import ProjectItem from './ProjectItem';
 import Pagination from '../../../components/Pagination/index';
 import IconButton from '@material-ui/core/IconButton';
 import NewProjectPopup from '../new-project-popup/index';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
     Button,
     Grid,
@@ -56,6 +56,7 @@ const ProjectList = (props)=>{
     }
 
     useEffect(()=>{
+        project.success = null;
         getProjectReq();
         resetSelectProject();
     },[]);
@@ -80,13 +81,17 @@ const ProjectList = (props)=>{
             <div className={classes.headerLarge} >
             <Grid
                 justify="space-between"
+                alignItems="center"
                 container
             >
                 <Grid item>
                     <Typography variant="h3" gutterBottom display="inline">
                         Projects
                     </Typography>
-                    
+                    {project.success === "" &&
+                        <CircularProgress size={27} 
+                        style={{marginBottom: '-5px', marginLeft: 15}}
+                        />}                    
                 </Grid>
                 <Grid item>
                     <div>

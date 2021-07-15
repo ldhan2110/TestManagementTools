@@ -1,6 +1,7 @@
 import * as types from './constants';
 
 var initialState = {
+  success: null,
   error: "",
   errorMsg:"",
   currentSelectedProject: "",
@@ -28,19 +29,19 @@ const reducer = (state = initialState, actions) => {
     //LOGIN
     case types.GET_ALL_PROJECTS_REQ:
       return {
-        ...state,
+        ...state, success: "",
       }
 
     case types.GET_ALL_PROJECTS_FAILED:
       return {
-        ...state,
+        ...state, success: null,
         error: true,
         errorMsg: payload,
       }
     
     case types.GET_ALL_PROJECTS_SUCESS:
         return {
-          ...state,
+          ...state, success: true,
           error: "",
           errorMsg:"",
           listProjects: payload,
