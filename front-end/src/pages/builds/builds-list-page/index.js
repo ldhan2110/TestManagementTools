@@ -142,7 +142,7 @@ const BuildListPage = (props) => {
     if(build.success === true)
       if(insBuildsDelete.sucess !== false)
         handleArray(listBuilds);
-        console.log(listBuilds);
+        //console.log(listBuilds);
   },[build])
 
 

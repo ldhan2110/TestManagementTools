@@ -117,7 +117,7 @@ const TestPlanDetailPage = (props) => {
         }
       },[insTestplanDelete.sucess]);      
     } catch (error) {
-      console.log('error: '+error);
+      //console.log('error: '+error);
     }
 
     

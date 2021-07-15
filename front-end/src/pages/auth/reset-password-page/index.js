@@ -99,7 +99,7 @@ const ResetPassword = (props) => {
       }
     },[isConfirmPassword.sucess]); 
     } catch (error) {
-      console.log('error: '+error);
+      //console.log('error: '+error);
     }
   
       //HANDLE CLOSE POPUP

@@ -211,7 +211,7 @@ const TestCaseDetail = (props) => {
   }
 
   const handleClickEditTestCase = () => {
-    console.log(node);
+    //console.log(node);
     history.push({
       pathname: window.location.pathname+"/"+node._id+"/edit-test-case",
       state: node});

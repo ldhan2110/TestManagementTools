@@ -147,7 +147,7 @@ const RequirementListPage = (props) => {
       }
     },[insRequirementsDelete.sucess]);      
   } catch (error) {
-    console.log('error: '+error);
+    //console.log('error: '+error);
   }
 
     const deleteTP = (id) => {

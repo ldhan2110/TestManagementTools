@@ -76,7 +76,7 @@ const ProfilePage = (props)=>{
         introduction: inforProfile.introduction
       });
     } catch (error) {
-      console.log('error: '+ error);
+      //console.log('error: '+ error);
     }
     },[inforProfile])   
 

@@ -148,7 +148,7 @@ const CreateNewMantisAccountDialog = (props) => {
       setEnableCreateBtn(false);
       setLoading(true);
     //   addBuildReq(buildInfo);
-        console.log(userInfo);
+        //console.log(userInfo);
     }
   }
 

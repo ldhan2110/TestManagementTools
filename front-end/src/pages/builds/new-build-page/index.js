@@ -128,7 +128,7 @@ const NewBuildPage = (props) => {
       }
     },[insBuilds.sucess]);    
   } catch (error) {
-    console.log("error: "+error);
+    //("error: "+error);
   }
 
     

@@ -99,7 +99,7 @@ const BuildDetailPage = (props) => {
 
     useEffect(()=>{
       getAllTestplanReq(project);
-      console.log(props.history.location.state);
+      //console.log(props.history.location.state);
     },[])
 
     useEffect(()=>{
@@ -128,7 +128,7 @@ const BuildDetailPage = (props) => {
           }
       },[insBuilds.sucess]);   
     } catch (error) {
-      console.log("error: "+error);
+      //console.log("error: "+error);
     }
 
   useEffect(()=>{

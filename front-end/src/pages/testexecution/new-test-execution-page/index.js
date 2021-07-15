@@ -166,7 +166,7 @@ const NewTestExecutionPage = (props) => {
         }
       },[insTestexec.sucess]);      
     } catch (error) {
-      console.log("error: "+error);
+      //console.log("error: "+error);
     }
 
 
