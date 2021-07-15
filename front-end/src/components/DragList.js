@@ -69,13 +69,8 @@ const DragList = (props) => {
                     <ListItem key={item.id}>
                       <Grid container direction="row" justify="space-between" alignItems="flex-start">
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
-                        <Grid item xs={4}>
-                          {/* <TextField id={"definition"+item.id} rows={4} 
-                          variant="outlined" label='Definition' required fullWidth multiline
-                          error={item.stepDefine.trim().length === 0 && pressUpdateButton ? true:false}                          
-                          value={item.stepDefine} 
-                          onChange={(event)=>{ handleChange({id: item.id, name: "stepDefine", data: event.target.value}) }}/> */}
-                           
+                        <Grid item xs={5}>
+                         
                           {viewMode === true ? <div>
                           <Typography variant="subtitle2" gutterBottom display="inline" >
                             Definition
@@ -86,15 +81,7 @@ const DragList = (props) => {
                           
                           
                           </Grid>
-                        <Grid item xs={4}>
-                          {/* <TextField id="expectResult"  
-                          variant="outlined" label='Expected Result' required  multiline fullWidth rows={4} 
-                          error={item.expectResult.trim().length === 0 && pressUpdateButton ? true:false}
-                          value={item.expectResult} 
-                          onChange={(event)=>{ handleChange({id: item.id, name: "expectResult", data: event.target.value}) }}/> */}
-                          
-                          {/* <MarkedInput idOfInput="expectedResult" setTxt={item.expectResult}
-                          handleChange={(text) => handleChange({id: item.id, name: "expectResult", data: text})}/> */}
+                        <Grid item xs={5}>
                           
                           {viewMode === true ? <div>
                           <Typography variant="subtitle2" gutterBottom display="inline" >
@@ -105,21 +92,7 @@ const DragList = (props) => {
                           handleChange={(text) => handleChange({id: item.id, name: "expectResult", data: text})}/>}
 
                           </Grid>
-                        <Grid item xs={2}>
-                          <FormControl variant="outlined" fullWidth style={{marginTop: '34px'}}>
-                              <InputLabel id="type">Type</InputLabel>
-                                <Select
-                                  labelId="type"
-                                  id="type"
-                                  value={item.type}
-                                  onChange={(event)=>{ handleChange({id: item.id, name: "type", data: event.target.value}) }}
-                                  label="Type"
-                                >
-                               <MenuItem value={"manual"}><em>Manual</em></MenuItem>
-                               <MenuItem value={"auto"}>Auto</MenuItem>
-                              </Select>
-                          </FormControl>
-                        </Grid>
+                        
                         {viewMode !== true &&
                         <Grid>
                           <Tooltip title="Delete step">

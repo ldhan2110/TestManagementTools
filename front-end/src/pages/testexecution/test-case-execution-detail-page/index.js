@@ -237,21 +237,8 @@ const TestCaseExecDetail = (props) => {
                         <Grid item style={{margin: 'auto 0'}}><div>{item.id}</div></Grid>
                         <Grid item xs={3}><TextField id="definition" variant="outlined" label='Definition' value={item.stepDefine} required  fullWidth multiline rows={4}/></Grid>
                         <Grid item xs={3}><TextField id="expectResult"  variant="outlined" label='Expected Result' required value={item.expectResult}  multiline fullWidth rows={4}/></Grid>
-                        <Grid item xs={1.5}><FormControl variant="outlined" fullWidth>
-                              <InputLabel id="type">Type</InputLabel>
-                                <Select
-                                  labelId="type"
-                                  id="type"
-                                  value={item.type}
-                                  label="Type" 
-                          
-                                >
-                               <MenuItem value='manual'><em>Manual</em></MenuItem>
-                               <MenuItem value='auto'>Auto</MenuItem>
-                              </Select>
-                        </FormControl></Grid>
                         <Grid item xs={3}><TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} multiline fullWidth rows={4}/></Grid>
-                        <Grid item xs={1.5}><FormControl variant="outlined" fullWidth>
+                        <Grid item xs={2}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="status">Result</InputLabel>
                                 <Select
                                   labelId="status"
