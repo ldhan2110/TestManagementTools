@@ -111,8 +111,8 @@ const TestExecutionDetailPage = (props) => {
 
     const getAllName = () => {
       var result = [];
-      testExecInfo.listprojectrequirement.forEach(element => {
-        result.push(element.projectrequirementname);
+      testExecInfo?.listprojectrequirement?.forEach(element => {
+        result.push(element?.projectrequirementname);
       });
       return result;
     };
