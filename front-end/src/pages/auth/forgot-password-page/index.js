@@ -18,7 +18,8 @@ import {
 
   //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-    return { isSendMail: state.account.isSendMail }
+    return {
+      isSendMail: state.account.isSendMail }
   }
   
   //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -74,10 +75,8 @@ const ForgotPassword = (props) => {
         setCheckErrorMsg(false);
     };
 
-    try {
     useEffect(()=>{
-        if (isSendMail.sucess === false){
-          setLoading(false);
+        if (isSendMail?.sucess === false){
           displayMsg({
             content: "Unregistered email !",
             type: 'error'
@@ -86,8 +85,7 @@ const ForgotPassword = (props) => {
           setEnableCreateBtn(true);
           setLoading(false);
           resetAddRedux();
-        } else if (isSendMail.sucess === true) {
-          setLoading(false);
+        } else if (isSendMail?.sucess === true) {
           displayMsg({
             content: "Send mail successfully !",
             type: 'success'
@@ -96,10 +94,7 @@ const ForgotPassword = (props) => {
           setLoading(false);
           resetAddRedux();
         }
-      },[isSendMail.sucess]); 
-    } catch (error) {
-      //console.log('error: '+error);
-    }
+      },[isSendMail?.sucess]);
 
     return(
     <React.Fragment>
