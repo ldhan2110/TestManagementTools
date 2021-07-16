@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import styles from "./styles";
+import styled from "styled-components";
 import { withStyles } from '@material-ui/core/styles';
 import Helmet from 'react-helmet';
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 //import SelectBox from '../../../components/Selectbox';
 import {UPDATE_REQUIREMENTS_REQ, DELETE_REQUIREMENTS_REQ, RESET_UPDATE_REQUIREMENTS, RESET_DELETE_REQUIREMENTS, GET_ALL_REQUIREMENTS_REQ} from '../../../redux/requirements/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
@@ -12,11 +13,11 @@ import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants'
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { red } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import { green, orange, red } from "@material-ui/core/colors";
+import { spacing } from "@material-ui/system";
 import {
-  Grid,
+  Grid, Paper, List, ListItem, ListItemText, Chip as MuiChip, ListItemSecondaryAction,
   Typography,
   //Breadcrumbs,
   Button,
@@ -34,10 +35,25 @@ import {
   Dialog
 } from '@material-ui/core';
 
+
+const Chip = styled(MuiChip)`
+  ${spacing};
+
+  background: ${props => props.active && green[500]};
+  background: ${props => props.pass && green[500]};
+  background: ${props => props.fail && red[500]};
+  background: ${props => props.block && orange[500]};
+  background: ${props => props.sent && orange[700]};
+  color: ${props => (props.active || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.pass || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.fail || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.block || props.sent) && props.theme.palette.common.white};
+`
+
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { insRequirements: state.requirements.insRequirements,  project:state.project.currentSelectedProject,
-    //listBuilds: state.build.listBuilds, 
+    //listBuilds: state.build.listBuilds,
     insRequirementsDelete: state.requirements.insRequirementsDelete,
     role: state.project.currentRole }
 }
@@ -59,6 +75,7 @@ const DetailRequirementPage = (props) => {
     const {classes, listRequirements, name, match, updateRequirementsReq, insRequirements, role,
            displayMsg, deleteRequirementsReq, insRequirementsDelete, resetUpdateRedux, resetDeleteRedux, getAllRequirementsReq} = props;
     const history = useHistory();
+    const location = useLocation();
     const [open, setOpen] = React.useState(false);
     const [checkError, setCheckError] = useState(false);
     const [error, setError] = useState({
@@ -75,6 +92,8 @@ const DetailRequirementPage = (props) => {
       isPublic: props.history.location.state.is_public,
       created_date: props.history.location.state.created_date  
     });
+
+    const [listExec, setListExec] = React.useState(props.history.location.state.testexecution);
     
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
@@ -128,13 +147,15 @@ const DetailRequirementPage = (props) => {
       //console.log('error: '+error);
     }
 
-    //useEffect(()=>{
-      //getAllBuildActiveReq(project); 
-    //},[])
+    // useEffect(()=>{
+    //   console.log(history);
+    //   console.log(location);
+    //   getAllBuildActiveReq(project); 
+    // },[listExec])
 
     const handleDelete=()=>{
       setEnableDeleteBtn(false);
-    setLoadingg(true);
+      setLoadingg(true);
       deleteRequirementsReq(requirementsInfor);
       setOpen(false);
     }
@@ -269,11 +290,30 @@ const DetailRequirementPage = (props) => {
               checked={requirementsInfor.isActive}
             />
           </div>
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={11}
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={3}
           value={requirementsInfor.description || ''} onChange={handleChange('description')}
           error={requirementsInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
           helperText={requirementsInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
-
+          <Grid container spacing={1}>
+              <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Test Executions</Typography></Grid> 
+              <Grid item xs={12}>
+                <Paper style={{maxHeight: 200, overflow: 'auto'}}>
+                <List>
+                  {listExec && listExec.map((item,index) => 
+                    <ListItem key={index} dense button  selected> {/* onClick={()=>{if (!isExecute){history.push(location.pathname+'/test-exec/'+item._id)}}}> */}
+                      <ListItemText id={item.id} primary={item.testexecutionname} />
+                      <ListItemSecondaryAction>
+                        {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
+                        {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}
+                        {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status} block={1}/>}
+                        {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status} fail={1}/>}
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  )}
+                </List>
+                </Paper>
+              </Grid> 
+            </Grid>
           
           
           <div className = {classes.btnGroup}>
