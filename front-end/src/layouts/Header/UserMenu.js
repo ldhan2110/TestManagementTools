@@ -84,7 +84,7 @@ const UserMenu = (props) => {
           <Avatar>
             {avatarId &&
             <Image cloudName="testcontrol" publicId={avatarId} 
-                width="48" height="48" quality="auto" fetchFormat="auto" crop="scale">
+                width="48" height="48" quality="auto" fetchFormat="auto" crop="fill">
                   <Placeholder type="pixelate" />
                 </Image>}
           </Avatar>

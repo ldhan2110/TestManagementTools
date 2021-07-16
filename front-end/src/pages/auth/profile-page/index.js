@@ -238,7 +238,7 @@ const ProfilePage = (props)=>{
                 <UploadButton upload={uploadAvatar} uploadedPictureId={handleUploadedId} 
                   setLoadEnable={setLoadEnable} setLoadProgress={setLoadProgress}/>
                 <Image cloudName="testcontrol" publicId={avatarId} 
-                width="250" height="250" quality="auto" fetchFormat="auto" crop="fill"/>                
+                width="250" height="250" quality="auto" fetchFormat="auto" crop="fit"/>                
               </Grid>
 
               <Grid item xs={6}> 
