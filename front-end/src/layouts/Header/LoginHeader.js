@@ -26,8 +26,6 @@ const IconButton = styled(MuiIconButton)`
   }
 `;
 
-
-
 const LoginHeader = (props) => {
 
   const history = useHistory();
@@ -58,7 +56,7 @@ const LoginHeader = (props) => {
           <Hidden mdDown>
              <Grid item xs = {10}>
              {/*<img src ="/img/Logo1zz.png" alt="logo"/>*/}
-              <IconButton onClick={handleLogoClick}>
+              <IconButton className={classes.root} onClick={handleLogoClick}>
         <img src ="/img/Logo1zz.png" alt="logo"/>
               </IconButton> 
           </Grid>

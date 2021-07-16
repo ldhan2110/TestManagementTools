@@ -96,6 +96,12 @@ const styles = {
     emptyList:{
         height:'570px', display:'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center'
     },
+
+    root: {
+        "&:hover" : {
+            backgroundColor: "transparent"
+        }
+    }
     
 };
 
