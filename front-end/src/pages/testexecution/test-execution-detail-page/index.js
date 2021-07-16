@@ -132,8 +132,8 @@ const TestExecutionDetailPage = (props) => {
 
     const covertFromName2Id = (name) => {
       var result = [];
-      name.forEach(element => {
-        result.push(listRequirements.filter(x => x.projectrequirementname === element)[0]._id);
+      name?.forEach(element => {
+        result.push(listRequirements?.filter(x => x.projectrequirementname === element)[0]?._id);
       });
       return result;
     };
@@ -367,7 +367,7 @@ const TestExecutionDetailPage = (props) => {
                     onChange={handleChange('assignTester')} 
                     label="assignTester">
                         <MenuItem key={''} value={''}>&nbsp;</MenuItem>
-                        {listUser.map((item,index) => (
+                        {listUser?.map((item,index) => (
                             <MenuItem key={index} value={item.user}>{item.username}</MenuItem>
                         ))}
                   </Select>
