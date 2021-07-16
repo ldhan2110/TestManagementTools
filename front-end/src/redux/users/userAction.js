@@ -110,3 +110,10 @@ export function verifyUserToProject(value) {
     payload: value
   }
 }
+
+export function updateAvatar(value){
+  return {
+    type: types.UPDATE_AVATAR_REQ,
+    payload: value
+  }
+}

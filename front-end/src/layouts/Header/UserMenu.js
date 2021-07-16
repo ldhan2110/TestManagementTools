@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from "styled-components";
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
+import {GET_CURRENT_USER_REQ} from '../../redux/users/constants';
 import {LOGOUT_REQ} from '../../redux/account/constants';
 
 import {
@@ -11,7 +12,7 @@ import {
     Avatar,
     Tooltip,
   } from "@material-ui/core";
-
+import { Image, Placeholder } from 'cloudinary-react'
 
 
 const IconButton = styled(MuiIconButton)`
@@ -21,8 +22,15 @@ const IconButton = styled(MuiIconButton)`
   }
 `;
 
+const  mapStateToProps = (state) => {
+  return {
+    inforProfile: state.user.inforProfile
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
+    getCurrentProfileReq: (payload) => dispatch({ type: GET_CURRENT_USER_REQ, payload}),
     logoutReq: () => dispatch({ type: LOGOUT_REQ }),
   }
 };
@@ -32,8 +40,17 @@ const UserMenu = (props) => {
 
     const [anchorMenu, setAnchorMenu] = useState(null);
 
-    const {logoutReq} = props;
+    const {logoutReq, getCurrentProfileReq, inforProfile} = props;
+    
+    const [avatarId, setAvatarId] = useState("");
 
+    useEffect(()=>{
+      getCurrentProfileReq();
+    },[])
+
+    useEffect(()=>{
+      setAvatarId(inforProfile.avatar);
+    },[inforProfile])
 
     const toggleMenu = event => {
       setAnchorMenu(event.currentTarget);
@@ -64,7 +81,13 @@ const UserMenu = (props) => {
           onClick={toggleMenu}
           color="inherit"
         >
-          <Avatar src=""/>
+          <Avatar>
+            {avatarId &&
+            <Image cloudName="testcontrol" publicId={avatarId} 
+                width="48" height="48" quality="auto" fetchFormat="auto" crop="scale">
+                  <Placeholder type="pixelate" />
+                </Image>}
+          </Avatar>
         </IconButton>
         </Tooltip>
         <Menu
@@ -84,4 +107,4 @@ const UserMenu = (props) => {
     );
   }
 
-  export default connect(null,mapDispatchToProps)(UserMenu);
+  export default connect(mapStateToProps,mapDispatchToProps)(UserMenu);

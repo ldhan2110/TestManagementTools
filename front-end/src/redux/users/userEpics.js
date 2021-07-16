@@ -452,3 +452,40 @@ import {API_ADDR} from '../constants';
           payload: error.response.data.errMsg
         })})
       )))
+
+      export  const updateAvatarEpic = (action$, state$) => action$.pipe(
+        ofType(actions.UPDATE_AVATAR_REQ),
+        mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/users/api/uploadavatar',{
+          avatar: payload
+        } , {
+            headers: {
+              "X-Auth-Token": localStorage.getItem("token"), 
+              "content-type": "application/json"
+            }
+          })).pipe(
+          map(response => {
+            const {data} = response;
+            if (data.success) {
+              return ({
+                type: actions.UPDATE_AVATAR_SUCCESS,
+                payload: true
+              })
+            } else {
+              return ({
+                type: actions.UPDATE_AVATAR_FAILED,
+                payload: data.errMsg
+              })
+            }
+          
+          }),
+          catchError (error => {
+            const {status} = error.response.data;
+            if (status ===  401) {
+              localStorage.clear();
+              window.location.replace('/login');
+            } else
+            return of({
+            type: actions.UPDATE_AVATAR_FAILED,
+            payload: error.response.data.errMsg
+          })})
+        )))

@@ -4,9 +4,15 @@ const styles = {
     opacity: '0.65'
   },
 
+  titleImg: {
+    marginTop: '-15px',
+    opacity: '0.8',
+    marginBottom: '0px',
+  },
+
   root:{
     height: "100%",
-    paddingTop: 10,
+    paddingTop: 7,
     padding: "0 9vw"
   },
 
@@ -15,7 +21,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap:"10px"
+    gap:"10px",
   },
 
   avatar:{
@@ -25,7 +31,7 @@ const styles = {
   },
 
   content:{
-    marginTop: "1.5vh"
+    marginTop: "1.2vh"
   },
 
   formContent:{

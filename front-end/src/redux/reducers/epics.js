@@ -89,6 +89,7 @@ export default combineEpics(
    userEpics.updateProfileEpic,
    userEpics.getCurrentUserEpic,
    userEpics.verifyUserToProjectEpic,
+   userEpics.updateAvatarEpic,
 
    //TEST EXEC EPICS
    testexecEpics.getAllTestexecEpic,

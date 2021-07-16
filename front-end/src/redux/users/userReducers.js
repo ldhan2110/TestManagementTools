@@ -26,6 +26,10 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
+  insAvatar: {
+    sucess: null,
+    errMsg: null
+  },
   inforProfile: "",
 }
 
@@ -348,6 +352,33 @@ const reducer = (state = initialState, actions) => {
             sucess: true,
             errMsg: null
           }
+    }
+
+    case types.UPDATE_AVATAR_REQ:{      
+      return {
+        ...state,
+        insAvatar: initialState.insAvatar
+      };
+    }
+
+    case types.UPDATE_AVATAR_SUCCESS:{
+      return {
+        ...state,
+        insAvatar: {
+          sucess: true,
+          errMsg: null
+        }
+      }
+    }
+
+    case types.UPDATE_AVATAR_FAILED: {
+      return{
+        ...state,
+        insAvatar:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
     }
 
     default:

@@ -1,5 +1,5 @@
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {UPDATE_PROFILE_REQ, UPDATE_PASSWORD_REQ, GET_CURRENT_USER_REQ} from '../../../redux/users/constants';
+import {UPDATE_PROFILE_REQ, UPDATE_PASSWORD_REQ, GET_CURRENT_USER_REQ, UPDATE_AVATAR_REQ} from '../../../redux/users/constants';
 import React, {useEffect, useState} from "react";
 import styles from './styles';
 import { connect } from 'react-redux';
@@ -14,12 +14,49 @@ import {
   Avatar
 } from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
-import { CircularProgress } from '@material-ui/core';
+import UploadButton from "../../../components/UploadButton.js";
+import { Image } from 'cloudinary-react'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CancelIcon from '@material-ui/icons/Cancel';
+import Box from '@material-ui/core/Box';
+import PropTypes from 'prop-types';
+
+function CircularProgressWithLabel(props) {
+    return (
+      <Box position="relative" display="flex" style={{marginLeft: "10px"}}>
+        <CircularProgress variant="determinate" {...props} />
+        <Box
+          top={0}
+          left={0}
+          bottom={0}
+          right={0}
+          position="absolute"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography variant="caption" component="div" color="textSecondary">{`${Math.round(
+            props.value,
+          )}%`}</Typography>
+        </Box>
+      </Box>
+    );
+  }
+
+  CircularProgressWithLabel.propTypes = {
+    /**
+     * The value of the progress indicator for the determinate variant.
+     * Value between 0 and 100.
+     */
+    value: PropTypes.number.isRequired,
+  };
+
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return {
     user: state.user,
+    insAvatar: state.user.insAvatar,
     insProfile: state.user.insProfile,
     insPassword: state.user.insPassword,
     inforProfile: state.user.inforProfile}
@@ -29,6 +66,7 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     updateProfileReq: (payload) => dispatch({ type: UPDATE_PROFILE_REQ, payload }),
+    updateAvatarReq: (payload) => dispatch({ type: UPDATE_AVATAR_REQ, payload }),
     updatePasswordReq: (payload) => dispatch({ type: UPDATE_PASSWORD_REQ, payload }),
     getCurrentProfileReq: (payload) => dispatch({ type: GET_CURRENT_USER_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
@@ -37,7 +75,7 @@ const mapDispatchToProps = dispatch => {
 
 const ProfilePage = (props)=>{
 
-  const {insProfile, user, updateProfileReq, updatePasswordReq, inforProfile, getCurrentProfileReq, insPassword, displayMsg,} = props;
+  const {insProfile, insAvatar, updateAvatarReq, user, updateProfileReq, updatePasswordReq, inforProfile, getCurrentProfileReq, insPassword, displayMsg,} = props;
   const {classes} = props;
   const [error, setError] = useState({
     fullname: 'ss',
@@ -55,10 +93,12 @@ const ProfilePage = (props)=>{
     password: '',
     confirmpassword: ''
   });
-  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
+  const [enableCreateBtn, setEnableCreateBtn] = useState(true);  
   const [loading, setLoading] = useState(false);
-  const [loadingAva, setLoadingAva] = useState(false);
+  const [avatarId, setAvatarId] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [loadProgress, setLoadProgress] = useState("");
+  const [loadEnable, setLoadEnable] = useState(false);
 
   const history = useHistory();
 
@@ -69,6 +109,7 @@ const ProfilePage = (props)=>{
 
     useEffect(()=>{
       try {
+      setAvatarId(inforProfile.avatar);
       setProfileInfo({ ...profileInfo, 
         fullname: inforProfile.fullname,
         email: inforProfile.email,
@@ -101,13 +142,32 @@ const ProfilePage = (props)=>{
         content: "Save profile successfully !",
         type: 'success'
       });
+    //updateAvatarReq(avatarId);
     setEnableCreateBtn(false);
     setLoading(true);
     updateProfileReq(profileInfo);
     handleClose();
   }
-
   };
+
+  useEffect(()=>{
+    console.log(user);
+    if(insAvatar?.sucess === false)
+    {
+      displayMsg({
+        content: insAvatar.errMsg,
+        type: 'error'
+      });
+    }
+    
+    else if (insAvatar?.sucess === true) {
+      getCurrentProfileReq();
+      displayMsg({
+        content: "Update avatar successfully!",
+        type: 'success'
+      });
+    }
+  },[insAvatar]);
 
   const handleClose = () => {
     history.goBack();
@@ -132,9 +192,10 @@ const ProfilePage = (props)=>{
     setAvatarUrl(url);
   }
 
-  const handleLoadAva = (load) => {
-    setLoadingAva(load);
+  const handleUploadedId = (id) => {
+    updateAvatarReq(id);
   }
+
 
     return (
       <div className={classes.root}>
@@ -142,7 +203,7 @@ const ProfilePage = (props)=>{
           <Typography component="h1" variant="h1" gutterBottom className = {classes.title}>
                 Profile
           </Typography>
-          {user.getCurrentUserSuccess=== "" && <CircularProgress size={35} style={{marginTop:'-15px', marginLeft: 15}}/>}
+          {user.getCurrentUserSuccess === "" && <CircularProgress size={35} style={{marginTop:'-15px', marginLeft: 15}}/>}
           </div>
           <Divider my={6}/>
           <Grid container justify="space-between" className={classes.content} spacing={5}>
@@ -166,11 +227,19 @@ const ProfilePage = (props)=>{
                       <Button variant="contained" color="primary"  startIcon={<SaveIcon/>} onClick={handleUpdateProfile}>Save Changes
                       {/*{loading && <CircularProgress size={24} className={classes.buttonProgress} />} */}
                       </Button>
+                      <Button variant="contained" style={{marginLeft: 10}} startIcon={<CancelIcon/>} onClick={handleClose}>Cancel Edit</Button>
                   </div>
                 </form>
               </Grid>
               <Grid item xs={6} className={classes.avatarContainer}>
-                <Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} />                
+              <Typography variant="h5" component="h5" gutterBottom className = {classes.titleImg}>
+                Change profile picture
+                </Typography>                
+                  {/* <Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} /> */}                
+                <UploadButton upload={uploadAvatar} uploadedPictureId={handleUploadedId} 
+                  setLoadEnable={setLoadEnable} setLoadProgress={setLoadProgress}/>
+                <Image cloudName="testcontrol" publicId={avatarId} 
+                width="250" height="250" quality="auto" fetchFormat="auto" crop="fill"/>                
               </Grid>
 
               <Grid item xs={6}> 
@@ -188,12 +257,11 @@ const ProfilePage = (props)=>{
                     </div>
                   </Grid>
                 </Grid>
-               
-
-                
-
 
               </Grid>
+              <Grid item xs={6} style={{width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start'}}>
+                {loadEnable && <CircularProgressWithLabel value={loadProgress} />}
+                </Grid>
           </Grid>
       </div>
     );

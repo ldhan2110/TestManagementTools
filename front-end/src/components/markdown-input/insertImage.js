@@ -77,7 +77,6 @@ const InsertImage = (props) => {
             const data = new FormData();
             data.append('file', files[0]);
             data.append('upload_preset', 'testcontrol');
-            var temp = "";
             axios.post("https://api.cloudinary.com/v1_1/testcontrol/image/upload", data, config)
             .then(res => {setUploadedImg(res.data.public_id); setInsertImg(res.data.secure_url); setLoadEnable(false); setLoadProgress(0)})
             .catch(error => setError(error.response.data.error.message))
