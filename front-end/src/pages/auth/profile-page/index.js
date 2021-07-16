@@ -151,7 +151,6 @@ const ProfilePage = (props)=>{
   };
 
   useEffect(()=>{
-    console.log(user);
     if(insAvatar?.sucess === false)
     {
       displayMsg({

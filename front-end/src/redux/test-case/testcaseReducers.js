@@ -2,6 +2,7 @@ import * as types from './constants';
 
 var initialState = {
   success: null,
+  successNoTree: null,
   searchSuccess: null,
   error: "",
   errorMsg:"",
@@ -181,18 +182,18 @@ const reducer = (state = initialState, actions) => {
 
     case types.GET_ALL_TESTSUITE_NO_TREE_REQ:
       return {
-        ...state,
+        ...state, successNoTree: ""
       };
 
     case types.GET_ALL_TESTSUITE_NO_TREE_SUCESS:
         return {
-          ...state,
+          ...state, successNoTree: true,
           listTestsuiteNoTree: payload            
         };
 
     case types.GET_ALL_TESTSUITE_NO_TREE_FAILED:
         return {
-          ...state,
+          ...state, successNoTree: null,
           error: true,
           errorMsg: payload,
         };

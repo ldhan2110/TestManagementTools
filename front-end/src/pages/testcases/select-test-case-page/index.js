@@ -13,6 +13,8 @@ import {
   Button,
   Grid,
 } from '@material-ui/core'
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -78,6 +80,7 @@ const handleSelectTestcase = () =>{
   },[testcase.listTestsuiteNoTree])
 
   useEffect(()=>{
+    testcase.successNoTree = null;
     getAllTestsuiteReq(project);
     getAllTestcaseReq(project); 
     getAllTestsuiteNoTreeReq(project);
@@ -93,7 +96,8 @@ const handleSelectTestcase = () =>{
         fullWidth={true}
         maxWidth={'sm'} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title" style={{color: 'white', background: 'blue'}}>Select Test Case</DialogTitle>
-        <DialogContent dividers>
+        {testcase.successNoTree === "" && <LinearProgress />}
+        <DialogContent dividers>        
           <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '20vw', maxWidth:'20vw'}}>
             <Grid item xs={12}>
               <CheckboxTreeView data={testcase.listTestsuiteNoTree} parentCallback={handleSelect} selected={data}/>
@@ -102,7 +106,7 @@ const handleSelectTestcase = () =>{
         </DialogContent>
 
         <DialogActions>
-          <Button color="primary" onClick={handleSelectTestcase}>
+          <Button color="primary" disabled={testcase.successNoTree === ""? true:false} onClick={handleSelectTestcase}>
             Select
           </Button>
         </DialogActions>

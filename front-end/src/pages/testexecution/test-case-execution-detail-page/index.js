@@ -281,7 +281,7 @@ const TestCaseExecDetail = (props) => {
                           onChange={(event)=>{filterUpdateStep(item._id, "note", event.target.value)}} 
                           multiline fullWidth rows={4}/> */}
                         </Grid>
-                        <Grid item xs={2} style={{marginTop: '34px'}}><FormControl variant="outlined" fullWidth>
+                        <Grid item xs={2} style={{marginTop: '33px'}}><FormControl variant="outlined" fullWidth>
                               <InputLabel id="status">Result</InputLabel>
                                 <Select
                                   labelId="status"

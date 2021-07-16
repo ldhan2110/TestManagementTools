@@ -137,8 +137,9 @@ const NewTestExecutionPage = (props) => {
           });
           setListBuild([{buildname: tempExec[0].build.buildname}]);
         }
+        getBuildByTestPlan({testplanname: testExecInfo.testplanname });
       }      
-      getBuildByTestPlan({testplanname: testExecInfo.testplanname });
+      
     },[testExecInfo.exist_testexecution]);
     
 
@@ -366,7 +367,7 @@ const NewTestExecutionPage = (props) => {
           onChange={handleChange('assigntester')}
         >
            <MenuItem key={''} value={''}>&nbsp;</MenuItem>
-           {listUser.map((item,index) => (
+           {listUser?.map((item,index) => (
               <MenuItem key={index} value={item.username}>{item.username}</MenuItem>
           ))}
         </Select>
