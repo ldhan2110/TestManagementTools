@@ -116,6 +116,7 @@ const ProfilePage = (props)=>{
         phonenumber: inforProfile.phonenumber,
         introduction: inforProfile.introduction
       });
+      console.log(inforProfile.avatar);
     } catch (error) {
       //console.log('error: '+ error);
     }
@@ -234,11 +235,12 @@ const ProfilePage = (props)=>{
               <Typography variant="h5" component="h5" gutterBottom className = {classes.titleImg}>
                 Change profile picture
                 </Typography>                
-                  {/* <Avatar alt="Remy Sharp" src="http://assets.pokemon.com/assets/cms2/img/pokedex/detail/796.png" className={classes.avatar} /> */}                
-                <UploadButton upload={uploadAvatar} uploadedPictureId={handleUploadedId} 
-                  setLoadEnable={setLoadEnable} setLoadProgress={setLoadProgress}/>
+                  {!avatarId && <Avatar alt="Remy Sharp" src="" className={classes.avatar} />}
+                
                 <Image cloudName="testcontrol" publicId={avatarId} 
-                width="250" height="250" quality="auto" fetchFormat="auto" crop="fit"/>                
+                width="250" height="250" quality="auto" fetchFormat="auto" crop="fit"/>  
+                <UploadButton upload={uploadAvatar} uploadedPictureId={handleUploadedId} 
+                  setLoadEnable={setLoadEnable} setLoadProgress={setLoadProgress}/>              
               </Grid>
 
               <Grid item xs={6}> 

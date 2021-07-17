@@ -56,6 +56,7 @@ const UploadButton = (props) => {
         multiple
         type="file"
         onChange={(event) => {setImageSelected(event.target.files)}}
+        hidden
       />
       <label>
         <Button variant="contained" color="primary" component="span" style={{marginLeft: 10}} onClick={uploadImage}>
