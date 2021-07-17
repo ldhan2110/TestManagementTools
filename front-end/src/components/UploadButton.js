@@ -28,19 +28,30 @@ const UploadButton = (props) => {
   const [error, setError] = useState("");
 
   const uploadImage = () => {
+    document.getElementById('fileid').click();
+  };
+
+  const saveImg = (event) =>{
     setError("");
     setLoadProgress(0);
-    const files = imageSelected;
-    if(files[0] !== undefined){
-        setLoadEnable(true); 
-        const data = new FormData();
-        data.append('file', files[0]);
-        data.append('upload_preset', 'testcontrol');
-        axios.post("https://api.cloudinary.com/v1_1/testcontrol/image/upload", data, config)
-        .then(res => {uploadedPictureId(res.data.public_id); upload(res.data.secure_url); setLoadEnable(false); setLoadProgress(0)})
-        .catch(error => {setError(error.response.data.error.message);setLoadEnable(false); setLoadProgress(0);})
-    }    
-  };
+    setImageSelected(event.target.files);
+  }
+
+  useEffect(()=>{
+    if (imageSelected !== ""){
+      const files = imageSelected;
+      if(files[0] !== undefined){
+          setLoadEnable(true); 
+          const data = new FormData();
+          data.append('file', files[0]);
+          data.append('upload_preset', 'testcontrol');
+          axios.post("https://api.cloudinary.com/v1_1/testcontrol/image/upload", data, config)
+          .then(res => {uploadedPictureId(res.data.public_id); upload(res.data.secure_url); setLoadEnable(false); setLoadProgress(0)})
+          .catch(error => {setError(error.response.data.error.message);setLoadEnable(false); setLoadProgress(0);})
+      }    
+    }
+
+  },[imageSelected])
 
   const config = {
     onUploadProgress: progressEvent => setLoadProgress(Math.round(progressEvent.loaded / progressEvent.total * 100))
@@ -52,10 +63,10 @@ const UploadButton = (props) => {
       <input
         accept="image/*"
         className={classes.input}
-        id="contained-button-file"
+        id="fileid"
         multiple
         type="file"
-        onChange={(event) => {setImageSelected(event.target.files)}}
+        onChange={(event) => {saveImg(event)}}
         hidden
       />
       <label>
