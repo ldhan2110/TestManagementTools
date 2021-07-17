@@ -323,29 +323,7 @@ const SettingProjectPage = (props) => {
           helperText={projectInfo.description === 0 && error.description === 0 ? 'Description is required!' : ' '}/>
           </div>
         
-        <div>
-        <FormControlLabel
-              classes= {{label: classes.titleContent}}
-              value="start"
-              control={<Checkbox color="primary" />}
-              label="Use Mantis"
-              labelPlacement="start"
-              value={projectInfo.use_mantis}  onChange={handleUseMantis}
-              checked={projectInfo.use_mantis}
-            />
-        </div>
-          
-        {isUseMantis && 
-          <div>
-          <Grid container spacing={1}>
-            <Grid item>
-            <TextField id="mantisUrl" label="Mantis URL" variant="outlined"  fullWidth required  onChange={handleChange('url')}  />
-            </Grid>
-            <Grid item>
-            <TextField id="mantisToken" label="Mantis Token" variant="outlined"  fullWidth required onChange={handleChange('token')}/>
-            </Grid>
-          </Grid>
-          </div>}
+       
 
 
           <div className = {classes.btnGroup}>
