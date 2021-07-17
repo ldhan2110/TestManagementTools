@@ -36,7 +36,8 @@ import {
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
-  return { 
+  return {
+    projectsettings: state.project,
     insProjects: state.project.insProjects,  
     project:state.project.currentSelectedProject,
     insProjectsDelete: state.project.insProjectsDelete,
@@ -59,7 +60,7 @@ const mapDispatchToProps = dispatch => {
 
 
 const SettingProjectPage = (props) => {
-    const {classes, insProjects, project, insProjectsDelete, updateProjectReq, deleteProjectReq,
+    const {classes, projectsettings, insProjects, project, insProjectsDelete, updateProjectReq, deleteProjectReq,
       displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq, inforProject, role} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
@@ -88,6 +89,7 @@ const SettingProjectPage = (props) => {
   const [loadingg, setLoadingg] = useState(false);
 
   useEffect(()=>{
+    projectsettings.byIDsuccess = null;
     getProjectByIdReq(project);
   },[]);
 
@@ -327,7 +329,9 @@ const SettingProjectPage = (props) => {
 
 
           <div className = {classes.btnGroup}>
-          {(role === 'Project Manager') &&<Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon />}  onClick={handleUpdate}>
+          {(role === 'Project Manager') &&
+          <Button variant="contained" color="primary" disabled={(enableCreateBtn && projectsettings.byIDsuccess === true)  ? false : true } 
+          startIcon={<UpdateIcon />}  onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}

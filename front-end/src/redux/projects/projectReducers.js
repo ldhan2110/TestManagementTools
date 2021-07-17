@@ -2,6 +2,7 @@ import * as types from './constants';
 
 var initialState = {
   success: null,
+  byIDsuccess: null,
   error: "",
   errorMsg:"",
   currentSelectedProject: "",
@@ -169,12 +170,12 @@ const reducer = (state = initialState, actions) => {
 
     case types.GET_PROJECTS_BY_ID_REQ:
       return {
-        ...state,
+        ...state, byIDsuccess: ""
       }
 
     case types.GET_PROJECTS_BY_ID_FAILED:
       return {
-        ...state,
+        ...state, byIDsuccess: null,
         error: true,
         errorMsg: payload,
         projectInfo: ""
@@ -182,7 +183,7 @@ const reducer = (state = initialState, actions) => {
     
     case types.GET_PROJECTS_BY_ID_SUCESS:
         return {
-          ...state,
+          ...state, byIDsuccess: true,
           error: "",
           errorMsg:"",
           projectInfo: payload,
