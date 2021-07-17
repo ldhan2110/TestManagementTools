@@ -236,7 +236,7 @@ const BuildDetailPage = (props) => {
 
     return (
     <div>
-        <Helmet title="New Test Plan" />
+        <Helmet title="Build Details" />
 
       <Grid
         justify="space-between"

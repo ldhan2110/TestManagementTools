@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import DragList from '../../../components/DragList';
 import { connect } from 'react-redux';
 import {ADD_TEST_CASE_REQ, GET_ALL_TESTCASE_REQ, RESET_ADD_TEST_CASE} from '../../../redux/test-case/constants';
+import Helmet from 'react-helmet';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -165,6 +166,7 @@ const TestCaseDetail = (props) => {
 
   return(
     <React.Fragment>
+      <Helmet title="New Test Case" />
       <Grid container spacing={3} >
         <Grid item xs={12}>
             <Typography variant="h4" gutterBottom display="inline">

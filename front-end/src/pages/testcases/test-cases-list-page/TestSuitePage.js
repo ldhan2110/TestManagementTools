@@ -308,7 +308,7 @@ const TestSuiteDetail = (props) => {
         <Grid container spacing={1}>
              <Grid item xs={10}>
                 <Typography variant="h4" gutterBottom display="inline">
-                    Test Suite Detail - {testSuite.name}
+                    Test Suite Details - {testSuite.name}
                 </Typography>
               </Grid>
 

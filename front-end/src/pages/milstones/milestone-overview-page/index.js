@@ -116,7 +116,7 @@ const CustomizedTimeline = (props) => {
 
     <React.Fragment>
 
-      <Helmet title="Service Management" />
+      <Helmet title="Milestones" />
       <Grid
         justify="space-between"
         container 

@@ -188,7 +188,7 @@ const MemberListPage = (props) => {
   return(
     <div>
       <ChangeRolePopup/>
-      <Helmet title="Service Management" />
+      <Helmet title="Members Management" />
       <ChangeRolePopup isOpen={openRoleDialog} openMethod={setOpenRoleDialog} selected={selected}/>
       <NewMemberDialog isOpen={openDialog} openMethod={setOpenDialog}/>
       <Grid

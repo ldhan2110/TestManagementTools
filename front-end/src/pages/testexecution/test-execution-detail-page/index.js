@@ -287,7 +287,7 @@ const TestExecutionDetailPage = (props) => {
 
     return (
     <div>
-        <Helmet title="Test Execution Detail" />
+        <Helmet title="Test Execution Edit" />
 
       <Grid
         justify="space-between"
@@ -295,7 +295,7 @@ const TestExecutionDetailPage = (props) => {
       >
         <Grid item>
               <Typography variant="h3" gutterBottom display="inline">
-                  Test Execution Detail {/*- {testExecInfo.testexecutionname}*/}
+                  Test Execution Edit {/*- {testExecInfo.testexecutionname}*/}
               </Typography>
         </Grid>
         <Grid item>

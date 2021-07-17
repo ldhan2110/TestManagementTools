@@ -79,7 +79,7 @@ const ExportExcel = (props) => {
     return (
             <div>
             { dataset[0].data !== [] && 
-                <ExcelFile element={<Tooltip title="Export test cases" style={{color: red[500]}}><IconButton><Download/></IconButton></Tooltip>}>
+                <ExcelFile element={<Tooltip title="Export test case(s)" style={{color: red[500]}}><IconButton><Download/></IconButton></Tooltip>}>
                     <ExcelSheet dataSet={dataset} name="Test Case"/>
                 </ExcelFile>
             }

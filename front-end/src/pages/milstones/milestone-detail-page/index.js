@@ -227,7 +227,7 @@ const DetailMileStonePage = (props) => {
 
     return (
     <div>
-        <Helmet title="New Milestone" />
+        <Helmet title="Milestone Details" />
 
       <Grid
         justify="space-between"

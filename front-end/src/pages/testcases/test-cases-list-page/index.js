@@ -151,7 +151,7 @@ const TestCaseListPage = (props) => {
     }
     return(
       <div> 
-        <Helmet title="Service Management" />
+        <Helmet title="Test Cases Management" />
         <NewTestSuitePopup isOpen={openNewTS} setOpen={setOpenTS} selected={selected}/>
         <Grid container>
           <Grid item xs={12}>

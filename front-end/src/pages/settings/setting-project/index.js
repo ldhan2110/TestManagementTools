@@ -235,7 +235,7 @@ const SettingProjectPage = (props) => {
   return(
     <div>
 
-      <Helmet title="Settings" />
+      <Helmet title="Project Settings" />
 
       <Grid
         justify="space-between"

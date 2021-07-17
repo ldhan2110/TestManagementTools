@@ -272,7 +272,7 @@ const TestCaseDetail = (props) => {
             arrow interactive enterDelay={500} leaveTouchDelay={2000} disableHoverListener={disableHoverTooltip}
              >
             <Typography variant="h5" noWrap style={{marginTop: 15}} id="gridtclist-typography">
-                Test Case Detail - {newtestCase.testcasename}
+                Test Case Details - {newtestCase.testcasename}
             </Typography> 
             </Tooltip>
           </Grid>

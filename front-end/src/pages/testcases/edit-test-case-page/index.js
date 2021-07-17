@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {UPDATE_TESTCASE_REQ, DELETE_TESTCASE_REQ, RESET_UPDATE_TESTCASE, RESET_DELETE_TESTCASE, GET_ALL_TESTCASE_REQ} from '../../../redux/test-case/constants';
+import Helmet from 'react-helmet';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import ExportExcel from '../../../components/ExportExcel/ExportExcel';
@@ -284,6 +285,7 @@ const EditTestCasePage = (props) => {
 
   return(
     <React.Fragment>
+      <Helmet title="Edit Test Case" />
       <Grid container spacing={3} >
         <Grid item xs={12}>
         <Grid container justify='space-between' wrap="nowrap">

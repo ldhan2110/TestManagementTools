@@ -226,7 +226,7 @@ const DetailRequirementPage = (props) => {
 
     return (
     <div>
-        <Helmet title="Requirement Detail" />
+        <Helmet title="Requirement Details" />
 
       <Grid
         justify="space-between"
@@ -234,7 +234,7 @@ const DetailRequirementPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Requirement Detail {/*- {props.history.location.state.projectrequirementname}*/}
+            Requirement Details {/*- {props.history.location.state.projectrequirementname}*/}
           </Typography>
         </Grid>
         <Grid item>

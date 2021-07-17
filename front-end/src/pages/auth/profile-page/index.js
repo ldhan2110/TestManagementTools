@@ -1,6 +1,7 @@
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {UPDATE_PROFILE_REQ, UPDATE_PASSWORD_REQ, GET_CURRENT_USER_REQ, UPDATE_AVATAR_REQ} from '../../../redux/users/constants';
 import React, {useEffect, useState} from "react";
+import Helmet from 'react-helmet';
 import styles from './styles';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
@@ -198,7 +199,8 @@ const ProfilePage = (props)=>{
 
 
     return (
-      <div className={classes.root}>
+      
+      <div className={classes.root}><Helmet title={profileInfo.fullname} />
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
           <Typography component="h1" variant="h1" gutterBottom className = {classes.title}>
                 Profile

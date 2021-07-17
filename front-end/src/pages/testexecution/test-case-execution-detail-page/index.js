@@ -7,7 +7,7 @@ import { blue } from '@material-ui/core/colors';
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import ArrorBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-
+import Helmet from 'react-helmet';
 import {
   Grid,
   Typography,
@@ -195,10 +195,12 @@ const TestCaseExecDetail = (props) => {
 
   return(
     <React.Fragment>
+      <Helmet title="Executing Test Cases" />
+
       <Grid container spacing={3} >
         <Grid item xs={12}>
             <Typography variant="h4" gutterBottom display="inline">
-                Test Case Detail
+                Test Case Details
             </Typography>
             <Divider/>
         </Grid>

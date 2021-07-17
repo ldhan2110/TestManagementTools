@@ -262,7 +262,7 @@ const TestExecutionListPage = (props) => {
   return(
     <div>
 
-      <Helmet title="Service Management" />
+      <Helmet title="Test Executions Management" />
 
       <Grid
         justify="space-between"

@@ -6,6 +6,7 @@ import useStyles from './styles';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {SEND_MAIL_RESET_PASSWORD_REQ, RESET_SEND_MAIL_RESET_PASSWORD} from '../../../redux/account/constants';
+import Helmet from 'react-helmet';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SendIcon from '@material-ui/icons/Send';
@@ -98,6 +99,7 @@ const ForgotPassword = (props) => {
 
     return(
     <React.Fragment>
+      <Helmet title="Forgot Password" />
         <div className = {classes.formContainer}>
             <Typography component="h1" variant="h1" gutterBottom className = {classes.title}>
                 Forgot Password

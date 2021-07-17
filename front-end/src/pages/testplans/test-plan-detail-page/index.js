@@ -194,7 +194,7 @@ const TestPlanDetailPage = (props) => {
 
     return (
     <div>
-        <Helmet title="Test Plan Detail" />
+        <Helmet title="Test Plan Details" />
 
       <Grid
         justify="space-between"
@@ -202,7 +202,7 @@ const TestPlanDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Test Plan Detail {/*- {props.history.location.state.testplanname}*/}
+            Test Plan Details {/*- {props.history.location.state.testplanname}*/}
           </Typography>
         
           
