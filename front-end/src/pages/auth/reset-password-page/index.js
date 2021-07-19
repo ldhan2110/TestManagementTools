@@ -71,7 +71,7 @@ const ResetPassword = (props) => {
       confirmPassword: 'ss',
   });
 
-  try {
+
     useEffect(()=>{
       if (isConfirmPassword.sucess === false){
         setLoading(false);
@@ -98,9 +98,6 @@ const ResetPassword = (props) => {
         history.replace('/login');
       }
     },[isConfirmPassword.sucess]); 
-    } catch (error) {
-      //console.log('error: '+error);
-    }
   
       //HANDLE CLOSE POPUP
     const handleClose = () => { 
