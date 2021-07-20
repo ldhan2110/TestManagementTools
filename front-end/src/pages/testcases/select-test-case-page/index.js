@@ -12,8 +12,10 @@ import {
   DialogTitle,
   Button,
   Grid,
+  AppBar, Toolbar, IconButton, Typography
 } from '@material-ui/core'
 import LinearProgress from '@material-ui/core/LinearProgress';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 //MAP STATES TO PROPS - REDUX
@@ -87,16 +89,26 @@ const handleSelectTestcase = () =>{
   },[])
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 
   return (
     <React.Fragment > 
       <Dialog open={open}   
-        fullWidth={true}
-        maxWidth={'sm'} onClose={handleClose} aria-labelledby="form-dialog-title">
+        fullScreen 
+         onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title" style={{color: 'white', background: 'blue'}}>Select Test Case</DialogTitle>
         {testcase.successNoTree === "" && <LinearProgress />}
+        <AppBar>
+          <Toolbar> 
+            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6">
+              Select Test Case
+            </Typography>
+           
+          </Toolbar>
+        </AppBar>
         <DialogContent dividers>        
           <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '20vw', maxWidth:'20vw'}}>
             <Grid item xs={12}>
