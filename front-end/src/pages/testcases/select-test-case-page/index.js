@@ -96,7 +96,7 @@ const handleSelectTestcase = () =>{
       <Dialog open={open}   
         fullScreen 
          onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title" style={{color: 'white', background: 'blue'}}>Select Test Case</DialogTitle>
+        <DialogTitle id="form-dialog-title">Select Test Case</DialogTitle>
         {testcase.successNoTree === "" && <LinearProgress />}
         <AppBar>
           <Toolbar> 

@@ -138,7 +138,7 @@ const NewTestSuitePopup = (props) => {
 
     return (
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title" style={{color: 'white', background: 'blue'}}>New Test Suite</DialogTitle>
+        <DialogTitle id="form-dialog-title">New Test Suite</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={1}>
             <Grid item xs={12}>
