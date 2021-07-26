@@ -15,8 +15,7 @@ import {GET_ALL_TESTCASE_REQ, ADD_TEST_SUITE_REQ, RESET_ADD_TEST_SUITE, GET_ALL_
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
-//import CircularProgress from '@material-ui/core/CircularProgress';
-import { LinearProgress } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
@@ -137,7 +136,6 @@ const NewTestSuitePopup = (props) => {
 
     return (
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        {loading && <LinearProgress />}
         <DialogTitle id="form-dialog-title">New Test Suite</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={1}>
@@ -159,7 +157,7 @@ const NewTestSuitePopup = (props) => {
         <DialogActions>
           <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
-            {/* {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>} */}
+            {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
           </Button>
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose} >
             Cancel
