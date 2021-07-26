@@ -10,7 +10,7 @@ import {GET_ALL_TESTCASE_REQ, GET_ALL_TESTSUITE_REQ, GET_ALL_TESTSUITE_NO_TREE_R
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import { red } from '@material-ui/core/colors';
-
+import Backdrop from '@material-ui/core/Backdrop';
 import NewTestSuitePopup from '../new-test-suite-page/index';
 import {
   Grid,
@@ -26,6 +26,7 @@ import {
 } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InfoIcon from '@material-ui/icons/Info';
+
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -236,7 +237,12 @@ const TestCaseListPage = (props) => {
                             {(testcase.success === "" || testcase.searchSuccess === "") && <LinearProgress/>}
                       <Divider />
                     </Grid>
-                      <Grid item xs={12}><TreeView data={listTestCase} setSelectNode={setSelectNode}/></Grid>
+                      <div style={(testcase.success === "" || testcase.searchSuccess === "") ?
+                      {opacity: 0.5, pointerEvents: 'none'}:{opacity: 1, pointerEvents: 'initial'}}>
+                        <Grid item xs={12}>
+                          <TreeView data={listTestCase} setSelectNode={setSelectNode}/>
+                        </Grid>
+                      </div>
                     </Grid>
                   </Grid>
 

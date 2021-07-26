@@ -15,7 +15,8 @@ import {GET_ALL_TESTCASE_REQ, ADD_TEST_SUITE_REQ, RESET_ADD_TEST_SUITE, GET_ALL_
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
-import CircularProgress from '@material-ui/core/CircularProgress';
+//import CircularProgress from '@material-ui/core/CircularProgress';
+import { LinearProgress } from '@material-ui/core';
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
@@ -69,7 +70,6 @@ const NewTestSuitePopup = (props) => {
 
   useEffect(()=>{
      if (insTestsuiteCreate.sucess === false){
-      setLoading(false);
       displayMsg({
         content: insTestsuiteCreate.errMsg,
         type: 'error'
@@ -78,7 +78,6 @@ const NewTestSuitePopup = (props) => {
       setLoading(false);
       resetAddRedux();
     } else if (insTestsuiteCreate.sucess === true) {
-      setLoading(false);
       displayMsg({
         content: "Create test suite successfully!",
         type: 'success'
@@ -138,6 +137,7 @@ const NewTestSuitePopup = (props) => {
 
     return (
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        {loading && <LinearProgress />}
         <DialogTitle id="form-dialog-title">New Test Suite</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={1}>
@@ -159,7 +159,7 @@ const NewTestSuitePopup = (props) => {
         <DialogActions>
           <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
             Create
-            {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
+            {/* {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>} */}
           </Button>
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose} >
             Cancel

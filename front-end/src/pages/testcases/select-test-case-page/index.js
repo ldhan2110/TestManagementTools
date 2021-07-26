@@ -14,7 +14,7 @@ import {
   Grid,
   AppBar, Toolbar, IconButton, Typography
 } from '@material-ui/core'
-import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseIcon from '@material-ui/icons/Close';
 
 
@@ -97,7 +97,6 @@ const handleSelectTestcase = () =>{
         fullScreen 
          onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Select Test Case</DialogTitle>
-        {testcase.successNoTree === "" && <LinearProgress />}
         <AppBar>
           <Toolbar> 
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
@@ -109,12 +108,16 @@ const handleSelectTestcase = () =>{
            
           </Toolbar>
         </AppBar>
-        <DialogContent dividers>        
-          <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '20vw', maxWidth:'20vw'}}>
-            <Grid item xs={12}>
+        <DialogContent dividers>
+        {testcase.successNoTree === "" ? 
+          <div style={{height:'100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <CircularProgress />
+          </div> :     
+          <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '20vw', maxWidth:'20vw'}}>          
+            <Grid item xs={12}>              
               <CheckboxTreeView data={testcase.listTestsuiteNoTree} parentCallback={handleSelect} selected={data}/>
             </Grid>
-          </Grid>
+          </Grid>}
         </DialogContent>
 
         <DialogActions>
