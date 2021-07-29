@@ -24,6 +24,15 @@ const styles = {
     gap:"10px",
   },
 
+  form:{
+    marginTop: '5px',
+    width: "100%"
+},
+
+btnGroup:{
+  marginTop: '-5px',
+},
+
   avatar:{
     width: "15vw",
     margin: "15px",

@@ -6,12 +6,15 @@ import styles from './styles';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import {
   TextField,
   Button,
   Typography,
   Divider,
   Grid,
+  FormControl,
+  InputLabel,
   Avatar
 } from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
@@ -21,6 +24,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
+import {CONFIRM_RESET_PASSWORD_REQ, RESET_CONFIRM_RESET_PASSWORD} from '../../../redux/account/constants';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 function CircularProgressWithLabel(props) {
     return (
@@ -60,7 +69,8 @@ const  mapStateToProps = (state) => {
     insAvatar: state.user.insAvatar,
     insProfile: state.user.insProfile,
     insPassword: state.user.insPassword,
-    inforProfile: state.user.inforProfile}
+    inforProfile: state.user.inforProfile,
+    isConfirmPassword: state.account.isConfirmPassword}
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
@@ -70,16 +80,19 @@ const mapDispatchToProps = dispatch => {
     updateAvatarReq: (payload) => dispatch({ type: UPDATE_AVATAR_REQ, payload }),
     updatePasswordReq: (payload) => dispatch({ type: UPDATE_PASSWORD_REQ, payload }),
     getCurrentProfileReq: (payload) => dispatch({ type: GET_CURRENT_USER_REQ, payload}),
-    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload })
+    displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    resetAddRedux: () => dispatch({type: RESET_CONFIRM_RESET_PASSWORD})
   }
 }
 
 const ProfilePage = (props)=>{
 
-  const {insProfile, insAvatar, updateAvatarReq, user, updateProfileReq, updatePasswordReq, inforProfile, getCurrentProfileReq, insPassword, displayMsg,} = props;
+  const {insProfile, insAvatar, updateAvatarReq, user, updateProfileReq, updatePasswordReq, inforProfile, getCurrentProfileReq, insPassword, displayMsg,isConfirmPassword, resetAddRedux} = props;
   const {classes} = props;
   const [error, setError] = useState({
     fullname: 'ss',
+    password: 'ss',
+      confirmpassword: 'ss',
   });
   const [open, setOpen] = React.useState(false);
   const [checkError, setCheckError] = useState(false);
@@ -92,7 +105,9 @@ const ProfilePage = (props)=>{
 
   const [passwordInfo, setPasswordInfo] = useState({
     password: '',
-    confirmpassword: ''
+    confirmpassword: '',
+    showPassword: false,
+    showPasswordd: false,
   });
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);  
   const [loading, setLoading] = useState(false);
@@ -172,11 +187,70 @@ const ProfilePage = (props)=>{
 
   const handleClose = () => {
     history.goBack();
+    setCheckError(false);
     setOpen(false);
   };
 
+  const handleClear = () => {
+    setPasswordInfo({
+      password: '',
+      confirmpassword: ''
+    })
+    setCheckError(false);
+  };
+
+  useEffect(()=>{
+    if (insPassword?.sucess === false){
+      displayMsg({
+        content: insPassword.errMsg,
+        type: 'error'
+      });
+      //setCheckErrorMsg(false);
+      setEnableCreateBtn(true);
+      setLoading(false);
+      resetAddRedux();
+        } 
+        
+      else if (insPassword?.sucess  === true) {
+      displayMsg({
+        content: "Change password successfully !",
+        type: 'success'
+      });
+      setEnableCreateBtn(true);
+      setLoading(false);
+      handleClear();
+      resetAddRedux();
+    }
+  },[insPassword?.sucess]); 
+
   const handleUpdatePassword = () => {
-    updatePasswordReq(passwordInfo);
+    setCheckError(true);
+        
+        if(passwordInfo.password === "")
+        setError({ ...passwordInfo, password: "" });
+
+        if(passwordInfo.confirmpassword === "")
+        setError({ ...passwordInfo, confirmpassword: "" });
+
+        if(passwordInfo.confirmpassword !== passwordInfo.password)
+        setError({ ...passwordInfo, confirmpassword: "" });
+
+       /* if(values.password === "" && values.confirmPassword === "" && values.password.trim().length == values.confirmPassword.trim().length)
+        setError({ ...values, password: "" }); */
+
+        /*if(values.password.trim().length == 0 && values.confirmPassword.trim().length == 0
+         && isConfirmPassword.sucess == true ){
+          setError({ ...values, password: "" });
+    }*/
+        
+        if(passwordInfo.password !== "" && passwordInfo.confirmpassword !== "" 
+        && passwordInfo.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/)
+        && passwordInfo.confirmpassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/)){
+          setEnableCreateBtn(false);
+          setLoading(true);
+          updatePasswordReq(passwordInfo);
+        }
+
   };
 
   const handleChangeProfile = (prop) => (event) => {
@@ -187,7 +261,26 @@ const ProfilePage = (props)=>{
 
   const handleChangePassword = (prop) => (event) => {
     setPasswordInfo({ ...passwordInfo, [prop]: event.target.value });
+
+    if(checkError === true)
+setError({ ...error, [prop]: event.target.value });
   };
+
+  const handleClickShowPassword = () => {
+    setPasswordInfo({ ...passwordInfo, showPassword: !passwordInfo.showPassword });
+  };
+
+const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+const handleClickShowPasswordd = () => {
+  setPasswordInfo({ ...passwordInfo, showPasswordd: !passwordInfo.showPasswordd });
+  };
+
+  const handleMouseDownPasswordd = (event) => {
+    event.preventDefault();
+   };
 
   const uploadAvatar = (url) => {
     setAvatarUrl(url);
@@ -246,17 +339,88 @@ const ProfilePage = (props)=>{
               </Grid>
 
               <Grid item xs={6}> 
-              <Typography variant="h5" component="h5" gutterBottom className = {classes.title}>Change Password</Typography>
+              <Typography variant="h5" component="h5" gutterBottom className = {classes.title} >Change Password</Typography>
                 <Grid container spacing={3} >
                   <Grid item xs={12}>
-                      <TextField id="password" label="Password" variant="outlined" fullWidth required type="password" value={passwordInfo.password || ''} onChange={handleChangePassword('password')}/>
-                  </Grid>
-                  <Grid item xs={12}>    
-                    <TextField id="confirmpassword" label="Confirm Password" variant="outlined" fullWidth type="password" required value={passwordInfo.confirmpassword || ''} onChange={handleChangePassword('confirmpassword')}/>
+                  <FormControl className = {classes.form}  variant="outlined" fullWidth required={true}>
+                <InputLabel htmlFor="new password">New Password</InputLabel>
+                <OutlinedInput
+                    id="new password"
+                      //error={error.password === 0 && values.password === 0 ? true : false}
+                      
+                      error={checkError && error.password.trim().length === 0 && passwordInfo.password.trim().length === 0 ? true : false}
+                      error={checkError && !error.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && !passwordInfo.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) ? true : false}
+                      
+                      value={passwordInfo.password}
+                      onChange={handleChangePassword('password')}
+                      labelWidth={100}
+                      fullWidth
+                      required={true}
+                      //type="password"
+                      type={passwordInfo.showPassword ? 'text' : 'password'}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {passwordInfo.showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      } 
+                  />
+                  {checkError && !error.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && !passwordInfo.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Password must be 8-16 characters, at least 1 uppercase, 1 lowercase, and 1 number</FormHelperText>} 
+            </FormControl>
+                      {/*label="Password" variant="outlined" fullWidth required type="password" value={passwordInfo.password || ''} onChange={handleChangePassword('password')}/>*/}
+                      <Grid item xs={12}> 
+                      <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                      <FormControl  className = {classes.form} variant="outlined" fullWidth required={true}>
+                <InputLabel htmlFor="confirm new password">Confirm New Password</InputLabel>
+                <OutlinedInput
+                    id="confirm new password"
+                    error={error.confirmpassword === 0 && passwordInfo.confirmpassword === 0 ? true : false}
+                    // error={!values.password.match(/^.{8,16}$/) && !values.confirmPassword.match(/^.{8,16}$/) ? true : false}
+                    
+                    error={checkError && error.confirmpassword.trim().length === 0 && passwordInfo.confirmpassword.trim().length === 0 ? true : false}
+                    error={checkError && !error.confirmpassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && !passwordInfo.confirmpassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) ? true : false}
+        
+                     /*error={values.error ? true : false} */
+                     value={passwordInfo.confirmpassword}
+                     onChange={handleChangePassword('confirmpassword')}
+                     labelWidth={150}
+                     fullWidth
+                     required={true}
+                     //type="confirmPassword"
+                     type={passwordInfo.showPasswordd ? 'text' : 'password'}
+                     endAdornment={
+                       <InputAdornment position="end">
+                         <IconButton
+                           aria-label="toggle password visibility"
+                           onClick={handleClickShowPasswordd}
+                           onMouseDown={handleMouseDownPasswordd}
+                           edge="end"
+                         >
+                           {passwordInfo.showPasswordd ? <Visibility /> : <VisibilityOff />}
+                         </IconButton>
+                       </InputAdornment>
+                     } 
+                 />
+                 {checkError && !error.confirmpassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && !passwordInfo.confirmpassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/) && <FormHelperText id="component-error-text" error={true}>Confirm New Password must be 8-16 characters, at least 1 uppercase, 1 lowercase, and 1 number</FormHelperText>} 
+            
+           </FormControl>
+           </Grid>
+           </Grid>
+           </Grid>
+                   {/*label="Confirm Password" variant="outlined" fullWidth type="password" required value={passwordInfo.confirmpassword || ''} onChange={handleChangePassword('confirmpassword')}/>*/}
                   </Grid>
                   <Grid item xs={12}>   
                       <div className = {classes.btnGroup}>
-                        <Button variant="contained" color="primary" onClick={handleUpdatePassword}>Change Password</Button>
+                        <Button variant="contained" color="primary"  disabled={enableCreateBtn ? false : true }  onClick={handleUpdatePassword}>Change Password
+                        {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                        </Button>
                     </div>
                   </Grid>
                 </Grid>
