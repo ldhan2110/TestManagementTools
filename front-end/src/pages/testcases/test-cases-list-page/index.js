@@ -238,7 +238,7 @@ const TestCaseListPage = (props) => {
                       <Divider />
                     </Grid>
                       <div style={(testcase.success === "" || testcase.searchSuccess === "") ?
-                      {opacity: 0.5, pointerEvents: 'none'}:{opacity: 1, pointerEvents: 'initial'}}>
+                      {opacity: 0.5, pointerEvents: 'none', width: "100%"}:{opacity: 1, pointerEvents: 'initial', width: "100%"}}>
                         <Grid item xs={12}>
                           <TreeView data={listTestCase} setSelectNode={setSelectNode}/>
                         </Grid>
