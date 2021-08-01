@@ -2,7 +2,8 @@ import React from "react"; //,useEffect
 import styled, { withTheme } from "styled-components";
 
 import {
-  Card as MuiCard,
+  Card as MuiCard, Box,
+  Chip as MuiChip,
   CardContent as MuiCardContent,
   CardHeader,
   IconButton,
@@ -13,6 +14,8 @@ import {
   TableRow as MuiTableRow,
   Typography
 } from "@material-ui/core";
+
+import { blue } from '@material-ui/core/colors'
 
 import { spacing } from "@material-ui/system";
 
@@ -26,6 +29,14 @@ const CardContent = styled(MuiCardContent)`
   &:last-child {
     padding-bottom: ${props => props.theme.spacing(2)}px;
   }
+`;
+
+const Chip = styled(MuiChip)`
+  height: 20px;
+  padding: 4px 0;
+  font-size: 90%;
+  background-color: ${(props) => props.rgbcolor};
+  color: ${(props) => props.theme.palette.common.white};
 `;
 
 const ChartWrapper = styled.div`
@@ -71,13 +82,18 @@ const PieChart = (props) => {
     cutoutPercentage: 80
   };
 
+  var d = new Date();
+
   return (
     <Card mb={3}>
       <CardHeader
         action={
-          <IconButton aria-label="settings">
+          <Box>
+            <Chip label={d.toLocaleDateString(undefined, { month: 'long'})} rgbcolor={blue[500]} />
+          </Box>
+          /* <IconButton aria-label="settings">
             <MoreVertical />
-          </IconButton>
+          </IconButton>*/
         }
         title="Test Execution Overview"
       />
