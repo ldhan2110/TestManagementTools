@@ -71,7 +71,7 @@ const TableCell = styled(MuiTableCell)`
 
 const PieChart = (props) => {
 
-  const {dataset, overviewData} = props;
+  const {dataset, overviewData, type} = props;
 
  
   const options = {
@@ -89,7 +89,8 @@ const PieChart = (props) => {
       <CardHeader
         action={
           <Box>
-            <Chip label={d.toLocaleDateString(undefined, { month: 'long'})} rgbcolor={blue[500]} />
+            {type === 'dashboard' && 
+            <Chip label={d.toLocaleDateString(undefined, { month: 'long'})} rgbcolor={blue[500]} />}
           </Box>
           /* <IconButton aria-label="settings">
             <MoreVertical />
@@ -102,7 +103,9 @@ const PieChart = (props) => {
         <ChartWrapper>
           <DoughnutInner variant="h4">
             <Typography variant="h4">{overviewData}</Typography>
-            <Typography variant="caption">new test executed</Typography>
+            {type === 'dashboard' ? 
+            <Typography variant="caption">new tests executed</Typography>:
+            <Typography variant="caption">tests executed</Typography>}
           </DoughnutInner>
           <Doughnut data={dataset} options={options} />
         </ChartWrapper>

@@ -235,7 +235,7 @@ const  Dashboard = (props) => {
           <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
             <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}/>
           </div> :
-          <DoughnutChart dataset={dataExecOverview} overviewData={execOverviewData.data ? execOverviewData.data.overviewdata : 0}/>}
+          <DoughnutChart dataset={dataExecOverview} type='dashboard' overviewData={execOverviewData.data ? execOverviewData.data.overviewdata : 0}/>}
         </Grid>
       </Grid>
 
