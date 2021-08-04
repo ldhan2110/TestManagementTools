@@ -205,15 +205,7 @@ const SelectTestCasePopup = (props) => {
     }
   },[testcase.successNoTree])
 
-  // useEffect(()=>{
-  //   if(pressSearch === true && testcase.searchInExecSuccess === true) {
-  //     setListTestCase(testcase.listTestcaseInExec);
-  //     setPressSearch(false);
-  //   }
-  // },[testcase.searchInExecSuccess])
-
   useEffect(()=>{
-    testcase.searchInExecSuccess = null;
     testcase.successNoTree = null;
     getAllTestsuiteReq(project);
     getAllTestcaseReq(project); 
@@ -491,7 +483,7 @@ const SelectTestCasePopup = (props) => {
           </Toolbar>
         </AppBar>
         <DialogContent dividers>
-        {(testcase.successNoTree === "" || testcase.searchInExecSuccess === "") ? 
+        {(testcase.successNoTree === "") ? 
           <div style={{height:'100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <CircularProgress />
           </div> :     
