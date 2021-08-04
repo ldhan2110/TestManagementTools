@@ -229,9 +229,10 @@ const SelectTestCasePopup = (props) => {
       if(typeof obj[prop] === "object"){
         iterateObject(obj[prop], value);
       } else {
-        if(prop === 'label' && obj[prop] === value && value && obj.type === 'TC') {
+        if(prop === 'label' && obj[prop] === value && value) {
           for(var i = 0; i < obj['children']?.length; i++){
-            arr.push(obj['children'][i].label);
+            if(obj?.children[i]?.type === 'TC')
+              arr.push(obj['children'][i].label);
           }          
         }
         else if(value === undefined)
