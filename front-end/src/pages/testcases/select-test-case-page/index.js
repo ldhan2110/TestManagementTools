@@ -229,7 +229,7 @@ const SelectTestCasePopup = (props) => {
       if(typeof obj[prop] === "object"){
         iterateObject(obj[prop], value);
       } else {
-        if(prop === 'label' && obj[prop] === value && value) {
+        if(prop === 'label' && obj[prop] === value && value && obj.type === 'TC') {
           for(var i = 0; i < obj['children']?.length; i++){
             arr.push(obj['children'][i].label);
           }          

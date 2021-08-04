@@ -12,15 +12,20 @@ const CheckboxTreeView = (props) => {
 
    const [ nodesFiltered, setNodesFiltered ] = React.useState([data]);
 
-   useEffect(()=>{
-    values = [];
-    filterTree();
-   },[text]);
+  //  useEffect(()=>{
+  //   values = [];
+  //   filterTree();
+  //  },[text]);
+
+  //  useEffect(()=>{
+  //   values = [];
+  //   filterTreeSuite();
+  //  },[suite]);
 
    useEffect(()=>{
     values = [];
-    filterTreeSuite();
-   },[suite]);
+    onChangeSearch();
+   },[text, suite]);
 
    useEffect(()=>{
     parentCallback(checked);
@@ -33,35 +38,54 @@ const CheckboxTreeView = (props) => {
     }
    },[data]);
 
-    const filterTree = () => {
+   const onChangeSearch = () =>{
+    if(suite.length > 0){
+      if(text.length > 0) {
+        setNodesFiltered(filterTree(filterTreeSuite([data])));
+        setExpand(values1);
+        //filterTree(nodesFiltered);
+      } else {
+        setNodesFiltered(filterTreeSuite([data]));
+        setExpand(values1);
+      }
+    } else{
+      if(!text || text == "" || text.length === 0) {      
+        setNodesFiltered(filterTree([data]));
+        setExpand([data.value]);
+      } else {
+        setNodesFiltered(filterTree([data]));
+        setExpand(values1);
+      }
+    }
+   }
+
+    const filterTree = (data) => {
     // Reset nodes back to unfiltered state
         if (!text || text == "" || text.length === 0) {
     // Collapse all node when TEXT BOX empty
-            //setExpand([data.value]);
-            setNodesFiltered([data])
-            return;
+            //setExpand([data.value]);            
+            return data;
         }
         const nodesFiltered = nodes => {
             return nodes.reduce(filterNodes , [])  
         };
-        setNodesFiltered(nodesFiltered([data]));
-        setExpand(values1);
+        //setNodesFiltered(nodesFiltered(data));        
+        return nodesFiltered(data);
     }
-    const filterTreeSuite = () => {
+
+    const filterTreeSuite = (data) => {
     // Reset nodes back to unfiltered state
       if (!suite || suite == "" || suite.length === 0) {
     // Collapse all node when SUITE BOX empty
-          setExpand([data.value]);
-          setNodesFiltered([data])
-          return;
+          setExpand(data?.value);          
+          return data;
       }
       const nodesFiltered = nodes => {
           return nodes.reduce(filterNodesSuite , [])  
       };
-      setNodesFiltered(nodesFiltered([data]));
-    // Auto expand to filtered node (may cause lag)
-      setExpand(values1);
+      return nodesFiltered(data);
   }
+  
     // Filter nodes on TEXT box
     const filterNodes = (filtered, node) => {
         const children = (node.children || []).reduce(filterNodes, []);
@@ -118,7 +142,7 @@ const CheckboxTreeView = (props) => {
    
     return (
             <CheckboxTree
-                nodes={text.length !== 0 ? nodesFiltered : [data]}
+                nodes={nodesFiltered}
                 checked={checked}
                 expanded={expanded}
                 onCheck={checked => setChecked( checked )}
