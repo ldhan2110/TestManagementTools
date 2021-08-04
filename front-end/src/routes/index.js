@@ -46,6 +46,7 @@ const DetailBuildPage = async(()=>import('../pages/builds/build-detail-page/inde
 //Setting components
 const MemberListPage = async(()=>import('../pages/settings/members/index'));
 const SettingProjectPage = async(()=>import('../pages/settings/setting-project/index'));
+const MantisConfigPage = async(()=>import('../pages/settings/mantis-config/index'));
 
 //Milestone components
 const MileStonePage = async(()=>import('../pages/milstones/milestone-overview-page/index'));
@@ -60,7 +61,10 @@ const EditTestCasePage = async(()=>import('../pages/testcases/edit-test-case-pag
 //Requirements components
 const RequirementListPage = async(()=>import(('../pages/requirements/requirements-list-page/index')));
 const NewRequirementPage = async(()=>import(('../pages/requirements/new-requirement-page/index')));
-const RequirementDetailPage = async(()=>import(('../pages/requirements/requirement-details-page/index')))
+const RequirementDetailPage = async(()=>import(('../pages/requirements/requirement-details-page/index')));
+
+//Issues components
+const IssueListPage = async(()=>import(('../pages/issues/issue-list/index')));
 
 const dashboardRoute = {
   id: "Dashboard",
@@ -89,7 +93,14 @@ const projectSettingRoutes = {
       name: "Members",
       icon: <Users/>,
       component: MemberListPage
-    }
+    },
+    {
+      id: "Mantis Configuration",
+      path: "/projects/:projectName/mantis-config",
+      name: "Mantis Configuration",
+      icon: <Users/>,
+      component: MantisConfigPage
+    },
   ]
 };
 
@@ -111,6 +122,7 @@ const resetPasswordRoute = {
   name: "Reset Password",
   component: ResetPassword
 }
+
 
 const error500Route = {
   path: "/error/500",
@@ -138,6 +150,17 @@ const projectListRoute = {
   restrict: true,
   exact: true,
   component: ProjectList
+}
+
+//ISSUE
+const issueListRoute = {
+  id: "Issues",
+  path: "/projects/:projectName/issues",
+  icon: <Trello/>,
+  name: "Issues",
+  restrict: true,
+  exact:true,
+  component: IssueListPage
 }
 
 //TEST PLAN
@@ -396,6 +419,7 @@ export const primaryLayoutRoutes = [
   newRequirementsRoute,
   requirementsDetailRoute,
   testCaseReExecResultRoute,
+  issueListRoute,
   editTestcaseRoute
 ];
 
@@ -416,6 +440,7 @@ export const sidebarRoutes = [
   testExecutionListRoute,
   testCaseRoute,
   buildListRoute,
+  issueListRoute,
   milestoneRoute,
   projectSettingRoutes,
 ];

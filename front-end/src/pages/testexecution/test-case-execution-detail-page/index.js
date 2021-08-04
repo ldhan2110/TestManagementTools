@@ -28,6 +28,8 @@ import { DISPLAY_MESSAGE } from "../../../redux/message/constants";
 import { EXECUTE_TEST_CASE_REQ, GET_ALL_TESTEXEC_REQ, SELECT_TEST_CASE_REQ, RESET_EXECUTE_TEST_CASE } from "../../../redux/test-execution/constants";
 import MarkedInput from "../../../components/markdown-input/MarkedInput";
 import MarkedResult from "../../../components/markdown-input/MarkedResult";
+import NewIssuePage from "../../issues/new-issue-page/index.js";
+
 
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
@@ -98,6 +100,7 @@ const TestCaseExecDetail = (props) => {
   const [isRetest,setRetest] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 're-execute-result'  ? true : false);
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [openNewIssue,setOpenNewIssue] = useState(false); 
 
   useEffect(()=>{
     if (currentIdx > execTest.listTestCase.length || currentIdx < 0) return;
@@ -191,6 +194,10 @@ const TestCaseExecDetail = (props) => {
 
   const handleClose = () => {
     history.goBack();
+  }
+  
+  const handleOpenNewIssue = () => {
+    setOpenNewIssue(true);
   }
 
   return(
@@ -308,10 +315,20 @@ const TestCaseExecDetail = (props) => {
 
         <Grid item xs={12}>
           <Grid container justify='space-between' styles={{display: 'inline'}}>
-              <Grid item>
-                <Typography variant="h5" gutterBottom display="inline">
+              <Grid item xs= {12}>
+              <Grid container justify='space-between' spacing={1}>
+                <Grid item xs={10}>
+                  <Typography variant="h5" gutterBottom display="inline">
                    Result
-                </Typography>
+                  </Typography>
+                </Grid>
+              
+              <NewIssuePage isOpen={openNewIssue} setOpen={setOpenNewIssue}/>
+                {!viewMode && <Grid item xs={2}>
+                  <Button variant="contained" color="primary" fullWidth endIcon={<ArrowForwardIcon />} onClick={handleOpenNewIssue}> Report Issue</Button>
+                </Grid>}
+              </Grid>
+                
               </Grid>
 
               
