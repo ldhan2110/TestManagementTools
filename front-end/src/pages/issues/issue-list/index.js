@@ -4,9 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import EnhancedTable from '../../../components/Table/index';
 import Helmet from 'react-helmet';
-import {TEST_PLAN_HEADERS} from '../../../components/Table/DefineHeader';
-import {TEST_PLANS_SEARCH} from '../../../components/Table/DefineSearch';
-import {ADD_NEW_TESTPLAN_REQ, GET_ALL_TESTPLAN_REQ, DELETE_TESTPLAN_REQ, RESET_DELETE_TESTPLAN} from '../../../redux/test-plan/constants';
+import {ISSUE_HEADERS} from '../../../components/Table/DefineHeader';
+import {ISSUE_SEARCH} from '../../../components/Table/DefineSearch';
+import {GET_ALL_ISSUE_REQ, DELETE_ISSUE_REQ, RESET_DELETE_ISSUE} from '../../../redux/issue/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import {
@@ -28,140 +28,128 @@ import {
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
-    testplan: state.testplan,
-    listTestplan: state.testplan.listTestplan,
+    issue: state.issue,
+    listIssue: state.issue.listIssue,
     project: state.project.currentSelectedProject,
     role: state.project.currentRole,
-    insTestplanDelete: state.testplan.insTestplanDelete
+    insIssueDelete: state.issue.insIssueDelete,
   };
 }
 
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-    addNewTestplanReq: (payload) => dispatch({ type: ADD_NEW_TESTPLAN_REQ, payload }),
-    getAllTestplanReq: (payload) => dispatch({ type: GET_ALL_TESTPLAN_REQ, payload}),
+    getAllIssueReq: (payload) => dispatch({ type: GET_ALL_ISSUE_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    deleteTestplanReq: (payload) => dispatch({ type: DELETE_TESTPLAN_REQ, payload }),
-    resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTPLAN})
+    deleteIssueReq: (payload) => dispatch({ type: DELETE_ISSUE_REQ, payload }),
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_ISSUE})
   }
 }
 
 
-const TestPlanListPage = (props) => {
+const IssueListPage = (props) => {
 
-  const {listTestplan, testplan, getAllTestplanReq, project, role, deleteTestplanReq, resetDeleteRedux, insTestplanDelete, displayMsg} = props;
+  const {listIssue, issue, getAllIssueReq, project, role, deleteIssueReq, resetDeleteRedux, insIssueDelete, displayMsg} = props;
 
-  const [array, setArray] = React.useState(listTestplan);
+  const [array, setArray] = React.useState(listIssue);
 
   //delete TP dialog
   const [open, setOpen] = React.useState(false);
 
   //Delete TP infor
-  const [testplanInfor, setTestplanInfor] = React.useState({
-    testplanid: '',
+  const [issueInfor, setIssueInfor] = React.useState({
+    id: '',
     projectid: project
   });
 
   const [searchConditions, setConditions] = useState({
-    testplanName: '',
-    active: -1
+    summary: '',
+    username: '',
+    category: '',
   });   
 
   const history = useHistory();
 
-  const handleClickNewTestPlan = () => {
+  /*const handleClickNewTestPlan = () => {
     history.push({
       pathname: window.location.pathname+"/create-test-plan",
       state: array});
-  }
+  }*/
 
   
-  const searchTestPlan = () => {
-    if (searchConditions.active === -1 && searchConditions.testplanName === ''){
-      setArray(listTestplan);
-    } 
-    else{
-      if(searchConditions.active === -1)
-        setArray(listTestplan.filter((item) => {
-          if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()))
-            return listTestplan;}))
-      else
-        setArray(listTestplan.filter((item) => {
-          if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()) && searchConditions.active === item.is_active)
-            return listTestplan;}))
-    }
+  const searchIssue = () => {
+    
   }
 
   useEffect(()=>{
-    testplan.success = "";
-    getAllTestplanReq(project);
+    issue.success = "";
+    getAllIssueReq(project);
   },[])
 
   useEffect(()=>{
-    if(testplan.success === true)
-        setArray(listTestplan);
-  },[testplan])
+    if(issue.success === true)
+        setArray(listIssue);
+  },[issue])
 
   const handleChangeConditions = (props, data) => {
     setConditions({...searchConditions, [props]: data });
   }
 
   useEffect(()=>{
-    if (searchConditions.active === -1 && searchConditions.testplanName === ''){
-      setArray(listTestplan);
+    if (searchConditions.username === '' && searchConditions.summary === ''){
+      setArray(listIssue);
     } 
     else{
-      if(searchConditions.active === -1)
-      setArray(listTestplan.filter((item) => {
-        if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()))
-          return listTestplan;}))
+      if(searchConditions.username === '')
+      setArray(listIssue.filter((item) => {
+        if(item.summary.toLowerCase().includes(searchConditions.summary.toLowerCase()))
+          return listIssue;}))
       else
-      setArray(listTestplan.filter((item) => {
-        if(item.testplanname.toLowerCase().includes(searchConditions.testplanName.toLowerCase()) && searchConditions.active === item.is_active)
-          return listTestplan;}))
+      setArray(listIssue.filter((item) => {
+        if(item.summary.toLowerCase().includes(searchConditions.summary.toLowerCase()) && searchConditions.username.toLowerCase())
+          return listIssue;}))
     }
   },[searchConditions]);
   // --> delete TP
   try {
     useEffect(()=>{
-      if (insTestplanDelete.sucess === false){
-        testplan.success = true;
+      if (insIssueDelete.sucess === false){
+        issue.success = true;
         displayMsg({
-          content: insTestplanDelete.errMsg,
+          content: insIssueDelete.errMsg,
           type: 'error'
         });
         resetDeleteRedux();
-      } else if (insTestplanDelete.sucess === true) {
+      } else if (insIssueDelete.sucess === true) {
         displayMsg({
-          content: "Delete testplan successfully !",
+          content: "Delete issue successfully !",
           type: 'success'
         });
-        getAllTestplanReq(project);
+        getAllIssueReq(project);
         resetDeleteRedux();
       }
-    },[insTestplanDelete.sucess]);      
+    },[insIssueDelete.sucess]);      
   } catch (error) {
     //console.log('error: '+error);
   }
 
-    const deleteTP = (id) => {
-      setTestplanInfor({...testplanInfor, testplanid: id});
+    const deleteIssue = (id) => {
+      setIssueInfor({...issueInfor, id: id});
       setOpen(true);
     };
     const handleClose = () => {
       setOpen(false);
     };
     const handleDelete=()=>{
-      testplan.success = "";
-      deleteTestplanReq(testplanInfor);
+      issue.success = "";
+      deleteIssueReq(issueInfor);
       setOpen(false);
     };
   // <-- delete TP
   return(
     <div>
 
-      <Helmet title="Test plans Management" />
+      <Helmet title="Issue Management" />
       <Grid
         justify="space-between"
         container 
@@ -178,7 +166,7 @@ const TestPlanListPage = (props) => {
           {(role === 'Project Manager' || role === 'Test Lead') &&
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
-                  <DialogContent>Are you sure want to delete this testplan?</DialogContent>
+                  <DialogContent>Are you sure want to delete this issue?</DialogContent>
                   <DialogActions>
                     <Button onClick={handleDelete} color="primary">Yes</Button>
                     <Button onClick={handleClose} color="primary">No</Button>
@@ -202,23 +190,23 @@ const TestPlanListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         {/* Load bar */}
-        {testplan.success !== true ? <EnhancedTable
+        {issue.success !== true ? <EnhancedTable
             rows={[]}
-            headerList = {TEST_PLAN_HEADERS}
-            conditions={TEST_PLANS_SEARCH}
+            headerList = {ISSUE_HEADERS}
+            conditions={ISSUE_SEARCH}
             setConditions={handleChangeConditions}
-            type='testplan'
-            load={testplan.success}
+            type='issue'
+            load={issue.success}
           />:
           <EnhancedTable
             rows={array}
-            headerList = {TEST_PLAN_HEADERS}
-            conditions={TEST_PLANS_SEARCH}
+            headerList = {ISSUE_HEADERS}
+            conditions={ISSUE_SEARCH}
             setConditions={handleChangeConditions}
-            searchMethod={searchTestPlan}
-            handleDefaultDeleteAction={deleteTP}
-            type='testplan'
-            load={testplan.success}
+            searchMethod={searchIssue}
+            handleDefaultDeleteAction={deleteIssue}
+            type='issue'
+            load={issue.success}
           />}
         </Grid>
       </Grid>
@@ -226,4 +214,4 @@ const TestPlanListPage = (props) => {
   );
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(TestPlanListPage));
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(IssueListPage));

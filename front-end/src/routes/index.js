@@ -65,6 +65,7 @@ const RequirementDetailPage = async(()=>import(('../pages/requirements/requireme
 
 //Issues components
 const IssueListPage = async(()=>import(('../pages/issues/issue-list/index')));
+const IssueDetailPage = async(()=>import('../pages/issues/issue-detail/index'));
 
 const dashboardRoute = {
   id: "Dashboard",
@@ -161,6 +162,15 @@ const issueListRoute = {
   restrict: true,
   exact:true,
   component: IssueListPage
+}
+
+const issueDetailRoute = {
+  id: "Issue Detail",
+  path: "/projects/:projectName/issues/:summary",
+  name: "Issue Detail",
+  restrict: true,
+  exact: true,
+  component: IssueDetailPage
 }
 
 //TEST PLAN
@@ -420,6 +430,7 @@ export const primaryLayoutRoutes = [
   requirementsDetailRoute,
   testCaseReExecResultRoute,
   issueListRoute,
+  issueDetailRoute,
   editTestcaseRoute
 ];
 

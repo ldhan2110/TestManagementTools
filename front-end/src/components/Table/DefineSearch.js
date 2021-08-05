@@ -10,6 +10,12 @@ export const TEST_PLANS_SEARCH = [
   { id: 'active',  label: 'Active', type: "select", default: -1, listValues: [{value: true, label: "Active"}, {value: false, label: "Inactive"}]},
 ]
 
+export const ISSUE_SEARCH = [
+  { id: 'summary',  label: 'Summary', type: "text" },
+  { id: 'category',  label: 'Category', type: "text" },
+  { id: 'reporter',  label: 'Reporter', type: "text" },
+]
+
 export const REQUIREMENT_SEARCH = [
   { id: 'requirementName',  label: 'Requirement Name', type: "text" },
   { id: 'active',  label: 'Active', type: "select", default: -1, listValues: [{value: true, label: "Active"}, {value: false, label: "Inactive"}]},

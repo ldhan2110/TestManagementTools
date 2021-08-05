@@ -200,7 +200,7 @@ const EnhancedTable = (props) => {
                           <UserMinus style={{color: red[500]}}/>
                         </IconButton> 
                         </Tooltip>}
-                        {(type === 'testplan' || type === 'build' || type === 'requirements') && <Tooltip title="Delete"> 
+                        {(type === 'testplan' || type === 'build' || type === 'requirements' || type === 'issue') && <Tooltip title="Delete"> 
                         <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
                           <DeleteIcon style={{color: red[400]}}/>
                         </IconButton> 
