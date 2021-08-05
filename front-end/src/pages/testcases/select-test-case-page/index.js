@@ -12,7 +12,7 @@ import {
   DialogTitle,
   Button,
   Grid, Popper,
-  AppBar, Toolbar, IconButton, Typography,
+  AppBar, Toolbar, IconButton, Typography, Divider,
 } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseIcon from '@material-ui/icons/Close';
@@ -26,34 +26,43 @@ import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 
 const useStyles = makeStyles((theme) => ({
+  rootofroot:{
+    flexGrow: 1,
+    flexDirection: 'row',    
+  },
   root: {
     //flexGrow: 1,
-    borderRadius: 4, //theme.shape.borderRadius
+    //borderRadius: 4, //theme.shape.borderRadius
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(5),
+      marginRight: theme.spacing(5),
       width: 'auto',
     },
-     display: 'flex',
-     flexDirection: 'row',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  search: {
+    borderRadius: '4px 0px 0px 4px',
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-  },
-  search: {
-    search: {
-      position: 'relative',
-      borderRadius: theme.shape.borderRadius,
-      marginLeft: 0,
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        width: 'auto',
-      },
+    position: 'relative',
+    //borderRadius: theme.shape.borderRadius,
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
     },   
   },
+  autoComplete:{
+    width: '320px',
+  },
   searchIcon: {
-    padding: theme.spacing(0, 2),
+    padding: theme.spacing(0, 3),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -65,9 +74,9 @@ const useStyles = makeStyles((theme) => ({
     color: 'inherit',
   },
   inputInput: {
-    padding: theme.spacing(2, 2, 2, 0),
+    padding: theme.spacing(2, 1, 2, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1.1em + ${theme.spacing(5)}px)`,
+    paddingLeft: `calc(1.5em + ${theme.spacing(6)}px)`,
     fontSize: '16px',
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -77,6 +86,9 @@ const useStyles = makeStyles((theme) => ({
         width: '20ch',
       }, 
     },*/
+  },
+  divider: {
+    background: fade(theme.palette.common.white, 0.30),
   },
   margin: {
     margin: theme.spacing(0),
@@ -90,7 +102,8 @@ const useStyles = makeStyles((theme) => ({
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
-    marginLeft: 5,
+    //marginLeft: 5,
+    //borderLeftStyle: '1px solid white',
     borderRadius: '0px 4px 4px 0px',
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
@@ -255,7 +268,7 @@ const SelectTestCasePopup = (props) => {
     }
   }
   const PopperMy = function (props) {
-    return (<Popper {...props} style={{ width: '355px' }} placement='bottom-start' />)
+    return (<Popper {...props} style={{ width: '322px' }} placement='bottom-start' />)
   }
 
   //----------------------------------------------------------------------------------------
@@ -300,8 +313,7 @@ const SelectTestCasePopup = (props) => {
   // Format node
   const formatChild = (node) => {
     var formatedChild = {};
-    let arr = [];
-
+    let arr = [];    
     // if no child
     if(node.children === undefined){
       var tempFor = formatDeepestChild(node);
@@ -315,11 +327,15 @@ const SelectTestCasePopup = (props) => {
     )}
       // format suite and coloring
       //let type = node.type;
-      let asgn = node.is_assigned;
+      console.log(node.total_testsuite_child);
+      let asgn = node.is_assigned;      
+      let suiteLabel =
+    " (" + (node.total_testsuite_child > -1 ? node.total_testsuite_child : "") + "," 
+    + node.total_testcase + "," + node.numberof_testcaseuntest + ")";
       if(asgn === true){
         let childNode = {
           value: node.value,
-          label: <span style={{ color: "red" }}>{node.label}</span>,
+          label: <span><span style={{ color: "red" }}>{node.label}</span><span>{suiteLabel}</span></span>,
           labelNoStyle: node.label,
           is_assigned: asgn,
           isLeaf: true,
@@ -330,7 +346,7 @@ const SelectTestCasePopup = (props) => {
       } else {
         let childNode = {
           value: node.value,
-          label: node.label,
+          label: node.label + suiteLabel,
           labelNoStyle: node.label,
           is_assigned: asgn,
           isLeaf: true,
@@ -349,7 +365,9 @@ const SelectTestCasePopup = (props) => {
       var element = testcase.listTestsuiteNoTree;
       var rootPath = element.label;
       var rootVal = element.value;
-
+      let rootLabel = element.label +
+    " (Total suite: " + (element.total_testsuite_child > -1 ? element.total_testsuite_child : "") + ", Total TC: "
+    + element.total_testcase + ", Unassigned: " + element.numberof_testcaseuntest + ")";
       // if root has child
       if(element?.children?.length > 0) {
         var tempCh = [];
@@ -357,11 +375,11 @@ const SelectTestCasePopup = (props) => {
         element.children.forEach(ele => {          
           tempCh.push(formatChild(ele))
         });
-        // format root with child
+        // format root with child        
         var obj = {
           value: rootVal,
           parentId: "",
-          label: rootPath,
+          label: rootLabel,
           labelNoStyle: rootPath,
           children: tempCh
         }
@@ -370,7 +388,7 @@ const SelectTestCasePopup = (props) => {
         var obj = {
           value: rootVal,
           parentId: "",
-          label: rootPath,
+          label: rootLabel,
           labelNoStyle: rootPath,
           icon: <span className="rct-icon rct-icon-parent-close" />,
           showCheckbox: false,
@@ -418,7 +436,9 @@ const SelectTestCasePopup = (props) => {
               Select Test Case
             </Typography>
 
-            {/* Search Test Case */}          
+            {/* Search Test Case */}
+            <div className={classes.rootofroot}> 
+
             <div className={classes.root}>           
             
             <div className={classes.search}>            
@@ -436,7 +456,8 @@ const SelectTestCasePopup = (props) => {
                 id="free-solo-with-text-demo"
                 options={listTC}
                 renderOption={(option) => option}
-                style={{ width: '350px' }}
+                //style={{ width: '300px' }}
+                className={classes.autoComplete}
                 freeSolo
                 autoComplete
                 PopperComponent={PopperMy}
@@ -460,7 +481,7 @@ const SelectTestCasePopup = (props) => {
                 }
               />      
             </div>
-
+            <Divider orientation="vertical" flexItem classes={{root: classes.divider}} />
             <FormControl className={classes.margin}>
               <Select
                 labelId="demo-customized-select-label"
@@ -479,6 +500,8 @@ const SelectTestCasePopup = (props) => {
               </Select>
             </FormControl>
             </div>
+
+            </div>
             {/* Search Test Case */}
 
           </Toolbar>
@@ -488,7 +511,7 @@ const SelectTestCasePopup = (props) => {
           <div style={{height:'100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <CircularProgress />
           </div> :     
-          <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '25vw', maxWidth:'30vw', padding:7}}>          
+          <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '35vw', maxWidth:'39vw', padding:7}}>          
             <Grid item xs={12}>              
               <CheckboxTreeView data={listTestCase} text={inputVal} suite={search.testsuite} parentCallback={handleSelect} selected={data}/>
             </Grid>
