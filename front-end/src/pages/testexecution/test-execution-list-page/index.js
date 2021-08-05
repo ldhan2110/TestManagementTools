@@ -287,7 +287,7 @@ const TestExecutionListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-        {(testexec.success) ? 
+        {(testexec.success === true) ? 
           <EnhancedTable
             rows={array}
             headerList = {TEST_EXECUTION_HEADERS}

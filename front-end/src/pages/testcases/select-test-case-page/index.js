@@ -327,7 +327,6 @@ const SelectTestCasePopup = (props) => {
     )}
       // format suite and coloring
       //let type = node.type;
-      console.log(node.total_testsuite_child);
       let asgn = node.is_assigned;      
       let suiteLabel =
     " (" + (node.total_testsuite_child > -1 ? node.total_testsuite_child : "") + "," 

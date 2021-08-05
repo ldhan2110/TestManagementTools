@@ -91,6 +91,15 @@ const IssueListPage = (props) => {
         setArray(listIssue);
   },[issue])
 
+  useEffect(()=>{
+    if (issue?.success === null && issue?.error === true) {
+      displayMsg({
+        content: issue?.errorMsg,
+        type: 'error'
+      });        
+    }
+  },[issue?.error]);  
+
   const handleChangeConditions = (props, data) => {
     setConditions({...searchConditions, [props]: data });
   }
@@ -190,21 +199,21 @@ const IssueListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         {/* Load bar */}
-        {issue.success !== true ? <EnhancedTable
-            rows={[]}
-            headerList = {ISSUE_HEADERS}
-            conditions={ISSUE_SEARCH}
-            setConditions={handleChangeConditions}
-            type='issue'
-            load={issue.success}
-          />:
-          <EnhancedTable
+        {(issue.success === true)? <EnhancedTable
             rows={array}
             headerList = {ISSUE_HEADERS}
             conditions={ISSUE_SEARCH}
             setConditions={handleChangeConditions}
             searchMethod={searchIssue}
             handleDefaultDeleteAction={deleteIssue}
+            type='issue'
+            load={issue.success}
+          />:
+          <EnhancedTable
+            rows={[]}
+            headerList = {ISSUE_HEADERS}
+            conditions={ISSUE_SEARCH}
+            setConditions={handleChangeConditions}
             type='issue'
             load={issue.success}
           />}

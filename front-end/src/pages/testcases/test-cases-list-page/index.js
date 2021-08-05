@@ -89,10 +89,9 @@ const TestCaseListPage = (props) => {
       getAllTestcaseReq(project);
       getAllTestsuiteReq(project);
       getAllTestsuiteNoTreeReq(project);
-    },[]);
+    },[]);    
 
     useEffect(()=>{
-      console.log(testcase);
       setListTestCase(testcase.listTestcase);
       if(listTestCase.length !== 0)
         setSuiteNum(listTestCase.children.length);

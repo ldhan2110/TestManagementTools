@@ -17,6 +17,7 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
       }
     })).pipe(
     map(response => {
+      console.log(response);
       const {data} = response;
       if (data.success) {
         return ({
@@ -39,7 +40,7 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
         } else
         return of({
       type: actions.GET_ALL_ISSUE_FAILED,
-      payload: error.response
+      payload: error.response.data.errMsg
     })})
   )))
 

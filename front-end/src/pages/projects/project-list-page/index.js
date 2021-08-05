@@ -56,7 +56,7 @@ const ProjectList = (props)=>{
     }
 
     useEffect(()=>{
-        project.success = null;
+        project.success = "";
         getProjectReq();
         resetSelectProject();
     },[]);

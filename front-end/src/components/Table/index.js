@@ -259,9 +259,10 @@ const EnhancedTable = (props) => {
           justify="center"
           alignItems="center"
         >
-          <Grid item style={{marginTop: 50}}>{load !== true ? <CircularProgress style={{marginTop: 44, marginBottom: 44}}/> : <CustomEmptyOverlayGrid/>}</Grid>
+          <Grid item style={{marginTop: 50}}>{(load === "") ? <CircularProgress style={{marginTop: 44, marginBottom: 44}}/> : <CustomEmptyOverlayGrid/>}</Grid>
           <Grid item style={{marginBottom: 50}}>
-            {load === true && <Typography variant="subtitle1" gutterBottom display="inline" style={{ userSelect: "none" }}>
+            {(load === "") ? <div></div>:
+            <Typography variant="subtitle1" gutterBottom display="inline" style={{ userSelect: "none" }}>
               No Data
             </Typography>}
           </Grid>

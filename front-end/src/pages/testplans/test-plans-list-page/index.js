@@ -208,14 +208,7 @@ const TestPlanListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         {/* Load bar */}
-        {testplan.success !== true ? <EnhancedTable
-            rows={[]}
-            headerList = {TEST_PLAN_HEADERS}
-            conditions={TEST_PLANS_SEARCH}
-            setConditions={handleChangeConditions}
-            type='testplan'
-            load={testplan.success}
-          />:
+        {testplan.success === true ? 
           <EnhancedTable
             rows={array}
             headerList = {TEST_PLAN_HEADERS}
@@ -225,7 +218,16 @@ const TestPlanListPage = (props) => {
             handleDefaultDeleteAction={deleteTP}
             type='testplan'
             load={testplan.success}
-          />}
+          />:
+          <EnhancedTable
+            rows={[]}
+            headerList = {TEST_PLAN_HEADERS}
+            conditions={TEST_PLANS_SEARCH}
+            setConditions={handleChangeConditions}
+            type='testplan'
+            load={testplan.success}
+          />
+          }
         </Grid>
       </Grid>
     </div>

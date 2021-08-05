@@ -4,7 +4,7 @@ import * as types from './constants';
 var initialState = {
   error: "",
   errorMsg:"",
-  success: "",
+  success: null,
   insTestexec:{
     sucess: null,
     errMsg: null
@@ -62,7 +62,7 @@ const reducer = (state = initialState, actions) => {
     case types.GET_ALL_TESTEXEC_FAILED:
       return {
         ...state,
-        success: "",
+        success: null,
         error: true,
         errorMsg: payload,
       };

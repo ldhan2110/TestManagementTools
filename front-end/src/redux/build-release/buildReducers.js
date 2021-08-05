@@ -1,8 +1,8 @@
 import * as types from './constants';
 
 var initialState = {
-  success: "",
-  successActive: "",
+  success: null,
+  successActive: null,
   error: "",
   errorMsg:"",
   currentSelectedBuild: "",
@@ -34,7 +34,7 @@ const reducer = (state = initialState, actions) => {
     case types.GET_ALL_BUILDS_FAILED:
       return {
         ...state,
-        success: "",
+        success: null,
         error: true,
         errorMsg: payload,
       }
@@ -184,13 +184,13 @@ const reducer = (state = initialState, actions) => {
 
     case types.GET_ALL_BUILD_ACTIVE_REQ:
       return {
-        ...state, successActive:""
+        ...state, successActive: ""
       }
 
     case types.GET_ALL_BUILD_ACTIVE_FAILED:
       return {
         ...state,
-        successActive: "",
+        successActive: null,
         error: true,
         errorMsg: payload,
       }

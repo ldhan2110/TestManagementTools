@@ -237,14 +237,8 @@ const MemberListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
            {/* Load bar */}
-           {user.success !== true ? <EnhancedTable
-            rows={[]}
-            headerList = {MEMBERS_HEADERS}
-            conditions={MEMBER_SEARCH}
-            type='member'
-            load={user.success}
-          />
-          :<EnhancedTable
+           {user.success === true ? 
+           <EnhancedTable
             rows={listMember}
             headerList = {MEMBERS_HEADERS}
             viewAction={handleOpenChangeRole}
@@ -254,7 +248,14 @@ const MemberListPage = (props) => {
             handleDefaultDeleteAction={deleteMember}
             type='member'
             load={user.success}
-          />}
+          />:
+          <EnhancedTable
+          rows={[]}
+          headerList = {MEMBERS_HEADERS}
+          conditions={MEMBER_SEARCH}
+          type='member'
+          load={user.success}
+        />}
         </Grid>
       </Grid>
     </div>

@@ -2,7 +2,7 @@ import * as types from './constants';
 
 var initialState = {
   getCurrentUserSuccess: null,
-  success: "",
+  success: null,
   error: "",
   errorMsg:"",
   currentSelectedUser: "",
@@ -212,7 +212,7 @@ const reducer = (state = initialState, actions) => {
     case types.GET_ALL_USERS_OF_PROJECT_FAILED:
                 return {
                   ...state,
-                  success: "",
+                  success: null,
                   error: true,
                   errorMsg: payload,
     }
