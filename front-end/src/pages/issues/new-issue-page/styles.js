@@ -12,7 +12,7 @@ const styles = {
   content:{
       margin: "2vh auto",
       marginLeft: "3vw",
-      marginRight: "8vw",
+      marginRight: "3vw",
       height: "100%",
       "& > *":{
         marginTop: 15
@@ -26,6 +26,7 @@ const styles = {
   btnGroup: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'flex-end',
     "& > *": {
       marginRight: 5
     }

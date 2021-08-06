@@ -45,8 +45,12 @@ export default combineEpics(
 
    //ISSUE EPICS
    issueEpics.getAllIssueEpic,
+   issueEpics.createIssueEpic,
    issueEpics.updateIssueEpic,
    issueEpics.deleteIssueEpic,
+   issueEpics.getAllCategoryEpic,
+   issueEpics.addCategoryEpic,
+   issueEpics.removeCategoryEpic,
 
    //REQUIREMENTS EPICS
    requirementsEpics.getAllRequirementsEpic,

@@ -7,6 +7,20 @@ export function getAllIssue(value) {
   }
 }
 
+export function createIssue(value) {
+  return {
+    type: types.CREATE_ISSUE_REQ,
+    payload: value
+  }
+}
+
+export function resetCreateIssue(value){
+
+  return {
+    type: types.RESET_CREATE_ISSUE,
+    payload: value
+  }
+}
 
 export function selectIssue(value){
 
@@ -44,6 +58,46 @@ export function resetDeleteIssue(value){
 
   return {
     type: types.RESET_DELETE_ISSUE,
+    payload: value
+  }
+}
+
+// CATEGORY
+export function getAllCategory(value) {
+  return {
+    type: types.GET_ALL_CATEGORY_REQ,
+    payload: value
+  }
+}
+
+export function addCategory(value){
+
+  return {
+    type: types.ADD_CATEGORY_REQ,
+    payload: value
+  }
+}
+
+export function removeCategory(value){
+
+  return {
+    type: types.REMOVE_CATEGORY_REQ,
+    payload: value
+  }
+}
+
+export function resetAddCategory(value){
+
+  return {
+    type: types.RESET_ADD_CATEGORY,
+    payload: value
+  }
+}
+
+export function resetRemoveCategory(value){
+
+  return {
+    type: types.RESET_REMOVE_CATEGORY,
     payload: value
   }
 }

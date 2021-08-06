@@ -30,7 +30,7 @@ const styles = {
     },
 
     tooltip:{
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
     },
 };
   

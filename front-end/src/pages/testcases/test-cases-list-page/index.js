@@ -89,7 +89,7 @@ const TestCaseListPage = (props) => {
       getAllTestcaseReq(project);
       getAllTestsuiteReq(project);
       getAllTestsuiteNoTreeReq(project);
-    },[]);
+    },[]);    
 
     useEffect(()=>{
       setListTestCase(testcase.listTestcase);
@@ -230,9 +230,12 @@ const TestCaseListPage = (props) => {
                             <Typography variant="h4" display="inline">Test Cases</Typography>
                             <Tooltip classes={{tooltip: classes.tooltip}}
                             placement="right-start"
-                            title={<div><Typography variant="h5" gutterBottom display="inline" style={{color: red[400]}}> Red </Typography>  
-                              <Typography variant="h5" display="inline"> fill means assigned</Typography>
-                              <Typography variant="h5" display="outline">Number ( , , ,) means (Filter,Total,Unassigned)</Typography>
+                            title={<div>
+                              <Typography variant="subtitle2" display="inline">- </Typography>
+                              <Typography variant="subtitle2" gutterBottom display="inline" style={{color: red[400]}}> Red </Typography>  
+                              <Typography variant="subtitle2" display="inline"> suite means all child TC assigned.</Typography>
+                              <Typography variant="subtitle2" display="outline">- ( , , , ) are the number of </Typography>
+                              <Typography variant="subtitle2" display="outline">(Suite, Total TC, Unassigned TC).</Typography>
                               </div>}><InfoIcon style={{fontSize:22, marginLeft: 7}}/></Tooltip>
                             {(testcase.success === "" || testcase.searchSuccess === "") && <LinearProgress/>}
                       <Divider />

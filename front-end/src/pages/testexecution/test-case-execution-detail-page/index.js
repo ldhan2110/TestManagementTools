@@ -20,7 +20,7 @@ import {
   InputLabel,
   List, ListItem
 } from '@material-ui/core';
-
+import BugReportIcon from '@material-ui/icons/BugReport';
 import {
   Save as SaveIcon
 } from "@material-ui/icons";
@@ -325,7 +325,8 @@ const TestCaseExecDetail = (props) => {
               
               <NewIssuePage isOpen={openNewIssue} setOpen={setOpenNewIssue}/>
                 {!viewMode && <Grid item xs={2}>
-                  <Button variant="contained" color="primary" fullWidth endIcon={<ArrowForwardIcon />} onClick={handleOpenNewIssue}> Report Issue</Button>
+                  <Button variant="contained" color="primary" fullWidth endIcon={<BugReportIcon />}
+                  onClick={handleOpenNewIssue}> Report Issue</Button>
                 </Grid>}
               </Grid>
                 

@@ -299,13 +299,7 @@ const BuildListPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-        {build.success !== true ? <EnhancedTable
-            rows={[]}
-            headerList = {BUILDS_HEADERS}
-            conditions={BUILD_SEARCH_CONDITIONS}
-            type='build'
-            load={build.success}
-          />:
+        {build.success === true ? 
           <EnhancedTable
             rows={array}
             headerList = {BUILDS_HEADERS}
@@ -316,7 +310,15 @@ const BuildListPage = (props) => {
             handleDefaultDeleteAction={deleteBuild}
             type='build'
             load={build.success}
-          />}
+          />:
+          <EnhancedTable
+            rows={[]}
+            headerList = {BUILDS_HEADERS}
+            conditions={BUILD_SEARCH_CONDITIONS}
+            type='build'
+            load={build.success}
+          />
+          }
         </Grid>
       </Grid>
     </div>
