@@ -98,7 +98,7 @@ const InsertImage = (props) => {
                     <input
                     accept="image/*"
                     id="contained-button-file"
-                    multiple
+                    //multiple
                     type="file"
                     onChange={(event) => {setImageSelected(event.target.files)}}
                     />

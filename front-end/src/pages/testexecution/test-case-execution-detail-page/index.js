@@ -325,7 +325,8 @@ const TestCaseExecDetail = (props) => {
               
               <NewIssuePage isOpen={openNewIssue} setOpen={setOpenNewIssue}/>
                 {!viewMode && <Grid item xs={2}>
-                  <Button variant="contained" color="primary" fullWidth endIcon={<ArrowForwardIcon />} onClick={handleOpenNewIssue}> Report Issue</Button>
+                  <Button variant="contained" color="primary" fullWidth endIcon={<ArrowForwardIcon />}
+                  onClick={handleOpenNewIssue}> Report Issue</Button>
                 </Grid>}
               </Grid>
                 

@@ -32,7 +32,7 @@ export  const getAllTestexecEpic = (action$, state$) => action$.pipe(
     
     }),
     catchError (error => {
-      const {status} = error.response.data;
+      const {status} = error?.response?.data;
         if (status ===  401) {
           localStorage.clear();
           window.location.replace('/login');

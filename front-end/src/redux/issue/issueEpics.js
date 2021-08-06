@@ -44,6 +44,47 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
     })})
   )))
 
+  export  const createIssueEpic = (action$, state$) => action$.pipe(
+    ofType(actions.CREATE_ISSUE_REQ),
+    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/api/mantis/createissue',{
+        summary: payload.summary,
+        description: payload.description,
+        category: payload.category,
+        testexecution_id: payload.testexec_id,
+        attachment: payload.attachment,
+    } , {
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.CREATE_ISSUE_SUCCESS,
+            payload: true
+          })
+        } else {
+          return ({
+            type: actions.CREATE_ISSUE_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
+        type: actions.UPDATE_ISSUE_FAILED,
+        payload: error.response.data.errMsg
+      })})
+    )))
+
   export  const updateIssueEpic = (action$, state$) => action$.pipe(
     ofType(actions.UPDATE_ISSUE_REQ),
     mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+payload.id+'/api/mantis/updateissue',{
@@ -120,3 +161,115 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
         payload: error.response.data.errMsg
       })})
     )))
+
+
+    // CATEGORY
+    export  const getAllCategoryEpic = (action$, state$) => action$.pipe(
+      ofType(actions.GET_ALL_CATEGORY_REQ),
+      mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload+'/api/mantis/getallcategory',{
+          headers: {
+            "X-Auth-Token": localStorage.getItem("token"),
+            "content-type": "application/json"
+          }
+        })).pipe(
+        map(response => {
+          console.log(response);
+          const {data} = response;
+          if (data.success) {
+            return ({
+              type: actions.GET_ALL_CATEGORY_SUCCESS,
+              payload: data.result
+            })
+          } else {
+            return ({
+              type: actions.GET_ALL_CATEGORY_FAILED,
+              payload: data.errMsg
+            })
+          }
+        
+        }),
+        catchError (error => {
+          const {status} = error?.response?.data;
+            if (status ===  401) {
+              localStorage.clear();
+              window.location.replace('/login');
+            } else
+            return of({
+          type: actions.GET_ALL_CATEGORY_FAILED,
+          payload: error.response.data.errMsg
+        })})
+      )))
+    
+      export  const addCategoryEpic = (action$, state$) => action$.pipe(
+        ofType(actions.ADD_CATEGORY_REQ),
+        mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/mantis/addcategory',{
+            category_name: payload.category
+        } , {
+            headers: {
+              "X-Auth-Token": localStorage.getItem("token"),
+              "content-type": "application/json"
+            }
+          })).pipe(
+          map(response => {
+            const {data} = response;
+            if (data.success) {
+              return ({
+                type: actions.ADD_CATEGORY_SUCCESS,
+                payload: true
+              })
+            } else {
+              return ({
+                type: actions.ADD_CATEGORY_FAILED,
+                payload: data.errMsg
+              })
+            }
+          
+          }),
+          catchError (error => {
+            const {status} = error.response.data;
+            if (status ===  401) {
+              localStorage.clear();
+              window.location.replace('/login');
+            } else
+            return of({
+            type: actions.ADD_CATEGORY_FAILED,
+            payload: error.response.data.errMsg
+          })})
+        )))
+
+        export  const removeCategoryEpic = (action$, state$) => action$.pipe(
+          ofType(actions.REMOVE_CATEGORY_REQ),
+          mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/removecategory',{
+            category_name: payload.category,
+          },{
+              headers: {
+                "X-Auth-Token": localStorage.getItem("token"),
+                "content-type": "application/json"
+              }
+            })).pipe(
+            map(response => {
+              const {data} = response;
+              if (data.success) {
+                return ({
+                  type: actions.REMOVE_CATEGORY_SUCCESS,
+                  payload: true
+                })
+              } else {
+                return ({
+                  type: actions.REMOVE_CATEGORY_FAILED,
+                  payload: data.errMsg
+                })
+              }
+            
+            }),
+            catchError (error => {
+              const {status} = error.response.data;
+              if (status ===  401) {
+                localStorage.clear();
+                window.location.replace('/login');
+              } else
+              return of({
+              type: actions.REMOVE_CATEGORY_FAILED,
+              payload: error.response.data.errMsg
+            })})
+          )))
