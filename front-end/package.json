@@ -48,6 +48,7 @@
     "react-data-export": "^0.6.0",
     "react-dom": "16.13.1",
     "react-dragula": "1.1.17",
+    "react-dropzone": "^11.3.4",
     "react-export-excel": "^0.5.3",
     "react-feather": "2.0.8",
     "react-helmet": "5.2.1",

@@ -17,7 +17,6 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
       }
     })).pipe(
     map(response => {
-      console.log(response);
       const {data} = response;
       if (data.success) {
         return ({
@@ -50,7 +49,7 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
         summary: payload.summary,
         description: payload.description,
         category: payload.category,
-        testexecution_id: payload.testexec_id,
+        testexecution_id: payload.testexecution_id,
         attachment: payload.attachment,
     } , {
         headers: {
@@ -173,7 +172,6 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
           }
         })).pipe(
         map(response => {
-          console.log(response);
           const {data} = response;
           if (data.success) {
             return ({
