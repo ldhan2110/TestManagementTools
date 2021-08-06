@@ -8,6 +8,7 @@ import {
   Briefcase,
   Trello,
   Radio,
+  List,
 } from "react-feather";
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import async from "../components/Async";
@@ -47,6 +48,7 @@ const DetailBuildPage = async(()=>import('../pages/builds/build-detail-page/inde
 const MemberListPage = async(()=>import('../pages/settings/members/index'));
 const SettingProjectPage = async(()=>import('../pages/settings/setting-project/index'));
 const MantisConfigPage = async(()=>import('../pages/settings/mantis-config/index'));
+const MemberMantis = async(()=>import('../pages/settings/member-mantis/index'));
 
 //Milestone components
 const MileStonePage = async(()=>import('../pages/milstones/milestone-overview-page/index'));
@@ -101,6 +103,14 @@ const projectSettingRoutes = {
       name: "Mantis Configuration",
       icon: <Users/>,
       component: MantisConfigPage
+    },
+
+    {
+      id: "Member Mantis",
+      path: "/projects/:projectName/member-mantis",
+      name: "Member Mantis",
+      icon: <Users/>,
+      component: MemberMantis
     },
   ]
 };
@@ -157,7 +167,7 @@ const projectListRoute = {
 const issueListRoute = {
   id: "Issues",
   path: "/projects/:projectName/issues",
-  icon: <Trello/>,
+  icon: <List/>,
   name: "Issues",
   restrict: true,
   exact:true,

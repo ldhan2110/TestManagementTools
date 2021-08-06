@@ -96,6 +96,9 @@ export default combineEpics(
    userEpics.getCurrentUserEpic,
    userEpics.verifyUserToProjectEpic,
    userEpics.updateAvatarEpic,
+   userEpics.getAllMemberMantisEpic,
+   userEpics.addMemberMantisEpic,
+   userEpics.deleteMemberMantisEpic,
 
    //TEST EXEC EPICS
    testexecEpics.getAllTestexecEpic,

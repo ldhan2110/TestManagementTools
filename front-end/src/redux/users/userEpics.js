@@ -489,3 +489,113 @@ import {API_ADDR} from '../constants';
             payload: error.response.data.errMsg
           })})
         )))
+
+        export  const getAllMemberMantisEpic = (action$, state$) => action$.pipe(
+          ofType(actions.GET_ALL_MEMBERMANTIS_REQ),
+          mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload+'/api/getallmembermantis',{
+              headers: {
+                "X-Auth-Token": localStorage.getItem("token"),
+                "content-type": "application/json"
+              }
+            })).pipe(
+            map(response => {
+              const {data} = response;
+              if (data.success) { 
+               // console.log(JSON.stringify(data.result,null,' '))
+                return ({
+                  type: actions.GET_ALL_MEMBERMANTIS_SUCCESS,
+                  payload: data.result.members
+                })
+              } else {
+                return ({
+                  type: actions.GET_ALL_MEMBERMANTIS_FAILED,
+                  payload: data.errMsg
+                })
+              }
+            
+            }),
+            catchError (error => {
+              const {status} = error.response.data;
+            if (status ===  401) {
+              localStorage.clear();
+              window.location.replace('/login');
+            } else
+            return of({
+              type: actions.GET_ALL_MEMBERMANTIS_FAILED,
+              payload: error.response
+            })})
+          )))
+
+          export  const addMemberMantisEpic = (action$, state$) => action$.pipe(
+            ofType(actions.ADD_MEMBERMANTIS_REQ),
+            mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/api/mantis/addmembermantis',{
+              username: payload.username,
+              email: payload.email,
+              access_level: payload.access_level,
+            },{
+                headers: {
+                  "X-Auth-Token": localStorage.getItem("token"),
+                  "content-type": "application/json"
+                }
+              })).pipe(
+              map(response => {
+                const {data} = response;
+                if (data.success) {
+                  return ({
+                    type: actions.ADD_MEMBERMANTIS_SUCCESS,
+                    payload: true
+                  })
+                } else {
+                  return ({
+                    type: actions.ADD_MEMBERMANTIS_FAILED,
+                    payload: data.errMsg
+                  })
+                }
+              
+              }),
+              catchError (error => {
+                const {status} = error.response.data;
+              if (status ===  401) {
+                localStorage.clear();
+                window.location.replace('/login');
+              } else
+              return of({
+                type: actions.ADD_MEMBERMANTIS_FAILED,
+                payload: error.response.data.errMsg
+              })})
+            )))
+      
+        export  const deleteMemberMantisEpic = (action$, state$) => action$.pipe(
+          ofType(actions.DELETE_MEMBERMANTIS_REQ),
+          mergeMap(({ payload  }) =>  from(axios.delete(API_ADDR+'/'+payload.projectid+'/api/mantis/removemembermantis',{
+              headers: {
+                "X-Auth-Token": localStorage.getItem("token"),
+                "content-type": "application/json"
+              }
+            })).pipe(
+            map(response => {
+              const {data} = response;
+              if (data.success) {
+                return ({
+                  type: actions.DELETE_MEMBERMANTIS_SUCCESS,
+                  payload: true
+                })
+              } else {
+                return ({
+                  type: actions.DELETE_MEMBERMANTIS_FAILED,
+                  payload:  data.errMsg
+                })
+              }
+            
+            }),
+            catchError (error => {
+              const {status} = error.response.data;
+              if (status ===  401) {
+                localStorage.clear();
+                window.location.replace('/login');
+              } else
+              return of({
+              type: actions.DELETE_MEMBERMANTIS_FAILED,
+              payload:  error.response.data.errMsg
+            })})
+          )))

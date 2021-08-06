@@ -6,6 +6,7 @@ var initialState = {
   error: "",
   errorMsg:"",
   currentSelectedUser: "",
+  currentSelectedMemberMantis: "",
   insDeleteMember: {
     sucess: null,
     errMsg: null
@@ -14,8 +15,17 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
+  insDeleteMemberMantis: {
+    sucess: null,
+    errMsg: null
+  },
+  insMemberMantis: {    
+    sucess: null,
+    errMsg: null
+  },
   listUsers: [],
   listUsersOfProject: [],
+  listMemberMantis: [],
   inforUser: [],  
 
   insPassword: {
@@ -380,7 +390,96 @@ const reducer = (state = initialState, actions) => {
         }
       }    
     }
+    
+    case types.ADD_MEMBERMANTIS_REQ:
+            return {
+              ...state, inforMemberMantis: []
+    }
+      
+    case types.ADD_MEMBERMANTIS_FAILED:
+            return {
+              ...state,
+              insMemberMantis:{
+                sucess: false,
+                errMsg: payload
+              }
+    }
+          
+    case types.ADD_MEMBERMANTIS_SUCCESS:
+              return {
+                ...state,
+                insMemberMantis: {
+                  sucess: true,
+                  errMsg: null
+                }
+    }
 
+    case types.RESET_ADD_MEMBERMANTIS:
+                  return {
+                      ...state,
+                      insMemberMantis: {
+                        sucess: null,
+                        errMsg: null
+                    }
+    }
+
+    case types.GET_ALL_MEMBERMANTIS_REQ:
+                return {
+                  ...state, success: "", listMemberMantis: []
+    }
+          
+    case types.GET_ALL_MEMBERMANTIS_FAILED:
+                return {
+                  ...state,
+                  success: "",
+                  error: true,
+                  errorMsg: payload,
+    }
+              
+    case types.GET_ALL_MEMBERMANTIS_SUCCESS:
+                  return {
+                    ...state, success: true,
+                    listMemberMantis: payload,
+    }
+
+    case types.DELETE_MEMBERMANTIS_REQ:
+                    return {
+                      ...state, listMemberMantis: []
+    }
+              
+    case types.DELETE_MEMBERMANTIS_FAILED:
+                  return {
+                    ...state,
+                    insDeleteMemberMantis: {
+                      sucess: false,
+                      errMsg: payload,
+                    }
+    }
+                
+    case types.DELETE_MEMBERMANTIS_SUCCESS:
+                  return {
+                      ...state,
+                      insDeleteMemberMantis: {
+                        sucess: true,
+                        errMsg: null
+                    }
+    }
+
+    case types.RESET_DELETE_MEMBERMANTIS:
+                  return {
+                      ...state,
+                      insDeleteMemberMantis: {
+                        sucess: null,
+                        errMsg: null
+                    }
+    }
+
+    case types.SELECT_MEMBERMANTIS:
+      localStorage.setItem("selectMemberMantis",actions.value); 
+      return {
+        ...state,
+        currentSelectedMemberMantis: actions.value
+    }
     default:
       return state
 

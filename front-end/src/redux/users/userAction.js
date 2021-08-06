@@ -117,3 +117,46 @@ export function updateAvatar(value){
     payload: value
   }
 }
+
+export function getAllMemberMantis(value) {
+  return {
+    type: types.GET_ALL_MEMBERMANTIS_REQ,
+    payload: value
+  }
+}
+
+export function addMemberMantis(value) {
+  return {
+    type: types.ADD_MEMBERMANTIS_REQ,
+    payload: value
+  }
+}
+
+export function resetAddMemberMantis(value){
+  return {
+    type: types.RESET_ADD_MEMBERMANTIS,
+    payload: value
+  }
+}
+
+export function deleteMemberMantis(value) {
+  return {
+    type: types.DELETE_MEMBERMANTIS_REQ,
+    payload: value
+  }
+}
+
+export function resetDelMemberMantis(value) {
+  return {
+    type: types.RESET_DELETE_MEMBERMANTIS,
+    payload: value
+  }
+}
+
+export function selectMemberMantis(value){
+
+  return {
+    type: types.SELECT_MEMBERMANTIS,
+    payload: value
+  }
+}
