@@ -189,7 +189,7 @@ const reducer = (state = initialState, actions) => {
         errorMsg: payload,
     }
     
-    case types.GET_ALL_CATEGORY_SUCESS:
+    case types.GET_ALL_CATEGORY_SUCCESS:
         return {
           ...state,
           successCategory: true,
