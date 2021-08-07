@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {UPDATE_PROJECT_REQ, DELETE_PROJECT_REQ, RESET_UPDATE_PROJECT, RESET_DELETE_PROJECT, GET_PROJECTS_BY_ID_REQ} from '../../../redux/projects/constants';
 import {GET_INFO_MANTIS_REQ, CREATE_NEW_MANTIS_REQ, RESET_CREATE_NEW_MANTIS, CHANGE_API_KEY_REQ, RESET_CHANGE_API_KEY} from '../../../redux/issue/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
@@ -129,6 +128,28 @@ const MantisConfigPage = (props) => {
     }
   },[issue.insCreateMantis?.sucess]);
 
+  useEffect(()=>{
+    if(issue.insAPI?.sucess === true){
+      displayMsg({
+        content: "Change API key successfully!",
+        type: 'success'
+      });
+      setEnableCreateBtn(true);
+      setLoading(false);
+      resetChangeAPIKeyRedux();
+    }
+    if(issue.insAPI?.sucess === false){
+      displayMsg({
+        content: issue.insAPI?.errMsg,
+        type: 'error'
+      });
+      setEnableCreateBtn(true);
+      setLoading(false);
+      resetChangeAPIKeyRedux();
+    }
+
+  },[issue.insAPI])
+
   const handleUpdate = () => {
     setCheckError(true);
     if(role === "Project Manager"){
@@ -171,7 +192,7 @@ const MantisConfigPage = (props) => {
     else{
       setEnableCreateBtn(false);
       setLoading(true);
-      changeAPIKeyReq(mantisInfo.apikey);
+      changeAPIKeyReq({projectid: project, apikey: mantisInfo.apikey});
     }
   }
 };
