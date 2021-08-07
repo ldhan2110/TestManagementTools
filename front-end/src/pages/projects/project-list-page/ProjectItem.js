@@ -6,7 +6,7 @@ import ReadMore from 'read-more-react';
 import { useHistory } from "react-router-dom";
 
 import {
-    Chip,
+    Chip, Paper,
     Button,
     Card,
     CardActions,
@@ -17,9 +17,9 @@ import {
 import { SELECT_PROJECT } from "../../../redux/projects/constants";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
-  const MAX_LENGTH = 250;
+  const MAX_LENGTH = 200;
 
-  const IDEAL_LENGTH = 50;
+  const IDEAL_LENGTH = 80;
 
   const MIN_LENGTH = 10;
 
@@ -105,6 +105,7 @@ const ProjectItem = (props) => {
             {renderRole(role)}
           </div>
           <div style={{overflow: "hidden", textOverflow: "ellipsis", width: "100%", marginTop: "5px"}}> 
+          <Paper style={{maxHeight: 80, overflowY: 'auto'}}>
           <Typography variant="body2" color="textSecondary" component={'div'}>
             <ReadMore
               min={MIN_LENGTH}
@@ -114,10 +115,11 @@ const ProjectItem = (props) => {
               readMoreText="More..."
             />
           </Typography>
+          </Paper>
           </div>
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions style={{position: "absolute", zIndex: 1000, top: 155}}>
         <Button size="small" color="primary" onClick={handleOpenProject}>
           View Detail
         </Button>

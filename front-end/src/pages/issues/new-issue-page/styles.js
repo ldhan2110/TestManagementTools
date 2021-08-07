@@ -10,9 +10,9 @@ const styles = {
   },
 
   content:{
-      margin: "2vh auto",
-      marginLeft: "3vw",
-      marginRight: "3vw",
+      //margin: "2vh auto",
+      marginLeft: "2vw",
+      marginRight: "2vw",
       height: "100%",
       "& > *":{
         marginTop: 15

@@ -90,7 +90,7 @@ const PieChart = (props) => {
         action={
           <Box>
             {type === 'dashboard' && 
-            <Chip label={d.toLocaleDateString(undefined, { month: 'long'})} rgbcolor={blue[500]} />}
+            <Chip label={d.toLocaleDateString('en-US', { month: 'long'})} rgbcolor={blue[500]} />}
           </Box>
           /* <IconButton aria-label="settings">
             <MoreVertical />
@@ -104,8 +104,8 @@ const PieChart = (props) => {
           <DoughnutInner variant="h4">
             <Typography variant="h4">{overviewData}</Typography>
             {type === 'dashboard' ? 
-            <Typography variant="caption">new tests executed</Typography>:
-            <Typography variant="caption">tests executed</Typography>}
+            <Typography variant="caption">new test executions</Typography>:
+            <Typography variant="caption">test cases</Typography>}
           </DoughnutInner>
           <Doughnut data={dataset} options={options} />
         </ChartWrapper>

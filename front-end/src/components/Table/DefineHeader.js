@@ -97,8 +97,9 @@ export const MANTIS_HEADER = {
   hasCheckbox: false,
   headerCells: [
     { id: '_id', alignment: 'left', label: 'ID', type: 'text', hidden: true },
-    { id: 'username_mantis', alignment: 'left', label: 'Username Mantis',type: 'text' },
+    { id: 'username_mantis', alignment: 'left', label: "Mantis username",type: 'text' },
     { id: 'email', alignment: 'left', label: 'Email',type: 'text' },
-    { id: 'role_mantis', alignment: 'left', label: 'Role Mantis',type: 'text' },
+    { id: 'role_mantis', alignment: 'left', label: "Mantis role",type: 'text' },
+    { id: 'is_active_backend', alignment: 'left', label: 'User joined mantis?', type: 'text' },
   ]
 }

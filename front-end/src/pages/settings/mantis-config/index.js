@@ -6,6 +6,7 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {UPDATE_PROJECT_REQ, DELETE_PROJECT_REQ, RESET_UPDATE_PROJECT, RESET_DELETE_PROJECT, GET_PROJECTS_BY_ID_REQ} from '../../../redux/projects/constants';
+import {GET_INFO_MANTIS_REQ, CREATE_NEW_MANTIS_REQ, RESET_CREATE_NEW_MANTIS, CHANGE_API_KEY_REQ, RESET_CHANGE_API_KEY} from '../../../redux/issue/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -37,11 +38,8 @@ import {
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return {
-    projectsettings: state.project,
-    insProjects: state.project.insProjects,  
+    issue: state.issue,
     project:state.project.currentSelectedProject,
-    insProjectsDelete: state.project.insProjectsDelete,
-    inforProject: state.project.projectInfo,
     role: state.project.currentRole
   }
 }
@@ -49,141 +47,151 @@ const  mapStateToProps = (state) => {
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-    updateProjectReq: (payload) => dispatch({ type: UPDATE_PROJECT_REQ, payload }),
-    getProjectByIdReq: (payload) => dispatch({ type: GET_PROJECTS_BY_ID_REQ, payload}),
-    deleteProjectReq: (payload) => dispatch({ type: DELETE_PROJECT_REQ, payload}),
+    getInfoMantisReq: (payload) => dispatch({ type: GET_INFO_MANTIS_REQ, payload }),
+    createNewMantisReq: (payload) => dispatch({ type: CREATE_NEW_MANTIS_REQ, payload }),
+    resetCreateMantisRedux: () => dispatch({type: RESET_CREATE_NEW_MANTIS}),
+    changeAPIKeyReq: (payload) => dispatch({ type: CHANGE_API_KEY_REQ, payload }),
+    resetChangeAPIKeyRedux: () => dispatch({type: RESET_CHANGE_API_KEY}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    resetUpdateRedux: () => dispatch({type: RESET_UPDATE_PROJECT}),
-    resetDeleteRedux: () => dispatch({type: RESET_DELETE_PROJECT})
   }
 }
 
 
 const MantisConfigPage = (props) => {
-    const {classes, projectsettings, insProjects, project, insProjectsDelete, updateProjectReq, deleteProjectReq,
+    const {classes, issue, getInfoMantisReq, createNewMantisReq, resetCreateMantisRedux, changeAPIKeyReq, resetChangeAPIKeyRedux, projectsettings, insProjects, project, insProjectsDelete, updateProjectReq, deleteProjectReq,
       displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq, inforProject, role} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [checkError, setCheckError] = useState(false);
   const [error, setError] = useState({
-    projectname: 'ss',
-    description: 'ss',
-  });
-  const [projectInfo, setProjectInfo] = useState({
-    projectname: '',
-    description: '',
-    is_public: false,
-    active: false,
-    status: '',
-    use_mantis: false,
     url: "",
-    token: "",
-    projectid: project
+    apikey: "",
+    mantisname: "",
   });
 
-  const[isUseMantis, setUseMantis] = useState(false);
+  const [mantisInfo, setMantisInfo] = useState({
+    url: "",
+    apikey: "",
+    mantisname: "",
+    projectid: project,
+  });
 
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
-  const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [loadingg, setLoadingg] = useState(false);
 
   useEffect(()=>{
-    projectsettings.byIDsuccess = null;
-    getProjectByIdReq(project);
+    issue.mantisInfo = {};
+    issue.insMantis.sucess = "";
+    if(role === "Project Manager"){
+      setEnableCreateBtn(false);
+      getInfoMantisReq(project);
+    }  
   },[]);
 
   useEffect(()=>{
-    if(inforProject !== undefined)
-    setProjectInfo({...projectInfo,
-      projectname: inforProject.projectname,
-      description: inforProject.description,
-      is_public: inforProject.is_public,
-      active: inforProject.active,
-      status: inforProject.status,
-      projectid: project     
-    })
-  },[inforProject]);
+    if(role === "Project Manager"){
+      if(issue.insMantis.sucess === false)
+        setEnableCreateBtn(true);
+    }
+    else {
+      setEnableCreateBtn(true);
+    }    
+  },[issue.insMantis?.sucess])
 
   useEffect(()=>{
-    if (insProjects.sucess === false){
-      setLoading(false);
+    if(role === "Project Manager"){
+      if(issue.insMantis.sucess === true)
+      {
+        setMantisInfo({...mantisInfo, mantisname: issue.mantisInfo.mantisname, url: issue.mantisInfo.url});
+      }
+    }
+        
+  },[issue.mantisInfo])
+
+  useEffect(()=>{
+    if (issue.insCreateMantis?.sucess === false){
       displayMsg({
-        content: insProjects.errMsg,
+        content: issue.insCreateMantis.errMsg,
         type: 'error'
       });
       setEnableCreateBtn(true);
       setLoading(false);
-      resetUpdateRedux();
-    } else if (insProjects.sucess === true) {
-      setLoading(false);
+      resetCreateMantisRedux();
+    } else if (issue.insCreateMantis?.sucess === true) {
       displayMsg({
-        content: "Update project successfully !",
+        content: "Connect to mantis successfully !",
         type: 'success'
       });
       setEnableCreateBtn(true);
       setLoading(false);
-      resetUpdateRedux();
-      history.goBack();
+      resetCreateMantisRedux();
+      //history.goBack();
     }
-  },[insProjects.sucess]);
-
-  useEffect(()=>{
-    if (insProjectsDelete.sucess === false){
-      setLoadingg(false);
-      displayMsg({
-        content: insProjectsDelete.errMsg,
-        type: 'error'
-      });
-      setEnableDeleteBtn(true);
-      setLoadingg(false);
-      resetDeleteRedux();
-    } else if (insProjectsDelete.sucess === true) {
-      setLoadingg(false);
-      displayMsg({
-        content: "Delete project successfully !",
-        type: 'success'
-      });
-      setEnableDeleteBtn(true);
-      setLoadingg(false);
-      resetDeleteRedux();
-      history.replace('/projects');
-    }
-  },[insProjectsDelete.sucess]);
-
+  },[issue.insCreateMantis?.sucess]);
 
   const handleUpdate = () => {
     setCheckError(true);
+    if(role === "Project Manager"){
+    if(mantisInfo.mantisname === "")
+    setError({ ...mantisInfo, mantisname: "" });
 
-    if(projectInfo.description === "")
-    setError({ ...projectInfo, description: "" });
+    if(mantisInfo.apikey === "")
+    setError({ ...mantisInfo, apikey: "" });
 
-    if(projectInfo.projectname === "")
-    setError({ ...projectInfo, projectname: "" });
+    if(mantisInfo.url === "")
+    setError({ ...mantisInfo, url: "" });
 
-    if(projectInfo.description.trim().length === 0 || projectInfo.projectname.trim().length === 0
-        ||projectInfo.description.trim().length !== projectInfo.description.length 
-        || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
+    if(mantisInfo.mantisname.trim().length === 0 || mantisInfo.apikey.trim().length === 0 || mantisInfo.url.trim().length === 0
+        || mantisInfo.mantisname.trim().length !== mantisInfo.mantisname.length 
+        || mantisInfo.apikey.trim().length !== mantisInfo.apikey.length
+        || mantisInfo.url.trim().length !== mantisInfo.url.length
+        ){
         displayMsg({
-          content: "Project Name or Description should not contain spaces before and after !",
+          content: "Fields should not contain spaces before and after !",
           type: 'error'
         });
+    } else{
+      setEnableCreateBtn(false);
+      setLoading(true);
+      createNewMantisReq(mantisInfo);
     }
-  
+  }
+  else{
+    if(mantisInfo.apikey === "")
+      setError({ ...mantisInfo, apikey: "" });
+
+    if(mantisInfo.apikey.trim().length === 0
+    || mantisInfo.apikey.trim().length !== mantisInfo.apikey.length
+    ){
+      displayMsg({
+        content: "Fields should not contain spaces before and after !",
+        type: 'error'
+      });
+    }
     else{
       setEnableCreateBtn(false);
       setLoading(true);
-      updateProjectReq(projectInfo);
+      changeAPIKeyReq(mantisInfo.apikey);
     }
-  };
+  }
+};
   
   const handleChange = (prop) => (event) => {
-    setProjectInfo({ ...projectInfo, [prop]: event.target.value });
+    setMantisInfo({ ...mantisInfo, [prop]: event.target.value });
 
     if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   }
 
+  useEffect(()=>{
+    if(role === "Project Manager")
+    if (issue?.insMantis.sucess === false) {
+      displayMsg({
+        content: issue?.insMantis.errMsg,
+        type: 'error'
+      });        
+    }
+  },[issue?.insMantis]);  
 
 
   const handleBack = () => {    
@@ -194,7 +202,7 @@ const MantisConfigPage = (props) => {
   return(
     <div>
 
-      <Helmet title="Mantis Configuration" />
+      <Helmet title="Mantis Connect" />
 
       <Grid
         justify="space-between"
@@ -202,7 +210,7 @@ const MantisConfigPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-           Mantis Configuration
+           Mantis Connect
           </Typography>
 
           
@@ -214,21 +222,32 @@ const MantisConfigPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="API-Key" label="API-Key" variant="outlined"  fullWidth required  inputProps={{maxLength : 100}} 
-           value={projectInfo.projectname || ''} onChange={handleChange('projectname')}
-           error={projectInfo.projectname === 0 && error.projectname === 0 ? true : false}
-          helperText={projectInfo.projectname === 0 && error.projectname === 0 ? 'Project Name is required' : ' '}/>
+
+          {role === "Project Manager" && <div>
+          <TextField id="mantisName" label="Mantis project name" variant="outlined"  fullWidth required
+          InputProps={issue.insMantis.sucess !== false ? {readOnly: true}:{}}
+          value={mantisInfo.mantisname || ''} onChange={handleChange('mantisname')}          
+          error={checkError && mantisInfo.mantisname.trim().length === 0 && error.mantisname.trim().length === 0 ? true : false}
+          helperText={checkError && mantisInfo.mantisname.trim().length === 0 && error.mantisname.trim().length === 0 ? 'Mantis name is required!' : ' '}/>
+          </div>}
+
+
+          <TextField id="API-Key" label="API-Key" variant="outlined"  fullWidth required
+          InputProps={(issue.insMantis.sucess !== false && role === "Project Manager") ? {readOnly: true}:{}}
+           value={mantisInfo.apikey || ''} onChange={handleChange('apikey')}
+           error={checkError && mantisInfo.apikey.trim().length === 0 && error.apikey.trim().length === 0 ? true : false}
+          helperText={checkError && mantisInfo.apikey.trim().length === 0 && error.apikey.trim().length === 0 ? 'API key is required' : ' '}/>
 
           {role === "Project Manager" && <div>
               <TextField id="url" label="URL" variant="outlined"  fullWidth required
-          value={projectInfo.description || ''} onChange={handleChange('description')}
-          error={projectInfo.description === 0 && error.description === 0 ? true : false}
-          helperText={projectInfo.description === 0 && error.description === 0 ? 'Description is required!' : ' '}/>
+          InputProps={issue.insMantis.sucess !== false ? {readOnly: true}:{}}
+          value={mantisInfo.url || ''} onChange={handleChange('url')}
+          error={checkError && mantisInfo.url.trim().length === 0 && error.url.trim().length === 0 ? true : false}
+          helperText={checkError && mantisInfo.url.trim().length === 0 && error.url.trim().length === 0 ? 'URL is required!' : ' '}/>
           </div>}
         
           <div className = {classes.btnGroup}>
-    
-          <Button variant="contained" color="primary" disabled={(enableCreateBtn && projectsettings.byIDsuccess === true)  ? false : true } 
+          <Button variant="contained" color="primary" disabled={(enableCreateBtn) ? false : true } 
           startIcon={<UpdateIcon />}  onClick={handleUpdate}>
            Save
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}

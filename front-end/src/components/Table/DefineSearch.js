@@ -41,6 +41,6 @@ export const INVITE_MEMBERS_SEARCH = [
 ]
 
 export const MANTIS_SEARCH = [
-  { id: 'username_mantis',  label: 'Username Mantis', type: "text" },
+  { id: 'username_mantis',  label: 'Mantis username', type: "text" },
   { id: 'role_mantis',  label: 'Role Mantis', type: "select", default: -1, listValues: [{value: "administrator", label: "Administrator"}, {value: "updater", label: "Updater"}]},
 ]

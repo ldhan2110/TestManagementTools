@@ -9,12 +9,14 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     thumb: {
         display: 'inline-flex',
+        flexDirection: 'column',
+        alignItems: 'center',
         borderRadius: 2,
         border: '1px solid #eaeaea',
         marginBottom: 8,
         marginRight: 8,
         width: 110,
-        height: 110,
+        height: 'auto',
         padding: 4,
         boxSizing: 'border-box',
         position: 'relative',
@@ -95,21 +97,21 @@ const img = {
 function Previews(props) {
   const classes = useStyles();
   
-  const {getUrl} = props;
+  const {getUrl, revoke} = props;
 
   const [files, setFiles] = useState([]);
   const [urls, setUrls] = useState([]);
 
   var newarray = [];
   var array = [];
-
+  
   const {getRootProps, getInputProps} = useDropzone({
     accept: 'image/*,text/plain',
-    onDrop: acceptedFiles => {
+    onDrop: (acceptedFiles, fileRejections) => {
         array = acceptedFiles.map(file => Object.assign(file, {
             preview: URL.createObjectURL(file)
-          }))      
-      setFiles(prevFiles => [...prevFiles, ...array]);      
+          }));
+      setFiles(prevFiles => [...prevFiles, ...array]);  
     //   acceptedFiles.forEach((file) => {
     //     const reader = new FileReader()
   
@@ -166,6 +168,18 @@ function Previews(props) {
   const style = useMemo(() => ({
     ...baseStyle,
   }), []);
+
+  function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
   
   const thumbs = files.map((file, i) => {
     if(file.type !== 'text/plain')
@@ -180,6 +194,7 @@ function Previews(props) {
           style={img}
         />
       </div>
+      <span style={{marginTop: 8}}>{formatBytes(file.size)}</span>
     </div>
   )});
 
@@ -187,16 +202,22 @@ function Previews(props) {
       if(file.type === 'text/plain')
       return(
         <li key={file.path}>
-            {file.path} - {file.size} bytes
+            {file.path} - {formatBytes(file.size)}
         </li>
   )});
 
-  useEffect(() => () => {
+/*   useEffect(() => () => {
     // Make sure to revoke the data uris to avoid memory leaks
     files.forEach(file => URL.revokeObjectURL(file.preview));
-  }, [files]);
+  }, [files]); */
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks
+    files.forEach(file => URL.revokeObjectURL(file.preview));
+  }, [revoke]);
 
   const removeItem = (index) => {
+    URL.revokeObjectURL(files[index].preview);
     setFiles(files.filter((value, i) => i !== index));
   }
 
@@ -205,6 +226,7 @@ function Previews(props) {
       <div {...getRootProps({style})}>
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here, or click to select files</p>
+        <em>(Only images and text *.txt will be accepted)</em>
       </div>
       <h4>Images</h4>
       <aside style={thumbsContainer}>

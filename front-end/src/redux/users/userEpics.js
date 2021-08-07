@@ -522,7 +522,7 @@ import {API_ADDR} from '../constants';
             } else
             return of({
               type: actions.GET_ALL_MEMBERMANTIS_FAILED,
-              payload: error.response
+              payload: error.response.data.errMsg
             })})
           )))
 

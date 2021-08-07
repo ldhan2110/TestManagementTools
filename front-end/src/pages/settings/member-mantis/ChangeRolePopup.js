@@ -110,33 +110,36 @@ const ChangRolePopup = (props) => {
         {(role === 'Project Manager' || role === 'Test Lead') && 
         <DialogContent>
           <DialogContentText>
-            Please select a role for this member
+            Please select an access level for this member
           </DialogContentText>
           <FormControl variant="outlined"  fullWidth>
               <InputLabel id="status">Role</InputLabel>
                   <Select
                     labelId="role"
                     id="role"
-                    label="role"
+                    label="Access level"
                     value={userInfo ? userInfo.role : ''}
                     onChange={handleChangeRole}
                    >
-                        <MenuItem value={'Project Manager'} disabled={role==='Test Lead'}>Project Manager</MenuItem>
-                        <MenuItem value={'Test Lead'}>Test Lead</MenuItem>
-                        <MenuItem value={"Tester"}>Tester</MenuItem>
+                        <MenuItem value={'viewer'}>viewer</MenuItem>
+                        <MenuItem value={'reporter'}>reporter</MenuItem>
+                        <MenuItem value={"updater"}>updater</MenuItem>
+                        <MenuItem value={"developer"}>developer</MenuItem>
+                        <MenuItem value={"manager"}>manager</MenuItem>
+                        <MenuItem value={"administrator"}>administrator</MenuItem>
                   </Select>
           </FormControl>
         </DialogContent>}
 
         {(role === 'Project Manager' || role === 'Test Lead') &&
         <DialogActions>
-         <Button onClick={handleConfirm} color="primary" disabled={enableCreateBtn ? false : true }>
-            Confirm
-            {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
-          </Button> 
           <Button  onClick={handleClose} color="primary">
             Cancel
           </Button>
+         <Button onClick={handleConfirm} color="primary" disabled={enableCreateBtn ? false : true }>
+            Confirm
+            {loading && <CircularProgress size={24} style={{color: blue[500],position: 'absolute',top: '50%',left: '50%',marginTop: -12,marginLeft: -12,}}/>}
+          </Button>           
         </DialogActions>}
 
         {(role === 'Tester') && 

@@ -49,6 +49,12 @@ const styles = {
       marginTop: -12,
       marginLeft: -12,
     },
+
+    divDateLink: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'baseline',
+    },
   };
   
   export default styles;

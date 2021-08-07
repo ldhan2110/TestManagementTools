@@ -12,7 +12,9 @@ import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import DatePicker from '../../../components/DatePicker';
+import Link from '@material-ui/core/Link';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {
   Grid,
   Typography,
@@ -29,6 +31,7 @@ import {
   Select,
   InputLabel,
   MenuItem,
+  Tooltip,
 } from '@material-ui/core';
 import members from "../../settings/members";
 
@@ -72,7 +75,7 @@ const IssueDetailPage = (props) => {
       //isPublic: props.history.location.state.is_public,
       category: props.history.location.state.category,
       reporter: props.history.location.state.reporter,
-      created_date: props.history.location.state.created_date,
+      created_date: new Date(props.history.location.state.created_date),
       url: props.history.location.state.url,  
     });
     
@@ -80,6 +83,7 @@ const IssueDetailPage = (props) => {
     const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
     const [loading, setLoading] = useState(false);
     const [loadingg, setLoadingg] = useState(false);
+    const [openLink, setOpenLink] = useState(false);
 
     useEffect(()=>{
       if (insIssue.sucess === false){
@@ -169,6 +173,7 @@ const IssueDetailPage = (props) => {
       setError({ ...error, [prop]: event.target.value });
     }
   
+  
     /*const handleIsActive = () =>{
   
       if(issueInfor.isActive === true || issueInfor.isActive === 0){
@@ -199,6 +204,18 @@ const IssueDetailPage = (props) => {
     const handleBack = () => {    
       history.goBack();
     };
+
+    const getDate = (date) => { // mm/dd/yyyy
+      return(
+      ((date.getMonth() > 8) ? 
+      (date.getMonth() + 1) : ('0' + (date.getMonth() + 1)))
+      + '/' +
+      ((date.getDate() > 9) ?
+       date.getDate() : ('0' + date.getDate())) 
+      + '/' +
+      date.getFullYear()
+      )
+    }
 
     return (
     <div>
@@ -273,15 +290,27 @@ const IssueDetailPage = (props) => {
           value={issueInfor.category || ''} onChange={handleChange('category')}/>  
 
           <TextField id="reporter" label="Reporter" variant="outlined"  fullWidth required
-          value={issueInfor.reporter || ''} onChange={handleChange('reporter')}/>   
+          value={issueInfor.reporter || ''} onChange={handleChange('reporter')}/>
 
-          <TextField id="created_date" label="Created Date" variant="outlined"  fullWidth required
-          value={issueInfor.created_date || ''} onChange={handleChange('created_date')}/> 
 
-          <TextField id="url" label="Link Mantis" variant="outlined"  fullWidth required
-          value={issueInfor.url || ''} onChange={handleChange('url')}/> 
+          <div className={classes.divDateLink}>
+          <TextField id="created_date" label="Created Date" variant="outlined"
+          readOnly={true}
+          value={issueInfor.created_date ? getDate(issueInfor.created_date):""} /> 
 
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={9}
+          <TextField id="url" label="Link Mantis" variant="outlined" fullWidth
+            value={issueInfor.url || ''} onChange={handleChange('url')}
+            InputProps={{readOnly: true, endAdornment: 
+            <Tooltip title="Open link"><Link href={issueInfor.url} target="_blank" rel="noopener">
+              <ExitToAppIcon />
+            </Link></Tooltip>}}
+            style={{marginLeft: 15}}
+          />
+          </div>
+
+          
+
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={5}
           value={issueInfor.description || ''} onChange={handleChange('description')}
           error={issueInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
           helperText={issueInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>  

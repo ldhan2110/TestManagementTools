@@ -5,10 +5,17 @@ import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {UPDATE_PROJECT_REQ, DELETE_PROJECT_REQ, RESET_UPDATE_PROJECT, RESET_DELETE_PROJECT, GET_PROJECTS_BY_ID_REQ} from '../../../redux/projects/constants';
+import {
+  CREATE_AND_SWITCH_MANTIS_REQ, SWITCH_MANTIS_REQ,
+  RESET_CREATE_AND_SWITCH_MANTIS, RESET_SWITCH_MANTIS, 
+  CHANGE_API_KEY_REQ, RESET_CHANGE_API_KEY,
+  ADD_CATEGORY_REQ, REMOVE_CATEGORY_REQ, 
+  RESET_ADD_CATEGORY, RESET_REMOVE_CATEGORY,
+  GET_ALL_MANTIS_OF_PROJECT_REQ, GET_ALL_CATEGORY_REQ } from '../../../redux/issue/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import AddIcon from '@material-ui/icons/Add';
 import { red } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {
@@ -26,7 +33,7 @@ import {
   DialogContent,
   DialogActions,
   DialogTitle,
-  Dialog
+  Dialog, FormHelperText,
 } from '@material-ui/core';
 
 /* import {
@@ -37,11 +44,8 @@ import {
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return {
-    projectsettings: state.project,
-    insProjects: state.project.insProjects,  
+    issue: state.issue,
     project:state.project.currentSelectedProject,
-    insProjectsDelete: state.project.insProjectsDelete,
-    inforProject: state.project.projectInfo,
     role: state.project.currentRole
   }
 }
@@ -49,194 +53,309 @@ const  mapStateToProps = (state) => {
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-    updateProjectReq: (payload) => dispatch({ type: UPDATE_PROJECT_REQ, payload }),
-    getProjectByIdReq: (payload) => dispatch({ type: GET_PROJECTS_BY_ID_REQ, payload}),
-    deleteProjectReq: (payload) => dispatch({ type: DELETE_PROJECT_REQ, payload}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    resetUpdateRedux: () => dispatch({type: RESET_UPDATE_PROJECT}),
-    resetDeleteRedux: () => dispatch({type: RESET_DELETE_PROJECT})
+
+    createAndSwitchMantisReq: (payload) => dispatch({ type: CREATE_AND_SWITCH_MANTIS_REQ, payload}),
+    switchMantisReq: (payload) => dispatch({ type: SWITCH_MANTIS_REQ, payload}),
+    changeAPIReq: (payload) => dispatch({ type: CHANGE_API_KEY_REQ, payload}),
+    addCategoryReq: (payload) => dispatch({ type: ADD_CATEGORY_REQ, payload}),
+    removeCategoryReq: (payload) => dispatch({ type: REMOVE_CATEGORY_REQ, payload}),
+    getAllMantisOfProjectReq: (payload) => dispatch({ type: GET_ALL_MANTIS_OF_PROJECT_REQ, payload}),
+    getAllCategoryReq: (payload) => dispatch({ type: GET_ALL_CATEGORY_REQ, payload}),
+
+    resetCreateAndSwitchRedux: () => dispatch({type: RESET_CREATE_AND_SWITCH_MANTIS}),
+    resetSwitchMantisRedux: () => dispatch({type: RESET_SWITCH_MANTIS}),
+    resetChangeAPIKeyRedux: () => dispatch({type: RESET_CHANGE_API_KEY}),
+    resetAddCategoryRedux: () => dispatch({type: RESET_ADD_CATEGORY}),
+    resetRemoveCategoryRedux: () => dispatch({type: RESET_REMOVE_CATEGORY}),
   }
 }
 
 
 const SettingProjectPage = (props) => {
-    const {classes, projectsettings, insProjects, project, insProjectsDelete, updateProjectReq, deleteProjectReq,
-      displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq, inforProject, role} = props;
+    const {classes, issue, createAndSwitchMantisReq, switchMantisReq, changeAPIReq, 
+      addCategoryReq, removeCategoryReq, getAllMantisOfProjectReq, 
+      resetCreateAndSwitchRedux, resetSwitchMantisRedux, resetChangeAPIKeyRedux, 
+      resetAddCategoryRedux, resetRemoveCategoryRedux, getAllCategoryReq,
+      project, role, displayMsg} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
-  const [checkError, setCheckError] = useState(false);
-  const [error, setError] = useState({
-    APIkey: 'ss',
-    projectname: 'ss',
-    url: 'ss',
-    categoryname: 'ss',
-    addcategoryname: 'ss',
-  });
-  const [projectInfo, setProjectInfo] = useState({
-    projectname: '',
-    APIkey: '',
-    url: '',
-    is_public: false,
-    active: false,
-    status: '',
-    use_mantis: false,
+
+
+  const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
+
+  //Create and switch (CaS)
+  const [loadCaS, setLoadCaS] = useState(false);
+  const [enableCaSbtn, setEnableCaSbtn] = useState(true);
+  const [checkErrorCaS, setCheckErrorCaS] = useState(false);
+  const [createMantisInfo, setCreateMantisInfo] = useState({
     url: "",
-    token: "",
-    categoryname: '',
-    addcategoryname: '',
+    apikey: "", //no need for this api but keep
+    mantisname: "",
     projectid: project
   });
 
-  const[isUseMantis, setUseMantis] = useState(false);
+  const handleChangeCaS = (prop) => (event) => {
+    setCreateMantisInfo({ ...createMantisInfo, [prop]: event.target.value });
+  }
 
-  const [enableCreateBtn, setEnableCreateBtn] = useState(true);
-  const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [loadingg, setLoadingg] = useState(false);
+  const createAndSwitch = () => {
+    setCheckErrorCaS(true);
+    if(createMantisInfo.url.trim().length === 0 || createMantisInfo.mantisname.trim().length === 0){
+      displayMsg({
+        content: "Mantis name or URL should not contain spaces before and after !",
+        type: 'error'
+      });
+    }
+    else{
+      setLoadCaS(true);
+      setEnableCaSbtn(false);
+      createAndSwitchMantisReq(createMantisInfo);
+    }
+  }
 
   useEffect(()=>{
-    projectsettings.byIDsuccess = null;
-    getProjectByIdReq(project);
+    if(issue.insCreateAndSwitchMantis?.sucess === true){
+      displayMsg({
+        content: "Create and switched to new mantis successfully!",
+        type: 'success'
+      });
+      setLoadCaS(false);
+      setEnableCaSbtn(true);
+      setCheckErrorCaS(false);
+      resetCreateAndSwitchRedux();
+    }
+    if(issue.insCreateAndSwitchMantis?.sucess === false){
+      displayMsg({
+        content: issue.insCreateAndSwitchMantis?.errMsg,
+        type: 'error'
+      });
+      setLoadCaS(false);
+      setEnableCaSbtn(true);
+      setCheckErrorCaS(false);
+      resetCreateAndSwitchRedux();
+    }
+
+  },[issue.insCreateAndSwitchMantis])
+
+
+  //Change API key (cAk)
+  const [loadcAk, setLoadcAk] = useState(false);
+  const [enablecAkbtn, setEnablecAkbtn] = useState(true);
+  const [checkErrorcAk, setCheckErrorcAk] = useState(false);
+  const [changeAPIinfo, setChangeAPIinfo] = useState({
+    apikey: "",
+    projectid: project
+  });
+
+  const handleChangecAk = (prop) => (event) => {
+    setChangeAPIinfo({ ...changeAPIinfo, [prop]: event.target.value });
+  }
+
+  const changeAPIkey = () => {
+    setCheckErrorcAk(true);
+    if(changeAPIinfo.apikey.trim().length === 0){
+      displayMsg({
+        content: "API key cannot be empty !",
+        type: 'error'
+      });
+    }
+    else{
+      setLoadcAk(true);
+      setEnablecAkbtn(false);
+      changeAPIReq(changeAPIinfo);
+    }
+  }
+
+  useEffect(()=>{
+    if(issue.insAPI?.sucess === true){
+      displayMsg({
+        content: "Change API key successfully!",
+        type: 'success'
+      });
+      setLoadcAk(false);
+      setEnablecAkbtn(true);
+      setCheckErrorcAk(false);
+      resetChangeAPIKeyRedux();
+    }
+    if(issue.insAPI?.sucess === false){
+      displayMsg({
+        content: issue.insAPI?.errMsg,
+        type: 'error'
+      });
+      setLoadcAk(false);
+      setEnablecAkbtn(true);
+      setCheckErrorcAk(false);
+      resetChangeAPIKeyRedux();
+    }
+
+  },[issue.insAPI])
+
+
+  //Add category (AC)
+  const [loadAC, setLoadAC] = useState(false);
+  const [enableACbtn, setEnableACbtn] = useState(true);
+  const [checkErrorAC, setCheckErrorAC] = useState(false);
+  const [addCategoryInfo, setAddCategoryInfo] = useState({
+    category: '',
+    projectid: project
+  });
+
+  const handleChangeAC = (prop) => (event) => {
+    setAddCategoryInfo({ ...addCategoryInfo, [prop]: event.target.value });
+  }
+
+  const addCategory = () => {
+    setCheckErrorAC(true);
+    if(addCategoryInfo.category.trim().length === 0){
+      displayMsg({
+        content: "Category name cannot be empty!",
+        type: 'error'
+      });
+    }
+    else{
+      setLoadAC(true);
+      setEnableACbtn(false);
+      addCategoryReq(addCategoryInfo);
+    }
+  }
+
+  useEffect(()=>{
+    if(issue.insCategory?.sucess === true){
+      displayMsg({
+        content: "Create category successfully!",
+        type: 'success'
+      });
+      setLoadAC(false);
+      setEnableACbtn(true);
+      setCheckErrorAC(false);
+      getAllCategoryReq(project);
+      resetAddCategoryRedux();
+    }
+    if(issue.insCategory?.sucess === false){
+      displayMsg({
+        content: issue.insAPI?.errMsg,
+        type: 'error'
+      });
+      setLoadAC(false);
+      setEnableACbtn(true);
+      setCheckErrorAC(false);
+      resetAddCategoryRedux();
+    }
+
+  },[issue.insCategory])
+
+  //Remove category (selection box) (RC)
+  const [loadRC, setLoadRC] = useState(false);
+  const [enableRCbtn, setEnableRCbtn] = useState(true);
+  const [checkErrorRC, setCheckErrorRC] = useState(false);
+  const [removeCategoryInfo, setRemoveCategoryInfo] = useState({
+    category: '',
+    projectid: project
+  });
+
+  const handleChangeRC = (prop) => (event) => {
+    setRemoveCategoryInfo({ ...removeCategoryInfo, [prop]: event.target.value });
+  }
+
+  const removeCategory = () => {
+    setCheckErrorRC(true);
+    if(removeCategoryInfo.category === ""){
+      displayMsg({
+        content: "Please choose a category !",
+        type: 'error'
+      });
+    }
+    else{
+      setLoadRC(true);
+      setEnableRCbtn(false);
+      removeCategoryReq(removeCategoryInfo);
+    }
+  }
+
+  useEffect(()=>{
+    if(issue.insCategoryDelete?.sucess === true){
+      displayMsg({
+        content: "Removed category successfully!",
+        type: 'success'
+      });
+      setLoadRC(false);
+      setEnableRCbtn(true);
+      setCheckErrorRC(false);
+      resetRemoveCategoryRedux();
+    }
+    if(issue.insCategoryDelete?.sucess === false){
+      displayMsg({
+        content: issue.insCategoryDelete?.errMsg,
+        type: 'error'
+      });
+      setLoadRC(false);
+      setEnableRCbtn(true);
+      setCheckErrorRC(false);
+      resetRemoveCategoryRedux();
+    }
+  },[issue.insCategoryDelete])
+
+  //Switch mantis (SM)
+  const [loadSM, setLoadSM] = useState(false);
+  const [enableSMbtn, setEnableSMbtn] = useState(true);
+  const [checkErrorSM, setCheckErrorSM] = useState(false);
+  const [switchMantisInfo, setSwitchMantisInfo] = useState({
+    mantisid: "",
+    projectid: project
+  });
+
+  const handleChangeSM = (prop) => (event) => {
+    console.log(switchMantisInfo);
+    setSwitchMantisInfo({ ...switchMantisInfo, [prop]: event.target.value });
+  }
+
+  const switchMantis = () => {
+    setCheckErrorSM(true);
+    if(switchMantisInfo.mantisid === "") {
+      displayMsg({
+        content: "Please choose a mantis project !",
+        type: 'error'
+      });
+    }
+    else{
+      setLoadSM(true);
+      setEnableSMbtn(false);
+      switchMantisReq(switchMantisInfo);
+    }
+  }
+
+  useEffect(()=>{
+    if(issue.insSwitchMantis?.sucess === true){
+      displayMsg({
+        content: "Switch mantis successfully!",
+        type: 'success'
+      });
+      setLoadSM(false);
+      setEnableSMbtn(true);
+      setCheckErrorSM(false);
+      resetSwitchMantisRedux();
+    }
+    if(issue.insSwitchMantis?.sucess === false){
+      displayMsg({
+        content: issue.insCategoryDelete?.errMsg,
+        type: 'error'
+      });
+      setLoadSM(false);
+      setEnableSMbtn(true);
+      setCheckErrorSM(false);
+      resetSwitchMantisRedux();
+    }
+  },[issue.insSwitchMantis])
+
+
+
+  useEffect(()=>{
+    //projectsettings.byIDsuccess = null;
+    //getProjectByIdReq(project);
+    getAllMantisOfProjectReq(project);
+    getAllCategoryReq(project);
   },[]);
-
-  useEffect(()=>{
-    if(inforProject !== undefined)
-    setProjectInfo({...projectInfo,
-      projectname: inforProject.projectname,
-      url: inforProject.url,
-      APIkey: inforProject.APIkey,
-      is_public: inforProject.is_public,
-      active: inforProject.active,
-      status: inforProject.status,
-      projectid: project,
-      categoryname: inforProject.categoryname,
-      addcategoryname: inforProject.addcategoryname,
-    })
-  },[inforProject]);
-
-  useEffect(()=>{
-    if (insProjects.sucess === false){
-      setLoading(false);
-      displayMsg({
-        content: insProjects.errMsg,
-        type: 'error'
-      });
-      setEnableCreateBtn(true);
-      setLoading(false);
-      resetUpdateRedux();
-    } else if (insProjects.sucess === true) {
-      setLoading(false);
-      displayMsg({
-        content: "Save mantis successfully !",
-        type: 'success'
-      });
-      setEnableCreateBtn(true);
-      setLoading(false);
-      resetUpdateRedux();
-      history.goBack();
-    }
-  },[insProjects.sucess]);
-
-  useEffect(()=>{
-    if (insProjectsDelete.sucess === false){
-      setLoadingg(false);
-      displayMsg({
-        content: insProjectsDelete.errMsg,
-        type: 'error'
-      });
-      setEnableDeleteBtn(true);
-      setLoadingg(false);
-      resetDeleteRedux();
-    } else if (insProjectsDelete.sucess === true) {
-      setLoadingg(false);
-      displayMsg({
-        content: "Delete category successfully !",
-        type: 'success'
-      });
-      setEnableDeleteBtn(true);
-      setLoadingg(false);
-      resetDeleteRedux();
-      history.replace('/projects');
-    }
-  },[insProjectsDelete.sucess]);
-
-  const handleDelete=()=>{
-    
-    setEnableDeleteBtn(false);
-    setLoadingg(true);
-    deleteProjectReq(projectInfo);
-    setOpen(false);
-  }
-
-  const handleUpdateMantis = () => {
-    setCheckError(true);
-
-    if(projectInfo.url === "")
-    setError({ ...projectInfo, url: "" });
-
-    if(projectInfo.APIkey === "")
-    setError({ ...projectInfo, APIkey: "" });
-
-    if(projectInfo.url.trim().length === 0 || projectInfo.projectname.trim().length === 0
-        ||projectInfo.url.trim().length !== projectInfo.url.length 
-        || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
-        displayMsg({
-          content: "Project name or url should not contain spaces before and after !",
-          type: 'error'
-        });
-    }
-  
-    else{
-      setEnableCreateBtn(false);
-      setLoading(true);
-      updateProjectReq(projectInfo);
-    }
-  };
-
-  const handleUpdateAPI = () => {
-
-};
-
-  const handleAdd = () => {
-
-  };
-  
-  const handleChange = (prop) => (event) => {
-    setProjectInfo({ ...projectInfo, [prop]: event.target.value });
-
-    if(checkError === true)
-    setError({ ...error, [prop]: event.target.value });
-  }
-
-  const handleIsActive = () =>{
-
-    if(projectInfo.active === true || projectInfo.active === 0){
-      setProjectInfo({ ...projectInfo, active: false });
-    }
-    else{
-      setProjectInfo({ ...projectInfo, active: true });
-    }  };
-
-  const handleIsPublic = () =>{
-
-    if(projectInfo.is_public === true || projectInfo.is_public === 0){
-      setProjectInfo({ ...projectInfo, is_public: false });
-    }
-    else{
-      setProjectInfo({ ...projectInfo, is_public: true });
-    }
-  };
-
-  const handleUseMantis = () =>{
-    if(projectInfo.use_mantis === true || projectInfo.use_mantis === 0){
-      setProjectInfo({ ...projectInfo, use_mantis: false });
-      setUseMantis(false);
-    }
-    else{
-      setProjectInfo({ ...projectInfo, use_mantis: true });
-      setUseMantis(true);
-    }
-  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -250,11 +369,20 @@ const SettingProjectPage = (props) => {
     history.goBack();
     //setOpen(false);
   };
-  
+  if(role !== 'Project Manager') {return(
+    <div>
+      <Helmet title="Mantis Management" />
+      <div>
+        <Typography variant="h3" gutterBottom display="inline">
+            You need to be a project manager to access this page!
+        </Typography>
+      </div>
+    </div>
+  )} else{
   return(
     <div>
 
-      <Helmet title="Project Settings" />
+      <Helmet title="Mantis Management" />
 
       <Grid
         justify="space-between"
@@ -262,7 +390,7 @@ const SettingProjectPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Settings Mantis
+            Mantis settings
           </Typography>
 
           
@@ -273,77 +401,137 @@ const SettingProjectPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
+
+          {/* Create and Switch */}
         <form className={classes.content}>
-          <TextField id="projectName" label="Mantis Project Name" variant="outlined"  fullWidth required  inputProps={{maxLength : 100}} 
-           value={projectInfo.projectname || ''} onChange={handleChange('projectname')}
-           error={projectInfo.projectname === 0 && error.projectname === 0 ? true : false}
-          helperText={projectInfo.projectname === 0 && error.projectname === 0 ? 'Project Name is required' : ' '}/>
+          <TextField id="projectName" label="Mantis Project Name" variant="outlined"  fullWidth required inputProps={{maxLength : 100}} 
+           value={createMantisInfo.mantisname || ''}
+           onChange={handleChangeCaS('mantisname')}
+           error={checkErrorCaS && createMantisInfo.mantisname.trim().length === 0 ? true : false}
+          helperText={checkErrorCaS && createMantisInfo.mantisname.trim().length === 0 ? 'Mantis name is required!' : ''}/>
 
         <div className={classes.onlyurl}>       
-        <TextField id="url" label="url" variant="outlined"  fullWidth required inputProps={{maxLength : 100}} 
-          value={projectInfo.url || ''} onChange={handleChange('url')}
-          error={projectInfo.url === 0 && error.url === 0 ? true : false}
-          helperText={projectInfo.url === 0 && error.url === 0 ? 'url is required!' : ' '}/>
+        <TextField id="url" label="URL" variant="outlined"  fullWidth required inputProps={{maxLength : 100}} 
+          value={createMantisInfo.url || ''}
+          onChange={handleChangeCaS('url')}
+          error={checkErrorCaS && createMantisInfo.url.trim().length === 0 ? true : false}
+          helperText={checkErrorCaS && createMantisInfo.url.trim().length === 0 ? 'URL is required!' : ' '}/>
           </div>
 
           <div className = {classes.btnGroup}>
-          {(role === 'Project Manager') &&
-          <Button variant="contained" color="primary" disabled={(enableCreateBtn && projectsettings.byIDsuccess === true)  ? false : true } 
-          startIcon={<UpdateIcon />}  onClick={handleUpdateMantis}>
-            Save Mantis Information
-            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>} 
+          
+          <Button variant="contained" color="primary"
+          disabled={(enableCaSbtn) ? false : true } 
+          startIcon={<UpdateIcon />} onClick={createAndSwitch}>
+            Create and switch
+            {loadCaS && <CircularProgress size={24} className={classes.buttonProgress} />}
+          </Button>
           </div>
-
+        
+        <Grid container spacing={2}>
+        <Grid item xs={6}>
         <form className={classes.other}>
+
+          {/* Change API */}
           <TextField id="API-Key" label="API-Key" variant="outlined"  fullWidth required  inputProps={{maxLength : 100}} 
-           value={projectInfo.APIkey || ''} onChange={handleChange('APIkey')}
-           error={projectInfo.APIkey === 0 && error.APIkey === 0 ? true : false}
-          helperText={projectInfo.APIkey === 0 && error.APIkey === 0 ? 'API key is required' : ' '}/>
+           value={changeAPIinfo.apikey || ''}
+           onChange={handleChangecAk('apikey')}
+           error={checkErrorcAk && changeAPIinfo.apikey.trim().length === 0 ? true : false}
+          helperText={checkErrorcAk && changeAPIinfo.apikey.trim().length === 0 ? 'API key is required!' : ' '}/>
           </form>
 
-          <div className = {classes.btnGroup}>
-          {(role === 'Project Manager') &&
-          <Button variant="contained" color="primary" disabled={(enableCreateBtn && projectsettings.byIDsuccess === true)  ? false : true } 
-          startIcon={<UpdateIcon />}  onClick={handleUpdateAPI}>
+          <div className = {classes.btnGroup}>          
+          <Button variant="contained" color="primary"
+          disabled={(enablecAkbtn)  ? false : true } 
+          startIcon={<UpdateIcon />}  onClick={changeAPIkey}>
             Save API
-            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>}
-        </div>       
+            {loadcAk && <CircularProgress size={24} className={classes.buttonProgress} />}
+          </Button>
+        </div></Grid> 
+        <Grid item xs={6}>
 
+          {/* Switch Mantis */}
+          <form className={classes.other}>
+          <FormControl variant="outlined" //className={classes.formControl}
+          fullWidth>
+            <InputLabel id="switchM">Select Mantis to switch to</InputLabel>
+            <Select
+              labelId="switchMantis"
+              id="switchMantiss"              
+              value={switchMantisInfo.mantisid}
+              error={(checkErrorSM && 
+                switchMantisInfo.mantisid === "") ? true : false} 
+              onChange={handleChangeSM('mantisid')}
+              //label="Select Category to delete"
+            >
+            <MenuItem value=""></MenuItem>
+              {issue.listAllMantis?.map((item) => (
+                <MenuItem value={item._id}>{item.mantisname}</MenuItem>
+              ))}
+            </Select>
+            <FormHelperText 
+            style={(checkErrorSM && switchMantisInfo.mantisid === "") ?
+              {color: 'red'}:{opacity:0, pointerEvents: 'none'}}            
+            >Select a category!</FormHelperText>
+            </FormControl>            
+            </form>
+
+        <Grid item>
+        
+        <div >
+        <Button variant="contained" color="primary" disabled={enableSMbtn ? false : true } startIcon={<UpdateIcon />} size="medium"
+         onClick={switchMantis}>
+            Switch Mantis
+            {loadSM && <CircularProgress size={24} className={classes.buttonProgress} />}
+            </Button>
+          </div></Grid>
+        </Grid>
+        
+        <Grid item xs={6}>
+
+          {/* Add category */}
         <form className={classes.other}>
           <TextField id="addCategory" label="Add Category" variant="outlined" fullWidth required  inputProps={{maxLength : 100}} 
-           value={projectInfo.addcategoryname || ''} onChange={handleChange('addcategoryname')}
-           error={projectInfo.addcategoryname === 0 && error.addcategoryname === 0 ? true : false}
-          helperText={projectInfo.addcategoryname === 0 && error.addcategoryname === 0 ? 'Category Name is required' : ' '}/> 
+           value={addCategoryInfo.category || ''}
+           onChange={handleChangeAC('category')}
+           error={checkErrorAC && addCategoryInfo.category.trim().length === 0 ? true : false}
+          helperText={checkErrorAC && addCategoryInfo.category.trim().length === 0 ? 'Category Name is required' : ' '}/> 
           </form>
           
         <div className = {classes.btnGroup}>
-          {(role === 'Project Manager') &&
-          <Button variant="contained" color="primary" disabled={(enableCreateBtn && projectsettings.byIDsuccess === true)  ? false : true } 
-          onClick={handleAdd}>
+          
+          <Button variant="contained" color="primary" startIcon={<AddIcon />}
+          disabled={(enableACbtn) ? false : true } 
+          onClick={addCategory}>
             Add Category
-            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>}
-        </div>
+            {loadAC && <CircularProgress size={24} className={classes.buttonProgress} />}
+          </Button>
+        </div></Grid>
 
+        <Grid item xs={6}>
 
+          {/* Remove Category */}
         <form className={classes.other}>
         <FormControl variant="outlined" //className={classes.formControl}
           fullWidth>
-            <InputLabel id="IssueCategory">Select Category to Delete</InputLabel>
+            <InputLabel id="delCategory">Select Category to Delete</InputLabel>
             <Select
-              labelId="testSuite"
-              id="testSuite"
-              value={projectInfo.category}
-              onChange={handleChange('category')}
-              label="Select Category to Delete"
+              labelId="deleteCategory"
+              id="removeCategory"
+              value={removeCategoryInfo.category}
+              error={(checkErrorRC && removeCategoryInfo.category === "") ? true:false}
+              onChange={handleChangeRC('category')}
+              label="Select Category to delete"
             >
             <MenuItem value="" disabled></MenuItem>
-              {project.listCategory?.categories?.map((item) => (
+              {issue.listCategory?.categories?.map((item) => (
                 <MenuItem value={item.categoryname}>{item.categoryname}</MenuItem>
               ))}
             </Select>
+            <FormHelperText 
+            style={(checkErrorRC && removeCategoryInfo.category === "") ?
+              {color: 'red'}:{opacity:0, pointerEvents: 'none'}}            
+            >Select a category!</FormHelperText>
             </FormControl>
             </form>
 
@@ -351,33 +539,33 @@ const SettingProjectPage = (props) => {
         <form className={classes.other}>
         <Grid item>
         <div>
-        {(role === 'Project Manager') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="medium" style={enableDeleteBtn ? {color: red[500] } : {}} onClick={handleOpen}>
+        <Button variant="contained" disabled={enableRCbtn ? false : true } startIcon={<DeleteIcon />} size="medium" style={enableDeleteBtn ? {color: red[500] } : {}} onClick={handleOpen}>
             Delete Category
-            {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
-            </Button>}
+            {loadRC && <CircularProgress size={24} className={classes.buttonProgress} />}
+            </Button>
           </div>
           <Grid item>
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
                   <DialogContent>Are you sure want to delete this category?</DialogContent>
                   <DialogActions>
-                    <Button onClick={handleDelete} color="primary">Yes</Button>
+                    <Button onClick={removeCategory} color="primary">Yes</Button>
                     <Button onClick={handleClose} color="primary">No</Button>
                   </DialogActions>
                 </Dialog>
           </Grid>
-        </Grid>
-        <div className = {classes.btnBack}>
-        <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleBack}>
+        </Grid>        
+         </form></Grid></Grid>
+         <div className = {classes.btnBack}>
+          <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleBack}>
             Back
           </Button>
           </div>
-         </form>
         </form>
         </Grid>
       </Grid>
     </div>
-  );
+  )}
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(SettingProjectPage));

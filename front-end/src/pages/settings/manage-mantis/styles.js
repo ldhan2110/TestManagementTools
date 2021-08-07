@@ -22,14 +22,14 @@ const styles = {
   other:{
     // marginLeft: "3vw",
     "& > *":{
-      marginTop: 20
+      marginTop: 0
     }
 },
 
     onlyurl:{
     // marginLeft: "3vw",
     "& > *":{
-      marginTop: -10
+      marginTop: 10
     }
 },
 
@@ -38,7 +38,7 @@ btnBack:{
     flexDirection: 'row',
      "& > *": {
         marginRight: 5,
-        marginTop: 0
+        marginTop: 30
     }
 },
 
@@ -51,7 +51,7 @@ btnBack:{
     flexDirection: 'row',
     "& > *": {
       marginRight: 5,
-      marginTop: -15
+      marginTop: 0
     }
   },
 

@@ -23,7 +23,8 @@ import {
   Grid,
   Select,
   MenuItem,
-  ListItemText
+  ListItemText,
+  FormHelperText,
 } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { blue } from '@material-ui/core/colors';
@@ -131,7 +132,7 @@ const InviteMemberMantisDialog = (props) => {
   useEffect(()=>{
  if (insMemberMantis?.sucess === true) {
       displayMsg({
-        content: "Invitation member to mantis successfully !",
+        content: "Send invitation successfully !",
         type: 'success'
       });
       setEnableCreateBtn(true);
@@ -255,12 +256,16 @@ const InviteMemberMantisDialog = (props) => {
             <Select
           labelId="Select member"
           id="Select member"
+          error={(userInfo.email === "" && error.email === "") ? true : false}
           onChange={handleChange('email')}
           label="Select member">
             
           <MenuItem key={''} value={''}>&nbsp;</MenuItem>
-          {/*{listUsersOfProject.map((item, index) => <MenuItem key={index} value={item.email}>{item.email}</MenuItem>)}   */}
+          {listUsersOfProject?.map((item, index) =>
+          <MenuItem key={index} value={item.email}>{item.email}</MenuItem>)}  
         </Select>
+        {(userInfo.email === "" && error.email === "") && 
+            <FormHelperText style={{color: 'red'}} >Select a category!</FormHelperText>}
       </FormControl>
       </Grid>
 
@@ -271,10 +276,16 @@ const InviteMemberMantisDialog = (props) => {
           labelId="Select access level"
           id="Select access level"
           onChange={handleChange('access_level')}
-          label="Select access level">
-            
-          <MenuItem key={''} value={'Updater'}>&nbsp;</MenuItem>
-          {/*{listUsersOfProject.map((item, index) => <MenuItem key={index} value={item.email}>{item.email}</MenuItem>)}   */}
+          label="Select access level"
+          defaultValue={'viewer'}
+          >
+
+          <MenuItem value={'viewer'}>viewer</MenuItem>
+          <MenuItem value={'reporter'}>reporter</MenuItem>
+          <MenuItem value={"updater"}>updater</MenuItem>
+          <MenuItem value={"developer"}>developer</MenuItem>
+          <MenuItem value={"manager"}>manager</MenuItem>
+          <MenuItem value={"administrator"}>administrator</MenuItem>
         </Select>
       </FormControl>
       </Grid>

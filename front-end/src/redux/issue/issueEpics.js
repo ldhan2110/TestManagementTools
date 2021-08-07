@@ -271,3 +271,234 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
               payload: error.response.data.errMsg
             })})
           )))
+
+          
+// MANTIS
+
+// GET INFO MANTIS
+export  const getInfoMantisEpic = (action$, state$) => action$.pipe(
+  ofType(actions.GET_INFO_MANTIS_REQ),
+  mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload+'/api/mantis/getinformationmantis',{
+      headers: {
+        "X-Auth-Token": localStorage.getItem("token"),
+        "content-type": "application/json"
+      }
+    })).pipe(
+    map(response => {
+      const {data} = response;
+      if (data.success) {
+        return ({
+          type: actions.GET_INFO_MANTIS_SUCCESS,
+          payload: data.result
+        })
+      } else {
+        return ({
+          type: actions.GET_INFO_MANTIS_FAILED,
+          payload: data.errMsg
+        })
+      }
+    
+    }),
+    catchError (error => {
+      const {status} = error?.response?.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
+      type: actions.GET_INFO_MANTIS_FAILED,
+      payload: error.response.data.errMsg
+    })})
+  )))
+
+  // GET ALL MANTIS OF PROJECT
+  export  const getAllMantisOfProjectEpic = (action$, state$) => action$.pipe(
+    ofType(actions.GET_ALL_MANTIS_OF_PROJECT_REQ),
+    mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload+'/api/mantis/getallmantis',{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.GET_ALL_MANTIS_OF_PROJECT_SUCCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.GET_ALL_MANTIS_OF_PROJECT_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => {
+        const {status} = error?.response?.data;
+          if (status ===  401) {
+            localStorage.clear();
+            window.location.replace('/login');
+          } else
+          return of({
+        type: actions.GET_ALL_MANTIS_OF_PROJECT_FAILED,
+        payload: error.response.data.errMsg
+      })})
+    )))
+  
+
+    // CREATE NEW MANTIS
+  export  const createNewMantisEpic = (action$, state$) => action$.pipe(
+    ofType(actions.CREATE_NEW_MANTIS_REQ),
+    mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/api/createmantis',{
+        url: payload.url,
+        token: payload.apikey,
+        project: payload.mantisname
+    } , {
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.CREATE_NEW_MANTIS_SUCCESS,
+            payload: true
+          })
+        } else {
+          return ({
+            type: actions.CREATE_NEW_MANTIS_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => {
+        const {status} = error.response.data;
+        if (status ===  401) {
+          localStorage.clear();
+          window.location.replace('/login');
+        } else
+        return of({
+        type: actions.CREATE_NEW_MANTIS_FAILED,
+        payload: error.response.data.errMsg
+      })})
+    )))
+      // CREATE AND SWITCH MANTIS
+    export  const createAndSwitchMantisEpic = (action$, state$) => action$.pipe(
+      ofType(actions.CREATE_AND_SWITCH_MANTIS_REQ),
+      mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/api/createandswitchmantis',{
+          url: payload.url,
+          token: payload.apikey,
+          project: payload.mantisname
+      } , {
+          headers: {
+            "X-Auth-Token": localStorage.getItem("token"),
+            "content-type": "application/json"
+          }
+        })).pipe(
+        map(response => {
+          const {data} = response;
+          if (data.success) {
+            return ({
+              type: actions.CREATE_AND_SWITCH_MANTIS_SUCCESS,
+              payload: true
+            })
+          } else {
+            return ({
+              type: actions.CREATE_AND_SWITCH_MANTIS_FAILED,
+              payload: data.errMsg
+            })
+          }
+        
+        }),
+        catchError (error => {
+          const {status} = error.response.data;
+          if (status ===  401) {
+            localStorage.clear();
+            window.location.replace('/login');
+          } else
+          return of({
+          type: actions.CREATE_AND_SWITCH_MANTIS_FAILED,
+          payload: error.response.data.errMsg
+        })})
+      )))
+
+        // SWITCH MANTIS
+      export  const switchMantisEpic = (action$, state$) => action$.pipe(
+        ofType(actions.SWITCH_MANTIS_REQ),
+        mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/mantis/swtichmantis',{
+            mantis_id: payload.mantisid
+        } , {
+            headers: {
+              "X-Auth-Token": localStorage.getItem("token"),
+              "content-type": "application/json"
+            }
+          })).pipe(
+          map(response => {
+            const {data} = response;
+            if (data.success) {
+              return ({
+                type: actions.SWITCH_MANTIS_SUCCESS,
+                payload: true
+              })
+            } else {
+              return ({
+                type: actions.SWITCH_MANTIS_FAILED,
+                payload: data.errMsg
+              })
+            }
+          
+          }),
+          catchError (error => {
+            const {status} = error.response.data;
+            if (status ===  401) {
+              localStorage.clear();
+              window.location.replace('/login');
+            } else
+            return of({
+            type: actions.SWITCH_MANTIS_FAILED,
+            payload: error.response.data.errMsg
+          })})
+        )))
+
+        // CHANGE API
+        export  const changeAPIKeyEpic = (action$, state$) => action$.pipe(
+          ofType(actions.CHANGE_API_KEY_REQ),
+          mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/mantis/changetoken',{
+              token: payload.apikey
+          } , {
+              headers: {
+                "X-Auth-Token": localStorage.getItem("token"),
+                "content-type": "application/json"
+              }
+            })).pipe(
+            map(response => {
+              const {data} = response;
+              if (data.success) {
+                return ({
+                  type: actions.CHANGE_API_KEY_SUCCESS,
+                  payload: true
+                })
+              } else {
+                return ({
+                  type: actions.CHANGE_API_KEY_FAILED,
+                  payload: data.errMsg
+                })
+              }
+            
+            }),
+            catchError (error => {
+              const {status} = error.response.data;
+              if (status ===  401) {
+                localStorage.clear();
+                window.location.replace('/login');
+              } else
+              return of({
+              type: actions.CHANGE_API_KEY_FAILED,
+              payload: error.response.data.errMsg
+            })})
+          )))

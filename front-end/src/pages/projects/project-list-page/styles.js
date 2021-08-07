@@ -6,12 +6,13 @@ const styles = {
     },
 
     headerLarge:{
-        marginLeft: 180,
-        marginRight: 180,
+        marginLeft: 140,
+        marginRight: 140,
         marginTop: 15,
     },
 
     item: {
+       position: 'relative',
        maxWidth: "100%",
        width: "100%",
        height: 200,

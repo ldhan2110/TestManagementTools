@@ -277,7 +277,7 @@ const SelectTestCasePopup = (props) => {
   const formatDeepestChild = (node) => {
     var formattedDChild = {};
       // custom node properties when Test suite empty
-      var customLabel = node.type === 'TS' ? node.label + " (Empty)" : node.label
+      var customLabel = node.type === 'TS' ? <span>{node.label}<i> (Empty)</i></span> : node.label
       var customIconLeaf = node.type === 'TS' ? <span className="rct-icon rct-icon-parent-close" /> : null
       var expandable = node.type === 'TS' ? true : false;
       //var checkbox = node.type === 'TC' ? true : false;

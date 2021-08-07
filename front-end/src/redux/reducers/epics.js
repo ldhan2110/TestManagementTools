@@ -51,6 +51,12 @@ export default combineEpics(
    issueEpics.getAllCategoryEpic,
    issueEpics.addCategoryEpic,
    issueEpics.removeCategoryEpic,
+   issueEpics.getInfoMantisEpic,
+   issueEpics.getAllMantisOfProjectEpic,
+   issueEpics.createNewMantisEpic,
+   issueEpics.createAndSwitchMantisEpic,
+   issueEpics.switchMantisEpic,
+   issueEpics.changeAPIKeyEpic,
 
    //REQUIREMENTS EPICS
    requirementsEpics.getAllRequirementsEpic,

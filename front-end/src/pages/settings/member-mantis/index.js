@@ -95,6 +95,7 @@ const MemberListPage = (props) => {
           role_mantis: listMemberMantis[i].role_mantis,
           email: listMemberMantis[i].email,
           projectid: project,
+          is_active_backend: listMemberMantis[i].is_active_backend === true ? "Yes":"No",
         }]);
       }
     }
@@ -131,6 +132,7 @@ const MemberListPage = (props) => {
   },[listMemberMantis])
 
   useEffect(()=>{
+    console.log(user);
     if(user.success === true)
       setListMember(array);
     setOpenRoleDialog(false);
@@ -187,11 +189,21 @@ const MemberListPage = (props) => {
     }
   },[insDeleteMemberMantis?.sucess])
 
+
+  useEffect(()=>{
+    if (user?.success === null && user.error === true) {
+      displayMsg({
+        content: user.errorMsg,
+        type: 'error'
+      });        
+    }
+  },[user?.error]);  
+
   // <-- delete member 
   return(
     <div>
       <ChangeRolePopup/>
-      <Helmet title="Members Mantis Management" />
+      <Helmet title="Mantis Members Management" />
       <ChangeRolePopup isOpen={openRoleDialog} openMethod={setOpenRoleDialog} selected={selected}/>
       <NewMemberDialog isOpen={openDialog} openMethod={setOpenDialog}/>
       <Grid
@@ -240,14 +252,8 @@ const MemberListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
            {/* Load bar */}
-           {user.success !== true ? <EnhancedTable
-            rows={[]}
-            headerList = {MANTIS_HEADER}
-            conditions={MANTIS_SEARCH}
-            type='member'
-            load={user.success}
-          />
-          :<EnhancedTable
+           {user.success === true ? 
+          <EnhancedTable
             rows={listMember}
             headerList = {MANTIS_HEADER}
             viewAction={handleOpenChangeRole}
@@ -255,6 +261,13 @@ const MemberListPage = (props) => {
             setConditions={handleChangeConditions}
             searchMethod={searchMember}
             handleDefaultDeleteAction={deleteMember}
+            type='member'
+            load={user.success}
+          />:
+          <EnhancedTable
+            rows={[]}
+            headerList = {MANTIS_HEADER}
+            conditions={MANTIS_SEARCH}
             type='member'
             load={user.success}
           />}

@@ -425,13 +425,13 @@ const reducer = (state = initialState, actions) => {
 
     case types.GET_ALL_MEMBERMANTIS_REQ:
                 return {
-                  ...state, success: "", listMemberMantis: []
+                  ...state, success: "", listMemberMantis: [], error: null
     }
           
     case types.GET_ALL_MEMBERMANTIS_FAILED:
                 return {
                   ...state,
-                  success: "",
+                  success: null,
                   error: true,
                   errorMsg: payload,
     }

@@ -20,9 +20,11 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel,
+  InputLabel, FormHelperText,
   //IconButton
 } from '@material-ui/core';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -135,11 +137,15 @@ const NewIssuePage = (props) => {
     if(issueInfo.summary === "")
     setError({ ...issueInfo, summary: "" });
 
+    if(issueInfo.category === "")
+    setError({ ...issueInfo, category: "" });
+
     if(issueInfo.description.trim().length === 0 || issueInfo.summary.trim().length === 0
-        ||issueInfo.description.trim().length !== issueInfo.description.length 
+        || issueInfo.category === "" || issueInfo.category.length === 0
+        || issueInfo.description.trim().length !== issueInfo.description.length 
         || issueInfo.summary.trim().length !== issueInfo.summary.length){
         displayMsg({
-          content: "Summary or Descriptions should not contain spaces before and after !",
+          content: "Field(s) cannot be empty !",
           type: 'error'
         });
     }
@@ -152,14 +158,14 @@ const NewIssuePage = (props) => {
 
   }
 
-  const handleChange = (prop) => (event) => {    
+  const handleChange = (prop) => (event) => {
     setIssueInfo({...issueInfo, [prop]: event.target.value});
     if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
   };
 
   return (
-      <Dialog fullWidth maxWidth="lg" open={open} onClose={handleClose} TransitionComponent={TransitionEffect}>
+      <Dialog fullWidth maxWidth="lg" scroll="paper" open={open} onClose={handleClose} TransitionComponent={TransitionEffect}>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography variant="h3" className={classes.title}>
@@ -170,6 +176,7 @@ const NewIssuePage = (props) => {
             </IconButton>
           </Toolbar>
         </AppBar>
+        <DialogContent dividers={true}>
         <form className={classes.content}>
           <TextField id="issueName" label="Issue Summary" variant="outlined"  fullWidth required 
           inputProps={{maxLength : 250}} 
@@ -186,7 +193,7 @@ const NewIssuePage = (props) => {
           helperText={checkError && issueInfo.description.trim().length === 0 
             && error.description.trim().length === 0 ? 'Descriptions is required!' : ''}/>
 
-          <FormControl variant="outlined" //className={classes.formControl}
+          <FormControl required variant="outlined" //className={classes.formControl}
           fullWidth>
             <InputLabel id="IssueCategory">Category</InputLabel>
             <Select
@@ -195,20 +202,26 @@ const NewIssuePage = (props) => {
               value={issueInfo.category}
               onChange={handleChange('category')}
               label="Category"
+              error={(error.category === "" && issueInfo.category === "") ? true : false}
             >
             <MenuItem value="" disabled></MenuItem>
               {issue.listCategory?.categories?.map((item) => (
                 <MenuItem value={item.categoryname}>{item.categoryname}</MenuItem>
               ))}
             </Select>
+            {error.category === "" && issueInfo.category === "" && 
+            <FormHelperText style={{color: 'red'}} >Select a category!</FormHelperText>}
             </FormControl>
 
           {/*   <MyUploader /> */}
           
-          <Previews getUrl={getUrl}/>
+          <Previews getUrl={getUrl} revoke={open}/>
           
           {/* <UploadAttachment /> */}
-        
+          
+        </form>
+        </DialogContent>
+        <DialogActions>
           <div className = {classes.btnGroup}>          
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose}>
             Cancel
@@ -218,7 +231,7 @@ const NewIssuePage = (props) => {
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
         </div>
-        </form>
+        </DialogActions>
       </Dialog>
   );
 }
