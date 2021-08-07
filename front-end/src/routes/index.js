@@ -49,6 +49,7 @@ const MemberListPage = async(()=>import('../pages/settings/members/index'));
 const SettingProjectPage = async(()=>import('../pages/settings/setting-project/index'));
 const MantisConfigPage = async(()=>import('../pages/settings/mantis-config/index'));
 const MemberMantis = async(()=>import('../pages/settings/member-mantis/index'));
+const ManageMantis = async(()=>import('../pages/settings/manage-mantis/index'));
 
 //Milestone components
 const MileStonePage = async(()=>import('../pages/milstones/milestone-overview-page/index'));
@@ -104,13 +105,19 @@ const projectSettingRoutes = {
       icon: <Users/>,
       component: MantisConfigPage
     },
-
     {
       id: "Member Mantis",
       path: "/projects/:projectName/member-mantis",
       name: "Member Mantis",
       icon: <Users/>,
       component: MemberMantis
+    },
+    {
+      id: "Manage Mantis",
+      path: "/projects/:projectName/manage-mantis",
+      name: "Manage Mantis",
+      icon: <Users/>,
+      component: ManageMantis
     },
   ]
 };
