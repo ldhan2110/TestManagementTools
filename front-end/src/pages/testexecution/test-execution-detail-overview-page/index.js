@@ -14,6 +14,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
+import ViewIssuePopup from '../../issues/view-issue/index';
 import {
   Grid,
   Typography,
@@ -119,6 +120,8 @@ const TestExecutionDetailPage = (props) => {
     })
   
     const[totalExec, setTotalExec] = useState(0);
+
+    const [openIssue, setOpenIssuePopup] = useState(false);
 
     const [resultTestExec, setResultTestExec] = useState({
       status:  'Untest',
@@ -283,6 +286,9 @@ const TestExecutionDetailPage = (props) => {
       return count;
   }
 
+  const handleOpenIssue = () => {
+    setOpenIssuePopup(true);
+  }
   
     return (
     <div>
@@ -331,6 +337,18 @@ const TestExecutionDetailPage = (props) => {
                 </Paper>
               </Grid> 
             </Grid>
+
+            <div>
+            <Grid container spacing={3}>
+              <Grid item>
+                <p>Issues: <b> 0 issues</b></p>
+              </Grid>
+              <Grid item>
+               <ViewIssuePopup isOpen={openIssue} setOpen={setOpenIssuePopup} selected={testExecInfo.listexectestcases}/> 
+                <Button variant="contained" onClick={handleOpenIssue}>View Issues</Button>
+              </Grid>
+            </Grid>
+          </div>
 
             <FormControl variant="outlined" className={classes.formControl} fullWidth >
               <InputLabel id="status">Status</InputLabel>

@@ -14,6 +14,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SelectTestCasePopup from '../../testcases/select-test-case-page/index';
+import ViewIssuePopup from '../../issues/view-issue/index';
 import {
   Grid,
   Typography,
@@ -100,6 +101,7 @@ const TestExecutionDetailPage = (props) => {
     const [loadingg, setLoadingg] = useState(false);
     const [openPopup,setOpenPopup] = useState(false);
     const [open, setOpen] = useState(false);
+    const [openIssue, setOpenIssuePopup] = useState(false);
 
     const filterTestExec = (id) => {
       return  listTestExec.find((item) => item._id === id);
@@ -285,6 +287,10 @@ const TestExecutionDetailPage = (props) => {
       setOpenPopup(true);
     }
 
+    const handleOpenIssue = () => {
+      setOpenIssuePopup(true);
+    }
+
     return (
     <div>
         <Helmet title="Test Execution Edit" />
@@ -396,7 +402,8 @@ const TestExecutionDetailPage = (props) => {
           <TextField id="descriptions" label="Description" variant="outlined" onChange={handleChange('description')} fullWidth required  multiline rows={3} value={testExecInfo.description}
           error={testExecInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
           helperText={testExecInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/> 
-                      
+
+
           <FormControl variant="outlined" className={classes.formControl} fullWidth >
               <InputLabel id="status">Status</InputLabel>
                   <Select
@@ -411,6 +418,22 @@ const TestExecutionDetailPage = (props) => {
                         <MenuItem value={"Fail"}>Fail</MenuItem>
                   </Select>
           </FormControl>
+          
+          
+          <div>
+            <Grid container spacing={3}>
+              <Grid item>
+                <p>Issues: <b> 0 issues</b></p>
+              </Grid>
+              <Grid item>
+               <ViewIssuePopup isOpen={openIssue} setOpen={setOpenIssuePopup} selected={testExecInfo.listexectestcases}/> 
+                <Button variant="contained" onClick={handleOpenIssue}>View Issues</Button>
+              </Grid>
+            </Grid>
+          </div>
+
+
+
           <SelectTestCasePopup isOpen={openPopup} setOpen={setOpenPopup} selected={testExecInfo.exectestcases}/>
             <Grid container spacing={1}>
               <Grid item xs={12}>
