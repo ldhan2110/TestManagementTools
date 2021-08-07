@@ -159,7 +159,7 @@ const InviteNewMemberDialog = (props) => {
         <DialogTitle>Invite new collaborator</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To invite new collaborator, please enter username or email to send invitation.
+            To invite new collaborator, please enter email to send invitation.
           </DialogContentText>
           <SearchInput type="member" setConditions={handleInputChange} searchMethod={handleSearch} conditions={INVITE_MEMBERS_SEARCH}/>
           <List>

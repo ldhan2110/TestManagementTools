@@ -7,7 +7,7 @@ import ChangeRolePopup from './ChangeRolePopup';
 import Helmet from 'react-helmet';
 import {MANTIS_HEADER} from '../../../components/Table/DefineHeader';
 import {MANTIS_SEARCH} from '../../../components/Table/DefineSearch';
-import NewMemberDialog from './InviteNewMember';
+import NewMemberDialog from './InviteMemberMantis';
 import {ADD_MEMBERMANTIS_REQ, GET_ALL_USERS_REQ, GET_ALL_MEMBERMANTIS_REQ, DELETE_MEMBERMANTIS_REQ, RESET_DELETE_MEMBERMANTIS} from '../../../redux/users/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
@@ -72,7 +72,9 @@ const MemberListPage = (props) => {
   const [open, setOpen] = useState(false);
   const [delMember, setDelMember] = useState({
     projectid: project,
-    userid: ''
+    username: '',
+    email: '',
+    access_level: '',
   });
 
   //const history = useHistory();
@@ -189,7 +191,7 @@ const MemberListPage = (props) => {
   return(
     <div>
       <ChangeRolePopup/>
-      <Helmet title="Members Management" />
+      <Helmet title="Members Mantis Management" />
       <ChangeRolePopup isOpen={openRoleDialog} openMethod={setOpenRoleDialog} selected={selected}/>
       <NewMemberDialog isOpen={openDialog} openMethod={setOpenDialog}/>
       <Grid
