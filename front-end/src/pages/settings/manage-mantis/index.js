@@ -123,6 +123,7 @@ const SettingProjectPage = (props) => {
       setLoadCaS(false);
       setEnableCaSbtn(true);
       setCheckErrorCaS(false);
+      getAllMantisOfProjectReq(project);
       resetCreateAndSwitchRedux();
     }
     if(issue.insCreateAndSwitchMantis?.sucess === false){
