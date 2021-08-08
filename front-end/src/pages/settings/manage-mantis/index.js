@@ -266,8 +266,10 @@ const SettingProjectPage = (props) => {
         content: "Please choose a category !",
         type: 'error'
       });
+      handleClose();
     }
-    else{
+    else{      
+      handleClose();
       setLoadRC(true);
       setEnableRCbtn(false);
       removeCategoryReq(removeCategoryInfo);
@@ -280,9 +282,11 @@ const SettingProjectPage = (props) => {
         content: "Removed category successfully!",
         type: 'success'
       });
+      setRemoveCategoryInfo({ ...removeCategoryInfo, category: "" });
       setLoadRC(false);
       setEnableRCbtn(true);
       setCheckErrorRC(false);
+      getAllCategoryReq(project);
       resetRemoveCategoryRedux();
     }
     if(issue.insCategoryDelete?.sucess === false){
@@ -540,7 +544,7 @@ const SettingProjectPage = (props) => {
         <form className={classes.other}>
         <Grid item>
         <div>
-        <Button variant="contained" disabled={enableRCbtn ? false : true } startIcon={<DeleteIcon />} size="medium" style={enableDeleteBtn ? {color: red[500] } : {}} onClick={handleOpen}>
+        <Button variant="contained" disabled={enableRCbtn ? false : true } startIcon={<DeleteIcon />} size="medium" style={enableRCbtn ? {color: red[500] } : {}} onClick={handleOpen}>
             Delete Category
             {loadRC && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Button>
