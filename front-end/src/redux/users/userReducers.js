@@ -3,6 +3,7 @@ import * as types from './constants';
 var initialState = {
   getCurrentUserSuccess: null,
   success: null,
+  successMantis: null,
   error: "",
   errorMsg:"",
   currentSelectedUser: "",
@@ -425,20 +426,20 @@ const reducer = (state = initialState, actions) => {
 
     case types.GET_ALL_MEMBERMANTIS_REQ:
                 return {
-                  ...state, success: "", listMemberMantis: [], error: null
+                  ...state, successMantis: "", listMemberMantis: [], error: null
     }
           
     case types.GET_ALL_MEMBERMANTIS_FAILED:
                 return {
                   ...state,
-                  success: null,
+                  successMantis: null,
                   error: true,
                   errorMsg: payload,
     }
               
     case types.GET_ALL_MEMBERMANTIS_SUCCESS:
                   return {
-                    ...state, success: true,
+                    ...state, successMantis: true,
                     listMemberMantis: payload,
     }
 

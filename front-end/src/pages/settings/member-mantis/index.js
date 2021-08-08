@@ -123,7 +123,7 @@ const MemberListPage = (props) => {
   }
 
   useEffect(()=>{
-    user.success = "";
+    user.successMantis = "";
     getAllMemberMantisReq(project);
   },[]);
 
@@ -132,8 +132,7 @@ const MemberListPage = (props) => {
   },[listMemberMantis])
 
   useEffect(()=>{
-    console.log(user);
-    if(user.success === true)
+    if(user.successMantis === true)
       setListMember(array);
     setOpenRoleDialog(false);
   },[array])
@@ -162,7 +161,7 @@ const MemberListPage = (props) => {
   };
   
   const handleDelMember = () =>{
-    user.success = "";
+    user.successMantis = "";
     deleteMemberMantis(delMember);
     setOpen(false);
   }
@@ -177,7 +176,7 @@ const MemberListPage = (props) => {
         content: insDeleteMemberMantis.errMsg,
         type: 'error'
       });
-      user.success = true;
+      user.successMantis = true;
       resetDelMemberMantisRedux();
     } else if (insDeleteMemberMantis?.sucess === true) {
       displayMsg({
@@ -191,7 +190,7 @@ const MemberListPage = (props) => {
 
 
   useEffect(()=>{
-    if (user?.success === null && user.error === true) {
+    if (user?.successMantis === null && user.error === true) {
       displayMsg({
         content: user.errorMsg,
         type: 'error'
@@ -252,7 +251,7 @@ const MemberListPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
            {/* Load bar */}
-           {user.success === true ? 
+           {user.successMantis === true ? 
           <EnhancedTable
             rows={listMember}
             headerList = {MANTIS_HEADER}
@@ -262,14 +261,14 @@ const MemberListPage = (props) => {
             searchMethod={searchMember}
             handleDefaultDeleteAction={deleteMember}
             type='member'
-            load={user.success}
+            load={user.successMantis}
           />:
           <EnhancedTable
             rows={[]}
             headerList = {MANTIS_HEADER}
             conditions={MANTIS_SEARCH}
             type='member'
-            load={user.success}
+            load={user.successMantis}
           />}
         </Grid>
       </Grid>

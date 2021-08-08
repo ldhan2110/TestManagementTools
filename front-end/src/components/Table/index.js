@@ -112,11 +112,18 @@ const EnhancedTable = (props) => {
   const handleDefaultViewAction = (event,row) => {
     if (viewAction) viewAction(row);
     else {
+      if(row._id){
         history.push({
           pathname: window.location.pathname+"/"+row._id,
           state: row
         });
+      } else if(row.id) {
+         history.push({
+          pathname: window.location.pathname+"/"+row.id,
+          state: row
+         });
       }
+    }
   };
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
