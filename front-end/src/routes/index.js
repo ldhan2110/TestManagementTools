@@ -183,7 +183,7 @@ const issueListRoute = {
 
 const issueDetailRoute = {
   id: "Issue Detail",
-  path: "/projects/:projectName/issues/:summary",
+  path: "/projects/:projectName/issues/:id",
   name: "Issue Detail",
   restrict: true,
   exact: true,

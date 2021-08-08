@@ -429,7 +429,7 @@ const SettingProjectPage = (props) => {
           </Button>
           </div>
         
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{marginTop: 10}}>
         <Grid item xs={6}>
         <form className={classes.other}>
 
@@ -445,7 +445,7 @@ const SettingProjectPage = (props) => {
           <Button variant="contained" color="primary"
           disabled={(enablecAkbtn)  ? false : true } 
           startIcon={<UpdateIcon />}  onClick={changeAPIkey}>
-            Save API
+            Change API
             {loadcAk && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
         </div></Grid> 
@@ -463,7 +463,7 @@ const SettingProjectPage = (props) => {
               error={(checkErrorSM && 
                 switchMantisInfo.mantisid === "") ? true : false} 
               onChange={handleChangeSM('mantisid')}
-              //label="Select Category to delete"
+              label="Select Mantis to switch to"
             >
             <MenuItem value=""></MenuItem>
               {issue.listAllMantis?.map((item) => (
@@ -488,7 +488,7 @@ const SettingProjectPage = (props) => {
           </div></Grid>
         </Grid>
         
-        <Grid item xs={6}>
+        <Grid item xs={6} style={{marginTop: 5}}>
 
           {/* Add category */}
         <form className={classes.other}>
@@ -509,7 +509,7 @@ const SettingProjectPage = (props) => {
           </Button>
         </div></Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={6} style={{marginTop: 5}}>
 
           {/* Remove Category */}
         <form className={classes.other}>
