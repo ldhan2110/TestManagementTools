@@ -101,6 +101,14 @@ const styles = {
         "&:hover" : {
             backgroundColor: "transparent"
         }
+    },
+
+    loginHeaderIcons: {
+        display: 'flex',
+        flexGrow: 1,
+        alignItems:"center",
+        justifyContent: 'flex-end',
+        marginRight: 70
     }
     
 };

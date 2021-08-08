@@ -62,14 +62,14 @@ const LoginHeader = (props) => {
           </Grid>
           </Hidden> 
          
-          
+          <div className={classes.loginHeaderIcons}>
           <Grid item>
               <Notification/>
           </Grid>
           <Grid item>
               <UserMenu/>
           </Grid>
-         
+         </div>
       </Grid>
       </AppBar>
       </React.Fragment>
