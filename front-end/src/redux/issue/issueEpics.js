@@ -237,7 +237,7 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
 
         export  const removeCategoryEpic = (action$, state$) => action$.pipe(
           ofType(actions.REMOVE_CATEGORY_REQ),
-          mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/removecategory',{
+          mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/mantis/removecategory',{
             category_name: payload.category,
           },{
               headers: {

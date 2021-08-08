@@ -200,7 +200,7 @@ const EnhancedTable = (props) => {
                           <UserMinus style={{color: red[500]}}/>
                         </IconButton> 
                         </Tooltip>}
-                        {(type === 'testplan' || type === 'build' || type === 'requirements' || type === 'issue') && <Tooltip title="Delete"> 
+                        {(type === 'testplan' || type === 'build' || type === 'requirements') && <Tooltip title="Delete"> 
                         <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row._id)}>
                           <DeleteIcon style={{color: red[400]}}/>
                         </IconButton> 
@@ -215,8 +215,14 @@ const EnhancedTable = (props) => {
                           <DeleteIcon style={{color: red[400]}}/>
                         </IconButton> 
                         </Tooltip>}
+
+                        {type === 'issue' && <Tooltip title="Detail">
+                           <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
+                          <EditIcon style={{color: blue[400]}}/>
+                        </IconButton> 
+                        </Tooltip>}
                         
-                        {type !== 'testcases' &&  type !== 'member' && <Tooltip title="Edit">
+                        {type !== 'testcases' &&  type !== 'member' && type !== 'issue' && <Tooltip title="Edit">
                            <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
                           <EditIcon style={{color: blue[400]}}/>
                         </IconButton> 
