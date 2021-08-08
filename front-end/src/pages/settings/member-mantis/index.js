@@ -156,11 +156,11 @@ const MemberListPage = (props) => {
   //delete member -->
   
   const deleteMember = (id) =>{
-    setDelMember({...delMember, userid: id});
+    setDelMember({...delMember, username: id.username_mantis, email: id.email, access_level: id.role_mantis});
     setOpen(true);
   };
   
-  const handleDelMember = () =>{
+  const handleDelMember = () =>{    
     user.successMantis = "";
     deleteMemberMantis(delMember);
     setOpen(false);
@@ -260,14 +260,14 @@ const MemberListPage = (props) => {
             setConditions={handleChangeConditions}
             searchMethod={searchMember}
             handleDefaultDeleteAction={deleteMember}
-            type='member'
+            type='membermantis'
             load={user.successMantis}
           />:
           <EnhancedTable
             rows={[]}
             headerList = {MANTIS_HEADER}
             conditions={MANTIS_SEARCH}
-            type='member'
+            type='membermantis'
             load={user.successMantis}
           />}
         </Grid>
