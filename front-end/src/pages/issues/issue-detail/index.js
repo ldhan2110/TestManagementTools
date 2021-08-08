@@ -234,10 +234,10 @@ const IssueDetailPage = (props) => {
         </Grid>
         <Grid item>
         <div>
-        {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={enableDeleteBtn ? {color: red[500] } : {}} onClick={handleOpen}>
+       {/*} {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={enableDeleteBtn ? {color: red[500] } : {}} onClick={handleOpen}>
             Delete Issue
             {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>}
+          </Button>}*/}
 
           </div>
           <Grid item>
@@ -261,7 +261,8 @@ const IssueDetailPage = (props) => {
           <TextField id="summary" label="Summary" variant="outlined"  fullWidth required inputProps={{maxLength : 100}}
           value={issueInfor.summary || ''} onChange={handleChange('summary')}
           error={issueInfor.summary.trim().length === 0 && error.summary.trim().length === 0 ? true : false}
-          helperText={issueInfor.summary.trim().length === 0 && error.summary.trim().length === 0 ? 'Summary is required' : ' '}/>           
+          helperText={issueInfor.summary.trim().length === 0 && error.summary.trim().length === 0 ? 'Summary is required' : ' '}
+          InputProps={{readOnly: true}}/>          
 
           {/*<div>
              <FormControlLabel
@@ -287,16 +288,18 @@ const IssueDetailPage = (props) => {
           </div>*/}
 
           <TextField id="category" label="Category" variant="outlined"  fullWidth required
-          value={issueInfor.category || ''} onChange={handleChange('category')}/>  
+          value={issueInfor.category || ''} onChange={handleChange('category')}
+          InputProps={{readOnly: true}}/>  
 
           <TextField id="reporter" label="Reporter" variant="outlined"  fullWidth required
-          value={issueInfor.reporter || ''} onChange={handleChange('reporter')}/>
-
+          value={issueInfor.reporter || ''} onChange={handleChange('reporter')}
+          InputProps={{readOnly: true}}/>
 
           <div className={classes.divDateLink}>
           <TextField id="created_date" label="Created Date" variant="outlined"
           readOnly={true}
-          value={issueInfor.created_date ? getDate(issueInfor.created_date):""} /> 
+          value={issueInfor.created_date ? getDate(issueInfor.created_date):""}
+          InputProps={{readOnly: true}}/>
 
           <TextField id="url" label="Link Mantis" variant="outlined" fullWidth
             value={issueInfor.url || ''} onChange={handleChange('url')}
@@ -313,13 +316,14 @@ const IssueDetailPage = (props) => {
           <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={5}
           value={issueInfor.description || ''} onChange={handleChange('description')}
           error={issueInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-          helperText={issueInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>  
+          helperText={issueInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}
+          InputProps={{readOnly: true}}/> 
 
           <div className = {classes.btnGroup}>
-          {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
+          {/*{(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<UpdateIcon/>} onClick={handleUpdate}>
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>}
+            </Button>}*/}
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleBack}>
             Cancel
           </Button>

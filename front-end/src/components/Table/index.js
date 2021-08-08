@@ -202,7 +202,7 @@ const EnhancedTable = (props) => {
 
                       {headerList.hasActions &&
                       <TableCell align="right">
-                        {type === 'member'  && <Tooltip title="Remove member">
+                        {type === 'member' && <Tooltip title="Remove member">
                         <IconButton aria-label="delete" onClick={()=>handleDefaultDeleteAction(row.id)}>
                           <UserMinus style={{color: red[500]}}/>
                         </IconButton> 

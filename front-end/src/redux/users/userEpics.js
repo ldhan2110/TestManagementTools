@@ -528,10 +528,11 @@ import {API_ADDR} from '../constants';
 
           export  const addMemberMantisEpic = (action$, state$) => action$.pipe(
             ofType(actions.ADD_MEMBERMANTIS_REQ),
-            mergeMap(({ payload  }) =>  from(axios.post(API_ADDR+'/'+payload.projectid+'/api/mantis/addmembermantis',{
+            mergeMap(({ payload  }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/mantis/addmembermantis',{
               username: payload.username,
               email: payload.email,
               access_level: payload.access_level,
+              projectid: payload.projectid,
             },{
                 headers: {
                   "X-Auth-Token": localStorage.getItem("token"),
@@ -567,8 +568,13 @@ import {API_ADDR} from '../constants';
       
         export  const deleteMemberMantisEpic = (action$, state$) => action$.pipe(
           ofType(actions.DELETE_MEMBERMANTIS_REQ),
-          mergeMap(({ payload  }) =>  from(axios.delete(API_ADDR+'/'+payload.projectid+'/api/mantis/removemembermantis',{
-              headers: {
+          mergeMap(({ payload  }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/mantis/removemembermantis',{
+            username: payload.username,
+              email: payload.email,
+              access_level: payload.access_level,
+              projectid: payload.projectid,  
+            },{
+            headers: {
                 "X-Auth-Token": localStorage.getItem("token"),
                 "content-type": "application/json"
               }

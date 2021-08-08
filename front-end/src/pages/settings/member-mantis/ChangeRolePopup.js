@@ -106,14 +106,14 @@ const ChangRolePopup = (props) => {
 
     return(
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Change Role</DialogTitle>
+        <DialogTitle>Change Access Level</DialogTitle>
         {(role === 'Project Manager' || role === 'Test Lead') && 
         <DialogContent>
           <DialogContentText>
             Please select an access level for this member
           </DialogContentText>
           <FormControl variant="outlined"  fullWidth>
-              <InputLabel id="status">Role</InputLabel>
+              <InputLabel id="status">Access Level</InputLabel>
                   <Select
                     labelId="role"
                     id="role"
