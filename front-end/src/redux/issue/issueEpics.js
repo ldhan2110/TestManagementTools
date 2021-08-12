@@ -128,7 +128,10 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
 
   export  const deleteIssueEpic = (action$, state$) => action$.pipe(
     ofType(actions.DELETE_ISSUE_REQ),
-    mergeMap(({ payload }) =>  from(axios.delete(API_ADDR+'/'+payload.projectid+'/'+payload.testplanid+'/api/deleteissue',{
+    mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/'+'/api/v1/removeissuefromexecution',{
+      testexecution_id: payload.testexecution_id,
+      issue_id: payload.issue_id
+    },{
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
           "content-type": "application/json"
@@ -160,6 +163,45 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
         payload: error.response.data.errMsg
       })})
     )))
+
+    export const deleteIssueFromExecEpic = (action$, state$) => action$.pipe(
+      ofType(actions.DELETE_ISSUE_FROM_EXEC_REQ),
+      mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/v1/removeissuefromexecution',{
+        testexecution_id: payload.testexecution_id,
+        issue_id: payload.issue_id
+      },{
+          headers: {
+            "X-Auth-Token": localStorage.getItem("token"),
+            "content-type": "application/json"
+          }
+        })).pipe(
+        map(response => {
+          const {data} = response;
+          if (data.success) {
+            return ({
+              type: actions.DELETE_ISSUE_FROM_EXEC_SUCCESS,
+              payload: true
+            })
+          } else {
+            return ({
+              type: actions.DELETE_ISSUE_FROM_EXEC_FAILED,
+              payload: data.errMsg
+            })
+          }
+        
+        }),
+        catchError (error => {
+          const {status} = error.response.data;
+          if (status ===  401) {
+            localStorage.clear();
+            window.location.replace('/login');
+          } else
+          return of({
+          type: actions.DELETE_ISSUE_FROM_EXEC_FAILED,
+          payload: error.response.data.errMsg
+        })})
+      )))
+  
 
 
     // CATEGORY

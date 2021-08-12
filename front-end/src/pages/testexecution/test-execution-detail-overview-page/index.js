@@ -369,7 +369,9 @@ const TestExecutionDetailPage = (props) => {
                <ViewIssuePopup
                 isOpen={openIssue}
                 setOpen={setOpenIssuePopup}
-                listIssueOfExec={testExecInfo.issue ? testExecInfo.issue : []}/> 
+                listIssueOfExec={testExecInfo.issue ? testExecInfo.issue : []}
+                execid={props.match.params.testExecutionId}
+                /> 
                 <Button variant="contained" onClick={handleOpenIssue}>View Issues</Button>
               </Grid>                
             </Grid>

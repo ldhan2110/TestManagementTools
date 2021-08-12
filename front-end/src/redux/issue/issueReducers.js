@@ -14,6 +14,12 @@ var initialState = {
     sucess: null,
     errMsg: null
   },
+
+  insIssueDeleteFromExec: {
+    sucess: null,
+    errMsg: null
+  },
+
   insCategory: {
     sucess: null,
     errMsg: null
@@ -200,6 +206,43 @@ const reducer = (state = initialState, actions) => {
       return {
         ...state,
         insIssueDelete: {
+          sucess: null,
+          errMsg: null
+        }
+      }
+    }
+
+    case types.DELETE_ISSUE_FROM_EXEC_REQ:{      
+      return {
+        ...state,
+        insIssueDelete: initialState.insIssueDeleteFromExec
+      };
+    }
+
+    case types.DELETE_ISSUE_FROM_EXEC_SUCCESS:{
+      return {
+        ...state,
+        insIssueDeleteFromExec: {
+          sucess: true,
+          errMsg: null
+        }
+      }
+    }
+
+    case types.DELETE_ISSUE_FROM_EXEC_FAILED: {
+      return{
+        ...state,
+        insIssueDeleteFromExec:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
+
+    case types.RESET_DELETE_ISSUE_FROM_EXEC:{
+      return {
+        ...state,
+        insIssueDeleteFromExec: {
           sucess: null,
           errMsg: null
         }

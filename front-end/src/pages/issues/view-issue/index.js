@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
-import {GET_ALL_ISSUE_REQ} from '../../../redux/issue/constants';
+import {GET_ALL_ISSUE_REQ, DELETE_ISSUE_FROM_EXEC_REQ, RESET_DELETE_ISSUE_FROM_EXEC} from '../../../redux/issue/constants';
+import { GET_ALL_TESTEXEC_REQ } from "../../../redux/test-execution/constants";
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Dialog,
@@ -12,7 +13,6 @@ import {
   DialogTitle,
 } from '@material-ui/core'
 import { DataGrid } from '@material-ui/data-grid';
-import { useHistory } from "react-router-dom";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 //MAP STATES TO PROPS - REDUX
@@ -20,6 +20,7 @@ const  mapStateToProps = (state) => {
   return { 
     project: state.project.currentSelectedProject,
     issue: state.issue,
+    testexec: state.testexec,
    }
 }
 
@@ -27,26 +28,25 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
+    getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
     getAllIssueReq: (payload) => dispatch({type:GET_ALL_ISSUE_REQ, payload}),
+    deleteIssueFromExecReq: (payload) => dispatch({type: DELETE_ISSUE_FROM_EXEC_REQ, payload}),
+    resetDeleteIssueFromExec: () => dispatch({type:RESET_DELETE_ISSUE_FROM_EXEC})
   }
 }
 
 const ViewIssuePopup = (props) => {
   
-  const { displayMsg, issue, getAllIssueReq, project } = props;
+  const { displayMsg, issue, testexec, project, deleteIssueFromExecReq,
+    resetDeleteIssueFromExec, getAllTestExecReq } = props;
   
-  const {isOpen, setOpen, listIssueOfExec} = props;  
+  const {isOpen, setOpen, listIssueOfExec, execid} = props;  
   
   const [open, setOpenPopup] = useState(isOpen);
 
   const [pageSize, setPageSize] = useState(5);
 
-  const history = useHistory();
-
-  useEffect(()=>{
-    //issue.success = null;
-    //getAllIssueReq(project);
-  },[])
+  const [load, setLoad] = useState(false);
 
   const handleClose = () =>{
       setOpen(false);
@@ -56,14 +56,24 @@ const ViewIssuePopup = (props) => {
       setOpenPopup(isOpen);
   },[isOpen, open])
 
-  // useEffect(()=>{
-  //   if(issue.success === null && issue.error === true && open){
-  //     displayMsg({
-  //       content: issue.errorMsg,
-  //       type: 'error'
-  //     });
-  //   }
-  // },[issue.success, issue.error, open])
+  useEffect(()=>{
+    if (issue.insIssueDeleteFromExec?.sucess === false){
+      displayMsg({
+        content: issue.insIssueDeleteFromExec.errMsg,
+        type: 'error'
+      });
+      resetDeleteIssueFromExec();
+      setLoad(false);
+    } else if (issue.insIssueDeleteFromExec?.sucess === true) {
+      displayMsg({
+        content: "Delete issue successfully !",
+        type: 'success'
+      });
+      getAllTestExecReq();
+      resetDeleteIssueFromExec();
+      setLoad(false);
+    }
+  },[issue.insIssueDeleteFromExec])
 
 
   const [openDelIssue, setOpenDelIssue] = useState(false);
@@ -73,8 +83,15 @@ const ViewIssuePopup = (props) => {
     setOpenDelIssue(false);
     setDelIssueInfo([]);
   }
+
   const handleDeleteIssue = () =>{
-    console.log(delIssueInfo);
+    deleteIssueFromExecReq({
+      projectid: project,
+      testexecution_id: execid,
+      issue_id: delIssueInfo.issue_id
+    });
+    setOpenDelIssue(false);
+    setLoad(true);
   }
 
   // Format datagrid columns
@@ -131,7 +148,7 @@ const columns = [
               columns={columns}              
               getRowId={(e => e._id)}
               disableColumnSelector
-              //loading={issue.success === "" ? true : false}
+              loading={(load === true || testexec.success === "") ? true : false}
             />
             <Dialog id="popup-del-issue" open={openDelIssue} >
               <DialogTitle>Confirm</DialogTitle>

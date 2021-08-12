@@ -63,6 +63,22 @@ export function resetDeleteIssue(value){
   }
 }
 
+export function deleteIssueFromExec(value){
+
+  return {
+    type: types.DELETE_ISSUE_FROM_EXEC_REQ,
+    payload: value
+  }
+}
+
+export function resetDeleteIssueFromExec(value){
+
+  return {
+    type: types.RESET_DELETE_ISSUE_FROM_EXEC,
+    payload: value
+  }
+}
+
 // CATEGORY
 export function getAllCategory(value) {
   return {

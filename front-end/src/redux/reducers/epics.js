@@ -57,6 +57,7 @@ export default combineEpics(
    issueEpics.createAndSwitchMantisEpic,
    issueEpics.switchMantisEpic,
    issueEpics.changeAPIKeyEpic,
+   issueEpics.deleteIssueFromExecEpic,
 
    //REQUIREMENTS EPICS
    requirementsEpics.getAllRequirementsEpic,
