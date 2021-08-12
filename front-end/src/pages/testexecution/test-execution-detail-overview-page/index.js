@@ -50,6 +50,7 @@ const Chip = styled(MuiChip)`
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
+    testexec: state.testexec,
     listTestExec: state.testexec.listTestExec,
     updTestExec: state.testexec.updTestExec,
     execTest: state.testexec.execTest,
@@ -72,15 +73,16 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestExecutionDetailPage = (props) => {
-    const {classes, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux, accountInfo} = props;
+    const {classes, testexec, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, getAllUserReq, listUser, resetRedux, accountInfo} = props;
     const history = useHistory();
     const location = useLocation();
 
     const filterTestExec = (id) => {
-      if (listTestExec.length !== 0 && listTestExec.find((item) => item._id === id))
-        return  listTestExec.find((item) => item._id === id);
+      if (listTestExec.length !== 0 && listTestExec.find((item) => item._id === id)){
+        return listTestExec.find((item) => item._id === id);
+      }
       else{
-        history.replace("/error/500");
+        history.replace("/error/404");
          return{
           build: {_id: "", buildname: ""},
           description: "",
@@ -98,7 +100,7 @@ const TestExecutionDetailPage = (props) => {
        
     }
 
-    const [testExecInfo, setTestExecInfo] = useState(filterTestExec(props.match.params.testExecutionId));
+    const [testExecInfo, setTestExecInfo] = useState([]);
 
 
     const [isExecute,setExecute] = useState(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) === 'execute-result' ? true : false);
@@ -129,14 +131,19 @@ const TestExecutionDetailPage = (props) => {
     })
 
     useEffect(()=>{
-      if (listTestExec.length > 0){
-        setTestExecInfo(filterTestExec(props.match.params.testExecutionId));
-        setResultTestExec({
-          status: testExecInfo.status,
-          testexecid: props.match.params.testExecutionId
-        })
-      }
-  }, [listTestExec])
+      setTimeout(()=>{
+      if (testexec.success === true) {
+        setTestExecInfo(filterTestExec(props.match.params.testExecutionId));        
+      }},50);
+  }, [testexec.success])
+
+  useEffect(()=>{
+    selectTestExecReq({id: props.match.params.testExecutionId, listTestcase: testExecInfo.exectestcases});
+    setResultTestExec({
+      status: testExecInfo.status,
+      testexecid: props.match.params.testExecutionId
+    })
+}, [testExecInfo])
   
     const filterTestcaseUntest = () => {
       return execTest.listTestCase.find(item => item.status === 'Untest');
@@ -150,10 +157,18 @@ const TestExecutionDetailPage = (props) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(()=> {
+      testexec.success = "";
       selectTestExecReq({id: props.match.params.testExecutionId, listTestcase: testExecInfo.exectestcases});
       getAllUserReq(localStorage.getItem('selectProject'));
       getAllTestExecReq();
     },[])
+
+    useEffect(()=> {
+      testexec.success = "";
+      selectTestExecReq({id: props.match.params.testExecutionId, listTestcase: testExecInfo.exectestcases});
+      getAllUserReq(localStorage.getItem('selectProject'));
+      getAllTestExecReq();
+    },[props.match.params?.testExecutionId])
 
     try {
       useEffect(()=>{
@@ -295,8 +310,10 @@ const TestExecutionDetailPage = (props) => {
         <Helmet title="Test Execution Details" />
 
       <Grid
-        justify="space-between"
-        container 
+        justify="flex-start"
+        alignItems="center"
+        container
+        spacing={5}
       >
         <Grid item>
 
@@ -304,6 +321,7 @@ const TestExecutionDetailPage = (props) => {
                   Test Execution Details - {testExecInfo.testexecutionname}
               </Typography>
         </Grid>
+        {testexec.success === "" && <CircularProgress size={25}/>}
         
       </Grid>
 
@@ -339,14 +357,21 @@ const TestExecutionDetailPage = (props) => {
             </Grid>
 
             <div>
-            <Grid container spacing={3}>
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              spacing={3}>
               <Grid item>
-                <p>Issues: <b> 0 issues</b></p>
+                <p>Issues: <b>{testExecInfo.issue?.length ? testExecInfo.issue.length : 0}</b><b> issues</b></p>
               </Grid>
               <Grid item>
-               <ViewIssuePopup isOpen={openIssue} setOpen={setOpenIssuePopup} selected={testExecInfo.listexectestcases}/> 
+               <ViewIssuePopup
+                isOpen={openIssue}
+                setOpen={setOpenIssuePopup}
+                listIssueOfExec={testExecInfo.issue ? testExecInfo.issue : []}/> 
                 <Button variant="contained" onClick={handleOpenIssue}>View Issues</Button>
-              </Grid>
+              </Grid>                
             </Grid>
           </div>
 
@@ -355,7 +380,7 @@ const TestExecutionDetailPage = (props) => {
                   <Select
                     labelId="status"
                     id="status"
-                    value={testExecInfo.status}
+                    value={testExecInfo?.status}
                     onChange={handleChange('status')}
                     label="status">
                         <MenuItem value={'Untest'}>Untest</MenuItem>
@@ -370,10 +395,10 @@ const TestExecutionDetailPage = (props) => {
             Save
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
-          {!isExecute && testExecInfo.status === 'Untest' && (testExecInfo.tester.username === '' || testExecInfo.tester.username === accountInfo.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleExecute}>
+          {!isExecute && testExecInfo?.status === 'Untest' && (testExecInfo?.tester?.username === '' || testExecInfo.tester?.username === accountInfo?.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleExecute}>
                 Execute
           </Button>}
-          {!isExecute && (testExecInfo.status !== 'Untest') && (testExecInfo.tester.username === '' || testExecInfo.tester.username === accountInfo.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleRetest}>
+          {!isExecute && (testExecInfo?.status !== 'Untest') && (testExecInfo?.tester?.username === '' || testExecInfo.tester?.username === accountInfo?.username) && <Button variant="contained" color="primary" startIcon={<HourglassEmptyIcon />} onClick={handleRetest}>
                 Re-test
           </Button>}
           <Button variant="contained" startIcon={<CancelIcon />} onClick={handleClose}>

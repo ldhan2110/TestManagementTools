@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import CheckboxTreeView from '../../../components/CheckboxTreeView/CheckboxTreeView';
 import { connect } from 'react-redux';
 import {GET_ALL_TESTCASE_REQ, GET_LIST_TESTCASE_SELECT_REQ, GET_ALL_TESTSUITE_REQ, GET_ALL_TESTSUITE_NO_TREE_REQ} from '../../../redux/test-case/constants';
@@ -24,6 +24,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import {debounce} from 'lodash'
 
 const useStyles = makeStyles((theme) => ({
   rootofroot:{
@@ -419,6 +420,12 @@ const SelectTestCasePopup = (props) => {
     });
     return finalArr;
   }
+  const [tempp, setTempp] = useState("")
+  const handler = useCallback(debounce(text => onChangeSearch(text), 500), []);
+
+  const onChangeSearch = (text) => {
+    setTempp(text);
+  }
 
   return (
     <React.Fragment > 
@@ -449,6 +456,7 @@ const SelectTestCasePopup = (props) => {
                 inputValue={inputVal}
                 onInputChange={(event, newInputValue) => {
                   setInputVal(newInputValue);
+                  handler(newInputValue);
                 }}
                 selectOnFocus
                 handleHomeEndKeys
@@ -512,7 +520,7 @@ const SelectTestCasePopup = (props) => {
           </div> :     
           <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '35vw', maxWidth:'39vw', padding:7}}>          
             <Grid item xs={12}>              
-              <CheckboxTreeView data={listTestCase} text={inputVal} suite={search.testsuite} parentCallback={handleSelect} selected={data}/>
+              <CheckboxTreeView data={listTestCase} text={tempp} suite={search.testsuite} parentCallback={handleSelect} selected={data}/>
             </Grid>
           </Grid>}
         </DialogContent>

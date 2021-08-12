@@ -127,9 +127,10 @@ const MemberListPage = (props) => {
     getAllMemberMantisReq(project);
   },[]);
 
-  useEffect(()=>{    
+  useEffect(()=>{
+    if(user.successMantis === true)
       handleArray();
-  },[listMemberMantis])
+  },[user.successMantis])
 
   useEffect(()=>{
     if(user.successMantis === true)

@@ -314,20 +314,20 @@ const TestCaseExecDetail = (props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Grid container justify='space-between' styles={{display: 'inline'}}>
-              <Grid item xs= {12}>
+          <Grid container direction='row' justify='space-between' styles={{display: 'inline'}}>
+              <Grid item xs={12}>
               <Grid container justify='space-between' spacing={1}>
-                <Grid item xs={10}>
+                <Grid item>
                   <Typography variant="h5" gutterBottom display="inline">
                    Result
                   </Typography>
                 </Grid>
               
               <NewIssuePage isOpen={openNewIssue} setOpen={setOpenNewIssue}/>
-                {!viewMode && <Grid item xs={2}>
-                  <Button variant="contained" color="primary" fullWidth endIcon={<BugReportIcon />}
+                {!viewMode &&
+                  <Button variant="contained" color="primary" endIcon={<BugReportIcon />}
                   onClick={handleOpenNewIssue}> Report Issue</Button>
-                </Grid>}
+                }
               </Grid>
                 
               </Grid>
@@ -370,7 +370,12 @@ const TestCaseExecDetail = (props) => {
              <Button variant="contained" color="primary" fullWidth endIcon={<ArrowForwardIcon />} onClick={handleNavigateForward}> {currentIdx !== execTest.listTestCase.length-1  && findNextIdx(currentIdx) ? 'Next Test Case': 'Finish'}</Button>
             </Grid>
           </Grid>}
-          { viewMode &&  <Grid container justify ='flex-end'><Grid item xs={1}> <Button variant="contained"  fullWidth startIcon={<KeyboardReturnIcon />} onClick={handleClose}>Return</Button></Grid></Grid>}
+          { viewMode && 
+          <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+              <Button variant="contained" startIcon={<KeyboardReturnIcon />} onClick={handleClose}>
+                Return
+              </Button>
+          </div>}
         </Grid>
         
       </Grid>

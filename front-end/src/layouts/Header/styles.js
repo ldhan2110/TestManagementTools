@@ -94,7 +94,12 @@ const styles = {
     },
 
     emptyList:{
-        height:'570px', display:'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center'
+        height:'540px',
+        width: '100%',
+        display:'flex',
+        flexDirection:'column',
+        alignItems:"center",
+        justifyContent: 'center',
     },
 
     root: {

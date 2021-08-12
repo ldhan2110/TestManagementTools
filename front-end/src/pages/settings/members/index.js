@@ -123,9 +123,10 @@ const MemberListPage = (props) => {
     getAllUserOfProjectReq(project);
   },[]);
 
-  useEffect(()=>{    
+  useEffect(()=>{
+    if(user.success === true)
       handleArray();
-  },[listUsersOfProject])
+  },[user.success])
 
   useEffect(()=>{
     if(user.success === true)

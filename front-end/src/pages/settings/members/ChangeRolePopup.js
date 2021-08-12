@@ -62,7 +62,6 @@ const ChangRolePopup = (props) => {
 
   useEffect(()=>{
     if (insProjects.sucess === false){
-      setLoading(false);
       displayMsg({
         content: insProjects.errMsg,
         type: 'error'
@@ -71,7 +70,6 @@ const ChangRolePopup = (props) => {
       setLoading(false);
       ResetRedux(); 
     } else if (insProjects.sucess === true) {
-      setLoading(false);
       displayMsg({
         content: "Change role member successfully !",
         type: 'success'

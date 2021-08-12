@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import styled from "styled-components";
 import {connect} from 'react-redux';
 import {useHistory} from 'react-router-dom';
@@ -74,8 +74,45 @@ const UserMenu = (props) => {
 
     const [load, setLoad] = React.useState(1);
 
+    const [hasNextPage, setHasNextPage] = React.useState(false);
+
+    const [lastObjectPosition , setLastObjectPosition ] = useState(0);
+
+    const firstPage = 20;
+
+    const perPage = 10;
+
+    const [items, setItems] = useState([]);
+
+    const loadNextPage = () => {
+      setItems(currentItems => {
+        setLoading(false);        
+        return(
+          [...currentItems, ...listNotif.slice(lastObjectPosition, lastObjectPosition + perPage)]
+        )
+      });
+      setLastObjectPosition(currentValue => currentValue + perPage);      
+      setHasNextPage(((lastObjectPosition + perPage) < listNotifications.length) ? true:false);  
+    }
+    
+    const [loading, setLoading] = React.useState(false);
+    const observer = useRef();
+    const lastNotifRef = useCallback(node => {
+      if (loading) return;
+      if(observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(entries =>{
+        if(entries[0].isIntersecting && hasNextPage) {
+          setLoading(true);
+          setTimeout(loadNextPage, 300);
+        }
+      })
+      if(node) observer.current.observe(node);
+    },[loading, hasNextPage])
+
     const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
+      setLastObjectPosition(firstPage);
+      setHasNextPage((firstPage < listNotifications.length) ? true:false);  
+      setAnchorEl(event.currentTarget);
     };
 
     const handleClose = () => {
@@ -97,14 +134,18 @@ const UserMenu = (props) => {
     },[]);
     
     useEffect(()=>{
-      if(notification.success === true)
-        setListNotif(listNotifications);  
+      if(notification.success === true){
+        setListNotif(listNotifications);
+        setItems(listNotifications.slice(0, firstPage));
+        setLastObjectPosition(currentValue => currentValue + perPage);
+        setHasNextPage((lastObjectPosition < listNotifications.length) ? true:false);
+      }
     },[notification]);
 
     useEffect(()=>{
-      let listTemp = listNotif.filter(item => item.is_read === false);
+      let listTemp = listNotifications.filter(item => item.is_read === false);
       setNumUnread(listTemp.length);
-    },[listNotif]);
+    },[notification.success]);
 
     useEffect(()=>{
       if(anchorEl !== null) {
@@ -170,11 +211,12 @@ const UserMenu = (props) => {
 
     const handleClickNotif = async (id, isRead, url) => {
       if(isRead === false) {
-        setListNotif(listNotif.map(x => {
-          if(x._id !== id) return x
-         return {...x, is_read: true}
-        }));
+        // setListNotif(listNotif.map(x => {
+        //   if(x._id !== id) return x
+        //  return {...x, is_read: true}
+        // }));
         updateNotificationReq({is_read: true, id: id});
+        handleClose();
       }
       
       var projectItem = filterProject(parseUrl2ProjectId(url));
@@ -227,12 +269,14 @@ const UserMenu = (props) => {
           <ListSubheader style={{fontSize:16}}>{"Notifications"}</ListSubheader>
         </Paper>
         <Divider />
-        {listNotif?.length > 0 ? 
+        {items?.length > 0 ? 
          <List className={classes.listStyle} >
 
-            {listNotif?.map((node, index) =>
-            <div style={{display: 'flex'}}>
-              <ListItem key={node._id} button alignItems="normal" className={classes.listItemStyle}>
+            {items?.map((node, index) =>
+            {if(items.length === index + 1) {return(
+            <div style={{display: 'flex'}} key={node._id} ref={lastNotifRef}>
+              
+              <ListItem button alignItems="normal" className={classes.listItemStyle}>
 
                 <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} style={node.is_read ? {height:'100%', opacity:'0%'}:{height:'100%'}}>
                   <FiberManualRecordIcon className={classes.unreadNotif}/>
@@ -257,9 +301,39 @@ const UserMenu = (props) => {
                
               </ListItem>
               
-          </div>
-                            
-            )}
+              </div>
+              )} else {return(<div style={{display: 'flex'}} key={node._id}>
+              <ListItem key={node._id} button alignItems="normal" className={classes.listItemStyle}>
+
+              <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} style={node.is_read ? {height:'100%', opacity:'0%'}:{height:'100%'}}>
+                <FiberManualRecordIcon className={classes.unreadNotif}/>
+              </div>
+
+              <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} style={{height:'100%'}}>
+              {avatar && <ListItemAvatar >
+                <Avatar src={avatar}>
+                </Avatar>
+              </ListItemAvatar>} 
+              </div>
+              
+              <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} className={classes.listItemDivText}>
+                <ListItemText primary={node.description} secondary={time2TimeAgo(node.created_date)} 
+                 inset={avatar ? false : true}
+                 classes={node.is_read ? { primary: classes.itemTextPrimaryRead, secondary: classes.itemTextSecondaryRead} 
+                          : {primary: classes.itemTextPrimary, secondary: classes.itemTextSecondary}}
+                 className={classes.listItemSty}
+                 //style={{marginTop:0}}
+                 />
+              </div>
+             
+            </ListItem>
+              
+          </div>               
+            )}})}
+            {loading && <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <CircularProgress style={{width: '18px', height: '18px', color:'#909090'}} />
+            </div>
+            }
          </List> 
          : <div className={classes.emptyList} >
            <NotificationsIcon style={{ fontSize:100, color:'grey', marginBottom: 15 }}/>
@@ -267,7 +341,6 @@ const UserMenu = (props) => {
            Your notifications are showed here
            </Typography>
            </div>}
-
         </Popover>
       
       </React.Fragment>

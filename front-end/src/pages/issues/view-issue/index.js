@@ -1,155 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import CheckboxTreeView from '../../../components/CheckboxTreeView/CheckboxTreeView';
 import { connect } from 'react-redux';
-import {GET_ALL_TESTCASE_REQ, GET_LIST_TESTCASE_SELECT_REQ, GET_ALL_TESTSUITE_REQ, GET_ALL_TESTSUITE_NO_TREE_REQ} from '../../../redux/test-case/constants';
+import {GET_ALL_ISSUE_REQ} from '../../../redux/issue/constants';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
 import {
   Dialog,
-  DialogActions,
+  Button,
+  IconButton,
   DialogContent,
+  Link,
+  DialogActions,
   DialogTitle,
-  MenuList,
-  MenuItem,
-  Grid, Popper,
-  AppBar, Toolbar, IconButton, Typography, Divider,
 } from '@material-ui/core'
-import CircularProgress from '@material-ui/core/CircularProgress';
-import CloseIcon from '@material-ui/icons/Close';
-
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
-import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
-
-const useStyles = makeStyles((theme) => ({
-  rootofroot:{
-    flexGrow: 1,
-    flexDirection: 'row',    
-  },
-  root: {
-    //flexGrow: 1,
-    //borderRadius: 4, //theme.shape.borderRadius
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(5),
-      marginRight: theme.spacing(5),
-      width: 'auto',
-    },
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  search: {
-    borderRadius: '4px 0px 0px 4px',
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    position: 'relative',
-    //borderRadius: theme.shape.borderRadius,
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },   
-  },
-  autoComplete:{
-    width: '320px',
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 3),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(2, 1, 2, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1.5em + ${theme.spacing(6)}px)`,
-    fontSize: '16px',
-    transition: theme.transitions.create('width'),
-    width: '100%',
-   /* [theme.breakpoints.up('sm')]: {
-      width: '22ch',
-       '&:focus': {
-        width: '20ch',
-      }, 
-    },*/
-  },
-  divider: {
-    background: fade(theme.palette.common.white, 0.30),
-  },
-  margin: {
-    margin: theme.spacing(0),
-  },
-  divSearch: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-}));
-
-const BootstrapInput = withStyles((theme) => ({
-  root: {
-    //marginLeft: 5,
-    //borderLeftStyle: '1px solid white',
-    borderRadius: '0px 4px 4px 0px',
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    'label + &': {
-      marginTop: theme.spacing(0),
-    },
-  },
-  input: {    
-    position: 'relative',    
-    border: '0px solid #ced4da',
-    fontSize: '16px',
-    padding: theme.spacing(2, 2, 2, 2),
-    marginLeft: 0,
-    width: '140px',
-    color: 'white',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderRadius: '0px 4px 4px 0px',
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.1rem rgba(0,123,255,.25)',
-    },
-  },
-}))(InputBase);
-
+import { DataGrid } from '@material-ui/data-grid';
+import { useHistory } from "react-router-dom";
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
   return { 
     project: state.project.currentSelectedProject,
-    testcase: state.testcase,
-    listtestcaseselect: state.testcase.listTestcaseSelect
+    issue: state.issue,
    }
 }
 
@@ -157,290 +27,121 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
-    getAllTestsuiteReq: (payload) => dispatch({type: GET_ALL_TESTSUITE_REQ,payload}),
-    getListTestcaseSelectReq: (payload) => dispatch({type: GET_LIST_TESTCASE_SELECT_REQ, payload}),
-    getAllTestsuiteNoTreeReq: (payload) => dispatch({type: GET_ALL_TESTSUITE_NO_TREE_REQ,payload})
+    getAllIssueReq: (payload) => dispatch({type:GET_ALL_ISSUE_REQ, payload}),
   }
 }
 
-
-const SelectTestCasePopup = (props) => {
-  const classes = useStyles();
+const ViewIssuePopup = (props) => {
   
-  const { getAllTestcaseReq, testcase, project, getListTestcaseSelectReq, selected, getAllTestsuiteReq, getAllTestsuiteNoTreeReq} = props;
+  const { displayMsg, issue, getAllIssueReq, project } = props;
   
-  const {isOpen, setOpen} = props;  
+  const {isOpen, setOpen, listIssueOfExec} = props;  
   
-  const [open, setOpenPopup] = React.useState(isOpen);
+  const [open, setOpenPopup] = useState(isOpen);
 
-  const [listTestCase, setListTestCase] = useState([]);
+  const [pageSize, setPageSize] = useState(5);
 
-  const convertData = (selected) => {
-      var result = [];
-      if (selected) {
-        selected.map(item  => result.push(item.testcaseid ? item.testcaseid : item._id));
-      }
-      return result;
-  }
+  const history = useHistory();
 
-  const [data, setData] = useState(convertData(selected));
-
-  //const [pressSearch, setPressSearch] = useState(false);
-  
+  useEffect(()=>{
+    //issue.success = null;
+    //getAllIssueReq(project);
+  },[])
 
   const handleClose = () =>{
       setOpen(false);
-  }
-
-  const handleSelect = (Data) =>{
-    setData(Data)
-  }
-
-  const handleSelectTestcase = () =>{
-    getListTestcaseSelectReq(data);
-    setOpen(false);
   }
   
   useEffect(()=>{
       setOpenPopup(isOpen);
   },[isOpen, open])
 
-  useEffect(()=>{
-    if(testcase.listTestsuiteNoTree)
-      setListTestCase(build()[0]);
-  },[testcase.listTestsuiteNoTree])
+  // useEffect(()=>{
+  //   if(issue.success === null && issue.error === true && open){
+  //     displayMsg({
+  //       content: issue.errorMsg,
+  //       type: 'error'
+  //     });
+  //   }
+  // },[issue.success, issue.error, open])
 
-  useEffect(()=>{
-    if(testcase.successNoTree === true) {
-      [testcase.listTestsuiteNoTree].filter(item => iterateObject(item));
-      setListTC(arr);
-    }
-  },[testcase.successNoTree])
 
-  useEffect(()=>{
-    testcase.successNoTree = null;
-    getAllTestsuiteReq(project);
-    getAllTestcaseReq(project); 
-    getAllTestsuiteNoTreeReq(project);
-  },[])
+  const [openDelIssue, setOpenDelIssue] = useState(false);
+  const [delIssueInfo, setDelIssueInfo] = useState([]);
 
-  const theme = useTheme();
+  const handleCloseDelIssue = () =>{
+    setOpenDelIssue(false);
+    setDelIssueInfo([]);
+  }
+  const handleDeleteIssue = () =>{
+    console.log(delIssueInfo);
+  }
 
-  const [search, setSearch] = useState({
-    testcasename: '',
-    testsuite: '',
-    priority: ''
-  });
-
-  const [listTC, setListTC] = useState([]);
-  const [inputVal, setInputVal] = useState("");
-  const [val, setVal] = useState("");
-  let arr = [];
-  function iterateObject(obj, value) {
-    for(var prop in obj) {      
-      if(typeof obj[prop] === "object"){
-        iterateObject(obj[prop], value);
-      } else {
-        if(prop === 'label' && obj[prop] === value && value) {
-          for(var i = 0; i < obj['children']?.length; i++){
-            if(obj?.children[i]?.type === 'TC')
-              arr.push(obj['children'][i].label);
-          }          
-        }
-        else if(value === undefined)
-        if(obj["type"] === "TC" && prop === "label"){
-          arr.push(obj[prop]);
-        }
+  // Format datagrid columns
+const columns = [
+  { field: 'issue_id', headerName: 'ID', width: 91 },
+  {
+    field: 'url',
+    headerName: 'Mantis Link',
+    flex: 1,
+    minWidth: 150,
+    sortable: false,
+    renderCell: (params) => (
+      <Link href={params.value} target="_blank" rel="noopener">
+        {params.value}
+      </Link>
+    )
+  },
+  { 
+    field: 'Action',
+    width: 100,
+    sortable: false,
+    filterable: false,
+    renderCell: (params) => {      
+      const handleAction = (event) =>{
+        setOpenDelIssue(true);
+        setDelIssueInfo(params.row);
       }
-    }
-  }
-
-  const handleChangeSuite = (event) => {
-    setSearch({...search, testsuite: event.target.value});
-    arr = [];
-    if(event.target.value !== ""){
-      [testcase.listTestsuiteNoTree].filter(item => iterateObject(item, event.target.value));
-      setListTC(arr);
-    } else {
-      [testcase.listTestsuiteNoTree].filter(item => iterateObject(item));
-      setListTC(arr);
-    }
-  }
-  const PopperMy = function (props) {
-    return (<Popper {...props} style={{ width: '322px' }} placement='bottom-start' />)
-  }
-
-  //----------------------------------------------------------------------------------------
-
-  // Format node that has no child
-  const formatDeepestChild = (node) => {
-    var formattedDChild = {};
-      // custom node properties when Test suite empty
-      var customLabel = node.type === 'TS' ? node.label + " (Empty)" : node.label
-      var customIconLeaf = node.type === 'TS' ? <span className="rct-icon rct-icon-parent-close" /> : null
-      var expandable = node.type === 'TS' ? true : false;
-      //var checkbox = node.type === 'TC' ? true : false;
-      var eleAssigned = node.is_assigned;
-      // coloring leaf node  
-      if(eleAssigned === true){
-      var dChildObj = {
-        value: node.value,
-        isLeaf: true,
-        icon: customIconLeaf,
-        label: <span style={{ color: "red" }}>{customLabel}</span>,
-        labelNoStyle: node.label,
-        is_assigned: eleAssigned,
-        //showCheckbox: checkbox,
-        disabled: expandable,
-      };
-      formattedDChild = dChildObj;
-    } else {  // no coloring
-      var dChildObj = {
-        value: node.value,
-        isLeaf: true,
-        icon: customIconLeaf,
-        label: customLabel,
-        labelNoStyle: node.label,
-        is_assigned: eleAssigned,
-        //showCheckbox: checkbox,
-        disabled: expandable,
-      };
-      formattedDChild = dChildObj;
-    }    
-    return formattedDChild;
-  }
-  // Format node
-  const formatChild = (node) => {
-    var formatedChild = {};
-    let arr = [];    
-    // if no child
-    if(node.children === undefined){
-      var tempFor = formatDeepestChild(node);
-      return tempFor
-    }
-    // if has child
-    if(node.children) {
-      node.children.forEach(elem =>{      
-      arr.push(formatChild(elem));     
-      }
+      return(
+      <IconButton
+        onClick={handleAction}>
+        <DeleteOutlineIcon style={{color: '#f44336'}}/>
+      </IconButton>
     )}
-      // format suite and coloring
-      //let type = node.type;
-      let asgn = node.is_assigned;      
-      let suiteLabel =
-    " (" + (node.total_testsuite_child > -1 ? node.total_testsuite_child : "") + "," 
-    + node.total_testcase + "," + node.numberof_testcaseuntest + ")";
-      if(asgn === true){
-        let childNode = {
-          value: node.value,
-          label: <span><span style={{ color: "red" }}>{node.label}</span><span>{suiteLabel}</span></span>,
-          labelNoStyle: node.label,
-          is_assigned: asgn,
-          isLeaf: true,
-          parentId: node.label,        
-          children: arr,
-        }
-        formatedChild = childNode;
-      } else {
-        let childNode = {
-          value: node.value,
-          label: node.label + suiteLabel,
-          labelNoStyle: node.label,
-          is_assigned: asgn,
-          isLeaf: true,
-          parentId: node.label,        
-          children: arr,
-        }
-        formatedChild = childNode;
-      }
-    return formatedChild;
-    
-  }    
-  // Format root node
-  const formatData = () => {
-    var formattedData = [];
-    
-      var element = testcase.listTestsuiteNoTree;
-      var rootPath = element.label;
-      var rootVal = element.value;
-      let rootLabel = element.label +
-    " (Total suite: " + (element.total_testsuite_child > -1 ? element.total_testsuite_child : "") + ", Total TC: "
-    + element.total_testcase + ", Unassigned: " + element.numberof_testcaseuntest + ")";
-      // if root has child
-      if(element?.children?.length > 0) {
-        var tempCh = [];
-        // push formated child to tempCh
-        element.children.forEach(ele => {          
-          tempCh.push(formatChild(ele))
-        });
-        // format root with child        
-        var obj = {
-          value: rootVal,
-          parentId: "",
-          label: rootLabel,
-          labelNoStyle: rootPath,
-          children: tempCh
-        }
-        formattedData.push(obj);
-      } else {  // root has no child
-        var obj = {
-          value: rootVal,
-          parentId: "",
-          label: rootLabel,
-          labelNoStyle: rootPath,
-          icon: <span className="rct-icon rct-icon-parent-close" />,
-          showCheckbox: false,
-          children: []
-        }
-        formattedData.push(obj);
-      }
-    return formattedData;
-  }
-  // Make node map to render in checkbox treeview
-  const build = () => {
-    var data = formatData();
-    var nodeMap = {};
-    data.forEach(item => {      
-      nodeMap[item.value] = item;
-    }); 
-  
-    var finalArr = [];
-  
-    Object.keys(nodeMap).forEach(item => {
-      var parentId = nodeMap[item].parentId;
-      if(parentId){
-        
-        nodeMap[nodeMap[item].parentId].children.push(nodeMap[item])
-      }
-      else{
-          finalArr.push(nodeMap[item]);
-      }
-    });
-    return finalArr;
-  }
+  },
+];
 
+  
   return (
     <React.Fragment > 
-      <Dialog open={open}   
-         
-         onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">View Issues</DialogTitle>
+      <Dialog open={open} disableEnforceFocus 
+         onClose={handleClose} aria-labelledby="form-dialog-title"
+         fullWidth
+         maxWidth="sm"
+         >
+        {/* <DialogTitle id="form-dialog-title">View Issues</DialogTitle> */}
         <DialogContent dividers>
-        {(testcase.successNoTree === "") ? 
-          <div style={{height:'100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <CircularProgress />
-          </div> :     
-          <Grid container spacing={1} style={{height: '30vh',maxHeight: '30vh', width: '35vw', maxWidth:'39vw', padding:7}}>          
-            <Grid item xs={12}>              
-            <MenuList>
-                <MenuItem>ISSUE 01</MenuItem>
-                <MenuItem>ISSUE 01</MenuItem>
-                <MenuItem>ISSUE 01</MenuItem>
-                <MenuItem>ISSUE 01</MenuItem>
-            </MenuList>
-            </Grid>
-          </Grid>}
+          <div style={{height: 370, width: '100%'}}>
+            <DataGrid
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20, 50, 100]}
+              disableSelectionOnClick 
+              rows={listIssueOfExec}
+              columns={columns}              
+              getRowId={(e => e._id)}
+              disableColumnSelector
+              //loading={issue.success === "" ? true : false}
+            />
+            <Dialog id="popup-del-issue" open={openDelIssue} >
+              <DialogTitle>Confirm</DialogTitle>
+              <DialogContent>Are you sure want to delete this issue?</DialogContent>
+              <DialogActions>
+                <Button onClick={handleDeleteIssue} color="primary">Yes</Button>
+                <Button onClick={handleCloseDelIssue} color="primary">No</Button>
+              </DialogActions>
+            </Dialog>
+          </div>
         </DialogContent>
 
       </Dialog>
@@ -448,4 +149,4 @@ const SelectTestCasePopup = (props) => {
   )
 }
 
-export default  connect(mapStateToProps, mapDispatchToProps)(SelectTestCasePopup);
+export default  connect(mapStateToProps, mapDispatchToProps)(ViewIssuePopup);

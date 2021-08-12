@@ -70,8 +70,9 @@ const ProjectList = (props)=>{
 
 
     useEffect(()=> {
-        setListProject(project.listProjects);
-    },[project.listProjects])
+        if(project.success === true)
+            setListProject(project.listProjects);
+    },[project.success]) 
 
     return(
         <React.Fragment>
