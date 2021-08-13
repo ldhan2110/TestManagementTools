@@ -5,12 +5,14 @@ import { GET_ALL_TESTEXEC_REQ } from "../../../redux/test-execution/constants";
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
   Dialog,
-  Button,
-  IconButton,
+  DialogContentText,  
   DialogContent,
-  Link,
   DialogActions,
   DialogTitle,
+  TextField,
+  Button,
+  IconButton,
+  Link,  
 } from '@material-ui/core'
 import { DataGrid } from '@material-ui/data-grid';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -75,7 +77,7 @@ const ViewIssuePopup = (props) => {
     }
   },[issue.insIssueDeleteFromExec])
 
-
+  // Del issue
   const [openDelIssue, setOpenDelIssue] = useState(false);
   const [delIssueInfo, setDelIssueInfo] = useState([]);
 
@@ -93,6 +95,29 @@ const ViewIssuePopup = (props) => {
     setOpenDelIssue(false);
     setLoad(true);
   }
+
+  // Add issue
+  const [openAddIssue, setOpenAddIssue] = useState(false);
+  const [addIssueInfo, setAddIssueInfo] = useState([]);
+  const handleCloseAddIssue = () =>{
+    setOpenAddIssue(false);
+    setAddIssueInfo({
+      projectid: project,
+      urlAddIssue: ''
+    });
+  }
+
+  const handleAddIssue = () =>{
+    // deleteIssueFromExecReq({
+    //   projectid: project,
+    //   testexecution_id: execid,
+    //   issue_id: delIssueInfo.issue_id
+    // });
+    console.log(addIssueInfo);
+    setOpenAddIssue(false);
+    //setLoad(true);
+  }
+  
 
   // Format datagrid columns
 const columns = [
@@ -138,6 +163,12 @@ const columns = [
          >
         {/* <DialogTitle id="form-dialog-title">View Issues</DialogTitle> */}
         <DialogContent dividers>
+          <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '10px'}}>
+            <Button variant="contained" color="primary"
+              onClick={() => setOpenAddIssue(true)}>
+              Add Issue
+            </Button>
+          </div>
           <div style={{height: 370, width: '100%'}}>
             <DataGrid
               pageSize={pageSize}
@@ -150,12 +181,39 @@ const columns = [
               disableColumnSelector
               loading={(load === true) ? true : false}
             />
-            <Dialog id="popup-del-issue" open={openDelIssue} >
+            <Dialog id="popup-del-issue" open={openDelIssue} onClose={handleCloseDelIssue} >
               <DialogTitle>Confirm</DialogTitle>
-              <DialogContent>Are you sure want to delete this issue?</DialogContent>
+              <DialogContent>Are you sure you want to delete this issue?</DialogContent>
               <DialogActions>
                 <Button onClick={handleDeleteIssue} color="primary">Yes</Button>
                 <Button onClick={handleCloseDelIssue} color="primary">No</Button>
+              </DialogActions>
+            </Dialog>
+
+            <Dialog open={openAddIssue} onClose={handleCloseAddIssue} aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">Add issue</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  You can link created issue from Mantis to this test execution here.
+                </DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="Issue URL"
+                  type="email"
+                  fullWidth
+                  value={addIssueInfo.urlAddIssue}
+                  onChange={(event) => setAddIssueInfo({...addIssueInfo, urlAddIssue: event.target.value})}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseAddIssue} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleAddIssue} color="primary">
+                  Add
+                </Button>
               </DialogActions>
             </Dialog>
           </div>

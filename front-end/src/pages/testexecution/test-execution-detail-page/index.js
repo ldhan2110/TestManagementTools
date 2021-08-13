@@ -423,10 +423,15 @@ const TestExecutionDetailPage = (props) => {
           <div>
             <Grid container spacing={3}>
               <Grid item>
-                <p>Issues: <b> 0 issues</b></p>
+              <p>Issues: <b>{testExecInfo.issue?.length ? testExecInfo.issue.length : 0}</b><b> issues</b></p>
               </Grid>
               <Grid item>
-               <ViewIssuePopup isOpen={openIssue} setOpen={setOpenIssuePopup} selected={testExecInfo.listexectestcases}/> 
+              <ViewIssuePopup
+                isOpen={openIssue}
+                setOpen={setOpenIssuePopup}
+                listIssueOfExec={testExecInfo.issue ? testExecInfo.issue : []}
+                execid={props.match.params.testExecutionId}
+                />
                 <Button variant="contained" onClick={handleOpenIssue}>View Issues</Button>
               </Grid>
             </Grid>
