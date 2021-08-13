@@ -284,7 +284,7 @@ const UserMenu = (props) => {
 
                 <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} style={{height:'100%'}}>
                 {avatar && <ListItemAvatar >
-                  <Avatar src={avatar}>
+                  <Avatar>
                   </Avatar>
                 </ListItemAvatar>} 
                 </div>
@@ -309,9 +309,9 @@ const UserMenu = (props) => {
                 <FiberManualRecordIcon className={classes.unreadNotif}/>
               </div>
 
-              <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} style={{height:'100%'}}>
+              <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} style={{height:'100%', marginTop: '5px'}}>
               {avatar && <ListItemAvatar >
-                <Avatar src={avatar}>
+                <Avatar>
                 </Avatar>
               </ListItemAvatar>} 
               </div>
