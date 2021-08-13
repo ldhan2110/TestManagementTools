@@ -60,6 +60,7 @@ const Chip = styled(MuiChip)`
 //MAP STATES TO PROPS - REDUX
 function mapStateToProps(state) {
   return {
+    testexec: state.testexec,
     listTestExec: state.testexec.listTestExec,
     updTestExec: state.testexec.updTestExecDetail,
     delTestExec: state.testexec.delTestExec,
@@ -93,7 +94,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const TestExecutionDetailPage = (props) => {
-    const {classes,delTestExec,deleteTestExecReq,resetDelTestExec, resetListTestcaseSelect, listRequirements, getAllActiveRequirementReq, getAllActiveTestplanReq, listActiveTestplan, listBuildByTestPlan, getBuildByTestPlan, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, listtestcaseselect,getAllUserReq, listUser, resetRedux, accountInfo} = props;
+    const {classes,delTestExec, testexec, deleteTestExecReq,resetDelTestExec, resetListTestcaseSelect, listRequirements, getAllActiveRequirementReq, getAllActiveTestplanReq, listActiveTestplan, listBuildByTestPlan, getBuildByTestPlan, listTestExec, updateTestExecReq, updTestExec, displayMsg, getAllTestExecReq, selectTestExecReq, execTest, listtestcaseselect,getAllUserReq, listUser, resetRedux, accountInfo} = props;
     const history = useHistory();
     const location = useLocation();
 
@@ -131,6 +132,19 @@ const TestExecutionDetailPage = (props) => {
       getAllActiveRequirementReq();
       resetListTestcaseSelect();
     },[])
+
+    const [del, setDel] = useState(false);
+    const refreshWhenDelIssue = () => {
+      setDel(true);
+      getAllTestExecReq();
+    }
+
+    useEffect(()=>{
+      if(testexec.success === true && del === true){
+        setDel(false);
+        setTestExecInfo(filterTestExec(props.match.params.testExecutionId));
+      }
+    },[testexec.success])
 
     const covertFromName2Id = (name) => {
       var result = [];
@@ -431,6 +445,7 @@ const TestExecutionDetailPage = (props) => {
                 setOpen={setOpenIssuePopup}
                 listIssueOfExec={testExecInfo.issue ? testExecInfo.issue : []}
                 execid={props.match.params.testExecutionId}
+                refreshWhenDelIssue={refreshWhenDelIssue}
                 />
                 <Button variant="contained" onClick={handleOpenIssue}>View Issues</Button>
               </Grid>
@@ -442,11 +457,11 @@ const TestExecutionDetailPage = (props) => {
           <SelectTestCasePopup isOpen={openPopup} setOpen={setOpenPopup} selected={testExecInfo.exectestcases}/>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <Grid container>
-                    <Grid item xs={10}>
+                <Grid container justify="space-between" direction="row">
+                    <Grid item>
                     <Typography variant="h4" gutterBottom display="inline">List Executed Test Cases</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item>
                     <Button variant="contained" color="primary" onClick={handleOpenSelectTC}>Edit Test Case</Button>
                     </Grid>
                 </Grid>

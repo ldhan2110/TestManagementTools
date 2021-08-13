@@ -42,7 +42,7 @@ const ViewIssuePopup = (props) => {
   const { displayMsg, issue, testexec, project, deleteIssueFromExecReq,
     resetDeleteIssueFromExec, getAllTestExecReq } = props;
   
-  const {isOpen, setOpen, listIssueOfExec, execid} = props;  
+  const {isOpen, setOpen, listIssueOfExec, execid, refreshWhenDelIssue} = props;  
   
   const [open, setOpenPopup] = useState(isOpen);
 
@@ -74,6 +74,10 @@ const ViewIssuePopup = (props) => {
       getAllTestExecReq();
       resetDeleteIssueFromExec();
       setLoad(false);
+      if(refreshWhenDelIssue){
+        console.log('b');
+        refreshWhenDelIssue();
+      }
     }
   },[issue.insIssueDeleteFromExec])
 
