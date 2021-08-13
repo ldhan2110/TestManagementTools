@@ -64,7 +64,6 @@ const UploadTestCase = (props) => {
       });
       setEnableCreateBtn(true);
       setLoading(false);
-      resetUploadTestCaseRedux();
       resetAddRedux();
       resetUploadTestCaseRedux();
     } else if (insTestcaseUpl.sucess === true) {
@@ -75,7 +74,6 @@ const UploadTestCase = (props) => {
       setEnableCreateBtn(true);
       setLoading(false);
       getAllTestcaseReq();
-      resetUploadTestCaseRedux();
       resetAddRedux();
       resetUploadTestCaseRedux();
       handleClose();

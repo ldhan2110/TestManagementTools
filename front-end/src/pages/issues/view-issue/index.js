@@ -134,7 +134,7 @@ const columns = [
       <Dialog open={open} disableEnforceFocus 
          onClose={handleClose} aria-labelledby="form-dialog-title"
          fullWidth
-         maxWidth="sm"
+         maxWidth="md"
          >
         {/* <DialogTitle id="form-dialog-title">View Issues</DialogTitle> */}
         <DialogContent dividers>
@@ -148,7 +148,7 @@ const columns = [
               columns={columns}              
               getRowId={(e => e._id)}
               disableColumnSelector
-              loading={(load === true || testexec.success === "") ? true : false}
+              loading={(load === true) ? true : false}
             />
             <Dialog id="popup-del-issue" open={openDelIssue} >
               <DialogTitle>Confirm</DialogTitle>
