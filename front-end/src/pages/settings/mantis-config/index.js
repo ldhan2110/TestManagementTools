@@ -245,7 +245,6 @@ const MantisConfigPage = (props) => {
 
           {role === "Project Manager" && <div>
           <TextField id="mantisName" label="Mantis project name" variant="outlined"  fullWidth required
-          //InputProps={issue.insMantis.sucess !== false ? {readOnly: true}:{}}
           value={mantisInfo.mantisname || ''} onChange={handleChange('mantisname')}          
           error={checkError && mantisInfo.mantisname.trim().length === 0 && error.mantisname.trim().length === 0 ? true : false}
           helperText={checkError && mantisInfo.mantisname.trim().length === 0 && error.mantisname.trim().length === 0 ? 'Mantis name is required!' : ' '}/>
@@ -253,14 +252,12 @@ const MantisConfigPage = (props) => {
 
 
           <TextField id="API-Key" label="API-Key" variant="outlined"  fullWidth required
-          //InputProps={(issue.insMantis.sucess !== false && role === "Project Manager") ? {readOnly: true}:{}}
            value={mantisInfo.apikey || ''} onChange={handleChange('apikey')}
            error={checkError && mantisInfo.apikey.trim().length === 0 && error.apikey.trim().length === 0 ? true : false}
           helperText={checkError && mantisInfo.apikey.trim().length === 0 && error.apikey.trim().length === 0 ? 'API key is required' : ' '}/>
 
           {role === "Project Manager" && <div>
               <TextField id="url" label="URL" variant="outlined"  fullWidth required
-          //InputProps={issue.insMantis.sucess !== false ? {readOnly: true}:{}}
           value={mantisInfo.url || ''} onChange={handleChange('url')}
           error={checkError && mantisInfo.url.trim().length === 0 && error.url.trim().length === 0 ? true : false}
           helperText={checkError && mantisInfo.url.trim().length === 0 && error.url.trim().length === 0 ? 'URL is required!' : ' '}/>

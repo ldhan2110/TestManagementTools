@@ -308,13 +308,14 @@ const SettingProjectPage = (props) => {
   const [enableSMbtn, setEnableSMbtn] = useState(true);
   const [checkErrorSM, setCheckErrorSM] = useState(false);
   const [switchMantisInfo, setSwitchMantisInfo] = useState({
+    mantisname: "",
     mantisid: "",
     projectid: project
   });
 
-  const handleChangeSM = (prop) => (event) => {
-    console.log(switchMantisInfo);
-    setSwitchMantisInfo({ ...switchMantisInfo, [prop]: event.target.value });
+  const handleChangeSM = (prop) => (event, child) => {
+    console.log(event);
+    setSwitchMantisInfo({ ...switchMantisInfo, mantisid: child.props.value, mantisname: child.props.children });
   }
 
   const switchMantis = () => {
@@ -338,6 +339,7 @@ const SettingProjectPage = (props) => {
         content: "Switch mantis successfully!",
         type: 'success'
       });
+      getAllCategoryReq(project);
       setLoadSM(false);
       setEnableSMbtn(true);
       setCheckErrorSM(false);
@@ -376,7 +378,8 @@ const SettingProjectPage = (props) => {
       setEnablecAkbtn(true);
       setEnableACbtn(true);
       setEnableRCbtn(true);
-      setEnableSMbtn(true);  
+      setEnableSMbtn(true);
+      setSwitchMantisInfo({...switchMantisInfo, mantisid: issue.mantisInfo._id})
     } else if(issue.insMantis.sucess === false){
       setEnableCaSbtn(false);
       setEnablecAkbtn(false);
@@ -515,7 +518,7 @@ const SettingProjectPage = (props) => {
               onChange={handleChangeSM('mantisid')}
               label="Select Mantis to switch to"
             >
-            <MenuItem value=""></MenuItem>
+            <MenuItem value="" disabled></MenuItem>
               {issue.listAllMantis?.map((item) => (
                 <MenuItem value={item._id}>{item.mantisname}</MenuItem>
               ))}
@@ -536,77 +539,7 @@ const SettingProjectPage = (props) => {
             {loadSM && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Button>
           </div></Grid>
-        </Grid>
-        
-        <Grid item xs={6} style={{marginTop: 5}}>
-
-          {/* Add category */}
-        <form className={classes.other}>
-          <TextField id="addCategory" label="Add Category" variant="outlined" fullWidth required  inputProps={{maxLength : 100}} 
-           value={addCategoryInfo.category || ''}
-           onChange={handleChangeAC('category')}
-           error={checkErrorAC && addCategoryInfo.category.trim().length === 0 ? true : false}
-          helperText={checkErrorAC && addCategoryInfo.category.trim().length === 0 ? 'Category Name is required' : ' '}/> 
-          </form>
-          
-        <div className = {classes.btnGroup}>
-          
-          <Button variant="contained" color="primary" startIcon={<AddIcon />}
-          disabled={(enableACbtn) ? false : true } 
-          onClick={addCategory}>
-            Add Category
-            {loadAC && <CircularProgress size={24} className={classes.buttonProgress} />}
-          </Button>
-        </div></Grid>
-
-        <Grid item xs={6} style={{marginTop: 5}}>
-
-          {/* Remove Category */}
-        <form className={classes.other}>
-        <FormControl variant="outlined" //className={classes.formControl}
-          fullWidth>
-            <InputLabel id="delCategory">Select Category to Delete</InputLabel>
-            <Select
-              labelId="deleteCategory"
-              id="removeCategory"
-              value={removeCategoryInfo.category}
-              error={(checkErrorRC && removeCategoryInfo.category === "") ? true:false}
-              onChange={handleChangeRC('category')}
-              label="Select Category to delete"
-            >
-            <MenuItem value="" disabled></MenuItem>
-              {issue.listCategory?.categories?.map((item) => (
-                <MenuItem value={item.categoryname}>{item.categoryname}</MenuItem>
-              ))}
-            </Select>
-            <FormHelperText 
-            style={(checkErrorRC && removeCategoryInfo.category === "") ?
-              {color: 'red'}:{opacity:0, pointerEvents: 'none'}}            
-            >Select a category!</FormHelperText>
-            </FormControl>
-            </form>
-
-
-        <form className={classes.other}>
-        <Grid item>
-        <div>
-        <Button variant="contained" disabled={enableRCbtn ? false : true } startIcon={<DeleteIcon />} size="medium" style={enableRCbtn ? {color: red[500] } : {}} onClick={handleOpen}>
-            Delete Category
-            {loadRC && <CircularProgress size={24} className={classes.buttonProgress} />}
-            </Button>
-          </div>
-          <Grid item>
-                <Dialog open={open} >
-                  <DialogTitle>Confirm</DialogTitle>
-                  <DialogContent>Are you sure want to delete this category?</DialogContent>
-                  <DialogActions>
-                    <Button onClick={removeCategory} color="primary">Yes</Button>
-                    <Button onClick={handleClose} color="primary">No</Button>
-                  </DialogActions>
-                </Dialog>
-          </Grid>
-        </Grid>        
-         </form></Grid></Grid>
+        </Grid></Grid>
          <div className = {classes.btnBack}>
           <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleBack}>
             Back

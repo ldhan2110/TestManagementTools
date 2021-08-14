@@ -73,7 +73,7 @@ const reducer = (state = initialState, actions) => {
     case types.GET_ALL_ISSUE_REQ:
       return {
         ...state, success: "", error: "",
-        errorMsg: "",
+        errorMsg: "", listIssue: []
     }
 
     case types.GET_ALL_ISSUE_FAILED:
@@ -81,7 +81,7 @@ const reducer = (state = initialState, actions) => {
         ...state,
         success: null,
         error: true,
-        errorMsg: payload,
+        errorMsg: payload,        
     }
     
     case types.GET_ALL_ISSUE_SUCESS:

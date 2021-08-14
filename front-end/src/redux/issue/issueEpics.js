@@ -473,7 +473,8 @@ export  const getInfoMantisEpic = (action$, state$) => action$.pipe(
       export  const switchMantisEpic = (action$, state$) => action$.pipe(
         ofType(actions.SWITCH_MANTIS_REQ),
         mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/mantis/swtichmantis',{
-            mantis_id: payload.mantisid
+            mantis_id: payload.mantisid,
+            mantis_name: payload.mantisname,
         } , {
             headers: {
               "X-Auth-Token": localStorage.getItem("token"),

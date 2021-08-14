@@ -32,6 +32,8 @@ import { spacing } from "@material-ui/system";
 import { Clipboard } from "react-feather";
 import CustomEmptyOverlayGrid from './NoDataIcon'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
+
 
 const Paper = styled(MuiPaper)(spacing);
 
@@ -228,9 +230,9 @@ const EnhancedTable = (props) => {
                         </IconButton> 
                         </Tooltip>}
 
-                        {type === 'issue' && <Tooltip title="Detail">
+                        {type === 'issue' && <Tooltip title="View Details">
                            <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
-                          <EditIcon style={{color: blue[400]}}/>
+                          <RemoveRedEyeIcon style={{color: blue[400]}}/>
                         </IconButton> 
                         </Tooltip>}
                         
