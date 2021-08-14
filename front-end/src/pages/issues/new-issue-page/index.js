@@ -205,7 +205,7 @@ const NewIssuePage = (props) => {
               error={(error.category === "" && issueInfo.category === "") ? true : false}
             >
             <MenuItem value="" disabled></MenuItem>
-              {issue.listCategory?.categories?.map((item) => (
+              {issue?.listCategory?.map((item) => (
                 <MenuItem value={item.categoryname}>{item.categoryname}</MenuItem>
               ))}
             </Select>

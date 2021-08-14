@@ -195,114 +195,6 @@ const SettingProjectPage = (props) => {
   },[issue.insAPI])
 
 
-  //Add category (AC)
-  const [loadAC, setLoadAC] = useState(false);
-  const [enableACbtn, setEnableACbtn] = useState(true);
-  const [checkErrorAC, setCheckErrorAC] = useState(false);
-  const [addCategoryInfo, setAddCategoryInfo] = useState({
-    category: '',
-    projectid: project
-  });
-
-  const handleChangeAC = (prop) => (event) => {
-    setAddCategoryInfo({ ...addCategoryInfo, [prop]: event.target.value });
-  }
-
-  const addCategory = () => {
-    setCheckErrorAC(true);
-    if(addCategoryInfo.category.trim().length === 0){
-      displayMsg({
-        content: "Category name cannot be empty!",
-        type: 'error'
-      });
-    }
-    else{
-      setLoadAC(true);
-      setEnableACbtn(false);
-      addCategoryReq(addCategoryInfo);
-    }
-  }
-
-  useEffect(()=>{
-    if(issue.insCategory?.sucess === true){
-      displayMsg({
-        content: "Create category successfully!",
-        type: 'success'
-      });
-      setLoadAC(false);
-      setEnableACbtn(true);
-      setCheckErrorAC(false);
-      getAllCategoryReq(project);
-      resetAddCategoryRedux();
-    }
-    if(issue.insCategory?.sucess === false){
-      displayMsg({
-        content: issue.insAPI?.errMsg,
-        type: 'error'
-      });
-      setLoadAC(false);
-      setEnableACbtn(true);
-      setCheckErrorAC(false);
-      resetAddCategoryRedux();
-    }
-
-  },[issue.insCategory])
-
-  //Remove category (selection box) (RC)
-  const [loadRC, setLoadRC] = useState(false);
-  const [enableRCbtn, setEnableRCbtn] = useState(true);
-  const [checkErrorRC, setCheckErrorRC] = useState(false);
-  const [removeCategoryInfo, setRemoveCategoryInfo] = useState({
-    category: '',
-    projectid: project
-  });
-
-  const handleChangeRC = (prop) => (event) => {
-    setRemoveCategoryInfo({ ...removeCategoryInfo, [prop]: event.target.value });
-  }
-
-  const removeCategory = () => {
-    setCheckErrorRC(true);
-    if(removeCategoryInfo.category === ""){
-      displayMsg({
-        content: "Please choose a category !",
-        type: 'error'
-      });
-      handleClose();
-    }
-    else{      
-      handleClose();
-      setLoadRC(true);
-      setEnableRCbtn(false);
-      removeCategoryReq(removeCategoryInfo);
-    }
-  }
-
-  useEffect(()=>{
-    if(issue.insCategoryDelete?.sucess === true){
-      displayMsg({
-        content: "Removed category successfully!",
-        type: 'success'
-      });
-      setRemoveCategoryInfo({ ...removeCategoryInfo, category: "" });
-      setLoadRC(false);
-      setEnableRCbtn(true);
-      setCheckErrorRC(false);
-      getAllCategoryReq(project);
-      resetRemoveCategoryRedux();
-    }
-    if(issue.insCategoryDelete?.sucess === false){
-      displayMsg({
-        content: issue.insCategoryDelete?.errMsg,
-        type: 'error'
-      });
-      setLoadRC(false);
-      setEnableRCbtn(true);
-      setCheckErrorRC(false);
-      resetRemoveCategoryRedux();
-    }
-  },[issue.insCategoryDelete])
-
   //Switch mantis (SM)
   const [loadSM, setLoadSM] = useState(false);
   const [enableSMbtn, setEnableSMbtn] = useState(true);
@@ -314,7 +206,6 @@ const SettingProjectPage = (props) => {
   });
 
   const handleChangeSM = (prop) => (event, child) => {
-    console.log(event);
     setSwitchMantisInfo({ ...switchMantisInfo, mantisid: child.props.value, mantisname: child.props.children });
   }
 
@@ -361,13 +252,10 @@ const SettingProjectPage = (props) => {
   useEffect(()=>{
     issue.insMantis.sucess = null;
     getAllMantisOfProjectReq(project);
-    getAllCategoryReq(project);
     if(role === "Project Manager"){
       getInfoMantisReq(project);
       setEnableCaSbtn(false);
       setEnablecAkbtn(false);
-      setEnableACbtn(false);
-      setEnableRCbtn(false);
       setEnableSMbtn(false);      
     }  
   },[]);
@@ -376,15 +264,11 @@ const SettingProjectPage = (props) => {
     if(issue.insMantis.sucess === true){
       setEnableCaSbtn(true);
       setEnablecAkbtn(true);
-      setEnableACbtn(true);
-      setEnableRCbtn(true);
       setEnableSMbtn(true);
       setSwitchMantisInfo({...switchMantisInfo, mantisid: issue.mantisInfo._id})
     } else if(issue.insMantis.sucess === false){
       setEnableCaSbtn(false);
       setEnablecAkbtn(false);
-      setEnableACbtn(false);
-      setEnableRCbtn(false);
       setEnableSMbtn(false);   
     }
   },[issue.insMantis?.sucess])

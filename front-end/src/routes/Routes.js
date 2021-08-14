@@ -63,7 +63,6 @@ const Routes = (props) => {
 
   useEffect(()=>{
     setLogin(isLogin);
-    console.log(isLogin);
   },[isLogin]);
 
   return(
