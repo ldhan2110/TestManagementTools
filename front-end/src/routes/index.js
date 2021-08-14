@@ -100,7 +100,7 @@ const projectSettingRoutes = {
     },
     {
       id: "Mantis Configuration",
-      path: "/projects/:projectName/mantis-config",
+      path: "/projects/:projectName/mantis-connect",
       name: "Mantis Connect",
       icon: <Users/>,
       component: MantisConfigPage

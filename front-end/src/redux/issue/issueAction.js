@@ -145,6 +145,14 @@ export function getInfoMantis(value) {
   }
 }
 
+export function resetGetInfoMantis(value){
+
+  return {
+    type: types.RESET_GET_INFO_MANTIS,
+    payload: value
+  }
+}
+
 
 export function getAllMantisOfProject(value) {
   return {

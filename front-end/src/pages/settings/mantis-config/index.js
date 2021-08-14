@@ -5,7 +5,8 @@ import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {GET_INFO_MANTIS_REQ, CREATE_NEW_MANTIS_REQ, RESET_CREATE_NEW_MANTIS, CHANGE_API_KEY_REQ, RESET_CHANGE_API_KEY} from '../../../redux/issue/constants';
+import {GET_INFO_MANTIS_REQ, CREATE_NEW_MANTIS_REQ, RESET_CREATE_NEW_MANTIS, CHANGE_API_KEY_REQ,
+  RESET_CHANGE_API_KEY, RESET_GET_INFO_MANTIS} from '../../../redux/issue/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -51,6 +52,7 @@ const mapDispatchToProps = dispatch => {
     resetCreateMantisRedux: () => dispatch({type: RESET_CREATE_NEW_MANTIS}),
     changeAPIKeyReq: (payload) => dispatch({ type: CHANGE_API_KEY_REQ, payload }),
     resetChangeAPIKeyRedux: () => dispatch({type: RESET_CHANGE_API_KEY}),
+    resetGetInfoMantisRedux: () => dispatch({type: RESET_GET_INFO_MANTIS}),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
   }
 }
@@ -58,7 +60,8 @@ const mapDispatchToProps = dispatch => {
 
 const MantisConfigPage = (props) => {
     const {classes, issue, getInfoMantisReq, createNewMantisReq, resetCreateMantisRedux, changeAPIKeyReq, resetChangeAPIKeyRedux, projectsettings, insProjects, project, insProjectsDelete, updateProjectReq, deleteProjectReq,
-      displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq, inforProject, role} = props;
+      displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq, inforProject,
+      resetGetInfoMantisRedux, role} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [checkError, setCheckError] = useState(false);
@@ -88,13 +91,8 @@ const MantisConfigPage = (props) => {
   },[]);
 
   useEffect(()=>{
-    if(role === "Project Manager"){
-      if(issue.insMantis.sucess === false)
+    if(issue.insMantis.sucess === false || issue.insMantis.sucess === true)
         setEnableCreateBtn(true);
-    }
-    else {
-      setEnableCreateBtn(true);
-    }    
   },[issue.insMantis?.sucess])
 
   useEffect(()=>{
@@ -208,9 +206,10 @@ const MantisConfigPage = (props) => {
     if(role === "Project Manager")
     if (issue?.insMantis.sucess === false) {
       displayMsg({
-        content: issue?.insMantis.errMsg,
+        content: issue?.insMantis.errMsg + ", please connect to one",
         type: 'error'
-      });        
+      });
+      resetGetInfoMantisRedux();
     }
   },[issue?.insMantis]);  
 
@@ -246,7 +245,7 @@ const MantisConfigPage = (props) => {
 
           {role === "Project Manager" && <div>
           <TextField id="mantisName" label="Mantis project name" variant="outlined"  fullWidth required
-          InputProps={issue.insMantis.sucess !== false ? {readOnly: true}:{}}
+          //InputProps={issue.insMantis.sucess !== false ? {readOnly: true}:{}}
           value={mantisInfo.mantisname || ''} onChange={handleChange('mantisname')}          
           error={checkError && mantisInfo.mantisname.trim().length === 0 && error.mantisname.trim().length === 0 ? true : false}
           helperText={checkError && mantisInfo.mantisname.trim().length === 0 && error.mantisname.trim().length === 0 ? 'Mantis name is required!' : ' '}/>
@@ -254,14 +253,14 @@ const MantisConfigPage = (props) => {
 
 
           <TextField id="API-Key" label="API-Key" variant="outlined"  fullWidth required
-          InputProps={(issue.insMantis.sucess !== false && role === "Project Manager") ? {readOnly: true}:{}}
+          //InputProps={(issue.insMantis.sucess !== false && role === "Project Manager") ? {readOnly: true}:{}}
            value={mantisInfo.apikey || ''} onChange={handleChange('apikey')}
            error={checkError && mantisInfo.apikey.trim().length === 0 && error.apikey.trim().length === 0 ? true : false}
           helperText={checkError && mantisInfo.apikey.trim().length === 0 && error.apikey.trim().length === 0 ? 'API key is required' : ' '}/>
 
           {role === "Project Manager" && <div>
               <TextField id="url" label="URL" variant="outlined"  fullWidth required
-          InputProps={issue.insMantis.sucess !== false ? {readOnly: true}:{}}
+          //InputProps={issue.insMantis.sucess !== false ? {readOnly: true}:{}}
           value={mantisInfo.url || ''} onChange={handleChange('url')}
           error={checkError && mantisInfo.url.trim().length === 0 && error.url.trim().length === 0 ? true : false}
           helperText={checkError && mantisInfo.url.trim().length === 0 && error.url.trim().length === 0 ? 'URL is required!' : ' '}/>

@@ -374,6 +374,16 @@ const reducer = (state = initialState, actions) => {
           mantisInfo: payload
     }
 
+    case types.RESET_GET_INFO_MANTIS:{
+      return {
+        ...state,
+        insMantis: {
+          sucess: null,
+          errMsg: null
+        }
+      }
+    }
+
 
     // CREATE_NEW_MANTIS_REQ
     case types.CREATE_NEW_MANTIS_REQ:{      

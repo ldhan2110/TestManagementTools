@@ -5,13 +5,13 @@ import { useHistory } from "react-router-dom";
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
-import {
+import { GET_INFO_MANTIS_REQ,
   CREATE_AND_SWITCH_MANTIS_REQ, SWITCH_MANTIS_REQ,
   RESET_CREATE_AND_SWITCH_MANTIS, RESET_SWITCH_MANTIS, 
   CHANGE_API_KEY_REQ, RESET_CHANGE_API_KEY,
   ADD_CATEGORY_REQ, REMOVE_CATEGORY_REQ, 
   RESET_ADD_CATEGORY, RESET_REMOVE_CATEGORY,
-  GET_ALL_MANTIS_OF_PROJECT_REQ, GET_ALL_CATEGORY_REQ } from '../../../redux/issue/constants';
+  GET_ALL_MANTIS_OF_PROJECT_REQ, GET_ALL_CATEGORY_REQ, RESET_GET_INFO_MANTIS} from '../../../redux/issue/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -55,6 +55,7 @@ const mapDispatchToProps = dispatch => {
   return {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
 
+    getInfoMantisReq: (payload) => dispatch({ type: GET_INFO_MANTIS_REQ, payload }),
     createAndSwitchMantisReq: (payload) => dispatch({ type: CREATE_AND_SWITCH_MANTIS_REQ, payload}),
     switchMantisReq: (payload) => dispatch({ type: SWITCH_MANTIS_REQ, payload}),
     changeAPIReq: (payload) => dispatch({ type: CHANGE_API_KEY_REQ, payload}),
@@ -68,15 +69,16 @@ const mapDispatchToProps = dispatch => {
     resetChangeAPIKeyRedux: () => dispatch({type: RESET_CHANGE_API_KEY}),
     resetAddCategoryRedux: () => dispatch({type: RESET_ADD_CATEGORY}),
     resetRemoveCategoryRedux: () => dispatch({type: RESET_REMOVE_CATEGORY}),
+    resetGetInfoMantisRedux: () => dispatch({type: RESET_GET_INFO_MANTIS}),
   }
 }
 
 
 const SettingProjectPage = (props) => {
     const {classes, issue, createAndSwitchMantisReq, switchMantisReq, changeAPIReq, 
-      addCategoryReq, removeCategoryReq, getAllMantisOfProjectReq, 
+      addCategoryReq, removeCategoryReq, getAllMantisOfProjectReq, resetGetInfoMantisRedux,
       resetCreateAndSwitchRedux, resetSwitchMantisRedux, resetChangeAPIKeyRedux, 
-      resetAddCategoryRedux, resetRemoveCategoryRedux, getAllCategoryReq,
+      resetAddCategoryRedux, resetRemoveCategoryRedux, getAllCategoryReq, getInfoMantisReq,
       project, role, displayMsg} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
@@ -354,13 +356,57 @@ const SettingProjectPage = (props) => {
   },[issue.insSwitchMantis])
 
 
-
   useEffect(()=>{
-    //projectsettings.byIDsuccess = null;
-    //getProjectByIdReq(project);
+    issue.insMantis.sucess = null;
     getAllMantisOfProjectReq(project);
     getAllCategoryReq(project);
+    if(role === "Project Manager"){
+      getInfoMantisReq(project);
+      setEnableCaSbtn(false);
+      setEnablecAkbtn(false);
+      setEnableACbtn(false);
+      setEnableRCbtn(false);
+      setEnableSMbtn(false);      
+    }  
   },[]);
+
+  useEffect(()=>{
+    if(issue.insMantis.sucess === true){
+      setEnableCaSbtn(true);
+      setEnablecAkbtn(true);
+      setEnableACbtn(true);
+      setEnableRCbtn(true);
+      setEnableSMbtn(true);  
+    } else if(issue.insMantis.sucess === false){
+      setEnableCaSbtn(false);
+      setEnablecAkbtn(false);
+      setEnableACbtn(false);
+      setEnableRCbtn(false);
+      setEnableSMbtn(false);   
+    }
+  },[issue.insMantis?.sucess])
+
+  useEffect(()=>{
+    if(role === "Project Manager")
+    if (issue?.insMantis.sucess === false) {
+      displayMsg({
+        content: issue?.insMantis.errMsg + ", please connect in Mantis Connect page.",
+        type: 'error'
+      });
+      resetGetInfoMantisRedux();
+    }
+  },[issue?.insMantis]);  
+
+  useEffect(()=>{
+    setTimeout(()=>{if(role === "Project Manager"){
+      if(issue.insMantis.sucess === true)
+      {
+        setCreateMantisInfo({...createMantisInfo, url: issue.mantisInfo.url});
+      }
+    }}, 50)
+        
+  },[issue.mantisInfo])
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -416,7 +462,7 @@ const SettingProjectPage = (props) => {
           helperText={checkErrorCaS && createMantisInfo.mantisname.trim().length === 0 ? 'Mantis name is required!' : ''}/>
 
         <div className={classes.onlyurl}>       
-        <TextField id="url" label="URL" variant="outlined"  fullWidth required inputProps={{maxLength : 100}} 
+        <TextField id="url" label="URL" variant="outlined"  fullWidth inputProps={{maxLength : 250, readOnly: true}}
           value={createMantisInfo.url || ''}
           onChange={handleChangeCaS('url')}
           error={checkErrorCaS && createMantisInfo.url.trim().length === 0 ? true : false}
@@ -428,7 +474,7 @@ const SettingProjectPage = (props) => {
           <Button variant="contained" color="primary"
           disabled={(enableCaSbtn) ? false : true } 
           startIcon={<UpdateIcon />} onClick={createAndSwitch}>
-            Create and switch
+            Create And Switch Project
             {loadCaS && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
           </div>
@@ -459,7 +505,7 @@ const SettingProjectPage = (props) => {
           <form className={classes.other}>
           <FormControl variant="outlined" //className={classes.formControl}
           fullWidth>
-            <InputLabel id="switchM">Select Mantis to switch to</InputLabel>
+            <InputLabel id="switchM">Select Mantis project to switch to</InputLabel>
             <Select
               labelId="switchMantis"
               id="switchMantiss"              
@@ -486,7 +532,7 @@ const SettingProjectPage = (props) => {
         <div >
         <Button variant="contained" color="primary" disabled={enableSMbtn ? false : true } startIcon={<UpdateIcon />} size="medium"
          onClick={switchMantis}>
-            Switch Mantis
+            Switch Mantis Project
             {loadSM && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Button>
           </div></Grid>
