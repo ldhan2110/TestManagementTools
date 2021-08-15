@@ -239,10 +239,10 @@ const SettingProjectPage = (props) => {
   },[issue.insSwitchMantis])
 
 
-  useEffect(()=>{
-    issue.insMantis.sucess = null;
-    getAllMantisOfProjectReq(project);
+  useEffect(()=>{    
     if(role === "Project Manager"){
+      issue.insMantis.sucess = null;    
+      getAllMantisOfProjectReq(project);
       getInfoMantisReq(project);
       setEnableCaSbtn(false);
       setEnablecAkbtn(false);
@@ -254,8 +254,7 @@ const SettingProjectPage = (props) => {
     if(issue.insMantis.sucess === true){
       setEnableCaSbtn(true);
       setEnablecAkbtn(true);
-      setEnableSMbtn(true);
-      setSwitchMantisInfo({...switchMantisInfo, mantisid: issue.mantisInfo._id})
+      setEnableSMbtn(true);      
     } else if(issue.insMantis.sucess === false){
       setEnableCaSbtn(false);
       setEnablecAkbtn(false);
@@ -308,8 +307,8 @@ const SettingProjectPage = (props) => {
         container 
       >
         <Grid item>
-          <Typography variant="h3" gutterBottom display="inline">
-            Mantis settings
+          <Typography variant="h4" gutterBottom display="inline">
+            Mantis settings - {issue.mantisInfo?.mantisname}
           </Typography>
 
           

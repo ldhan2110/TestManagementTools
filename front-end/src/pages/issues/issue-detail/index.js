@@ -10,6 +10,7 @@ import {GET_ALL_BUILD_ACTIVE_REQ } from '../../../redux/build-release/constants'
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { red } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DatePicker from '../../../components/DatePicker';
@@ -258,7 +259,7 @@ const IssueDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="summary" label="Summary" variant="outlined"  fullWidth required inputProps={{maxLength : 100}}
+          <TextField id="summary" label="Summary" variant="outlined"  fullWidth inputProps={{readOnly: true}}
           value={issueInfor.summary || ''} onChange={handleChange('summary')}
           error={issueInfor.summary.trim().length === 0 && error.summary.trim().length === 0 ? true : false}
           helperText={issueInfor.summary.trim().length === 0 && error.summary.trim().length === 0 ? 'Summary is required' : ' '}
@@ -287,11 +288,11 @@ const IssueDetailPage = (props) => {
             />
           </div>*/}
 
-          <TextField id="category" label="Category" variant="outlined"  fullWidth required
+          <TextField id="category" label="Category" variant="outlined"  fullWidth
           value={issueInfor.category || ''} onChange={handleChange('category')}
           InputProps={{readOnly: true}}/>  
 
-          <TextField id="reporter" label="Reporter" variant="outlined"  fullWidth required
+          <TextField id="reporter" label="Reporter" variant="outlined"  fullWidth
           value={issueInfor.reporter || ''} onChange={handleChange('reporter')}
           InputProps={{readOnly: true}}/>
 
@@ -313,7 +314,7 @@ const IssueDetailPage = (props) => {
 
           
 
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={5}
+          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth multiline rows={5}
           value={issueInfor.description || ''} onChange={handleChange('description')}
           error={issueInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
           helperText={issueInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}
@@ -324,8 +325,8 @@ const IssueDetailPage = (props) => {
             Update
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Button>}*/}
-          <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleBack}>
-            Cancel
+          <Button variant="contained" startIcon={<ArrowBackIcon/>} onClick={handleBack}>
+            Return
           </Button>
           
         </div>

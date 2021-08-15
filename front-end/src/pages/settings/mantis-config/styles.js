@@ -39,6 +39,12 @@ const styles = {
     marginTop: -12,
     marginLeft: -12,
   },
+  
+  formControl: {
+    width: '60%',
+    marginTop: '15px',
+    marginBottom: '15px'
+  }
 };
 
 export default styles;

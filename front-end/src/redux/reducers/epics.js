@@ -52,6 +52,8 @@ export default combineEpics(
    issueEpics.addIssueToExecEpic,
    issueEpics.getInfoMantisEpic,
    issueEpics.getAllMantisOfProjectEpic,
+   issueEpics.getAllConnectedMantisEpic,
+   issueEpics.switchConnectedMantisEpic,
    issueEpics.createNewMantisEpic,
    issueEpics.createAndSwitchMantisEpic,
    issueEpics.switchMantisEpic,

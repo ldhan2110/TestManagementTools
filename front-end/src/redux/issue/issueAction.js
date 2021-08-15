@@ -145,6 +145,29 @@ export function getAllMantisOfProject(value) {
   }
 }
 
+export function getAllConnectedMantis(value) {
+  return {
+    type: types.GET_ALL_CONNECTED_MANTIS_REQ,
+    payload: value
+  }
+}
+
+
+export function switchConnectedMantis(value) {
+  return {
+    type: types.SWITCH_CONNECTED_MANTIS_REQ,
+    payload: value
+  }
+}
+
+export function resetSwitchConnectedMantis(value){
+
+  return {
+    type: types.RESET_SWITCH_CONNECTED_MANTIS,
+    payload: value
+  }
+}
+
 
 export function createAndSwitchMantis(value) {
   return {

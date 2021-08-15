@@ -6,7 +6,8 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {GET_INFO_MANTIS_REQ, CREATE_NEW_MANTIS_REQ, RESET_CREATE_NEW_MANTIS, CHANGE_API_KEY_REQ,
-  RESET_CHANGE_API_KEY, RESET_GET_INFO_MANTIS} from '../../../redux/issue/constants';
+  RESET_CHANGE_API_KEY, RESET_GET_INFO_MANTIS, GET_ALL_CONNECTED_MANTIS_REQ,
+  SWITCH_CONNECTED_MANTIS_REQ, RESET_SWITCH_CONNECTED_MANTIS} from '../../../redux/issue/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -21,6 +22,7 @@ import {
   FormControl,
   Checkbox,
   FormControlLabel,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -29,6 +31,7 @@ import {
   DialogTitle,
   Dialog
 } from '@material-ui/core';
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 
 /* import {
   Add as AddIcon,
@@ -48,7 +51,11 @@ const  mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     getInfoMantisReq: (payload) => dispatch({ type: GET_INFO_MANTIS_REQ, payload }),
+    getAllConnectedMantisReq: (payload) => dispatch({ type:GET_ALL_CONNECTED_MANTIS_REQ, payload}),
+    switchConnectedMantisReq: (payload) => dispatch({ type:SWITCH_CONNECTED_MANTIS_REQ, payload}),
     createNewMantisReq: (payload) => dispatch({ type: CREATE_NEW_MANTIS_REQ, payload }),
+
+    resetSwitchConnectedMantis: () => dispatch({type:RESET_SWITCH_CONNECTED_MANTIS}),
     resetCreateMantisRedux: () => dispatch({type: RESET_CREATE_NEW_MANTIS}),
     changeAPIKeyReq: (payload) => dispatch({ type: CHANGE_API_KEY_REQ, payload }),
     resetChangeAPIKeyRedux: () => dispatch({type: RESET_CHANGE_API_KEY}),
@@ -60,11 +67,12 @@ const mapDispatchToProps = dispatch => {
 
 const MantisConfigPage = (props) => {
     const {classes, issue, getInfoMantisReq, createNewMantisReq, resetCreateMantisRedux, changeAPIKeyReq, resetChangeAPIKeyRedux, projectsettings, insProjects, project, insProjectsDelete, updateProjectReq, deleteProjectReq,
-      displayMsg, resetUpdateRedux, resetDeleteRedux, getProjectByIdReq, inforProject,
+      displayMsg, getAllConnectedMantisReq, switchConnectedMantisReq, resetSwitchConnectedMantis,
       resetGetInfoMantisRedux, role} = props;
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [checkError, setCheckError] = useState(false);
+  const [textCurrent, setTextCurrent] = useState("");
   const [error, setError] = useState({
     url: "",
     apikey: "",
@@ -78,32 +86,52 @@ const MantisConfigPage = (props) => {
     projectid: project,
   });
 
+  const [switchMantisInfo, setSwitchMantisInfo] = useState({
+    projectid: project,
+    mantis_id: ''
+  })
+
+  const [loadSM, setLoadSM] = useState(false);
+  const [enableSMbtn, setEnableSMbtn] = useState(true);
+
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
   const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
     issue.mantisInfo = {};
     issue.insMantis.sucess = "";
+    issue.insConnectedMantis.sucess = "";
     if(role === "Project Manager"){
+      setEnableSMbtn(false);
       setEnableCreateBtn(false);
       getInfoMantisReq(project);
+      getAllConnectedMantisReq(project);
     }  
   },[]);
 
   useEffect(()=>{
-    if(issue.insMantis.sucess === false || issue.insMantis.sucess === true)
-        setEnableCreateBtn(true);
+    if(issue.insMantis.sucess === false || issue.insMantis.sucess === true) {
+      setTextCurrent(' none');
+      setEnableCreateBtn(true);
+    }
   },[issue.insMantis?.sucess])
 
   useEffect(()=>{
-    if(role === "Project Manager"){
-      if(issue.insMantis.sucess === true)
-      {
-        setMantisInfo({...mantisInfo, mantisname: issue.mantisInfo.mantisname, url: issue.mantisInfo.url});
-      }
+    if(issue.insConnectedMantis.sucess === false || issue.insConnectedMantis.sucess === true) {
+      setEnableSMbtn(true);
     }
+  },[issue.insConnectedMantis?.sucess])
+
+  // useEffect(()=>{
+  //   if(role === "Project Manager"){
+  //     if(issue.insMantis.sucess === true)
+  //     {
+  //       setSwitchMantisInfo({...switchMantisInfo, mantis_id: issue.mantisInfo._id});
+  //       setMantisInfo({...mantisInfo, mantisname: issue.mantisInfo.mantisname, url: issue.mantisInfo.url});
+  //     }
+  //   }
         
-  },[issue.mantisInfo])
+  // },[issue.mantisInfo])
 
   useEffect(()=>{
     if (issue.insCreateMantis?.sucess === false){
@@ -119,17 +147,25 @@ const MantisConfigPage = (props) => {
         content: "Connect to mantis successfully !",
         type: 'success'
       });
+      setMantisInfo({
+        url: "",
+        apikey: "",
+        mantisname: "",
+        projectid: project,
+      });
+      setCheckError(false);
+      getInfoMantisReq(project);
+      getAllConnectedMantisReq(project);
       setEnableCreateBtn(true);
       setLoading(false);
       resetCreateMantisRedux();
-      //history.goBack();
     }
   },[issue.insCreateMantis?.sucess]);
 
   useEffect(()=>{
     if(issue.insAPI?.sucess === true){
       displayMsg({
-        content: "Change API key successfully!",
+        content: "Update API key successfully!",
         type: 'success'
       });
       setEnableCreateBtn(true);
@@ -170,9 +206,17 @@ const MantisConfigPage = (props) => {
           type: 'error'
         });
     } else{
+      if(mantisInfo.url.lastIndexOf('/') === (mantisInfo.url.length - 1)) {
+        setTextCurrent('');
+        setEnableCreateBtn(false);
+        setLoading(true);
+        createNewMantisReq({ ...mantisInfo, url: mantisInfo.url.substring(0, mantisInfo.url.length-1)});
+      } else {
+      setTextCurrent('');
       setEnableCreateBtn(false);
       setLoading(true);
       createNewMantisReq(mantisInfo);
+      }
     }
   }
   else{
@@ -214,10 +258,40 @@ const MantisConfigPage = (props) => {
   },[issue?.insMantis]);  
 
 
-  const handleBack = () => {    
-    history.goBack();
-    //setOpen(false);
-  };
+  const handleSwitch = () => {
+    setTextCurrent('');
+    setEnableSMbtn(false);
+    setLoadSM(true);
+    switchConnectedMantisReq(switchMantisInfo);
+  }
+
+  useEffect(()=>{
+    if(issue.insSwitchConnectedMantis?.sucess === true){
+      displayMsg({
+        content: "Switch Mantis successfully!",
+        type: 'success'
+      });
+      getInfoMantisReq(project);
+      getAllConnectedMantisReq(project);
+      setEnableSMbtn(true);
+      setLoadSM(false);
+      setSwitchMantisInfo({
+        projectid: project,
+        mantis_id: ''
+      });
+      resetSwitchConnectedMantis();
+    }
+    if(issue.insSwitchConnectedMantis?.sucess === false){
+      displayMsg({
+        content: issue.insSwitchConnectedMantis?.errMsg,
+        type: 'error'
+      });
+      setEnableSMbtn(true);
+      setLoadSM(false);
+      resetSwitchConnectedMantis();
+    }
+
+  },[issue.insSwitchConnectedMantis])
   
   return(
     <div>
@@ -244,7 +318,7 @@ const MantisConfigPage = (props) => {
         <form className={classes.content}>
 
           {role === "Project Manager" && <div>
-          <TextField id="mantisName" label="Mantis project name" variant="outlined"  fullWidth required
+          <TextField id="mantisName" label="Mantis project name" variant="outlined" fullWidth required
           value={mantisInfo.mantisname || ''} onChange={handleChange('mantisname')}          
           error={checkError && mantisInfo.mantisname.trim().length === 0 && error.mantisname.trim().length === 0 ? true : false}
           helperText={checkError && mantisInfo.mantisname.trim().length === 0 && error.mantisname.trim().length === 0 ? 'Mantis name is required!' : ' '}/>
@@ -256,21 +330,52 @@ const MantisConfigPage = (props) => {
            error={checkError && mantisInfo.apikey.trim().length === 0 && error.apikey.trim().length === 0 ? true : false}
           helperText={checkError && mantisInfo.apikey.trim().length === 0 && error.apikey.trim().length === 0 ? 'API key is required' : ' '}/>
 
-          {role === "Project Manager" && <div>
-              <TextField id="url" label="URL" variant="outlined"  fullWidth required
+          {role === "Project Manager" && <div>          
+          <TextField id="url" label="URL" variant="outlined"  fullWidth required
           value={mantisInfo.url || ''} onChange={handleChange('url')}
           error={checkError && mantisInfo.url.trim().length === 0 && error.url.trim().length === 0 ? true : false}
           helperText={checkError && mantisInfo.url.trim().length === 0 && error.url.trim().length === 0 ? 'URL is required!' : ' '}/>
+          <FormHelperText>
+            URL should look like this: https://(yourmantis).mantishub.io
+          </FormHelperText>
           </div>}
-        
+          
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" disabled={(enableCreateBtn) ? false : true } 
           startIcon={<UpdateIcon />}  onClick={handleUpdate}>
-           Save
+           Connect
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+          </Button>          
+        </div>
+        {role === "Project Manager" &&
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', marginTop: 30}}>
+          <Typography variant="subtitle2">
+            Currently connected to: {issue.mantisInfo.mantisname ?
+             issue.mantisInfo.mantisname + ' - ' + issue.mantisInfo.url : textCurrent}
+          </Typography>
+          <FormControl fullWidth className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Switch between connected mantishub url</InputLabel>
+          <Select
+            label="Switch between connected mantishub url"
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={switchMantisInfo.mantis_id}
+            onChange={(e) => {setSwitchMantisInfo({...switchMantisInfo, mantis_id: e.target.value})}}
+          > 
+          <MenuItem value="" disabled></MenuItem>
+              {issue?.listConnectedMantis?.map((item) => (
+                <MenuItem value={item._id}>{item.mantisname} - {item.url}</MenuItem>
+              ))}
+          </Select>
+          </FormControl>
+          <div className = {classes.btnGroup}>
+          <Button variant="contained" color="primary" startIcon={<SwapHorizIcon/>} 
+          disabled={enableSMbtn ? false : true } onClick={handleSwitch}>
+            Switch
+            {loadSM && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
-          
-        </div>               
+          </div>
+          </div>}      
         </form>
         </Grid>
       </Grid>

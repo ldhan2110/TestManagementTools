@@ -56,7 +56,18 @@ var initialState = {
     errMsg: null
   },
   listIssue: [],
-  listCategory: [],  
+  listCategory: [],
+
+  insConnectedMantis: {
+    sucess: null,
+    errMsg: null
+  },
+  listConnectedMantis: [],
+
+  insSwitchConnectedMantis: {
+    sucess: null,
+    errMsg: null
+  }
 }
 
 
@@ -406,6 +417,70 @@ const reducer = (state = initialState, actions) => {
             errMsg: null,
           },
           listAllMantis: payload
+    }
+
+
+    // GET ALL CONNECTED MANTIS OF PROJECT
+    case types.GET_ALL_CONNECTED_MANTIS_REQ:
+      return {
+        ...state, insConnectedMantis: initialState.insAllMantis, listConnectedMantis: []
+    }
+
+    case types.GET_ALL_CONNECTED_MANTIS_FAILED:
+      return {
+        ...state,
+        insConnectedMantis: {
+          sucess: false,
+          errMsg: payload
+        }
+    }
+    
+    case types.GET_ALL_CONNECTED_MANTIS_SUCCESS:
+        return {
+          ...state,
+          insConnectedMantis: {
+            sucess: true,
+            errMsg: null,
+          },
+          listConnectedMantis: payload
+    }    
+
+    // SWITCH CONNECTED MANTIS
+    case types.SWITCH_CONNECTED_MANTIS_REQ:{      
+      return {
+        ...state,
+        insSwitchConnectedMantis: initialState.insSwitchConnectedMantis
+      };
+    }
+
+    case types.SWITCH_CONNECTED_MANTIS_SUCCESS:{
+      return {
+        ...state,
+        insSwitchConnectedMantis: {
+          sucess: true,
+          errMsg: null
+        }
+      }
+    }
+
+    case types.SWITCH_CONNECTED_MANTIS_FAILED: {
+      return{
+        ...state,
+        insSwitchConnectedMantis:{
+          sucess: false,
+          errMsg: payload
+        }
+      }    
+    }
+
+    case types.RESET_SWITCH_CONNECTED_MANTIS:{
+      return {
+        ...state,
+        insSwitchConnectedMantis: {
+          sucess: null,
+          errMsg: null
+        }
+      }
     }
 
         // CREATE AND SWITCH MANTIS

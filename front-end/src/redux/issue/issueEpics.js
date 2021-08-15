@@ -353,6 +353,81 @@ export  const getInfoMantisEpic = (action$, state$) => action$.pipe(
         payload: error.response.data.errMsg
       })})
     )))
+
+
+    // GET ALL CONNECTED MANTIS OF PROJECT
+  export  const getAllConnectedMantisEpic = (action$, state$) => action$.pipe(
+    ofType(actions.GET_ALL_CONNECTED_MANTIS_REQ),
+    mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/'+payload+'/api/v1/getallmantisofproject',{
+        headers: {
+          "X-Auth-Token": localStorage.getItem("token"),
+          "content-type": "application/json"
+        }
+      })).pipe(
+      map(response => {
+        const {data} = response;
+        if (data.success) {
+          return ({
+            type: actions.GET_ALL_CONNECTED_MANTIS_SUCCESS,
+            payload: data.result
+          })
+        } else {
+          return ({
+            type: actions.GET_ALL_CONNECTED_MANTIS_FAILED,
+            payload: data.errMsg
+          })
+        }
+      
+      }),
+      catchError (error => {
+        const {status} = error?.response?.data;
+          if (status ===  401) {
+            localStorage.clear();
+            window.location.replace('/login');
+          } else
+          return of({
+        type: actions.GET_ALL_CONNECTED_MANTIS_FAILED,
+        payload: error.response.data.errMsg
+      })})
+    )))
+
+      // SWITCH CONNECTED MANTIS
+    export  const switchConnectedMantisEpic = (action$, state$) => action$.pipe(
+      ofType(actions.SWITCH_CONNECTED_MANTIS_REQ),
+      mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/v1/swtichmantisofproject',{
+          mantis_id: payload.mantis_id,
+      } , {
+          headers: {
+            "X-Auth-Token": localStorage.getItem("token"),
+            "content-type": "application/json"
+          }
+        })).pipe(
+        map(response => {
+          const {data} = response;
+          if (data.success) {
+            return ({
+              type: actions.SWITCH_CONNECTED_MANTIS_SUCCESS,
+              payload: true
+            })
+          } else {
+            return ({
+              type: actions.SWITCH_CONNECTED_MANTIS_FAILED,
+              payload: data.errMsg
+            })
+          }
+        
+        }),
+        catchError (error => {
+          const {status} = error.response.data;
+          if (status ===  401) {
+            localStorage.clear();
+            window.location.replace('/login');
+          } else
+          return of({
+          type: actions.SWITCH_CONNECTED_MANTIS_FAILED,
+          payload: error.response.data.errMsg
+        })})
+      )))
   
 
     // CREATE NEW MANTIS
