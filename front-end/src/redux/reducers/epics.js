@@ -49,8 +49,7 @@ export default combineEpics(
    issueEpics.updateIssueEpic,
    issueEpics.deleteIssueEpic,
    issueEpics.getAllCategoryEpic,
-   issueEpics.addCategoryEpic,
-   issueEpics.removeCategoryEpic,
+   issueEpics.addIssueToExecEpic,
    issueEpics.getInfoMantisEpic,
    issueEpics.getAllMantisOfProjectEpic,
    issueEpics.createNewMantisEpic,
@@ -110,6 +109,7 @@ export default combineEpics(
    userEpics.getAllMemberMantisEpic,
    userEpics.addMemberMantisEpic,
    userEpics.deleteMemberMantisEpic,
+   userEpics.changeRoleMemberMantisEpic,
 
    //TEST EXEC EPICS
    testexecEpics.getAllTestexecEpic,

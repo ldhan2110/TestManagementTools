@@ -9,8 +9,6 @@ import { GET_INFO_MANTIS_REQ,
   CREATE_AND_SWITCH_MANTIS_REQ, SWITCH_MANTIS_REQ,
   RESET_CREATE_AND_SWITCH_MANTIS, RESET_SWITCH_MANTIS, 
   CHANGE_API_KEY_REQ, RESET_CHANGE_API_KEY,
-  ADD_CATEGORY_REQ, REMOVE_CATEGORY_REQ, 
-  RESET_ADD_CATEGORY, RESET_REMOVE_CATEGORY,
   GET_ALL_MANTIS_OF_PROJECT_REQ, GET_ALL_CATEGORY_REQ, RESET_GET_INFO_MANTIS} from '../../../redux/issue/constants';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateIcon from '@material-ui/icons/Update';
@@ -59,16 +57,12 @@ const mapDispatchToProps = dispatch => {
     createAndSwitchMantisReq: (payload) => dispatch({ type: CREATE_AND_SWITCH_MANTIS_REQ, payload}),
     switchMantisReq: (payload) => dispatch({ type: SWITCH_MANTIS_REQ, payload}),
     changeAPIReq: (payload) => dispatch({ type: CHANGE_API_KEY_REQ, payload}),
-    addCategoryReq: (payload) => dispatch({ type: ADD_CATEGORY_REQ, payload}),
-    removeCategoryReq: (payload) => dispatch({ type: REMOVE_CATEGORY_REQ, payload}),
     getAllMantisOfProjectReq: (payload) => dispatch({ type: GET_ALL_MANTIS_OF_PROJECT_REQ, payload}),
     getAllCategoryReq: (payload) => dispatch({ type: GET_ALL_CATEGORY_REQ, payload}),
 
     resetCreateAndSwitchRedux: () => dispatch({type: RESET_CREATE_AND_SWITCH_MANTIS}),
     resetSwitchMantisRedux: () => dispatch({type: RESET_SWITCH_MANTIS}),
     resetChangeAPIKeyRedux: () => dispatch({type: RESET_CHANGE_API_KEY}),
-    resetAddCategoryRedux: () => dispatch({type: RESET_ADD_CATEGORY}),
-    resetRemoveCategoryRedux: () => dispatch({type: RESET_REMOVE_CATEGORY}),
     resetGetInfoMantisRedux: () => dispatch({type: RESET_GET_INFO_MANTIS}),
   }
 }
@@ -76,15 +70,11 @@ const mapDispatchToProps = dispatch => {
 
 const SettingProjectPage = (props) => {
     const {classes, issue, createAndSwitchMantisReq, switchMantisReq, changeAPIReq, 
-      addCategoryReq, removeCategoryReq, getAllMantisOfProjectReq, resetGetInfoMantisRedux,
+      getAllMantisOfProjectReq, resetGetInfoMantisRedux,
       resetCreateAndSwitchRedux, resetSwitchMantisRedux, resetChangeAPIKeyRedux, 
-      resetAddCategoryRedux, resetRemoveCategoryRedux, getAllCategoryReq, getInfoMantisReq,
+      getAllCategoryReq, getInfoMantisReq,
       project, role, displayMsg} = props;
   const history = useHistory();
-  const [open, setOpen] = React.useState(false);
-
-
-  const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
 
   //Create and switch (CaS)
   const [loadCaS, setLoadCaS] = useState(false);
@@ -294,19 +284,10 @@ const SettingProjectPage = (props) => {
         
   },[issue.mantisInfo])
 
-
-  const handleOpen = () => {
-    setOpen(true);
-  }
-
-  const handleClose = () => {
-    setOpen(false);
-  }
-
   const handleBack = () => {    
     history.goBack();
-    //setOpen(false);
   };
+  
   if(role !== 'Project Manager') {return(
     <div>
       <Helmet title="Mantis Management" />

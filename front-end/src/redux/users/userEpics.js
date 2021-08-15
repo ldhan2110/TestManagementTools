@@ -605,3 +605,42 @@ import {API_ADDR} from '../constants';
               payload:  error.response.data.errMsg
             })})
           )))
+          
+
+          export  const changeRoleMemberMantisEpic = (action$, state$) => action$.pipe(
+            ofType(actions.CHANGE_ROLE_MEMBER_MANTIS_REQ),
+            mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/v1/changerolemembermantis',{
+                email: payload.email,
+                role: payload.role_mantis
+            } , {
+                headers: {
+                  "X-Auth-Token": localStorage.getItem("token"), 
+                  "content-type": "application/json"
+                }
+              })).pipe(
+              map(response => {
+                const {data} = response;
+                if (data.success) {
+                  return ({
+                    type: actions.CHANGE_ROLE_MEMBER_MANTIS_SUCCESS,
+                    payload: true
+                  })
+                } else {
+                  return ({
+                    type: actions.CHANGE_ROLE_MEMBER_MANTIS_FAILED,
+                    payload: data.errMsg
+                  })
+                }
+              
+              }),
+              catchError (error => {
+                const {status} = error.response.data;
+                if (status ===  401) {
+                  localStorage.clear();
+                  window.location.replace('/login');
+                } else
+                return of({
+                type: actions.CHANGE_ROLE_MEMBER_MANTIS_FAILED,
+                payload: error.response.data.errMsg
+              })})
+            )))

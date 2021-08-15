@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
-import {GET_ALL_ISSUE_REQ, DELETE_ISSUE_FROM_EXEC_REQ, RESET_DELETE_ISSUE_FROM_EXEC} from '../../../redux/issue/constants';
+import {ADD_ISSUE_REQ, GET_ALL_ISSUE_REQ, DELETE_ISSUE_FROM_EXEC_REQ, RESET_DELETE_ISSUE_FROM_EXEC, RESET_ADD_ISSUE} from '../../../redux/issue/constants';
 import { GET_ALL_TESTEXEC_REQ } from "../../../redux/test-execution/constants";
 import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import {
@@ -32,15 +32,17 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestExecReq: () => dispatch({ type: GET_ALL_TESTEXEC_REQ}),
     getAllIssueReq: (payload) => dispatch({type:GET_ALL_ISSUE_REQ, payload}),
+    addIssueToExec: (payload) => dispatch({type:ADD_ISSUE_REQ, payload}),
     deleteIssueFromExecReq: (payload) => dispatch({type: DELETE_ISSUE_FROM_EXEC_REQ, payload}),
-    resetDeleteIssueFromExec: () => dispatch({type:RESET_DELETE_ISSUE_FROM_EXEC})
+    resetDeleteIssueFromExec: () => dispatch({type:RESET_DELETE_ISSUE_FROM_EXEC}),    
+    resetAddIssueToExecRedux: () => dispatch({type:RESET_ADD_ISSUE})
   }
 }
 
 const ViewIssuePopup = (props) => {
   
   const { displayMsg, issue, testexec, project, deleteIssueFromExecReq,
-    resetDeleteIssueFromExec, getAllTestExecReq } = props;
+    resetDeleteIssueFromExec, getAllTestExecReq, addIssueToExec, resetAddIssueToExecRedux } = props;
   
   const {isOpen, setOpen, listIssueOfExec, execid, refreshWhenDelIssue} = props;  
   
@@ -102,25 +104,67 @@ const ViewIssuePopup = (props) => {
 
   // Add issue
   const [openAddIssue, setOpenAddIssue] = useState(false);
-  const [addIssueInfo, setAddIssueInfo] = useState([]);
+  const [addIssueInfo, setAddIssueInfo] = useState({
+    projectid: project,
+    issue_id: '',
+    testexecution_id: execid,
+    url: ''
+  });
   const handleCloseAddIssue = () =>{
     setOpenAddIssue(false);
     setAddIssueInfo({
       projectid: project,
-      urlAddIssue: ''
+      issue_id: '',
+      testexecution_id: execid,
+      url: ''
     });
   }
 
   const handleAddIssue = () =>{
-    // deleteIssueFromExecReq({
-    //   projectid: project,
-    //   testexecution_id: execid,
-    //   issue_id: delIssueInfo.issue_id
-    // });
     console.log(addIssueInfo);
     setOpenAddIssue(false);
-    //setLoad(true);
+    setLoad(true);
+    addIssueToExec(addIssueInfo);
   }
+
+  const handleEnterUrl = (event) => {
+    setAddIssueInfo({...addIssueInfo,
+      url: event.target.value,
+      issue_id: handleIssueIdFromUrl(event.target.value)});    
+  }
+
+  const handleIssueIdFromUrl = (url) => {
+    let index = url.lastIndexOf('?id=');
+    return url.slice(index+4);
+  }
+
+  useEffect(()=>{
+    if (issue.insAddIssueToExec?.sucess === false){
+      displayMsg({
+        content: issue.insAddIssueToExec.errMsg,
+        type: 'error'
+      });
+      resetAddIssueToExecRedux();
+      setLoad(false);
+    } else if (issue.insAddIssueToExec?.sucess === true) {
+      displayMsg({
+        content: "Add issue successfully !",
+        type: 'success'
+      });
+      setAddIssueInfo({
+        projectid: project,
+        issue_id: '',
+        testexecution_id: execid,
+        url: ''
+      });
+      getAllTestExecReq();
+      resetAddIssueToExecRedux();
+      setLoad(false);
+      if(refreshWhenDelIssue){
+        refreshWhenDelIssue();
+      }
+    }
+  },[issue.insAddIssueToExec])
   
 
   // Format datagrid columns
@@ -198,7 +242,7 @@ const columns = [
               <DialogTitle id="form-dialog-title">Add issue</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  You can link created issue from Mantis to this test execution here.
+                  You can link created issue from Mantis to this test execution here. The link should look like this: https://(yourmantis).mantishub.io/view.php?id=(issueID)
                 </DialogContentText>
                 <TextField
                   autoFocus
@@ -207,8 +251,8 @@ const columns = [
                   label="Issue URL"
                   type="email"
                   fullWidth
-                  value={addIssueInfo.urlAddIssue}
-                  onChange={(event) => setAddIssueInfo({...addIssueInfo, urlAddIssue: event.target.value})}
+                  value={addIssueInfo.url}
+                  onChange={handleEnterUrl}
                 />
               </DialogContent>
               <DialogActions>

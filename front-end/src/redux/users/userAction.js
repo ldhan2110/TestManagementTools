@@ -160,3 +160,18 @@ export function selectMemberMantis(value){
     payload: value
   }
 }
+
+export function changeRoleMemberMantis(value){
+
+  return {
+    type: types.CHANGE_ROLE_MEMBER_MANTIS_REQ,
+    payload: value
+  }
+}
+
+export function resetChangeRoleMemberMantis(value) {
+  return {
+    type: types.RESET_CHANGE_ROLE_MEMBER_MANTIS,
+    payload: value
+  }
+}

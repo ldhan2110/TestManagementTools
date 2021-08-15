@@ -3,8 +3,7 @@ import {DISPLAY_MESSAGE} from '../../../redux/message/constants';
 import { connect } from 'react-redux';
 import styles from "./styles";
 import { withStyles } from '@material-ui/core/styles';
-import {CHANGE_ROLE_MEMBER_REQ, RESET_CHANGE_ROLE_MEMBER} from '../../../redux/projects/constants';
-import {GET_ALL_USERS_OF_PROJECT_REQ} from '../../../redux/users/constants';
+import {GET_ALL_MEMBERMANTIS_REQ, CHANGE_ROLE_MEMBER_MANTIS_REQ, RESET_CHANGE_ROLE_MEMBER_MANTIS} from '../../../redux/users/constants';
 import { useHistory } from "react-router";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { blue } from '@material-ui/core/colors';
@@ -23,7 +22,7 @@ import {
 
 function mapStateToProps(state) {
   return {
-    insProjects: state.project.insProjects,
+    insChangeRoleMantis: state.user.insChangeRoleMantis,
     project: state.project.currentSelectedProject,
     role: state.project.currentRole,
   };
@@ -32,16 +31,18 @@ function mapStateToProps(state) {
 //MAP DISPATCH ACTIONS TO PROPS - REDUX
 const mapDispatchToProps = dispatch => {
   return {
-    changeRoleMember: (payload) => dispatch({ type: CHANGE_ROLE_MEMBER_REQ, payload }),
+    changeRoleMemberMantisReq: (payload) => dispatch({ type: CHANGE_ROLE_MEMBER_MANTIS_REQ, payload }),
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
-    ResetRedux: (payload) => dispatch({ type: RESET_CHANGE_ROLE_MEMBER, payload }),
-    getAllUserOfProjectReq: (payload) => dispatch({ type: GET_ALL_USERS_OF_PROJECT_REQ, payload}),
+    resetChangeRoleMantisRedux: (payload) => dispatch({ type: RESET_CHANGE_ROLE_MEMBER_MANTIS, payload }),
+    getAllMemberMantisReq: (payload) => dispatch({ type: GET_ALL_MEMBERMANTIS_REQ, payload}),
   }
 }
 
 const ChangRolePopup = (props) => {
 
-  const {isOpen, openMethod, selected, changeRoleMember, displayMsg, insProjects, ResetRedux, getAllUserOfProjectReq, project, role} = props;
+  const {isOpen, openMethod, selected, displayMsg,
+    changeRoleMemberMantisReq, insChangeRoleMantis, resetChangeRoleMantisRedux, getAllMemberMantisReq,
+     project, role} = props;
 
   const [open, setOpen] = useState(isOpen);
 
@@ -61,28 +62,26 @@ const ChangRolePopup = (props) => {
 
 
   useEffect(()=>{
-    if (insProjects.sucess === false){
-      setLoading(false);
+    if (insChangeRoleMantis?.sucess === false){
       displayMsg({
-        content: insProjects.errMsg,
+        content: insChangeRoleMantis.errMsg,
         type: 'error'
       });
       setEnableCreateBtn(true);
       setLoading(false);
-      ResetRedux(); 
-    } else if (insProjects.sucess === true) {
-      setLoading(false);
+      resetChangeRoleMantisRedux();
+    } else if (insChangeRoleMantis?.sucess === true) {
       displayMsg({
         content: "Change role member successfully !",
         type: 'success'
       });
       setEnableCreateBtn(true);
       setLoading(false);
-      ResetRedux();
-      getAllUserOfProjectReq(project);
+      getAllMemberMantisReq(project);
       setOpen(false);
+      resetChangeRoleMantisRedux();
     }
-  },[insProjects.sucess]);
+  },[insChangeRoleMantis?.sucess]);
 
   const handleClose = () => {
     setOpen(false);
@@ -92,16 +91,15 @@ const ChangRolePopup = (props) => {
   const handleConfirm = () => {
     setEnableCreateBtn(false);
     setLoading(true);
-    changeRoleMember(userInfo);
+    changeRoleMemberMantisReq(userInfo);
     //setOpen(false);
     //openMethod(false);
   }
 
 
   const handleChangeRole = (event) => {
-    setUserInfo({...userInfo, role: event.target.value});
+    setUserInfo({...userInfo, role_mantis: event.target.value});
   }
-
  
 
     return(
@@ -118,7 +116,7 @@ const ChangRolePopup = (props) => {
                     labelId="role"
                     id="role"
                     label="Access level"
-                    value={userInfo ? userInfo.role : ''}
+                    value={userInfo ? userInfo.role_mantis : ''}
                     onChange={handleChangeRole}
                    >
                         <MenuItem value={'viewer'}>viewer</MenuItem>

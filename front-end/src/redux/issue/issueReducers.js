@@ -20,11 +20,7 @@ var initialState = {
     errMsg: null
   },
 
-  insCategory: {
-    sucess: null,
-    errMsg: null
-  },
-  insCategoryDelete: {
+  insAddIssueToExec: {
     sucess: null,
     errMsg: null
   },
@@ -270,79 +266,43 @@ const reducer = (state = initialState, actions) => {
           listCategory: payload,
     }
 
-    case types.ADD_CATEGORY_REQ:{      
+    case types.ADD_ISSUE_REQ:{      
       return {
         ...state,
-        insCategory: initialState.insCategory,
+        insAddIssueToExec: initialState.insAddIssueToExec,
       };
     }
 
-    case types.ADD_CATEGORY_SUCCESS:{
+    case types.ADD_ISSUE_SUCCESS:{
       return {
         ...state,
-        insCategory: {
+        insAddIssueToExec: {
           sucess: true,
           errMsg: null
         }
       }
     }
 
-    case types.ADD_CATEGORY_FAILED: {
+    case types.ADD_ISSUE_FAILED: {
       return{
         ...state,
-        insCategory:{
+        insAddIssueToExec:{
           sucess: false,
           errMsg: payload
         }
       }    
     }
 
-    case types.RESET_ADD_CATEGORY:{
+    case types.RESET_ADD_ISSUE:{
       return {
         ...state,
-        insCategory: {
+        insAddIssueToExec: {
           sucess: null,
           errMsg: null
         }
       }
     }
 
-    case types.REMOVE_CATEGORY_REQ:{      
-      return {
-        ...state,
-        insCategoryDelete: initialState.insCategoryDelete
-      };
-    }
-
-    case types.REMOVE_CATEGORY_SUCCESS:{
-      return {
-        ...state,
-        insCategoryDelete: {
-          sucess: true,
-          errMsg: null
-        }
-      }
-    }
-
-    case types.REMOVE_CATEGORY_FAILED: {
-      return{
-        ...state,
-        insCategoryDelete:{
-          sucess: false,
-          errMsg: payload
-        }
-      }    
-    }
-
-    case types.RESET_REMOVE_CATEGORY:{
-      return {
-        ...state,
-        insCategoryDelete: {
-          sucess: null,
-          errMsg: null
-        }
-      }
-    }
 
     // MANTIS
     // GET INFO MANTIS

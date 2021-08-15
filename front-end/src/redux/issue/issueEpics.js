@@ -240,10 +240,12 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
         })})
       )))
     
-      export  const addCategoryEpic = (action$, state$) => action$.pipe(
-        ofType(actions.ADD_CATEGORY_REQ),
-        mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/mantis/addcategory',{
-            category_name: payload.category
+      export  const addIssueToExecEpic = (action$, state$) => action$.pipe(
+        ofType(actions.ADD_ISSUE_REQ),
+        mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/v1/addissuetoexecution',{
+            testexecution_id: payload.testexecution_id,
+            issue_id: payload.issue_id,
+            url: payload.url
         } , {
             headers: {
               "X-Auth-Token": localStorage.getItem("token"),
@@ -254,12 +256,12 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
             const {data} = response;
             if (data.success) {
               return ({
-                type: actions.ADD_CATEGORY_SUCCESS,
+                type: actions.ADD_ISSUE_SUCCESS,
                 payload: true
               })
             } else {
               return ({
-                type: actions.ADD_CATEGORY_FAILED,
+                type: actions.ADD_ISSUE_FAILED,
                 payload: data.errMsg
               })
             }
@@ -272,47 +274,10 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
               window.location.replace('/login');
             } else
             return of({
-            type: actions.ADD_CATEGORY_FAILED,
+            type: actions.ADD_ISSUE_FAILED,
             payload: error.response.data.errMsg
           })})
         )))
-
-        export  const removeCategoryEpic = (action$, state$) => action$.pipe(
-          ofType(actions.REMOVE_CATEGORY_REQ),
-          mergeMap(({ payload }) =>  from(axios.put(API_ADDR+'/'+payload.projectid+'/api/mantis/removecategory',{
-            category_name: payload.category,
-          },{
-              headers: {
-                "X-Auth-Token": localStorage.getItem("token"),
-                "content-type": "application/json"
-              }
-            })).pipe(
-            map(response => {
-              const {data} = response;
-              if (data.success) {
-                return ({
-                  type: actions.REMOVE_CATEGORY_SUCCESS,
-                  payload: true
-                })
-              } else {
-                return ({
-                  type: actions.REMOVE_CATEGORY_FAILED,
-                  payload: data.errMsg
-                })
-              }
-            
-            }),
-            catchError (error => {
-              const {status} = error.response.data;
-              if (status ===  401) {
-                localStorage.clear();
-                window.location.replace('/login');
-              } else
-              return of({
-              type: actions.REMOVE_CATEGORY_FAILED,
-              payload: error.response.data.errMsg
-            })})
-          )))
 
           
 // MANTIS

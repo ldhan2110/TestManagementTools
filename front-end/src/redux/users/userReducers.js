@@ -42,6 +42,10 @@ var initialState = {
     errMsg: null
   },
   inforProfile: "",
+  insChangeRoleMantis: {
+    sucess: null,
+    errMsg: null
+  }
 }
 
 
@@ -473,6 +477,38 @@ const reducer = (state = initialState, actions) => {
                         sucess: null,
                         errMsg: null
                     }
+    }
+
+    case types.CHANGE_ROLE_MEMBER_MANTIS_REQ:
+        return {
+          ...state, insChangeRoleMantis: initialState.insChangeRoleMantis
+    }
+              
+    case types.CHANGE_ROLE_MEMBER_MANTIS_FAILED:
+        return {
+          ...state,
+          insChangeRoleMantis: {
+            sucess: false,
+            errMsg: payload,
+          }
+    }
+                
+    case types.CHANGE_ROLE_MEMBER_MANTIS_SUCCESS:
+        return {
+            ...state,
+            insChangeRoleMantis: {
+              sucess: true,
+              errMsg: null
+          }
+    }
+
+    case types.RESET_CHANGE_ROLE_MEMBER_MANTIS:
+        return {
+            ...state,
+            insChangeRoleMantis: {
+              sucess: null,
+              errMsg: null
+          }
     }
 
     case types.SELECT_MEMBERMANTIS:

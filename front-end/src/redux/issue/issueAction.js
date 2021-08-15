@@ -87,38 +87,22 @@ export function getAllCategory(value) {
   }
 }
 
-export function addCategory(value){
+// ISSUE FROM URL
+export function addIssueToExec(value){
 
   return {
-    type: types.ADD_CATEGORY_REQ,
+    type: types.ADD_ISSUE_REQ,
     payload: value
   }
 }
 
-export function removeCategory(value){
+export function resetAddIssueToExec(value){
 
   return {
-    type: types.REMOVE_CATEGORY_REQ,
+    type: types.RESET_ADD_ISSUE,
     payload: value
   }
 }
-
-export function resetAddCategory(value){
-
-  return {
-    type: types.RESET_ADD_CATEGORY,
-    payload: value
-  }
-}
-
-export function resetRemoveCategory(value){
-
-  return {
-    type: types.RESET_REMOVE_CATEGORY,
-    payload: value
-  }
-}
-
 
 //==============* MANTIS *==============//
 

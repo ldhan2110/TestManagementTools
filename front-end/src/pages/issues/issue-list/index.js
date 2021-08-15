@@ -70,12 +70,6 @@ const IssueListPage = (props) => {
 
   const history = useHistory();
 
-  /*const handleClickNewTestPlan = () => {
-    history.push({
-      pathname: window.location.pathname+"/create-test-plan",
-      state: array});
-  }*/
-
   
   const searchIssue = () => {
     
@@ -119,8 +113,8 @@ const IssueListPage = (props) => {
           return listIssue;}))
     }
   },[searchConditions]);
-  // --> delete TP
-  try {
+
+
     useEffect(()=>{
       if (insIssueDelete.sucess === false){
         issue.success = true;
@@ -138,9 +132,6 @@ const IssueListPage = (props) => {
         resetDeleteRedux();
       }
     },[insIssueDelete.sucess]);      
-  } catch (error) {
-    //console.log('error: '+error);
-  }
 
     const deleteIssue = (id) => {
       setIssueInfor({...issueInfor, id: id});
