@@ -135,6 +135,7 @@ const InviteMemberMantisDialog = (props) => {
         content: "Send invitation successfully !",
         type: 'success'
       });
+      getAllMemberMantisReq(project);
       setEnableCreateBtn(true);
       setLoading(false);
       resetAddMemberMantis();
@@ -159,6 +160,7 @@ const InviteMemberMantisDialog = (props) => {
     setOpen(false);
     openMethod(false);
     setUserInfo({
+      projectid: project,
       username: '',
       email: '',
       access_level: '',
@@ -277,9 +279,8 @@ const InviteMemberMantisDialog = (props) => {
           id="Select access level"
           onChange={handleChange('access_level')}
           label="Select access level"
-          defaultValue={'viewer'}
-          >
-
+          value={userInfo.access_level}
+          >            
           <MenuItem value={'viewer'}>viewer</MenuItem>
           <MenuItem value={'reporter'}>reporter</MenuItem>
           <MenuItem value={"updater"}>updater</MenuItem>

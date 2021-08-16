@@ -86,8 +86,7 @@ const MemberListPage = (props) => {
   const [selected,setSelected] = useState({});
 
   const handleArray = () => {   
-    if(listMemberMantis !== undefined){
-      setArray([]);
+    if(listMemberMantis !== undefined){      
       for(let i in listMemberMantis){
         setArray(array => [...array, { 
           //_id: listMemberMantis[i].user,
@@ -128,8 +127,10 @@ const MemberListPage = (props) => {
   },[]);
 
   useEffect(()=>{
-    if(user.successMantis === true)
-      handleArray();
+    if(user.successMantis === true){
+      setArray([]);
+      setTimeout(handleArray,50);
+    }
   },[user.successMantis])
 
   useEffect(()=>{

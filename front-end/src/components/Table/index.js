@@ -187,13 +187,25 @@ const EnhancedTable = (props) => {
                                   </TableCell>)
 
                             case 'label':
+                              if(type === 'requirements')
                               return (<TableCell align={headerList.headerCells[index].alignment} key={index}>
-                                        {row[headerList.headerCells[index].id] == 1 && <Chip size="small" mr={1} mb={1} label="Active" is_active={1}/>}
-                                        {row[headerList.headerCells[index].id] == 0 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
+                                        {row[headerList.headerCells[index].id] == 1 && headerList.headerCells[index].label !== 'Status' && <Chip size="small" mr={1} mb={1} label="Active" is_active={1}/>}
+                                        {row[headerList.headerCells[index].id] == 0 && headerList.headerCells[index].label !== 'Status' && <Chip size="small" mr={1} mb={1} label="Inactive" />}
+                                        {row[headerList.headerCells[index].id] == 1 && headerList.headerCells[index].label === 'Status' && <Chip size="small" mr={1} mb={1} label="Complete" is_active={1}/>}
+                                        {row[headerList.headerCells[index].id] == 0 && headerList.headerCells[index].label === 'Status' && <Chip size="small" mr={1} mb={1} label="Incomplete" />}
                                         {row[headerList.headerCells[index].id] == 2 || row[headerList.headerCells[index].id] === "Pass" && <Chip size="small" mr={1} mb={1} label="Pass" pass={1}/>}
                                         {row[headerList.headerCells[index].id] == 3 || row[headerList.headerCells[index].id] === "Fail" && <Chip size="small" mr={1} mb={1} label="Fail" fail={1}/>}
                                         {row[headerList.headerCells[index].id] == 4 || row[headerList.headerCells[index].id] === "Block" && <Chip size="small" mr={1} mb={1} label="Block" block={1}/>}
                                         {row[headerList.headerCells[index].id] == 'Untest' && <Chip size="small" mr={1} mb={1} label="Untest" />}
+                                  </TableCell>)
+                              else
+                              return (<TableCell align={headerList.headerCells[index].alignment} key={index}>
+                                {row[headerList.headerCells[index].id] == 1 && <Chip size="small" mr={1} mb={1} label="Active" is_active={1}/>}
+                                {row[headerList.headerCells[index].id] == 0 && <Chip size="small" mr={1} mb={1} label="Inactive" />}
+                                {row[headerList.headerCells[index].id] == 2 || row[headerList.headerCells[index].id] === "Pass" && <Chip size="small" mr={1} mb={1} label="Pass" pass={1}/>}
+                                {row[headerList.headerCells[index].id] == 3 || row[headerList.headerCells[index].id] === "Fail" && <Chip size="small" mr={1} mb={1} label="Fail" fail={1}/>}
+                                {row[headerList.headerCells[index].id] == 4 || row[headerList.headerCells[index].id] === "Block" && <Chip size="small" mr={1} mb={1} label="Block" block={1}/>}
+                                {row[headerList.headerCells[index].id] == 'Untest' && <Chip size="small" mr={1} mb={1} label="Untest" />}
                                   </TableCell>)
                             
                             default:
@@ -236,12 +248,13 @@ const EnhancedTable = (props) => {
                         </IconButton> 
                         </Tooltip>}
                         
-                        {type !== 'testcases' &&  type !== 'member' && type !== 'issue' && <Tooltip title="Edit">
+                        {type !== 'testcases' &&  type !== 'member' && type !== 'issue' && type !== 'membermantis' && 
+                        <Tooltip title="Edit">
                            <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
                           <EditIcon style={{color: blue[400]}}/>
                         </IconButton> 
                         </Tooltip>}
-                        {type === 'member' && <Tooltip title="Change role">
+                        {(type === 'member' || type === 'membermantis') && <Tooltip title="Change role">
                             <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
                               <EditIcon style={{color: blue[400]}}/>
                             </IconButton>
