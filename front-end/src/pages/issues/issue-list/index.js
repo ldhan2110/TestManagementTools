@@ -53,6 +53,10 @@ const IssueListPage = (props) => {
 
   const [array, setArray] = React.useState(listIssue);
 
+  const [listissue, setlistissue] = React.useState(listIssue);
+
+  const [ISSUE_SEARCH_CONDITIONS, setIssueCon] = React.useState(ISSUE_SEARCH);
+
   //delete TP dialog
   const [open, setOpen] = React.useState(false);
 
@@ -64,7 +68,7 @@ const IssueListPage = (props) => {
 
   const [searchConditions, setConditions] = useState({
     summary: '',
-    username: '',
+    reporter: '',
     category: '',
   });   
 
@@ -81,8 +85,10 @@ const IssueListPage = (props) => {
   },[])
 
   useEffect(()=>{
-    if(issue.success === true)
+    if(issue.success === true){
         setArray(listIssue);
+        setlistissue(listIssue);
+    }
   },[issue])
 
   useEffect(()=>{
@@ -99,18 +105,28 @@ const IssueListPage = (props) => {
   }
 
   useEffect(()=>{
-    if (searchConditions.username === '' && searchConditions.summary === ''){
-      setArray(listIssue);
+    if (searchConditions.reporter === '' && searchConditions.summary === '' && searchConditions.category === ''){
+      setArray(listissue);
     } 
     else{
-      if(searchConditions.username === '')
-      setArray(listIssue.filter((item) => {
-        if(item.summary.toLowerCase().includes(searchConditions.summary.toLowerCase()))
-          return listIssue;}))
+      if(searchConditions.reporter === '')
+      setArray(listissue.filter((item) => {
+        if(item.summary.toLowerCase().includes(searchConditions.summary.toLowerCase())
+        && item.category.toLowerCase().includes(searchConditions.category.toLowerCase())
+        )
+          return item;}))
       else
-      setArray(listIssue.filter((item) => {
-        if(item.summary.toLowerCase().includes(searchConditions.summary.toLowerCase()) && searchConditions.username.toLowerCase())
-          return listIssue;}))
+      setArray(listissue.filter((item) => {
+        if(item.reporter){
+          if(item.summary.toLowerCase().includes(searchConditions.summary.toLowerCase())
+          && item.category.toLowerCase().includes(searchConditions.category.toLowerCase())
+          && item.reporter.toLowerCase().includes(searchConditions.reporter.toLowerCase())
+          )
+            return item;
+        } else {          
+            return;
+        }
+      }))
     }
   },[searchConditions]);
 
@@ -193,7 +209,7 @@ const IssueListPage = (props) => {
         {(issue.success === true)? <EnhancedTable
             rows={array}
             headerList = {ISSUE_HEADERS}
-            conditions={ISSUE_SEARCH}
+            conditions={ISSUE_SEARCH_CONDITIONS}
             setConditions={handleChangeConditions}
             searchMethod={searchIssue}
             handleDefaultDeleteAction={deleteIssue}

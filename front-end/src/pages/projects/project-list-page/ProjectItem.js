@@ -105,7 +105,7 @@ const ProjectItem = (props) => {
             {renderRole(role)}
           </div>
           <div style={{overflow: "hidden", textOverflow: "ellipsis", width: "100%", marginTop: "5px"}}> 
-          <Paper style={{maxHeight: 80, overflowY: 'auto'}}>
+          <Paper style={{maxHeight: 75, overflowY: 'auto'}}>
           <Typography variant="body2" color="textSecondary" component={'div'}>
             <ReadMore
               min={MIN_LENGTH}
