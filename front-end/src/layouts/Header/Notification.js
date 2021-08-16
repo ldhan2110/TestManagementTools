@@ -103,7 +103,7 @@ const UserMenu = (props) => {
       observer.current = new IntersectionObserver(entries =>{
         if(entries[0].isIntersecting && hasNextPage) {
           setLoading(true);
-          setTimeout(loadNextPage, 300);
+          setTimeout(loadNextPage, 200);
         }
       })
       if(node) observer.current.observe(node);
@@ -282,7 +282,7 @@ const UserMenu = (props) => {
                   <FiberManualRecordIcon className={classes.unreadNotif}/>
                 </div>
 
-                <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} style={{height:'100%'}}>
+                <div onClick={(event)=>{handleClickNotif(node._id, node.is_read, node.url)}} style={{height:'100%', marginTop: '5px'}}>
                 {avatar && <ListItemAvatar >
                   <Avatar>
                   </Avatar>
