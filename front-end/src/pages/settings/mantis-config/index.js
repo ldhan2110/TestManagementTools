@@ -99,7 +99,7 @@ const MantisConfigPage = (props) => {
 
   useEffect(()=>{
     issue.mantisInfo = {};
-    issue.insMantis.sucess = "";
+    issue.insMantis?.sucess = "";
     if(role === "Project Manager"){
       setEnableSMbtn(false);
       setEnableCreateBtn(false);
