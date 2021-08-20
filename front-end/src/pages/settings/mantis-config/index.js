@@ -91,6 +91,7 @@ const MantisConfigPage = (props) => {
     mantis_id: ''
   })
 
+  const [checkErrorSM, setCheckErrorSM] = useState(false);
   const [loadSM, setLoadSM] = useState(false);
   const [enableSMbtn, setEnableSMbtn] = useState(true);
 
@@ -99,7 +100,8 @@ const MantisConfigPage = (props) => {
 
   useEffect(()=>{
     issue.mantisInfo = {};
-    issue.insMantis?.sucess = "";
+    if(issue.insMantis.sucess)
+      issue.insMantis.sucess = "";
     if(role === "Project Manager"){
       setEnableSMbtn(false);
       setEnableCreateBtn(false);
@@ -257,11 +259,14 @@ const MantisConfigPage = (props) => {
   },[issue?.insMantis]);  
 
 
-  const handleSwitch = () => {
-    setTextCurrent('');
-    setEnableSMbtn(false);
-    setLoadSM(true);
-    switchConnectedMantisReq(switchMantisInfo);
+  const handleSwitch = () => {    
+    setCheckErrorSM(true);
+    if(switchMantisInfo.mantis_id !== ''){
+      setTextCurrent('');
+      setEnableSMbtn(false);
+      setLoadSM(true);
+      switchConnectedMantisReq(switchMantisInfo);
+    }
   }
 
   useEffect(()=>{
@@ -270,6 +275,7 @@ const MantisConfigPage = (props) => {
         content: "Switch Mantis successfully!",
         type: 'success'
       });
+      setCheckErrorSM(false);
       getInfoMantisReq(project);
       getAllConnectedMantisReq(project);
       setEnableSMbtn(true);
@@ -359,6 +365,8 @@ const MantisConfigPage = (props) => {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={switchMantisInfo.mantis_id}
+            error={(checkErrorSM && 
+              switchMantisInfo.mantis_id === "") ? true : false} 
             onChange={(e) => {setSwitchMantisInfo({...switchMantisInfo, mantis_id: e.target.value})}}
           > 
           <MenuItem value="" disabled></MenuItem>
@@ -366,6 +374,10 @@ const MantisConfigPage = (props) => {
                 <MenuItem value={item._id}>{item.mantisname} - {item.url}</MenuItem>
               ))}
           </Select>
+          <FormHelperText 
+            style={(checkErrorSM && switchMantisInfo.mantis_id === "") ?
+              {color: 'red'}:{opacity:0, pointerEvents: 'none'}}            
+            >Please select a Mantis project!</FormHelperText>
           </FormControl>
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" startIcon={<SwapHorizIcon/>} 
