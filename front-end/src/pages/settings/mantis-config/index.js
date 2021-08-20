@@ -358,15 +358,14 @@ const MantisConfigPage = (props) => {
             Currently connected to: {issue.mantisInfo.mantisname ?
              issue.mantisInfo.mantisname + ' - ' + issue.mantisInfo.url : textCurrent}
           </Typography>
-          <FormControl fullWidth className={classes.formControl}>
+          <FormControl error={(checkErrorSM && 
+              switchMantisInfo.mantis_id === "") ? true : false} fullWidth className={classes.formControl}>
           <InputLabel id="demo-simple-select-label">Switch between connected mantishub url</InputLabel>
           <Select
             label="Switch between connected mantishub url"
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={switchMantisInfo.mantis_id}
-            error={(checkErrorSM && 
-              switchMantisInfo.mantis_id === "") ? true : false} 
+            value={switchMantisInfo.mantis_id}            
             onChange={(e) => {setSwitchMantisInfo({...switchMantisInfo, mantis_id: e.target.value})}}
           > 
           <MenuItem value="" disabled></MenuItem>
