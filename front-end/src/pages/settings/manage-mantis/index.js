@@ -390,7 +390,7 @@ const SettingProjectPage = (props) => {
             <FormHelperText 
             style={(checkErrorSM && switchMantisInfo.mantisid === "") ?
               {color: 'red'}:{opacity:0, pointerEvents: 'none'}}            
-            >Select a category!</FormHelperText>
+            >Select a Mantis Project!</FormHelperText>
             </FormControl>            
             </form>
 
