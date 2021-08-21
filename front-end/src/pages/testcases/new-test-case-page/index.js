@@ -10,6 +10,8 @@ import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { blue } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { GET_ALL_ACTIVE_REQUIREMENTS_REQ } from "../../../redux/requirements/constants";
+import MultipleSelect from "../../../components/MultipleSelect";
 import {
   Grid,
   Typography,
@@ -28,7 +30,8 @@ import MarkedInput from '../../../components/markdown-input/MarkedInput';
 const  mapStateToProps = (state) => {
   return { 
     insTestcase: state.testcase.insTestcase,
-    listTestsuite: state.testcase.listTestsuite
+    listTestsuite: state.testcase.listTestsuite,
+    listRequirements: state.requirements.listActiveRequirements
    }
 }
 
@@ -38,14 +41,16 @@ const mapDispatchToProps = dispatch => {
     displayMsg: (payload) => dispatch({type: DISPLAY_MESSAGE, payload }),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
     addTestcaseReq: (payload) => dispatch({type: ADD_TEST_CASE_REQ, payload}),
-    resetAddRedux: () => dispatch({type: RESET_ADD_TEST_CASE})
+    resetAddRedux: () => dispatch({type: RESET_ADD_TEST_CASE}),
+    getAllActiveRequirementReq: (payload) => dispatch({type: GET_ALL_ACTIVE_REQUIREMENTS_REQ}),
   }
 }
 
 const TestCaseDetail = (props) => {
-  const {addTestcaseReq, displayMsg, insTestcase, getAllTestcaseReq, listTestsuite, resetAddRedux} = props;
+  const {addTestcaseReq, displayMsg, insTestcase, getAllTestcaseReq, listTestsuite, resetAddRedux, listRequirements, getAllActiveRequirementReq} = props;
   const history = useHistory();
   const [checkError, setCheckError] = useState(false);
+  const [selectRequirements, setListRequirements] = useState([]);
   const [error, setError] = useState({
     testcaseName: 'ss',
     description: 'ss',
@@ -58,7 +63,8 @@ const TestCaseDetail = (props) => {
     type: 'manual',
     precondition: '',
     postcondition: '',
-    listStep:[]
+    requirement: '',
+    listStep:[],
   });
   const [listSteps, setListSteps] = useState([]);
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
@@ -68,6 +74,25 @@ const TestCaseDetail = (props) => {
   useEffect(()=>{
     setTestcase({...testcase, listStep: listSteps});
   },[listSteps]);
+
+  useEffect(()=>{
+    getAllActiveRequirementReq();
+  },[])
+  
+  /*useEffect(()=>{
+    setTestcase({
+      ...testcase,
+      listrequirement: covertFromName2Id(selectRequirements)
+    })
+  },[selectRequirements])
+
+  const covertFromName2Id = (name) => {
+    var result = [];
+    name.forEach(element => {
+      result.push(listRequirements.filter(x => x.projectrequirementname === element)[0]._id);
+    });
+    return result;
+  };*/
 
   useEffect(()=>{
     if (insTestcase.sucess === false){
@@ -241,6 +266,24 @@ const TestCaseDetail = (props) => {
                                </Grid>*/}
               </Grid>      
             </Grid>
+
+            <Grid item xs={6}>
+             <FormControl variant="outlined"  fullWidth required>
+                              <InputLabel id="requirement">Requirement</InputLabel>
+                                <Select
+                                labelId="requirement"
+                                id="requirement"
+                                value={testcase.requirement || ''}
+                                onChange={handleChange('requirement')}
+                                label="Requirement"
+                               /* select={selectRequirements} setSelect={setListRequirements} listData={listRequirements}/>*/
+                                >     
+                                <MenuItem key={''} value={''}>&nbsp;</MenuItem>
+                                {listRequirements.map((item, index) => <MenuItem key={index} value={item._id}>{item.projectrequirementname}</MenuItem>)}         
+                              </Select>               
+              </FormControl> 
+            </Grid>
+
 
             <Grid item xs={12}>
               {/* <TextField id="preCondition" label="Pre-condition" 
