@@ -165,14 +165,14 @@ const IssueListPage = (props) => {
   return(
     <div>
 
-      <Helmet title="Issue Management" />
+      <Helmet title="Defect List" />
       <Grid
         justify="space-between"
         container 
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Issues List
+            Defects List
           </Typography>
 
         </Grid>

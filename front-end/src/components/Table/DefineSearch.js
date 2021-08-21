@@ -11,7 +11,7 @@ export const TEST_PLANS_SEARCH = [
 ]
 
 export const ISSUE_SEARCH = [
-  { id: 'summary',  label: 'Summary', type: "text" },
+  { id: 'summary',  label: 'Defect Summary', type: "text" },
   { id: 'category',  label: 'Category', type: "text" },
   { id: 'reporter',  label: 'Reporter', type: "text" },
 ]

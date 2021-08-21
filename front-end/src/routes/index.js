@@ -68,7 +68,7 @@ const RequirementDetailPage = async(()=>import(('../pages/requirements/requireme
 
 //Issues components
 const IssueListPage = async(()=>import(('../pages/issues/issue-list/index')));
-const IssueDetailPage = async(()=>import('../pages/issues/issue-detail/index'));
+const IssueDetailPage = async(()=>import(('../pages/issues/issue-detail/index')));
 
 const dashboardRoute = {
   id: "Dashboard",
@@ -172,19 +172,19 @@ const projectListRoute = {
 
 //ISSUE
 const issueListRoute = {
-  id: "Issues",
-  path: "/projects/:projectName/issues",
+  id: "Defects",
+  path: "/projects/:projectName/defects",
   icon: <List/>,
-  name: "Issues",
+  name: "Defects",
   restrict: true,
   exact:true,
   component: IssueListPage
 }
 
 const issueDetailRoute = {
-  id: "Issue Detail",
-  path: "/projects/:projectName/issues/:id",
-  name: "Issue Detail",
+  id: "Defect Detail",
+  path: "/projects/:projectName/defects/:id",
+  name: "Defect Detail",
   restrict: true,
   exact: true,
   component: IssueDetailPage

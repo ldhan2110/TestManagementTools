@@ -220,7 +220,7 @@ const IssueDetailPage = (props) => {
 
     return (
     <div>
-        <Helmet title="Issue Details" />
+        <Helmet title="Defect Details" />
 
       <Grid
         justify="space-between"
@@ -228,7 +228,7 @@ const IssueDetailPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Issue Details {/*- {props.history.location.state.testplanname}*/}
+            Defect Details {/*- {props.history.location.state.testplanname}*/}
           </Typography>
         
           
@@ -259,7 +259,7 @@ const IssueDetailPage = (props) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
         <form className={classes.content}>
-          <TextField id="summary" label="Summary" variant="outlined"  fullWidth inputProps={{readOnly: true}}
+          <TextField id="summary" label="Defect Summary" variant="outlined"  fullWidth inputProps={{readOnly: true}}
           value={issueInfor.summary || ''} onChange={handleChange('summary')}
           error={issueInfor.summary.trim().length === 0 && error.summary.trim().length === 0 ? true : false}
           helperText={issueInfor.summary.trim().length === 0 && error.summary.trim().length === 0 ? 'Summary is required' : ' '}

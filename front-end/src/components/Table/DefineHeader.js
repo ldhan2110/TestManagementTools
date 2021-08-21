@@ -13,7 +13,7 @@ export const ISSUE_HEADERS = {
   hasActions: true,
   hasCheckbox: false,
   headerCells: [  
-  { id: 'summary', alignment: 'left', label: 'Summary', type: "text" },
+  { id: 'summary', alignment: 'left', label: 'Defect Summary', type: "text" },
   { id: 'description', alignment: 'left', label: 'Description', type: "text" },
   { id: 'category', alignment: 'left', label: 'Category', type: 'text'},
   { id: 'reporter', alignment: 'left', label: 'Reporter', type: 'text'},
