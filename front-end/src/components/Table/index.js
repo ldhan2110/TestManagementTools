@@ -249,7 +249,7 @@ const EnhancedTable = (props) => {
                         </Tooltip>}
                         
                         {type !== 'testcases' &&  type !== 'member' && type !== 'issue' && type !== 'membermantis' && 
-                        <Tooltip title="Edit">
+                        <Tooltip title="View / Edit">
                            <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
                           <EditIcon style={{color: blue[400]}}/>
                         </IconButton> 

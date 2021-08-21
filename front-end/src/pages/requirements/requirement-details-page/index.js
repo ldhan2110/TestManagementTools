@@ -94,6 +94,7 @@ const DetailRequirementPage = (props) => {
     });
 
     const [listExec, setListExec] = React.useState(props.history.location.state.testexecution);
+    const [listTc, setListTc] = React.useState(props.history.location.state.listtestcase);
     
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
@@ -308,6 +309,24 @@ const DetailRequirementPage = (props) => {
                         {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status} block={1}/>}
                         {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status} fail={1}/>}
                       </ListItemSecondaryAction>
+                    </ListItem>
+                  )}
+                </List>
+                </Paper>
+              </Grid>
+              <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Test Cases</Typography></Grid> 
+              <Grid item xs={12}>
+                <Paper style={{maxHeight: 200, overflow: 'auto'}}>
+                <List>
+                  {listTc && listTc.map((item,index) => 
+                    <ListItem key={index} dense button  selected> {/* onClick={()=>{if (!isExecute){history.push(location.pathname+'/test-exec/'+item._id)}}}> */}
+                      <ListItemText id={item._id} primary={item.testcaseName} />
+                      {/* <ListItemSecondaryAction>
+                        {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
+                        {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}
+                        {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status} block={1}/>}
+                        {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status} fail={1}/>}
+                      </ListItemSecondaryAction> */}
                     </ListItem>
                   )}
                 </List>
