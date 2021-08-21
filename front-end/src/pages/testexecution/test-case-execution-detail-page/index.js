@@ -29,6 +29,7 @@ import { EXECUTE_TEST_CASE_REQ, GET_ALL_TESTEXEC_REQ, SELECT_TEST_CASE_REQ, RESE
 import MarkedInput from "../../../components/markdown-input/MarkedInput";
 import MarkedResult from "../../../components/markdown-input/MarkedResult";
 import NewIssuePage from "../../issues/new-issue-page/index.js";
+import ViewIssueTCPopup from './viewissuetc';
 
 
 //MAP STATES TO PROPS - REDUX
@@ -57,6 +58,8 @@ const TestCaseExecDetail = (props) => {
   const history = useHistory();
 
   const location = useLocation();
+
+  const [openIssue, setOpenIssuePopup] = useState(false);
    
   const filterTestCase = (execId, testcaseId) => {
     var subItem = null;
@@ -67,6 +70,8 @@ const TestCaseExecDetail = (props) => {
     });
     return subItem;
   }
+
+  useEffect(() =>{console.log(testCaseDetail)},[testCaseDetail])
   
 
   const getIdxTestCase = (testcaseId) => {
@@ -200,6 +205,10 @@ const TestCaseExecDetail = (props) => {
     setOpenNewIssue(true);
   }
 
+  const handleOpenIssue = () => {
+    setOpenIssuePopup(true);
+  }
+
   return(
     <React.Fragment>
       <Helmet title="Executing Test Cases" />
@@ -322,12 +331,22 @@ const TestCaseExecDetail = (props) => {
                    Result
                   </Typography>
                 </Grid>
+                <Grid item>
+                  <ViewIssueTCPopup
+                  isOpen={openIssue}
+                  setOpen={setOpenIssuePopup}
+                  listIssueOfExec={testCaseDetail.issue ? testCaseDetail.issue : []}
+                  execid={props.match.params.testExecutionId}
+                  //refreshWhenDelIssue={refreshWhenDelIssue}
+                  />
+                  <Button variant="contained" onClick={handleOpenIssue}>View Defects</Button>
+                
               
-              <NewIssuePage isOpen={openNewIssue} setOpen={setOpenNewIssue}/>
+              <NewIssuePage isOpen={openNewIssue} setOpen={setOpenNewIssue} tc_id={location.pathname.split('/')[6]}/>
                 {!viewMode &&
                   <Button variant="contained" color="primary" endIcon={<BugReportIcon />}
-                  onClick={handleOpenNewIssue}> Report Issue</Button>
-                }
+                  onClick={handleOpenNewIssue} style={{marginLeft: '10px'}}> Report Defect</Button>
+                }</Grid>
               </Grid>
                 
               </Grid>
@@ -360,7 +379,7 @@ const TestCaseExecDetail = (props) => {
                     </Button>
                 </Grid>}
 
-        <Grid item xs={12} style={{marginTop: 10}}>
+        <Grid item xs={12} style={{marginTop: 10}}>          
           {!viewMode && <Grid container justify ='space-between'>
             <Grid item>
               {currentIdx !== 0 && findPrevIdx(currentIdx) !== -1 && <Button variant="contained" color="primary" fullWidth startIcon={<ArrorBackIcon />} onClick={handleNavigateBackward}> Previous Test Case</Button>}  

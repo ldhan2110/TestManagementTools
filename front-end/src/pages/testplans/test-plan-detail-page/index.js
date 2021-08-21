@@ -12,7 +12,7 @@ import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import UploadButton from './upload'
 import {
   Grid,
   Typography,
@@ -24,8 +24,44 @@ import {
   DialogContent,
   DialogActions,
   DialogTitle,
-  Dialog
+  Dialog,
+  Box,
+  Link,
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
+
+function CircularProgressWithLabel(props) {
+  return (
+    <Box position="relative" display="flex" style={{marginLeft: "10px"}}>
+      <CircularProgress variant="determinate" {...props} />
+      <Box
+        top={0}
+        left={0}
+        bottom={0}
+        right={0}
+        position="absolute"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Typography variant="caption" component="div" color="textSecondary">{`${Math.round(
+          props.value,
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
+
+CircularProgressWithLabel.propTypes = {
+  /**
+   * The value of the progress indicator for the determinate variant.
+   * Value between 0 and 100.
+   */
+  value: PropTypes.number.isRequired,
+};
+
+
 
 //MAP STATES TO PROPS - REDUX
 const  mapStateToProps = (state) => {
@@ -65,13 +101,17 @@ const TestPlanDetailPage = (props) => {
       description: props.history.location.state.description,
       isActive: props.history.location.state.is_active,
       isPublic: props.history.location.state.is_public,
-      created_date: props.history.location.state.created_date  
+      created_date: props.history.location.state.created_date,
+      summaryname: props.history.location.state.summaryname,
+      summaryurl: props.history.location.state.summaryurl,
     });
     
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [enableDeleteBtn, setEnableDeleteBtn] = useState(true);
     const [loading, setLoading] = useState(false);
     const [loadingg, setLoadingg] = useState(false);
+    const [loadProgress, setLoadProgress] = useState("");
+    const [loadEnable, setLoadEnable] = useState(false);
 
     useEffect(()=>{
       if (insTestplan.sucess === false){
@@ -192,6 +232,10 @@ const TestPlanDetailPage = (props) => {
       history.goBack();
     };
 
+    const handleNewUrl = (name, url) => {
+      setTestplanInfor({ ...testplanInfor, summaryname: name, summaryurl: url });
+    };
+
     return (
     <div>
         <Helmet title="Test Plan Details" />
@@ -265,6 +309,28 @@ const TestPlanDetailPage = (props) => {
           error={testplanInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
           helperText={testplanInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
 
+
+          <div>
+          <section>
+            <aside>
+              <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                <h4>Plan's attachment (Allowed: word, excel, txt, pdf, image)</h4>
+                <UploadButton newUrl={handleNewUrl} 
+                  setLoadEnable={setLoadEnable} setLoadProgress={setLoadProgress}
+                />         
+                {loadEnable && <CircularProgressWithLabel value={loadProgress} />}
+              </div>
+              <ul style={{maxHeight: 100, overflow: 'auto'}}>
+                <li style={(testplanInfor.summaryurl && testplanInfor.summaryurl !== "") ? {}:{visibility: 'hidden'}}>
+                  <Link href={testplanInfor.summaryurl} target="_blank" rel="noopener">
+                  {testplanInfor.summaryname}
+                  </Link>
+                </li>
+              </ul>
+            </aside>
+          </section>
+
+          </div>
           
           
           <div className = {classes.btnGroup}>

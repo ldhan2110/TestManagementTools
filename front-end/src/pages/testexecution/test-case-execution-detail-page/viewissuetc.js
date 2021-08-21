@@ -39,7 +39,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const ViewIssuePopup = (props) => {
+const ViewIssueTCPopup = (props) => {
   
   const { displayMsg, issue, testexec, project, deleteIssueFromExecReq,
     resetDeleteIssueFromExec, getAllTestExecReq, addIssueToExec, resetAddIssueToExecRedux } = props;
@@ -94,7 +94,7 @@ const ViewIssuePopup = (props) => {
   const handleDeleteIssue = () =>{
     // deleteIssueFromExecReq({
     //   projectid: project,
-    //   testexecution_id: execid,
+    //   testexecution_id: execid?execid:"",
     //   issue_id: delIssueInfo.issue_id
     // });
     setOpenDelIssue(false);
@@ -106,7 +106,7 @@ const ViewIssuePopup = (props) => {
   const [addIssueInfo, setAddIssueInfo] = useState({
     projectid: project,
     issue_id: '',
-    testexecution_id: execid,
+    testexecution_id: execid?execid:"",
     url: ''
   });
   const handleCloseAddIssue = () =>{
@@ -114,7 +114,7 @@ const ViewIssuePopup = (props) => {
     setAddIssueInfo({
       projectid: project,
       issue_id: '',
-      testexecution_id: execid,
+      testexecution_id: execid?execid:"",
       url: ''
     });
   }
@@ -153,7 +153,7 @@ const ViewIssuePopup = (props) => {
       setAddIssueInfo({
         projectid: project,
         issue_id: '',
-        testexecution_id: execid,
+        testexecution_id: execid?execid:"",
         url: ''
       });
       getAllTestExecReq();
@@ -211,10 +211,10 @@ const columns = [
          >
         {/* <DialogTitle id="form-dialog-title">View Issues</DialogTitle> */}
         <DialogContent dividers>
-{/*           <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '10px'}}>
+          {/* <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '10px'}}>
             <Button variant="contained" color="primary"
               onClick={() => setOpenAddIssue(true)}>
-              Add Defect
+              Add Issue
             </Button>
           </div> */}
           <div style={{height: 370, width: '100%'}}>
@@ -272,4 +272,4 @@ const columns = [
   )
 }
 
-export default  connect(mapStateToProps, mapDispatchToProps)(ViewIssuePopup);
+export default  connect(mapStateToProps, mapDispatchToProps)(ViewIssueTCPopup);

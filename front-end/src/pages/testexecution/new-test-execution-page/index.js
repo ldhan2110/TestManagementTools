@@ -78,6 +78,7 @@ const NewTestExecutionPage = (props) => {
         listexectestcases: [],
         is_public: false,
         is_active: false,
+        environment: '',
         assigntester: ''
     });
     const history = useHistory();
@@ -356,6 +357,12 @@ const NewTestExecutionPage = (props) => {
             />
           </div> 
 
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            <TextField id="Environment" label="Environment" 
+            variant="outlined"
+            value={testExecInfo.environment || ''} onChange={handleChange('environment')}
+            style={{marginRight: '10px', width: '350px'}} 
+            />
 
            <FormControl variant="outlined" fullWidth>
            <InputLabel id="tester" >Assign Tester</InputLabel>
@@ -371,7 +378,7 @@ const NewTestExecutionPage = (props) => {
               <MenuItem key={index} value={item.username}>{item.username}</MenuItem>
           ))}
         </Select>
-        </FormControl>
+        </FormControl></div>
 
         <TextField id="descriptions" label="Description" 
         variant="outlined"  fullWidth required multiline rows={3} 

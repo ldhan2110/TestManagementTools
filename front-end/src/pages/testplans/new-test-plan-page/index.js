@@ -18,13 +18,48 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  Checkbox
+  Checkbox,
+  Box,
+  Link,
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import {
   Add as AddIcon,
 } from "@material-ui/icons";
 import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import UploadButton from '../test-plan-detail-page/upload'
+
+
+function CircularProgressWithLabel(props) {
+  return (
+    <Box position="relative" display="flex" style={{marginLeft: "10px"}}>
+      <CircularProgress variant="determinate" {...props} />
+      <Box
+        top={0}
+        left={0}
+        bottom={0}
+        right={0}
+        position="absolute"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Typography variant="caption" component="div" color="textSecondary">{`${Math.round(
+          props.value,
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
+
+CircularProgressWithLabel.propTypes = {
+  /**
+   * The value of the progress indicator for the determinate variant.
+   * Value between 0 and 100.
+   */
+  value: PropTypes.number.isRequired,
+};
 
 
 
@@ -63,6 +98,8 @@ const NewTestPlanPage = (props) => {
 
     const [enableCreateBtn, setEnableCreateBtn] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [loadProgress, setLoadProgress] = useState("");
+    const [loadEnable, setLoadEnable] = useState(false);
   
 
   
@@ -74,7 +111,9 @@ const NewTestPlanPage = (props) => {
         description: '',
         is_public: false,
         is_active: false,
-        existtestplan: ''
+        existtestplan: '',
+        summaryname: '',
+        summaryurl: ''
       });
       history.goBack(); 
     };
@@ -85,7 +124,9 @@ const NewTestPlanPage = (props) => {
       buildname: '',
       is_public: false,
       is_active: false,
-      existtestplan: ''
+      existtestplan: '',
+      summaryname: '',
+      summaryurl: ''
     });
 
   useEffect(()=>{
@@ -163,6 +204,10 @@ const NewTestPlanPage = (props) => {
   const handleActive = () => {
     setTestplanInfo({ ...TestplanInfo, is_active: !TestplanInfo.is_active });
   };
+
+  const handleNewUrl = (name, url) => {
+    setTestplanInfo({ ...TestplanInfo, summaryname: name, summaryurl: url });
+  };
   
     
     return (
@@ -235,6 +280,29 @@ const NewTestPlanPage = (props) => {
           error={TestplanInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
           helperText={TestplanInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
 
+          
+
+          <div>
+          <section>
+            <aside>                
+              <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                <h4>Plan's attachment (Allowed: word, excel, txt, pdf, image)</h4>
+                <UploadButton newUrl={handleNewUrl} 
+                  setLoadEnable={setLoadEnable} setLoadProgress={setLoadProgress}
+                />         
+                {loadEnable && <CircularProgressWithLabel value={loadProgress} />}
+              </div>
+              <ul style={{maxHeight: 100, overflow: 'auto'}}>
+                <li style={(TestplanInfo.summaryurl && TestplanInfo.summaryurl !== "") ? {}:{visibility: 'hidden'}}>
+                  <Link href={TestplanInfo.summaryurl} target="_blank" rel="noopener">
+                  {TestplanInfo.summaryname}
+                  </Link>
+                </li>
+              </ul>
+            </aside>
+          </section>
+
+          </div>
           
           <div className = {classes.btnGroup}>
           <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon />} onClick={handleCreate}>

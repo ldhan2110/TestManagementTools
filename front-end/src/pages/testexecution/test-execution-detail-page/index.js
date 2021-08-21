@@ -378,6 +378,12 @@ const TestExecutionDetailPage = (props) => {
 
       <MultipleSelect title = {'Requirements'} select={selectRequirements} setSelect={setListRequirements} listData={listRequirements}/>
 
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          <TextField id="Environment" label="Environment" 
+            variant="outlined"
+            value={testExecInfo.environment || ''} onChange={handleChange('environment')}
+            style={{marginRight: '10px', width: '350px'}} 
+            />
           <FormControl variant="outlined" className={classes.formControl} fullWidth required >
               <InputLabel id="assignTester">Assign Tester</InputLabel>
                   <Select
@@ -392,6 +398,7 @@ const TestExecutionDetailPage = (props) => {
                         ))}
                   </Select>
           </FormControl>
+        </div>
 
           <div>
              <FormControlLabel
@@ -437,7 +444,7 @@ const TestExecutionDetailPage = (props) => {
           <div>
             <Grid container spacing={3}>
               <Grid item>
-              <p>Issues: <b>{testExecInfo.issue?.length ? testExecInfo.issue.length : 0}</b><b> issues</b></p>
+              <p>Defects: <b>{testExecInfo.issue?.length ? testExecInfo.issue.length : 0}</b><b> defects</b></p>
               </Grid>
               <Grid item>
               <ViewIssuePopup
@@ -447,7 +454,7 @@ const TestExecutionDetailPage = (props) => {
                 execid={props.match.params.testExecutionId}
                 refreshWhenDelIssue={refreshWhenDelIssue}
                 />
-                <Button variant="contained" onClick={handleOpenIssue}>View Issues</Button>
+                <Button variant="contained" onClick={handleOpenIssue}>View Defects</Button>
               </Grid>
             </Grid>
           </div>
@@ -474,10 +481,10 @@ const TestExecutionDetailPage = (props) => {
                     <ListItem key={index} dense button  selected>
                       <ListItemText id={item._id} primary={item.testcaseName} />
                       <ListItemSecondaryAction>
-                        {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
-                        {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}
-                        {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status} block={1}/>}
-                        {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status} fail={1}/>}
+                        {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} />}
+                        {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} pass={1}/>}
+                        {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} block={1}/>}
+                        {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} fail={1}/>}
                       </ListItemSecondaryAction>
                     </ListItem>
                   )}

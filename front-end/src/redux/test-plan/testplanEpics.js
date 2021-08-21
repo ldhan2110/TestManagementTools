@@ -51,7 +51,9 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
         description: payload.description,
         buildname: payload.buildname,
         isActive: payload.is_active,
-        isPublic: payload.is_public
+        isPublic: payload.is_public,
+        summaryname: payload.summaryname,
+        summaryurl: payload.summaryurl,
     } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),
@@ -93,6 +95,8 @@ export  const getAllTestplanEpic = (action$, state$) => action$.pipe(
         buildname: payload.buildname,
         isActive: payload.isActive,
         isPublic: payload.isPublic,
+        summaryname: payload.summaryname,
+        summaryurl: payload.summaryurl,
     } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),

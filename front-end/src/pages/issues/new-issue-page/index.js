@@ -59,7 +59,7 @@ const NewIssuePage = (props) => {
 
   const {isOpen, setOpen, classes} = props; 
 
-  const {project, getAllCategoryReq, issue, testexec, createIssueReq, displayMsg, resetCreateIssueRedux} = props;
+  const {project, getAllCategoryReq, issue, testexec, createIssueReq, displayMsg, resetCreateIssueRedux, tc_id} = props;
 
   const [open, setOpenPopup] = React.useState(isOpen); 
   const [checkError, setCheckError] = useState(false);
@@ -72,12 +72,17 @@ const NewIssuePage = (props) => {
     getAllCategoryReq(project);
   },[])
 
+  useEffect(()=>{
+    setIssueInfo({...issueInfo, testcase_id: tc_id});
+  },[tc_id])
+
   const [issueInfo, setIssueInfo] = useState({
     projectid: project,
     summary: "",
     description: "",
     category: "",
     testexecution_id: testexec.execTest?.testExecId,
+    testcase_id: tc_id,
     attachment: [],
   });
 
@@ -122,6 +127,7 @@ const NewIssuePage = (props) => {
       description: "",
       category: "",
       testexecution_id: testexec.execTest?.testExecId,
+      testcase_id: tc_id,
       attachment: [],
     })
     setCheckError(false);
@@ -145,7 +151,7 @@ const NewIssuePage = (props) => {
         || issueInfo.description.trim().length !== issueInfo.description.length 
         || issueInfo.summary.trim().length !== issueInfo.summary.length){
         displayMsg({
-          content: "Field(s) cannot be empty !",
+          content: "Field(s) cannot be empty or have empty spaces begining/end !",
           type: 'error'
         });
     }
@@ -169,7 +175,7 @@ const NewIssuePage = (props) => {
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography variant="h3" className={classes.title}>
-              Issue Report
+              Defect Report
             </Typography>
             <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
@@ -178,7 +184,7 @@ const NewIssuePage = (props) => {
         </AppBar>
         <DialogContent dividers={true}>
         <form className={classes.content}>
-          <TextField id="issueName" label="Issue Summary" variant="outlined"  fullWidth required 
+          <TextField id="issueName" label="Defect Summary" variant="outlined"  fullWidth required 
           inputProps={{maxLength : 250}} 
           value={issueInfo.summary || ''} onChange={handleChange('summary')} 
           error={checkError && issueInfo.summary.trim().length === 0 
@@ -227,7 +233,7 @@ const NewIssuePage = (props) => {
             Cancel
           </Button>
           <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
-            Report Issue
+            Report Defect
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
         </div>

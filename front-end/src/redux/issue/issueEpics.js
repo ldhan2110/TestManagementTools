@@ -50,7 +50,8 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
         description: payload.description,
         category: payload.category,
         testexecution_id: payload.testexecution_id,
-        attachment: payload.attachment,
+        testcase_id: payload.testcase_id,
+        attachment: payload.attachment
     } , {
         headers: {
           "X-Auth-Token": localStorage.getItem("token"),

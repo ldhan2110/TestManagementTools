@@ -344,10 +344,10 @@ const TestExecutionDetailPage = (props) => {
                     <ListItem key={index} dense button  selected onClick={()=>{if (!isExecute){history.push(location.pathname+'/test-exec/'+item._id)}}}>
                       <ListItemText id={item.id} primary={item.testcaseName} />
                       <ListItemSecondaryAction>
-                        {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
-                        {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}
-                        {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status} block={1}/>}
-                        {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status} fail={1}/>}
+                        {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} />}
+                        {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} pass={1}/>}
+                        {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} block={1}/>}
+                        {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} fail={1}/>}
                       </ListItemSecondaryAction>
                     </ListItem>
                   )}
@@ -363,7 +363,7 @@ const TestExecutionDetailPage = (props) => {
               alignItems="center"
               spacing={3}>
               <Grid item>
-                <p>Issues: <b>{testExecInfo.issue?.length ? testExecInfo.issue.length : 0}</b><b> issues</b></p>
+                <p>Defects: <b>{testExecInfo.issue?.length ? testExecInfo.issue.length : 0}</b><b> defects</b></p>
               </Grid>
               <Grid item>
                <ViewIssuePopup
@@ -372,7 +372,7 @@ const TestExecutionDetailPage = (props) => {
                 listIssueOfExec={testExecInfo.issue ? testExecInfo.issue : []}
                 execid={props.match.params.testExecutionId}
                 /> 
-                <Button variant="contained" onClick={handleOpenIssue}>View Issues</Button>
+                <Button variant="contained" onClick={handleOpenIssue}>View Defects</Button>
               </Grid>                
             </Grid>
           </div>
