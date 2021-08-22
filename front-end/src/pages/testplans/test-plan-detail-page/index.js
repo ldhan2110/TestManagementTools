@@ -314,7 +314,7 @@ const TestPlanDetailPage = (props) => {
           <section>
             <aside>
               <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                <h4>Plan's attachment (Allowed: word, excel, txt, pdf, image)</h4>
+                <h4>Plan's attachment (Allowed: word, pdf, excel, txt, image)</h4>
                 <UploadButton newUrl={handleNewUrl} 
                   setLoadEnable={setLoadEnable} setLoadProgress={setLoadProgress}
                 />         

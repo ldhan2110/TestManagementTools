@@ -253,7 +253,7 @@ const MemberListPage = (props) => {
           <EnhancedTable
           rows={[]}
           headerList = {MEMBERS_HEADERS}
-          conditions={MEMBER_SEARCH}
+          //conditions={MEMBER_SEARCH}
           type='member'
           load={user.success}
         />}

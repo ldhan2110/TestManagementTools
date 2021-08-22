@@ -43,6 +43,7 @@ const TestExecutionOverviewDetailPage = async(()=> import('../pages/testexecutio
 const BuildList = async(()=>import('../pages/builds/builds-list-page/index'));
 const NewBuildPage = async(()=>import('../pages/builds/new-build-page/index'));
 const DetailBuildPage = async(()=>import('../pages/builds/build-detail-page/index'));
+const BuildReportPage = async(()=>import('../pages/builds/build-report-page/index'));
 
 //Setting components
 const MemberListPage = async(()=>import('../pages/settings/members/index'));
@@ -250,7 +251,7 @@ const requirementsDetailRoute = {
 
 //TEST EXECUTION
 const testExecutionListRoute = {
-  id: "Test Execution",
+  id: "Test Executions",
   path: "/projects/:projectName/test-execution",
   icon: <Radio />,
   name: "Test Execution",
@@ -331,9 +332,9 @@ const testCaseReExecResultRoute = {
 
 //BUILD-RELEASE
 const buildListRoute = {
-  id: "Build/Release",
+  id: "Builds/Releases",
   path: "/projects/:projectName/builds",
-  name: "Build/Release",
+  name: "Builds/Releases",
   icon: <Layers />,
   restrict: true,
   exact: true,
@@ -357,6 +358,16 @@ const buildDetailRoute = {
   exact: true,
   component: DetailBuildPage,
 }
+
+const buildReportRoute = {
+  id: "Builds/Releases Report",
+  path: "/projects/:projectName/builds/:buildName/report",
+  name: "Builds/Releases Report",
+  restrict: true,
+  exact: true,
+  component: BuildReportPage,
+}
+
 
 const milestoneRoute = {
   id: "Milestones",
@@ -434,6 +445,7 @@ export const primaryLayoutRoutes = [
   newBuildRoute,
   requirementsRoute,
   buildDetailRoute,
+  buildReportRoute,
   projectSettingRoutes,
   milestoneRoute,
   testCaseRoute,

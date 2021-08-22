@@ -92,6 +92,9 @@ const UserMenu = (props) => {
         </Tooltip>
         <Menu
           id="menu-appbar"
+          getContentAnchorEl={null}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          transformOrigin={{ vertical: "top", horizontal: "center" }}
           anchorEl={anchorMenu}
           open={Boolean(anchorMenu)}
           onClose={closeMenu}

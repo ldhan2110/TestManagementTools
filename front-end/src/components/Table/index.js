@@ -33,6 +33,7 @@ import { Clipboard } from "react-feather";
 import CustomEmptyOverlayGrid from './NoDataIcon'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 
 
 const Paper = styled(MuiPaper)(spacing);
@@ -56,7 +57,7 @@ const Chip = styled(MuiChip)`
 const EnhancedTable = (props) => {
   const history = useHistory();
 
-  const {rows, headerList, viewAction, conditions, setConditions, searchMethod, handleDefaultDeleteAction, type, load} = props;
+  const {rows, headerList, viewAction, viewRPAction, conditions, setConditions, searchMethod, handleDefaultDeleteAction, type, load} = props;
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('customer');
   const [selected, setSelected] = useState([]);
@@ -113,6 +114,22 @@ const EnhancedTable = (props) => {
 
   const handleDefaultViewAction = (event,row) => {
     if (viewAction) viewAction(row);
+    else {
+      if(row._id){
+        history.push({
+          pathname: window.location.pathname+"/"+row._id,
+          state: row
+        });
+      } else if(row.id) {
+         history.push({
+          pathname: window.location.pathname+"/"+row.id,
+          state: row
+         });
+      }
+    }
+  };
+  const handleDefaultViewRPAction = (event,row) => {
+    if (viewRPAction) viewRPAction(row);
     else {
       if(row._id){
         history.push({
@@ -245,6 +262,12 @@ const EnhancedTable = (props) => {
                         {type === 'issue' && <Tooltip title="View Details">
                            <IconButton aria-label="details" onClick={(event)=>handleDefaultViewAction(event, row)}>
                           <RemoveRedEyeIcon style={{color: blue[400]}}/>
+                        </IconButton> 
+                        </Tooltip>}
+                        {type === 'build' && 
+                        <Tooltip title="View Report">
+                           <IconButton aria-label="details" onClick={(event)=>handleDefaultViewRPAction(event, row)}>
+                          <AssessmentIcon style={{color: blue[400]}}/>
                         </IconButton> 
                         </Tooltip>}
                         

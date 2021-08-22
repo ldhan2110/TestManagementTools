@@ -222,7 +222,7 @@ const TestPlanListPage = (props) => {
           <EnhancedTable
             rows={[]}
             headerList = {TEST_PLAN_HEADERS}
-            conditions={TEST_PLANS_SEARCH}
+            //conditions={TEST_PLANS_SEARCH}
             setConditions={handleChangeConditions}
             type='testplan'
             load={testplan.success}

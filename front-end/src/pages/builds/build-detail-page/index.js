@@ -15,7 +15,7 @@ import UpdateIcon from '@material-ui/icons/Update';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { red } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import AssessmentIcon from '@material-ui/icons/Assessment';
 
 import {
   Grid,
@@ -234,12 +234,17 @@ const BuildDetailPage = (props) => {
     //setOpen(false);
   };
 
+  const handleViewReport = () => {
+    history.push(window.location.pathname+"/report")
+  };
+
     return (
     <div>
         <Helmet title="Build Details" />
 
       <Grid
         justify="space-between"
+        direction="row"
         container 
       >
         <Grid item>
@@ -249,12 +254,24 @@ const BuildDetailPage = (props) => {
 
         </Grid>
         <Grid item>
-        <div>
-          {(role === 'Project Manager' || role === 'Test Lead') && <Button variant="contained" disabled={enableDeleteBtn ? false : true } startIcon={<DeleteIcon />} size="large" style={enableDeleteBtn ? {color: red[500] } : {}} onClick={handleOpen}>
-            Delete Build
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          <Button variant="contained" disabled={false} color="primary"
+            startIcon={<AssessmentIcon />} size="large"
+            onClick={handleViewReport}>
+              View Report
+            </Button>
+        
+        <div style={{marginLeft: '10px'}}>
+          {(role === 'Project Manager' || role === 'Test Lead') &&
+          <Button variant="contained" disabled={enableDeleteBtn ? false : true }
+            startIcon={<DeleteIcon />} size="large"
+            style={enableDeleteBtn ? {color: red[500] } : {}}
+            onClick={handleOpen}>
+              Delete Build
             {loadingg && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>}
           
+          </div>
           </div>
           <Grid item>
                 <Dialog open={open} >

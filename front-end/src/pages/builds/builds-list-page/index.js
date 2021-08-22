@@ -196,6 +196,10 @@ const BuildListPage = (props) => {
       history.push(window.location.pathname+"/buildDetail");
   }
 
+  const handleViewRP = (row) => {
+    history.push(window.location.pathname+"/"+row._id+"/report");
+  };
+
 
   const handleChangeConditions = (props, data) => {
     setConditions({...searchConditions, [props]: data });
@@ -245,7 +249,7 @@ const BuildListPage = (props) => {
   return(
     <div>
 
-      <Helmet title="Build/Release Management" />
+      <Helmet title="Builds/Releases Management" />
 
       <Grid
         justify="space-between"
@@ -253,7 +257,7 @@ const BuildListPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Build/Release List
+            Builds/Releases List
           </Typography>
           {/* <Breadcrumbs aria-label="Breadcrumb" mt={2}>
             <Link component={NavLink} exact to="/">
@@ -308,13 +312,14 @@ const BuildListPage = (props) => {
             setConditions={handleChangeConditions}
             searchMethod={searchBuild}
             handleDefaultDeleteAction={deleteBuild}
+            viewRPAction={handleViewRP}
             type='build'
             load={build.success}
           />:
           <EnhancedTable
             rows={[]}
             headerList = {BUILDS_HEADERS}
-            conditions={BUILD_SEARCH_CONDITIONS}
+            //conditions={BUILD_SEARCH_CONDITIONS}
             type='build'
             load={build.success}
           />

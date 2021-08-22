@@ -84,6 +84,50 @@ const PieChart = (props) => {
 
   var d = new Date();
 
+  const tableTitle = () => {
+    switch(type) {
+      case 'dashboard':
+        return "Test Execution Overview";
+
+      case 'testexec':
+        return "Test Execution Overview";
+
+      case 'testexecbuildrp':
+        return "Test Execution Overview";
+
+      case 'testcase':
+        return "Test Case Overview";
+        
+      default:
+        return "Test Execution Overview";
+    }
+  };
+
+  const textLabel = () => {
+    switch(type) {
+      case 'dashboard':
+        return (
+          <Typography variant="caption">new test executions</Typography>
+        );
+      case 'testexec':
+        return (
+          <Typography variant="caption">test cases</Typography>
+        );
+      case 'testexecbuildrp':
+        return (
+          <Typography variant="caption">test executions</Typography>
+        );
+      case 'testcase':
+        return (
+          <Typography variant="caption">test cases</Typography>
+        );
+      default:
+        return (
+          <Typography variant="caption">new test executions</Typography>
+        );
+    }
+  };
+
   return (
     <Card mb={3}>
       <CardHeader
@@ -96,16 +140,14 @@ const PieChart = (props) => {
             <MoreVertical />
           </IconButton>*/
         }
-        title="Test Execution Overview"
+        title={tableTitle()}
       />
 
       <CardContent>
         <ChartWrapper>
           <DoughnutInner variant="h4">
             <Typography variant="h4">{overviewData}</Typography>
-            {type === 'dashboard' ? 
-            <Typography variant="caption">new test executions</Typography>:
-            <Typography variant="caption">test cases</Typography>}
+            {textLabel()}
           </DoughnutInner>
           <Doughnut data={dataset} options={options} />
         </ChartWrapper>

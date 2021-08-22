@@ -331,7 +331,7 @@ const TestExecutionDetailPage = (props) => {
         <Grid item xs={12}>
         <form className={classes.content}>
 
-          <DoughnutChart dataset={dataExecOverview} overviewData={totalExec}/>
+          <DoughnutChart dataset={dataExecOverview} type='testexec' overviewData={totalExec}/>
 
          
 

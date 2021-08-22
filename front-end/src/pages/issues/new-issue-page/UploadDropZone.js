@@ -228,14 +228,15 @@ function Previews(props) {
         <p>Drag 'n' drop some files here, or click to select files</p>
         <em>(Only images and text *.txt will be accepted)</em>
       </div>
-      <h4>Images</h4>
+      {files?.length > 0 && 
+      <div><h4>Images</h4>
       <aside style={thumbsContainer}>
         {thumbs}        
-      </aside>
-      <aside>
+      </aside></div>}
+      {files?.length > 0 && <aside>
         <h4>Files</h4>
         <ul style={{maxHeight: 100, overflow: 'auto'}}>{filesPrev}</ul>
-      </aside>
+      </aside>}
     </section>
   );
 };

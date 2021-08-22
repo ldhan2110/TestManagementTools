@@ -8,6 +8,7 @@ var initialState = {
   currentSelectedIssue: "",
   insIssue: {
     sucess: null,
+    sucessMsg: null,
     errMsg: null
   },
   insIssueDelete: {
@@ -114,6 +115,7 @@ const reducer = (state = initialState, actions) => {
         ...state,
         insIssue: {
           sucess: true,
+          sucessMsg: payload,
           errMsg: null
         }
       }
@@ -124,6 +126,7 @@ const reducer = (state = initialState, actions) => {
         ...state,
         insIssue:{
           sucess: false,
+          sucessMsg: null,
           errMsg: payload
         }
       }    

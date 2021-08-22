@@ -16,7 +16,13 @@ var initialState = {
   },
   listBuilds: [],
   listBuildsByTestplan: [],
-  listBuildActive: []
+  listBuildActive: [],
+
+  insBuildReport: {
+    sucess: null,
+    errMsg: null
+  },
+  buildReport: [],
 }
 
 
@@ -45,6 +51,31 @@ const reducer = (state = initialState, actions) => {
           listBuilds: payload,
           success: true
       }
+
+      case types.GET_BUILD_REPORT_REQ:
+        return {
+          ...state, insBuildReport: initialState.insBuildReport, buildReport: []
+        }
+  
+      case types.GET_BUILD_REPORT_FAILED:
+        return {
+          ...state,
+          insBuildReport: {
+            sucess: false,
+            errMsg: payload
+          }
+        }
+      
+      case types.GET_BUILD_REPORT_SUCCESS:
+          return {
+            ...state,
+            insBuildReport: {
+              sucess: true,
+              errMsg: null
+            },
+            buildReport: payload
+        }
+
     
     case types.ADD_NEW_BUILD_REQ:    
       return {

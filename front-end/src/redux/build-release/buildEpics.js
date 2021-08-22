@@ -43,6 +43,41 @@ import {API_ADDR} from '../constants';
       })})
     )))
 
+    export  const getBuildReportEpic = (action$, state$) => action$.pipe(
+      ofType(actions.GET_BUILD_REPORT_REQ),
+      mergeMap(({ payload  }) =>  from(axios.get(API_ADDR+'/api/build/'+payload.projectid+'/'+payload.buildid+'/getdatareportofbuild',{
+          headers: {
+            "X-Auth-Token": localStorage.getItem("token"),
+            "content-type": "application/json"
+          }
+        })).pipe(
+        map(response => {
+          const {data} = response;
+          if (data.success) {
+            return ({
+              type: actions.GET_BUILD_REPORT_SUCCESS,
+              payload: data.result
+            })
+          } else {
+            return ({
+              type: actions.GET_BUILD_REPORT_FAILED,
+              payload: data.errMsg
+            })
+          }
+        
+        }),
+        catchError (error => {
+          const {status} = error.response.data;
+          if (status ===  401) {
+            localStorage.clear();
+            window.location.replace('/login');
+          } else
+          return of({
+          type: actions.GET_BUILD_REPORT_FAILED,
+          payload: error.response.data.errMsg
+        })})
+      )))
+
   export  const addNewBuildEpic = (action$, state$) => action$.pipe(
     ofType(actions.ADD_NEW_BUILD_REQ),
     mergeMap(({ payload }) =>  from(axios.post(API_ADDR+'/api/build/'+payload.projectid,{

@@ -268,7 +268,7 @@ const MemberListPage = (props) => {
           <EnhancedTable
             rows={[]}
             headerList = {MANTIS_HEADER}
-            conditions={MANTIS_SEARCH}
+            //conditions={MANTIS_SEARCH}
             type='membermantis'
             load={user.successMantis}
           />}

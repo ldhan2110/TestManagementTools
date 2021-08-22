@@ -219,8 +219,8 @@ const IssueListPage = (props) => {
           <EnhancedTable
             rows={[]}
             headerList = {ISSUE_HEADERS}
-            conditions={ISSUE_SEARCH}
-            setConditions={handleChangeConditions}
+            //conditions={ISSUE_SEARCH}
+            //setConditions={handleChangeConditions}
             type='issue'
             load={issue.success}
           />}

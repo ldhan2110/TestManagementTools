@@ -84,6 +84,7 @@ export default combineEpics(
    // BUILD-RELEASE EPICS
    buildEpics.addNewBuildEpic,
    buildEpics.getAllBuildEpic,
+   buildEpics.getBuildReportEpic,
    buildEpics.getBuildByIdEpic,
    buildEpics.updateBuildEpic,
    buildEpics.deleteBuildEpic,

@@ -342,7 +342,9 @@ const TestCaseExecDetail = (props) => {
                   <Button variant="contained" onClick={handleOpenIssue}>View Defects</Button>
                 
               
-              <NewIssuePage isOpen={openNewIssue} setOpen={setOpenNewIssue} tc_id={location.pathname.split('/')[6]}/>
+              <NewIssuePage isOpen={openNewIssue} setOpen={setOpenNewIssue} tc_id={location.pathname.split('/')[6]}
+                listStep={testCaseDetail.listStep}
+              />
                 {!viewMode &&
                   <Button variant="contained" color="primary" endIcon={<BugReportIcon />}
                   onClick={handleOpenNewIssue} style={{marginLeft: '10px'}}> Report Defect</Button>

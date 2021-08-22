@@ -302,7 +302,7 @@ const TestExecutionListPage = (props) => {
           <EnhancedTable
             rows={[]}
             headerList = {TEST_EXECUTION_HEADERS}
-            conditions={TEST_EXEC_SEARCH_CONDITIONS, TEST_EXEC_SEARCH}
+            //conditions={TEST_EXEC_SEARCH_CONDITIONS, TEST_EXEC_SEARCH}
             viewAction={navigateToEditPage}
             type='testexecution'
             load={(testexec.success)}

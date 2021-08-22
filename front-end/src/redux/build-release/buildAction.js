@@ -7,6 +7,13 @@ export function getAllBuild(value) {
   }
 }
 
+export function getBuildReport(value) {
+  return {
+    type: types.GET_BUILD_REPORT_REQ,
+    payload: value
+  }
+}
+
 export function addNewBuild(value){
   return{
     type: types.ADD_NEW_BUILD_REQ,

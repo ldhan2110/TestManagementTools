@@ -239,7 +239,7 @@ const RequirementListPage = (props) => {
           : <EnhancedTable
           rows={[]}
           headerList = {REQUIREMENTS_HEADER}
-          conditions={REQUIREMENT_SEARCH}
+          //conditions={REQUIREMENT_SEARCH}
           type='requirements'
           load={requirements.success}
         />}

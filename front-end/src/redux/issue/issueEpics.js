@@ -63,7 +63,7 @@ export  const getAllIssueEpic = (action$, state$) => action$.pipe(
         if (data.success) {
           return ({
             type: actions.CREATE_ISSUE_SUCCESS,
-            payload: true
+            payload: data?.result?.id
           })
         } else {
           return ({

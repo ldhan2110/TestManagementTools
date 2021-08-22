@@ -59,7 +59,7 @@ const NewIssuePage = (props) => {
 
   const {isOpen, setOpen, classes} = props; 
 
-  const {project, getAllCategoryReq, issue, testexec, createIssueReq, displayMsg, resetCreateIssueRedux, tc_id} = props;
+  const {project, getAllCategoryReq, issue, testexec, createIssueReq, displayMsg, resetCreateIssueRedux, tc_id, listStep} = props;
 
   const [open, setOpenPopup] = React.useState(isOpen); 
   const [checkError, setCheckError] = useState(false);
@@ -90,11 +90,32 @@ const NewIssuePage = (props) => {
     setIssueInfo({...issueInfo, attachment: arrAttches});
   }
 
+  const removeUnneedKeyStep = (list) => {
+    let result = list.map(item => ({Execution_note: item.note, 
+      Step_Define: item.stepDefine, Expected_Result: item.expectResult}))
+    return result;
+  };
+
+  const formatListStep = (list) => {
+    var str = "";
+    for(var i = 0; i < list.length; i++) {
+      var str1 = Object.keys(list[i]).map(key => `${key}: ${list[i][key]}`).join("\n");
+      var str2 = '\n\n\n';
+      var str0 = 'Step ' + (i+1) + ':' + '\n';
+      if(i === list.length - 1)
+        str = str.concat(str0,str1);
+      else str = str.concat(str0,str1, str2);
+    }
+    return str;
+  };
+
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
   const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
       setOpenPopup(isOpen);
+      if(isOpen === true)
+        setIssueInfo({...issueInfo, description: formatListStep(removeUnneedKeyStep(listStep))});
   },[isOpen, open])
 
   
@@ -109,7 +130,7 @@ const NewIssuePage = (props) => {
       setLoading(false);
     } else if (issue.insIssue?.sucess === true) {
       displayMsg({
-        content: "Create issue successfully !",
+        content: (typeof issue.insIssue.sucessMsg === 'number') ? "Report defect successfully, ID is " + issue.insIssue.sucessMsg : "Report defect successfully !",
         type: 'success'
       });
       resetCreateIssueRedux();
@@ -175,7 +196,7 @@ const NewIssuePage = (props) => {
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography variant="h3" className={classes.title}>
-              Defect Report
+              Report Defect
             </Typography>
             <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
@@ -192,7 +213,7 @@ const NewIssuePage = (props) => {
           helperText={checkError && issueInfo.summary.trim().length === 0 
             && error.summary.trim().length === 0 ? 'Issue summary is required!' : ''}/>
 
-          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={5}  
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={10}  
           value={issueInfo.description || ''} onChange={handleChange('description')}
           error={checkError && issueInfo.description.trim().length === 0 
             && error.description.trim().length === 0 ? true : false}
@@ -218,12 +239,8 @@ const NewIssuePage = (props) => {
             {error.category === "" && issueInfo.category === "" && 
             <FormHelperText style={{color: 'red'}} >Select a category!</FormHelperText>}
             </FormControl>
-
-          {/*   <MyUploader /> */}
           
           <Previews getUrl={getUrl} revoke={open}/>
-          
-          {/* <UploadAttachment /> */}
           
         </form>
         </DialogContent>
@@ -232,8 +249,11 @@ const NewIssuePage = (props) => {
           <Button variant="contained" startIcon={<CancelIcon/>} onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="contained" color="primary" disabled={enableCreateBtn ? false : true } startIcon={<AddIcon/>} onClick={handleCreate}>
-            Report Defect
+          <Button variant="contained" color="primary"
+            disabled={enableCreateBtn ? false : true }
+            startIcon={<AddIcon/>}
+            onClick={handleCreate} >
+              Report Defect
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
           </Button>
         </div>
