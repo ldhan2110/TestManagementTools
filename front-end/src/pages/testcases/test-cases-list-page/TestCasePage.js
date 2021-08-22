@@ -32,6 +32,7 @@ import {
 } from '@material-ui/core';
 import MarkedResult from '../../../components/markdown-input/MarkedResult'
 import BorderColorIcon from '@material-ui/icons/BorderColor';
+import { GET_ALL_ACTIVE_REQUIREMENTS_REQ } from "../../../redux/requirements/constants";
 
 
 
@@ -86,7 +87,8 @@ const  mapStateToProps = (state) => {
     listTestsuite: state.testcase.listTestsuite,
     project:state.project.currentSelectedProject,
     insTestcase: state.testcase.insTestcase,
-    insTestcaseDelete: state.testcase.insTestcaseDelete
+    insTestcaseDelete: state.testcase.insTestcaseDelete,
+    listRequirements: state.requirements.listActiveRequirements
    }
 }
 
@@ -98,12 +100,13 @@ const mapDispatchToProps = dispatch => {
     deleteTestcaseReq: (payload) => dispatch({type: DELETE_TESTCASE_REQ, payload}),
     getAllTestcaseReq: (payload) => dispatch({type: GET_ALL_TESTCASE_REQ, payload}),
     resetUpdateRedux: () => dispatch({type: RESET_UPDATE_TESTCASE}),
-    resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTCASE})
+    resetDeleteRedux: () => dispatch({type: RESET_DELETE_TESTCASE}),
+    getAllActiveRequirementReq: (payload) => dispatch({type: GET_ALL_ACTIVE_REQUIREMENTS_REQ}),
   }
 }
 
 const TestCaseDetail = (props) => {
-  const {node, listTestsuite, project, updateTestcaseReq, getAllTestcaseReq, displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete, resetDeleteRedux, resetUpdateRedux} = props;
+  const {node, listTestsuite, project, updateTestcaseReq, getAllTestcaseReq, displayMsg, deleteTestcaseReq, insTestcase, insTestcaseDelete, resetDeleteRedux, resetUpdateRedux, listRequirements, getAllActiveRequirementReq} = props;
   const [checkError, setCheckError] = useState(false);
   const classes = useStyles();
   const history = useHistory();
@@ -115,9 +118,9 @@ const TestCaseDetail = (props) => {
     name: node.name,
     description: node.description,
     priority: node.priority,
-    listStep: node.listStep
+    listStep: node.listStep,
   });
-
+  
   const [newtestCase, setNewTestCase] = useState({
     testcaseid: node._id,
     testcasename: node.name,
@@ -127,9 +130,11 @@ const TestCaseDetail = (props) => {
     listStep: node.listStep,
     precondition: node.precondition,
     postcondition: node.postcondition,
+    requirement: node.requirement,
     testexecution: node.testexecution,
     projectid: project
   });
+
 
   const [listSteps, setListSteps] = useState(node.listStep);
   const [open, setOpen] = React.useState(false);
@@ -147,6 +152,10 @@ const TestCaseDetail = (props) => {
       });
     }
   },[node]);
+
+  useEffect(()=>{
+    getAllActiveRequirementReq();
+  },[])
 
   useEffect(()=>{ 
     if (insTestcase.sucess === false){
@@ -349,13 +358,14 @@ const TestCaseDetail = (props) => {
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-            <FormControl variant="outlined" fullWidth style={{marginTop: '2em'}}>
+            <FormControl variant="outlined" fullWidth>
         <InputLabel id="demo-mutiple-chip-label">Assigned Test Executions</InputLabel>
         <Select
           labelId="demo-mutiple-chip-label"
           id="demo-mutiple-chip"
           multiple
           variant="outlined"
+          label="Assigned Test Execution"
           value={newtestCase.testexecution}
           disabled
           renderValue={(selected) => (
@@ -372,6 +382,22 @@ const TestCaseDetail = (props) => {
         >
         </Select>
       </FormControl></Grid> 
+
+      <Grid item xs={12}>
+      <FormControl variant="outlined"  fullWidth>
+                              <InputLabel id="requirement">Requirement</InputLabel>
+                                <Select
+                                  labelId="requirement"
+                                  id="requirement"
+                                  defaultValue={newtestCase.requirement.projectrequirementname}
+                                  label="Requirement"
+                                  disabled
+                                >
+                               {listRequirements.map((item) => (
+                                    <MenuItem value={item.projectrequirementname}>{item.projectrequirementname}</MenuItem>
+                               ))}
+                              </Select>
+          </FormControl></Grid> 
             <Typography variant="subtitle1" style={{fontWeight: 600, marginTop: '2em', marginBottom: '1.5em'}} gutterBottom display="inline">
                 Preconditions
             </Typography>
