@@ -6,12 +6,21 @@ import {
   Link,  
 } from '@material-ui/core'
 import { DataGrid } from '@material-ui/data-grid';
+import { makeStyles } from '@material-ui/core/styles';
 
 
-
+const useStyles = makeStyles({
+  root: {
+      '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+          outline: 'none',
+      },
+  }
+});
 
 
 const DataGridBuildRP = (props) => {
+
+  const classes = useStyles();
 
   const { listReport, columns, total, extraText } = props;
 
@@ -33,6 +42,7 @@ const DataGridBuildRP = (props) => {
               disableColumnSelector
               disableColumnMenu={true}
               //loading={(load === true) ? true : false}
+              className={classes.root}
             />
         <div style={{marginTop: -36, marginLeft: 10}}>Total: {total} {extraText}</div>
         </div>

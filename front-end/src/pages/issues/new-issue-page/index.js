@@ -91,8 +91,8 @@ const NewIssuePage = (props) => {
   }
 
   const removeUnneedKeyStep = (list) => {
-    let result = list.map(item => ({Execution_note: item.note, 
-      Step_Define: item.stepDefine, Expected_Result: item.expectResult}))
+    let result = list.map(item => ({ 
+      Step_Define: item.stepDefine, Expected_Result: item.expectResult, Actual_Result: item.note}))
     return result;
   };
 
@@ -103,8 +103,8 @@ const NewIssuePage = (props) => {
       var str2 = '\n\n\n';
       var str0 = 'Step ' + (i+1) + ':' + '\n';
       if(i === list.length - 1)
-        str = str.concat(str0,str1);
-      else str = str.concat(str0,str1, str2);
+        str = str.concat(str0, str1);
+      else str = str.concat(str0, str1, str2);
     }
     return str;
   };

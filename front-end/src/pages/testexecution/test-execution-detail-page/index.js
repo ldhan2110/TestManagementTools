@@ -136,7 +136,7 @@ const TestExecutionDetailPage = (props) => {
     const [del, setDel] = useState(false);
     const refreshWhenDelIssue = () => {
       setDel(true);
-      getAllTestExecReq();
+      //getAllTestExecReq();
     }
 
     useEffect(()=>{
@@ -481,10 +481,10 @@ const TestExecutionDetailPage = (props) => {
                     <ListItem key={index} dense button  selected>
                       <ListItemText id={item._id} primary={item.testcaseName} />
                       <ListItemSecondaryAction>
-                        {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} />}
-                        {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} pass={1}/>}
-                        {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} block={1}/>}
-                        {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + item.issue.length + " defects)"} fail={1}/>}
+                        {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + (item?.issue?.length?item.issue.length:0) + " defects)"} />}
+                        {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + (item?.issue?.length?item.issue.length:0) + " defects)"} pass={1}/>}
+                        {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + (item?.issue?.length?item.issue.length:0) + " defects)"} block={1}/>}
+                        {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status + " (" + (item?.issue?.length?item.issue.length:0) + " defects)"} fail={1}/>}
                       </ListItemSecondaryAction>
                     </ListItem>
                   )}

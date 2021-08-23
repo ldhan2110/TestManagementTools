@@ -290,13 +290,13 @@ const TestCaseExecDetail = (props) => {
                         <Grid item xs>
                         {viewMode ? 
                         <div style={{marginTop: '12px'}}>
-                          <Typography variant="subtitle2" gutterBottom display="inline" >
-                            Execution notes
+                          <Typography variant="subtitle2" display="inline" >
+                            Actual Result
                           </Typography>
                           <MarkedResult id="expectResult" height={180} markdown={item.note} />
                         </div>                        
                         :
-                          <MarkedInput idOfInput={"definition-execNote"+item._id} setTxt={item.note} title="Execution notes"
+                          <MarkedInput idOfInput={"definition-execNote"+item._id} setTxt={item.note} title="Actual Result"
                             handleChange={(text)=>{filterUpdateStep(item._id, "note", text)}}
                           />}
                           {/* <TextField id="execNote"  variant="outlined" label='Execution Note' required  value= {item.note} 
