@@ -340,7 +340,7 @@ const EditTestCasePage = (props) => {
           defaultValue={newtestCase.requirement._id}
           onChange={handleChange('requirement')}
           label="Requirement"
-          disabled
+      
         >
           {listRequirements.map((item, index) => <MenuItem key={item._id} value={item._id}>{item.projectrequirementname}</MenuItem>)}    
         </Select>
