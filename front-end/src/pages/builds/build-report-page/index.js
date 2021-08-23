@@ -338,8 +338,7 @@ const  BuildReportPage = (props) => {
           <DataGridBuildRP
             listReport={listTester}
             columns={columnsTester}
-            total={build.buildReport.total_Tester}
-            extraText=" testers"
+            footerText={`Total: ${build.buildReport.total_Tester} testers`}
           /></Paper>}
         </Grid>
 
@@ -355,8 +354,7 @@ const  BuildReportPage = (props) => {
           <DataGridBuildRP
             listReport={listRequirement}
             columns={columnsRequirement}
-            total={build.buildReport.total_requirement}
-            extraText={` requirements (${build.buildReport.total_requirement_pass} completed)`}
+            footerText={`Total: ${build.buildReport.total_requirement} requirements (${build.buildReport.total_requirement_pass} completed)`}
           /></Paper>}
         </Grid>
 
@@ -373,7 +371,7 @@ const  BuildReportPage = (props) => {
             listReport={listIssue}
             columns={columnsIssue}
             total={build.buildReport.total_Issue}
-            extraText=" defects"
+            footerText={`Total: ${build.buildReport.total_Issue} defects`}
           /></Paper>}
         </Grid>
         
