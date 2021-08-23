@@ -271,11 +271,11 @@ const EditTestCasePage = (props) => {
   }
 
   const handleChange = (prop) => (event) => {
-    setNewTestCase({ ...newtestCase, [prop]: event.target.value });
-
     if (prop === 'requirement' ){
-       
-      setNewTestCase({...newtestCase, requirement: {_id: event.target.value, projectrequirementname: listRequirements.find(item => item._id === event.target.value).projectrequirementname}});
+      if (event.target.value !== '')
+      setNewTestCase({...newtestCase, requirement: {_id: event.target.value, projectrequirementname: listRequirements.find(item => item._id === event.target.value).projectrequirementname} });
+      else
+      setNewTestCase({...newtestCase, requirement: {_id: event.target.value, projectrequirementname: ''} });
     }
 
     if(checkError === true)
@@ -335,15 +335,16 @@ const EditTestCasePage = (props) => {
       <FormControl variant="outlined" fullWidth style={{marginTop: '-1em'}}>   
           <InputLabel id="demo-simple-select-outlined-label">Requirement</InputLabel>
           <Select
-          labelId="requirement"
-          id="requirement"
-          value={newtestCase.requirement._id}
-          onChange={handleChange('requirement')}
-          label="Requirement"
-      
-        >
+           labelId="requirement"
+           id="requirement"
+           value={newtestCase.requirement._id}
+           onChange={handleChange('requirement')} 
+           label="Requirement">
+        
           <MenuItem key={''} value={''}>&nbsp;</MenuItem>
-          {listRequirements.map((item, index) => <MenuItem key={index} value={item._id}>{item.projectrequirementname}</MenuItem>)}    
+                        {listRequirements?.map((item,index) => (
+                            <MenuItem key={index} value={item._id}>{item.projectrequirementname}</MenuItem>
+                        ))}
         </Select>
       </FormControl></Grid> 
 
