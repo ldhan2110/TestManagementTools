@@ -271,12 +271,12 @@ const EditTestCasePage = (props) => {
   }
 
   const handleChange = (prop) => (event) => {
-   /* setNewTestCase({ ...newtestCase, [prop]: event.target.value });
+    setNewTestCase({ ...newtestCase, [prop]: event.target.value });
 
     if (prop === 'requirement' ){
        
       setNewTestCase({...newtestCase, requirement: {_id: event.target.value, projectrequirementname: listRequirements.find(item => item._id === event.target.value).projectrequirementname}});
-    }*/
+    }
 
     if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
@@ -337,12 +337,13 @@ const EditTestCasePage = (props) => {
           <Select
           labelId="requirement"
           id="requirement"
-          defaultValue={newtestCase.requirement._id}
+          value={newtestCase.requirement._id}
           onChange={handleChange('requirement')}
           label="Requirement"
       
         >
-          {listRequirements.map((item, index) => <MenuItem key={item._id} value={item._id}>{item.projectrequirementname}</MenuItem>)}    
+          <MenuItem key={''} value={''}>&nbsp;</MenuItem>
+          {listRequirements.map((item, index) => <MenuItem key={index} value={item._id}>{item.projectrequirementname}</MenuItem>)}    
         </Select>
       </FormControl></Grid> 
 
