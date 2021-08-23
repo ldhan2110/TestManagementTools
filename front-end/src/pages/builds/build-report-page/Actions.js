@@ -41,8 +41,8 @@ class Actions extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Tooltip title="Reload dashboard">
-        <SmallButton aria-label="Reload dashboard" size="small" mr={4} onClick={this.handleReset}>
+        <Tooltip title="Reload page">
+        <SmallButton aria-label="Reload page" size="small" mr={4} onClick={this.handleReset}>
           <LoopIcon />
         </SmallButton>
         </Tooltip>

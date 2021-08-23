@@ -332,15 +332,23 @@ const EditTestCasePage = (props) => {
             </Grid>
 
             <Grid item xs={12}>
-              <TextField id="description" label="Description" variant="outlined" fullWidth required multiline rows={3} 
-                onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
-                error={!newtestCase.description && !error.description ? true : false}
-                helperText={!newtestCase.description &&
-                 !error.description ? 'Description is required' : ' '}
-              />
-            </Grid>
+      <FormControl variant="outlined" fullWidth style={{marginTop: '-1em'}}>   
+          <InputLabel id="demo-simple-select-outlined-label">Requirement</InputLabel>
+          <Select
+          labelId="requirement"
+          id="requirement"
+          defaultValue={newtestCase.requirement._id}
+          onChange={handleChange('requirement')}
+          label="Requirement"
+          disabled
+        >
+          {listRequirements.map((item, index) => <MenuItem key={item._id} value={item._id}>{item.projectrequirementname}</MenuItem>)}    
+        </Select>
+      </FormControl></Grid> 
+
+            
             <Grid item xs={12}>
-              <Grid container spacing={3}>
+              <Grid container spacing={3} style={{marginTop: '0.5em'}}>
                 <Grid item xs={6}>
                   <FormControl variant="outlined"  fullWidth>
                       <InputLabel id="testSuite">Test Suite</InputLabel> 
@@ -383,7 +391,7 @@ const EditTestCasePage = (props) => {
                                rowsMax={3} value={newtestCase.postcondition} onChange={handleChange('postcondition')}/></Grid> */}
 
             <Grid item xs={12}>
-            <FormControl variant="outlined" fullWidth>
+            <FormControl variant="outlined" fullWidth  style={{marginTop: '0.5em'}}>
         <InputLabel id="demo-mutiple-chip-label">Assigned Test Executions</InputLabel>
         <Select
           labelId="demo-mutiple-chip-label"
@@ -408,19 +416,15 @@ const EditTestCasePage = (props) => {
         </Select>
       </FormControl></Grid> 
 
-      {/*<Grid item xs={12}>
-      <FormControl variant="outlined" fullWidth>   
-          <InputLabel id="demo-simple-select-outlined-label">Requirement</InputLabel>
-          <Select
-          labelId="requirement"
-          id="requirement"
-          defaultValue={newtestCase.requirement._id}
-          onChange={handleChange('requirement')}
-          label="Requirement"
-        >
-          {listRequirements.map((item, index) => <MenuItem key={item._id} value={item._id}>{item.projectrequirementname}</MenuItem>)}    
-        </Select>
-      </FormControl></Grid> */}
+         <Grid item xs={12}>
+              <TextField id="description" label="Description" variant="outlined" fullWidth required multiline rows={3} 
+                onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
+                error={!newtestCase.description && !error.description ? true : false}
+                helperText={!newtestCase.description &&
+                 !error.description ? 'Description is required' : ' '}
+                 style={{marginTop: '0.5em'}}
+              />
+            </Grid>
 
             <Typography variant="subtitle1" style={{fontWeight: 700, marginTop:10}} gutterBottom display="inline">
                 Preconditions

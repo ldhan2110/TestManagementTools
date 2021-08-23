@@ -207,7 +207,7 @@ const  BuildReportPage = (props) => {
             Build Report
           </Typography>
           <Typography variant="body2" ml={2} display="inline">
-            {`${getCurrentDate()}`}
+           {/* {`${getCurrentDate()}`}*/}
           </Typography>
         </Grid>
 
