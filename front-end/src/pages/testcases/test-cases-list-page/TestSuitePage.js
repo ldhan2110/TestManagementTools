@@ -341,12 +341,12 @@ const TestSuiteDetail = (props) => {
               helperText={testSuite.name.trim().length === 0 && error.name.trim().length === 0 ? 'testsuite name is required' : ' '} /></Grid>
           
 
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" multiline rows={3} 
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" style={{marginTop: '-1em'}} multiline rows={3} 
               onChange={handleChange('description')} fullWidth required value={testSuite.description || ''}
               error={testSuite.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
               helperText={testSuite.description.trim().length === 0 && error.description.trim().length === 0 ? 'description is required' : ' '}/></Grid>
             <Grid item xs={12}>
-                  <FormControl variant="outlined"  fullWidth>
+                  <FormControl variant="outlined"  fullWidth style={{marginTop: '-1em'}}>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
                                 <Select
                                   labelId="testSuite"

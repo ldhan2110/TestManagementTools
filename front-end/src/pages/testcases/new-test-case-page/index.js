@@ -207,13 +207,25 @@ const TestCaseDetail = (props) => {
             error={testcase.testcaseName.trim().length === 0 && error.testcaseName.trim().length === 0 ? true : false}
             helperText={testcase.testcaseName.trim().length === 0 && error.testcaseName.trim().length === 0 ? 'Test Case Name is required' : ' '}/></Grid>
 
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" 
-            value={testcase.description || ''} onChange={handleChange('description')} fullWidth required multiline rows={3} 
-            error={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-            helperText={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/></Grid>
+            <Grid item xs={12}>
+             <FormControl variant="outlined" fullWidth style={{marginTop: '-1em'}}>
+                              <InputLabel id="requirement">Requirement</InputLabel>
+                                <Select
+                                labelId="requirement"
+                                id="requirement"
+                                value={testcase.requirement || ''}
+                                onChange={handleChange('requirement')}
+                                label="Requirement"
+                               
+                                >     
+                                <MenuItem key={''} value={''}>&nbsp;</MenuItem>
+                                {listRequirements.map((item, index) => <MenuItem key={index} value={item._id}>{item.projectrequirementname}</MenuItem>)}         
+                              </Select>               
+              </FormControl> 
+            </Grid>
 
             <Grid item xs={6}>
-             <FormControl variant="outlined"  fullWidth required>
+             <FormControl variant="outlined"  fullWidth required  style={{marginTop: '0.5em'}}>
                               <InputLabel id="testSuite">Test Suite</InputLabel>
                                 <Select
                                   labelId="testSuite"
@@ -233,7 +245,7 @@ const TestCaseDetail = (props) => {
             <Grid item xs={6}>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <FormControl variant="outlined"  fullWidth>
+                    <FormControl variant="outlined"  fullWidth style={{marginTop: '0.5em'}}>
                               <InputLabel id="Importance">Importance</InputLabel>
                                 <Select
                                   labelId="Importance"
@@ -267,22 +279,10 @@ const TestCaseDetail = (props) => {
               </Grid>      
             </Grid>
 
-            <Grid item xs={6}>
-             <FormControl variant="outlined"  fullWidth required>
-                              <InputLabel id="requirement">Requirement</InputLabel>
-                                <Select
-                                labelId="requirement"
-                                id="requirement"
-                                value={testcase.requirement || ''}
-                                onChange={handleChange('requirement')}
-                                label="Requirement"
-                               /* select={selectRequirements} setSelect={setListRequirements} listData={listRequirements}/>*/
-                                >     
-                                <MenuItem key={''} value={''}>&nbsp;</MenuItem>
-                                {listRequirements.map((item, index) => <MenuItem key={index} value={item._id}>{item.projectrequirementname}</MenuItem>)}         
-                              </Select>               
-              </FormControl> 
-            </Grid>
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" style={{marginTop: '0.5em'}}
+            value={testcase.description || ''} onChange={handleChange('description')} fullWidth required multiline rows={3} 
+            error={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
+            helperText={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/></Grid>
 
 
             <Grid item xs={12}>

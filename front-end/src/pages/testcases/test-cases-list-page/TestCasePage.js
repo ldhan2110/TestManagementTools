@@ -307,24 +307,28 @@ const TestCaseDetail = (props) => {
         
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  fullWidth required inputProps={{maxLength : 100}}
+            <Grid item xs={12}><TextField id="testSuiteName" label="Test Case Name" variant="outlined"  fullWidth inputProps={{maxLength : 100}}
             defaultValue={newtestCase.testcasename || ''}
             InputProps={{
               readOnly: true,
             }}
-            style={{marginTop: '1.5em'}}
+            style={{marginTop: '1em'}}
             /></Grid>
 
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth required multiline rows={3} 
-            defaultValue={newtestCase.description || ''}            
+        <Grid item xs={12}>
+          <TextField id="requirement" label="Requirement" variant="outlined"  fullWidth
+            defaultValue={newtestCase.requirement.projectrequirementname}
             InputProps={{
               readOnly: true,
             }}
+            style={{marginTop: '0.5em'}}
             /></Grid>
+
+            
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
-                  <FormControl variant="outlined"  fullWidth>
+                  <FormControl variant="outlined"  fullWidth style={{marginTop: '0.5em'}}>
                       <InputLabel id="testSuite">Test Suite</InputLabel> 
                                 <Select
                                   labelId="testSuite"
@@ -340,7 +344,7 @@ const TestCaseDetail = (props) => {
                     </FormControl>
                   </Grid>
                 <Grid item xs={6}>
-                    <FormControl variant="outlined" fullWidth >
+                    <FormControl variant="outlined" fullWidth style={{marginTop: '0.5em'}}>
                               <InputLabel id="Importance">Importance</InputLabel>
                                 <Select
                                   labelId="Importance"
@@ -358,7 +362,7 @@ const TestCaseDetail = (props) => {
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-            <FormControl variant="outlined" fullWidth>
+            <FormControl variant="outlined" fullWidth style={{marginTop: '0.5em'}}>
         <InputLabel id="demo-mutiple-chip-label">Assigned Test Executions</InputLabel>
         <Select
           labelId="demo-mutiple-chip-label"
@@ -383,7 +387,7 @@ const TestCaseDetail = (props) => {
         </Select>
       </FormControl></Grid> 
 
-      <Grid item xs={12}>
+      {/*<Grid item xs={12}>
       <FormControl variant="outlined"  fullWidth>
                               <InputLabel id="requirement">Requirement</InputLabel>
                                 <Select
@@ -397,7 +401,16 @@ const TestCaseDetail = (props) => {
                                     <MenuItem value={item.projectrequirementname}>{item.projectrequirementname}</MenuItem>
                                ))}
                               </Select>
-          </FormControl></Grid> 
+          </FormControl></Grid> */}        
+
+            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth multiline rows={3} 
+            defaultValue={newtestCase.description || ''}            
+            InputProps={{
+              readOnly: true,
+            }}
+            style={{marginTop: '0.5em'}}
+            /></Grid>
+
             <Typography variant="subtitle1" style={{fontWeight: 600, marginTop: '2em', marginBottom: '1.5em'}} gutterBottom display="inline">
                 Preconditions
             </Typography>
