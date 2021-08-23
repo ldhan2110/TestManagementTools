@@ -230,7 +230,7 @@ const EditTestCasePage = (props) => {
         ||newtestCase.description.trim().length !== newtestCase.description.length 
         || newtestCase.testcasename.trim().length !== newtestCase.testcasename.length){
         displayMsg({
-          content: "Testcase name or Description should not contain spaces before and after !",
+          content: "Testcase name or Descriptions should not contain spaces before and after !",
           type: 'error'
         });
     }
@@ -417,11 +417,11 @@ const EditTestCasePage = (props) => {
       </FormControl></Grid> 
 
          <Grid item xs={12}>
-              <TextField id="description" label="Description" variant="outlined" fullWidth required multiline rows={3} 
+              <TextField id="description" label="Descriptions" variant="outlined" fullWidth required multiline rows={3} 
                 onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
                 error={!newtestCase.description && !error.description ? true : false}
                 helperText={!newtestCase.description &&
-                 !error.description ? 'Description is required' : ' '}
+                 !error.description ? 'Descriptions is required' : ' '}
                  style={{marginTop: '0.5em'}}
               />
             </Grid>

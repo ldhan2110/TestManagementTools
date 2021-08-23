@@ -113,7 +113,7 @@ const NewProjectPopup = (props) => {
         ||projectInfo.description.trim().length !== projectInfo.description.length 
         || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
         displayMsg({
-          content: "Project Name or Description should not contain spaces before and after !",
+          content: "Project Name or Descriptions should not contain spaces before and after !",
           type: 'error'
         });
     }
@@ -159,10 +159,10 @@ const NewProjectPopup = (props) => {
           error={checkError && projectInfo.projectname.trim().length === 0 && error.projectname.trim().length === 0 ? true : false}
           helperText={checkError && projectInfo.projectname.trim().length === 0 && error.projectname.trim().length === 0 ? 'Project Name is required' : ' '}/>
 
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={15}  
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={15}  
           value={projectInfo.description || ''} onChange={handleChange('description')}
           error={checkError && projectInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-          helperText={checkError && projectInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+          helperText={checkError && projectInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}/>
           <div>
              <FormControlLabel
               classes= {{label: classes.titleContent}}

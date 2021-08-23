@@ -206,7 +206,7 @@ const TestSuiteDetail = (props) => {
         ||testSuite.description.trim().length !== testSuite.description.length 
         || testSuite.name.trim().length !== testSuite.name.length){
         displayMsg({
-          content: "Testsuite name or Description should not contain spaces before and after !",
+          content: "Testsuite name or Descriptions should not contain spaces before and after !",
           type: 'error'
         });
     }
@@ -341,7 +341,7 @@ const TestSuiteDetail = (props) => {
               helperText={testSuite.name.trim().length === 0 && error.name.trim().length === 0 ? 'testsuite name is required' : ' '} /></Grid>
           
 
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" style={{marginTop: '-1em'}} multiline rows={3} 
+            <Grid item xs={12}><TextField id="description" label="Descriptions" variant="outlined" style={{marginTop: '-1em'}} multiline rows={3} 
               onChange={handleChange('description')} fullWidth required value={testSuite.description || ''}
               error={testSuite.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
               helperText={testSuite.description.trim().length === 0 && error.description.trim().length === 0 ? 'description is required' : ' '}/></Grid>

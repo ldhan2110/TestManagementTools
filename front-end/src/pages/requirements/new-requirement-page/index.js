@@ -128,7 +128,7 @@ const NewRequirementPage = (props) => {
         ||requirementsInfo.description.trim().length !== requirementsInfo.description.length 
         || requirementsInfo.projectrequirementname.trim().length !== requirementsInfo.projectrequirementname.length){
         displayMsg({
-          content: "Requirement Name or Description should not contain spaces before and after !",
+          content: "Requirement Name or Descriptions should not contain spaces before and after !",
           type: 'error'
         });
     }
@@ -206,10 +206,10 @@ const NewRequirementPage = (props) => {
             />
           </div>
 
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={9}  
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={9}  
           value={requirementsInfo.description || ''} onChange={handleChange('description')}
           error={requirementsInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-          helperText={requirementsInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+          helperText={requirementsInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}/>
 
           
           <div className = {classes.btnGroup}>

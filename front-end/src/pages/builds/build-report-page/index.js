@@ -3,7 +3,8 @@ import styled, { withTheme } from 'styled-components'
 import Helmet from 'react-helmet'
 import {generateColor} from '../../../utils/index';
 import {
-    Paper,
+  Paper,
+  Chip as MuiChip,
   Link,
   Grid,
   Divider as MuiDivider,
@@ -19,6 +20,22 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { makeStyles } from "@material-ui/core/styles";
 // datagrid component
 import DataGridBuildRP from './datagridbuild'
+
+import { green, orange, red } from "@material-ui/core/colors";
+
+const Chip = styled(MuiChip)`
+  ${spacing};
+
+  background: ${props => props.active && green[500]};
+  background: ${props => props.pass && green[500]};
+  background: ${props => props.fail && red[500]};
+  background: ${props => props.block && orange[500]};
+  background: ${props => props.sent && orange[700]};
+  color: ${props => (props.active || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.pass || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.fail || props.sent) && props.theme.palette.common.white};
+  color: ${props => (props.block || props.sent) && props.theme.palette.common.white};
+`
 
 
 //MAP STATES TO PROPS - REDUX
@@ -155,22 +172,64 @@ const  BuildReportPage = (props) => {
 
     // Format datagrid columns
     const columnsTester = [
-        { field: 'username', headerName: 'Tester', flex: 1.5 },        
+        { field: 'username',
+          headerName: 'Tester',
+          flex: 2.2,
+          renderCell: (params) => {
+            if(params.id === '123')
+            return(
+              <div>
+                <em>{params.value}</em>
+              </div>
+            )
+            else return(
+              <div>
+                {params.value}
+              </div>
+            )
+          }
+        },        
         {
             field: 'totalexecuted',
-            headerName: 'Execution executed',
-            sortable: false,
+            headerName: 'Executed',
+            //sortable: false,
             filterable: false,
             flex: 1,
             minWidth: 90,
+            renderCell: (params) => {
+              if(params.id === '123')
+              return(
+                <div>
+                  <em>{params.value}</em>
+                </div>
+              )
+              else return(
+                <div>
+                  {params.value}
+                </div>
+              )
+            }
         },
         {
           field: 'totalexec',
-          headerName: 'Execution assigned',
-          sortable: false,
+          headerName: 'Assigned',
+          //sortable: false,
           filterable: false,
           flex: 1,
           minWidth: 90,
+          renderCell: (params) => {
+            if(params.id === '123')
+            return(
+              <div>
+                <em>{params.value}</em>
+              </div>
+            )
+            else return(
+              <div>
+                {params.value}
+              </div>
+            )
+          }
         }
     ];
 
@@ -187,13 +246,13 @@ const  BuildReportPage = (props) => {
         {
           field: 'url',
           headerName: 'Mantis Link',
-          minWidth: 150,
+          minWidth: 170,
           sortable: false,
           filterable: false,
           renderCell: (params) => (
             <Link href={params.value} target="_blank" rel="noopener">
               {/* {params.value.split('.mantishub.io')[0].slice(8)} */}
-              View on MantisHub
+              View on MantisHub.io
             </Link>
           )
         }
@@ -209,19 +268,19 @@ const  BuildReportPage = (props) => {
       {
         field: 'status',
         headerName: 'Status',
-        minWidth: 150,
+        minWidth: 120,
         filterable: false,
         renderCell: (params) => {
           if (params.value === true)
           return (
           <div>
-            Completed
+            <Chip size="small" mr={1} mb={1} label="Completed" pass={1}/>
           </div>
           )
           else if(params.value === false)
           return(
           <div>
-            Incomplete
+            <Chip size="small" mr={1} mb={1} label="Incomplete"/>
           </div>
           )
         }
@@ -273,7 +332,7 @@ const  BuildReportPage = (props) => {
           </div> :
           <Paper>
           <div style={{padding: 10}}>
-              <Typography variant='h6'>List testers</Typography>
+              <Typography variant='h6'>Test executions' assignment</Typography>
           </div>
           
           <DataGridBuildRP

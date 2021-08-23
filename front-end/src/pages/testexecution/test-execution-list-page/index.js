@@ -270,7 +270,7 @@ const TestExecutionListPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Test Execution List
+            Test Executions List
           </Typography>
         </Grid>
         <Grid item>

@@ -178,7 +178,7 @@ const NewTestPlanPage = (props) => {
         ||TestplanInfo.description.trim().length !== TestplanInfo.description.length 
         || TestplanInfo.Testplanname.trim().length !== TestplanInfo.Testplanname.length){
         displayMsg({
-          content: "Test Plan Name or Description should not contain spaces before and after !",
+          content: "Test Plan Name or Descriptions should not contain spaces before and after !",
           type: 'error'
         });
     }
@@ -275,10 +275,10 @@ const NewTestPlanPage = (props) => {
             />
           </div>
 
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={9}  
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={5}  
           value={TestplanInfo.description || ''} onChange={handleChange('description')}
           error={TestplanInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-          helperText={TestplanInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+          helperText={TestplanInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}/>
 
           
 

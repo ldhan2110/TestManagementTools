@@ -182,7 +182,7 @@ const DetailMileStonePage = (props) => {
         ||milestoneInfo.description.trim().length !== milestoneInfo.description.length 
         || milestoneInfo.milestonetitle.trim().length !== milestoneInfo.milestonetitle.length){
         displayMsg({
-          content: "Milestone Name or Description should not contain spaces before and after !",
+          content: "Milestone Name or Descriptions should not contain spaces before and after !",
           type: 'error'
         });
     }
@@ -296,12 +296,12 @@ const DetailMileStonePage = (props) => {
               </Grid>
           </Grid>
 
-          <TextField id="descriptions" label="Description" 
+          <TextField id="descriptions" label="Descriptions" 
           variant="outlined" fullWidth required multiline rows={3}
           value={milestoneInfo.description || ''} onChange={handleChange('description')}
           error={milestoneInfo.description === 0 && error.description === 0 ? true : false}
           disabled={enableDeleteBtn ? false : true }
-          helperText={milestoneInfo.description === 0 && error.description === 0 ? 'Description is required' : ' '}/>   
+          helperText={milestoneInfo.description === 0 && error.description === 0 ? 'Descriptions is required' : ' '}/>   
 
           <div>
              <FormControlLabel

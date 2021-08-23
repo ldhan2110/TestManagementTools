@@ -4,7 +4,7 @@ export const TEST_PLAN_HEADERS = {
   hasCheckbox: false,
   headerCells: [  
   { id: 'testplanname', alignment: 'left', label: 'Name', type: "text" },
-  { id: 'description', alignment: 'left', label: 'Description', type: "text" },
+  { id: 'description', alignment: 'left', label: 'Descriptions', type: "text" },
   { id: 'is_active', alignment: 'left', label: 'Status' , type: "label"},
   { id: 'created_date', alignment: 'left', label: 'Create Date', type: 'text'},
 ]}
@@ -14,7 +14,7 @@ export const ISSUE_HEADERS = {
   hasCheckbox: false,
   headerCells: [  
   { id: 'summary', alignment: 'left', label: 'Defect Summary', type: "text" },
-  { id: 'description', alignment: 'left', label: 'Description', type: "text" },
+  { id: 'description', alignment: 'left', label: 'Descriptions', type: "text" },
   { id: 'category', alignment: 'left', label: 'Category', type: 'text'},
   { id: 'reporter', alignment: 'left', label: 'Reporter', type: 'text'},
 ]}
@@ -25,7 +25,7 @@ export const TEST_EXECUTION_HEADERS = {
   headerCells: [  
   // { id: '_id', alignment: 'left', label: 'ID', type: "text" },
   { id: 'testexecutionname', alignment: 'left', label: 'Name', type: "text" },
-  { id: 'description', alignment: 'left', label: 'Description', type: "text" },
+  { id: 'description', alignment: 'left', label: 'Descriptions', type: "text" },
   { id: 'testplanname', alignment: 'left', label: 'Test Plan', type: "text" },
   { id: 'buildname', alignment: 'left', label: 'Build', type: "text" },
   { id: 'status', alignment: 'left', label: 'Status' , type: "label"},
@@ -38,7 +38,7 @@ export const BUILDS_HEADERS = {
   hasCheckbox: false,
   headerCells: [  
   { id: 'buildname', alignment: 'left', label: 'Name',type: 'text' },
-  { id: 'descriptions', alignment: 'left', label: 'Description',type: 'text' },
+  { id: 'descriptions', alignment: 'left', label: 'Descriptions',type: 'text' },
   { id: 'testplanname', alignment: 'left', label: 'Test Plan', type: "text" },
   { id: 'is_active', alignment: 'left', label: 'Status',type: 'label' },
   //{ id: 'is_open', alignment: 'left', label: 'Open',type: 'label'},
@@ -70,7 +70,7 @@ export const ISSUE_LIST_HEADERS = {
   headerCells: [
     { id: 'id', alignment: 'left', label: 'ID', type: 'text', hidden: true },
     { id: 'name', alignment: 'left', label: 'Name',type: 'text'},
-    { id: 'description', alignment: 'left', label: 'Description',type: 'text'},
+    { id: 'description', alignment: 'left', label: 'Descriptions',type: 'text'},
     { id: 'testexec', alignment: 'left', label: 'Test Execution',type: 'text'},
     { id: 'status', alignment: 'left', label: 'Status',type: 'text'},
     { id: 'reportBy', alignment: 'left', label: 'Report By',type: 'text'},
@@ -84,7 +84,7 @@ export const REQUIREMENTS_HEADER = {
   headerCells: [
     { id: '_id', alignment: 'left', label: 'ID', type: 'text', hidden: true },
     { id: 'projectrequirementname', alignment: 'left', label: 'Name',type: 'text'},
-    { id: 'description', alignment: 'left', label: 'Description',type: 'text'},
+    { id: 'description', alignment: 'left', label: 'Descriptions',type: 'text'},
     { id: 'status', alignment: 'left', label: 'Status',type: 'label'},
     { id: 'is_active', alignment: 'left', label: 'Active',type: 'label'},
     { id: 'created_date', alignment: 'left', label: 'Create Date', type: 'text'},
