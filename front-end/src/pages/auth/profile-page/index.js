@@ -132,7 +132,6 @@ const ProfilePage = (props)=>{
         phonenumber: inforProfile.phonenumber,
         introduction: inforProfile.introduction
       });
-      console.log(inforProfile.avatar);
     } catch (error) {
       //console.log('error: '+ error);
     }

@@ -103,6 +103,7 @@ const  BuildReportPage = (props) => {
   }
 
   const [listIssue, setListIssue] = useState([]);
+  const [listRequirement, setListRequirement] = useState([]);
 
   useEffect(()=> {
     if(build.insBuildReport?.sucess)
@@ -112,7 +113,6 @@ const  BuildReportPage = (props) => {
 
   useEffect(()=> {
     if(build.insBuildReport.sucess === true){
-        console.log(build.buildReport);
         // Exec
         setBuildExecOverview({
             labels: ["Passed", "Failed", "Blocked", "Not Executed"],
@@ -148,6 +148,7 @@ const  BuildReportPage = (props) => {
 
         setListTester(handleListTester(build.buildReport.list_Tester_Uniq));
         setListIssue(build.buildReport.list_issue);
+        setListRequirement(build.buildReport.list_requirement_uniq);
     };
       
   },[build.insBuildReport])
@@ -198,13 +199,42 @@ const  BuildReportPage = (props) => {
         }
     ];
 
+    const columnsRequirement = [      
+      {
+          field: 'projectrequirementname',
+          headerName: 'Requirement',
+          flex: 1,
+          minWidth: 180
+      },
+      {
+        field: 'status',
+        headerName: 'Status',
+        minWidth: 150,
+        filterable: false,
+        renderCell: (params) => {
+          if (params.value === true)
+          return (
+          <div>
+            Completed
+          </div>
+          )
+          else if(params.value === false)
+          return(
+          <div>
+            Incomplete
+          </div>
+          )
+        }
+      }
+  ];
+
   return (
     <React.Fragment>
       <Helmet title="Build Report" />
       <Grid container justify="space-between" spacing={6}>
         <Grid item>
           <Typography variant="h3" display="inline">
-            Build Report
+            Build's Report
           </Typography>
           <Typography variant="body2" ml={2} display="inline">
            {/* {`${getCurrentDate()}`}*/}
@@ -255,6 +285,23 @@ const  BuildReportPage = (props) => {
         </Grid>
 
         <Grid item xs={12} lg={6}>
+        {build.insBuildReport.sucess === null ? 
+          <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
+            <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "370px"}}/>
+          </div> :
+          <Paper>
+          <div style={{padding: 10}}>
+              <Typography variant='h6'>List requirements</Typography>
+          </div>
+          <DataGridBuildRP
+            listReport={listRequirement}
+            columns={columnsRequirement}
+            total={build.buildReport.total_requirement}
+            extraText={` requirements (${build.buildReport.total_requirement_pass} completed)`}
+          /></Paper>}
+        </Grid>
+
+        <Grid item xs={12} lg={12}>
         {build.insBuildReport.sucess === null ? 
           <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
             <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "370px"}}/>

@@ -120,7 +120,7 @@ const ViewIssueTCPopup = (props) => {
   }
 
   const handleAddIssue = () =>{
-    console.log(addIssueInfo);
+    //console.log(addIssueInfo);
     setOpenAddIssue(false);
     setLoad(true);
     //addIssueToExec(addIssueInfo);

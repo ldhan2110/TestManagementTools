@@ -296,13 +296,13 @@ const DetailRequirementPage = (props) => {
           error={requirementsInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
           helperText={requirementsInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
           <Grid container spacing={1}>
-              <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Test Executions</Typography></Grid> 
+              {/* <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Test Executions</Typography></Grid> 
               <Grid item xs={12}>
                 <Paper style={{maxHeight: 200, overflow: 'auto'}}>
                 <List>
                   {listExec && listExec.map((item,index) => 
-                    <ListItem key={index} dense button  selected> {/* onClick={()=>{if (!isExecute){history.push(location.pathname+'/test-exec/'+item._id)}}}> */}
-                      <ListItemText id={item.id} primary={item.testexecutionname} />
+                    <ListItem key={index} dense button  selected> */} {/* onClick={()=>{if (!isExecute){history.push(location.pathname+'/test-exec/'+item._id)}}}> */}
+                      {/* <ListItemText id={item.id} primary={item.testexecutionname} />
                       <ListItemSecondaryAction>
                         {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
                         {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}
@@ -313,7 +313,7 @@ const DetailRequirementPage = (props) => {
                   )}
                 </List>
                 </Paper>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Test Cases</Typography></Grid> 
               <Grid item xs={12}>
                 <Paper style={{maxHeight: 200, overflow: 'auto'}}>
@@ -321,12 +321,12 @@ const DetailRequirementPage = (props) => {
                   {listTc && listTc.map((item,index) => 
                     <ListItem key={index} dense button  selected> {/* onClick={()=>{if (!isExecute){history.push(location.pathname+'/test-exec/'+item._id)}}}> */}
                       <ListItemText id={item._id} primary={item.testcaseName} />
-                      {/* <ListItemSecondaryAction>
+                      <ListItemSecondaryAction>
                         {item.status === 'Untest' && <Chip size="small" mr={1} mb={1} label={item.status} />}
                         {item.status === 'Pass' && <Chip size="small" mr={1} mb={1} label={item.status} pass={1}/>}
                         {item.status === 'Blocked' && <Chip size="small" mr={1} mb={1} label={item.status} block={1}/>}
                         {item.status === 'Fail' && <Chip size="small" mr={1} mb={1} label={item.status} fail={1}/>}
-                      </ListItemSecondaryAction> */}
+                      </ListItemSecondaryAction>
                     </ListItem>
                   )}
                 </List>

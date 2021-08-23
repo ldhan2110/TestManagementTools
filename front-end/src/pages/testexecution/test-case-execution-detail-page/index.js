@@ -71,8 +71,6 @@ const TestCaseExecDetail = (props) => {
     return subItem;
   }
 
-  useEffect(() =>{console.log(testCaseDetail)},[testCaseDetail])
-  
 
   const getIdxTestCase = (testcaseId) => {
      return execTest.listTestCase.findIndex(item => item._id === testcaseId);

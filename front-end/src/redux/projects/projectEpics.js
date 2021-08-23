@@ -248,7 +248,7 @@ export  const getAllProjectEpic = (action$, state$) => action$.pipe(
         
         }),
         catchError (error =>{
-          console.log("eRROR");
+          //console.log("eRROR");
           return of({
           type: actions.GET_PROJECT_BY_ID_VERIFY_FAIL,
           payload: error.response.data.errMsg

@@ -376,7 +376,10 @@ const TestExecutionDetailPage = (props) => {
         </Select>
       </FormControl>
 
-      <MultipleSelect title = {'Requirements'} select={selectRequirements} setSelect={setListRequirements} listData={listRequirements}/>
+{/*       <MultipleSelect title = {'Requirements'} 
+      select={selectRequirements} 
+      setSelect={setListRequirements} 
+      listData={listRequirements}/> */}
 
         <div style={{display: 'flex', flexDirection: 'row'}}>
           <TextField id="Environment" label="Environment" 
