@@ -293,9 +293,25 @@ const TestExecutionDetailPage = (props) => {
       else if(testExecInfo.testexecutionname !== "" && testExecInfo.description !== ""){
       setEnableCreateBtn(false);
       setLoading(true);
-      updateTestExecReq(testExecInfo);
+      updateTestExecReq({...testExecInfo, exectestcases: formatRequirementTC(testExecInfo.exectestcases)});
+      //console.log({...testExecInfo, exectestcases: formatRequirementTC(testExecInfo.exectestcases)})
       }
-    }
+    }    
+
+    const formatRequirementTC = (list) =>{
+      //console.log(list)
+      const formatReq = (item) => {
+        if(item.requirement) {
+         if(item.requirement._id === "")
+          return;
+         else return item.requirement._id;
+        }
+        else return;
+      }
+      let result = list.map(item => ({...item, requirement: formatReq(item)}));
+      //let result = list.map(item => (Object.assign({}, item, {requirement: undefined})));
+      return result;
+    };
 
     const handleOpenSelectTC = () => {
       setOpenPopup(true);
