@@ -238,10 +238,18 @@ const  BuildReportPage = (props) => {
         {
             field: 'execution_name',
             headerName: 'Test Execution',
-            sortable: false,
+            //sortable: false,
             filterable: false,
-            flex: 1,
+            flex: 0.8,
             minWidth: 180
+        },
+        {
+          field: 'testcase_name',
+          headerName: 'Test Case',
+          //sortable: false,
+          filterable: false,
+          flex: 1,
+          minWidth: 180
         },
         {
           field: 'url',
