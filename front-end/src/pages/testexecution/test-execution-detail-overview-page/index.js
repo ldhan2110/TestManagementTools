@@ -377,12 +377,14 @@ const TestExecutionDetailPage = (props) => {
             </Grid>
           </div>
 
-            <FormControl variant="outlined" className={classes.formControl} fullWidth >
+
+
+          <FormControl variant="outlined" className={classes.formControl} fullWidth >
               <InputLabel id="status">Status</InputLabel>
                   <Select
                     labelId="status"
                     id="status"
-                    value={testExecInfo?.status}
+                    value={testExecInfo.status}
                     onChange={handleChange('status')}
                     label="status">
                         <MenuItem value={'Untest'}>Untest</MenuItem>

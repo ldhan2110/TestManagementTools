@@ -68,6 +68,7 @@ const TestCaseExecDetail = (props) => {
         subItem = item.exectestcases.find(subItem => subItem._id === testcaseId);
       } 
     });
+    console.log(subItem);
     return subItem;
   }
 
@@ -114,6 +115,9 @@ const TestCaseExecDetail = (props) => {
     }
   },[currentIdx])
 
+  useEffect(()=>{
+    console.log(testCaseDetail);
+  },[testCaseDetail])
 
 
   useEffect(()=>{
@@ -227,12 +231,16 @@ const TestCaseExecDetail = (props) => {
               <TextField id="testSuite" label="Test Suite"  variant="outlined" value = {testCaseDetail.testsuite} 
               fullWidth required/>
               </Grid> */}
-            <Grid item xs={2}>
+            <Grid item xs={6}>
               <TextField id="important" label="Importance"  variant="outlined" value={testCaseDetail.priority} 
               fullWidth required/>
             </Grid>
+            <Grid item xs={6}>
+              <TextField id="requirement" label="Requirement"  variant="outlined" value={testCaseDetail.requirement.projectrequirementname} 
+              fullWidth required/>
+            </Grid>
                 
-  <Grid item xs={12}>
+        <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <Typography variant="subtitle2" gutterBottom display="inline" >
