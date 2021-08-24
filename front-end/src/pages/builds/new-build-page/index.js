@@ -12,7 +12,7 @@ import {GET_ALL_TESTPLAN_REQ} from '../../../redux/test-plan/constants';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import FormHelperText from '@material-ui/core/FormHelperText';
 import {
   Grid,
   Typography,
@@ -75,13 +75,27 @@ const NewBuildPage = (props) => {
 
   const [enableCreateBtn, setEnableCreateBtn] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [buildExistList, setBuildExistList] = useState(props.history.location.state);
+  
 
   useEffect(()=>{
     getAllBuildReq(project);
     getAllTestplanReq(project);
   },[])
 
+  const filterBuildByTPlan = (list) => {
+    let result = list.filter(item => item.testplanname ===  buildInfo.testplan);
+    return result;
+  };
+
   useEffect(()=>{
+    if(buildInfo.testplan !== "")
+      setBuildExistList(filterBuildByTPlan(props.history.location.state));
+    else
+    setBuildExistList(props.history.location.state);
+  },[buildInfo.testplan])
+
+  useEffect(()=>{    
       setOpenPopup(isOpen);
   },[isOpen, open])
 
@@ -159,7 +173,7 @@ const NewBuildPage = (props) => {
     ||buildInfo.description.trim().length !== buildInfo.description.length 
     || buildInfo.buildname.trim().length !== buildInfo.buildname.length){
       displayMsg({
-        content: "Build Name or Description should not contain spaces before and after !",
+        content: "Build Name or Descriptions should not contain spaces before and after !",
         type: 'error'
       });
     }
@@ -179,6 +193,7 @@ const NewBuildPage = (props) => {
   }
 
   const handleChange = (prop) => (event) => {
+    console.log(buildExistList)
     if(prop === 'testplan')
       setBuildInfo({ ...buildInfo, [prop] : event.target.value, id_exist_build: "" });
     if (prop === 'id_exist_build')
@@ -225,7 +240,7 @@ const NewBuildPage = (props) => {
           <TextField id="buildName" label="Build Name" variant="outlined" fullWidth required inputProps={{maxLength : 100}}
           value={buildInfo.buildname || ''} onChange={handleChange('buildname')}
           error={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? true : false}
-          helperText={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? 'Build Name is required' : ' '}/>
+          helperText={buildInfo.buildname.trim().length === 0 && error.buildname.trim().length === 0 ? 'Build Name is required !' : ' '}/>
 
           <FormControl variant="outlined"  fullWidth required>
                               <InputLabel id="testPlan">Test Plan</InputLabel>
@@ -239,10 +254,15 @@ const NewBuildPage = (props) => {
                                   disabled={buildInfo.id_exist_build === "" ? false : true}
                                   helperText={!buildInfo.testplan && !error.testplan ? 'Test Plan is required' : ' '}
                                 >
+                                <MenuItem key={""} value={''}>&nbsp;</MenuItem>
                                {listTestplan.map((item) => (
                                     <MenuItem value={item.testplanname}>{item.testplanname}</MenuItem>
-                               ))}
+                               ))}                               
                               </Select>
+                              {(!buildInfo.testplan && !error.testplan) ?
+                               <FormHelperText style={{color: 'red'}}>Test Plan is required !</FormHelperText>:
+                               <FormHelperText> </FormHelperText>
+                              }
           </FormControl>
 
           <Grid container fullWidth>
@@ -258,7 +278,7 @@ const NewBuildPage = (props) => {
           label="Create from existing build ?">
             
           <MenuItem key={""} value={''}>&nbsp;</MenuItem>
-          {props.history.location.state.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
+          {buildExistList?.map((item, index) => <MenuItem key={index} value={item._id}>{item.buildname}</MenuItem>)}    
         </Select>
       </FormControl>
 
@@ -300,10 +320,10 @@ const NewBuildPage = (props) => {
               </Grid> */}
           </Grid>
 
-                <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline 
+                <TextField id="descriptions" label="Descriptions" variant="outlined" fullWidth required multiline 
                 rows={3} value={buildInfo.description || ''} onChange={handleChange('description')}
                 error={buildInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-                helperText={buildInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+                helperText={buildInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}/>
 
                    
           <div className = {classes.btnGroup}>

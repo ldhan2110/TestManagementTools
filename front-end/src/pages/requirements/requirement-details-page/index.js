@@ -174,7 +174,7 @@ const DetailRequirementPage = (props) => {
           ||requirementsInfor.description.trim().length !== requirementsInfor.description.length 
           || requirementsInfor.projectrequirementname.trim().length !== requirementsInfor.projectrequirementname.length){
           displayMsg({
-            content: "Requirement Name or Description should not contain spaces before and after !",
+            content: "Requirement Name or Descriptions should not contain spaces before and after !",
             type: 'error'
           });
       }
@@ -291,10 +291,10 @@ const DetailRequirementPage = (props) => {
               checked={requirementsInfor.isActive}
             />
           </div>
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={3}
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={3}
           value={requirementsInfor.description || ''} onChange={handleChange('description')}
           error={requirementsInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-          helperText={requirementsInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+          helperText={requirementsInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}/>
           <Grid container spacing={1}>
               {/* <Grid item xs={12}><Typography variant="h4" gutterBottom display="inline">List Test Executions</Typography></Grid> 
               <Grid item xs={12}>

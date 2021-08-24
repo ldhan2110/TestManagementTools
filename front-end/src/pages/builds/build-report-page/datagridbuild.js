@@ -22,7 +22,7 @@ const DataGridBuildRP = (props) => {
 
   const classes = useStyles();
 
-  const { listReport, columns, total, extraText } = props;
+  const { listReport, columns, footerText } = props;
 
   const [pageSize, setPageSize] = useState(5);
 
@@ -44,7 +44,7 @@ const DataGridBuildRP = (props) => {
               //loading={(load === true) ? true : false}
               className={classes.root}
             />
-        <div style={{marginTop: -36, marginLeft: 10}}>Total: {total} {extraText}</div>
+        <div style={{marginTop: -36, marginLeft: 10}}>{footerText}</div>
         </div>
     </React.Fragment>
   )

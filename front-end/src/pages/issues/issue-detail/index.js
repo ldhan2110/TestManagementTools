@@ -155,7 +155,7 @@ const IssueDetailPage = (props) => {
           ||issueInfor.description.trim().length !== issueInfor.description.length 
           || issueInfor.summary.trim().length !== issueInfor.summary.length){
           displayMsg({
-            content: "Summary or Description should not contain spaces before and after !",
+            content: "Summary or Descriptions should not contain spaces before and after !",
             type: 'error'
           });
       }
@@ -314,10 +314,10 @@ const IssueDetailPage = (props) => {
 
           
 
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth multiline rows={5}
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth multiline rows={5}
           value={issueInfor.description || ''} onChange={handleChange('description')}
           error={issueInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-          helperText={issueInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}
+          helperText={issueInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}
           InputProps={{readOnly: true}}/> 
 
           <div className = {classes.btnGroup}>

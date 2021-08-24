@@ -230,7 +230,7 @@ const EditTestCasePage = (props) => {
         ||newtestCase.description.trim().length !== newtestCase.description.length 
         || newtestCase.testcasename.trim().length !== newtestCase.testcasename.length){
         displayMsg({
-          content: "Testcase name or Description should not contain spaces before and after !",
+          content: "Testcase name or Descriptions should not contain spaces before and after !",
           type: 'error'
         });
     }
@@ -271,12 +271,12 @@ const EditTestCasePage = (props) => {
   }
 
   const handleChange = (prop) => (event) => {
-   /* setNewTestCase({ ...newtestCase, [prop]: event.target.value });
-
     if (prop === 'requirement' ){
-       
-      setNewTestCase({...newtestCase, requirement: {_id: event.target.value, projectrequirementname: listRequirements.find(item => item._id === event.target.value).projectrequirementname}});
-    }*/
+      if (event.target.value !== '')
+      setNewTestCase({...newtestCase, requirement: {_id: event.target.value, projectrequirementname: listRequirements.find(item => item._id === event.target.value).projectrequirementname} });
+      else
+      setNewTestCase({...newtestCase, requirement: {_id: event.target.value, projectrequirementname: ''} });
+    }
 
     if(checkError === true)
     setError({ ...error, [prop]: event.target.value });
@@ -335,14 +335,16 @@ const EditTestCasePage = (props) => {
       <FormControl variant="outlined" fullWidth style={{marginTop: '-1em'}}>   
           <InputLabel id="demo-simple-select-outlined-label">Requirement</InputLabel>
           <Select
-          labelId="requirement"
-          id="requirement"
-          defaultValue={newtestCase.requirement._id}
-          onChange={handleChange('requirement')}
-          label="Requirement"
-          disabled
-        >
-          {listRequirements.map((item, index) => <MenuItem key={item._id} value={item._id}>{item.projectrequirementname}</MenuItem>)}    
+           labelId="requirement"
+           id="requirement"
+           value={newtestCase.requirement._id}
+           onChange={handleChange('requirement')} 
+           label="Requirement">
+        
+          <MenuItem key={''} value={''}>&nbsp;</MenuItem>
+                        {listRequirements?.map((item,index) => (
+                            <MenuItem key={index} value={item._id}>{item.projectrequirementname}</MenuItem>
+                        ))}
         </Select>
       </FormControl></Grid> 
 
@@ -417,11 +419,11 @@ const EditTestCasePage = (props) => {
       </FormControl></Grid> 
 
          <Grid item xs={12}>
-              <TextField id="description" label="Description" variant="outlined" fullWidth required multiline rows={3} 
+              <TextField id="description" label="Descriptions" variant="outlined" fullWidth required multiline rows={3} 
                 onChange={handleChange('description')} defaultValue={newtestCase.description || ''}
                 error={!newtestCase.description && !error.description ? true : false}
                 helperText={!newtestCase.description &&
-                 !error.description ? 'Description is required' : ' '}
+                 !error.description ? 'Descriptions is required' : ' '}
                  style={{marginTop: '0.5em'}}
               />
             </Grid>

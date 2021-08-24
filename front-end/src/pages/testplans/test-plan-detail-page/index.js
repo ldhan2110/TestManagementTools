@@ -182,7 +182,7 @@ const TestPlanDetailPage = (props) => {
           ||testplanInfor.description.trim().length !== testplanInfor.description.length 
           || testplanInfor.testplanname.trim().length !== testplanInfor.testplanname.length){
           displayMsg({
-            content: "Test Plan Name or Description should not contain spaces before and after !",
+            content: "Test Plan Name or Descriptions should not contain spaces before and after !",
             type: 'error'
           });
       }
@@ -262,7 +262,7 @@ const TestPlanDetailPage = (props) => {
           <Grid item>
                 <Dialog open={open} >
                   <DialogTitle>Confirm</DialogTitle>
-                  <DialogContent>Are you sure want to delete this testplan?</DialogContent>
+                  <DialogContent>Are you sure want to delete this test plan?</DialogContent>
                   <DialogActions>
                     <Button onClick={handleDelete} color="primary">Yes</Button>
                     <Button onClick={handleClose} color="primary">No</Button>
@@ -304,10 +304,10 @@ const TestPlanDetailPage = (props) => {
               checked={testplanInfor.isActive}
             />
           </div>
-          <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={11}
+          <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={5}
           value={testplanInfor.description || ''} onChange={handleChange('description')}
           error={testplanInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-          helperText={testplanInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+          helperText={testplanInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}/>
 
 
           <div>

@@ -220,7 +220,7 @@ const NewTestExecutionPage = (props) => {
         ||testExecInfo.description.trim().length !== testExecInfo.description.length 
         || testExecInfo.testexecutionname.trim().length !== testExecInfo.testexecutionname.length){
         displayMsg({
-          content: "Test Execution Name or Description should not contain spaces before and after !",
+          content: "Test Execution Name or Descriptions should not contain spaces before and after !",
           type: 'error'
         }); 
       }
@@ -383,11 +383,11 @@ const NewTestExecutionPage = (props) => {
         </Select>
         </FormControl></div>
 
-        <TextField id="descriptions" label="Description" 
+        <TextField id="descriptions" label="Descriptions" 
         variant="outlined"  fullWidth required multiline rows={3} 
         value={testExecInfo.description || ''} onChange={handleChange('description')} 
         error={testExecInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-        helperText={testExecInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/> 
+        helperText={testExecInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}/> 
 
         
           <div className = {classes.btnGroup}>

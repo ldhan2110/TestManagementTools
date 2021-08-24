@@ -157,7 +157,7 @@ const TestCaseDetail = (props) => {
         ||testcase.description.trim().length !== testcase.description.length 
         || testcase.testcaseName.trim().length !== testcase.testcaseName.length){
         displayMsg({
-          content: "Test Case Name or Description should not contain spaces before and after !",
+          content: "Test Case Name or Descriptions should not contain spaces before and after !",
           type: 'error'
         });
     }
@@ -279,10 +279,10 @@ const TestCaseDetail = (props) => {
               </Grid>      
             </Grid>
 
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" style={{marginTop: '0.5em'}}
+            <Grid item xs={12}><TextField id="description" label="Descriptions" variant="outlined" style={{marginTop: '0.5em'}}
             value={testcase.description || ''} onChange={handleChange('description')} fullWidth required multiline rows={3} 
             error={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-            helperText={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/></Grid>
+            helperText={testcase.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}/></Grid>
 
 
             <Grid item xs={12}>

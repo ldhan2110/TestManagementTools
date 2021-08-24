@@ -168,7 +168,7 @@ const TestPlanListPage = (props) => {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Test Plan List
+            Test Plans List
           </Typography>
 
         </Grid>

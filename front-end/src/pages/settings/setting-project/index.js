@@ -172,7 +172,7 @@ const SettingProjectPage = (props) => {
         ||projectInfo.description.trim().length !== projectInfo.description.length 
         || projectInfo.projectname.trim().length !== projectInfo.projectname.length){
         displayMsg({
-          content: "Project Name or Description should not contain spaces before and after !",
+          content: "Project Name or Descriptions should not contain spaces before and after !",
           type: 'error'
         });
     }
@@ -319,10 +319,10 @@ const SettingProjectPage = (props) => {
           </div>
 
           <div>
-              <TextField id="descriptions" label="Description" variant="outlined"  fullWidth required multiline rows={6} 
+              <TextField id="descriptions" label="Descriptions" variant="outlined"  fullWidth required multiline rows={6} 
           value={projectInfo.description || ''} onChange={handleChange('description')}
           error={projectInfo.description === 0 && error.description === 0 ? true : false}
-          helperText={projectInfo.description === 0 && error.description === 0 ? 'Description is required!' : ' '}/>
+          helperText={projectInfo.description === 0 && error.description === 0 ? 'Descriptions is required!' : ' '}/>
           </div>
         
        

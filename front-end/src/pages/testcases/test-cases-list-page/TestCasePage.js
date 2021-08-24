@@ -403,7 +403,7 @@ const TestCaseDetail = (props) => {
                               </Select>
           </FormControl></Grid> */}        
 
-            <Grid item xs={12}><TextField id="description" label="Description" variant="outlined" fullWidth multiline rows={3} 
+            <Grid item xs={12}><TextField id="description" label="Descriptions" variant="outlined" fullWidth multiline rows={3} 
             defaultValue={newtestCase.description || ''}            
             InputProps={{
               readOnly: true,

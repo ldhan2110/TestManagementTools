@@ -170,7 +170,7 @@ const BuildDetailPage = (props) => {
             ||buildInfor.description.trim().length !== buildInfor.description.length 
             || buildInfor.buildname.trim().length !== buildInfor.buildname.length){
             displayMsg({
-              content: "Build Name or Description should not contain spaces before and after !",
+              content: "Build Name or Descriptions should not contain spaces before and after !",
               type: 'error'
             });
         }
@@ -348,10 +348,10 @@ const BuildDetailPage = (props) => {
           </Grid>
          
           
-              <TextField id="description" label="Description" variant="outlined"  fullWidth 
+              <TextField id="description" label="Descriptions" variant="outlined"  fullWidth 
               required multiline rows={3} value={buildInfor.description || ''} onChange={handleChange('description')}
               error={buildInfor.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-              helperText={buildInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+              helperText={buildInfor.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}/>
 
 
           <div className = {classes.btnGroup}>

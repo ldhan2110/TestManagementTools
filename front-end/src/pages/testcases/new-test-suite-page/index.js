@@ -112,7 +112,7 @@ const NewTestSuitePopup = (props) => {
           ||testSuiteInfo.description.trim().length !== testSuiteInfo.description.length 
           ||testSuiteInfo.testsuitename.trim().length !== testSuiteInfo.testsuitename.length){
           displayMsg({
-            content: "Test Suite Name or Description should not contain spaces before and after !",
+            content: "Test Suite Name or Descriptions should not contain spaces before and after !",
             type: 'error'
           });
       }
@@ -146,10 +146,10 @@ const NewTestSuitePopup = (props) => {
               helperText={testSuiteInfo.testsuitename.trim().length === 0 && error.testsuitename.trim().length === 0 ? 'Test Suite Name is required' : ' '}/>
             </Grid>
             <Grid item xs={12}>
-              <TextField id="descriptions" label="Description" variant="outlined" fullWidth required multiline rows={10}  
+              <TextField id="descriptions" label="Descriptions" variant="outlined" fullWidth required multiline rows={10}  
               value={testSuiteInfo.description || ''} onChange={handleChange('description')}
               error={testSuiteInfo.description.trim().length === 0 && error.description.trim().length === 0 ? true : false}
-              helperText={testSuiteInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Description is required' : ' '}/>
+              helperText={testSuiteInfo.description.trim().length === 0 && error.description.trim().length === 0 ? 'Descriptions is required' : ' '}/>
             </Grid>
           </Grid>
         </DialogContent>
