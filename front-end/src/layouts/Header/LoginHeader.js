@@ -2,21 +2,20 @@ import React from 'react';
 import styles from './styles';
 import styled from "styled-components";
 import UserMenu from './UserMenu';
-import SearchInput from '../../components/SearchInput';
+import Notification from './Notification';
 import { withStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
+import { Menu as MenuIcon } from "@material-ui/icons";
 import {
     Badge,
     Grid,
     AppBar,
-    IconButton as MuiIconButton,
     Hidden,
-
-
+    IconButton as MuiIconButton,
   } from "@material-ui/core";
 
-import {
-    Bell,
-  } from "react-feather";  
+
+
 
 
 const IconButton = styled(MuiIconButton)`
@@ -27,39 +26,50 @@ const IconButton = styled(MuiIconButton)`
   }
 `;
 
-
-const Indicator = styled(Badge)`
-  .MuiBadge-badge {
-    background: ${props => props.theme.header.indicator.background};
-    color: ${props => props.theme.palette.common.white};
-  }
-`;
-
 const LoginHeader = (props) => {
-  const {onDrawerToggle, classes} = props;
+
+  const history = useHistory();
+
+  const { onDrawerToggle,classes} = props;
+
+  const handleLogoClick = () => {
+    history.replace('/projects');
+  }
+
+  
 
   return (
       <React.Fragment>
       <AppBar position="static">
       <Grid container alignItems="center" className={classes.loginHeader}>
-          <Grid item xs = {9}>
-              <img src ="/img/logo.jpg" alt="logo"/>
+         <Hidden mdUp>
+         <Grid item xs = {7}>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={onDrawerToggle}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Grid>
+          </Hidden>
+          <Hidden mdDown>
+             <Grid item xs = {10}>
+             {/*<img src ="/img/Logo1zz.png" alt="logo"/>*/}
+              <IconButton className={classes.root} onClick={handleLogoClick}>
+        <img src ="/img/Logo1zz.png" alt="logo"/>
+              </IconButton> 
           </Grid>
-      
+          </Hidden> 
+         
+          <div className={classes.loginHeaderIcons}>
           <Grid item>
-              <SearchInput/>
-          </Grid>
-          
-          <Grid item>
-              <IconButton color="inherit">
-            <Indicator badgeContent={7}>
-              <Bell />
-            </Indicator>
-          </IconButton>
+              <Notification/>
           </Grid>
           <Grid item>
               <UserMenu/>
           </Grid>
+         </div>
       </Grid>
       </AppBar>
       </React.Fragment>

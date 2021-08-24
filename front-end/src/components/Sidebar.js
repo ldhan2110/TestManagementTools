@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { rgba } from "polished";
-
+import { useHistory } from "react-router-dom";
+import { ellipsis, rgba } from "polished";
+import { connect } from 'react-redux';
 import { NavLink as RouterNavLink, withRouter } from "react-router-dom";
 import { darken } from "polished";
-
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "../vendor/perfect-scrollbar.css";
 
@@ -18,27 +18,45 @@ import {
   List as MuiList,
   ListItem,
   ListItemText,
-  Typography
+  Typography,
+  Tooltip,
+  IconButton as MuiIconButton
 } from "@material-ui/core";
-
+import ReadMore from 'read-more-react';
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 import { green } from "@material-ui/core/colors";
 
 import { sidebarRoutes as routes } from "../routes/index";
+import { Home } from "react-feather";
 
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
 ));
 
-const Box = styled(MuiBox)(spacing);
+const Box = styled(MuiBox)`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  max-width: 195px;
+`;
 
 const Drawer = styled(MuiDrawer)`
   border-right: 0;
 
   > div {
     border-right: 0;
+  }
+`;
+
+const IconButton = styled(MuiIconButton)`
+  svg {
+    width: 22px;
+    height: 22px;
   }
 `;
 
@@ -63,8 +81,8 @@ const Brand = styled(ListItem)`
   background-color: ${props => props.theme.sidebar.header.background};
   font-family: ${props => props.theme.typography.fontFamily};
   min-height: 56px;
-  padding-left: ${props => props.theme.spacing(6)}px;
-  padding-right: ${props => props.theme.spacing(6)}px;
+  padding-left: ${props => props.theme.spacing(3)}px;
+  padding-right: ${props => props.theme.spacing(5)}px;
   cursor: default;
 
   ${props => props.theme.breakpoints.up("sm")} {
@@ -200,10 +218,6 @@ const SidebarSection = styled(Typography)`
   display: block;
 `;
 
-
-
-
-
 function SidebarCategory({
   name,
   icon,
@@ -245,12 +259,28 @@ function SidebarLink({ name, to, badge }) {
   );
 }
 
-function Sidebar({ classes, staticContext, location, ...rest }) {
+function getRoute(path) {
+  let args = Array.prototype.slice.call(arguments, 1);
+  let count = -1;
+  return path.replace(/:[a-zA-Z?]+/g, function (match) {
+      count += 1;
+      return args[count] !== undefined ? args[count] : match;
+  });
+};
+
+//MAP STATES TO PROPS - REDUX
+const  mapStateToProps = (state) => {
+  return { currentSelectedProject: state.project.currentSelectedProject, currentSelectedProjectName: state.project.currentSelectedProjectName, currentRole: state.project.currentRole}
+}
+
+
+function Sidebar({ classes, staticContext, location, currentSelectedProject,currentSelectedProjectName, currentRole, dispatch, ...rest }) {
   const initOpenRoutes = () => {
     /* Open collapse element that matches current url */
     const pathName = location.pathname;
 
     let _routes = {};
+
 
     routes.forEach((route, index) => {
       const isActive = pathName.indexOf(route.path) === 0;
@@ -263,8 +293,9 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
     return _routes;
   };
 
-  const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes());
 
+  const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes());
+  const history = useHistory();
   const toggle = index => {
     // Collapse all elements
     Object.keys(openRoutes).forEach(
@@ -275,11 +306,37 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
     setOpenRoutes(openRoutes => Object.assign({}, openRoutes, { [index]: !openRoutes[index] }));
   }
 
+  const handleClick = () => {
+    history.replace('/projects');
+  }
+  
+  const [disableHoverTooltip, setDisableHoverTooltip] = useState(false);
+  useEffect(()=>{isEllipsisActive()},[currentSelectedProjectName])
+
+  function isEllipsisActive() {
+    var offsetWidth = document.getElementById('boxProject').offsetWidth;
+    //not long enough
+    if(offsetWidth < 160)
+      setDisableHoverTooltip(true);
+    // long enough
+    else{
+      setDisableHoverTooltip(false);
+    }
+  }
 
   return (
-    <Drawer variant="permanent" {...rest}>
+    <Drawer variant="permanent"  { ...rest}>
       <Brand>
-        <Box ml={2}>Allium <BrandChip label="DEV" /></Box>
+        <IconButton color="inherit" aria-label="Open drawer" onClick={handleClick}><Home/></IconButton>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          <Tooltip title={<div style={{fontSize:15, lineHeight:'1.4rem'}}>{currentSelectedProjectName}</div>} arrow
+            placement="right-end" enterDelay={700} leaveTouchDelay={2000} interactive disableHoverListener={disableHoverTooltip}>
+            <Box ml={1} id='boxProject'>
+              {currentSelectedProjectName}
+            </Box>
+          </Tooltip>
+          - {currentRole} -
+        </div>
       </Brand>
       <Scrollbar>
         <List disablePadding>
@@ -310,7 +367,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
                         <SidebarLink
                           key={index}
                           name={route.name}
-                          to={route.path}
+                          to={getRoute(route.path,currentSelectedProject)}
                           icon={route.icon}
                           badge={route.badge}
                         />
@@ -321,7 +378,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
                     <SidebarCategory
                       isCollapsable={false}
                       name={category.id}
-                      to={category.path}
+                      to={getRoute(category.path,currentSelectedProject)}
                       activeClassName="active"
                       component={NavLink}
                       icon={category.icon}
@@ -338,4 +395,4 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
   );
 }
 
-export default withRouter(Sidebar);
+export default connect(mapStateToProps)(withRouter(Sidebar));

@@ -1,6 +1,6 @@
 const style = {
 footer:{
-    backgroundColor: "blue",
+    backgroundColor: "#0d47a1",
     display: "flex",
     justifyContent: "center",
     position: "absolute",
@@ -13,7 +13,7 @@ footer:{
 
 smallFooter:{
     marginTop: "100px",
-    backgroundColor: "blue",
+    backgroundColor: "#0d47a1",
     display: "flex",
     justifyContent: "center",
     width: "100vw",

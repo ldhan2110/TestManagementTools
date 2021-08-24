@@ -170,7 +170,7 @@ function UserMenu() {
           Profile
         </MenuItem>
         <MenuItem onClick={closeMenu}>
-          Sign out
+          Sign Out
         </MenuItem>
       </Menu>
     </React.Fragment>
@@ -182,7 +182,7 @@ const Header = ({ onDrawerToggle }) => (
     <AppBar position="sticky" elevation={0}>
       <Toolbar>
         <Grid container alignItems="center">
-          <Hidden mdUp>
+          {/* <Hidden mdUp> */}
             <Grid item>
               <IconButton
                 color="inherit"
@@ -192,7 +192,7 @@ const Header = ({ onDrawerToggle }) => (
                 <MenuIcon />
               </IconButton>
             </Grid>
-          </Hidden>
+          {/* </Hidden> */}
           <Grid item>
             <Search>
               <SearchIconWrapper>

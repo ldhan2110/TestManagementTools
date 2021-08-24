@@ -32,14 +32,11 @@ const ListItem = styled(MuiListItem)`
 function Footer() {
   return (
     <Wrapper>
-      <Grid container spacing={0}>
+       <Grid container spacing={0}>
         <Hidden smDown>
           <Grid container item xs={12} md={6}>
-            <List>
-              <ListItem component="a" href="#">
-                <ListItemText primary="Support" />
-              </ListItem>
-              <ListItem component="a" href="#">
+            <List>               
+              {/*<ListItem component="a" href="#">
                 <ListItemText primary="Help Center" />
               </ListItem>
               <ListItem component="a" href="#">
@@ -47,18 +44,18 @@ function Footer() {
               </ListItem>
               <ListItem component="a" href="#">
                 <ListItemText primary="Terms of Service" />
-              </ListItem>
+  </ListItem>*/}
             </List>
           </Grid>
-        </Hidden>
-        <Grid container item xs={12} md={6} justify="flex-end">
+  </Hidden> 
+        <Grid container item xs={12} md={12} justify="center">
           <List>
             <ListItem>
-              <ListItemText primary={`© ${new Date().getFullYear()} - Allium`} />
+              <ListItemText primary={`Test Control - Copyright © ${new Date().getFullYear()} `} />
             </ListItem>
           </List>
         </Grid>
-      </Grid>
+       </Grid> 
     </Wrapper>
   );
 }

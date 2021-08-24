@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
-
+import SnackBar from '../components/SnackBar';
 import { CssBaseline } from "@material-ui/core";
 
 const GlobalStyle = createGlobalStyle`
@@ -28,6 +28,7 @@ function Layout({ children }) {
         <CssBaseline />
         <GlobalStyle />
         {children}
+        <SnackBar/>
       </Root>
     );
   }

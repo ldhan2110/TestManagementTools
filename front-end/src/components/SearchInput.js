@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled  from "styled-components";
 import { darken } from "polished";
-import {InputBase} from '@material-ui/core';
+import {Button, InputBase, Select, MenuItem, FormControl, InputLabel, Grid, TextField} from '@material-ui/core';
 import {
     Search as SearchIcon
   } from "react-feather";
@@ -16,7 +16,7 @@ const Input = styled(InputBase)`
     padding-right: ${props => props.theme.spacing(2.5)}px;
     padding-bottom: ${props => props.theme.spacing(2.5)}px;
     padding-left: ${props => props.theme.spacing(12)}px;
-    width: 160px;
+    width: 100%;
   }
 `;
 
@@ -40,13 +40,13 @@ const SearchIconWrapper = styled.div`
 
 const Search = styled.div`
   border-radius: 2px;
-  background-color: ${props => darken(0.2, props.theme.header.background)};
+  background-color: ${props => darken(0.1, props.theme.header.background)};
   display: none;
   position: relative;
   width: 100%;
 
   &:hover {
-    background-color: ${props => darken(0.3, props.theme.header.background)};
+    background-color: ${props => darken(0.25, props.theme.header.background)};
   }
 
   ${props => props.theme.breakpoints.up("md")} {
@@ -56,14 +56,58 @@ const Search = styled.div`
 
 
 const SearchInput = (props) => {
+
+  const {searchMethod, conditions, setConditions, type} = props;
+
+  const [conditionsRender, setConditionsRender] = useState([]);
+
+  const handleChange = (prop) => (event) => {
+    setConditions(prop, event.target.value);
+  }
+
+
+  useEffect(()=>{
+    setConditionsRender(conditions);
+  },[conditions]);
+
+  const handleSearch = (event) => {
+    if (searchMethod)
+      searchMethod();
+  }
+
+  
+
+
     return(
         <React.Fragment>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <Input placeholder="Tìm kiếm" />
-            </Search>
+          <div id="searchInput" style={{display: "flex", flexDirection: "row", justifyItems: "space-between", alignItems: "space-between", gap: "10px", marginTop: "10px", height: "75%"}}>
+            {conditionsRender && conditionsRender.map((item,index) => {
+                if (item.type === "text"){
+                  return (  
+                    <TextField key={index} id={item.id} label={item.label} variant="outlined"  fullWidth  onChange={handleChange(item.id)} styles={{flexGrow: 3}}/>
+                  )
+                } else if (item.type === "select"){
+                  return(
+                    <FormControl variant="outlined" style={{minWidth:'110px'}} fullWidth key={index}>
+                      <InputLabel id={item.id}>{item.label}</InputLabel>
+                        <Select
+                          labelId={item.id}
+                          id={item.id}
+                          label={item.id}
+                          onChange={handleChange(item.id)}
+                          defaultValue={item.default}
+                          styles={{flexGrow: 1}}>
+                            <MenuItem key={''} value={-1}>ALL</MenuItem>
+                            {item.listValues.map((menuItem,idx) => <MenuItem key={idx} value={menuItem.value}>{menuItem.label}</MenuItem>)}
+                      </Select>
+                    </FormControl>
+                  )
+                }
+              })
+            }
+    <Button variant="contained" color="primary" disabled={type === 'member'? false : true} style={type === 'member'? {}: {opacity:'0%'}} onClick={handleSearch}>Search</Button>
+          </div>
+        
         </React.Fragment>
     )
 }

@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { setTheme } from '../redux/theme/themeActions';
-
 import {
   Drawer,
   Fab as MuiFab,
   ListItem,
   Paper as MuiPaper,
-  Typography
+  Typography,
+  Tooltip, IconButton,
 } from "@material-ui/core";
-
+import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import { spacing } from "@material-ui/system";
 
 import { Palette as PaletteIcon } from "@material-ui/icons";
@@ -25,8 +25,15 @@ const Demo = styled(Paper)`
 
 const Fab = styled(MuiFab)`
   position: fixed;
-  right: ${props => props.theme.spacing(8)}px;
+  right: ${props => props.theme.spacing(4)}px;
   bottom: ${props => props.theme.spacing(8)}px;
+  z-index: 1;
+`;
+
+const CustomIconButton = styled(IconButton)`
+  position: fixed;
+  right: ${props => props.theme.spacing(2.5)}px;
+  bottom: ${props => props.theme.spacing(20)}px;
   z-index: 1;
 `;
 
@@ -122,8 +129,11 @@ function Settings() {
   return (
     <React.Fragment>
       <Fab color="primary" aria-label="Edit" onClick={toggleDrawer(true)}>
-        <PaletteIcon />
+        <PaletteIcon />        
       </Fab>
+      {/*<CustomIconButton href="#" title="Back to top">
+          <VerticalAlignTopIcon color="primary" style={{fontSize: 28}}/>
+  </CustomIconButton>*/}
       <Drawer anchor="right" open={state.isOpen} onClose={toggleDrawer(false)}>
         <Demos />
       </Drawer>
