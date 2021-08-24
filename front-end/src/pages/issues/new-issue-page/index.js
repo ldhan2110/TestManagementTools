@@ -169,8 +169,7 @@ const NewIssuePage = (props) => {
 
     if(issueInfo.description.trim().length === 0 || issueInfo.summary.trim().length === 0
         || issueInfo.category === "" || issueInfo.category.length === 0
-        || issueInfo.description.trim().length !== issueInfo.description.length 
-        || issueInfo.summary.trim().length !== issueInfo.summary.length){
+        ){
         displayMsg({
           content: "Field(s) cannot be empty or have empty spaces begining/end !",
           type: 'error'
