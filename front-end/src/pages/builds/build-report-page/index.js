@@ -316,7 +316,7 @@ const  BuildReportPage = (props) => {
       <Divider my={6} />      
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-        {build.insBuildReport.sucess === null ? 
+        {build.insBuildReport?.sucess === null ? 
           <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
             <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}/>
           </div> :
@@ -324,7 +324,7 @@ const  BuildReportPage = (props) => {
         </Grid>
 
         <Grid item xs={12} lg={6}>
-        {build.insBuildReport.sucess === null ? 
+        {build.insBuildReport?.sucess === null ? 
           <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
             <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}/>
           </div> :
@@ -334,7 +334,7 @@ const  BuildReportPage = (props) => {
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
-        {build.insBuildReport.sucess === null ? 
+        {build.insBuildReport?.sucess === null ? 
           <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
             <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "370px"}}/>
           </div> :
@@ -351,7 +351,7 @@ const  BuildReportPage = (props) => {
         </Grid>
 
         <Grid item xs={12} lg={6}>
-        {build.insBuildReport.sucess === null ? 
+        {build.insBuildReport?.sucess === null ? 
           <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
             <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "370px"}}/>
           </div> :
@@ -367,7 +367,7 @@ const  BuildReportPage = (props) => {
         </Grid>
 
         <Grid item xs={12} lg={12}>
-        {build.insBuildReport.sucess === null ? 
+        {build.insBuildReport?.sucess === null ? 
           <div style={{height: 0, overflow: "hidden", paddingTop: "100%", position: "relative"}}>
             <Skeleton variant="rect" style={{position: "absolute", top: 0, left: 0, width: "100%", height: "370px"}}/>
           </div> :
