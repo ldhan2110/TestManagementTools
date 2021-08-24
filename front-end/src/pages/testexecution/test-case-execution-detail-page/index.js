@@ -237,7 +237,7 @@ const TestCaseExecDetail = (props) => {
             </Grid>
             <Grid item xs={6}>
               <TextField id="requirement" label="Requirement"  variant="outlined" value={testCaseDetail.requirement.projectrequirementname} 
-              fullWidth required/>
+              fullWidth/>
             </Grid>
                 
         <Grid item xs={12}>

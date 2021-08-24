@@ -387,7 +387,7 @@ const TestExecutionDetailPage = (props) => {
             value={testExecInfo.environment || ''} onChange={handleChange('environment')}
             style={{marginRight: '10px', width: '350px'}} 
             />
-          <FormControl variant="outlined" className={classes.formControl} fullWidth required >
+          <FormControl variant="outlined" className={classes.formControl} fullWidth >
               <InputLabel id="assignTester">Assign Tester</InputLabel>
                   <Select
                     labelId="assignTester"

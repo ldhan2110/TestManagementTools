@@ -196,7 +196,7 @@ export  const getAllTestsuiteEpic = (action$, state$) => action$.pipe(
       priority: payload.priority,
       precondition: payload.precondition,
       postcondition: payload.postcondition,
-      requirement: payload.requirement,
+      requirement: payload.requirement._id,
       listStep: payload.listStep
     },{
         headers: {
