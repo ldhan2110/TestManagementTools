@@ -68,7 +68,7 @@ const TestCaseExecDetail = (props) => {
         subItem = item.exectestcases.find(subItem => subItem._id === testcaseId);
       } 
     });
-    console.log(subItem);
+    //console.log(subItem);
     return subItem;
   }
 
@@ -116,7 +116,7 @@ const TestCaseExecDetail = (props) => {
   },[currentIdx])
 
   useEffect(()=>{
-    console.log(testCaseDetail);
+    //console.log(testCaseDetail);
   },[testCaseDetail])
 
 

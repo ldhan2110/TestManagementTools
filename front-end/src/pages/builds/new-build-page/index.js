@@ -193,7 +193,6 @@ const NewBuildPage = (props) => {
   }
 
   const handleChange = (prop) => (event) => {
-    console.log(buildExistList)
     if(prop === 'testplan')
       setBuildInfo({ ...buildInfo, [prop] : event.target.value, id_exist_build: "" });
     if (prop === 'id_exist_build')
